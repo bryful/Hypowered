@@ -12,6 +12,7 @@ namespace Hypowered
 {
 	public partial class HyperTextBox : HyperControl
 	{
+
 		public override void SetIsEditMode(bool value)
 		{
 			base.SetIsEditMode(value);
@@ -30,7 +31,7 @@ namespace Hypowered
 			get { return m_TextBox.Text; }
 			set { m_TextBox.Text = value; }
 		}
-		[Category("Hypowerd_TextBox")]
+		[Category("Hypowerd")]
 		public new Font Font
 		{
 			get { return m_TextBox.Font; }
@@ -50,7 +51,7 @@ namespace Hypowered
 				m_TextBox.ReadOnly = value;
 			}
 		}
-		[Category("Hypowerd_TextBox")]
+		[Category("Hypowerd_Text")]
 		public HorizontalAlignment TextAlign
 		{
 			get { return m_TextBox.TextAlign; }

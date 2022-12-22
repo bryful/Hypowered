@@ -25,31 +25,31 @@ namespace Hypowered
 		[Category("Hypowerd")]
 		public ControlType? MyType { get { return m_MyType; } }
 
-		[Category("Hypowerd_Base")]
-		public  string ControlName
+		[Category("Hypowerd")]
+		public new string Name
 		{
-			get { return Name; }
-			set { Name = value;this.Invalidate(); }
+			get { return base.Name; }
+			set { base.Name = value;this.Invalidate(); }
 		}
-		[Category("Hypowerd_Text")]
-		public string ControlText
+		[Category("Hypowerd")]
+		public new string ControlName
 		{
-			get { return Text; }
-			set { Text = value; this.Invalidate(); }
+			get { return base.Name; }
+			set { base.Name = value; this.Invalidate(); }
 		}
-		[Category("Hypowerd_Base")]
+		[Category("Hypowerd")]
 		public new Point Location
 		{
 			get { return base.Location; }
 			set { base.Location = value; this.Invalidate(); }
 		}
-		[Category("Hypowerd_Base")]
+		[Category("Hypowerd")]
 		public new Size Size
 		{
 			get { return base.Size; }
 			set { base.Size = value; this.Invalidate(); }
 		}
-		[Category("Hypowerd_Base")]
+		[Category("Hypowerd")]
 		public new Font Font
 		{
 			get { return base.Font; }
@@ -58,16 +58,24 @@ namespace Hypowered
 				base.Font = value;
 			}
 		}
-		[Browsable(false)]
-		public HyperForm? HyperForm { get; set; }
-		[Category("Hypowerd_Base")]
+		[Category("Hypowerd")]
 		protected int m_Index = -1;
+		[Category("Hypowerd")]
 		public int Index
 		{
 			get { return m_Index; }
 		}
 		public void SetIndex(int idx) { m_Index = idx; }
-		public int ParentIndex = -1;
+
+		[Category("Hypowerd_Text")]
+		public new string Text
+		{
+			get { return base.Text; }
+			set { base.Text = value; this.Invalidate(); }
+		}
+		[Browsable(false)]
+		public HyperForm? HyperForm { get; set; }
+			public int ParentIndex = -1;
 		/// <summary>
 		/// ターゲットのコントロールからの相対位置
 		/// </summary>
@@ -97,27 +105,15 @@ namespace Hypowered
 		public virtual void SetIsEditMode(bool value)
 		{
 			m_IsEditMode = value;
-			this.Invalidate();
-			/*
-			if (this.Controls.Count > 0)
-			{
-				foreach (Control c in this.Controls)
-				{
-					if (c is HyperControl)
-					{
-						((HyperControl)c).IsEditMode = value;
-					}
-				}
-			}
-			*/
 		}
+		/*
 		protected int m_GroupID = -1;
 		[Category("Hypowerd_Group")]
 		public int GroupID { get { return m_GroupID; } set { m_GroupID = value; this.Invalidate(); } }	
 		protected int m_Group = -1;
 		[Category("Hypowerd_Group")]
 		public int Group { get { return m_Group; } set { m_Group = value; this.Invalidate(); } }
-
+		*/
 		protected Color m_ForcusColor = Color.White;
 		[Category("Hypowerd_Color")]
 		public Color ForcusColor

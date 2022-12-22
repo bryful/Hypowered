@@ -22,6 +22,7 @@ namespace Hypowered
 			lst.Add(new FuncItem(NewControl, Keys.Control | Keys.N, "新規コントロール"));
 			lst.Add(new FuncItem(ShowPropForm, Keys.Control | Keys.I, "プロパティ"));
 			lst.Add(new FuncItem(ToggleEditMode, Keys.Control | Keys.B, "編集モード"));
+			lst.Add(new FuncItem(ToggleShowMenu, Keys.Control | Keys.F12, "メニューを消す"));
 
 			Funcs.SetFuncItems(lst.ToArray());
 		}
@@ -32,7 +33,7 @@ namespace Hypowered
 			if (fnc == null) return ret;
 			FuncItem? fi = Funcs.FindFunc(fnc.Method.Name);
 			if(fi==null) return ret;
-			ret = new HyperMenuItem(m_menuBar, fi.Caption, fi.Func);
+			ret = new HyperMenuItem(m_menuBar, fi.Caption, fi);
 			return ret;
 		}
 		// *************************************************************************
@@ -41,6 +42,7 @@ namespace Hypowered
 		private HyperMenuItem? m_menuQuit = null;
 
 		private HyperMenuItem? m_EditModeMenu = null;
+		private HyperMenuItem? m_ShowMenu = null;
 		private HyperMenuItem? m_PropFormMenu = null;
 		private HyperMenuItem? m_NewControlMenu = null;
 		// *************************************************************************
@@ -57,7 +59,10 @@ namespace Hypowered
 			m_PropFormMenu = CreateMenuItem(ShowPropForm);
 			m_NewControlMenu = CreateMenuItem(NewControl);
 			m_EditModeMenu　= CreateMenuItem(ToggleEditMode);
+			m_ShowMenu = CreateMenuItem(ToggleShowMenu);
+
 			m_ControlMenu.Add(m_EditModeMenu);
+			m_ControlMenu.Add(m_ShowMenu);
 			m_ControlMenu.Add(null);
 			m_ControlMenu.Add(m_PropFormMenu);
 			m_ControlMenu.Add(null);
@@ -83,17 +88,25 @@ namespace Hypowered
 		public bool ToggleEditMode()
 		{
 			SetIsEditMode(!m_IsEditMode);
-			return false;
+			return true;
 		}
 		// *************************************************************************
+		public bool ToggleShowMenu()
+		{
+			IsShowMenu = !IsShowMenu;
+			return true;
+		}
+		// *************************************************************************
+		private ControlType m_ct = ControlType.Button;
 		public bool NewControl()
 		{
 			if (m_IsEditMode==false) return false;
 			EditControlForm dlg= new EditControlForm();
+			dlg.ControlType= m_ct;
 			dlg.SetTarget(this);
 			if(dlg.ShowDialog(this)==DialogResult.OK )
 			{
-
+				m_ct= dlg.ControlType;
 				AddControl(dlg.ControlType, dlg.ControlName, dlg.ControlText, dlg.Font);
 				return true;
 			}

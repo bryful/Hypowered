@@ -10,8 +10,26 @@ using System.Windows.Forms;
 
 namespace Hypowered
 {
+	public class ControlTypeEventArgs : EventArgs
+	{
+		public ControlType Value;
+		public ControlTypeEventArgs(ControlType v)
+		{
+			Value = v;
+		}
+	}
+	
 	public partial class EditControlComb : ComboBox
 	{
+		public delegate void ControlTypeChangedHandler(object sender, ControlTypeEventArgs e);
+		public event ControlTypeChangedHandler? ControlTypeChanged;
+		protected virtual void OnControlTypeChanged(ControlTypeEventArgs e)
+		{
+			if (ControlTypeChanged != null)
+			{
+				ControlTypeChanged(this, e);
+			}
+		}
 		private ControlType m_ct = ControlType.Button;
 		[Category("Hypowerd")]
 		public ControlType ControlType
@@ -21,8 +39,12 @@ namespace Hypowered
 			{
 				if ((int)value <=0) value= (ControlType)0;
 				else if((int)value >=this.Items.Count) value = (ControlType)(this.Items.Count-1);
-				this.SelectedIndex = (int)value;
-				m_ct= value;
+				if (SelectedIndex != (int)value)
+				{
+					this.SelectedIndex = (int)value;
+					m_ct = value;
+					OnControlTypeChanged(new ControlTypeEventArgs(m_ct));
+				}
 			}
 		}
 
@@ -46,7 +68,11 @@ namespace Hypowered
 		protected override void OnSelectedIndexChanged(EventArgs e)
 		{
 			base.OnSelectedIndexChanged(e);
-			m_ct = (ControlType)this.SelectedIndex;
+			if (m_ct != (ControlType)this.SelectedIndex)
+			{
+				m_ct = (ControlType)this.SelectedIndex;
+				OnControlTypeChanged(new ControlTypeEventArgs(m_ct));
+			}
 		}
 		private bool ShouldSerializeDropDownStyle()
 		{

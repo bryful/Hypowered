@@ -15,13 +15,17 @@ namespace Hypowered
 		public int Left = 0;
 		public int Right { get { return Left + Width; } }
 		public FuncType? Func = null;
-		public Keys[] Keys = new Keys[0];
+		public Keys Key = Keys.None;
 		//public ContextMenuStrip? Menu = null;
 		public List<HyperMenuItem?> Items = new List<HyperMenuItem?>();
-		public HyperMenuItem(Control? fm, string c, FuncType? f)
+		public HyperMenuItem(Control? fm, string c, FuncItem? f)
 		{
 			Caption = c;
-			Func = f;
+			if(f != null)
+			{
+				Func = f.Func;
+				Key = f.KeysFirst;
+			}
 			if (fm != null)
 			{
 				Bitmap bmp = new Bitmap(500, 25);
@@ -71,6 +75,7 @@ namespace Hypowered
 						mc.Checked= mi.Checked;
 						mc.Text = mi.Caption;
 						mc.Click += Mc_Click;
+						mc.ShortcutKeys = mi.Key;
 						mc.Tag = (Object?)mi.Func;
 						ret.Items.Add(mc);
 					}

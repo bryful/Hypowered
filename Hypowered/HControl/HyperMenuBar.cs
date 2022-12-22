@@ -158,7 +158,7 @@ true);
 					ContextMenuStrip? menu = m_menus[idx].MakeMenu();
 					if (menu != null)
 					{
-						menu.Show(this, new Point(menu.Left, MenuHeight));
+						menu.Show(this, new Point(m_menus[idx].Left, MenuHeight));
 						return;
 					}
 				}

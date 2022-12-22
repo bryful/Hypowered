@@ -55,15 +55,29 @@ namespace Hypowered
 			m_Font = this.Font;
 			InitializeComponent();
 			editControlComb1.ControlType= m_ct;
+			NameSet();
 			toolStrip1.MouseDown += ToolStrip1_MouseDown;
 			toolStrip1.MouseMove += ToolStrip1_MouseMove;
 			toolStrip1.MouseUp += ToolStrip1_MouseUp;
 
 			tbName.TextChanged += TbName_TextChanged;
+			tbText.TextChanged += TbName_TextChanged;
 			btnOK.Click += BtnOK_Click;
 			this.StartPosition= FormStartPosition.CenterParent;
+			editControlComb1.ControlTypeChanged += EditControlComb1_ControlTypeChanged;
 		}
 
+		private void EditControlComb1_ControlTypeChanged(object sender, ControlTypeEventArgs e)
+		{
+			NameSet();
+		}
+		private void NameSet()
+		{
+			if (tbName.Text == "")
+			{
+				tbName.Text = Enum.GetName(typeof(ControlType), editControlComb1.ControlType);
+			}
+		}
 		private void BtnOK_Click(object? sender, EventArgs e)
 		{
 			string nm = tbName.Text.Trim();

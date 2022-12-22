@@ -238,6 +238,18 @@ namespace Hypowered
 			objControl.MouseUp += (sender, e) => this.OnMouseUp(e);
 
 		}
-
+		protected override bool ProcessDialogKey(Keys keyData)
+		{
+#if DEBUG
+			this.Text = String.Format("{0}", keyData.ToString());
+#endif
+			FuncItem? fi = Funcs.FindKeys(keyData);
+			if ((fi != null) && (fi.Func != null))
+			{
+				if (fi.Func()) this.Invalidate();
+				return true;
+			}
+			return base.ProcessDialogKey(keyData);
+		}
 	}
 }
