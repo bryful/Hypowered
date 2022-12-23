@@ -21,6 +21,8 @@ namespace Hypowered
 	
 	public partial class EditControlComb : ComboBox
 	{
+		private int m_ControlTypeCount = -1;
+		public int ControlTypeCount { get { return m_ControlTypeCount; } }
 		public delegate void ControlTypeChangedHandler(object sender, ControlTypeEventArgs e);
 		public event ControlTypeChangedHandler? ControlTypeChanged;
 		protected virtual void OnControlTypeChanged(ControlTypeEventArgs e)
@@ -37,8 +39,6 @@ namespace Hypowered
 			get { return (ControlType)this.SelectedIndex; }
 			set
 			{
-				if ((int)value <=0) value= (ControlType)0;
-				else if((int)value >=this.Items.Count) value = (ControlType)(this.Items.Count-1);
 				if (SelectedIndex != (int)value)
 				{
 					this.SelectedIndex = (int)value;
@@ -60,9 +60,10 @@ namespace Hypowered
 		{
 			base.DropDownStyle = ComboBoxStyle.DropDownList;
 			base.FlatStyle = FlatStyle.Flat;
-			this.Items.Clear();
+			base.Items.Clear();
 			string[] ks = Enum.GetNames(typeof(ControlType));
-			this.Items.AddRange(ks);
+			base.Items.AddRange(ks);
+			m_ControlTypeCount = ks.Length;
 			this.SelectedIndex= (int)m_ct;
 		}
 		protected override void OnSelectedIndexChanged(EventArgs e)
@@ -78,19 +79,23 @@ namespace Hypowered
 		{
 			return false;
 		}
+		private ComboBoxStyle m_Dummy_cs = ComboBoxStyle.DropDownList;
 		[Browsable(false)]
 		public new ComboBoxStyle DropDownStyle
 		{
-			get { return base.DropDownStyle; }
+			get { return m_Dummy_cs; }
+			set { m_Dummy_cs = value; }
 		}
 		private bool ShouldSerializeFlatStyle()
 		{
 			return false;
 		}
+		private FlatStyle m_Dummy_fs = FlatStyle.Flat;
 		[Browsable(false)]
 		public new FlatStyle FlatStyle
 		{
-			get { return base.FlatStyle; }
+			get { return m_Dummy_fs; }
+			set { m_Dummy_fs = value; }
 		}
 		private bool ShouldSerializeItems()
 		{

@@ -48,16 +48,23 @@ namespace Hypowered
 					}
 				}
 			}
-			ChkControls();
+			//ChkControls();
 			if (m_IsEditMode == false)
 			{
-				if ((PropForm != null) && (PropForm.Visible == true))
+				if (PropForm != null)
 				{
 					PropForm.Close();
 					PropForm.Dispose();
 					PropForm = null;
 				}
+				if(ControlListForm!= null)
+				{
+					ControlListForm.Close();
+					ControlListForm.Dispose();
+					ControlListForm = null;
+				}
 			}
+			this.Invalidate();
 		}
 
 
@@ -135,6 +142,7 @@ true);
 					idx++;
 				}
 			}
+			OnControlChanged(new EventArgs());
 		}
 		// ***********************************************************************
 		private void HyperForm_ControlAdded(object? sender, ControlEventArgs e)
@@ -158,7 +166,53 @@ true);
 		{
 			this.Invalidate();
 		}
+		// ***********************************************************************
+		public void ChkRadioButton(HyperRadioButton ct)
+		{
+			if(this.Controls.Count > 0)
+			{
+				foreach (Control c in this.Controls)
+				{
+					if (c is HyperRadioButton)
+					{
+						HyperRadioButton hc = (HyperRadioButton)c;
+						if (hc.Group == ct.Group)
+						{
+							if (hc.Index == ct.Index)
+							{
+								hc.SetCheckedNoEvent(true);
+							}
+							else
+							{
+								hc.SetCheckedNoEvent(false);
+							}
+						}
+					}
+				}
 
+			}
+		}
+		public bool IsRadioButtonIndex(HyperRadioButton ct,int idx)
+		{
+			bool ret = false;
+			if (this.Controls.Count > 0)
+			{
+				foreach (Control c in this.Controls)
+				{
+					if (c is HyperRadioButton)
+					{
+						HyperRadioButton hc = (HyperRadioButton)c;
+						if (hc.Group == ct.Group)
+						{
+							hc.GroupIndex = idx;
+							ret = true;
+						}
+					}
+				}
+
+			}
+			return ret;
+		}
 		// ***********************************************************************
 		protected override void OnPaint(PaintEventArgs e)
 		{
@@ -249,6 +303,12 @@ true);
 				case ControlType.Button:
 					ctrl = new HyperButton();
 					break;
+				case ControlType.RadioButton:
+					ctrl = new HyperRadioButton();
+					break;
+				case ControlType.ListBox:
+					ctrl = new HyperListBox();
+					break;
 				default:
 					break;
 			}
@@ -258,8 +318,9 @@ true);
 				if(tx!="") ctrl.Text = tx;
 				if(fnt!=null) ctrl.Font= fnt;
 				this.Controls.Add(ctrl);
-				this.Controls.SetChildIndex(ctrl, 1);
+				//this.Controls.SetChildIndex(ctrl, 1);
 				ChkControls();
+				
 			}
 			return ret;
 		}

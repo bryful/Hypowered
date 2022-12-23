@@ -24,13 +24,13 @@ namespace Hypowered
 	}
 	public enum ControlType
 	{
-		Button,
+		Button= 0,
 		Label,
 		TextBox,
-		ListBox,
 		CheckBox,
-		ComboBox,
 		RadioButton,
+		ListBox,
+		ComboBox,
 
 		FileListBox,
 		DriveComboBox,

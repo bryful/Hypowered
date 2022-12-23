@@ -91,6 +91,7 @@
 			// 
 			// btnScript
 			// 
+			this.btnScript.Enabled = false;
 			this.btnScript.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
 			this.btnScript.ForeColor = System.Drawing.Color.Gainsboro;
 			this.btnScript.Location = new System.Drawing.Point(31, 165);
@@ -150,9 +151,8 @@
 			// editControlComb1
 			// 
 			this.editControlComb1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(35)))), ((int)(((byte)(35)))), ((int)(((byte)(35)))));
-			this.editControlComb1.ControlType = Hypowered.ControlType.Button;
-			//this.editControlComb1.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-			//this.editControlComb1.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+			this.editControlComb1.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+			this.editControlComb1.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
 			this.editControlComb1.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(185)))), ((int)(((byte)(185)))), ((int)(((byte)(185)))));
 			this.editControlComb1.FormattingEnabled = true;
 			this.editControlComb1.Location = new System.Drawing.Point(91, 39);

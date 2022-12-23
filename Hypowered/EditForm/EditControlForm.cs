@@ -52,6 +52,8 @@ namespace Hypowered
 		private HyperControl? TargetControl = null; 
 		public EditControlForm()
 		{
+			BackColor = ColU.ToColor(HyperColor.Back);
+			ForeColor = ColU.ToColor(HyperColor.Fore);
 			m_Font = this.Font;
 			InitializeComponent();
 			editControlComb1.ControlType= m_ct;
@@ -73,10 +75,7 @@ namespace Hypowered
 		}
 		private void NameSet()
 		{
-			if (tbName.Text == "")
-			{
-				tbName.Text = Enum.GetName(typeof(ControlType), editControlComb1.ControlType);
-			}
+			tbName.Text = Enum.GetName(typeof(ControlType), editControlComb1.ControlType);
 		}
 		private void BtnOK_Click(object? sender, EventArgs e)
 		{

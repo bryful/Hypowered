@@ -23,6 +23,7 @@ namespace Hypowered
 			lst.Add(new FuncItem(ShowPropForm, Keys.Control | Keys.I, "プロパティ"));
 			lst.Add(new FuncItem(ToggleEditMode, Keys.Control | Keys.B, "編集モード"));
 			lst.Add(new FuncItem(ToggleShowMenu, Keys.Control | Keys.F12, "メニューを消す"));
+			lst.Add(new FuncItem(ShowControlListForm, Keys.Control | Keys.U, "コントロールリスト"));
 
 			Funcs.SetFuncItems(lst.ToArray());
 		}
@@ -44,29 +45,37 @@ namespace Hypowered
 		private HyperMenuItem? m_EditModeMenu = null;
 		private HyperMenuItem? m_ShowMenu = null;
 		private HyperMenuItem? m_PropFormMenu = null;
+		private HyperMenuItem? m_ControlListmMenu = null;
 		private HyperMenuItem? m_NewControlMenu = null;
 		// *************************************************************************
 		public void MakeMenu()
 		{
 			m_menuOpen = CreateMenuItem(OpenForm);
 			m_menuSaveAs = CreateMenuItem(SaveAsForm);
-			m_menuQuit = CreateMenuItem(Quit); 
-			m_FileMenu.Add(m_menuOpen);
-			m_FileMenu.Add(m_menuSaveAs);
-			m_FileMenu.Add(null);
-			m_FileMenu.Add(m_menuQuit);
-
+			m_menuQuit = CreateMenuItem(Quit);
+			if (m_FileMenu != null)
+			{
+				m_FileMenu.Add(m_menuOpen);
+				m_FileMenu.Add(m_menuSaveAs);
+				m_FileMenu.Add(null);
+				m_FileMenu.Add(m_menuQuit);
+			}
 			m_PropFormMenu = CreateMenuItem(ShowPropForm);
 			m_NewControlMenu = CreateMenuItem(NewControl);
 			m_EditModeMenu　= CreateMenuItem(ToggleEditMode);
 			m_ShowMenu = CreateMenuItem(ToggleShowMenu);
+			m_ControlListmMenu = CreateMenuItem(ShowControlListForm);
 
-			m_ControlMenu.Add(m_EditModeMenu);
-			m_ControlMenu.Add(m_ShowMenu);
-			m_ControlMenu.Add(null);
-			m_ControlMenu.Add(m_PropFormMenu);
-			m_ControlMenu.Add(null);
-			m_ControlMenu.Add(m_NewControlMenu);
+			if (m_ControlMenu != null)
+			{
+				m_ControlMenu.Add(m_EditModeMenu);
+				m_ControlMenu.Add(m_ShowMenu);
+				m_ControlMenu.Add(null);
+				m_ControlMenu.Add(m_PropFormMenu);
+				m_ControlMenu.Add(m_ControlListmMenu);
+				m_ControlMenu.Add(null);
+				m_ControlMenu.Add(m_NewControlMenu);
+			}
 		}
 		// *************************************************************************
 		public bool OpenForm()
@@ -137,17 +146,26 @@ namespace Hypowered
 				if (PropForm == null)
 				{
 					PropForm = new PropertyForm();
-					if (m_TargetIndex >= 0)
-					{
-						PropForm.SelectedObject = this.Controls[m_TargetIndex];
-					}
-					else
-					{
-						PropForm.SelectedObject = this;
-					}
+					PropForm.HyperForm = this;
 				}
 
 				PropForm.Show();
+				return true;
+			}
+			return false;
+		}
+		// *************************************************************************
+		public bool ShowControlListForm()
+		{
+			if (m_IsEditMode)
+			{
+				if (ControlListForm == null)
+				{
+					ControlListForm = new EditControlListForm();
+					ControlListForm.HyperForm = this;
+				}
+
+				ControlListForm.Show();
 				return true;
 			}
 			return false;

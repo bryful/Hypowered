@@ -7,37 +7,75 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-using static System.Windows.Forms.DataFormats;
 
 namespace Hypowered
 {
-
-	public partial class HyperCheckBox : HyperControl
+	public partial class HyperRadioButton : HyperControl
 	{
-		
-		private bool m_Checked = true;
-		[Category("Hypowerd_CheckBox")]
+		private bool m_Checked = false;
+		[Category("Hypowerd_RadioButton")]
 		public bool Checked
 		{
 			get { return m_Checked; }
 			set 
-			{ 
-				if(m_Checked != value)
+			{
+				m_Checked = value;
+				if (m_Checked == true)
 				{
-					m_Checked = value;
+					if (HyperForm != null)
+					{
+						HyperForm.ChkRadioButton(this);
+					}
 				}
+				this.Invalidate();
+			}
+		}
+		public void SetCheckedNoEvent(bool b)
+		{
+			m_Checked = b;
+		}
+		/*
+		protected int m_GroupID = -1;
+		[Category("Hypowerd_RadioButton")]
+		public int GroupID 
+		{ 
+			get { return m_GroupID; } 
+			set { m_GroupID = value; this.Invalidate(); } 
+		}
+		*/
+		protected int m_Group = 0;
+		[Category("Hypowerd_RadioButton")]
+		public int Group 
+		{
+			get { return m_Group; } 
+			set 
+			{
+				if (value < 0) value = 0;
+				m_Group = value; 
 				this.Invalidate(); 
 			}
 		}
-		private StringFormat m_format = new StringFormat();
-		[Category("Hypowerd_Text")]
-		public StringAlignment TextAligiment
+		protected int m_GroupIndex = 0;
+		[Category("Hypowerd_RadioButton")]
+		public int GroupIndex
 		{
-			get { return m_format.Alignment; }
-			set { m_format.Alignment = value; this.Invalidate(); }
+			get { return m_GroupIndex; }
+			set
+			{
+				if (value < 0) value = 0;
+				if(HyperForm!=null)
+				{
+					if (HyperForm.IsRadioButtonIndex(this, value) ==false)
+					{
+						m_GroupIndex= value;
+					}
+				}
+				m_GroupIndex = value;
+				this.Invalidate();
+			}
 		}
 		private int m_CheckSize;
-		[Category("Hypowerd_CheckBox")]
+		[Category("Hypowerd_RadioButton")]
 		public int CheckSize
 		{
 			get { return m_CheckSize; }
@@ -50,15 +88,22 @@ namespace Hypowered
 			get { return m_UnCheckedColor; }
 			set { m_UnCheckedColor = value; this.Invalidate(); }
 		}
-		public HyperCheckBox()
+		private StringFormat m_format = new StringFormat();
+		[Category("Hypowerd_Text")]
+		public StringAlignment TextAligiment
 		{
-			SetMyType(ControlType.ComboBox);
+			get { return m_format.Alignment; }
+			set { m_format.Alignment = value; this.Invalidate(); }
+		}
+		public HyperRadioButton()
+		{
+			SetMyType(ControlType.RadioButton);
+			ControlName = "HyperRadioButton";
 			m_format.Alignment = StringAlignment.Near;
 			m_format.LineAlignment = StringAlignment.Center;
 			m_UnCheckedColor = ColU.ToColor(HyperColor.Dark);
 			m_CheckSize = 16;
-			this.Size = ControlDef.DefSize;
-			InitializeComponent();
+			this.Size = ControlDef.DefSize; InitializeComponent();
 		}
 
 		protected override void OnPaint(PaintEventArgs pe)
@@ -70,19 +115,19 @@ namespace Hypowered
 				// 背景色
 				g.FillRectangle(sb, this.ClientRectangle);
 
-				Rectangle r = new Rectangle(3,(this.Height-m_CheckSize)/2, m_CheckSize,m_CheckSize);
+				Rectangle r = new Rectangle(3, (this.Height - m_CheckSize) / 2, m_CheckSize, m_CheckSize);
 				p.Width = 1;
-				g.DrawRectangle(p, r);
-				if(m_Checked)
+				g.DrawEllipse(p, r);
+				if (m_Checked)
 				{
-					sb.Color= ForeColor;
+					sb.Color = ForeColor;
 				}
 				else
 				{
 					sb.Color = m_UnCheckedColor;
 				}
 				RectangleF rs = ReRectF(r, 5);
-				g.FillRectangle(sb, rs);
+				g.FillEllipse(sb, rs);
 
 				// 外枠
 				Rectangle rr = ReRect(this.ClientRectangle, 2);
@@ -128,11 +173,16 @@ namespace Hypowered
 			}
 			else
 			{
-				
-				m_Checked = !m_Checked;
+				if(m_Checked==false)
+				{
+					if(HyperForm!=null)
+					{
+						HyperForm.ChkRadioButton(this);
+					}
+				}
 				this.Invalidate();
 				return;
-				
+
 			}
 			base.OnMouseDown(e);
 		}

@@ -32,7 +32,7 @@ namespace Hypowered
 			set { base.Name = value;this.Invalidate(); }
 		}
 		[Category("Hypowerd")]
-		public new string ControlName
+		public  string ControlName
 		{
 			get { return base.Name; }
 			set { base.Name = value; this.Invalidate(); }

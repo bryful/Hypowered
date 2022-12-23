@@ -8,9 +8,21 @@ using System.Threading.Tasks;
 
 namespace Hypowered
 {
+	public class TargetChangedEventArgs : EventArgs
+	{
+		public int Index;
+		public HyperControl? control;
+		public TargetChangedEventArgs(int idx, HyperControl? c)
+		{
+			Index= idx;
+			control = c;
+		}
+	}
+	
 	partial class HyperForm
 	{
 		private PropertyForm? PropForm = null;
+		private EditControlListForm? ControlListForm = null;
 
 		protected App m_App = new App();
 		[Category("Hypowerd_Form")]
@@ -20,6 +32,75 @@ namespace Hypowered
 			set { m_App = value; }
 		}
 		// ****************************************************************************
+		public delegate void TargetChangedHandler(object sender, TargetChangedEventArgs e);
+		public event TargetChangedHandler? TargetChanged;
+		protected virtual void OnTargetChanged(TargetChangedEventArgs e)
+		{
+			if (TargetChanged != null)
+			{
+				TargetChanged(this, e);
+			}
+		}
+		public event EventHandler? ControlChanged;
+		protected virtual void OnControlChanged(EventArgs e)
+		{
+			if (ControlChanged != null)
+			{
+				ControlChanged(this, e);
+			}
+		}
+		// ****************************************************************************
+		public void ChkTarget(HyperControl? hc)
+		{
+			int TI = m_TargetIndex;
+			m_isMultSelect = false;
+			if (this.Controls.Count > 0)
+			{
+				if (hc == null)
+				{
+					m_TargetIndex = -1;
+					foreach (Control c in this.Controls)
+					{
+						if (c is HyperControl)
+						{
+							HyperControl h = (HyperControl)c;
+							h.Selected = false;
+							h.ParentIndex = -1;
+						}
+					}
+				}
+				else
+				{
+
+					foreach (Control c in this.Controls)
+					{
+						if (c is HyperControl)
+						{
+							HyperControl h = (HyperControl)c;
+
+							if (h == hc)
+							{
+								m_TargetIndex = hc.Index;
+								h.Selected = true;
+							}
+						}
+					}
+				}
+				this.Invalidate();
+			}
+			// ********************************************
+			// イベントの発生
+			if (TI != m_TargetIndex)
+			{
+				if (m_TargetIndex >= 0)
+				{
+					OnTargetChanged(new TargetChangedEventArgs(
+						m_TargetIndex,
+						TargetControl
+						));
+				}
+			}
+		}
 		/// <summary>
 		/// コントロールが複数選択してるとtrue
 		/// </summary>
@@ -31,6 +112,7 @@ namespace Hypowered
 		/// <param name="hc">選ばれたコントロール　nullなら無選択状態になる</param>
 		public void ChkTargetSelected(HyperControl? hc)
 		{
+			int TI = m_TargetIndex;
 			if (this.Controls.Count > 0)
 			{
 				if (hc == null)
@@ -77,6 +159,7 @@ namespace Hypowered
 
 						}
 					}
+					// 複数選択の処理
 					if (m_isMultSelect)
 					{
 						foreach (Control c in this.Controls)
@@ -104,17 +187,14 @@ namespace Hypowered
 			{
 				m_isMultSelect = false;
 			}
-			if (PropForm != null)
+			// ********************************************
+			// イベントの発生
+			if(TI != m_TargetIndex)
 			{
-				if (m_TargetIndex >= 0)
-				{
-
-					PropForm.SelectedObject = this.Controls[m_TargetIndex];
-				}
-				else
-				{
-					PropForm.SelectedObject = this;
-				}
+				OnTargetChanged(new TargetChangedEventArgs(
+					m_TargetIndex,
+					TargetControl
+					));
 			}
 		}
 

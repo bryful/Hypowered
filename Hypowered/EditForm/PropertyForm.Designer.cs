@@ -33,6 +33,8 @@
 			this.toolStrip1 = new System.Windows.Forms.ToolStrip();
 			this.toolStripButton1 = new System.Windows.Forms.ToolStripButton();
 			this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
+			this.btnMainForm = new System.Windows.Forms.ToolStripButton();
+			this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
 			this.toolStrip1.SuspendLayout();
 			this.SuspendLayout();
 			// 
@@ -66,7 +68,9 @@
 			this.toolStrip1.GripStyle = System.Windows.Forms.ToolStripGripStyle.Hidden;
 			this.toolStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.toolStripButton1,
-            this.toolStripSeparator1});
+            this.toolStripSeparator1,
+            this.btnMainForm,
+            this.toolStripSeparator2});
 			this.toolStrip1.Location = new System.Drawing.Point(0, 0);
 			this.toolStrip1.Name = "toolStrip1";
 			this.toolStrip1.RightToLeft = System.Windows.Forms.RightToLeft.Yes;
@@ -89,6 +93,22 @@
 			// 
 			this.toolStripSeparator1.Name = "toolStripSeparator1";
 			this.toolStripSeparator1.Size = new System.Drawing.Size(6, 25);
+			// 
+			// btnMainForm
+			// 
+			this.btnMainForm.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
+			this.btnMainForm.ForeColor = System.Drawing.Color.Gainsboro;
+			this.btnMainForm.Image = ((System.Drawing.Image)(resources.GetObject("btnMainForm.Image")));
+			this.btnMainForm.ImageTransparentColor = System.Drawing.Color.Magenta;
+			this.btnMainForm.Name = "btnMainForm";
+			this.btnMainForm.Size = new System.Drawing.Size(71, 22);
+			this.btnMainForm.Text = "FormActive";
+			this.btnMainForm.Click += new System.EventHandler(this.BtnMainForm_Click);
+			// 
+			// toolStripSeparator2
+			// 
+			this.toolStripSeparator2.Name = "toolStripSeparator2";
+			this.toolStripSeparator2.Size = new System.Drawing.Size(6, 25);
 			// 
 			// PropertyForm
 			// 
@@ -119,5 +139,7 @@
 		private ToolStrip toolStrip1;
 		private ToolStripButton toolStripButton1;
 		private ToolStripSeparator toolStripSeparator1;
+		private ToolStripButton btnMainForm;
+		private ToolStripSeparator toolStripSeparator2;
 	}
 }

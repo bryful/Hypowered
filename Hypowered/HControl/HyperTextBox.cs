@@ -87,8 +87,8 @@ namespace Hypowered
 			ForeColor = ColU.ToColor(HyperColor.Fore);
 			m_TextBox.BorderStyle = BorderStyle.FixedSingle;
 
-			this.Size = new Size(m_TextBox.Width+2,m_TextBox.Height+2);
-			m_TextBox.Location = new Point(1, 1);
+			this.Size = new Size(m_TextBox.Width,m_TextBox.Height);
+			m_TextBox.Location = new Point(0, 0);
 			InitializeComponent();
 			this.Controls.Add(m_TextBox);
 			this.Controls.SetChildIndex(m_TextBox, 0);
@@ -108,8 +108,11 @@ namespace Hypowered
 		protected override void OnResize(EventArgs e)
 		{
 			base.OnResize(e);
-			this.Size = new Size(this.Size.Width, m_TextBox.Height + 2);
-			m_TextBox.Size = new Size(this.Size.Width - 2, m_TextBox.Height);
+			m_TextBox.Size = new Size(this.Size.Width, this.Size.Height);
+			if(m_TextBox.Height != this.Height)
+			{
+				this.Size = new Size(this.Size.Width, m_TextBox.Height);
+			}
 		}
 	}
 }

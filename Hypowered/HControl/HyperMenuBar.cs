@@ -16,27 +16,27 @@ namespace Hypowered
 	{
 		static public readonly int MenuHeight = 25;
 		protected HyperMenuItems m_menus = new HyperMenuItems();
-		[Category("Hypowerd")]
+		[Category("Hypowerd_Menu")]
 		public HyperMenuItems Menus
 		{
 			get { return m_menus; }
 		}
 		protected Color m_MenuFourcusColor = Color.White;
-		[Category("Hypowerd")]
+		[Category("Hypowerd_Color")]
 		public Color MenuFourcusColor
 		{
 			get { return m_MenuFourcusColor; }
 			set { m_MenuFourcusColor = value; this.Invalidate(); }
 		}
 		protected Color m_MenuWakuColor = Color.White;
-		[Category("Hypowerd")]
+		[Category("Hypowerd_Color")]
 		public Color MenuWakuColor
 		{
 			get { return m_MenuWakuColor; }
 			set { m_MenuWakuColor = value; this.Invalidate(); }
 		}
 		protected Color m_MenuWakuEditColor = Color.White;
-		[Category("Hypowerd")]
+		[Category("Hypowerd_Color")]
 		public Color MenuWakuEditColor
 		{
 			get { return m_MenuWakuEditColor; }
@@ -148,7 +148,13 @@ true);
 		{
 			if ((e.Button & MouseButtons.Left) == MouseButtons.Left)
 			{
-				//if(m_IsEditMode) ChkTargetSelected();
+				if(m_IsEditMode)
+				{
+					if (HyperForm != null)
+					{
+						HyperForm.ChkTarget(this);
+					}
+				}
 				int idx = GetMenuDown(e.X);
 				if (idx >= 0)
 				{
