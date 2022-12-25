@@ -30,10 +30,10 @@ namespace Hypowered
 		CheckBox,
 		RadioButton,
 		ListBox,
-		ComboBox,
+		DropdownList,
 
+		DriveIcons,
 		FileListBox,
-		DriveComboBox,
 	}
 	
 	/// <summary>

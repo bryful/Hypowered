@@ -7,11 +7,6 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-using Elfie.Serialization;
-using Microsoft.CodeAnalysis.CSharp.Scripting;
-using Microsoft.CodeAnalysis.Scripting;
-using RoslynPad.Editor;
-using RoslynPad.Roslyn;
 using System.Reflection;
 
 namespace Hypowered
@@ -22,6 +17,7 @@ namespace Hypowered
 	{
 		private ControlType? m_MyType = null;
 		protected void SetMyType(ControlType? c) { m_MyType = c; }
+
 		[Category("Hypowerd")]
 		public ControlType? MyType { get { return m_MyType; } }
 
@@ -141,11 +137,8 @@ namespace Hypowered
 			set
 			{
 				m_ScriptCode = value;
-				CreateScrits(typeof(HyperForm));
 			}
 		}
-		protected Script? m_Script = null;
-		protected ScriptOptions sopt = HyperScript.Options();
 		public HyperControl()
 		{
 			BackColor = ColU.ToColor(HyperColor.Back);
@@ -186,14 +179,22 @@ namespace Hypowered
 					p.Color = m_ForcusColor;
 					g.DrawRectangle(p, rr);
 				}
-				if(m_IsEditMode)
-				{
-					sb.Color= m_ForcusColor;
-					g.DrawString("IsEdit", this.Font, sb, this.ClientRectangle);
-				}
+				DrawType(g, sb);
 			}
 		}
-
+		protected virtual void DrawType(Graphics g ,SolidBrush sb)
+		{
+			if (m_IsEditMode)
+			{
+				sb.Color = m_ForcusColor;
+				string s = "Control";
+				if (m_MyType != null)
+				{
+					s = Enum.GetName(typeof(ControlType), m_MyType);
+				}
+				g.DrawString(s, this.Font, sb, this.ClientRectangle);
+			}
+		}
 		// ****************************************************************************
 		public RectangleF PenRect(Rectangle r, Pen p)
 		{
@@ -299,9 +300,6 @@ namespace Hypowered
 				{
 					m_MDPos = MDPos.None;
 				}
-			}else if(m_Script != null )
-			{
-				if(HyperForm!=null) ExeScripts(HyperForm.App);
 			}
 			base.OnMouseUp(e);
 		}
@@ -328,34 +326,7 @@ namespace Hypowered
 			}
 		}
 		// ****************************************************************************
-		public void  CreateScrits(Type argstype)
-		{
-			m_Script = null;
-			if (m_ScriptCode == "") return;
-			m_Script = CSharpScript.Create(
-				m_ScriptCode, 
-				globalsType: typeof(App),//argstype, 
-				options: sopt);
-
-			
-		}
-		public void ExeScripts(object args)
-		{
-			//string ret = "";
-			if (m_Script == null) return;
-			try
-			{
-				m_Script.RunAsync(args);
-			}
-			catch (CompilationErrorException ex)
-			{
-				MessageBox.Show(ex.Message, "コンパイルエラー");
-			}
-			catch (Exception ex)
-			{
-				MessageBox.Show(ex.Message, "エラー");
-			}
-		}
+		
 		// ****************************************************************************
 		protected override void OnResize(EventArgs e)
 		{

@@ -68,11 +68,8 @@ namespace Hypowered
 					sb.Color = ForeColor;
 					g.DrawString(this.Text, this.Font, sb, ReRect(this.ClientRectangle, 3), m_format);
 				}
-				if (m_IsEditMode)
-				{
-					sb.Color = m_ForcusColor;
-					g.DrawString("IsEdit", this.Font, sb, this.ClientRectangle);
-				}
+				DrawType(g, sb);
+
 			}
 		}
 	}

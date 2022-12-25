@@ -1,6 +1,4 @@
-﻿using Microsoft.CodeAnalysis.CSharp.Scripting;
-using Microsoft.CodeAnalysis.Scripting;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -19,7 +17,6 @@ namespace Hypowered
 
     public partial class HyperForm : Form
 	{
-		protected ScriptOptions sopt = HyperScript.Options();
 		protected bool m_IsEditMode = false;
 		/// <summary>
 		/// 編集モード
@@ -49,21 +46,6 @@ namespace Hypowered
 				}
 			}
 			//ChkControls();
-			if (m_IsEditMode == false)
-			{
-				if (PropForm != null)
-				{
-					PropForm.Close();
-					PropForm.Dispose();
-					PropForm = null;
-				}
-				if(ControlListForm!= null)
-				{
-					ControlListForm.Close();
-					ControlListForm.Dispose();
-					ControlListForm = null;
-				}
-			}
 			this.Invalidate();
 		}
 
@@ -76,8 +58,10 @@ namespace Hypowered
 
 		public HyperForm()
 		{
-			m_App.Project = this;
-			m_App.Controls = this.Controls;
+			Editor.Location= new Point(100, 100);
+			Editor.SetHyperForm(this);
+			Editor.Visible=false;
+
 			base.KeyPreview = true;
 			BackColor = ColU.ToColor(HyperColor.Back);
 			ForeColor = ColU.ToColor(HyperColor.Fore);
@@ -94,6 +78,7 @@ ControlStyles.SupportsTransparentBackColor,
 true);
 			this.UpdateStyles();
 			this.ControlAdded += HyperForm_ControlAdded;
+			this.ControlRemoved += HyperForm_ControlRemoved;
 			SetupFuncs();
 			InitializeComponent();
 			if(m_menuBar==null)m_menuBar = new HyperMenuBar();
@@ -112,9 +97,19 @@ true);
 			this.Controls.Add(m_menuBar);
 			this.Controls.SetChildIndex(m_menuBar,0);
 			ChkControls();
+
+			InitScript();
 		}
-	
-		
+
+
+
+
+		// ***********************************************************************
+		public void InitScript()
+		{
+			m_Script.Init();
+			m_Script.InitControls(this.Controls);
+		}
 		// ***********************************************************************
 		protected void ChkControls()
 		{
@@ -160,8 +155,12 @@ true);
 					}
 				}
 			}
+			InitScript();
 		}
-
+		private void HyperForm_ControlRemoved(object? sender, ControlEventArgs e)
+		{
+			InitScript();
+		}
 		private void Hc_LocationChanged(object? sender, EventArgs e)
 		{
 			this.Invalidate();
@@ -308,6 +307,9 @@ true);
 					break;
 				case ControlType.ListBox:
 					ctrl = new HyperListBox();
+					break;
+				case ControlType.DropdownList:
+					ctrl = new HyperDropdownList();
 					break;
 				default:
 					break;

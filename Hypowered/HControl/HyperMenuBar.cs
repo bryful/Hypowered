@@ -1,5 +1,4 @@
-﻿using Microsoft.CodeAnalysis.Scripting;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -123,6 +122,8 @@ true);
 					p.Color = m_MenuWakuColor;
 				}
 				g.DrawRectangle(p, rr);
+				DrawType(g, sb);
+
 			}
 		}
 		private int m_menuDown = -1;

@@ -33,9 +33,13 @@
 			System.Windows.Media.SolidColorBrush solidColorBrush3 = new System.Windows.Media.SolidColorBrush();
 			System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(HyperScriptEditor));
 			this.editPad1 = new Hypowered.EditPad();
-			this.toolStrip1 = new System.Windows.Forms.ToolStrip();
-			this.toolStripButton1 = new System.Windows.Forms.ToolStripButton();
-			this.toolStrip1.SuspendLayout();
+			this.toolStrip = new System.Windows.Forms.ToolStrip();
+			this.menuControl = new System.Windows.Forms.ToolStripDropDownButton();
+			this.menuHide = new System.Windows.Forms.ToolStripButton();
+			this.btnWrite = new System.Windows.Forms.ToolStripButton();
+			this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
+			this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
+			this.toolStrip.SuspendLayout();
 			this.SuspendLayout();
 			// 
 			// editPad1
@@ -47,7 +51,7 @@
 			solidColorBrush1.Color = System.Windows.Media.Color.FromArgb(((byte)(255)), ((byte)(221)), ((byte)(221)), ((byte)(221)));
 			this.editPad1.Background = solidColorBrush1;
 			this.editPad1.ConvertTabsToSpaces = true;
-			this.editPad1.Font = new System.Drawing.Font("Yu Gothic UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+			this.editPad1.Font = new System.Drawing.Font("源ノ角ゴシック Code JP R", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
 			this.editPad1.ForeColor = System.Drawing.Color.Black;
 			solidColorBrush2.Color = System.Windows.Media.Color.FromArgb(((byte)(255)), ((byte)(0)), ((byte)(0)), ((byte)(0)));
 			this.editPad1.Foreground = solidColorBrush2;
@@ -62,43 +66,78 @@
 			this.editPad1.ShowLineNumbers = true;
 			this.editPad1.ShowSpaces = false;
 			this.editPad1.ShowTabs = true;
-			this.editPad1.Size = new System.Drawing.Size(609, 390);
+			this.editPad1.Size = new System.Drawing.Size(615, 531);
+			this.editPad1.SyntaxHighlighting = null;
 			this.editPad1.TabIndex = 0;
-			this.editPad1.WordWrap = false;
+			this.editPad1.WordWrap = true;
 			// 
-			// toolStrip1
+			// toolStrip
 			// 
-			this.toolStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.toolStripButton1});
-			this.toolStrip1.Location = new System.Drawing.Point(0, 0);
-			this.toolStrip1.Name = "toolStrip1";
-			this.toolStrip1.Size = new System.Drawing.Size(609, 25);
-			this.toolStrip1.TabIndex = 1;
-			this.toolStrip1.Text = "toolStrip1";
+			this.toolStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.menuControl,
+            this.toolStripSeparator2,
+            this.btnWrite,
+            this.toolStripSeparator1,
+            this.menuHide});
+			this.toolStrip.Location = new System.Drawing.Point(0, 0);
+			this.toolStrip.Name = "toolStrip";
+			this.toolStrip.Size = new System.Drawing.Size(615, 25);
+			this.toolStrip.TabIndex = 1;
+			this.toolStrip.Text = "toolStrip1";
 			// 
-			// toolStripButton1
+			// menuControl
 			// 
-			this.toolStripButton1.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
-			this.toolStripButton1.Image = ((System.Drawing.Image)(resources.GetObject("toolStripButton1.Image")));
-			this.toolStripButton1.ImageTransparentColor = System.Drawing.Color.Magenta;
-			this.toolStripButton1.Name = "toolStripButton1";
-			this.toolStripButton1.Size = new System.Drawing.Size(39, 22);
-			this.toolStripButton1.Text = "Close";
-			this.toolStripButton1.Click += new System.EventHandler(this.BtnOK_Click);
+			this.menuControl.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
+			this.menuControl.Image = ((System.Drawing.Image)(resources.GetObject("menuControl.Image")));
+			this.menuControl.ImageTransparentColor = System.Drawing.Color.Magenta;
+			this.menuControl.Name = "menuControl";
+			this.menuControl.Size = new System.Drawing.Size(59, 22);
+			this.menuControl.Text = "Contorl";
+			// 
+			// menuHide
+			// 
+			this.menuHide.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
+			this.menuHide.Image = ((System.Drawing.Image)(resources.GetObject("menuHide.Image")));
+			this.menuHide.ImageTransparentColor = System.Drawing.Color.Magenta;
+			this.menuHide.Name = "menuHide";
+			this.menuHide.Size = new System.Drawing.Size(36, 22);
+			this.menuHide.Text = "Hide";
+			this.menuHide.Click += new System.EventHandler(this.MenuHide_Click);
+			// 
+			// btnWrite
+			// 
+			this.btnWrite.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
+			this.btnWrite.Image = ((System.Drawing.Image)(resources.GetObject("btnWrite.Image")));
+			this.btnWrite.ImageTransparentColor = System.Drawing.Color.Magenta;
+			this.btnWrite.Name = "btnWrite";
+			this.btnWrite.Size = new System.Drawing.Size(39, 22);
+			this.btnWrite.Text = "Write";
+			this.btnWrite.Click += new System.EventHandler(this.btnWrite_Click);
+			// 
+			// toolStripSeparator1
+			// 
+			this.toolStripSeparator1.Name = "toolStripSeparator1";
+			this.toolStripSeparator1.Size = new System.Drawing.Size(6, 25);
+			// 
+			// toolStripSeparator2
+			// 
+			this.toolStripSeparator2.Name = "toolStripSeparator2";
+			this.toolStripSeparator2.Size = new System.Drawing.Size(6, 25);
 			// 
 			// HyperScriptEditor
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
 			this.BackColor = System.Drawing.Color.Gainsboro;
-			this.ClientSize = new System.Drawing.Size(609, 421);
-			this.Controls.Add(this.toolStrip1);
+			this.ClientSize = new System.Drawing.Size(615, 562);
+			this.ControlBox = false;
+			this.Controls.Add(this.toolStrip);
 			this.Controls.Add(this.editPad1);
 			this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.SizableToolWindow;
 			this.Name = "HyperScriptEditor";
 			this.Text = "HyperScriptEditor";
-			this.toolStrip1.ResumeLayout(false);
-			this.toolStrip1.PerformLayout();
+			this.toolStrip.ResumeLayout(false);
+			this.toolStrip.PerformLayout();
 			this.ResumeLayout(false);
 			this.PerformLayout();
 
@@ -107,7 +146,11 @@
 		#endregion
 
 		private EditPad editPad1;
-		private ToolStrip toolStrip1;
-		private ToolStripButton toolStripButton1;
+		private ToolStrip toolStrip;
+		private ToolStripButton menuHide;
+		private ToolStripDropDownButton menuControl;
+		private ToolStripSeparator toolStripSeparator2;
+		private ToolStripButton btnWrite;
+		private ToolStripSeparator toolStripSeparator1;
 	}
 }

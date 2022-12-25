@@ -58,11 +58,12 @@ namespace Hypowered
 				return null;
 			}
 		}
-		public ContextMenuStrip MakeMenu()
+		public ContextMenuStrip MakeMenu(HyperForm? mf=null )
 		{
 			ContextMenuStrip ret = new ContextMenuStrip();
 			if (Items.Count > 0)
 			{
+				
 				foreach (HyperMenuItem? mi in Items)
 				{
 					if (mi == null)
@@ -72,6 +73,21 @@ namespace Hypowered
 					else
 					{
 						ToolStripMenuItem mc = new ToolStripMenuItem();
+						if((mf!=null)&&(mi.Func!=null))
+						{
+							string nm = mi.Func.Method.Name;
+							if ((mf.PropForm!=null)&&( nm== "ShowPropForm"))
+							{
+								mc.Checked = (mf.PropForm.Visible);
+							}else if ((mf.ControlList != null) && (nm == "ShowControlList"))
+							{
+								mc.Checked = (mf.ControlList.Visible);
+							}
+							else if ((mf.Editor != null) && (nm == "ShowEditor"))
+							{
+								mc.Checked = (mf.Editor.Visible);
+							}
+						}
 						mc.Checked= mi.Checked;
 						mc.Text = mi.Caption;
 						mc.Click += Mc_Click;

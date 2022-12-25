@@ -13,7 +13,24 @@ namespace Hypowered
 	public partial class HyperListBox : HyperControl
 	{
 		private ListBox m_ListBox = new ListBox();
-
+		public delegate void SelectedIndexChangedHandler(object sender, SelectedIndexChangedEventArgs e);
+		public event SelectedIndexChangedHandler? SelectedIndexChanged;
+		protected virtual void OnSelectedIndexChanged(SelectedIndexChangedEventArgs e)
+		{
+			if (SelectedIndexChanged != null)
+			{
+				SelectedIndexChanged(this, e);
+			}
+			if ((HyperForm != null) && (m_ScriptCode != ""))
+			{
+				HyperForm.ExecuteCode(m_ScriptCode);
+			}
+		}
+		public override void SetIsEditMode(bool value)
+		{
+			m_IsEditMode = value;
+			m_ListBox.Visible = !value;
+		}
 		[Category("Hypowerd")]
 		public new Font Font
 		{
@@ -22,6 +39,15 @@ namespace Hypowered
 			{
 				m_ListBox.Font = value;
 				this.Font = value;
+			}
+		}
+		[Category("Hypowerd_ListBox")]
+		public  ListBox ListBox
+		{
+			get { return m_ListBox; }
+			set
+			{
+				m_ListBox = value;
 			}
 		}
 		[Category("Hypowerd_ListBox")]
@@ -78,6 +104,8 @@ namespace Hypowered
 		}
 		public HyperListBox()
 		{
+			SetMyType(ControlType.ListBox);
+			m_ScriptCode = "//ListBox";
 			this.Size = new Size(150, 150);
 			m_ListBox.Location = new Point(0, 0);
 			m_ListBox.Size = new Size(this.Width,this.Height);
@@ -95,6 +123,12 @@ namespace Hypowered
 			m_ListBox.IntegralHeight = false;
 			InitializeComponent();
 			this.Controls.Add(m_ListBox);
+			m_ListBox.SelectedIndexChanged += M_ListBox_SelectedIndexChanged;
+		}
+
+		private void M_ListBox_SelectedIndexChanged(object? sender, EventArgs e)
+		{
+			OnSelectedIndexChanged(new SelectedIndexChangedEventArgs(m_ListBox.SelectedIndex));	
 		}
 
 		protected override void OnPaint(PaintEventArgs pe)
@@ -117,5 +151,6 @@ namespace Hypowered
 				this.Size = new Size(this.Width, m_ListBox.Height);
 			}
 		}
+
 	}
 }

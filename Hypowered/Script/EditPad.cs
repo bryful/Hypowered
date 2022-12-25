@@ -15,9 +15,9 @@ using System.Windows.Forms.Integration;
 using System.Windows.Media;
 using ICSharpCode.AvalonEdit;
 using Microsoft.CodeAnalysis;
-using RoslynPad;
-using RoslynPad.Editor;
-using RoslynPad.Roslyn;
+using Microsoft.ClearScript.V8;
+using Microsoft.ClearScript.JavaScript;
+using ICSharpCode.AvalonEdit.Highlighting;
 
 namespace Hypowered
 {
@@ -103,62 +103,31 @@ namespace Hypowered
 			get { return Edit.Options.ShowSpaces; }
 			set { Edit.Options.ShowSpaces = value; }
 		}
-		
+		[Category("_ED")]
+		public IHighlightingDefinition SyntaxHighlighting
+		{
+			get { return Edit.SyntaxHighlighting; }
+			set { Edit.SyntaxHighlighting = value; }
+		}
+
 		#endregion
 		private ElementHost m_Element = new ElementHost();
-		public CustomRoslynHost Host;
-		public RoslynCodeEditor Edit = new RoslynCodeEditor();
+		public TextEditor Edit = new TextEditor();
 		public EditPad()
 		{
 			InitializeComponent();
 			this.Size = new System.Drawing.Size(200,200);
 			m_Element.Location = new System.Drawing.Point(0,0);
 			m_Element.Size = this.Size;
-			Host = new CustomRoslynHost(
-				typeof(App),
-			additionalAssemblies: new[]
-			{
-				Assembly.Load("System"),
-				//Assembly.Load("System.Runtime"),
-				//Assembly.Load("System.Dynamic"),
-				Assembly.Load("System.Linq"),
-				//Assembly.Load("System.Text"),
-				Assembly.Load("System.IO"),
-				//Assembly.Load("System.Collections.Generic"),
-				Assembly.Load("System.Data"),
-				Assembly.Load("System.Windows.Forms"),
-				Assembly.Load("RoslynPad.Roslyn.Windows"),
-				Assembly.Load("RoslynPad.Editor.Windows"),
-				//Assembly.Load("app"),
-				//Assembly.Load("Hypowered"),
-				//Assembly.Load("Hypowered.App"),
-				//Assembly.Load("Hypowered.App.Items"),
-				Assembly.GetExecutingAssembly(),
-
-			},
-			 references: RoslynHostReferences.NamespaceDefault.With(typeNamespaceImports: new[] 
-			 {
-			 //typeof(System.Array),
-			 typeof(System.Object),
-			 typeof(System.Enum),
-			 typeof(System.Linq.Enumerable),
-			 typeof(System.Dynamic.DynamicObject),
-			 typeof(Microsoft.CSharp.RuntimeBinder.CSharpArgumentInfo),  // Microsoft.CSharp
-			 typeof(System.Dynamic.ExpandoObject),
-			 typeof(System.Data.DataTable),
-			 typeof(System.IO.File),
-			 typeof(System.Windows.Forms.MessageBox),
-			 typeof(Hypowered.App),
-
-			 })
-			);
-			Edit.Loaded += EditorLoaded;
+	
 			m_Element.Child = Edit;
 			this.Controls.Add(m_Element);
 			Edit.Options.IndentationSize = 4;
 			
+			
 		}
-		
+
+
 		public void Clear()
 		{
 			Edit.Clear();
@@ -169,17 +138,7 @@ namespace Hypowered
 		}
 		protected virtual void EditorLoaded(object sender, System.Windows.RoutedEventArgs e)
 		{
-			Init(Host);
-		}
-		public void Init(RoslynHost h)
-		{
-			Edit.InitializeAsync(
-				h,
-				new ClassificationHighlightColors(),
-				Directory.GetCurrentDirectory(),
-				String.Empty,
-				SourceCodeKind.Script
-				);
+			
 		}
 		protected override void OnPaint(PaintEventArgs pe)
 		{

@@ -40,7 +40,13 @@ namespace Hypowered
 				HyperControl? m = m_HyperForm.TargetControl;
 				if (m != null)
 				{
-					propertyGrid1.SelectedObject = m;
+					try
+					{
+						propertyGrid1.SelectedObject = m;
+					}catch(Exception ex)
+					{
+
+					}
 				}
 				else
 				{
@@ -74,7 +80,7 @@ namespace Hypowered
 
 		private void ToolStripButton1_Click(object sender, EventArgs e)
 		{
-			this.Hide();
+			this.Visible = false;
 		}
 
 		private void BtnMainForm_Click(object sender, EventArgs e)

@@ -11,10 +11,29 @@ using static System.Windows.Forms.DataFormats;
 
 namespace Hypowered
 {
-
+	public class CheckedChangedEventArgs : EventArgs
+	{
+		public bool Checked;
+		public CheckedChangedEventArgs(bool v)
+		{
+			Checked = v;
+		}
+	}
 	public partial class HyperCheckBox : HyperControl
 	{
-		
+		public delegate void CheckedChangedHandler(object sender, CheckedChangedEventArgs e);
+		public event CheckedChangedHandler? CheckedChanged;
+		protected virtual void OnCheckedChanged(CheckedChangedEventArgs e)
+		{
+			if (CheckedChanged != null)
+			{
+				CheckedChanged(this, e);
+			}
+			if((HyperForm!=null)&&(m_ScriptCode!=""))
+			{
+				HyperForm.ExecuteCode(m_ScriptCode);
+			}
+		}
 		private bool m_Checked = true;
 		[Category("Hypowerd_CheckBox")]
 		public bool Checked
@@ -25,6 +44,7 @@ namespace Hypowered
 				if(m_Checked != value)
 				{
 					m_Checked = value;
+					OnCheckedChanged(new CheckedChangedEventArgs(m_Checked));
 				}
 				this.Invalidate(); 
 			}
@@ -52,7 +72,8 @@ namespace Hypowered
 		}
 		public HyperCheckBox()
 		{
-			SetMyType(ControlType.ComboBox);
+			SetMyType(ControlType.CheckBox);
+			m_ScriptCode = "//CheckBox";
 			m_format.Alignment = StringAlignment.Near;
 			m_format.LineAlignment = StringAlignment.Center;
 			m_UnCheckedColor = ColU.ToColor(HyperColor.Dark);
@@ -100,11 +121,8 @@ namespace Hypowered
 					rr = new Rectangle(m_CheckSize + 5, 3, this.Width - m_CheckSize - 5, this.Height - 6);
 					g.DrawString(this.Text, this.Font, sb, rr, m_format);
 				}
-				if (m_IsEditMode)
-				{
-					sb.Color = m_ForcusColor;
-					g.DrawString("IsEdit", this.Font, sb, this.ClientRectangle);
-				}
+				DrawType(g, sb);
+
 			}
 		}
 		protected override void OnMouseDown(MouseEventArgs e)
@@ -130,6 +148,7 @@ namespace Hypowered
 			{
 				
 				m_Checked = !m_Checked;
+				OnCheckedChanged(new CheckedChangedEventArgs(m_Checked));
 				this.Invalidate();
 				return;
 				

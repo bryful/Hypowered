@@ -24,5 +24,10 @@ namespace Hypowered
 			ForeColor = ColU.ToColor(HyperColor.Fore);
 			InitializeComponent();
 		}
+
+		private void btnHide_Click(object sender, EventArgs e)
+		{
+			this.Visible= false;
+		}
 	}
 }

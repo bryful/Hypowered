@@ -21,16 +21,17 @@ namespace Hypowered
 	
 	partial class HyperForm
 	{
-		private PropertyForm? PropForm = null;
-		private EditControlListForm? ControlListForm = null;
-
-		protected App m_App = new App();
-		[Category("Hypowerd_Form")]
-		public App App
+		// ****************************************************************************
+		public PropertyForm? PropForm = null;
+		public EditControlListForm? ControlList = null;
+		public HyperScriptEditor Editor = new HyperScriptEditor();
+		// ****************************************************************************
+		protected HyperScript m_Script = new HyperScript();
+		public void ExecuteCode(string code)
 		{
-			get { return m_App; }
-			set { m_App = value; }
+			m_Script.ExecuteCode(code);
 		}
+
 		// ****************************************************************************
 		public delegate void TargetChangedHandler(object sender, TargetChangedEventArgs e);
 		public event TargetChangedHandler? TargetChanged;

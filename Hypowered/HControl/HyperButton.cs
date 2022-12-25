@@ -22,6 +22,7 @@ namespace Hypowered
 		public HyperButton()
 		{
 			SetMyType(ControlType.Button);
+			m_ScriptCode = "//Button";
 			this.Location = new Point(100,100);
 			this.Size = ControlDef.DefSize;
 			InitializeComponent();
@@ -64,11 +65,8 @@ namespace Hypowered
 					p.Color = m_ForcusColor;
 					g.DrawRectangle(p, rr);
 				}
-				if (m_IsEditMode)
-				{
-					sb.Color = m_ForcusColor;
-					g.DrawString("IsEdit", this.Font, sb, this.ClientRectangle);
-				}
+				DrawType(g, sb);
+
 			}
 		}
 		// *********************************************************************
@@ -95,6 +93,14 @@ namespace Hypowered
 				this.Invalidate(true);	
 			}
 			base.OnMouseUp(e);
+		}
+		protected override void OnMouseClick(MouseEventArgs e)
+		{
+			base.OnMouseClick(e);
+			if ((HyperForm !=null)&&(m_IsEditMode==false) )
+			{
+				HyperForm.ExecuteCode(m_ScriptCode);
+			}
 		}
 	}
 }

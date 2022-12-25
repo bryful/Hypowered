@@ -66,14 +66,15 @@ namespace Hypowered
 		{
 			get
 			{
-				if((m_TargetIndex>=0)&& (m_TargetIndex < this.Controls.Count))
+				HyperControl? ret = null;
+				if ((m_TargetIndex>=0)&& (m_TargetIndex < this.Controls.Count))
 				{
-					return (HyperControl)this.Controls[m_TargetIndex];
+					if (this.Controls[m_TargetIndex] is HyperControl)
+					{
+						ret = (HyperControl)this.Controls[m_TargetIndex];
+					}
 				}
-				else
-				{
-					return null;
-				}
+				return ret;
 			}
 		}
 		[Category("Hypowerd_Form")]

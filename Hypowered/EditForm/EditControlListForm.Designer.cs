@@ -32,6 +32,8 @@
 			this.controlListBox1 = new Hypowered.ControlListBox();
 			this.toolStrip1 = new System.Windows.Forms.ToolStrip();
 			this.toolStripButton1 = new System.Windows.Forms.ToolStripButton();
+			this.btnHide = new System.Windows.Forms.ToolStripButton();
+			this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
 			this.toolStrip1.SuspendLayout();
 			this.SuspendLayout();
 			// 
@@ -54,7 +56,9 @@
 			// toolStrip1
 			// 
 			this.toolStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.toolStripButton1});
+            this.toolStripButton1,
+            this.toolStripSeparator1,
+            this.btnHide});
 			this.toolStrip1.Location = new System.Drawing.Point(0, 0);
 			this.toolStrip1.Name = "toolStrip1";
 			this.toolStrip1.Size = new System.Drawing.Size(248, 25);
@@ -70,12 +74,28 @@
 			this.toolStripButton1.Size = new System.Drawing.Size(74, 22);
 			this.toolStripButton1.Text = "Form Active";
 			// 
+			// btnHide
+			// 
+			this.btnHide.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
+			this.btnHide.Image = ((System.Drawing.Image)(resources.GetObject("btnHide.Image")));
+			this.btnHide.ImageTransparentColor = System.Drawing.Color.Magenta;
+			this.btnHide.Name = "btnHide";
+			this.btnHide.Size = new System.Drawing.Size(36, 22);
+			this.btnHide.Text = "Hide";
+			this.btnHide.Click += new System.EventHandler(this.btnHide_Click);
+			// 
+			// toolStripSeparator1
+			// 
+			this.toolStripSeparator1.Name = "toolStripSeparator1";
+			this.toolStripSeparator1.Size = new System.Drawing.Size(6, 25);
+			// 
 			// EditControlListForm
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
 			this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(30)))), ((int)(((byte)(30)))), ((int)(((byte)(30)))));
 			this.ClientSize = new System.Drawing.Size(248, 409);
+			this.ControlBox = false;
 			this.Controls.Add(this.toolStrip1);
 			this.Controls.Add(this.controlListBox1);
 			this.ForeColor = System.Drawing.Color.Gainsboro;
@@ -95,5 +115,7 @@
 		private ControlListBox controlListBox1;
 		private ToolStrip toolStrip1;
 		private ToolStripButton toolStripButton1;
+		private ToolStripSeparator toolStripSeparator1;
+		private ToolStripButton btnHide;
 	}
 }

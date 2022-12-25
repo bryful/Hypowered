@@ -26,10 +26,22 @@ namespace Hypowered
 			set { m_TextBox = value; }
 		}
 		[Category("Hypowerd_TextBox")]
+		public bool Multiline
+		{
+			get { return m_TextBox.Multiline; }
+			set { m_TextBox.Multiline = value; ChkSize(); }
+		}
+		[Category("Hypowerd_TextBox")]
 		public new string Text
 		{
 			get { return m_TextBox.Text; }
 			set { m_TextBox.Text = value; }
+		}
+		[Category("Hypowerd_TextBox")]
+		public  HorizontalAlignment TextAlign
+		{
+			get { return m_TextBox.TextAlign; }
+			set { m_TextBox.TextAlign = value; }
 		}
 		[Category("Hypowerd")]
 		public new Font Font
@@ -49,15 +61,6 @@ namespace Hypowered
 			set
 			{
 				m_TextBox.ReadOnly = value;
-			}
-		}
-		[Category("Hypowerd_Text")]
-		public HorizontalAlignment TextAlign
-		{
-			get { return m_TextBox.TextAlign; }
-			set
-			{
-				m_TextBox.TextAlign = value;
 			}
 		}
 		[Category("Hypowerd_Color")]
@@ -83,6 +86,7 @@ namespace Hypowered
 		public HyperTextBox()
 		{
 			SetMyType(ControlType.TextBox);
+			m_ScriptCode = "//TextBox";
 			BackColor = ColU.ToColor(HyperColor.Back);
 			ForeColor = ColU.ToColor(HyperColor.Fore);
 			m_TextBox.BorderStyle = BorderStyle.FixedSingle;
@@ -108,10 +112,17 @@ namespace Hypowered
 		protected override void OnResize(EventArgs e)
 		{
 			base.OnResize(e);
+			ChkSize();
+		}
+		private void ChkSize()
+		{
 			m_TextBox.Size = new Size(this.Size.Width, this.Size.Height);
-			if(m_TextBox.Height != this.Height)
+			if (Multiline == false)
 			{
-				this.Size = new Size(this.Size.Width, m_TextBox.Height);
+				if (m_TextBox.Height != this.Height)
+				{
+					this.Size = new Size(this.Size.Width, m_TextBox.Height);
+				}
 			}
 		}
 	}

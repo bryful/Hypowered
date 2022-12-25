@@ -12,6 +12,27 @@ namespace Hypowered
 {
 	public partial class HyperRadioButton : HyperControl
 	{
+		public class RButtonChangedEventArgs : EventArgs
+		{
+			public int Index;
+			public RButtonChangedEventArgs(int v)
+			{
+				Index = v;
+			}
+		}
+		public delegate void RButtonChangedHandler(object sender, RButtonChangedEventArgs e);
+		public event RButtonChangedHandler? RButtonChanged;
+		protected virtual void OnRButtonChanged(RButtonChangedEventArgs e)
+		{
+			if (RButtonChanged != null)
+			{
+				RButtonChanged(this, e);
+			}
+			if ((HyperForm != null) && (m_ScriptCode != ""))
+			{
+				HyperForm.ExecuteCode(m_ScriptCode);
+			}
+		}
 		private bool m_Checked = false;
 		[Category("Hypowerd_RadioButton")]
 		public bool Checked
@@ -25,6 +46,7 @@ namespace Hypowered
 					if (HyperForm != null)
 					{
 						HyperForm.ChkRadioButton(this);
+						OnRButtonChanged(new RButtonChangedEventArgs(this.Index));
 					}
 				}
 				this.Invalidate();
@@ -98,6 +120,7 @@ namespace Hypowered
 		public HyperRadioButton()
 		{
 			SetMyType(ControlType.RadioButton);
+			m_ScriptCode = "//RadioButton";
 			ControlName = "HyperRadioButton";
 			m_format.Alignment = StringAlignment.Near;
 			m_format.LineAlignment = StringAlignment.Center;
@@ -145,11 +168,8 @@ namespace Hypowered
 					rr = new Rectangle(m_CheckSize + 5, 3, this.Width - m_CheckSize - 5, this.Height - 6);
 					g.DrawString(this.Text, this.Font, sb, rr, m_format);
 				}
-				if (m_IsEditMode)
-				{
-					sb.Color = m_ForcusColor;
-					g.DrawString("IsEdit", this.Font, sb, this.ClientRectangle);
-				}
+				DrawType(g, sb);
+
 			}
 		}
 		protected override void OnMouseDown(MouseEventArgs e)

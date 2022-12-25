@@ -20,10 +20,11 @@ namespace Hypowered
 			lst.Add(new FuncItem(SaveAsForm, Keys.Control | Keys.S, "コピーを保存"));
 			lst.Add(new FuncItem(Quit, Keys.Control| Keys.Q, "終了"));
 			lst.Add(new FuncItem(NewControl, Keys.Control | Keys.N, "新規コントロール"));
-			lst.Add(new FuncItem(ShowPropForm, Keys.Control | Keys.I, "プロパティ"));
 			lst.Add(new FuncItem(ToggleEditMode, Keys.Control | Keys.B, "編集モード"));
 			lst.Add(new FuncItem(ToggleShowMenu, Keys.Control | Keys.F12, "メニューを消す"));
-			lst.Add(new FuncItem(ShowControlListForm, Keys.Control | Keys.U, "コントロールリスト"));
+			lst.Add(new FuncItem(ShowPropForm, Keys.Control | Keys.I, "プロパティ"));
+			lst.Add(new FuncItem(ShowControlList, Keys.Control | Keys.U, "コントロールリスト"));
+			lst.Add(new FuncItem(ShowEditor, Keys.Control | Keys.F11, "スクリプトエディタ"));
 
 			Funcs.SetFuncItems(lst.ToArray());
 		}
@@ -43,6 +44,7 @@ namespace Hypowered
 		private HyperMenuItem? m_menuQuit = null;
 
 		private HyperMenuItem? m_EditModeMenu = null;
+		private HyperMenuItem? m_EditorMenu = null;
 		private HyperMenuItem? m_ShowMenu = null;
 		private HyperMenuItem? m_PropFormMenu = null;
 		private HyperMenuItem? m_ControlListmMenu = null;
@@ -64,7 +66,8 @@ namespace Hypowered
 			m_NewControlMenu = CreateMenuItem(NewControl);
 			m_EditModeMenu　= CreateMenuItem(ToggleEditMode);
 			m_ShowMenu = CreateMenuItem(ToggleShowMenu);
-			m_ControlListmMenu = CreateMenuItem(ShowControlListForm);
+			m_ControlListmMenu = CreateMenuItem(ShowControlList);
+			m_EditorMenu = CreateMenuItem(ShowEditor);
 
 			if (m_ControlMenu != null)
 			{
@@ -73,6 +76,7 @@ namespace Hypowered
 				m_ControlMenu.Add(null);
 				m_ControlMenu.Add(m_PropFormMenu);
 				m_ControlMenu.Add(m_ControlListmMenu);
+				m_ControlMenu.Add(m_EditorMenu);
 				m_ControlMenu.Add(null);
 				m_ControlMenu.Add(m_NewControlMenu);
 			}
@@ -141,34 +145,42 @@ namespace Hypowered
 		// *************************************************************************
 		public bool ShowPropForm()
 		{
-			if (m_IsEditMode)
+			if (PropForm == null)
 			{
-				if (PropForm == null)
-				{
-					PropForm = new PropertyForm();
-					PropForm.HyperForm = this;
-				}
-
-				PropForm.Show();
-				return true;
+				PropForm = new PropertyForm();
+				PropForm.HyperForm = this;
+				PropForm.Location = new Point(100, 100);
 			}
-			return false;
+			PropForm.Visible = !PropForm.Visible;
+			return true;
 		}
 		// *************************************************************************
-		public bool ShowControlListForm()
+		public bool ShowControlList()
 		{
-			if (m_IsEditMode)
+			if (ControlList == null)
 			{
-				if (ControlListForm == null)
-				{
-					ControlListForm = new EditControlListForm();
-					ControlListForm.HyperForm = this;
-				}
-
-				ControlListForm.Show();
-				return true;
+				ControlList = new EditControlListForm();
+				ControlList.HyperForm = this;
+				ControlList.Location = new Point(100, 100);
 			}
+
+			ControlList.Visible  = !ControlList.Visible;
+				return true;
+			
 			return false;
+		}
+		public bool ShowEditor()
+		{
+			if(Editor.Visible==false)
+			{
+				Editor.Visible = true;
+				Editor.Activate();
+			}
+			else
+			{
+				Editor.Visible = false;
+			}
+			return true;
 		}
 		// *************************************************************************
 	}
