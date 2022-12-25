@@ -56,15 +56,6 @@ namespace Hypowered
 		{
 			m_Checked = b;
 		}
-		/*
-		protected int m_GroupID = -1;
-		[Category("Hypowerd_RadioButton")]
-		public int GroupID 
-		{ 
-			get { return m_GroupID; } 
-			set { m_GroupID = value; this.Invalidate(); } 
-		}
-		*/
 		protected int m_Group = 0;
 		[Category("Hypowerd_RadioButton")]
 		public int Group 
@@ -102,20 +93,6 @@ namespace Hypowered
 		{
 			get { return m_CheckSize; }
 			set { m_CheckSize = value; this.Invalidate(); }
-		}
-		protected Color m_UnCheckedColor = Color.White;
-		[Category("Hypowerd_Color")]
-		public Color UnCheckedColor
-		{
-			get { return m_UnCheckedColor; }
-			set { m_UnCheckedColor = value; this.Invalidate(); }
-		}
-		private StringFormat m_format = new StringFormat();
-		[Category("Hypowerd_Text")]
-		public StringAlignment TextAligiment
-		{
-			get { return m_format.Alignment; }
-			set { m_format.Alignment = value; this.Invalidate(); }
 		}
 		public HyperRadioButton()
 		{

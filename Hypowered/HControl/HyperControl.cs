@@ -5,6 +5,8 @@ using System.Data;
 using System.Drawing;
 using System.Linq;
 using System.Text;
+using System.Text.Json;
+using System.Text.Json.Nodes;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Reflection;
@@ -102,14 +104,15 @@ namespace Hypowered
 		{
 			m_IsEditMode = value;
 		}
-		/*
-		protected int m_GroupID = -1;
-		[Category("Hypowerd_Group")]
-		public int GroupID { get { return m_GroupID; } set { m_GroupID = value; this.Invalidate(); } }	
-		protected int m_Group = -1;
-		[Category("Hypowerd_Group")]
-		public int Group { get { return m_Group; } set { m_Group = value; this.Invalidate(); } }
-		*/
+		// **************************************************************************
+		// **************************************************************************
+		protected bool m_CanColorCustum = false;
+		[Category("Hypowerd_Color")]
+		public bool CanColorCustum
+		{
+			get { return m_CanColorCustum; }
+			set { m_CanColorCustum = value; }
+		}
 		protected Color m_ForcusColor = Color.White;
 		[Category("Hypowerd_Color")]
 		public Color ForcusColor
@@ -129,6 +132,13 @@ namespace Hypowered
 			get { return base.BackColor; }
 			set { base.BackColor = value; this.Invalidate(); }
 		}
+		protected Color m_UnCheckedColor = Color.White;
+		[Category("Hypowerd_Color")]
+		public Color UnCheckedColor
+		{
+			get { return m_UnCheckedColor; }
+			set { m_UnCheckedColor = value; this.Invalidate(); }
+		}
 		protected string m_ScriptCode = "";
 		[Category("Hypowerd_Script")]
 		public string ScriptCode
@@ -139,11 +149,28 @@ namespace Hypowered
 				m_ScriptCode = value;
 			}
 		}
+		protected StringFormat m_format = new StringFormat();
+		[Category("Hypowerd_Text")]
+		public StringAlignment TextAligiment
+		{
+			get { return m_format.Alignment; }
+			set { m_format.Alignment = value; this.Invalidate(); }
+		}
+		[Category("Hypowerd_Text")]
+		public StringAlignment TextLineAligiment
+		{
+			get { return m_format.LineAlignment; }
+			set { m_format.LineAlignment = value; this.Invalidate(); }
+		}
 		public HyperControl()
 		{
 			BackColor = ColU.ToColor(HyperColor.Back);
 			ForeColor = ColU.ToColor(HyperColor.Fore);
 			m_ForcusColor = ColU.ToColor(HyperColor.Forcus);
+			m_UnCheckedColor = ColU.ToColor(HyperColor.Dark);
+			m_format.Alignment = StringAlignment.Near;
+			m_format.LineAlignment = StringAlignment.Center;
+
 			this.Name = "HyperControl";
 			this.Size = ControlDef.DefSize;
 			this.Location = new Point(100, 100);

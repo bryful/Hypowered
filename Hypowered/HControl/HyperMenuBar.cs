@@ -20,6 +20,15 @@ namespace Hypowered
 		{
 			get { return m_menus; }
 		}
+		public bool GetMenuVisibled(int index)
+		{
+			return m_menus.GetMenuVisibled(index);
+		}
+		public void SetMenuVisibled(int index,bool on)
+		{
+			m_menus.SetMenuVisibled(index,on);
+			this.Invalidate();
+		}
 		protected Color m_MenuFourcusColor = Color.White;
 		[Category("Hypowerd_Color")]
 		public Color MenuFourcusColor
@@ -45,8 +54,6 @@ namespace Hypowered
 		{
 			SetMyType(null);
 
-			BackColor = ColU.ToColor(HyperColor.Back);
-			ForeColor = ColU.ToColor(HyperColor.Fore);
 			m_MenuFourcusColor = ColU.ToColor(HyperColor.MenuFourcus);
 			m_MenuWakuColor = ColU.ToColor(HyperColor.Line);
 			m_MenuWakuEditColor = ColU.ToColor(HyperColor.LineRed);
@@ -112,16 +119,27 @@ true);
 
 
 				// 外枠
-				Rectangle rr = ReRect(this.ClientRectangle, 1);
+				Rectangle rr = new Rectangle(0,0,this.Width-1,this.Height-1);
 				if (m_IsEditMode)
 				{
 					p.Color = m_MenuWakuEditColor;
+					g.DrawRectangle(p, rr);
 				}
 				else
 				{
+					Point[] pt = new Point[]
+					{
+						new Point(0,this.Height),
+						new Point(0,0),
+						new Point(this.Width-1,0),
+						new Point(this.Width-1,this.Height)
+
+					};
+					g.DrawLines(p, pt);
 					p.Color = m_MenuWakuColor;
+					g.DrawLine(p, 0, this.Height - 1, this.Width - 1, this.Height - 1);
+					p.Color = ForeColor;
 				}
-				g.DrawRectangle(p, rr);
 				DrawType(g, sb);
 
 			}

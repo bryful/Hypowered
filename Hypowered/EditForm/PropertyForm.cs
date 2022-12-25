@@ -22,28 +22,35 @@ namespace Hypowered
 				m_HyperForm = value;
 				if(m_HyperForm!=null)
 				{
-					GetPropInfo();
+					SetHyperControl(m_HyperForm.TargetControl);
 					m_HyperForm.TargetChanged += M_HyperForm_TargetChanged;
 
 				}
 			}
 		}
+		private HyperControl? m_HyperControl = null;
+
 
 		private void M_HyperForm_TargetChanged(object sender, TargetChangedEventArgs e)
 		{
-			GetPropInfo();
+			if (m_HyperForm != null)
+			{
+				SetHyperControl(m_HyperForm.TargetControl);
+			}
 		}
-		private void GetPropInfo()
+		private void SetHyperControl(HyperControl? c)
 		{
 			if (m_HyperForm != null)
 			{
-				HyperControl? m = m_HyperForm.TargetControl;
-				if (m != null)
+				m_HyperControl = m_HyperForm.TargetControl;
+				if (m_HyperControl != null)
 				{
 					try
 					{
-						propertyGrid1.SelectedObject = m;
-					}catch(Exception ex)
+						propertyGrid1.SelectedObject = m_HyperControl;
+						lbCaption.Text = m_HyperControl.Name;
+					}
+					catch(Exception ex)
 					{
 
 					}
@@ -51,27 +58,11 @@ namespace Hypowered
 				else
 				{
 					propertyGrid1.SelectedObject = m_HyperForm;
+					lbCaption.Text = m_HyperForm.Name;
 				}
 			}
 		}
-		/*
-		public object SelectedObject
-		{
-			get { return propertyGrid1.SelectedObject; }
-			set 
-			{
-				try
-				{
-					if(value!=null)
-						propertyGrid1.SelectedObject = value;
-				}
-				catch
-				{
 
-				}
-			}
-		}
-		*/
 		public PropertyForm()
 		{
 			InitializeComponent();
@@ -89,6 +80,31 @@ namespace Hypowered
 			{
 				m_HyperForm.Activate();
 			}
+		}
+
+		private void toolStripDropDownButton1_Click(object sender, EventArgs e)
+		{
+			if (m_HyperForm != null)
+			{
+				ToolStripMenuItem[] m = m_HyperForm.GetMenuControls(m_HyperControl, Mi_Click);
+				menuControl.DropDownItems.Clear();
+				menuControl.DropDownItems.AddRange(m);
+
+			}
+
+		}
+
+		private void Mi_Click(object? sender, EventArgs e)
+		{
+			if ((m_HyperForm != null) && (m_HyperControl != null))
+			{
+				ToolStripMenuItem? mi = (ToolStripMenuItem?)sender;
+				if ((mi != null) && (mi.Tag is HyperControl))
+				{
+					m_HyperForm.TargetIndex = ((HyperControl)mi.Tag).Index;
+				}
+			}
+
 		}
 	}
 }

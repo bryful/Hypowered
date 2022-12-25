@@ -35,6 +35,8 @@
 			this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
 			this.btnMainForm = new System.Windows.Forms.ToolStripButton();
 			this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
+			this.menuControl = new System.Windows.Forms.ToolStripDropDownButton();
+			this.lbCaption = new System.Windows.Forms.ToolStripLabel();
 			this.toolStrip1.SuspendLayout();
 			this.SuspendLayout();
 			// 
@@ -64,13 +66,16 @@
 			// 
 			// toolStrip1
 			// 
-			this.toolStrip1.BackColor = System.Drawing.Color.Black;
+			this.toolStrip1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(30)))), ((int)(((byte)(30)))), ((int)(((byte)(30)))));
+			this.toolStrip1.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
 			this.toolStrip1.GripStyle = System.Windows.Forms.ToolStripGripStyle.Hidden;
 			this.toolStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.toolStripButton1,
             this.toolStripSeparator1,
             this.btnMainForm,
-            this.toolStripSeparator2});
+            this.toolStripSeparator2,
+            this.menuControl,
+            this.lbCaption});
 			this.toolStrip1.Location = new System.Drawing.Point(0, 0);
 			this.toolStrip1.Name = "toolStrip1";
 			this.toolStrip1.RightToLeft = System.Windows.Forms.RightToLeft.Yes;
@@ -110,6 +115,25 @@
 			this.toolStripSeparator2.Name = "toolStripSeparator2";
 			this.toolStripSeparator2.Size = new System.Drawing.Size(6, 25);
 			// 
+			// menuControl
+			// 
+			this.menuControl.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
+			this.menuControl.ForeColor = System.Drawing.Color.Gainsboro;
+			this.menuControl.Image = ((System.Drawing.Image)(resources.GetObject("menuControl.Image")));
+			this.menuControl.ImageTransparentColor = System.Drawing.Color.Magenta;
+			this.menuControl.Name = "menuControl";
+			this.menuControl.Size = new System.Drawing.Size(59, 22);
+			this.menuControl.Text = "Control";
+			this.menuControl.Click += new System.EventHandler(this.toolStripDropDownButton1_Click);
+			// 
+			// lbCaption
+			// 
+			this.lbCaption.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
+			this.lbCaption.ForeColor = System.Drawing.Color.Gainsboro;
+			this.lbCaption.Name = "lbCaption";
+			this.lbCaption.Size = new System.Drawing.Size(13, 22);
+			this.lbCaption.Text = "a";
+			// 
 			// PropertyForm
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
@@ -141,5 +165,7 @@
 		private ToolStripSeparator toolStripSeparator1;
 		private ToolStripButton btnMainForm;
 		private ToolStripSeparator toolStripSeparator2;
+		private ToolStripDropDownButton menuControl;
+		private ToolStripLabel lbCaption;
 	}
 }

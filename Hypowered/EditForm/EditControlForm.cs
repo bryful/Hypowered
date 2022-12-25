@@ -57,9 +57,9 @@ namespace Hypowered
 			InitializeComponent();
 			editControlComb1.ControlType= m_ct;
 			NameSet();
-			toolStrip1.MouseDown += ToolStrip1_MouseDown;
-			toolStrip1.MouseMove += ToolStrip1_MouseMove;
-			toolStrip1.MouseUp += ToolStrip1_MouseUp;
+			toolStrip.MouseDown += ToolStrip1_MouseDown;
+			toolStrip.MouseMove += ToolStrip1_MouseMove;
+			toolStrip.MouseUp += ToolStrip1_MouseUp;
 
 			tbName.TextChanged += TbName_TextChanged;
 			tbText.TextChanged += TbName_TextChanged;
@@ -204,6 +204,15 @@ namespace Hypowered
 		{
 			Font? f = FntU.Dialog(this, this.Font);
 			if(f!=null) this.Font = f;
+		}
+		protected override void OnPaint(PaintEventArgs e)
+		{
+			base.OnPaint(e);
+			using(Pen p = new Pen(ForeColor,1))
+			{
+				Graphics g = e.Graphics;
+				g.DrawRectangle(p,new Rectangle(0,0,Width-1,Height-1));
+			}
 		}
 	}
 }

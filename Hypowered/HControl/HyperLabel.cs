@@ -13,20 +13,9 @@ namespace Hypowered
 {
 	public partial class HyperLabel : HyperControl
 	{
-		private StringFormat m_format = new StringFormat();
-		[Category("Hypowerd_Text")]
-		public StringAlignment TextAligiment
-		{
-			get { return m_format.Alignment; }
-			set { m_format.Alignment = value;this.Invalidate(); }
-		}
 		public HyperLabel()
 		{
 			SetMyType(ControlType.Label);
-			m_format.Alignment = StringAlignment.Near;
-			m_format.LineAlignment= StringAlignment.Center;
-			BackColor = ColU.ToColor(HyperColor.Back);
-			ForeColor = ColU.ToColor(HyperColor.Fore);
 			this.Name = "HyperLabel";
 			this.TabStop= false;
 			this.Size = ControlDef.DefSize;

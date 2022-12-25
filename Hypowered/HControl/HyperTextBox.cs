@@ -87,8 +87,6 @@ namespace Hypowered
 		{
 			SetMyType(ControlType.TextBox);
 			m_ScriptCode = "//TextBox";
-			BackColor = ColU.ToColor(HyperColor.Back);
-			ForeColor = ColU.ToColor(HyperColor.Fore);
 			m_TextBox.BorderStyle = BorderStyle.FixedSingle;
 
 			this.Size = new Size(m_TextBox.Width,m_TextBox.Height);

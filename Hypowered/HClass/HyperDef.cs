@@ -80,7 +80,7 @@ namespace Hypowered
 	{
 		Back = 0xFF232323,
 		Dark = 0xFF1d1d1d,
-		Line = 0xFF313131,
+		Line = 0xFF515151,
 		LineRed = 0xFFFF3131,
 		Fore = 0xFFb9b9b9,
 		Forcus = 0xFF2c85de,

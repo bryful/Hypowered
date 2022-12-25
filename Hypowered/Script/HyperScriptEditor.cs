@@ -46,6 +46,7 @@ namespace Hypowered
 		}
 		public HyperScriptEditor()
 		{
+			this.Name = "HyperScriptEditor";
 			this.SetStyle(
 //ControlStyles.Selectable |
 //ControlStyles.UserMouse |
@@ -66,29 +67,9 @@ true);
 		{
 			if (m_HyperForm != null)
 			{
-				List<ToolStripMenuItem> list = new List<ToolStripMenuItem>();
-				if (m_HyperForm.Controls.Count>0)
-				{
-					foreach(Control c in m_HyperForm.Controls)
-					{
-
-						if( c is HyperControl)
-						{
-							HyperControl hc = (HyperControl)c;
-							ToolStripMenuItem mi = new ToolStripMenuItem();
-							if (m_HyperControl != null) 
-							{
-								mi.Checked = (hc.Index == m_HyperControl.Index);
-							}
-							mi.Text = hc.Name;
-							mi.Tag = (object)hc.Index;
-							mi.Click += Mi_Click;
-							list.Add(mi);
-						}
-					}
-				}
+				ToolStripMenuItem[] m =  m_HyperForm.GetMenuControls(m_HyperControl, Mi_Click);
 				menuControl.DropDownItems.Clear();
-				menuControl.DropDownItems.AddRange(list.ToArray());
+				menuControl.DropDownItems.AddRange(m);
 
 			}
 
@@ -99,9 +80,9 @@ true);
 			if ((m_HyperForm!=null)&&(m_HyperControl!=null))
 			{
 				ToolStripMenuItem? mi = (ToolStripMenuItem?)sender;
-				if (mi != null)
+				if ((mi != null)&&(mi.Tag is HyperControl))
 				{
-					SetHyperControl((HyperControl)m_HyperForm.Controls[(int)mi.Tag]);
+					SetHyperControl((HyperControl)mi.Tag);
 				}
 			}
 			

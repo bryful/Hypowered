@@ -113,9 +113,6 @@ namespace Hypowered
 			{
 				this.Size = new Size(this.Width, m_ListBox.Height);
 			}
-			base.BackColor = ColU.ToColor(HyperColor.Back);
-			base.ForeColor = ColU.ToColor(HyperColor.Fore);
-			m_ForcusColor = ColU.ToColor(HyperColor.Forcus);
 
 			m_ListBox.BackColor =base.BackColor;
 			m_ListBox.ForeColor = base.ForeColor;

@@ -100,7 +100,14 @@ true);
 
 			InitScript();
 		}
+		protected override void OnFormClosed(FormClosedEventArgs e)
+		{
+			base.OnFormClosed(e);
 
+			if(PropForm!=null) PropForm.Dispose();
+			if(ControlList!=null) ControlList.Dispose();
+			if(Editor!=null) Editor.Dispose();
+		}
 
 
 
@@ -248,7 +255,11 @@ true);
 						}
 					}
 				}
+				p.Width = 1;
+				p.Color = ForeColor;
+				g.DrawRectangle(p,new Rectangle(0,0,Width-1,Height-1));
 			}
+			
 		}
 
 		// ******************************************************************************
@@ -325,6 +336,44 @@ true);
 				
 			}
 			return ret;
+		}
+		public HyperControl[] GetControls()
+		{
+			List<HyperControl> list = new List<HyperControl>();
+			if (this.Controls.Count > 0)
+			{
+				foreach (Control c in this.Controls)
+				{
+					if (c is HyperControl)
+					{
+						HyperControl hc = (HyperControl)c;
+						list.Add(hc);
+					}
+				}
+			}
+			return list.ToArray();
+		}
+		public ToolStripMenuItem[] GetMenuControls(HyperControl? target, System.EventHandler func)
+		{
+			List<ToolStripMenuItem> list = new List<ToolStripMenuItem>();
+			if (this.Controls.Count > 0)
+			{
+				foreach (Control c in this.Controls)
+				{
+					if (c is not HyperControl) continue;
+					HyperControl hc = (HyperControl)c;
+					ToolStripMenuItem mi = new ToolStripMenuItem();
+					if (target != null)
+					{
+						mi.Checked = (hc.Index == target.Index);
+					}
+					mi.Text = hc.Name;
+					mi.Tag = (object)hc;
+					mi.Click += func;
+					list.Add(mi);
+				}
+			}
+			return list.ToArray();
 		}
 	}
 }

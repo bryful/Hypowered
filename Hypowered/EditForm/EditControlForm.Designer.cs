@@ -28,21 +28,19 @@
 		/// </summary>
 		private void InitializeComponent()
 		{
-			System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(EditControlForm));
 			this.label1 = new System.Windows.Forms.Label();
 			this.tbName = new System.Windows.Forms.TextBox();
 			this.tbText = new System.Windows.Forms.TextBox();
 			this.label2 = new System.Windows.Forms.Label();
-			this.btnScript = new System.Windows.Forms.Button();
 			this.btnFont = new System.Windows.Forms.Button();
 			this.btnCancel = new System.Windows.Forms.Button();
 			this.btnOK = new System.Windows.Forms.Button();
 			this.label3 = new System.Windows.Forms.Label();
 			this.editControlComb1 = new Hypowered.EditControlComb();
 			this.toolStripButton1 = new System.Windows.Forms.ToolStripButton();
-			this.toolStrip1 = new System.Windows.Forms.ToolStrip();
+			this.toolStrip = new System.Windows.Forms.ToolStrip();
 			this.lbInfo = new System.Windows.Forms.Label();
-			this.toolStrip1.SuspendLayout();
+			this.toolStrip.SuspendLayout();
 			this.SuspendLayout();
 			// 
 			// label1
@@ -89,25 +87,13 @@
 			this.label2.TabIndex = 5;
 			this.label2.Text = "Text";
 			// 
-			// btnScript
-			// 
-			this.btnScript.Enabled = false;
-			this.btnScript.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-			this.btnScript.ForeColor = System.Drawing.Color.Gainsboro;
-			this.btnScript.Location = new System.Drawing.Point(31, 165);
-			this.btnScript.Name = "btnScript";
-			this.btnScript.Size = new System.Drawing.Size(55, 40);
-			this.btnScript.TabIndex = 7;
-			this.btnScript.Text = "Script";
-			this.btnScript.UseVisualStyleBackColor = true;
-			// 
 			// btnFont
 			// 
 			this.btnFont.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
 			this.btnFont.ForeColor = System.Drawing.Color.Gainsboro;
-			this.btnFont.Location = new System.Drawing.Point(97, 165);
+			this.btnFont.Location = new System.Drawing.Point(30, 165);
 			this.btnFont.Name = "btnFont";
-			this.btnFont.Size = new System.Drawing.Size(55, 40);
+			this.btnFont.Size = new System.Drawing.Size(55, 30);
 			this.btnFont.TabIndex = 8;
 			this.btnFont.Text = "Font";
 			this.btnFont.UseVisualStyleBackColor = true;
@@ -120,7 +106,7 @@
 			this.btnCancel.ForeColor = System.Drawing.Color.Gainsboro;
 			this.btnCancel.Location = new System.Drawing.Point(191, 165);
 			this.btnCancel.Name = "btnCancel";
-			this.btnCancel.Size = new System.Drawing.Size(55, 40);
+			this.btnCancel.Size = new System.Drawing.Size(55, 30);
 			this.btnCancel.TabIndex = 9;
 			this.btnCancel.Text = "Cancel";
 			this.btnCancel.UseVisualStyleBackColor = true;
@@ -132,7 +118,7 @@
 			this.btnOK.ForeColor = System.Drawing.Color.Gainsboro;
 			this.btnOK.Location = new System.Drawing.Point(252, 165);
 			this.btnOK.Name = "btnOK";
-			this.btnOK.Size = new System.Drawing.Size(55, 40);
+			this.btnOK.Size = new System.Drawing.Size(55, 30);
 			this.btnOK.TabIndex = 10;
 			this.btnOK.Text = "OK";
 			this.btnOK.UseVisualStyleBackColor = true;
@@ -151,6 +137,7 @@
 			// editControlComb1
 			// 
 			this.editControlComb1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(35)))), ((int)(((byte)(35)))), ((int)(((byte)(35)))));
+			this.editControlComb1.ControlType = Hypowered.ControlType.Button;
 			this.editControlComb1.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
 			this.editControlComb1.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
 			this.editControlComb1.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(185)))), ((int)(((byte)(185)))), ((int)(((byte)(185)))));
@@ -164,21 +151,23 @@
 			// 
 			this.toolStripButton1.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
 			this.toolStripButton1.ForeColor = System.Drawing.Color.DarkGray;
-			this.toolStripButton1.Image = ((System.Drawing.Image)(resources.GetObject("toolStripButton1.Image")));
 			this.toolStripButton1.ImageTransparentColor = System.Drawing.Color.Magenta;
 			this.toolStripButton1.Name = "toolStripButton1";
 			this.toolStripButton1.Size = new System.Drawing.Size(35, 22);
 			this.toolStripButton1.Text = "New";
 			// 
-			// toolStrip1
+			// toolStrip
 			// 
-			this.toolStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+			this.toolStrip.GripStyle = System.Windows.Forms.ToolStripGripStyle.Hidden;
+			this.toolStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.toolStripButton1});
-			this.toolStrip1.Location = new System.Drawing.Point(0, 0);
-			this.toolStrip1.Name = "toolStrip1";
-			this.toolStrip1.Size = new System.Drawing.Size(335, 25);
-			this.toolStrip1.TabIndex = 0;
-			this.toolStrip1.Text = "toolStrip1";
+			this.toolStrip.LayoutStyle = System.Windows.Forms.ToolStripLayoutStyle.HorizontalStackWithOverflow;
+			this.toolStrip.Location = new System.Drawing.Point(0, 0);
+			this.toolStrip.Name = "toolStrip";
+			this.toolStrip.ShowItemToolTips = false;
+			this.toolStrip.Size = new System.Drawing.Size(332, 25);
+			this.toolStrip.TabIndex = 0;
+			this.toolStrip.Text = "toolStrip1";
 			// 
 			// lbInfo
 			// 
@@ -195,7 +184,7 @@
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
 			this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(30)))), ((int)(((byte)(30)))), ((int)(((byte)(30)))));
 			this.CancelButton = this.btnCancel;
-			this.ClientSize = new System.Drawing.Size(335, 217);
+			this.ClientSize = new System.Drawing.Size(332, 208);
 			this.ControlBox = false;
 			this.Controls.Add(this.lbInfo);
 			this.Controls.Add(this.editControlComb1);
@@ -203,18 +192,17 @@
 			this.Controls.Add(this.btnOK);
 			this.Controls.Add(this.btnCancel);
 			this.Controls.Add(this.btnFont);
-			this.Controls.Add(this.btnScript);
 			this.Controls.Add(this.tbText);
 			this.Controls.Add(this.label2);
 			this.Controls.Add(this.tbName);
 			this.Controls.Add(this.label1);
-			this.Controls.Add(this.toolStrip1);
+			this.Controls.Add(this.toolStrip);
 			this.ForeColor = System.Drawing.Color.Gainsboro;
 			this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
 			this.Name = "EditControlForm";
 			this.Text = "EditControlForm";
-			this.toolStrip1.ResumeLayout(false);
-			this.toolStrip1.PerformLayout();
+			this.toolStrip.ResumeLayout(false);
+			this.toolStrip.PerformLayout();
 			this.ResumeLayout(false);
 			this.PerformLayout();
 
@@ -225,14 +213,13 @@
 		private TextBox tbName;
 		private TextBox tbText;
 		private Label label2;
-		private Button btnScript;
 		private Button btnFont;
 		private Button btnCancel;
 		private Button btnOK;
 		private Label label3;
 		private EditControlComb editControlComb1;
 		private ToolStripButton toolStripButton1;
-		private ToolStrip toolStrip1;
+		private ToolStrip toolStrip;
 		private Label lbInfo;
 	}
 }

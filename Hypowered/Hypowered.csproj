@@ -14,6 +14,7 @@
     <PackageReference Include="Microsoft.ClearScript.V8" Version="7.3.6" />
     <PackageReference Include="Microsoft.ClearScript.V8.Native.win-x64" Version="7.3.6" />
     <PackageReference Include="Microsoft.ClearScript.V8.Native.win-x86" Version="7.3.6" />
+    <PackageReference Include="System.Management.dll" Version="1.0.0" />
   </ItemGroup>
 
   <ItemGroup>

@@ -49,13 +49,6 @@ namespace Hypowered
 				this.Invalidate(); 
 			}
 		}
-		private StringFormat m_format = new StringFormat();
-		[Category("Hypowerd_Text")]
-		public StringAlignment TextAligiment
-		{
-			get { return m_format.Alignment; }
-			set { m_format.Alignment = value; this.Invalidate(); }
-		}
 		private int m_CheckSize;
 		[Category("Hypowerd_CheckBox")]
 		public int CheckSize
@@ -63,20 +56,11 @@ namespace Hypowered
 			get { return m_CheckSize; }
 			set { m_CheckSize = value; this.Invalidate(); }
 		}
-		protected Color m_UnCheckedColor = Color.White;
-		[Category("Hypowerd_Color")]
-		public Color UnCheckedColor
-		{
-			get { return m_UnCheckedColor; }
-			set { m_UnCheckedColor = value; this.Invalidate(); }
-		}
+
 		public HyperCheckBox()
 		{
 			SetMyType(ControlType.CheckBox);
 			m_ScriptCode = "//CheckBox";
-			m_format.Alignment = StringAlignment.Near;
-			m_format.LineAlignment = StringAlignment.Center;
-			m_UnCheckedColor = ColU.ToColor(HyperColor.Dark);
 			m_CheckSize = 16;
 			this.Size = ControlDef.DefSize;
 			InitializeComponent();

@@ -16,6 +16,7 @@ namespace Hypowered
 		public int Right { get { return Left + Width; } }
 		public FuncType? Func = null;
 		public Keys Key = Keys.None;
+		public bool Visibled = true;
 		//public ContextMenuStrip? Menu = null;
 		public List<HyperMenuItem?> Items = new List<HyperMenuItem?>();
 		public HyperMenuItem(Control? fm, string c, FuncItem? f)
@@ -179,6 +180,23 @@ namespace Hypowered
 					x += item.Width;
 					idx++;
 				}
+			}
+		}
+		public bool GetMenuVisibled(int index)
+		{
+			bool ret = false;
+			if ((m_Items!=null)&&(index >= 0) && (index < m_Items.Count))
+			{
+				ret = m_Items[index].Checked;
+			}
+			return ret;
+		}
+		public void SetMenuVisibled(int index, bool on)
+		{
+			if ((m_Items != null) && (index >= 0) && (index < m_Items.Count))
+			{
+				m_Items[index].Checked = on;
+				ChkWidth();
 			}
 		}
 	}
