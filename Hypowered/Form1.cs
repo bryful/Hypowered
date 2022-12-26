@@ -15,6 +15,28 @@ namespace Hypowered
 			InitializeComponent();
 
 			ChkControls();
-		}		
+		}
+
+		private void Button1_Click(object sender, EventArgs e)
+		{
+			/*
+
+			var properties = hyperControl1.GetType().GetProperties();
+			List<string> values = new List<string>();
+			foreach ( var property in properties )
+			{
+				values.Add(property.Name +":\t" +property.ToString());
+			}
+			textBox1.Lines= values.ToArray();	
+			*/
+			//int width = this.Width;
+			//textBox1.Text = nameof(width) + ":" + width.GetType().Name;
+
+		}
+
+		private void Form1_Load(object sender, EventArgs e)
+		{
+
+		}
 	}
 }

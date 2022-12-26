@@ -12,14 +12,7 @@ namespace Hypowered
 {
 	public partial class HyperRadioButton : HyperControl
 	{
-		public class RButtonChangedEventArgs : EventArgs
-		{
-			public int Index;
-			public RButtonChangedEventArgs(int v)
-			{
-				Index = v;
-			}
-		}
+
 		public delegate void RButtonChangedHandler(object sender, RButtonChangedEventArgs e);
 		public event RButtonChangedHandler? RButtonChanged;
 		protected virtual void OnRButtonChanged(RButtonChangedEventArgs e)

@@ -322,6 +322,12 @@ true);
 				case ControlType.DropdownList:
 					ctrl = new HyperDropdownList();
 					break;
+				case ControlType.DriveIcons:
+					ctrl = new HyperDriveIcons();
+					break;
+				case ControlType.DirList:
+					ctrl = new HyperDirList();
+					break;
 				default:
 					break;
 			}

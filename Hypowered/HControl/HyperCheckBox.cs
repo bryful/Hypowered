@@ -11,14 +11,7 @@ using static System.Windows.Forms.DataFormats;
 
 namespace Hypowered
 {
-	public class CheckedChangedEventArgs : EventArgs
-	{
-		public bool Checked;
-		public CheckedChangedEventArgs(bool v)
-		{
-			Checked = v;
-		}
-	}
+	
 	public partial class HyperCheckBox : HyperControl
 	{
 		public delegate void CheckedChangedHandler(object sender, CheckedChangedEventArgs e);

@@ -11,14 +11,7 @@ using System.Windows.Forms;
 
 namespace Hypowered
 {
-	public class SelectedIndexChangedEventArgs : EventArgs
-	{
-		public int SelectedIndex;
-		public SelectedIndexChangedEventArgs(int v)
-		{
-			SelectedIndex = v;
-		}
-	}
+	
 	public partial class HyperDropdownList : HyperControl
 	{
 		public delegate void SelectedIndexChangedHandler(object sender, SelectedIndexChangedEventArgs e);
@@ -51,7 +44,12 @@ namespace Hypowered
 			if (m_SelectedIndex != idx)
 			{
 				m_SelectedIndex = idx;
-				OnSelectedIndexChanged(new SelectedIndexChangedEventArgs(idx));
+				string s = "";
+				if((m_SelectedIndex>=0)&&(m_SelectedIndex < m_Items.Count))
+				{
+					s = m_Items[m_SelectedIndex].ToString();
+				}
+				OnSelectedIndexChanged(new SelectedIndexChangedEventArgs(idx,s));
 			}
 			this.Invalidate();
 		}

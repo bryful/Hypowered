@@ -40,6 +40,7 @@
 			this.toolStripButton1 = new System.Windows.Forms.ToolStripButton();
 			this.toolStrip = new System.Windows.Forms.ToolStrip();
 			this.lbInfo = new System.Windows.Forms.Label();
+			this.button1 = new System.Windows.Forms.Button();
 			this.toolStrip.SuspendLayout();
 			this.SuspendLayout();
 			// 
@@ -177,6 +178,18 @@
 			this.lbInfo.TabIndex = 11;
 			this.lbInfo.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			// 
+			// button1
+			// 
+			this.button1.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+			this.button1.ForeColor = System.Drawing.Color.Gainsboro;
+			this.button1.Location = new System.Drawing.Point(97, 166);
+			this.button1.Name = "button1";
+			this.button1.Size = new System.Drawing.Size(55, 30);
+			this.button1.TabIndex = 12;
+			this.button1.Text = "Test";
+			this.button1.UseVisualStyleBackColor = true;
+			this.button1.Click += new System.EventHandler(this.Button1_Click);
+			// 
 			// EditControlForm
 			// 
 			this.AcceptButton = this.btnOK;
@@ -186,6 +199,7 @@
 			this.CancelButton = this.btnCancel;
 			this.ClientSize = new System.Drawing.Size(332, 208);
 			this.ControlBox = false;
+			this.Controls.Add(this.button1);
 			this.Controls.Add(this.lbInfo);
 			this.Controls.Add(this.editControlComb1);
 			this.Controls.Add(this.label3);
@@ -221,5 +235,6 @@
 		private ToolStripButton toolStripButton1;
 		private ToolStrip toolStrip;
 		private Label lbInfo;
+		private Button button1;
 	}
 }

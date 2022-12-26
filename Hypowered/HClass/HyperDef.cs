@@ -33,7 +33,8 @@ namespace Hypowered
 		DropdownList,
 
 		DriveIcons,
-		FileListBox,
+		DirList,
+		FileList,
 	}
 	
 	/// <summary>
@@ -134,5 +135,39 @@ namespace Hypowered
 	{
 		static public Size DefSize = new Size(120, 25);
 	}
-
+	// *************************************************************************
+	public class CheckedChangedEventArgs : EventArgs
+	{
+		public bool Checked;
+		public CheckedChangedEventArgs(bool v)
+		{
+			Checked = v;
+		}
+	}
+	public class SelectedIndexChangedEventArgs : EventArgs
+	{
+		public int SelectedIndex;
+		public string Value;
+		public SelectedIndexChangedEventArgs(int v, string s)
+		{
+			SelectedIndex = v;
+			Value = s;
+		}
+	}
+	public class RButtonChangedEventArgs : EventArgs
+	{
+		public int Index;
+		public RButtonChangedEventArgs(int v)
+		{
+			Index = v;
+		}
+	}
+	public class CurrentDirChangedEventArgs : EventArgs
+	{
+		public string Path;
+		public CurrentDirChangedEventArgs(string v)
+		{
+			Path = v;
+		}
+	}
 }

@@ -1,0 +1,1020 @@
+﻿using Newtonsoft.Json.Linq;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Text.Json;
+using System.Text.Json.Nodes;
+using System.Threading.Tasks;
+
+namespace Hypowered
+{
+
+	public class JsonFile
+	{
+		// *********************************************************************************************************
+		public JsonObject? Obj = null;
+		// *********************************************************************************************************
+		public JsonFile(JsonObject? obj = null)
+		{
+			Obj = obj;
+			if (Obj == null) Obj = new JsonObject();
+
+			m_AppName = Path.GetFileNameWithoutExtension(Application.ExecutablePath);
+			m_AppDataDirectory = GetAppDataPath();
+			m_AppDataPath = Path.Combine(m_AppDataDirectory, m_AppName+".json");
+		}
+		// *********************************
+		private string m_AppName = "";
+		public string AppName { get { return m_AppName; } }
+		// *********************************
+		private string m_AppDataPath = "";
+		public string AppDataPath { get { return m_AppDataPath; } }
+		private string m_AppDataDirectory = "";
+		public string AppDataDirectory { get { return m_AppDataDirectory; } }
+		// *********************************
+		// ****************************************************
+		static public string GetAppDataPath()
+		{
+			return GetFileSystemPath(Environment.SpecialFolder.ApplicationData);
+		}
+		// ****************************************************
+		static public string GetFileSystemPath(Environment.SpecialFolder folder)
+		{
+			// パスを取得
+			string path = String.Format(@"{0}\{1}",//\{2}
+			  Environment.GetFolderPath(folder),  // ベース・パス
+												  //Application.CompanyName,            // 会社名
+			  Application.ProductName
+			  );           // 製品名
+
+			// パスのフォルダを作成
+			lock (typeof(Application))
+			{
+				if (!Directory.Exists(path))
+				{
+					Directory.CreateDirectory(path);
+				}
+			}
+			return path;
+		}
+		// ****************************************************
+		public string? ToJson()
+		{
+			if (Obj != null)
+			{
+				return Obj.ToJsonString();
+			}
+			else
+			{
+				return null;
+			}
+
+		}
+		// ****************************************************
+		public void FromJson(string? js)
+		{
+			try
+			{
+				if ((js==null)||(js == "")) return;
+				var doc = JsonNode.Parse(js);
+				if (doc != null)
+				{
+					Obj = (JsonObject)doc;
+				}
+			}
+			catch
+			{
+				Obj = new JsonObject();
+			}
+		}       
+		// ****************************************************
+		public bool Save(string p)
+		{
+			bool ret = false;
+			try
+			{
+				string? js = ToJson();
+				if (js != null)
+				{
+					File.WriteAllText(p, js);
+					ret = true;
+				}
+			}
+			catch
+			{
+				ret = false;
+			}
+			return ret;
+		}
+
+		// ****************************************************
+		public bool Load(string p)
+		{
+			bool ret = false;
+
+			try
+			{
+				if (File.Exists(p) == true)
+				{
+					string str = File.ReadAllText(p);
+					if (str != "")
+					{
+						FromJson(str);
+						ret = true;
+					}
+				}
+			}
+			catch
+			{
+				Obj = new JsonObject();
+				ret = false;
+			}
+			return ret;
+		}
+		public JsonArray ColorToJson(Color c)
+		{
+			JsonArray ja = new JsonArray();
+			ja.Add(c.A);
+			ja.Add(c.R);
+			ja.Add(c.G);
+			ja.Add(c.B);
+			return ja;
+		}
+		// *********************************************************************************************************
+		public Color? ColorFromJson(JsonNode? jo)
+		{
+			Color? ret = null;
+			JsonArray? ja = jo.AsArray();
+			if (ja == null) return ret;
+			int a = 255;
+			int r = 255;
+			int g = 255;
+			int b = 255;
+			if (ja.Count >= 4)
+			{
+				a = ja[0].GetValue<int>();
+				r = ja[1].GetValue<int>();
+				g = ja[2].GetValue<int>();
+				b = ja[3].GetValue<int>();
+			}
+			else if (ja.Count == 3)
+			{
+				r = ja[0].GetValue<int>();
+				g = ja[1].GetValue<int>();
+				b = ja[2].GetValue<int>();
+			}
+			else
+			{
+				return ret;
+			}
+			return Color.FromArgb(a, r, g, b);
+		}
+		// *****************************************************************
+		static public JsonArray RectangleToJsonArray(Rectangle sz)
+		{
+			JsonArray arr = new JsonArray();
+			arr.Add(sz.Left);
+			arr.Add(sz.Top);
+			arr.Add(sz.Width);
+			arr.Add(sz.Height);
+			return arr;
+		}
+		static public Rectangle? RectangleFromJson(JsonObject jo)
+		{
+			Rectangle? ret = null;
+			JsonArray? ar = jo.AsArray();
+			if (ar == null) return ret;
+			if (ar.Count >= 4)
+			{
+				ret = new Rectangle(
+					ar[0].GetValue<int>(),
+					ar[1].GetValue<int>(),
+					ar[2].GetValue<int>(),
+					ar[3].GetValue<int>()
+					);
+			}
+			return ret;
+		}
+		static public JsonArray PaddingToJson(Padding p)
+		{
+			JsonArray arr = new JsonArray();
+			arr.Add(p.Left);
+			arr.Add(p.Top);
+			arr.Add(p.Right);
+			arr.Add(p.Bottom);
+			return arr;
+		}
+		static public Padding? PaddingFromJson(JsonObject jo)
+		{
+			Padding? ret = null;
+			JsonArray ar = jo.AsArray();
+			if (ar == null) return ret;
+			if (ar.Count >= 4)
+			{
+				ret = new Padding(
+					ar[0].GetValue<int>(),
+					ar[1].GetValue<int>(),
+					ar[2].GetValue<int>(),
+					ar[3].GetValue<int>()
+					);
+			}
+			return ret;
+		}
+		// *********
+		static public JsonArray PointToJson(Point p)
+		{
+			JsonArray arr = new JsonArray();
+			arr.Add(p.X);
+			arr.Add(p.Y);
+			return arr;
+		}
+		static public Point? PointFromJson(JsonNode? jo)
+		{
+			Point? ret = null;
+			if (jo == null) return ret;
+			JsonArray ar = jo.AsArray();
+			if (ar == null) return ret;
+			if (ar.Count >= 2)
+			{
+				ret = new Point(
+					ar[0].GetValue<int>(),
+					ar[1].GetValue<int>()
+
+					);
+			}
+			return ret;
+		}
+		// *********
+		static public JsonArray SizeToJson(Size p)
+		{
+			JsonArray arr = new JsonArray();
+			arr.Add(p.Width);
+			arr.Add(p.Height);
+			return arr;
+		}
+		static public Size? SizeFromJson(JsonNode? jo)
+		{
+			Size? ret = null;
+			if (jo == null) return ret;
+			JsonArray ar = jo.AsArray();
+			if (ar == null) return ret;
+			if (ar.Count >= 2)
+			{
+				ret = new Size(
+					ar[0].GetValue<int>(),
+					ar[1].GetValue<int>()
+					);
+			}
+			return ret;
+		}
+		// *********************************************************************************************************
+		public void SetValue(string key, JsonNode? value)
+		{
+			if (Obj != null)
+			{
+				if (Obj.ContainsKey(key))
+				{
+					Obj[key] = value;
+				}
+				else
+				{
+					Obj.Add(key, value);
+				}
+			}
+		}
+		public void SetValue(string key, Color c)
+		{
+			if (Obj == null) return;
+			JsonArray ja = ColorToJson(c);
+			if (Obj.ContainsKey(key))
+			{
+				Obj[key] = ja;
+			}
+			else
+			{
+				Obj.Add(key, ja);
+			}
+		}
+		public void SetValue(string key, Color[] c)
+		{
+			if (Obj == null) return;
+			JsonArray ja = new JsonArray();
+			if (c.Length > 0)
+			{
+				for (int i = 0; i < c.Length; i++)
+				{
+					JsonArray ja1 = ColorToJson(c[i]);
+					ja.Add(ja1);
+				}
+			}
+			if (Obj.ContainsKey(key))
+			{
+				Obj[key] = ja;
+
+			}
+			else
+			{
+				Obj.Add(key, ja);
+			}
+		}
+
+		public void SetValue(string key, Point p)
+		{
+			if (Obj == null) return;
+			JsonArray ja = PointToJson(p);
+			if (Obj.ContainsKey(key))
+			{
+				Obj[key] = ja;
+
+			}
+			else
+			{
+				Obj.Add(key, ja);
+			}
+		}
+
+		public void SetValue(string key, Size sz)
+		{
+			if (Obj == null) return;
+			JsonArray ja = SizeToJson(sz);
+			if (Obj.ContainsKey(key))
+			{
+				Obj[key] = ja;
+
+			}
+			else
+			{
+				Obj.Add(key, ja);
+			}
+		}
+		// ****************
+		
+		public void SetValue(string key, StringAlignment sa)
+		{
+			if (Obj == null) return;
+			
+			if (Obj.ContainsKey(key))
+			{
+				Obj[key] = (int)sa;
+
+			}
+			else
+			{
+				Obj.Add(key, (int)sa);
+			}
+		}
+		// ****************
+	
+		public void SetValue(string key, AnchorStyles sa)
+		{
+			if (Obj == null) return;
+
+			if (Obj.ContainsKey(key))
+			{
+				Obj[key] = (int)sa;
+
+			}
+			else
+			{
+				Obj.Add(key, (int)sa);
+			}
+		}
+		public void SetValue(string key, DockStyle sa)
+		{
+			if (Obj == null) return;
+
+			if (Obj.ContainsKey(key))
+			{
+				Obj[key] = (int)sa;
+
+			}
+			else
+			{
+				Obj.Add(key, (int)sa);
+			}
+		}
+		public void SetValue(string key, ControlType? sa)
+		{
+			if (Obj == null) return;
+
+			if (Obj.ContainsKey(key))
+			{
+				Obj[key] = (int)sa;
+
+			}
+			else
+			{
+				Obj.Add(key, (int)sa);
+			}
+		}
+		public void SetValue(string key, ImeMode sa)
+		{
+			if (Obj == null) return;
+
+			if (Obj.ContainsKey(key))
+			{
+				Obj[key] = (int)sa;
+
+			}
+			else
+			{
+				Obj.Add(key, (int)sa);
+			}
+		}
+		public void SetValue(string key, Padding p)
+		{
+			if (Obj == null) return;
+			JsonArray ja = PaddingToJson(p);
+			if (Obj.ContainsKey(key))
+			{
+				Obj[key] = ja;
+
+			}
+			else
+			{
+				Obj.Add(key, ja);
+			}
+		}
+		public void SetValue(string key, Rectangle p)
+		{
+			if (Obj == null) return;
+			JsonArray ja = RectangleToJsonArray(p);
+			if (Obj.ContainsKey(key))
+			{
+				Obj[key] = ja;
+
+			}
+			else
+			{
+				Obj.Add(key, ja);
+			}
+		}
+		public void SetValue(string key, Font p)
+		{
+			if (Obj == null) return;
+			JsonObject jo = new JsonObject();
+			jo.Add("Name", p.Name);
+			jo.Add("Size", p.Size);
+			jo.Add("Style", (int)p.Style);
+			if (Obj.ContainsKey(key))
+			{
+				Obj[key] = jo;
+
+			}
+			else
+			{
+				Obj.Add(key, jo);
+			}
+		}
+		// *********************************
+		public void SetValue(string key, JsonArray jo)
+		{
+			if (Obj == null) return;
+			if (Obj.ContainsKey(key))
+			{
+				Obj[key] = jo;
+
+			}
+			else
+			{
+				Obj.Add(key, jo);
+			}
+		}
+		// *********************************
+		public void SetValue(string key, string[] ary)
+		{
+			if (Obj == null) return;
+			JsonArray ja = new JsonArray();
+			if(ary.Length>0)
+			{
+				foreach(string s in ary)
+				{
+					ja.Add(s);
+				}
+			}
+
+
+			if (Obj.ContainsKey(key))
+			{
+				Obj[key] = ja;
+
+			}
+			else
+			{
+				Obj.Add(key, ja);
+			}
+		}
+		 // ***************************************************
+		public JsonArray? ValueArray(string key)
+		{
+			JsonArray? ary = null;
+			if (Obj == null) return ary;
+			if (Obj.ContainsKey(key))
+			{
+				if (Obj[key] is JsonArray)
+				{
+					ary = Obj[key].AsArray();
+				}
+			}
+			return ary;
+		}
+		public string? ValueStr(string key)
+		{
+			string? ret = null;
+			if (Obj != null)
+			{
+				if (Obj.ContainsKey(key))
+				{
+					ret = Obj[key].GetValue<string?>();
+				}
+			}
+			return ret;
+		}
+		public string[]? ValueStrArray(string key)
+		{
+			string[]? ret = null;
+			if (Obj != null)
+			{
+				JsonArray? ary = ValueArray(key);
+				if ((ary != null) && (ary.Count > 0))
+				{
+					List<string> list = new List<string>();
+					foreach (var s in ary)
+					{
+						string? ss = s.GetValue<string?>();
+						if (ss != null)
+						{
+							list.Add((string)ss);
+						}
+						else
+						{
+							list.Add("");
+						}
+					}
+					ret = list.ToArray();
+				}
+			}	
+			return ret;
+		}
+		public int? ValueInt(string key)
+		{
+			int? ret = null;
+			if (Obj != null)
+			{
+				if (Obj.ContainsKey(key))
+				{
+					ret = Obj[key].GetValue<int?>();
+				}
+			}
+			return ret;
+		}
+		public StringAlignment? ValueStringAlignment(string key)
+		{
+			StringAlignment? ret = null;
+			if (Obj != null)
+			{
+				if (Obj.ContainsKey(key))
+				{
+					int? v = Obj[key].GetValue<int?>();
+					if(v!=null)
+					{
+						ret = (StringAlignment?)v;
+					}
+				}
+			}
+			return ret;
+		}
+		public int[]? ValueIntArray(string key)
+		{
+			int[]? ret = null;
+			if (Obj != null)
+			{
+				JsonArray? ary = ValueArray(key);
+				if ((ary != null) && (ary.Count > 0))
+				{
+					List<int> list = new List<int>();
+					foreach (var s in ary)
+					{
+						int? ss = s.GetValue<int?>();
+						if (ss != null)
+						{
+							list.Add((int)ss);
+						}
+					}
+					ret = list.ToArray();
+				}
+			}
+			return ret;
+		}
+		public float? ValueFloat(string key)
+		{
+			float? ret = null;
+			if (Obj != null)
+			{
+				if (Obj.ContainsKey(key))
+				{
+					ret = Obj[key].GetValue<float?>();
+				}
+			}
+			return ret;
+		}
+		public float[]? ValueFloatArray(string key)
+		{
+			float[]? ret = null;
+			if (Obj != null)
+			{
+				JsonArray? ary = ValueArray(key);
+				if ((ary != null) && (ary.Count > 0))
+				{
+					List<float> list = new List<float>();
+					foreach (var s in ary)
+					{
+						float? ss = s.GetValue<float?>();
+						if (ss != null)
+						{
+							list.Add((float)ss);
+						}
+					}
+					ret = list.ToArray();
+				}
+			}
+			return ret;
+		}
+		public double? ValueDouble(string key)
+		{
+			double? ret = null;
+			if (Obj != null)
+			{
+				if (Obj.ContainsKey(key))
+				{
+					ret = Obj[key].GetValue<double?>();
+				}
+			}
+			return ret;
+		}
+
+		public double[]? ValueDoubleArray(string key)
+		{
+			double[]? ret = null;
+			if (Obj != null)
+			{
+				JsonArray? ary = ValueArray(key);
+				if ((ary != null) && (ary.Count > 0))
+				{
+					List<double> list = new List<double>();
+					foreach (var s in ary)
+					{
+						double? ss = s.GetValue<double?>();
+						if (ss != null)
+						{
+							list.Add((double)ss);
+						}
+					}
+					ret = list.ToArray();
+				}
+			}
+			return ret;
+		}
+		public bool? ValueBool(string key)
+		{
+			bool? ret = null;
+			if (Obj != null)
+			{
+				if (Obj.ContainsKey(key))
+				{
+					ret = Obj[key].GetValue<bool?>();
+				}
+			}
+			return ret;
+		}
+		public bool[]? ValueBoolArray(string key)
+		{
+			bool[]? ret = null;
+			if (Obj != null)
+			{
+				JsonArray? ary = ValueArray(key);
+				if ((ary != null) && (ary.Count > 0))
+				{
+					List<bool> list = new List<bool>();
+					foreach (var s in ary)
+					{
+						bool? ss = s.GetValue<bool?>();
+						if (ss != null)
+						{
+							list.Add((bool)ss);
+						}
+					}
+					ret = list.ToArray();
+				}
+			}
+			return ret;
+		}
+		public Color? ValueColor(string key)
+		{
+			Color? ret = null;
+			if (Obj != null)
+			{
+				if (Obj.ContainsKey(key))
+				{
+					JsonArray? ja = Obj[key].AsArray();
+					ret = ColorFromJson(ja);
+				}
+			}
+			return ret;
+		}
+		public Color[]? GetValueColorArray(string key)
+		{
+			Color[]? ret = null;
+			if (Obj == null) return ret;
+			if (Obj.ContainsKey(key))
+			{
+				JsonArray? ja = Obj[key].AsArray();
+				if ((ja != null)&&(ja.Count>0))
+				{
+					List<Color> result = new List<Color>();
+					foreach(var o in ja)
+					{
+						if((o!=null)&&(o is JsonArray))
+						{
+							Color? cc = ColorFromJson(o);
+							if(cc!=null)
+							{
+								result.Add((Color)cc);
+							}
+
+						}
+					}
+					ret = result.ToArray();	
+				}
+			}
+			return ret;
+		}
+		// ****************************************************
+		public Point? ValuePoint(string key)
+		{
+			Point? ret = null;
+			if (Obj != null)
+			{
+				if (Obj.ContainsKey(key))
+				{
+					JsonArray? jo = Obj[key].AsArray();
+					Point? pt = PointFromJson(jo);
+
+				}
+			}
+			return ret;
+		}
+		// ****************************************************
+		public Size? ValueSize(string key)
+		{
+			Size? ret = null;
+			if (Obj != null)
+			{
+				if (Obj.ContainsKey(key))
+				{
+					JsonObject? jo = Obj[key].AsObject();
+					int? w = null;
+					int? h = null;
+					if (jo.ContainsKey("Width"))
+					{
+						w = jo["Width"].GetValue<int?>();
+					}
+					if (jo.ContainsKey("Height"))
+					{
+						h = jo["Height"].GetValue<int?>();
+					}
+					if ((w != null) && (h != null))
+					{
+						ret = new Size((int)w, (int)h);
+					}
+
+				}
+			}
+			return ret;
+		}
+		// ****************************************************
+		public Padding? ValueRadding(string key)
+		{
+			Padding? ret = null;
+			if (Obj != null)
+			{
+				if (Obj.ContainsKey(key))
+				{
+					JsonObject? jo = Obj[key].AsObject();
+					ret = PaddingFromJson(jo);
+				}
+			}
+			return ret;
+		}
+		// ****************************************************
+		public Rectangle? ValueRectangle(string key)
+		{
+			Rectangle? ret = null;
+			if (Obj != null)
+			{
+				if (Obj.ContainsKey(key))
+				{
+					JsonObject? jo = Obj[key].AsObject();
+					ret = RectangleFromJson(jo);
+				}
+			}
+			return ret;
+		}
+		// ****************************************************
+		public Font? ValueFont(string key)
+		{
+			Font? ret = null;
+			if (Obj != null)
+			{
+				if (Obj.ContainsKey(key))
+				{
+					JsonObject? jo = Obj[key].AsObject();
+					string? n = null;
+					float? sz = null;
+					FontStyle? fs = null;
+					string Key = "Name";
+					if (jo.ContainsKey(Key))
+					{
+						n = jo[Key].GetValue<string?>();
+					}
+					Key = "Size";
+					if (jo.ContainsKey(Key))
+					{
+						sz = jo[Key].GetValue<float?>();
+					}
+					Key = "Style";
+					if (jo.ContainsKey(Key))
+					{
+						fs = jo[Key].GetValue<FontStyle?>();
+					}
+					if ((n != null) && (sz != null) && (fs != null))
+					{
+						ret = new Font(n, (float)sz, (FontStyle)fs);
+					}
+				}
+			}
+			return ret;
+		}
+	
+		// ****************************************************
+		public AnchorStyles? ValueAnchorStyles(string key)
+		{
+			AnchorStyles? ret = null;
+			if (Obj != null)
+			{
+				if (Obj.ContainsKey(key))
+				{
+					uint? v = Obj[key].GetValue<uint?>();
+					if (v != null)
+					{
+						ret = (AnchorStyles?)v;
+					}
+				}
+			}
+			return ret;
+		}
+		public DockStyle? ValueDockStyle(string key)
+		{
+			DockStyle? ret = null;
+			if (Obj != null)
+			{
+				if (Obj.ContainsKey(key))
+				{
+					uint? v = Obj[key].GetValue<uint?>();
+					if (v != null)
+					{
+						ret = (DockStyle?)v;
+					}
+				}
+			}
+			return ret;
+		}
+		public ImeMode? ValueImeMode(string key)
+		{
+			ImeMode? ret = null;
+			if (Obj != null)
+			{
+				if (Obj.ContainsKey(key))
+				{
+					uint? v = Obj[key].GetValue<uint?>();
+					if (v != null)
+					{
+						ret = (ImeMode?)v;
+					}
+				}
+			}
+			return ret;
+		}
+		
+		// ****************************************************
+		public void StoreForm(Form fm)
+		{
+			if (fm == null) return;
+			SetValue("FormBounds", fm.Bounds);
+		}
+		// ****************************************************
+		public void RestoreForm(Form fm)
+		{
+			if (fm == null) return;
+			bool ok = false;
+			Rectangle? r = ValueRectangle("FormBounds");
+			if (r!=null)
+			{
+				fm.MaximumSize = new Size(65536, 65536);
+				fm.Bounds = (Rectangle)r;
+			}
+			if ((r==null) || (ScreenIn(r) == false))
+			{
+				Rectangle rct = Screen.PrimaryScreen.Bounds;
+				Point p = new Point((rct.Width - fm.Width) / 2, (rct.Height - fm.Height) / 2);
+				fm.Location = p;
+			}
+
+		}
+		// ****************************************************
+
+		// ****************************************************
+		public JsonObject? keyValue(string key)
+		{
+			JsonObject? ret = null;
+			if (key == "") return ret;
+			try
+			{
+				if (Obj.ContainsKey(key))
+				{
+					ret = Obj[key].AsObject();
+				}
+			}
+			catch
+			{
+				ret = null;
+			}
+			return ret;
+		}
+
+		// ****************************************************
+		static public bool IsInRect(Rectangle a, Rectangle b)
+		{
+			bool ret = true;
+
+			if ((a.Left > b.Left + b.Width) || (a.Left + a.Width < b.Left))
+			{
+				ret = false;
+			}
+			if ((a.Top > b.Top + b.Height) || (a.Top + a.Height < b.Top))
+			{
+				ret = false;
+			}
+			return ret;
+		}
+		// ****************************************************
+		static public bool ScreenIn(Rectangle? rct)
+		{
+			bool ret = false;
+			if (rct == null) return ret;
+			foreach (Screen s in Screen.AllScreens)
+			{
+				Rectangle r = s.WorkingArea;
+				if (IsInRect(r, (Rectangle)rct))
+				{
+					ret = true;
+					break;
+				}
+			}
+			return ret;
+		}
+		// ****************************************************
+		static public Rectangle NowScreen(Rectangle rct)
+		{
+			Rectangle ret = new Rectangle(0, 0, 0, 0);
+			foreach (Screen s in Screen.AllScreens)
+			{
+				Rectangle r = s.WorkingArea;
+				if (IsInRect(r, rct))
+				{
+					ret = r;
+					break;
+				}
+			}
+			return ret;
+		}
+		// ****************************************************
+		static public bool ScreenIn(Point p, Size sz)
+		{
+			return ScreenIn(new Rectangle(p, sz));
+		}
+		static public void JsonSave(string path,object o)
+		{
+			// 自分自身をシリアライズ
+			var jsonStr = JsonSerializer.Serialize(o);
+
+			// エンコードを指定して保存
+			var encoding = Encoding.GetEncoding("utf-8");
+			using (var writer = new StreamWriter(path, false, encoding))
+			{
+				writer.WriteLine(jsonStr);
+			}
+		}
+	}
+}

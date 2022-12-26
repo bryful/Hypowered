@@ -10,9 +10,8 @@ using System.Windows.Forms;
 
 namespace Hypowered
 {
-	public partial class HyperListBox : HyperControl
+	public partial class HyperFileList : HyperControl
 	{
-		private ListBox m_ListBox = new ListBox();
 		public delegate void SelectedIndexChangedHandler(object sender, SelectedIndexChangedEventArgs e);
 		public event SelectedIndexChangedHandler? SelectedIndexChanged;
 		protected virtual void OnSelectedIndexChanged(SelectedIndexChangedEventArgs e)
@@ -21,11 +20,39 @@ namespace Hypowered
 			{
 				SelectedIndexChanged(this, e);
 			}
-			if ((HyperForm != null) && (m_ScriptCode != ""))
+
+		}
+		private ListBox m_ListBox = new ListBox();
+		private string m_CurrentDir = Directory.GetCurrentDirectory();
+		[Category("Hypowerd_DirList")]
+		public string CurrentDir
+		{
+			get { return m_CurrentDir; }
+			set 
 			{
-				HyperForm.ExecuteCode(m_ScriptCode);
+				if(m_CurrentDir != value)
+				{
+					m_CurrentDir = value;
+					Listup();
+				}
 			}
 		}
+		[Category("Hypowerd_DirList")]
+		public string SelectedFile
+		{
+			get
+			{
+				string ret = "";
+				int si =m_ListBox.SelectedIndex;
+				if((si>=0)&&(si<m_ListBox.Items.Count))
+				{
+					ret = m_ListBox.Items[si].ToString();
+				}
+				return ret;
+			}
+		}
+
+
 		public override void SetIsEditMode(bool value)
 		{
 			m_IsEditMode = value;
@@ -41,8 +68,8 @@ namespace Hypowered
 				this.Font = value;
 			}
 		}
-		[Category("Hypowerd_ListBox")]
-		public  ListBox ListBox
+		[Category("Hypowerd_FileList")]
+		public ListBox ListBox
 		{
 			get { return m_ListBox; }
 			set
@@ -50,7 +77,7 @@ namespace Hypowered
 				m_ListBox = value;
 			}
 		}
-		[Category("Hypowerd_ListBox")]
+		[Category("Hypowerd_FileList")]
 		public bool IntegralHeight
 		{
 			get { return m_ListBox.IntegralHeight; }
@@ -59,7 +86,7 @@ namespace Hypowered
 				m_ListBox.IntegralHeight = value;
 			}
 		}
-		[Category("Hypowerd_ListBox")]
+		[Category("Hypowerd_FileList")]
 		public int ItemHeight
 		{
 			get { return m_ListBox.ItemHeight; }
@@ -68,7 +95,7 @@ namespace Hypowered
 				m_ListBox.ItemHeight = value;
 			}
 		}
-		[Category("Hypowerd_ListBox")]
+		[Category("Hypowerd_FileList")]
 		public int SelectedIndex
 		{
 			get { return m_ListBox.SelectedIndex; }
@@ -77,12 +104,12 @@ namespace Hypowered
 				m_ListBox.SelectedIndex = value;
 			}
 		}
-		[Category("Hypowerd_ListBox")]
+		[Category("Hypowerd_FileList")]
 		public ListBox.ObjectCollection Items
 		{
 			get { return m_ListBox.Items; }
 		}
-		[Category("Hypowerd_ListBox")]
+		[Category("Hypowerd_FileList")]
 		public int Count
 		{
 			get { return m_ListBox.Items.Count; }
@@ -107,10 +134,49 @@ namespace Hypowered
 				m_ListBox.BackColor = value;
 			}
 		}
-		public HyperListBox()
+		private HyperDirList? m_HyperDirList = null;
+		[Category("Hypowerd_FileList")]
+		public HyperDirList? HyperDirList
 		{
-			SetMyType(ControlType.ListBox);
-			m_ScriptCode = "//ListBox";
+			get { return m_HyperDirList; }
+			set
+			{
+				m_HyperDirList = value;
+				if(m_HyperDirList != null)
+				{
+					m_CurrentDir= m_HyperDirList.CurrentDir = m_CurrentDir;
+					Listup();
+					m_HyperDirList.CurrentDirChanged += M_HyperDirList_CurrentDirChanged;
+				}
+			}
+		}
+		private HyperLabel? m_HyperLabel = null;
+		[Category("Hypowerd_DirList")]
+		public HyperLabel? HyperLabel
+		{
+			get { return m_HyperLabel; }
+			set
+			{
+				m_HyperLabel = value;
+				if (m_HyperLabel != null)
+				{
+					m_HyperLabel.Text = SelectedFile;
+				}
+			}
+		}
+		private void M_HyperDirList_CurrentDirChanged(object sender, CurrentDirChangedEventArgs e)
+		{
+			if(m_CurrentDir != e.Path)
+			{
+				CurrentDir= e.Path;
+				Listup();
+			}
+		}
+
+		public HyperFileList()
+		{
+			SetMyType(ControlType.FileList);
+			m_ScriptCode = "//FileList";
 			this.Size = new Size(150, 150);
 			m_ListBox.Location = new Point(0, 0);
 			m_ListBox.Size = new Size(this.Width,this.Height);
@@ -125,19 +191,50 @@ namespace Hypowered
 			m_ListBox.IntegralHeight = false;
 			InitializeComponent();
 			this.Controls.Add(m_ListBox);
+			Listup();
+			m_ListBox.DoubleClick += M_ListBox_DoubleClick;
 			m_ListBox.SelectedIndexChanged += M_ListBox_SelectedIndexChanged;
 		}
 
 		private void M_ListBox_SelectedIndexChanged(object? sender, EventArgs e)
 		{
 			string s = "";
-			if ((m_ListBox.SelectedIndex >= 0) && (m_ListBox.SelectedIndex < m_ListBox.Items.Count))
+			if((SelectedIndex>=0)&&(SelectedIndex<Count))
 			{
-				s = m_ListBox.Items[m_ListBox.SelectedIndex].ToString();
+				s = m_ListBox.Items[SelectedIndex].ToString();
 			}
-			OnSelectedIndexChanged(new SelectedIndexChangedEventArgs(m_ListBox.SelectedIndex,s));	
+			OnSelectedIndexChanged(new SelectedIndexChangedEventArgs(SelectedIndex, s));
 		}
 
+		private void M_ListBox_DoubleClick(object? sender, EventArgs e)
+		{
+			int si = m_ListBox.SelectedIndex;
+			if((si>=0)&&(si<m_ListBox.Items.Count))
+			{
+			}
+		}
+
+		public void Listup()
+		{
+			try
+			{
+				IEnumerable<string> files = Directory.EnumerateFiles(m_CurrentDir);
+
+				List<string> strings = new List<string>();
+				
+				foreach (string str in files)
+				{
+					string n = Path.GetFileName(str);
+					strings.Add(n);
+				}
+				m_ListBox.Items.Clear();
+				m_ListBox.Items.AddRange(strings.ToArray());
+			}
+			catch
+			{
+
+			}
+		}
 		protected override void OnPaint(PaintEventArgs pe)
 		{
 			if (m_IsEditMode)

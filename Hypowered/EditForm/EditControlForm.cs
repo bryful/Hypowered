@@ -5,6 +5,8 @@ using System.Data;
 using System.Drawing;
 using System.Linq;
 using System.Text;
+using System.Text.Json;
+using System.Text.Json.Nodes;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
@@ -212,6 +214,15 @@ namespace Hypowered
 			{
 				Graphics g = e.Graphics;
 				g.DrawRectangle(p,new Rectangle(0,0,Width-1,Height-1));
+			}
+		}
+
+		private void Button1_Click(object sender, EventArgs e)
+		{
+			if(TargetControl!=null)
+			{
+				//JsonFile.JsonSave(TargetControl.Name + ".json", TargetControl);
+				Clipboard.SetText(TargetControl.ToJsonCode());
 			}
 		}
 	}

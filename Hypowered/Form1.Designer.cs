@@ -32,18 +32,20 @@
 			// 
 			// Editor
 			// 
-			this.Editor.Location = new System.Drawing.Point(234, 234);
+			this.Editor.Location = new System.Drawing.Point(130, 438);
 			this.Editor.Text = "HyperMenuBar";
 			// 
 			// Form1
 			// 
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
-			this.ClientSize = new System.Drawing.Size(785, 493);
+			this.ClientSize = new System.Drawing.Size(591, 349);
 			this.DoubleBuffered = true;
 			this.IsShowMenu = true;
 			this.Name = "Form1";
+			this.StartPosition = System.Windows.Forms.FormStartPosition.Manual;
 			this.TargetIndex = 0;
 			this.Text = "Form1";
+			this.Load += new System.EventHandler(this.Form1_Load);
 			this.ResumeLayout(false);
 
 		}

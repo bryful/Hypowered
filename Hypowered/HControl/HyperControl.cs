@@ -10,10 +10,21 @@ using System.Text.Json.Nodes;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Reflection;
+using System.Text.Encodings.Web;
+using System.Text.Unicode;
 
 namespace Hypowered
 {
-	
+	public class HyperControlObj
+	{
+		public ControlType? MyType { get; set; }
+		public string Name { get; set; }
+		public Point Loation { get; set; }
+
+		public HyperControlObj() 
+		{
+		}
+	}
 
 	public partial class HyperControl : Control
 	{
@@ -164,6 +175,7 @@ namespace Hypowered
 		}
 		public HyperControl()
 		{
+
 			BackColor = ColU.ToColor(HyperColor.Back);
 			ForeColor = ColU.ToColor(HyperColor.Fore);
 			m_ForcusColor = ColU.ToColor(HyperColor.Forcus);
@@ -378,5 +390,49 @@ namespace Hypowered
 			base.OnLostFocus(e);
 			this.Invalidate();
 		}
+		
+		public virtual JsonObject ToJson()
+		{
+			JsonObject jo = new JsonObject();
+			JsonFile jf = new JsonFile(jo);
+			jf.SetValue(nameof(MyType), MyType);
+			jf.SetValue(nameof(Name),Name);
+			jf.SetValue(nameof(Location), Location);
+			jf.SetValue(nameof(Size), Size);
+			jf.SetValue(nameof(Font), Font);
+			jf.SetValue(nameof(Text), Text);
+			jf.SetValue(nameof(CanColorCustum), CanColorCustum);
+			jf.SetValue(nameof(ForcusColor), ForcusColor);
+			jf.SetValue(nameof(ForeColor), ForeColor);
+			jf.SetValue(nameof(BackColor), BackColor);
+			jf.SetValue(nameof(UnCheckedColor), UnCheckedColor);
+			jf.SetValue(nameof(ScriptCode), ScriptCode);
+			jf.SetValue(nameof(TextAligiment), TextAligiment);
+			jf.SetValue(nameof(TextLineAligiment), TextLineAligiment);
+			jf.SetValue(nameof(AllowDrop), AllowDrop);
+			jf.SetValue(nameof(Anchor), Anchor);
+			jf.SetValue(nameof(AutoSize), AutoSize);
+			jf.SetValue(nameof(AutoScrollOffset), AutoScrollOffset);
+			jf.SetValue(nameof(Dock), Dock);
+			jf.SetValue(nameof(Enabled), Enabled);
+			jf.SetValue(nameof(Margin), Margin);
+			jf.SetValue(nameof(MinimumSize), MinimumSize);
+			jf.SetValue(nameof(MinimumSize), MinimumSize);
+			jf.SetValue(nameof(MaximumSize), MaximumSize);
+			jf.SetValue(nameof(TabIndex), TabIndex);
+			jf.SetValue(nameof(TabStop), TabStop);
+			jf.SetValue(nameof(UseWaitCursor), UseWaitCursor);
+			jf.SetValue(nameof(Visible), Visible);
+			jf.SetValue(nameof(Padding), Padding);
+			jf.SetValue(nameof(TabStop), TabStop);
+			jf.SetValue(nameof(ImeMode), ImeMode);
+
+			return jf.Obj;
+		}
+		public virtual string ToJsonCode()
+		{
+			return ToJson().ToJsonString();
+		}
+
 	}
 }

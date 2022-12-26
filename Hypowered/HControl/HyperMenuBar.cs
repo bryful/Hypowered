@@ -135,10 +135,10 @@ true);
 						new Point(this.Width-1,this.Height)
 
 					};
-					g.DrawLines(p, pt);
 					p.Color = m_MenuWakuColor;
 					g.DrawLine(p, 0, this.Height - 1, this.Width - 1, this.Height - 1);
 					p.Color = ForeColor;
+					g.DrawLines(p, pt);
 				}
 				DrawType(g, sb);
 
