@@ -50,17 +50,14 @@ namespace Hypowered
 		}
 
 
-		private HyperMenuBar m_menuBar = new HyperMenuBar();
-		private HyperMenuItem? m_FileMenu = null;
-		private HyperMenuItem? m_EditlMenu = null;
-		private HyperMenuItem? m_ControlMenu = null;
-		private HyperMenuItem? m_UserMenu = null;
+		protected HyperMenuBar m_menuBar = new HyperMenuBar();
+		protected HyperMenuItem? m_FileMenu = null;
+		protected HyperMenuItem? m_EditlMenu = null;
+		protected HyperMenuItem? m_ControlMenu = null;
+		protected HyperMenuItem? m_UserMenu = null;
 
 		public HyperForm()
 		{
-			Editor.Location= new Point(100, 100);
-			Editor.SetHyperForm(this);
-			Editor.Visible=false;
 
 			base.KeyPreview = true;
 			BackColor = ColU.ToColor(HyperColor.Back);
@@ -89,16 +86,21 @@ true);
 
 
 
-			m_menuBar.Menus.Add(m_FileMenu);
-			m_menuBar.Menus.Add(m_EditlMenu);
-			m_menuBar.Menus.Add(m_ControlMenu);
-			m_menuBar.Menus.Add(m_UserMenu);
+			m_menuBar.Items.Add(m_FileMenu);
+			m_menuBar.Items.Add(m_EditlMenu);
+			m_menuBar.Items.Add(m_ControlMenu);
+			m_menuBar.Items.Add(m_UserMenu);
 			MakeMenu();
 			this.Controls.Add(m_menuBar);
 			this.Controls.SetChildIndex(m_menuBar,0);
 			ChkControls();
 
 			InitScript();
+		}
+		protected override void OnLoad(EventArgs e)
+		{
+			base.OnLoad(e);
+			LoadFromFile("aaa.json");
 		}
 		protected override void OnFormClosed(FormClosedEventArgs e)
 		{
@@ -107,6 +109,8 @@ true);
 			if(PropForm!=null) PropForm.Dispose();
 			if(ControlList!=null) ControlList.Dispose();
 			if(Editor!=null) Editor.Dispose();
+
+			SaveToFile("aaa.json");
 		}
 
 
@@ -294,12 +298,10 @@ true);
 			}
 			return ret;
 		}
-		// ******************************************************************************
-		public bool AddControl(ControlType ct,string name,string tx,Font fnt)
+		private Control? CreateControl(ControlType ct)
 		{
-			bool ret = false;
 			Control? ctrl = null;
-			switch(ct)
+			switch (ct)
 			{
 				case ControlType.Label:
 					ctrl = new HyperLabel();
@@ -328,9 +330,19 @@ true);
 				case ControlType.DirList:
 					ctrl = new HyperDirList();
 					break;
+				case ControlType.FileList:
+					ctrl = new HyperFileList();
+					break;
 				default:
 					break;
 			}
+			return ctrl;
+		}
+		// ******************************************************************************
+		public bool AddControl(ControlType ct,string name,string tx,Font fnt)
+		{
+			bool ret = false;
+			Control? ctrl = CreateControl(ct);
 			if (ctrl != null)
 			{
 				if(name!="") ctrl.Name = name;
@@ -343,6 +355,20 @@ true);
 			}
 			return ret;
 		}
+		// ******************************************************************************
+		public bool RemoveControl(string key)
+		{
+			bool ret = false;
+			Control[] ctrls = this.Controls.Find(key,false);
+			if(ctrls.Length>=1)
+			{
+				this.Controls.Remove(ctrls[0]);
+				ChkControls();
+				ret = true;
+			}
+			return ret;
+		}
+		// ******************************************************************************
 		public HyperControl[] GetControls()
 		{
 			List<HyperControl> list = new List<HyperControl>();

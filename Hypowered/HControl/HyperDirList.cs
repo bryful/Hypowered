@@ -5,13 +5,35 @@ using System.Data;
 using System.Drawing;
 using System.Linq;
 using System.Text;
+using System.Text.Json.Nodes;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace Hypowered
 {
-	public partial class HyperFileList : HyperControl
+	public partial class HyperDirList : HyperControl
 	{
+		public delegate void CurrentDirChangedHandler(object sender, CurrentDirChangedEventArgs e);
+		public event CurrentDirChangedHandler? CurrentDirChanged;
+		protected virtual void OnCurrentDirChanged(CurrentDirChangedEventArgs e)
+		{
+			if(m_HyperDriveIcons!= null)
+			{
+				if(m_HyperDriveIcons.CurrentDir!=e.Path)
+				{
+					m_HyperDriveIcons.CurrentDir = e.Path;
+				}
+			}
+			if (CurrentDirChanged != null)
+			{
+				CurrentDirChanged(this, e);
+			}
+			if(m_HyperLabel!= null)
+			{
+				m_HyperLabel.Text = e.Path;
+			}
+
+		}
 		public delegate void SelectedIndexChangedHandler(object sender, SelectedIndexChangedEventArgs e);
 		public event SelectedIndexChangedHandler? SelectedIndexChanged;
 		protected virtual void OnSelectedIndexChanged(SelectedIndexChangedEventArgs e)
@@ -34,11 +56,12 @@ namespace Hypowered
 				{
 					m_CurrentDir = value;
 					Listup();
+					OnCurrentDirChanged(new CurrentDirChangedEventArgs(m_CurrentDir));
 				}
 			}
 		}
 		[Category("Hypowerd_DirList")]
-		public string SelectedFile
+		public string SelectedDir
 		{
 			get
 			{
@@ -65,10 +88,10 @@ namespace Hypowered
 			set
 			{
 				m_ListBox.Font = value;
-				this.Font = value;
+				base.Font = value;
 			}
 		}
-		[Category("Hypowerd_FileList")]
+		[Category("Hypowerd_DirList")]
 		public ListBox ListBox
 		{
 			get { return m_ListBox; }
@@ -77,7 +100,7 @@ namespace Hypowered
 				m_ListBox = value;
 			}
 		}
-		[Category("Hypowerd_FileList")]
+		[Category("Hypowerd_DirList")]
 		public bool IntegralHeight
 		{
 			get { return m_ListBox.IntegralHeight; }
@@ -86,7 +109,7 @@ namespace Hypowered
 				m_ListBox.IntegralHeight = value;
 			}
 		}
-		[Category("Hypowerd_FileList")]
+		[Category("Hypowerd_DirList")]
 		public int ItemHeight
 		{
 			get { return m_ListBox.ItemHeight; }
@@ -95,7 +118,7 @@ namespace Hypowered
 				m_ListBox.ItemHeight = value;
 			}
 		}
-		[Category("Hypowerd_FileList")]
+		[Category("Hypowerd_DirList")]
 		public int SelectedIndex
 		{
 			get { return m_ListBox.SelectedIndex; }
@@ -104,12 +127,12 @@ namespace Hypowered
 				m_ListBox.SelectedIndex = value;
 			}
 		}
-		[Category("Hypowerd_FileList")]
+		[Category("Hypowerd_DirList")]
 		public ListBox.ObjectCollection Items
 		{
 			get { return m_ListBox.Items; }
 		}
-		[Category("Hypowerd_FileList")]
+		[Category("Hypowerd_DirList")]
 		public int Count
 		{
 			get { return m_ListBox.Items.Count; }
@@ -134,19 +157,18 @@ namespace Hypowered
 				m_ListBox.BackColor = value;
 			}
 		}
-		private HyperDirList? m_HyperDirList = null;
-		[Category("Hypowerd_FileList")]
-		public HyperDirList? HyperDirList
+		private HyperDriveIcons? m_HyperDriveIcons = null;
+		[Category("Hypowerd_DirList")]
+		public HyperDriveIcons? HyperDriveIcons
 		{
-			get { return m_HyperDirList; }
+			get { return m_HyperDriveIcons; }
 			set
 			{
-				m_HyperDirList = value;
-				if(m_HyperDirList != null)
+				m_HyperDriveIcons = value;
+				if(m_HyperDriveIcons != null)
 				{
-					m_CurrentDir= m_HyperDirList.CurrentDir = m_CurrentDir;
-					Listup();
-					m_HyperDirList.CurrentDirChanged += M_HyperDirList_CurrentDirChanged;
+					m_HyperDriveIcons.CurrentDir = m_CurrentDir;
+					m_HyperDriveIcons.CurrentDirChanged += M_HyperDriveIcons_CurrentDirChanged;
 				}
 			}
 		}
@@ -160,23 +182,22 @@ namespace Hypowered
 				m_HyperLabel = value;
 				if (m_HyperLabel != null)
 				{
-					m_HyperLabel.Text = SelectedFile;
+					m_HyperLabel.Text = m_CurrentDir;
 				}
 			}
 		}
-		private void M_HyperDirList_CurrentDirChanged(object sender, CurrentDirChangedEventArgs e)
+		private void M_HyperDriveIcons_CurrentDirChanged(object sender, CurrentDirChangedEventArgs e)
 		{
 			if(m_CurrentDir != e.Path)
 			{
 				CurrentDir= e.Path;
-				Listup();
 			}
 		}
 
-		public HyperFileList()
+		public HyperDirList()
 		{
-			SetMyType(ControlType.FileList);
-			m_ScriptCode = "//FileList";
+			SetMyType(ControlType.DirList);
+			SetInScript(InScript.DirList);
 			this.Size = new Size(150, 150);
 			m_ListBox.Location = new Point(0, 0);
 			m_ListBox.Size = new Size(this.Width,this.Height);
@@ -211,6 +232,11 @@ namespace Hypowered
 			int si = m_ListBox.SelectedIndex;
 			if((si>=0)&&(si<m_ListBox.Items.Count))
 			{
+				DirectoryInfo di = new DirectoryInfo(Path.Combine(m_CurrentDir, m_ListBox.Items[si].ToString()));
+				m_CurrentDir = di.FullName;
+				Listup();
+				m_ListBox.SelectedIndex = -1;
+				OnCurrentDirChanged(new CurrentDirChangedEventArgs(m_CurrentDir));
 			}
 		}
 
@@ -218,11 +244,15 @@ namespace Hypowered
 		{
 			try
 			{
-				IEnumerable<string> files = Directory.EnumerateFiles(m_CurrentDir);
+				IEnumerable<string> dirs = Directory.EnumerateDirectories(m_CurrentDir);
 
 				List<string> strings = new List<string>();
-				
-				foreach (string str in files)
+				DirectoryInfo di = new DirectoryInfo(m_CurrentDir);
+				if (di.Parent != null)
+				{
+					strings.Add("..\\");
+				}
+				foreach (string str in dirs)
 				{
 					string n = Path.GetFileName(str);
 					strings.Add(n);
@@ -255,6 +285,39 @@ namespace Hypowered
 				this.Size = new Size(this.Width, m_ListBox.Height);
 			}
 		}
+		public override JsonObject ToJson()
+		{
+			JsonFile jf = new JsonFile(base.ToJson());
+			jf.SetValue(nameof(MyType), (int?)MyType);//Nullable`1
+			jf.SetValue(nameof(IntegralHeight), IntegralHeight);//Boolean
+			//jf.SetValue(nameof(ItemHeight), ItemHeight);//Int32
+			jf.SetValue(nameof(Items), Items);//ObjectCollection
+			jf.SetValue(nameof(ForeColor), ForeColor);//Color
+			jf.SetValue(nameof(BackColor), BackColor);//Color
+			jf.SetValue(nameof(Font), Font);//Font
 
+			return jf.Obj;
+		}
+		public override void FromJson(JsonObject jo)
+		{
+			base.FromJson(jo);
+			JsonFile jf = new JsonFile(jo);
+			object? v = null;
+			v = jf.ValueAuto("IntegralHeight", typeof(Boolean).Name);
+			if (v != null) IntegralHeight = (Boolean)v;
+			v = jf.ValueAuto("ItemHeight", typeof(Int32).Name);
+			if (v != null) ItemHeight = (Int32)v;
+			//v = jf.ValueAuto("Items", typeof(ListBox.ObjectCollection).Name);
+			//if (v != null) Items.AddRange((string[])v);
+			v = jf.ValueAuto("ForeColor", typeof(Color).Name);
+			if (v != null) ForeColor = (Color)v;
+			v = jf.ValueAuto("BackColor", typeof(Color).Name);
+			if (v != null) BackColor = (Color)v;
+			v = jf.ValueAuto("Font", typeof(Font).Name);
+			if (v != null) Font = (Font)v;
+
+
+		}
 	}
 }
+

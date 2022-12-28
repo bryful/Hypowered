@@ -22,14 +22,17 @@ namespace Hypowered
 	partial class HyperForm
 	{
 		// ****************************************************************************
-		public PropertyForm? PropForm = null;
-		public EditControlListForm? ControlList = null;
-		public HyperScriptEditor Editor = new HyperScriptEditor();
+		public HyperPropForm? PropForm = null;
+		public HyperControlList? ControlList = null;
+		public HyperScriptEditor Editor = null;
 		// ****************************************************************************
 		protected HyperScript m_Script = new HyperScript();
 		public void ExecuteCode(string code)
 		{
-			m_Script.ExecuteCode(code);
+			if (code != "")
+			{
+				m_Script.ExecuteCode(code);
+			}
 		}
 
 		// ****************************************************************************

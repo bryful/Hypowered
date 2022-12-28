@@ -5,8 +5,10 @@ using System.Data;
 using System.Drawing;
 using System.Linq;
 using System.Text;
+using System.Text.Json.Nodes;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using static System.Windows.Forms.VisualStyles.VisualStyleElement.Header;
 
 namespace Hypowered
 {
@@ -14,19 +16,19 @@ namespace Hypowered
 	public partial class HyperMenuBar : HyperControl
 	{
 		static public readonly int MenuHeight = 25;
-		protected HyperMenuItems m_menus = new HyperMenuItems();
+		protected HyperMenuItems m_Items = new HyperMenuItems();
 		[Category("Hypowerd_Menu")]
-		public HyperMenuItems Menus
+		public HyperMenuItems Items
 		{
-			get { return m_menus; }
+			get { return m_Items; }
 		}
 		public bool GetMenuVisibled(int index)
 		{
-			return m_menus.GetMenuVisibled(index);
+			return m_Items.GetMenuVisibled(index);
 		}
 		public void SetMenuVisibled(int index,bool on)
 		{
-			m_menus.SetMenuVisibled(index,on);
+			m_Items.SetMenuVisibled(index,on);
 			this.Invalidate();
 		}
 		protected Color m_MenuFourcusColor = Color.White;
@@ -98,13 +100,13 @@ true);
 
 
 
-				if (m_menus.Count > 0)
+				if (m_Items.Count > 0)
 				{
 					StringFormat sf = new StringFormat();
 					sf.Alignment = StringAlignment.Center;
 					sf.LineAlignment = StringAlignment.Center;
 					int x = HyperMenuItems.Leftmargin;
-					foreach (HyperMenuItem? m in m_menus.Items)
+					foreach (HyperMenuItem? m in m_Items.Items)
 					{
 						Rectangle rct = new Rectangle(m.Left, 2, m.Width, this.Height-4);
 						if(m_menuDown==m.Index)
@@ -148,11 +150,11 @@ true);
 		private int GetMenuDown(int x)
 		{
 			int ret = -1;
-			if(m_menus.Count > 0)
+			if(m_Items.Count > 0)
 			{
-				for (int i=0;i< m_menus.Count;i++)
+				for (int i=0;i< m_Items.Count;i++)
 				{
-					HyperMenuItem? m = m_menus[i];
+					HyperMenuItem? m = m_Items[i];
 					if (m == null) continue;
 					if ((x>=m.Left)&&(x <m.Right))
 					{
@@ -180,10 +182,10 @@ true);
 					m_menuDown= idx;
 					this.Invalidate();
 
-					ContextMenuStrip? menu = m_menus[idx].MakeMenu();
+					ContextMenuStrip? menu = m_Items[idx].MakeMenu();
 					if (menu != null)
 					{
-						menu.Show(this, new Point(m_menus[idx].Left, MenuHeight));
+						menu.Show(this, new Point(m_Items[idx].Left, MenuHeight));
 						return;
 					}
 				}
@@ -253,6 +255,44 @@ true);
 				this.Size = new Size(((Form)this.Parent).Width, MenuHeight);
 				this.Invalidate();
 			}
+		}
+		public override JsonObject ToJson()
+		{
+			JsonFile jf = new JsonFile();
+			jf.SetValue(nameof(MenuFourcusColor), MenuFourcusColor);//Color
+			jf.SetValue(nameof(MenuWakuColor), MenuWakuColor);//Color
+			jf.SetValue(nameof(MenuWakuEditColor), MenuWakuEditColor);//Color
+			jf.SetValue(nameof(Font), Font);//Font
+			jf.SetValue(nameof(CanColorCustum), CanColorCustum);//Boolean
+			jf.SetValue(nameof(ForcusColor), ForcusColor);//Color
+			jf.SetValue(nameof(ForeColor), ForeColor);//Color
+			jf.SetValue(nameof(BackColor), BackColor);//Color
+
+			return jf.Obj;
+		}
+		public override void FromJson(JsonObject jo)
+		{
+			base.FromJson(jo);
+			JsonFile jf = new JsonFile(jo);
+			object? v = null;
+			v = jf.ValueAuto("MenuFourcusColor", typeof(Color).Name);
+			if (v != null) MenuFourcusColor = (Color)v;
+			v = jf.ValueAuto("MenuWakuColor", typeof(Color).Name);
+			if (v != null) MenuWakuColor = (Color)v;
+			v = jf.ValueAuto("MenuWakuEditColor", typeof(Color).Name);
+			if (v != null) MenuWakuEditColor = (Color)v;
+			v = jf.ValueAuto("ForeColor", typeof(Color).Name);
+			if (v != null) ForeColor = (Color)v;
+			v = jf.ValueAuto("BackColor", typeof(Color).Name);
+			if (v != null) BackColor = (Color)v;
+			v = jf.ValueAuto("Font", typeof(Font).Name);
+			if (v != null) Font = (Font)v;
+			v = jf.ValueAuto("CanColorCustum", typeof(Boolean).Name);
+			if (v != null) CanColorCustum = (Boolean)v;
+			v = jf.ValueAuto("ForcusColor", typeof(Color).Name);
+			if (v != null) ForcusColor = (Color)v;
+
+
 		}
 	}
 }

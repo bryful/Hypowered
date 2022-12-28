@@ -5,6 +5,7 @@ using System.Data;
 using System.Drawing;
 using System.Linq;
 using System.Text;
+using System.Text.Json.Nodes;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
@@ -22,8 +23,8 @@ namespace Hypowered
 		public HyperButton()
 		{
 			SetMyType(ControlType.Button);
-			m_ScriptCode = "//Button";
-			this.Location = new Point(100,100);
+			SetInScript(InScript.Button);
+			this.Location = new Point(100, 100);
 			this.Size = ControlDef.DefSize;
 			InitializeComponent();
 		}
@@ -43,7 +44,7 @@ namespace Hypowered
 					g.FillRectangle(sb, ReRect(this.ClientRectangle, 4));
 				}
 
-				if(this.Text!="")
+				if (this.Text != "")
 				{
 					StringFormat sf = new StringFormat();
 					sf.Alignment = StringAlignment.Center;
@@ -87,20 +88,36 @@ namespace Hypowered
 		}
 		protected override void OnMouseUp(MouseEventArgs e)
 		{
-			if(m_MPush==true)
+			if (m_MPush == true)
 			{
 				m_MPush = false;
-				this.Invalidate(true);	
+				this.Invalidate(true);
 			}
 			base.OnMouseUp(e);
 		}
 		protected override void OnMouseClick(MouseEventArgs e)
 		{
 			base.OnMouseClick(e);
-			if ((HyperForm !=null)&&(m_IsEditMode==false) )
+			if ((HyperForm != null) && (m_IsEditMode == false))
 			{
-				HyperForm.ExecuteCode(m_ScriptCode);
+				HyperForm.ExecuteCode(GetScriptCode(InScript.MouseClick));
 			}
+		}
+		public override JsonObject ToJson()
+		{
+			JsonFile jf = new JsonFile(base.ToJson());
+			jf.SetValue(nameof(PushedColor), PushedColor);//Color
+			jf.SetValue(nameof(MyType), (int?)MyType);//Nullable`1
+
+			return jf.Obj;
+		}
+		public override void FromJson(JsonObject jo)
+		{
+			base.FromJson(jo);
+			JsonFile jf = new JsonFile(jo);
+			object? v = null;
+			v = jf.ValueAuto("PushedColor", typeof(Color).Name);
+			if (v != null) PushedColor = (Color)v;
 		}
 	}
 }

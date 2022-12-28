@@ -10,7 +10,7 @@ using System.Windows.Forms;
 
 namespace Hypowered
 {
-	public partial class EditControlListForm : Form
+	public partial class HyperControlList : Form
 	{
 		[Category("Hypowerd")]
 		public HyperForm? HyperForm
@@ -18,7 +18,7 @@ namespace Hypowered
 			get { return controlListBox1.HyperForm; }
 			set { controlListBox1.HyperForm = value;}
 		}
-		public EditControlListForm()
+		public HyperControlList()
 		{
 			BackColor = ColU.ToColor(HyperColor.Back);
 			ForeColor = ColU.ToColor(HyperColor.Fore);

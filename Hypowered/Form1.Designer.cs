@@ -30,10 +30,9 @@
 		{
 			this.SuspendLayout();
 			// 
-			// Editor
+			// m_menuBar
 			// 
-			this.Editor.Location = new System.Drawing.Point(130, 438);
-			this.Editor.Text = "HyperMenuBar";
+			this.m_menuBar.Size = new System.Drawing.Size(591, 25);
 			// 
 			// Form1
 			// 

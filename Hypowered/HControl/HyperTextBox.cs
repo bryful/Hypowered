@@ -5,6 +5,7 @@ using System.Data;
 using System.Drawing;
 using System.Linq;
 using System.Text;
+using System.Text.Json.Nodes;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
@@ -86,7 +87,7 @@ namespace Hypowered
 		public HyperTextBox()
 		{
 			SetMyType(ControlType.TextBox);
-			m_ScriptCode = "//TextBox";
+			m_ScriptCodes = "//TextBox";
 			m_TextBox.BorderStyle = BorderStyle.FixedSingle;
 
 			this.Size = new Size(m_TextBox.Width,m_TextBox.Height);
@@ -122,6 +123,12 @@ namespace Hypowered
 					this.Size = new Size(this.Size.Width, m_TextBox.Height);
 				}
 			}
+		}
+		public override JsonObject ToJson()
+		{
+			JsonFile jf = new JsonFile(base.ToJson());
+			jf.SetValue(nameof(MyType), (int?)MyType);//Nullable`1
+			return jf.Obj;
 		}
 	}
 }

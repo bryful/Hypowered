@@ -11,7 +11,7 @@ using System.Windows.Forms;
 namespace Hypowered
 {
 
-	public partial class PropertyForm : Form
+	public partial class HyperPropForm : Form
 	{
 		protected HyperForm? m_HyperForm = null;
 		public HyperForm? HyperForm
@@ -63,7 +63,7 @@ namespace Hypowered
 			}
 		}
 
-		public PropertyForm()
+		public HyperPropForm()
 		{
 			InitializeComponent();
 			propertyGrid1.CollapseAllGridItems();

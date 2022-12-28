@@ -35,18 +35,18 @@
 			this.editPad1 = new Hypowered.EditPad();
 			this.toolStrip = new System.Windows.Forms.ToolStrip();
 			this.menuControl = new System.Windows.Forms.ToolStripDropDownButton();
-			this.menuHide = new System.Windows.Forms.ToolStripButton();
+			this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
 			this.btnWrite = new System.Windows.Forms.ToolStripButton();
 			this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
-			this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
+			this.menuHide = new System.Windows.Forms.ToolStripButton();
+			this.menuScript = new System.Windows.Forms.ToolStripDropDownButton();
+			this.btnTopMost = new System.Windows.Forms.ToolStripButton();
+			this.toolStripSeparator3 = new System.Windows.Forms.ToolStripSeparator();
 			this.toolStrip.SuspendLayout();
 			this.SuspendLayout();
 			// 
 			// editPad1
 			// 
-			this.editPad1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
 			this.editPad1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
 			solidColorBrush1.Color = System.Windows.Media.Color.FromArgb(((byte)(255)), ((byte)(221)), ((byte)(221)), ((byte)(221)));
 			this.editPad1.Background = solidColorBrush1;
@@ -75,8 +75,11 @@
 			// 
 			this.toolStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.menuControl,
+            this.menuScript,
             this.toolStripSeparator2,
             this.btnWrite,
+            this.toolStripSeparator3,
+            this.btnTopMost,
             this.toolStripSeparator1,
             this.menuHide});
 			this.toolStrip.Location = new System.Drawing.Point(0, 0);
@@ -94,15 +97,10 @@
 			this.menuControl.Size = new System.Drawing.Size(59, 22);
 			this.menuControl.Text = "Contorl";
 			// 
-			// menuHide
+			// toolStripSeparator2
 			// 
-			this.menuHide.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
-			this.menuHide.Image = ((System.Drawing.Image)(resources.GetObject("menuHide.Image")));
-			this.menuHide.ImageTransparentColor = System.Drawing.Color.Magenta;
-			this.menuHide.Name = "menuHide";
-			this.menuHide.Size = new System.Drawing.Size(36, 22);
-			this.menuHide.Text = "Hide";
-			this.menuHide.Click += new System.EventHandler(this.MenuHide_Click);
+			this.toolStripSeparator2.Name = "toolStripSeparator2";
+			this.toolStripSeparator2.Size = new System.Drawing.Size(6, 25);
 			// 
 			// btnWrite
 			// 
@@ -119,10 +117,38 @@
 			this.toolStripSeparator1.Name = "toolStripSeparator1";
 			this.toolStripSeparator1.Size = new System.Drawing.Size(6, 25);
 			// 
-			// toolStripSeparator2
+			// menuHide
 			// 
-			this.toolStripSeparator2.Name = "toolStripSeparator2";
-			this.toolStripSeparator2.Size = new System.Drawing.Size(6, 25);
+			this.menuHide.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
+			this.menuHide.Image = ((System.Drawing.Image)(resources.GetObject("menuHide.Image")));
+			this.menuHide.ImageTransparentColor = System.Drawing.Color.Magenta;
+			this.menuHide.Name = "menuHide";
+			this.menuHide.Size = new System.Drawing.Size(36, 22);
+			this.menuHide.Text = "Hide";
+			this.menuHide.Click += new System.EventHandler(this.MenuHide_Click);
+			// 
+			// menuScript
+			// 
+			this.menuScript.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
+			this.menuScript.Image = ((System.Drawing.Image)(resources.GetObject("menuScript.Image")));
+			this.menuScript.ImageTransparentColor = System.Drawing.Color.Magenta;
+			this.menuScript.Name = "menuScript";
+			this.menuScript.Size = new System.Drawing.Size(50, 22);
+			this.menuScript.Text = "Script";
+			// 
+			// btnTopMost
+			// 
+			this.btnTopMost.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
+			this.btnTopMost.Image = ((System.Drawing.Image)(resources.GetObject("btnTopMost.Image")));
+			this.btnTopMost.ImageTransparentColor = System.Drawing.Color.Magenta;
+			this.btnTopMost.Name = "btnTopMost";
+			this.btnTopMost.Size = new System.Drawing.Size(57, 22);
+			this.btnTopMost.Text = "TopMost";
+			// 
+			// toolStripSeparator3
+			// 
+			this.toolStripSeparator3.Name = "toolStripSeparator3";
+			this.toolStripSeparator3.Size = new System.Drawing.Size(6, 25);
 			// 
 			// HyperScriptEditor
 			// 
@@ -152,5 +178,8 @@
 		private ToolStripSeparator toolStripSeparator2;
 		private ToolStripButton btnWrite;
 		private ToolStripSeparator toolStripSeparator1;
+		private ToolStripDropDownButton menuScript;
+		private ToolStripSeparator toolStripSeparator3;
+		private ToolStripButton btnTopMost;
 	}
 }

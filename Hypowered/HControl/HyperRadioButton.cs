@@ -5,6 +5,7 @@ using System.Data;
 using System.Drawing;
 using System.Linq;
 using System.Text;
+using System.Text.Json.Nodes;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
@@ -21,9 +22,9 @@ namespace Hypowered
 			{
 				RButtonChanged(this, e);
 			}
-			if ((HyperForm != null) && (m_ScriptCode != ""))
+			if ((HyperForm != null) && (m_ScriptCodes != ""))
 			{
-				HyperForm.ExecuteCode(m_ScriptCode);
+				HyperForm.ExecuteCode(m_ScriptCodes);
 			}
 		}
 		private bool m_Checked = false;
@@ -90,7 +91,7 @@ namespace Hypowered
 		public HyperRadioButton()
 		{
 			SetMyType(ControlType.RadioButton);
-			m_ScriptCode = "//RadioButton";
+			m_ScriptCodes = "//RadioButton";
 			ControlName = "HyperRadioButton";
 			m_format.Alignment = StringAlignment.Near;
 			m_format.LineAlignment = StringAlignment.Center;
@@ -175,6 +176,33 @@ namespace Hypowered
 
 			}
 			base.OnMouseDown(e);
+		}
+		public override JsonObject ToJson()
+		{
+			JsonFile jf = new JsonFile(base.ToJson());
+			jf.SetValue(nameof(MyType), (int?)MyType);//Nullable`1
+			jf.SetValue(nameof(Checked), Checked);//Boolean
+			jf.SetValue(nameof(Group), Group);//Int32
+			jf.SetValue(nameof(GroupIndex), GroupIndex);//Int32
+			jf.SetValue(nameof(CheckSize), CheckSize);//Int32
+
+
+			return jf.Obj;
+		}
+		public override void FromJson(JsonObject jo)
+		{
+			base.FromJson(jo);
+			JsonFile jf = new JsonFile(jo);
+			object? v = null;
+			v = jf.ValueAuto("Checked", typeof(Boolean).Name);
+			if (v != null) Checked = (Boolean)v;
+			v = jf.ValueAuto("Group", typeof(Int32).Name);
+			if (v != null) Group = (Int32)v;
+			v = jf.ValueAuto("GroupIndex", typeof(Int32).Name);
+			if (v != null) GroupIndex = (Int32)v;
+			v = jf.ValueAuto("CheckSize", typeof(Int32).Name);
+			if (v != null) CheckSize = (Int32)v;
+
 		}
 	}
 }

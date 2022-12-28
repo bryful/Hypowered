@@ -5,6 +5,7 @@ using System.Data;
 using System.Drawing;
 using System.Linq;
 using System.Text;
+using System.Text.Json.Nodes;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
@@ -21,9 +22,10 @@ namespace Hypowered
 			{
 				SelectedIndexChanged(this, e);
 			}
-			if ((HyperForm != null) && (m_ScriptCode != ""))
+			if (HyperForm != null)
 			{
-				HyperForm.ExecuteCode(m_ScriptCode);
+
+				HyperForm.ExecuteCode(GetScriptCode(InScript.SelectedIndexChanged));
 			}
 		}
 		public override void SetIsEditMode(bool value)
@@ -38,7 +40,7 @@ namespace Hypowered
 			set
 			{
 				m_ListBox.Font = value;
-				this.Font = value;
+				base.Font = value;
 			}
 		}
 		[Category("Hypowerd_ListBox")]
@@ -110,7 +112,7 @@ namespace Hypowered
 		public HyperListBox()
 		{
 			SetMyType(ControlType.ListBox);
-			m_ScriptCode = "//ListBox";
+			SetInScript(InScript.ListBox);
 			this.Size = new Size(150, 150);
 			m_ListBox.Location = new Point(0, 0);
 			m_ListBox.Size = new Size(this.Width,this.Height);
@@ -157,6 +159,39 @@ namespace Hypowered
 			{
 				this.Size = new Size(this.Width, m_ListBox.Height);
 			}
+		}
+		public override JsonObject ToJson()
+		{
+			JsonFile jf = new JsonFile(base.ToJson());
+			jf.SetValue(nameof(MyType), (int?)MyType);//Nullable`1
+			jf.SetValue(nameof(IntegralHeight), IntegralHeight);//Boolean
+			jf.SetValue(nameof(ItemHeight), ItemHeight);//Int32
+			jf.SetValue(nameof(Items), Items);//ObjectCollection
+			jf.SetValue(nameof(ForeColor), ForeColor);//Color
+			jf.SetValue(nameof(BackColor), BackColor);//Color
+			jf.SetValue(nameof(Font), Font);//Font
+
+			return jf.Obj;
+		}
+		public override void FromJson(JsonObject jo)
+		{
+			base.FromJson(jo);
+			JsonFile jf = new JsonFile(jo);
+			object? v = null;
+			v = jf.ValueAuto("IntegralHeight", typeof(Boolean).Name);
+			if (v != null) IntegralHeight = (Boolean)v;
+			v = jf.ValueAuto("ItemHeight", typeof(Int32).Name);
+			if (v != null) ItemHeight = (Int32)v;
+			v = jf.ValueAuto("Items", typeof(ListBox.ObjectCollection).Name);
+			if (v != null) Items.AddRange((string[])v);
+			v = jf.ValueAuto("ForeColor", typeof(Color).Name);
+			if (v != null) ForeColor = (Color)v;
+			v = jf.ValueAuto("BackColor", typeof(Color).Name);
+			if (v != null) BackColor = (Color)v;
+			v = jf.ValueAuto("Font", typeof(Font).Name);
+			if (v != null) Font = (Font)v;
+
+
 		}
 
 	}

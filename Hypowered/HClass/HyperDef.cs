@@ -6,6 +6,58 @@ using System.Threading.Tasks;
 
 namespace Hypowered
 {
+	public enum ControlType
+	{
+		Button = 0,
+		Label,
+		TextBox,
+		CheckBox,
+		RadioButton,
+		ListBox,
+		DropdownList,
+
+		DriveIcons,
+		DirList,
+		FileList,
+	}
+
+	[Flags]
+	public enum InScript
+	{
+		None = 0,
+		Startup
+			= 0b_0000_0000_0001,
+		MouseClick
+			= 0b_0000_0000_0010,
+		MouseDoubleClick
+			= 0b_0000_0000_0100,
+		MouseUp
+			= 0b_0000_0000_1000,
+		SelectedIndexChanged
+			= 0b_0000_0001_0000,
+		ValueChanged
+			= 0b_0000_0010_0000,
+		Reserve0
+			= 0b_0000_0100_0000,
+		Reserve1
+			= 0b_0000_1000_0000,
+		Reserve2
+			= 0b_0001_0000_0000,
+		Reserve3
+			= 0b_0010_0000_0000,
+		Reserve4
+			= 0b_0100_0000_0000,
+		Shutdown
+			= 0b_1000_0000_0000,
+		Button
+			= MouseClick,
+		DirList
+			= SelectedIndexChanged | MouseDoubleClick,
+		FileList
+			= SelectedIndexChanged | MouseDoubleClick,
+		ListBox
+			= SelectedIndexChanged | MouseDoubleClick,
+	}
 	/// <summary>
 	/// フォームやコントロールのクリックされた場所
 	/// </summary>
@@ -22,20 +74,7 @@ namespace Hypowered
 		Bottom,
 		BottomRight,
 	}
-	public enum ControlType
-	{
-		Button= 0,
-		Label,
-		TextBox,
-		CheckBox,
-		RadioButton,
-		ListBox,
-		DropdownList,
 
-		DriveIcons,
-		DirList,
-		FileList,
-	}
 	
 	/// <summary>
 	/// コントロールを扱うユーティリティ関数

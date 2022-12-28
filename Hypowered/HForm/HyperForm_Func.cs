@@ -126,6 +126,7 @@ namespace Hypowered
 			return false;
 		}
 		// *************************************************************************
+		// *************************************************************************
 		public bool EditControl()
 		{
 			if (m_IsEditMode == false) return false;
@@ -147,11 +148,19 @@ namespace Hypowered
 		{
 			if (PropForm == null)
 			{
-				PropForm = new PropertyForm();
+				PropForm = new HyperPropForm();
 				PropForm.HyperForm = this;
 				PropForm.Location = new Point(100, 100);
 			}
-			PropForm.Visible = !PropForm.Visible;
+			if (PropForm.Visible == false)
+			{
+				PropForm.Visible = true;
+				PropForm.Activate();
+			}
+			else
+			{
+				PropForm.Visible = false;
+			}
 			return true;
 		}
 		// *************************************************************************
@@ -159,19 +168,32 @@ namespace Hypowered
 		{
 			if (ControlList == null)
 			{
-				ControlList = new EditControlListForm();
+				ControlList = new HyperControlList();
 				ControlList.HyperForm = this;
 				ControlList.Location = new Point(100, 100);
 			}
 
-			ControlList.Visible  = !ControlList.Visible;
-				return true;
-			
+			if (ControlList.Visible == false)
+			{
+				ControlList.Visible = true;
+				ControlList.Activate();
+			}
+			else
+			{
+				ControlList.Visible = false;
+			}
+
 			return false;
 		}
 		public bool ShowEditor()
 		{
-			if(Editor.Visible==false)
+			if (Editor == null)
+			{
+				Editor = new HyperScriptEditor();
+				Editor.HyperForm = this;
+				Editor.Location = new Point(100, 100);
+			}
+			if (Editor.Visible==false)
 			{
 				Editor.Visible = true;
 				Editor.Activate();

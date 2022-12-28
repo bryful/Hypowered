@@ -28,7 +28,6 @@ namespace Hypowered
 				"System",
 				"System.Core",
 				"System.Drawing",
-				"System.Windows",
 				"System.Windows.Forms");
 
 			engine.AddHostObject("dotnet", typeCollection);
@@ -39,6 +38,8 @@ namespace Hypowered
 				typeof(Point),
 				typeof(Size),
 				typeof(Padding),
+				typeof(Rectangle),
+				typeof(Color),
 			});
 			engine.AddHostObject("alert", (object)alert);
 

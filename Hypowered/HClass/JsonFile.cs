@@ -1,11 +1,15 @@
 ﻿using Newtonsoft.Json.Linq;
 using System;
+using System.CodeDom;
 using System.Collections.Generic;
+using System.Collections.Specialized;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 using System.Text.Json;
 using System.Text.Json.Nodes;
 using System.Threading.Tasks;
+using System.Windows.Forms;
 
 namespace Hypowered
 {
@@ -180,7 +184,7 @@ namespace Hypowered
 			arr.Add(sz.Height);
 			return arr;
 		}
-		static public Rectangle? RectangleFromJson(JsonObject jo)
+		static public Rectangle? RectangleFromJson(JsonNode? jo)
 		{
 			Rectangle? ret = null;
 			JsonArray? ar = jo.AsArray();
@@ -205,7 +209,7 @@ namespace Hypowered
 			arr.Add(p.Bottom);
 			return arr;
 		}
-		static public Padding? PaddingFromJson(JsonObject jo)
+		static public Padding? PaddingFromJson(JsonNode? jo)
 		{
 			Padding? ret = null;
 			JsonArray ar = jo.AsArray();
@@ -467,6 +471,57 @@ namespace Hypowered
 				Obj.Add(key, jo);
 			}
 		}
+		public void SetValue(string key, StringCollection sc)
+		{
+			if (Obj == null) return;
+			JsonArray ja = new JsonArray();
+			if(sc.Count>0)
+			{
+				foreach(var s in sc )
+				{
+					if (s != null)
+					{
+						ja.Add(s);
+					}
+				}
+			}
+
+			if (Obj.ContainsKey(key))
+			{
+				Obj[key] = ja;
+
+			}
+			else
+			{
+				Obj.Add(key, ja);
+			}
+		}
+		
+		public void SetValue(string key, ListBox.ObjectCollection sc)
+		{
+			if (Obj == null) return;
+			JsonArray ja = new JsonArray();
+			if (sc.Count > 0)
+			{
+				foreach (var s in sc)
+				{
+					if (s != null)
+					{
+						ja.Add(s.ToString());
+					}
+				}
+			}
+
+			if (Obj.ContainsKey(key))
+			{
+				Obj[key] = ja;
+
+			}
+			else
+			{
+				Obj.Add(key, ja);
+			}
+		}
 		// *********************************
 		public void SetValue(string key, JsonArray jo)
 		{
@@ -505,7 +560,113 @@ namespace Hypowered
 				Obj.Add(key, ja);
 			}
 		}
-		 // ***************************************************
+		public void SetValue(string key, FormBorderStyle fbs)
+		{
+			if (Obj == null) return;
+
+
+			if (Obj.ContainsKey(key))
+			{
+				Obj[key] = (int)fbs;
+
+			}
+			else
+			{
+				Obj.Add(key, (int)fbs);
+			}
+		}
+		public void SetValue(string key, ControlType ct)
+		{
+			if (Obj == null) return;
+
+			if (Obj.ContainsKey(key))
+			{
+				Obj[key] = (int)ct;
+
+			}
+			else
+			{
+				Obj.Add(key, (int)ct);
+			}
+		}
+		// *****************************************************************************************
+		//SizeGripStyle
+		// *****************************************************************************************
+		// *****************************************************************************************
+		public object? ValueAuto(string key,string typeN)
+		{
+			object? ret = null;
+			if (Obj == null) return ret;
+			if (Obj.ContainsKey(key))
+			{
+				switch (typeN)
+				{
+					case "Color":
+						ret = ValueColor(key);
+						break;
+					case "Point":
+						ret = ValuePoint(key);
+						break;
+					case "Rectangle":
+						ret = ValueRectangle(key);
+						break;
+					case "Padding":
+						ret = ValuePadding(key);
+						break;
+					case "Size"://
+						ret = ValueSize(key);
+						break;
+					case "Font"://
+						ret = ValueFont(key);
+						break;
+					case "StringCollection":
+						ret = ValueStringCollection(key);
+						break;
+					case "Int":
+					case "Int16":
+					case "Int32":
+					case "ImeMode":
+					case "DockStyle":
+					case "StringAlignment":
+					case "FormBorderStyle":
+						ret = Obj[key].GetValue<int?>();
+						break;
+					case "Double":
+						ret = Obj[key].GetValue<double?>();
+						break;
+					case "Float":
+						ret = Obj[key].GetValue<float?>();
+						break;
+					case "String":
+						ret = Obj[key].GetValue<string?>();
+						break;
+					case "String[]":
+					case "String []":
+						ret = Obj[key].GetValue<string?>();
+						break;
+					case "Boolean":
+					case "Bool":
+						ret = Obj[key].GetValue<bool?>();
+						break;
+				}
+
+			}
+
+			return ret;
+		}
+		// *****************************************************************************************
+		// *****************************************************************************************
+		// *****************************************************************************************
+		public JsonObject? ValueObject(string key)
+		{
+			JsonObject? ary = null;
+			if (Obj == null) return ary;
+			if (Obj.ContainsKey(key))
+			{
+				ary = Obj[key].AsObject();
+			}
+			return ary;
+		}       // *****************************************************************************************
 		public JsonArray? ValueArray(string key)
 		{
 			JsonArray? ary = null;
@@ -759,7 +920,7 @@ namespace Hypowered
 				if (Obj.ContainsKey(key))
 				{
 					JsonArray? jo = Obj[key].AsArray();
-					Point? pt = PointFromJson(jo);
+					ret = PointFromJson(jo);
 
 				}
 			}
@@ -773,35 +934,22 @@ namespace Hypowered
 			{
 				if (Obj.ContainsKey(key))
 				{
-					JsonObject? jo = Obj[key].AsObject();
-					int? w = null;
-					int? h = null;
-					if (jo.ContainsKey("Width"))
-					{
-						w = jo["Width"].GetValue<int?>();
-					}
-					if (jo.ContainsKey("Height"))
-					{
-						h = jo["Height"].GetValue<int?>();
-					}
-					if ((w != null) && (h != null))
-					{
-						ret = new Size((int)w, (int)h);
-					}
+					JsonArray? jo = Obj[key].AsArray();
+					ret = SizeFromJson(jo);
 
 				}
 			}
 			return ret;
 		}
 		// ****************************************************
-		public Padding? ValueRadding(string key)
+		public Padding? ValuePadding(string key)
 		{
 			Padding? ret = null;
 			if (Obj != null)
 			{
 				if (Obj.ContainsKey(key))
 				{
-					JsonObject? jo = Obj[key].AsObject();
+					JsonArray? jo = Obj[key].AsArray();
 					ret = PaddingFromJson(jo);
 				}
 			}
@@ -846,7 +994,7 @@ namespace Hypowered
 					Key = "Style";
 					if (jo.ContainsKey(Key))
 					{
-						fs = jo[Key].GetValue<FontStyle?>();
+						fs = (FontStyle?)jo[Key].GetValue<int?>();
 					}
 					if ((n != null) && (sz != null) && (fs != null))
 					{
@@ -906,7 +1054,55 @@ namespace Hypowered
 			}
 			return ret;
 		}
-		
+		public StringCollection? ValueStringCollection(string key)
+		{
+			StringCollection? ret = null;
+			if (Obj != null)
+			{
+				if (Obj.ContainsKey(key))
+				{
+					JsonArray? ja = Obj[key].AsArray();
+					ret = new StringCollection();
+					if ((ja != null)&&(ja.Count>0))
+					{
+						foreach(var s in ja)
+						{
+							string? ss = (string?)s;
+							if (s !=null)
+							{
+								ret.Add(ss);
+							}
+						}
+					}
+				}
+			}
+			return ret;
+		}
+		public string[]? ValueObjectCollection(string key)
+		{
+			string[]? ret = null;
+			if (Obj != null)
+			{
+				if (Obj.ContainsKey(key))
+				{
+					JsonArray? ja = Obj[key].AsArray();
+					List<string> list = new List<string>();
+					if ((ja != null) && (ja.Count > 0))
+					{
+						foreach (var s in ja)
+						{
+							string? ss = (string?)s;
+							if (s != null)
+							{
+								list.Add(ss);
+							}
+						}
+					}
+					ret = list.ToArray();
+				}
+			}
+			return ret;
+		}
 		// ****************************************************
 		public void StoreForm(Form fm)
 		{

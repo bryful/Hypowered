@@ -5,6 +5,7 @@ using System.Data;
 using System.Drawing;
 using System.Linq;
 using System.Text;
+using System.Text.Json.Nodes;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using static System.Windows.Forms.DataFormats;
@@ -60,6 +61,13 @@ namespace Hypowered
 				DrawType(g, sb);
 
 			}
+		}
+		public override JsonObject ToJson()
+		{
+			JsonFile jf = new JsonFile(base.ToJson());
+			jf.SetValue(nameof(MyType), (int?)MyType);//Nullable`1
+
+			return jf.Obj;
 		}
 	}
 }

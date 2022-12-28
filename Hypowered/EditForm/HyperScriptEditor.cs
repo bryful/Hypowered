@@ -16,7 +16,12 @@ namespace Hypowered
 	public partial class HyperScriptEditor : Form
 	{
 		private HyperForm? m_HyperForm = null;
-		public void SetHyperForm(HyperForm fm)
+		public HyperForm? HyperForm
+		{
+			get { return m_HyperForm; }
+			set { SetHyperForm(value); }
+		}
+		public void SetHyperForm(HyperForm? fm)
 		{
 			m_HyperForm = fm;
 			if(m_HyperForm!=null)
@@ -29,7 +34,7 @@ namespace Hypowered
 			m_HyperControl = c;
 			if (m_HyperControl != null)
 			{
-				editPad1.Text = m_HyperControl.ScriptCode;
+				editPad1.Text = m_HyperControl.ScriptCodes;
 				this.Text = m_HyperControl.Name;
 			}
 		}
@@ -105,7 +110,7 @@ true);
 		{
 			if(m_HyperControl !=null)
 			{
-				m_HyperControl.ScriptCode = editPad1.Text;
+				m_HyperControl.ScriptCodes = editPad1.Text;
 			}
 		}
 	}

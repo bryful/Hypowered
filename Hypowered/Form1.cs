@@ -38,5 +38,23 @@ namespace Hypowered
 		{
 
 		}
+
+		private void Button1_Click_1(object sender, EventArgs e)
+		{
+			//JsonFile.JsonSave(TargetControl.Name + ".json", TargetControl);
+			//string s = PropUtil.GetPropList(this);
+			//string s = TargetControl.ToJsonCode();
+			//Clipboard.SetText(s);
+
+			//string s = typeof(ControlType).Name;
+			
+			//MessageBox.Show(s);
+
+			//JsonFile.JsonSave(TargetControl.Name + ".json", TargetControl);
+			string s = PropUtil.GetPropList(m_menuBar);
+			//string s = TargetControl.ToJsonCode();
+			Clipboard.SetText(s);
+			MessageBox.Show(s);
+		}
 	}
 }

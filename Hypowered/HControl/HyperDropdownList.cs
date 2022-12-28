@@ -6,8 +6,10 @@ using System.Data;
 using System.Drawing;
 using System.Linq;
 using System.Text;
+using System.Text.Json.Nodes;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using static System.Windows.Forms.VisualStyles.VisualStyleElement.Header;
 
 namespace Hypowered
 {
@@ -22,9 +24,9 @@ namespace Hypowered
 			{
 				SelectedIndexChanged(this, e);
 			}
-			if ((HyperForm != null) && (m_ScriptCode != ""))
+			if ((HyperForm != null) && (m_ScriptCodes != ""))
 			{
-				HyperForm.ExecuteCode(m_ScriptCode);
+				HyperForm.ExecuteCode(m_ScriptCodes);
 			}
 		}
 		private int m_SelectedIndex = -1;
@@ -67,7 +69,7 @@ namespace Hypowered
 		public HyperDropdownList()
 		{
 			SetMyType(ControlType.DropdownList);
-			m_ScriptCode = "//DropdownList";
+			m_ScriptCodes = "//DropdownList";
 			this.Location = new Point(100, 100);
 			this.Size = ControlDef.DefSize;
 			InitializeComponent();
@@ -158,6 +160,33 @@ namespace Hypowered
 				}
 			}
 			
+		}
+		public override JsonObject ToJson()
+		{
+			JsonFile jf = new JsonFile(base.ToJson());
+			jf.SetValue(nameof(MyType), (int?)MyType);//Nullable`1
+			jf.SetValue(nameof(Items), Items);//StringCollection
+			jf.SetValue(nameof(ForeColor), ForeColor);//Color
+			jf.SetValue(nameof(BackColor), BackColor);//Color
+			jf.SetValue(nameof(Font), Font);//Font
+
+			return jf.Obj;
+		}
+		public override void FromJson(JsonObject jo)
+		{
+			base.FromJson(jo);
+			JsonFile jf = new JsonFile(jo);
+			object? v = null;
+			v = jf.ValueAuto("Items", typeof(StringCollection).Name);
+			if (v != null) Items.AddRange((string[])v);
+			v = jf.ValueAuto("ForeColor", typeof(Color).Name);
+			if (v != null) ForeColor = (Color)v;
+			v = jf.ValueAuto("BackColor", typeof(Color).Name);
+			if (v != null) BackColor = (Color)v;
+			v = jf.ValueAuto("Font", typeof(Font).Name);
+			if (v != null) Font = (Font)v;
+
+
 		}
 	}
 }

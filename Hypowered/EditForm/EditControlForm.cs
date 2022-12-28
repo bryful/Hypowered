@@ -219,11 +219,16 @@ namespace Hypowered
 
 		private void Button1_Click(object sender, EventArgs e)
 		{
+			
 			if(TargetControl!=null)
 			{
 				//JsonFile.JsonSave(TargetControl.Name + ".json", TargetControl);
-				Clipboard.SetText(TargetControl.ToJsonCode());
+				string s = PropUtil.GetPropList(TargetControl);
+				//string s = TargetControl.ToJsonCode();
+				Clipboard.SetText(s);
+				MessageBox.Show(s);
 			}
+			
 		}
 	}
 }

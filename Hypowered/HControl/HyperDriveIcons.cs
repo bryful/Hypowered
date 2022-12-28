@@ -15,6 +15,7 @@ using System.Security.Cryptography.X509Certificates;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Management;
+using System.Text.Json.Nodes;
 
 namespace Hypowered
 {
@@ -114,7 +115,7 @@ namespace Hypowered
 		{
 			Listup();
 			SetMyType(ControlType.DriveIcons);
-			m_ScriptCode = "//DriveIcons";
+			m_ScriptCodes = "//DriveIcons";
 			this.Size = ControlDef.DefSize;
 
 			InitializeComponent();
@@ -269,5 +270,23 @@ namespace Hypowered
 			}
 			
 		}
+		public override JsonObject ToJson()
+		{
+			JsonFile jf = new JsonFile(base.ToJson());
+			jf.SetValue(nameof(MyType), (int?)MyType);//Nullable`1
+			jf.SetValue(nameof(IconSize), IconSize);//Size
+
+			return jf.Obj;
+		}
+		public override void FromJson(JsonObject jo)
+		{
+			base.FromJson(jo);
+			JsonFile jf = new JsonFile(jo);
+			object? v = null;
+			v = jf.ValueAuto("IconSize", typeof(Size).Name);
+			if (v != null) IconSize = (Size)v;
+
+		}
+
 	}
 }
