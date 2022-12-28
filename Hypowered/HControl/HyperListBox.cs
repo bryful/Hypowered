@@ -4,6 +4,7 @@ using System.ComponentModel;
 using System.Data;
 using System.Drawing;
 using System.Linq;
+using System.Security.Cryptography.X509Certificates;
 using System.Text;
 using System.Text.Json.Nodes;
 using System.Threading.Tasks;
@@ -11,7 +12,7 @@ using System.Windows.Forms;
 
 namespace Hypowered
 {
-	public partial class HyperListBox : HyperControl
+    public partial class HyperListBox : HyperControl
 	{
 		private ListBox m_ListBox = new ListBox();
 		public delegate void SelectedIndexChangedHandler(object sender, SelectedIndexChangedEventArgs e);
@@ -25,7 +26,20 @@ namespace Hypowered
 			if (HyperForm != null)
 			{
 
-				HyperForm.ExecuteCode(GetScriptCode(InScript.SelectedIndexChanged));
+				HyperForm.ExecuteCode(Script_SelectedIndexChanged);
+			}
+		}
+		public delegate void DoubleClickHandler(object sender, EventArgs e);
+		public new event DoubleClickHandler? DoubleClick;
+		protected override void OnDoubleClick(EventArgs e)
+		{
+			if (DoubleClick != null)
+			{
+				DoubleClick(this, e);
+			}
+			if (HyperForm != null)
+			{
+				HyperForm.ExecuteCode(Script_MouseDoubleClick);
 			}
 		}
 		public override void SetIsEditMode(bool value)
@@ -109,10 +123,11 @@ namespace Hypowered
 				m_ListBox.BackColor = value;
 			}
 		}
+		public new HyperScriptCode ScriptCode = new HyperScriptCode();
 		public HyperListBox()
 		{
 			SetMyType(ControlType.ListBox);
-			SetInScript(InScript.ListBox);
+			SetInScript(InScript.SelectedIndexChanged | InScript.MouseDoubleClick);
 			this.Size = new Size(150, 150);
 			m_ListBox.Location = new Point(0, 0);
 			m_ListBox.Size = new Size(this.Width,this.Height);
@@ -128,6 +143,12 @@ namespace Hypowered
 			InitializeComponent();
 			this.Controls.Add(m_ListBox);
 			m_ListBox.SelectedIndexChanged += M_ListBox_SelectedIndexChanged;
+			m_ListBox.DoubleClick += M_ListBox_DoubleClick;
+		}
+
+		private void M_ListBox_DoubleClick(object? sender, EventArgs e)
+		{
+			OnDoubleClick(e);
 		}
 
 		private void M_ListBox_SelectedIndexChanged(object? sender, EventArgs e)

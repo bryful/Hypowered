@@ -11,6 +11,11 @@ namespace Hypowered
 
     public class HyperScript
     {
+		private string startCode =
+	  @"var System = dotnet.System;\r\n"
+	+ @"var System.Core = dotnet.System.Core;"
+	+ @"var System.Drawing = dotnet.System.Drawing;"
+;
 		private V8ScriptEngine? engine = null;
         public HyperScript()
         {
@@ -31,15 +36,20 @@ namespace Hypowered
 				"System.Windows.Forms");
 
 			engine.AddHostObject("dotnet", typeCollection);
+
 			engine.AddHostObject("alert", (object)alert);
 			engine.AddHostTypes(new Type[]
 			{
 				typeof(Console),
+				typeof(Int32),
+				typeof(String[]),
+				typeof(Boolean),
 				typeof(Point),
 				typeof(Size),
 				typeof(Padding),
 				typeof(Rectangle),
 				typeof(Color),
+				typeof(DateTime),
 			});
 			engine.AddHostObject("alert", (object)alert);
 
@@ -55,9 +65,25 @@ namespace Hypowered
 				}
 			}
 		}
-		public void alert(string s)
+		public void alert(object? s)
 		{
-			MessageBox.Show(s);
+			string ret = "";
+			try
+			{
+				if (s != null)
+				{
+					ret = s.ToString();
+				}
+				else
+				{
+					ret = "null";
+				}
+			}
+			catch
+			{
+				ret = "null";
+			}
+			MessageBox.Show($"{ret}");
 		}
 		public void ExecuteCode(string code)
 		{

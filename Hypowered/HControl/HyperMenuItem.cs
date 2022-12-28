@@ -84,10 +84,7 @@ namespace Hypowered
 							{
 								mc.Checked = (mf.ControlList.Visible);
 							}
-							else if ((mf.Editor != null) && (nm == "ShowEditor"))
-							{
-								mc.Checked = (mf.Editor.Visible);
-							}
+							
 						}
 						mc.Checked= mi.Checked;
 						mc.Text = mi.Caption;

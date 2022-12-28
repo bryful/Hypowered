@@ -32,12 +32,12 @@
 			// 
 			// m_menuBar
 			// 
-			this.m_menuBar.Size = new System.Drawing.Size(591, 25);
+			this.m_menuBar.Size = new System.Drawing.Size(597, 25);
 			// 
 			// Form1
 			// 
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
-			this.ClientSize = new System.Drawing.Size(591, 349);
+			this.ClientSize = new System.Drawing.Size(597, 342);
 			this.DoubleBuffered = true;
 			this.IsShowMenu = true;
 			this.Name = "Form1";

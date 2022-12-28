@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.ClearScript.V8;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
@@ -9,8 +10,52 @@ using System.Windows.Forms.Layout;
 
 namespace Hypowered
 {
-	partial class HyperForm
+    partial class HyperForm
 	{
+		public HyperScriptCode ScriptCode = new HyperScriptCode();
+		public void SetInScript(InScript s)
+		{
+			ScriptCode.SetInScript(s);
+		}
+		[Category("Hypowerd_Script")]
+		public InScript InScript
+		{
+			get { return ScriptCode.InScript; }
+		}
+		[Category("Hypowerd_Script")]
+		public int ScriptCount
+		{
+			get { return ScriptCode.Count; }
+		}
+		[Category("Hypowerd_Script")]
+		public string[] ValidSprictNames
+		{
+			get { return ScriptCode.ValidSprictNames; }
+		}
+		[Category("Hypowerd_Script")]
+		public ScriptKind[] ScriptKinds
+		{
+			get { return ScriptCode.ScriptKinds; }
+		}
+		[Category("Hypowerd_Script")]
+		public string Script_MouseClick
+		{
+			get { return ScriptCode.Script_MouseClick; }
+			set { ScriptCode.Script_MouseClick = value; }
+		}
+		[Category("Hypowerd_Script")]
+		public string Script_Startup
+		{
+			get { return ScriptCode.Script_Startup; }
+			set { ScriptCode.Script_Startup = value; }
+		}
+		[Category("Hypowerd_Script")]
+		public string Script_KeyPress
+		{
+			get { return ScriptCode.Script_KeyPress; }
+			set { ScriptCode.Script_KeyPress = value; }
+		}
+
 		protected int m_TargetIndex = -1;
 		[Category("Hypowerd_Form")]
 		public int TargetIndex
@@ -78,6 +123,13 @@ namespace Hypowered
 				}
 				return ret;
 			}
+		}
+		protected Padding m_FrameWeight = new Padding(1, 1, 1, 1);
+		[Category("Hypowerd")]
+		public Padding FrameWeight
+		{
+			get { return m_FrameWeight; }
+			set { m_FrameWeight = value; this.Invalidate(); }
 		}
 		[Category("Hypowerd_Form")]
 		public new Size Size
@@ -167,6 +219,11 @@ namespace Hypowered
 			jf.SetValue(nameof(Visible), Visible);//Boolean
 			jf.SetValue(nameof(Padding), Padding);//Padding
 			jf.SetValue(nameof(ImeMode), ImeMode);//ImeMode
+			jf.SetValue(nameof(FrameWeight), FrameWeight);
+
+			jf.SetValue(nameof(Script_MouseClick), Script_MouseClick);//string
+			jf.SetValue(nameof(Script_KeyPress), Script_KeyPress);//string
+			jf.SetValue(nameof(Script_Startup), Script_Startup);//string
 
 
 			jf.SetValue("Menu", m_menuBar.ToJson());
@@ -233,6 +290,8 @@ namespace Hypowered
 							if(Obj != null)
 							{
 								FromJson(Obj);
+								m_Script.Init();
+								m_Script.InitControls(this.Controls);
 								ret = true;
 							}
 						}
@@ -343,8 +402,17 @@ namespace Hypowered
 			if (v != null) Padding = (Padding)v;
 			v = jf.ValueAuto("ImeMode", typeof(ImeMode).Name);
 			if (v != null) ImeMode = (ImeMode)v;
+			v = jf.ValueAuto("FrameWeight", typeof(Padding).Name);
+			if (v != null) FrameWeight = (Padding)v;
 
+			v = jf.ValueAuto("Script_MouseClick", typeof(String).Name);
+			if (v != null) Script_MouseClick = (String)v;
 
+			v = jf.ValueAuto("Script_KeyPress", typeof(String).Name);
+			if (v != null) Script_KeyPress = (String)v;
+
+			v = jf.ValueAuto("Script_Startup", typeof(String).Name);
+			if (v != null) Script_Startup = (String)v;
 			JsonObject? mm = jf.ValueObject("Menu");
 			if (mm != null)
 			{

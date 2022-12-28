@@ -11,7 +11,7 @@ using System.Windows.Forms;
 
 namespace Hypowered
 {
-	public partial class HyperDirList : HyperControl
+    public partial class HyperDirList : HyperControl
 	{
 		public delegate void CurrentDirChangedHandler(object sender, CurrentDirChangedEventArgs e);
 		public event CurrentDirChangedHandler? CurrentDirChanged;
@@ -32,6 +32,10 @@ namespace Hypowered
 			{
 				m_HyperLabel.Text = e.Path;
 			}
+			if ((HyperForm != null))
+			{
+				HyperForm.ExecuteCode(Script_CurrentDirChanged);
+			}
 
 		}
 		public delegate void SelectedIndexChangedHandler(object sender, SelectedIndexChangedEventArgs e);
@@ -41,6 +45,10 @@ namespace Hypowered
 			if (SelectedIndexChanged != null)
 			{
 				SelectedIndexChanged(this, e);
+			}
+			if ((HyperForm != null))
+			{
+				HyperForm.ExecuteCode(Script_SelectedIndexChanged);
 			}
 
 		}
@@ -60,6 +68,7 @@ namespace Hypowered
 				}
 			}
 		}
+
 		[Category("Hypowerd_DirList")]
 		public string SelectedDir
 		{
@@ -126,6 +135,24 @@ namespace Hypowered
 			{
 				m_ListBox.SelectedIndex = value;
 			}
+		}
+		[Category("Hypowerd_DirList")]
+		public string SelectedItem
+		{
+			get
+			{
+				string ret = "";
+				if( m_ListBox.SelectedItem != null )
+				{
+					ret =  m_ListBox.SelectedItem.ToString();
+					if(m_CurrentDir!="")
+					{
+						ret = Path.Combine(m_CurrentDir, ret);
+					}
+				}
+				return ret;
+			}
+			
 		}
 		[Category("Hypowerd_DirList")]
 		public ListBox.ObjectCollection Items
@@ -197,7 +224,10 @@ namespace Hypowered
 		public HyperDirList()
 		{
 			SetMyType(ControlType.DirList);
-			SetInScript(InScript.DirList);
+			SetInScript(
+				InScript.CurrentDirChanged| 
+				InScript.SelectedIndexChanged
+				);
 			this.Size = new Size(150, 150);
 			m_ListBox.Location = new Point(0, 0);
 			m_ListBox.Size = new Size(this.Width,this.Height);

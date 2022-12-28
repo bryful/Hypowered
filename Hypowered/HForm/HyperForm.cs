@@ -58,6 +58,7 @@ namespace Hypowered
 
 		public HyperForm()
 		{
+			SetInScript(InScript.Startup| InScript.MouseClick| InScript.KeyPress);
 
 			base.KeyPreview = true;
 			BackColor = ColU.ToColor(HyperColor.Back);
@@ -101,6 +102,10 @@ true);
 		{
 			base.OnLoad(e);
 			LoadFromFile("aaa.json");
+			if(Script_Startup!="")
+			{
+				ExecuteCode(Script_Startup);
+			}
 		}
 		protected override void OnFormClosed(FormClosedEventArgs e)
 		{
@@ -108,7 +113,6 @@ true);
 
 			if(PropForm!=null) PropForm.Dispose();
 			if(ControlList!=null) ControlList.Dispose();
-			if(Editor!=null) Editor.Dispose();
 
 			SaveToFile("aaa.json");
 		}
@@ -177,53 +181,6 @@ true);
 			this.Invalidate();
 		}
 		// ***********************************************************************
-		public void ChkRadioButton(HyperRadioButton ct)
-		{
-			if(this.Controls.Count > 0)
-			{
-				foreach (Control c in this.Controls)
-				{
-					if (c is HyperRadioButton)
-					{
-						HyperRadioButton hc = (HyperRadioButton)c;
-						if (hc.Group == ct.Group)
-						{
-							if (hc.Index == ct.Index)
-							{
-								hc.SetCheckedNoEvent(true);
-							}
-							else
-							{
-								hc.SetCheckedNoEvent(false);
-							}
-						}
-					}
-				}
-
-			}
-		}
-		public bool IsRadioButtonIndex(HyperRadioButton ct,int idx)
-		{
-			bool ret = false;
-			if (this.Controls.Count > 0)
-			{
-				foreach (Control c in this.Controls)
-				{
-					if (c is HyperRadioButton)
-					{
-						HyperRadioButton hc = (HyperRadioButton)c;
-						if (hc.Group == ct.Group)
-						{
-							hc.GroupIndex = idx;
-							ret = true;
-						}
-					}
-				}
-
-			}
-			return ret;
-		}
-		// ***********************************************************************
 		protected override void OnPaint(PaintEventArgs e)
 		{
 			base.OnPaint(e);
@@ -261,11 +218,42 @@ true);
 				}
 				p.Width = 1;
 				p.Color = ForeColor;
-				g.DrawRectangle(p,new Rectangle(0,0,Width-1,Height-1));
+				DrawFrame(g, p, this.ClientRectangle);
+				//g.DrawRectangle(p,new Rectangle(0,0,Width-1,Height-1));
 			}
 			
 		}
+		// ****************************************************************************
+		public void DrawFrame(Graphics g, Pen p, Rectangle rct)
+		{
+			float pw2;
+			if (m_FrameWeight.Top > 0)
+			{
+				p.Width = (float)m_FrameWeight.Top;
+				pw2 = rct.Top + (float)m_FrameWeight.Top / 2;
+				g.DrawLine(p, rct.Left, pw2, rct.Right, pw2);
+			}
+			if (m_FrameWeight.Bottom > 0)
+			{
+				p.Width = (float)m_FrameWeight.Bottom;
+				pw2 = rct.Bottom - (float)m_FrameWeight.Bottom/2;
+				g.DrawLine(p, rct.Left, pw2, rct.Right, pw2);
+			}
+			if (m_FrameWeight.Left > 0)
+			{
+				p.Width = (float)m_FrameWeight.Left;
+				pw2 = rct.Left + (float)m_FrameWeight.Left / 2;
+				g.DrawLine(p, pw2, rct.Top, pw2, rct.Bottom);
+			}
+			if (m_FrameWeight.Right > 0)
+			{
+				p.Width = (float)m_FrameWeight.Right;
+				pw2 = rct.Right - (float)m_FrameWeight.Right/2;
+				g.DrawLine(p, pw2, rct.Top, pw2, rct.Bottom);
+			}
 
+
+		}
 		// ******************************************************************************
 		public Control? FindControl(string name)
 		{
@@ -351,7 +339,7 @@ true);
 				this.Controls.Add(ctrl);
 				//this.Controls.SetChildIndex(ctrl, 1);
 				ChkControls();
-				
+				m_Script.InitControls(this.Controls);
 			}
 			return ret;
 		}
@@ -364,6 +352,7 @@ true);
 			{
 				this.Controls.Remove(ctrls[0]);
 				ChkControls();
+				m_Script.InitControls(this.Controls);
 				ret = true;
 			}
 			return ret;

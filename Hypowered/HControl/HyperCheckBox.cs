@@ -12,8 +12,8 @@ using static System.Windows.Forms.DataFormats;
 
 namespace Hypowered
 {
-	
-	public partial class HyperCheckBox : HyperControl
+
+    public partial class HyperCheckBox : HyperControl
 	{
 		public delegate void CheckedChangedHandler(object sender, CheckedChangedEventArgs e);
 		public event CheckedChangedHandler? CheckedChanged;
@@ -23,9 +23,9 @@ namespace Hypowered
 			{
 				CheckedChanged(this, e);
 			}
-			if((HyperForm!=null)&&(m_ScriptCodes!=""))
+			if((HyperForm!=null))
 			{
-				HyperForm.ExecuteCode(m_ScriptCodes);
+				HyperForm.ExecuteCode(Script_ValueChanged);
 			}
 		}
 		private bool m_Checked = true;
@@ -54,7 +54,7 @@ namespace Hypowered
 		public HyperCheckBox()
 		{
 			SetMyType(ControlType.CheckBox);
-			m_ScriptCodes = "//CheckBox";
+			SetInScript(InScript.ValueChanged);
 			m_CheckSize = 16;
 			this.Size = ControlDef.DefSize;
 			InitializeComponent();

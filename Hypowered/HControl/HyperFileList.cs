@@ -11,7 +11,7 @@ using System.Windows.Forms;
 
 namespace Hypowered
 {
-	public partial class HyperFileList : HyperControl
+    public partial class HyperFileList : HyperControl
 	{
 		public delegate void SelectedIndexChangedHandler(object sender, SelectedIndexChangedEventArgs e);
 		public event SelectedIndexChangedHandler? SelectedIndexChanged;
@@ -21,7 +21,24 @@ namespace Hypowered
 			{
 				SelectedIndexChanged(this, e);
 			}
+			if(HyperForm!=null)
+			{
+				HyperForm.ExecuteCode(Script_SelectedIndexChanged);
+			}
 
+		}
+		public delegate void DoubleClickHandler(object sender, EventArgs e);
+		public new event DoubleClickHandler? DoubleClick;
+		protected override void OnDoubleClick(EventArgs e)
+		{
+			if (DoubleClick != null)
+			{
+				DoubleClick(this, e);
+			}
+			if (HyperForm != null)
+			{
+				HyperForm.ExecuteCode(Script_MouseDoubleClick);
+			}
 		}
 		private ListBox m_ListBox = new ListBox();
 		private string m_CurrentDir = Directory.GetCurrentDirectory();
@@ -78,6 +95,7 @@ namespace Hypowered
 				m_ListBox = value;
 			}
 		}
+		
 		[Category("Hypowerd_FileList")]
 		public bool IntegralHeight
 		{
@@ -145,9 +163,12 @@ namespace Hypowered
 				m_HyperDirList = value;
 				if(m_HyperDirList != null)
 				{
-					m_CurrentDir= m_HyperDirList.CurrentDir = m_CurrentDir;
-					Listup();
-					m_HyperDirList.CurrentDirChanged += M_HyperDirList_CurrentDirChanged;
+					if(m_CurrentDir != m_HyperDirList.CurrentDir)
+					{
+						m_CurrentDir = m_HyperDirList.CurrentDir;
+						Listup();
+						m_HyperDirList.CurrentDirChanged += M_HyperDirList_CurrentDirChanged;
+					}
 				}
 			}
 		}
@@ -177,7 +198,7 @@ namespace Hypowered
 		public HyperFileList()
 		{
 			SetMyType(ControlType.FileList);
-			SetInScript(InScript.FileList);
+			SetInScript(InScript.MouseDoubleClick | InScript.SelectedIndexChanged);
 			this.Size = new Size(150, 150);
 			m_ListBox.Location = new Point(0, 0);
 			m_ListBox.Size = new Size(this.Width,this.Height);
@@ -212,6 +233,7 @@ namespace Hypowered
 			int si = m_ListBox.SelectedIndex;
 			if((si>=0)&&(si<m_ListBox.Items.Count))
 			{
+				OnDoubleClick(e);
 			}
 		}
 

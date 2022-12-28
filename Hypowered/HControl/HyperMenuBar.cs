@@ -137,15 +137,47 @@ true);
 						new Point(this.Width-1,this.Height)
 
 					};
-					p.Color = m_MenuWakuColor;
-					g.DrawLine(p, 0, this.Height - 1, this.Width - 1, this.Height - 1);
-					p.Color = ForeColor;
-					g.DrawLines(p, pt);
+					DrawMenuFrame(g, p, this.ClientRectangle);
 				}
 				DrawType(g, sb);
 
 			}
 		}
+		// *************************************************************
+		public void DrawMenuFrame(Graphics g, Pen p, Rectangle rct)
+		{
+			float pw2;
+			if (m_FrameWeight.Bottom > 0)
+			{
+				p.Color = m_MenuWakuColor;
+				p.Width = (float)m_FrameWeight.Bottom;
+				pw2 = rct.Bottom - (float)m_FrameWeight.Bottom / 2;
+				g.DrawLine(p, rct.Left, pw2, rct.Right, pw2);
+			}
+			p.Color = ForeColor;
+			if (m_FrameWeight.Top > 0)
+			{
+				p.Width = (float)m_FrameWeight.Top;
+				pw2 = rct.Top + (float)m_FrameWeight.Top / 2;
+				g.DrawLine(p, rct.Left, pw2, rct.Right, pw2);
+			}
+
+			if (m_FrameWeight.Left > 0)
+			{
+				p.Width = (float)m_FrameWeight.Left;
+				pw2 = rct.Left + (float)m_FrameWeight.Left / 2;
+				g.DrawLine(p, pw2, rct.Top, pw2, rct.Bottom);
+			}
+			if (m_FrameWeight.Right > 0)
+			{
+				p.Width = (float)m_FrameWeight.Right;
+				pw2 = rct.Right - (float)m_FrameWeight.Right / 2;
+				g.DrawLine(p, pw2, rct.Top, pw2, rct.Bottom);
+			}
+
+
+		}
+		// *************************************************************
 		private int m_menuDown = -1;
 		private int GetMenuDown(int x)
 		{
@@ -173,7 +205,7 @@ true);
 				{
 					if (HyperForm != null)
 					{
-						HyperForm.ChkTarget(this);
+						//HyperForm.ChkTarget(this);
 					}
 				}
 				int idx = GetMenuDown(e.X);

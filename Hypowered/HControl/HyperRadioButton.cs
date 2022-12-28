@@ -11,73 +11,39 @@ using System.Windows.Forms;
 
 namespace Hypowered
 {
-	public partial class HyperRadioButton : HyperControl
+    public partial class HyperRadioButton : HyperControl
 	{
 
-		public delegate void RButtonChangedHandler(object sender, RButtonChangedEventArgs e);
-		public event RButtonChangedHandler? RButtonChanged;
-		protected virtual void OnRButtonChanged(RButtonChangedEventArgs e)
+		public delegate void RBValueChangedHandler(object sender, RBValueChangedEventArgs e);
+		public event RBValueChangedHandler? RBValueChanged;
+		protected virtual void OnRBValueChanged(RBValueChangedEventArgs e)
 		{
-			if (RButtonChanged != null)
+			if (RBValueChanged != null)
 			{
-				RButtonChanged(this, e);
+				RBValueChanged(this, e);
 			}
-			if ((HyperForm != null) && (m_ScriptCodes != ""))
+			if ((HyperForm != null))
 			{
-				HyperForm.ExecuteCode(m_ScriptCodes);
-			}
-		}
-		private bool m_Checked = false;
-		[Category("Hypowerd_RadioButton")]
-		public bool Checked
-		{
-			get { return m_Checked; }
-			set 
-			{
-				m_Checked = value;
-				if (m_Checked == true)
-				{
-					if (HyperForm != null)
-					{
-						HyperForm.ChkRadioButton(this);
-						OnRButtonChanged(new RButtonChangedEventArgs(this.Index));
-					}
-				}
-				this.Invalidate();
+				HyperForm.ExecuteCode(Script_ValueChanged);
 			}
 		}
-		public void SetCheckedNoEvent(bool b)
+		public new bool IsEditMode
 		{
-			m_Checked = b;
-		}
-		protected int m_Group = 0;
-		[Category("Hypowerd_RadioButton")]
-		public int Group 
-		{
-			get { return m_Group; } 
-			set 
-			{
-				if (value < 0) value = 0;
-				m_Group = value; 
-				this.Invalidate(); 
-			}
-		}
-		protected int m_GroupIndex = 0;
-		[Category("Hypowerd_RadioButton")]
-		public int GroupIndex
-		{
-			get { return m_GroupIndex; }
+			get { return base.m_IsEditMode; }
 			set
 			{
-				if (value < 0) value = 0;
-				if(HyperForm!=null)
+				base.SetIsEditMode(value);
+				if(this.Controls.Count>0)
 				{
-					if (HyperForm.IsRadioButtonIndex(this, value) ==false)
+					foreach(var item in this.Controls)
 					{
-						m_GroupIndex= value;
+						if(item is RadioButtonChild)
+						{
+							((RadioButtonChild)item).IsEditMode = value;
+						}
 					}
 				}
-				m_GroupIndex = value;
+
 				this.Invalidate();
 			}
 		}
@@ -86,43 +52,187 @@ namespace Hypowered
 		public int CheckSize
 		{
 			get { return m_CheckSize; }
-			set { m_CheckSize = value; this.Invalidate(); }
+			set 
+			{ 
+				m_CheckSize = value;
+				if(this.Controls.Count > 0)
+				{
+					foreach(Control control in this.Controls)
+					{
+						if(control is RadioButtonChild)
+						{
+							RadioButtonChild rb = (RadioButtonChild)control;
+							rb.CheckSize= m_CheckSize;
+						}
+					}
+				}
+				;
+			}
 		}
+		private int m_Value = -1;
+		[Category("Hypowerd_RadioButton")]
+		public int Value
+		{
+			get { return m_Value; }
+			set
+			{
+				SetValue(value);
+			}
+		}
+		public bool SetValue(int value,bool IsEvent =true)
+		{
+			if (m_Value != value)
+			{
+				if ((value >= 0) && (value < this.Controls.Count))
+				{
+					m_Value = value;
+					if (IsEvent) CheckAllOff();
+					((RadioButtonChild)this.Controls[m_Value]).Checked = true;
+					this.Invalidate();
+					OnRBValueChanged(new RBValueChangedEventArgs(m_Value));
+					return true;
+				}
+
+			}
+			return false;
+		}
+		private int m_HorCount = 1;
+		[Category("Hypowerd_RadioButton")]
+		public int HorCount
+		{
+			get { return m_HorCount; }
+			set
+			{
+				m_HorCount = value;
+				if (m_HorCount < 1) m_HorCount = 1;
+				ChkButtons();
+			}
+		}
+		private int m_Count = 1;
+		[Category("Hypowerd_RadioButton")]
+		public int Count
+		{
+			get { return m_Count; }
+			set
+			{
+				m_Count = value;
+				ChkButtons();
+			}
+		}
+		[Category("Hypowerd_RadioButton")]
+		public string[] Captions
+		{
+			get
+			{
+				string[]ret = new string[this.Controls.Count];
+				for(int i=0; i<this.Controls.Count;i++)
+				{
+					ret[i] = this.Controls[i].Text;
+				}
+				return ret;
+			}
+			set
+			{
+				int cnt = value.Length;
+				if(cnt > this.Controls.Count) cnt= this.Controls.Count;
+				for (int i = 0; i < cnt; i++)
+				{
+					this.Controls[i].Text =value[i];
+				}
+
+			}
+		}
+
 		public HyperRadioButton()
 		{
 			SetMyType(ControlType.RadioButton);
-			m_ScriptCodes = "//RadioButton";
+			SetInScript(InScript.ValueChanged);
+			//m_ScriptCodes = "//RadioButton";
 			ControlName = "HyperRadioButton";
 			m_format.Alignment = StringAlignment.Near;
 			m_format.LineAlignment = StringAlignment.Center;
 			m_UnCheckedColor = ColU.ToColor(HyperColor.Dark);
 			m_CheckSize = 16;
-			this.Size = ControlDef.DefSize; InitializeComponent();
+			this.Size = new Size(100,100); 
+			
+			InitializeComponent();
+			m_Count= 1;
+			this.Controls.Add(CreateRB());
+			ChkButtons();
 		}
+		public void CheckAllOff()
+		{
+			if (this.Controls.Count > 0)
+			{
+				for (int i = 0; i < this.Controls.Count; i++)
+				{
+					if (this.Controls[i] is RadioButtonChild)
+					{
+						((RadioButtonChild)this.Controls[i]).Checked = false;
+					}
+				}
+			}
+		}
+		private void ChkButtons()
+		{
+			int motocnt = this.Controls.Count;
+			if (motocnt > m_Count)
+			{
+				for (int i = motocnt - 1; i >= m_Count; i--)
+				{
+					this.Controls.RemoveAt(i);
+				}
+			}
+			else if(motocnt< m_Count) 
+			{
+				for (int i = motocnt ; i < m_Count; i++)
+				{
+					this.Controls.Add(CreateRB());
+				}
+			}
+			for (int i = 0; i < this.Controls.Count; i++)
+			{
+				((RadioButtonChild)this.Controls[i]).SetIndex(i);
 
+			}
+			LayoutButton();
+		}
+		private void LayoutButton()
+		{
+			if (m_Count != this.Controls.Count) return;
+			int w = (this.Size.Width-16) / m_HorCount;
+			int h = this.Controls[0].Height;
+			int x = 0;
+			int y = 0;
+			for (int i=0; i<m_Count;i++)
+			{
+				x = (i % m_HorCount) * w +8;
+				y=  (i / m_HorCount) * h + 8;
+				this.Controls[i].Location= new Point(x, y);
+				this.Controls[i].Size = new Size(w,h);
+
+			}
+		}
+		private RadioButtonChild CreateRB()
+		{
+			RadioButtonChild child = new RadioButtonChild();
+			int i = this.Controls.Count;
+			child.Text = $"RadioButton{i}";
+			if((this.Parent!= null)&&(this.Parent is HyperRadioButton))
+			{
+				m_IsEditMode = ((HyperRadioButton)this.Parent).IsEditMode;
+			}
+			child.IsEditMode = m_IsEditMode;
+			return child;
+		}
 		protected override void OnPaint(PaintEventArgs pe)
 		{
-			using (SolidBrush sb = new SolidBrush(BackColor))
 			using (Pen p = new Pen(ForeColor))
+			using (SolidBrush sb = new SolidBrush(BackColor))
 			{
 				Graphics g = pe.Graphics;
 				// 背景色
 				g.FillRectangle(sb, this.ClientRectangle);
-
-				Rectangle r = new Rectangle(3, (this.Height - m_CheckSize) / 2, m_CheckSize, m_CheckSize);
-				p.Width = 1;
-				g.DrawEllipse(p, r);
-				if (m_Checked)
-				{
-					sb.Color = ForeColor;
-				}
-				else
-				{
-					sb.Color = m_UnCheckedColor;
-				}
-				RectangleF rs = ReRectF(r, 5);
-				g.FillEllipse(sb, rs);
-
 				// 外枠
 				Rectangle rr = ReRect(this.ClientRectangle, 2);
 				//p.Color = ForeColor;
@@ -133,15 +243,17 @@ namespace Hypowered
 					p.Color = m_ForcusColor;
 					g.DrawRectangle(p, rr);
 				}
-				if (this.Text != "")
-				{
-					sb.Color = ForeColor;
-					rr = new Rectangle(m_CheckSize + 5, 3, this.Width - m_CheckSize - 5, this.Height - 6);
-					g.DrawString(this.Text, this.Font, sb, rr, m_format);
-				}
 				DrawType(g, sb);
 
 			}
+		}
+		public void CallMouseDown(MouseEventArgs e)
+		{
+			OnMouseDown(e);
+		}
+		public void CallMouseUp(MouseEventArgs e)
+		{
+			OnMouseUp(e);
 		}
 		protected override void OnMouseDown(MouseEventArgs e)
 		{
@@ -162,28 +274,20 @@ namespace Hypowered
 					}
 				}
 			}
-			else
-			{
-				if(m_Checked==false)
-				{
-					if(HyperForm!=null)
-					{
-						HyperForm.ChkRadioButton(this);
-					}
-				}
-				this.Invalidate();
-				return;
-
-			}
 			base.OnMouseDown(e);
+		}
+		protected override void OnResize(EventArgs e)
+		{
+			base.OnResize(e);
+			LayoutButton();
 		}
 		public override JsonObject ToJson()
 		{
 			JsonFile jf = new JsonFile(base.ToJson());
 			jf.SetValue(nameof(MyType), (int?)MyType);//Nullable`1
-			jf.SetValue(nameof(Checked), Checked);//Boolean
-			jf.SetValue(nameof(Group), Group);//Int32
-			jf.SetValue(nameof(GroupIndex), GroupIndex);//Int32
+			jf.SetValue(nameof(HorCount), HorCount);
+			jf.SetValue(nameof(Count), Count);
+			jf.SetValue(nameof(Value), Value);
 			jf.SetValue(nameof(CheckSize), CheckSize);//Int32
 
 
@@ -194,15 +298,14 @@ namespace Hypowered
 			base.FromJson(jo);
 			JsonFile jf = new JsonFile(jo);
 			object? v = null;
-			v = jf.ValueAuto("Checked", typeof(Boolean).Name);
-			if (v != null) Checked = (Boolean)v;
-			v = jf.ValueAuto("Group", typeof(Int32).Name);
-			if (v != null) Group = (Int32)v;
-			v = jf.ValueAuto("GroupIndex", typeof(Int32).Name);
-			if (v != null) GroupIndex = (Int32)v;
+			v = jf.ValueAuto("Count", typeof(Int32).Name);
+			if (v != null) Count = (Int32)v;
+			v = jf.ValueAuto("HorCount", typeof(Int32).Name);
+			if (v != null) HorCount = (Int32)v;
+			v = jf.ValueAuto("Value", typeof(Int32).Name);
+			if (v != null) Value = (Int32)v;
 			v = jf.ValueAuto("CheckSize", typeof(Int32).Name);
 			if (v != null) CheckSize = (Int32)v;
-
 		}
 	}
 }

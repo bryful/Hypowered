@@ -18,11 +18,15 @@ using System.Windows.Documents;
 namespace Hypowered
 {
 
-	public partial class HyperControl : Control
+    public partial class HyperControl : Control
 	{
+		
 		private ControlType? m_MyType = null;
 		protected void SetMyType(ControlType? c) { m_MyType = c; }
 
+		/// <summary>
+		/// コントロールのタイプ識別
+		/// </summary>
 		[Category("Hypowerd")]
 		public ControlType? MyType { get { return m_MyType; } }
 
@@ -32,6 +36,9 @@ namespace Hypowered
 			get { return base.Name; }
 			set { base.Name = value; this.Invalidate(); }
 		}
+		/// <summary>
+		/// Nameと同じ
+		/// </summary>
 		[Category("Hypowerd")]
 		public string ControlName
 		{
@@ -61,6 +68,9 @@ namespace Hypowered
 		}
 		[Category("Hypowerd")]
 		protected int m_Index = -1;
+		/// <summary>
+		/// CHkControlで作成されるインデックス番号
+		/// </summary>
 		[Category("Hypowerd")]
 		public int Index
 		{
@@ -76,6 +86,9 @@ namespace Hypowered
 		}
 		[Browsable(false)]
 		public HyperForm? HyperForm { get; set; }
+		/// <summary>
+		/// 複数選択時の親コントロールのインデックス番号
+		/// </summary>
 		public int ParentIndex = -1;
 		/// <summary>
 		/// ターゲットのコントロールからの相対位置
@@ -108,112 +121,76 @@ namespace Hypowered
 			m_IsEditMode = value;
 		}
 		// **************************************************************************
+		/*
+		 * スクリプト関係
+		 */
 		// **************************************************************************
-		protected InScript m_InScript = InScript.None;
+		public HyperScriptCode ScriptCode = new HyperScriptCode();
+		
+		public void SetInScript(InScript s)
+		{
+			ScriptCode.SetInScript(s);
+		}
+		[Category("Hypowerd_Script")]
 		public InScript InScript
 		{
-			get { return m_InScript; }
+			get { return ScriptCode.InScript; }
 		}
-		protected int m_ScriptCount = 0;
+		[Category("Hypowerd_Script")]
 		public int ScriptCount
 		{
-			get { return m_ScriptCount; }
+			get { return ScriptCode.Count; }
 		}
-		protected string[] m_ScriptNames = new string[0];
-		public string[] ScriptNames
+		[Category("Hypowerd_Script")]
+		public string[] ValidSprictNames
 		{
-			get { return m_ScriptNames; }
+			get { return ScriptCode.ValidSprictNames; }
 		}
-		protected string[] m_ScriptCodes = new string[0];
-		public string[] ScriptCodes
+		[Category("Hypowerd_Script")]
+		public ScriptKind[] ScriptKinds
 		{
-			get { return m_ScriptCodes; }
-			set { m_ScriptCodes= value; }
+			get { return ScriptCode.ScriptKinds; }
 		}
-		protected InScript[] m_InScripts = new InScript[0];
-		public InScript[] InScripts { get { return m_InScripts; } }
-		public int FindScriptCode(InScript ist)
+		[Category("Hypowerd_Script")]
+		public string Script_MouseClick
 		{
-			int ret = -1;
-			for(int i=0; i< m_InScripts.Length; i++)
-			{
-				if (m_InScripts[i]==ist)
-				{
-					ret = i;
-					break;
-				}
-			}
-			return ret;
+			get { return ScriptCode.Script_MouseClick; }
+			set { ScriptCode.Script_MouseClick = value; }
 		}
-		public string GetScriptCode(InScript ist)
+		[Category("Hypowerd_Script")]
+		public string Script_MouseDoubleClick
 		{
-			string ret = "";
-			int idx = FindScriptCode(ist);
-			if(idx >=0)
-			{
-				ret = m_ScriptCodes[idx];
-			}
-			return ret;
+			get { return ScriptCode.Script_MouseDoubleClick; }
+			set { ScriptCode.Script_MouseDoubleClick = value; }
 		}
-		public void SetScriptCode(InScript ist,string code)
+		[Category("Hypowerd_Script")]
+		public string Script_SelectedIndexChanged
 		{
-			string ret = "";
-			int idx = FindScriptCode(ist);
-			if (idx >= 0)
-			{
-				m_ScriptCodes[idx] = code;
-			}
+			get { return ScriptCode.Script_SelectedIndexChanged; }
+			set { ScriptCode.Script_SelectedIndexChanged = value; }
+		}
+		[Category("Hypowerd_Script")]
+		public string Script_CurrentDirChanged
+		{
+			get { return ScriptCode.Script_ValueChanged; }
+			set { ScriptCode.Script_ValueChanged = value; }
+		}
+		[Category("Hypowerd_Script")]
+		public string Script_ValueChanged
+		{
+			get { return ScriptCode.Script_ValueChanged; }
+			set { ScriptCode.Script_ValueChanged = value; }
 		}
 
-		protected void SetInScript(InScript sc)
+		// **************************************************************************
+		// **************************************************************************
+		protected Padding m_FrameWeight = new Padding(1,1,1,1);
+		[Category("Hypowerd")]
+		public Padding FrameWeight
 		{
-			m_InScript = sc;
-			int c = GetScriptCount();
-			m_ScriptCodes = new string[c];
-			for(int i=0; i<c; i++)
-			{
-				m_ScriptCodes[i] = "";
-			}
-			GetScriptNames();
+			get { return m_FrameWeight; }
+			set { m_FrameWeight = value; this.Invalidate(); }
 		}
-		private string m_Script_MouseClick = "";
-		private string m_Script_MouseDoubleClick = "";
-		private string m_Script_SelectedIndexChanged = "";
-		// **************************************************************************
-		protected void GetScriptNames()
-		{
-			List<string> list = new List<string>();
-			List<InScript> slist = new List<InScript>();
-			string[] names = Enum.GetNames(typeof(InScript));
-			for(int i=0; i<16;i++)
-			{
-				InScript v = (InScript)(0x01 << i);
-				if ( (m_InScript &  v) != 0)
-				{
-					list.Add(names[i]);
-					slist.Add(v);
-				}
-
-			}
-			m_ScriptNames=  list.ToArray();
-			m_InScripts = slist.ToArray();
-		}
-		// **************************************************************************
-		protected int GetScriptCount()
-		{
-			int ret = 0;
-			for (int i = 0; i < 16; i++)
-			{
-				if ((((int)m_InScript >> i) & 0x01) == 0x01)
-				{
-					ret++;
-				}
-
-			}
-			return ret;
-		}
-		// **************************************************************************
-		// **************************************************************************
 		protected bool m_CanColorCustum = false;
 		[Category("Hypowerd_Color")]
 		public bool CanColorCustum
@@ -262,7 +239,7 @@ namespace Hypowered
 		}
 		public HyperControl()
 		{
-
+			SetInScript(InScript.MouseClick);
 			BackColor = ColU.ToColor(HyperColor.Back);
 			ForeColor = ColU.ToColor(HyperColor.Fore);
 			m_ForcusColor = ColU.ToColor(HyperColor.Forcus);
@@ -298,7 +275,9 @@ namespace Hypowered
 				// 外枠
 				Rectangle rr = ReRect(this.ClientRectangle, 2);
 				p.Color = ForeColor;
-				g.DrawRectangle(p, rr);
+				DrawFrame(g,p,rr);
+				//g.DrawRectangle(p, rr);
+
 				if (this.Focused)
 				{
 					rr = ReRect(this.ClientRectangle, 1);
@@ -337,6 +316,37 @@ namespace Hypowered
 		{
 
 			return new RectangleF((float)r.Left + v / 2, (float)r.Top + v / 2, (float)r.Width - v, (float)r.Height - v);
+		}
+		// ****************************************************************************
+		public void  DrawFrame(Graphics g,Pen p,Rectangle rct)
+		{
+			float pw2;
+			if (m_FrameWeight.Top>0)
+			{
+				p.Width= (float)m_FrameWeight.Top;
+				pw2 = rct.Top + (float)m_FrameWeight.Top / 2;
+				g.DrawLine(p, rct.Left, pw2, rct.Right,pw2);
+			}
+			if (m_FrameWeight.Bottom > 0)
+			{
+				p.Width = (float)m_FrameWeight.Bottom;
+				pw2 = rct.Bottom - (float)m_FrameWeight.Bottom / 2;
+				g.DrawLine(p, rct.Left, pw2, rct.Right, pw2);
+			}
+			if (m_FrameWeight.Left > 0)
+			{
+				p.Width = (float)m_FrameWeight.Left;
+				pw2 = rct.Left + (float)m_FrameWeight.Left / 2;
+				g.DrawLine(p, pw2, rct.Top, pw2, rct.Bottom);
+			}
+			if (m_FrameWeight.Right > 0)
+			{
+				p.Width = (float)m_FrameWeight.Right;
+				pw2 = this.Right - (float)m_FrameWeight.Right / 2;
+				g.DrawLine(p, pw2, rct.Top, pw2, rct.Bottom);
+			}
+
+
 		}
 		// ****************************************************************************
 		protected void ChkTargetSelected()
@@ -493,7 +503,13 @@ namespace Hypowered
 			jf.SetValue(nameof(ForeColor), ForeColor);//Color
 			jf.SetValue(nameof(BackColor), BackColor);//Color
 			jf.SetValue(nameof(UnCheckedColor), UnCheckedColor);//Color
-			jf.SetValue(nameof(ScriptCodes), ScriptCodes);//String
+			jf.SetValue(nameof(Script_MouseClick), Script_MouseClick);//String
+			jf.SetValue(nameof(Script_MouseDoubleClick), Script_MouseDoubleClick);//String
+			jf.SetValue(nameof(Script_SelectedIndexChanged), Script_SelectedIndexChanged);//String
+			jf.SetValue(nameof(Script_CurrentDirChanged), Script_CurrentDirChanged);//String
+			jf.SetValue(nameof(Script_ValueChanged), Script_ValueChanged);//String
+			jf.SetValue(nameof(FrameWeight), FrameWeight);
+
 			jf.SetValue(nameof(TextAligiment), TextAligiment);//StringAlignment
 			jf.SetValue(nameof(TextLineAligiment), TextLineAligiment);//StringAlignment
 			jf.SetValue(nameof(AllowDrop), AllowDrop);//Boolean
@@ -552,8 +568,21 @@ namespace Hypowered
 			if (v != null) BackColor = (Color)v;
 			v = jf.ValueAuto("UnCheckedColor", typeof(Color).Name);
 			if (v != null) UnCheckedColor = (Color)v;
-			v = jf.ValueAuto("ScriptCode", typeof(String[]).Name);
-			if (v != null) ScriptCodes = (String[])v;
+			v = jf.ValueAuto("FrameWeight", typeof(Padding).Name);
+			if (v != null) FrameWeight = (Padding)v;
+
+			v = jf.ValueAuto("Script_MouseClick", typeof(String).Name);
+			if (v != null) Script_MouseClick = (String)v;
+			v = jf.ValueAuto("Script_MouseDoubleClick", typeof(String).Name);
+			if (v != null) Script_MouseDoubleClick = (String)v;
+			v = jf.ValueAuto("Script_SelectedIndexChanged", typeof(String).Name);
+			if (v != null) Script_SelectedIndexChanged = (String)v;
+			v = jf.ValueAuto("Script_CurrentDirChanged", typeof(String).Name);
+			if (v != null) Script_CurrentDirChanged = (String)v;
+			v = jf.ValueAuto("Script_ValueChanged", typeof(String).Name);
+			if (v != null) Script_ValueChanged = (String)v;
+
+
 			v = jf.ValueAuto("TextAligiment", typeof(StringAlignment).Name);
 			if (v != null) TextAligiment = (StringAlignment)v;
 			v = jf.ValueAuto("TextLineAligiment", typeof(StringAlignment).Name);

@@ -11,7 +11,7 @@ using System.Windows.Forms;
 
 namespace Hypowered
 {
-	public partial class HyperTextBox : HyperControl
+    public partial class HyperTextBox : HyperControl
 	{
 
 		public override void SetIsEditMode(bool value)
@@ -31,6 +31,12 @@ namespace Hypowered
 		{
 			get { return m_TextBox.Multiline; }
 			set { m_TextBox.Multiline = value; ChkSize(); }
+		}
+		[Category("Hypowerd_TextBox")]
+		public BorderStyle BorderStyle
+		{
+			get { return m_TextBox.BorderStyle; }
+			set { m_TextBox.BorderStyle = value; }
 		}
 		[Category("Hypowerd_TextBox")]
 		public new string Text
@@ -87,9 +93,10 @@ namespace Hypowered
 		public HyperTextBox()
 		{
 			SetMyType(ControlType.TextBox);
-			m_ScriptCodes = "//TextBox";
+			SetInScript(InScript.ValueChanged);
 			m_TextBox.BorderStyle = BorderStyle.FixedSingle;
-
+			BackColor = ColU.ToColor(HyperColor.Back);
+			ForeColor = ColU.ToColor(HyperColor.Fore);
 			this.Size = new Size(m_TextBox.Width,m_TextBox.Height);
 			m_TextBox.Location = new Point(0, 0);
 			InitializeComponent();
@@ -127,8 +134,38 @@ namespace Hypowered
 		public override JsonObject ToJson()
 		{
 			JsonFile jf = new JsonFile(base.ToJson());
-			jf.SetValue(nameof(MyType), (int?)MyType);//Nullable`1
+			jf.SetValue(nameof(MyType), (int?)MyType);
+			jf.SetValue(nameof(Multiline), Multiline);
+			jf.SetValue(nameof(Text), Text);
+			jf.SetValue(nameof(TextAlign), (int)TextAlign);
+			jf.SetValue(nameof(Font), Font);
+			jf.SetValue(nameof(ReadOnly), ReadOnly);
+			jf.SetValue(nameof(ForeColor), ForeColor);
+			jf.SetValue(nameof(BackColor), BackColor);
+			jf.SetValue(nameof(BorderStyle), (int)BorderStyle);
 			return jf.Obj;
+		}
+		public override void FromJson(JsonObject jo)
+		{
+			base.FromJson(jo);
+			JsonFile jf = new JsonFile(jo);
+			object? v = null;
+			v = jf.ValueAuto("Multiline", typeof(Boolean).Name);
+			if (v != null) Multiline = (Boolean)v;
+			v = jf.ValueAuto("Text", typeof(String).Name);
+			if (v != null) Text = (String)v;
+			v = jf.ValueAuto("TextAlign", typeof(HorizontalAlignment).Name);
+			if (v != null) TextAlign = (HorizontalAlignment)v;
+			v = jf.ValueAuto("Font", typeof(Font).Name);
+			if (v != null) Font = (Font)v;
+			v = jf.ValueAuto("ReadOnly", typeof(Boolean).Name);
+			if (v != null) ReadOnly = (Boolean)v;
+			v = jf.ValueAuto("ForeColor", typeof(Color).Name);
+			if (v != null) ForeColor = (Color)v;
+			v = jf.ValueAuto("BackColor", typeof(Color).Name);
+			if (v != null) BackColor = (Color)v;
+			v = jf.ValueAuto("BorderStyle", typeof(Int32).Name);
+			if (v != null) BorderStyle = (BorderStyle)v;
 		}
 	}
 }

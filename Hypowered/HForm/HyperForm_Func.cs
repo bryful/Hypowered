@@ -24,8 +24,7 @@ namespace Hypowered
 			lst.Add(new FuncItem(ToggleShowMenu, Keys.Control | Keys.F12, "メニューを消す"));
 			lst.Add(new FuncItem(ShowPropForm, Keys.Control | Keys.I, "プロパティ"));
 			lst.Add(new FuncItem(ShowControlList, Keys.Control | Keys.U, "コントロールリスト"));
-			lst.Add(new FuncItem(ShowEditor, Keys.Control | Keys.F11, "スクリプトエディタ"));
-
+			lst.Add(new FuncItem(ScriptEdit, Keys.Control | Keys.E, "スクリプト編集"));
 			Funcs.SetFuncItems(lst.ToArray());
 		}
 		// *************************************************************************
@@ -44,11 +43,11 @@ namespace Hypowered
 		private HyperMenuItem? m_menuQuit = null;
 
 		private HyperMenuItem? m_EditModeMenu = null;
-		private HyperMenuItem? m_EditorMenu = null;
 		private HyperMenuItem? m_ShowMenu = null;
 		private HyperMenuItem? m_PropFormMenu = null;
 		private HyperMenuItem? m_ControlListmMenu = null;
 		private HyperMenuItem? m_NewControlMenu = null;
+		private HyperMenuItem? m_ScriptEditMenu = null;
 		// *************************************************************************
 		public void MakeMenu()
 		{
@@ -67,7 +66,7 @@ namespace Hypowered
 			m_EditModeMenu　= CreateMenuItem(ToggleEditMode);
 			m_ShowMenu = CreateMenuItem(ToggleShowMenu);
 			m_ControlListmMenu = CreateMenuItem(ShowControlList);
-			m_EditorMenu = CreateMenuItem(ShowEditor);
+			m_ScriptEditMenu = CreateMenuItem(ScriptEdit);
 
 			if (m_ControlMenu != null)
 			{
@@ -76,8 +75,8 @@ namespace Hypowered
 				m_ControlMenu.Add(null);
 				m_ControlMenu.Add(m_PropFormMenu);
 				m_ControlMenu.Add(m_ControlListmMenu);
-				m_ControlMenu.Add(m_EditorMenu);
 				m_ControlMenu.Add(null);
+				m_ControlMenu.Add(m_ScriptEditMenu);
 				m_ControlMenu.Add(m_NewControlMenu);
 			}
 		}
@@ -123,6 +122,12 @@ namespace Hypowered
 				AddControl(dlg.ControlType, dlg.ControlName, dlg.ControlText, dlg.Font);
 				return true;
 			}
+			return false;
+		}
+		public bool DeleteControl()
+		{
+			if (m_IsEditMode == false) return false;
+
 			return false;
 		}
 		// *************************************************************************
@@ -185,25 +190,18 @@ namespace Hypowered
 
 			return false;
 		}
-		public bool ShowEditor()
-		{
-			if (Editor == null)
-			{
-				Editor = new HyperScriptEditor();
-				Editor.HyperForm = this;
-				Editor.Location = new Point(100, 100);
-			}
-			if (Editor.Visible==false)
-			{
-				Editor.Visible = true;
-				Editor.Activate();
-			}
-			else
-			{
-				Editor.Visible = false;
-			}
-			return true;
-		}
 		// *************************************************************************
+		public bool ScriptEdit()
+		{
+			if(m_IsEditMode==false) return false;
+			if (this.TargetIndex==0) return false;
+			HyperScriptEditor dlg = new HyperScriptEditor();
+			dlg.SetHyperForm(this);
+			if(dlg.ShowDialog() == DialogResult.OK)
+			{
+				return true;
+			}
+			return false;
+		}
 	}
 }

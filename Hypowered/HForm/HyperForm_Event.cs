@@ -24,13 +24,13 @@ namespace Hypowered
 		// ****************************************************************************
 		public HyperPropForm? PropForm = null;
 		public HyperControlList? ControlList = null;
-		public HyperScriptEditor Editor = null;
 		// ****************************************************************************
 		protected HyperScript m_Script = new HyperScript();
 		public void ExecuteCode(string code)
 		{
 			if (code != "")
 			{
+
 				m_Script.ExecuteCode(code);
 			}
 		}
@@ -116,6 +116,7 @@ namespace Hypowered
 		/// <param name="hc">選ばれたコントロール　nullなら無選択状態になる</param>
 		public void ChkTargetSelected(HyperControl? hc)
 		{
+			if (hc is HyperMenuBar) return;
 			int TI = m_TargetIndex;
 			if (this.Controls.Count > 0)
 			{
@@ -306,6 +307,22 @@ namespace Hypowered
 			}
 			base.OnMouseUp(e);
 			Debug.WriteLine("MOuseUp");
+		}
+		protected override void OnMouseClick(MouseEventArgs e)
+		{
+			base.OnMouseClick(e);
+			if(Script_MouseClick!="")
+			{
+				ExecuteCode(Script_MouseClick);
+			}
+		}
+		protected override void OnKeyPress(KeyPressEventArgs e)
+		{
+			base.OnKeyPress(e);
+			if (Script_KeyPress != "")
+			{
+				ExecuteCode(Script_KeyPress);
+			}
 		}
 		// ****************************************************************************
 		protected override void OnResize(EventArgs e)

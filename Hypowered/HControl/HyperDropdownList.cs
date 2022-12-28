@@ -13,8 +13,8 @@ using static System.Windows.Forms.VisualStyles.VisualStyleElement.Header;
 
 namespace Hypowered
 {
-	
-	public partial class HyperDropdownList : HyperControl
+
+    public partial class HyperDropdownList : HyperControl
 	{
 		public delegate void SelectedIndexChangedHandler(object sender, SelectedIndexChangedEventArgs e);
 		public event SelectedIndexChangedHandler? SelectedIndexChanged;
@@ -24,9 +24,9 @@ namespace Hypowered
 			{
 				SelectedIndexChanged(this, e);
 			}
-			if ((HyperForm != null) && (m_ScriptCodes != ""))
+			if ((HyperForm != null))
 			{
-				HyperForm.ExecuteCode(m_ScriptCodes);
+				HyperForm.ExecuteCode(Script_SelectedIndexChanged);
 			}
 		}
 		private int m_SelectedIndex = -1;
@@ -37,6 +37,19 @@ namespace Hypowered
 			set 
 			{ 
 				SetSelectedIndex(value);
+			}
+		}
+		[Category("Hypowerd_DropdownList")]
+		public string SelectedItem
+		{
+			get 
+			{
+				string ret = string.Empty;
+				if((m_SelectedIndex>=0)&&(m_SelectedIndex<m_Items.Count))
+				{
+					ret  = m_Items[m_SelectedIndex].ToString();
+				}
+				return ret; 
 			}
 		}
 		public void SetSelectedIndex(int idx)
@@ -69,7 +82,8 @@ namespace Hypowered
 		public HyperDropdownList()
 		{
 			SetMyType(ControlType.DropdownList);
-			m_ScriptCodes = "//DropdownList";
+			SetInScript(InScript.SelectedIndexChanged);
+			//m_ScriptCodes = "//DropdownList";
 			this.Location = new Point(100, 100);
 			this.Size = ControlDef.DefSize;
 			InitializeComponent();

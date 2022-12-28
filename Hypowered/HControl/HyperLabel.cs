@@ -8,15 +8,17 @@ using System.Text;
 using System.Text.Json.Nodes;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+
 using static System.Windows.Forms.DataFormats;
 
 namespace Hypowered
 {
-	public partial class HyperLabel : HyperControl
+    public partial class HyperLabel : HyperControl
 	{
 		public HyperLabel()
 		{
 			SetMyType(ControlType.Label);
+			SetInScript(InScript.None);
 			this.Name = "HyperLabel";
 			this.TabStop= false;
 			this.Size = ControlDef.DefSize;

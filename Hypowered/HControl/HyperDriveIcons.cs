@@ -19,8 +19,8 @@ using System.Text.Json.Nodes;
 
 namespace Hypowered
 {
-	
-	public partial class HyperDriveIcons : HyperControl
+
+    public partial class HyperDriveIcons : HyperControl
 	{
 		public delegate void CurrentDirChangedHandler(object sender, CurrentDirChangedEventArgs e);
 		public event CurrentDirChangedHandler? CurrentDirChanged;
@@ -30,7 +30,10 @@ namespace Hypowered
 			{
 				CurrentDirChanged(this, e);
 			}
-			
+			if ((HyperForm != null))
+			{
+				HyperForm.ExecuteCode(Script_CurrentDirChanged);
+			}
 		}
 		private int m_SelectedDRIndex = -1;
 		[Category("Hypowerd_DriveIcons")]
@@ -115,7 +118,8 @@ namespace Hypowered
 		{
 			Listup();
 			SetMyType(ControlType.DriveIcons);
-			m_ScriptCodes = "//DriveIcons";
+			SetInScript(InScript.CurrentDirChanged);
+			//m_ScriptCodes = "//DriveIcons";
 			this.Size = ControlDef.DefSize;
 
 			InitializeComponent();

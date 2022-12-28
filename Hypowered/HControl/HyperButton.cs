@@ -11,7 +11,7 @@ using System.Windows.Forms;
 
 namespace Hypowered
 {
-	public partial class HyperButton : HyperControl
+    public partial class HyperButton : HyperControl
 	{
 		protected Color m_PushedColor = Color.White;
 		[Category("Hypowerd_Color")]
@@ -20,10 +20,11 @@ namespace Hypowered
 			get { return m_PushedColor; }
 			set { m_PushedColor = value; this.Invalidate(); }
 		}
+		public new HyperScriptCode ScriptCode = new HyperScriptCode();
 		public HyperButton()
 		{
 			SetMyType(ControlType.Button);
-			SetInScript(InScript.Button);
+			ScriptCode.SetInScript(InScript.MouseClick| InScript.MouseDoubleClick);
 			this.Location = new Point(100, 100);
 			this.Size = ControlDef.DefSize;
 			InitializeComponent();
@@ -100,7 +101,7 @@ namespace Hypowered
 			base.OnMouseClick(e);
 			if ((HyperForm != null) && (m_IsEditMode == false))
 			{
-				HyperForm.ExecuteCode(GetScriptCode(InScript.MouseClick));
+				HyperForm.ExecuteCode(Script_MouseClick);
 			}
 		}
 		public override JsonObject ToJson()
