@@ -5,10 +5,11 @@ using Microsoft.ClearScript;
 using Microsoft.ClearScript.V8;
 using Microsoft.ClearScript.JavaScript;
 using System.Xml.Linq;
+using System.Text.Json.Nodes;
 
 namespace Hypowered
 {
-	public partial class Form1 : HyperForm
+	public partial class Form1 : HyperMainForm
 	{
 		public Form1()
 		{
@@ -55,6 +56,28 @@ namespace Hypowered
 			//string s = TargetControl.ToJsonCode();
 			Clipboard.SetText(s);
 			MessageBox.Show(s);
+		}
+
+		private void button1_Click_2(object sender, EventArgs e)
+		{
+			/*
+			JsonFile jf = new JsonFile();
+			jf.SetValue("AAA", "‚ ‚©‚³‚½‚È");
+			jf.SetValue("bbb", 12);
+			string? js = jf.ToJson();
+			if (js == null) return;
+			ZipUtil.SetEntryFromStr("aaa.zip", "jf",js);
+			textBox1.Text = js+"\r\n************************\r\n";
+
+			string? ss = ZipUtil.GetEntryToStr("aaa.zip", "jf");
+			if(ss == null) return;
+			textBox1.Text += ss;
+			*/
+		}
+
+		private void button1_Click_3(object sender, EventArgs e)
+		{
+			
 		}
 	}
 }

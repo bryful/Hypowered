@@ -13,7 +13,7 @@ namespace Hypowered
 	public partial class HyperControlList : Form
 	{
 		[Category("Hypowerd")]
-		public HyperForm? HyperForm
+		public HyperMainForm? HyperForm
 		{
 			get { return controlListBox1.HyperForm; }
 			set { controlListBox1.HyperForm = value;}

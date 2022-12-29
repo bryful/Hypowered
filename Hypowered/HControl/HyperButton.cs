@@ -20,7 +20,6 @@ namespace Hypowered
 			get { return m_PushedColor; }
 			set { m_PushedColor = value; this.Invalidate(); }
 		}
-		public new HyperScriptCode ScriptCode = new HyperScriptCode();
 		public HyperButton()
 		{
 			SetMyType(ControlType.Button);

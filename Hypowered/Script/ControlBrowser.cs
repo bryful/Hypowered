@@ -12,7 +12,7 @@ namespace Hypowered
 {
 	public partial class ControlBrowser : Control
 	{
-		private HyperForm? m_HyperForm = null;
+		private HyperMainForm? m_HyperForm = null;
 		private TextBox m_TextBox = new TextBox();
 		private Button m_Button = new Button();
 		private ComboBox m_Comp = new ComboBox();
@@ -81,7 +81,7 @@ namespace Hypowered
 			base.OnResize(e);
 			ChkSize();
 		}
-		public void SetHyperForm(HyperForm? fm)
+		public void SetHyperForm(HyperMainForm? fm)
 		{
 			m_HyperForm = fm;
 			if(m_HyperForm!=null)

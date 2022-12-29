@@ -15,11 +15,11 @@ namespace Hypowered
 {
     public partial class HyperScriptEditor : Form
 	{
-		private HyperForm? m_HyperForm = null;
+		private HyperMainForm? m_HyperForm = null;
 		private HyperControl? m_HyperControl = null;
 		private HyperScriptCode? m_HyperScriptCode = null;
 		private string[] m_texts = new string[0];
-		public void SetHyperForm(HyperForm? fm)
+		public void SetHyperForm(HyperMainForm? fm)
 		{
 			m_HyperForm = fm;
 			controlBrowser1.SetHyperForm(fm);

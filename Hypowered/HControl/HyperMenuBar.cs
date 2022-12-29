@@ -83,9 +83,9 @@ true);
 		protected override void InitLayout()
 		{
 			base.InitLayout();
-			if (this.Parent is HyperForm)
+			if (this.Parent is HyperMainForm)
 			{
-				((HyperForm)this.Parent).SizeChanged += HyperMenuBar_SizeChanged;
+				((HyperMainForm)this.Parent).SizeChanged += HyperMenuBar_SizeChanged;
 			}
 		}
 		protected override void OnPaint(PaintEventArgs pe)
@@ -222,7 +222,7 @@ true);
 					}
 				}
 			}
-			if(this.Parent is HyperForm) ((HyperForm)this.Parent).DoMouseDown(e);
+			if(this.Parent is HyperMainForm) ((HyperMainForm)this.Parent).DoMouseDown(e);
 		}
 		protected override void OnMouseMove(MouseEventArgs e)
 		{
@@ -232,7 +232,7 @@ true);
 				m_menuDown = idx;
 				this.Invalidate();
 			}
-			if (this.Parent is HyperForm) ((HyperForm)this.Parent).DoMouseMove(e);
+			if (this.Parent is HyperMainForm) ((HyperMainForm)this.Parent).DoMouseMove(e);
 			//base.OnMouseMove(e);
 		}
 		protected override void OnMouseUp(MouseEventArgs e)
@@ -242,7 +242,7 @@ true);
 				m_menuDown = -1;
 				this.Invalidate();
 			}
-			if (this.Parent is HyperForm) ((HyperForm)this.Parent).DoMouseUp(e);
+			if (this.Parent is HyperMainForm) ((HyperMainForm)this.Parent).DoMouseUp(e);
 
 		}
 		protected override void OnMouseLeave(EventArgs e)

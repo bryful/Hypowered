@@ -15,10 +15,10 @@ namespace Hypowered
 		RadioButton,
 		ListBox,
 		DropdownList,
-
 		DriveIcons,
 		DirList,
 		FileList,
+		PictureBox,
 	}
 
 

@@ -33,9 +33,9 @@ namespace Hypowered
 		{
 			return false;
 		}
-		private HyperForm? m_HyperForm = null;
+		private HyperMainForm? m_HyperForm = null;
 		[Category("Hypowerd")]
-		public HyperForm? HyperForm
+		public HyperMainForm? HyperForm
 		{
 			get { return m_HyperForm; }
 			set { SetHyperForm(value);}
@@ -54,7 +54,7 @@ namespace Hypowered
 			BorderStyle= BorderStyle.FixedSingle;
 			InitializeComponent();
 		}
-		public void SetHyperForm(HyperForm hf)
+		public void SetHyperForm(HyperMainForm hf)
 		{
 			base.Items.Clear();
 			this.Items.Clear();

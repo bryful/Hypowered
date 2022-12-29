@@ -49,7 +49,7 @@ namespace Hypowered
 			get { return m_Font;}
 			set { m_Font = value;}
 		}
-		private HyperForm? Form = null;
+		private HyperMainForm? Form = null;
 		private HyperControl? TargetControl = null; 
 		public EditControlForm()
 		{
@@ -118,7 +118,7 @@ namespace Hypowered
 			btnOK.Enabled = (tbName.Text != "");
 		}
 
-		public void SetTarget(HyperForm? fm,HyperControl? cnt=null)
+		public void SetTarget(HyperMainForm? fm,HyperControl? cnt=null)
 		{
 			Form= fm;
 			IsNewMode = (cnt == null);

@@ -19,7 +19,7 @@ namespace Hypowered
 		{
 			MessageBox.Show(s);
 		}
-		public HyperForm? Project { get; set; }
+		public HyperMainForm? Project { get; set; }
 
 		public Control.ControlCollection? Controls  { get; set; }
 

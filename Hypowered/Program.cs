@@ -15,6 +15,7 @@ namespace Hypowered
 			Application.Run(new Form1());
 			//Application.Run(new EditControlForm());
 			//Application.Run(new HyperAppForm());
+			//Application.Run(new HyperBaseForm());
 		}
 	}
 }

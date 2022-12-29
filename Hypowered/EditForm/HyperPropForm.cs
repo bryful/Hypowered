@@ -13,8 +13,8 @@ namespace Hypowered
 
 	public partial class HyperPropForm : Form
 	{
-		protected HyperForm? m_HyperForm = null;
-		public HyperForm? HyperForm
+		protected HyperMainForm? m_HyperForm = null;
+		public HyperMainForm? HyperForm
 		{
 			get { return m_HyperForm; }
 			set 

@@ -85,7 +85,7 @@ namespace Hypowered
 			set { base.Text = value; this.Invalidate(); }
 		}
 		[Browsable(false)]
-		public HyperForm? HyperForm { get; set; }
+		public HyperMainForm? HyperForm { get; set; }
 		/// <summary>
 		/// 複数選択時の親コントロールのインデックス番号
 		/// </summary>
@@ -106,7 +106,7 @@ namespace Hypowered
 		/// <summary>
 		/// 編集モード
 		/// </summary>
-		[Browsable(false)]
+		//[Browsable(false)]
 		public bool IsEditMode
 		{
 			get { return m_IsEditMode; }
@@ -342,7 +342,7 @@ namespace Hypowered
 			if (m_FrameWeight.Right > 0)
 			{
 				p.Width = (float)m_FrameWeight.Right;
-				pw2 = this.Right - (float)m_FrameWeight.Right / 2;
+				pw2 = rct.Right - (float)m_FrameWeight.Right / 2;
 				g.DrawLine(p, pw2, rct.Top, pw2, rct.Bottom);
 			}
 
@@ -351,9 +351,9 @@ namespace Hypowered
 		// ****************************************************************************
 		protected void ChkTargetSelected()
 		{
-			if ((this.Parent != null) && (this.Parent is HyperForm))
+			if ((this.Parent != null) && (this.Parent is HyperMainForm))
 			{
-				((HyperForm)this.Parent).ChkTargetSelected(this);
+				((HyperMainForm)this.Parent).ChkTargetSelected(this);
 			}
 		}
 		// ****************************************************************************
@@ -371,6 +371,26 @@ namespace Hypowered
 		protected Point m_MDP = new Point(0, 0);
 		protected Point m_MDLoc = new Point(0, 0);
 		protected Size m_MDSize = new Size(0, 0);
+		public void CallMouseDown(MouseEventArgs e)
+		{
+			this.OnMouseDown(e);
+		}
+		public void CallMouseMove(MouseEventArgs e)
+		{
+			this.OnMouseMove(e);
+		}
+		public void CallMouseUp(MouseEventArgs e)
+		{
+			this.OnMouseUp(e);
+		}
+		public void CallMouseClick(MouseEventArgs e)
+		{
+			this.OnMouseClick(e);
+		}
+		public void CallMouseDoubleClick(MouseEventArgs e)
+		{
+			this.OnMouseDoubleClick(e);
+		}
 		protected override void OnMouseDown(MouseEventArgs e)
 		{
 			if (m_IsEditMode)
@@ -417,9 +437,9 @@ namespace Hypowered
 							this.Location = new Point(
 								this.Location.X + ax,
 								this.Location.Y + ay);
-							if ((this.Parent != null) && (this.Parent is HyperForm))
+							if ((this.Parent != null) && (this.Parent is HyperMainForm))
 							{
-								((HyperForm)this.Parent).MoveSelected();
+								((HyperMainForm)this.Parent).MoveSelected();
 							}
 							break;
 					}
@@ -470,9 +490,9 @@ namespace Hypowered
 			this.Invalidate();
 			if (m_IsEditMode)
 			{
-				if ((this.Parent != null) && (this.Parent is HyperForm))
+				if ((this.Parent != null) && (this.Parent is HyperMainForm))
 				{
-					((HyperForm)this.Parent).Invalidate();
+					((HyperMainForm)this.Parent).Invalidate();
 				}
 			}
 

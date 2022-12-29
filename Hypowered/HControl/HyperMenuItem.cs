@@ -59,7 +59,7 @@ namespace Hypowered
 				return null;
 			}
 		}
-		public ContextMenuStrip MakeMenu(HyperForm? mf=null )
+		public ContextMenuStrip MakeMenu(HyperMainForm? mf=null )
 		{
 			ContextMenuStrip ret = new ContextMenuStrip();
 			if (Items.Count > 0)
