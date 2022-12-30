@@ -53,6 +53,7 @@ namespace Hypowered
 
 			BackColor = ColU.ToColor(HyperColor.Back);
 			ForeColor = ColU.ToColor(HyperColor.Fore);
+			this.DropDownHeight = 200;
 			InitializeComponent();
 			Init();
 		}

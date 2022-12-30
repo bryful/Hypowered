@@ -23,9 +23,9 @@ namespace Hypowered
 			{
 				CheckedChanged(this, e);
 			}
-			if((HyperForm!=null))
+			if((MainForm != null))
 			{
-				HyperForm.ExecuteCode(Script_ValueChanged);
+				MainForm.ExecuteCode(Script_ValueChanged);
 			}
 		}
 		private bool m_Checked = true;

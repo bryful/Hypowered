@@ -24,8 +24,9 @@ namespace Hypowered
 			lst.Add(new FuncItem(ToggleShowMenu, Keys.Control | Keys.F12, "メニューを消す"));
 			lst.Add(new FuncItem(ShowPropForm, Keys.Control | Keys.I, "プロパティ"));
 			lst.Add(new FuncItem(ShowControlList, Keys.Control | Keys.U, "コントロールリスト"));
-			lst.Add(new FuncItem(ScriptEdit, Keys.Control | Keys.E, "スクリプト編集"));
+			lst.Add(new FuncItem(ShowScriptEdit, Keys.Control | Keys.E, "スクリプト編集"));
 			lst.Add(new FuncItem(PictLibDialog, Keys.Control | Keys.F1, "Pict選択"));
+			lst.Add(new FuncItem(AddUserPict, Keys.Control | Keys.U, "ユーザー画像追加"));
 			Funcs.SetFuncItems(lst.ToArray());
 		}
 		// *************************************************************************
@@ -50,6 +51,7 @@ namespace Hypowered
 		private HyperMenuItem? m_NewControlMenu = null;
 		private HyperMenuItem? m_ScriptEditMenu = null;
 		private HyperMenuItem? m_PictLibMenu = null;
+		private HyperMenuItem? m_AddUserPictMenu = null;
 		// *************************************************************************
 		public void MakeMenu()
 		{
@@ -68,9 +70,9 @@ namespace Hypowered
 			m_EditModeMenu　= CreateMenuItem(ToggleEditMode);
 			m_ShowMenu = CreateMenuItem(ToggleShowMenu);
 			m_ControlListmMenu = CreateMenuItem(ShowControlList);
-			m_ScriptEditMenu = CreateMenuItem(ScriptEdit);
+			m_ScriptEditMenu = CreateMenuItem(ShowScriptEdit);
 			m_PictLibMenu = CreateMenuItem(PictLibDialog);
-
+			m_AddUserPictMenu = CreateMenuItem(AddUserPict);
 			if (m_ControlMenu != null)
 			{
 				m_ControlMenu.Add(m_EditModeMenu);
@@ -79,6 +81,7 @@ namespace Hypowered
 				m_ControlMenu.Add(m_PropFormMenu);
 				m_ControlMenu.Add(m_ControlListmMenu);
 				m_ControlMenu.Add(m_PictLibMenu);
+				m_ControlMenu.Add(m_AddUserPictMenu);
 				m_ControlMenu.Add(null);
 				m_ControlMenu.Add(m_ScriptEditMenu);
 				m_ControlMenu.Add(m_NewControlMenu);
@@ -159,7 +162,16 @@ namespace Hypowered
 			{
 				PropForm = new HyperPropForm();
 				PropForm.HyperForm = this;
-				PropForm.Location = new Point(100, 100);
+				if(PropFormBounds.Left==-1)
+				{
+					PropForm.Location = new Point(
+						this.Right+5,
+						this.Top );
+				}
+				else
+				{
+					PropForm.Bounds = PropFormBounds;
+				}
 			}
 			if (PropForm.Visible == false)
 			{
@@ -178,8 +190,17 @@ namespace Hypowered
 			if (ControlList == null)
 			{
 				ControlList = new HyperControlList();
-				ControlList.HyperForm = this;
-				ControlList.Location = new Point(100, 100);
+				ControlList.MainForm = this;
+				if (ControlListBounds.Left == -1)
+				{
+					ControlList.Location = new Point(
+						this.Right + 5,
+						this.Top);
+				}
+				else
+				{
+					ControlList.Bounds = ControlListBounds;
+				}
 			}
 
 			if (ControlList.Visible == false)
@@ -195,17 +216,31 @@ namespace Hypowered
 			return false;
 		}
 		// *************************************************************************
-		public bool ScriptEdit()
+		// *************************************************************************
+		public bool ShowScriptEdit()
 		{
-			if(m_IsEditMode==false) return false;
-			if (this.TargetIndex==0) return false;
-			HyperScriptEditor dlg = new HyperScriptEditor();
-			dlg.SetHyperForm(this);
-			if(dlg.ShowDialog() == DialogResult.OK)
+			bool ret = false;
+			if(m_IsEditMode==false) return ret;
+			if (this.TargetIndex==0) return ret;
+			using (HyperScriptEditor dlg = new HyperScriptEditor())
 			{
-				return true;
+				dlg.SetHyperForm(this);
+				if (ScriptEditBounds.Left == -1)
+				{
+					dlg.Bounds = this.Bounds;
+				}
+				else
+				{
+					dlg.Bounds = ScriptEditBounds;
+				}
+
+				if (dlg.ShowDialog() == DialogResult.OK)
+				{
+					ret = true;
+				}
+				ScriptEditBounds = dlg.Bounds;
 			}
-			return false;
+			return ret;
 		}
 		public bool PictLibDialog()
 		{
@@ -216,6 +251,20 @@ namespace Hypowered
 			dlg.StartPosition = FormStartPosition.CenterParent;
 			if(dlg.ShowDialog(this)==DialogResult.OK)
 			{
+				ret = true;
+			}
+			return ret;
+		}
+		public bool AddUserPict()
+		{
+			bool ret = false;
+			if (m_IsEditMode == false) return ret;
+			if (m_FileName == "") return ret;
+			OpenFileDialog ofd = new OpenFileDialog();
+			ofd.Filter = "*.png|*.png|*.jpg|*.jpg|*.*|*.*";
+			if(ofd.ShowDialog(this)==DialogResult.OK)
+			{
+				PictLib.AddUserPict(ofd.FileName);
 				ret = true;
 			}
 			return ret;

@@ -24,9 +24,9 @@ namespace Hypowered
 			{
 				SelectedIndexChanged(this, e);
 			}
-			if ((HyperForm != null))
+			if ((MainForm != null))
 			{
-				HyperForm.ExecuteCode(Script_SelectedIndexChanged);
+				MainForm.ExecuteCode(Script_SelectedIndexChanged);
 			}
 		}
 		private int m_SelectedIndex = -1;

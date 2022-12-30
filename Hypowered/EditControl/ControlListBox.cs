@@ -35,7 +35,7 @@ namespace Hypowered
 		}
 		private HyperMainForm? m_HyperForm = null;
 		[Category("Hypowerd")]
-		public HyperMainForm? HyperForm
+		public HyperMainForm? MainForm
 		{
 			get { return m_HyperForm; }
 			set { SetHyperForm(value);}

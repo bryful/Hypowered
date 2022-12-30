@@ -21,9 +21,9 @@ namespace Hypowered
 			{
 				SelectedIndexChanged(this, e);
 			}
-			if(HyperForm!=null)
+			if(MainForm != null)
 			{
-				HyperForm.ExecuteCode(Script_SelectedIndexChanged);
+				MainForm.ExecuteCode(Script_SelectedIndexChanged);
 			}
 
 		}
@@ -35,9 +35,9 @@ namespace Hypowered
 			{
 				DoubleClick(this, e);
 			}
-			if (HyperForm != null)
+			if (MainForm != null)
 			{
-				HyperForm.ExecuteCode(Script_MouseDoubleClick);
+				MainForm.ExecuteCode(Script_MouseDoubleClick);
 			}
 		}
 		private ListBox m_ListBox = new ListBox();

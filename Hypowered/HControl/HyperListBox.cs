@@ -23,10 +23,10 @@ namespace Hypowered
 			{
 				SelectedIndexChanged(this, e);
 			}
-			if (HyperForm != null)
+			if (MainForm != null)
 			{
 
-				HyperForm.ExecuteCode(Script_SelectedIndexChanged);
+				MainForm.ExecuteCode(Script_SelectedIndexChanged);
 			}
 		}
 		public delegate void DoubleClickHandler(object sender, EventArgs e);
@@ -37,9 +37,9 @@ namespace Hypowered
 			{
 				DoubleClick(this, e);
 			}
-			if (HyperForm != null)
+			if (MainForm != null)
 			{
-				HyperForm.ExecuteCode(Script_MouseDoubleClick);
+				MainForm.ExecuteCode(Script_MouseDoubleClick);
 			}
 		}
 		public override void SetIsEditMode(bool value)
@@ -156,7 +156,8 @@ namespace Hypowered
 			string s = "";
 			if ((m_ListBox.SelectedIndex >= 0) && (m_ListBox.SelectedIndex < m_ListBox.Items.Count))
 			{
-				s = m_ListBox.Items[m_ListBox.SelectedIndex].ToString();
+				string? ss = m_ListBox.Items[m_ListBox.SelectedIndex].ToString();
+				if(ss != null) { s = ss; }
 			}
 			OnSelectedIndexChanged(new SelectedIndexChangedEventArgs(m_ListBox.SelectedIndex,s));	
 		}

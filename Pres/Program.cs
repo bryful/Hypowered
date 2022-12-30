@@ -14,29 +14,52 @@ namespace Pres
 		{
 			string[] files = Directory.GetFiles(Directory.GetCurrentDirectory());
 			List<string> list = new List<string>();
+			List<string> listICONS = new List<string>();
 			foreach (string file in files)
 			{
 				string e = Path.GetExtension(file).ToLower();
 				if(e==".png")
 				{
 					string name = Path.GetFileNameWithoutExtension(file);
-					list.Add(name);
+					if (name.IndexOf("ICON_")==0)
+					{
+						listICONS.Add(name);
+					}
+					else
+					{
+						list.Add(name);
+					}
 
 				}
 			}
-			string ret = $"private Bitmap[] m_Bitmaps = new Bitmap[{list.Count}];\r\n";
+			int cnt = list.Count + listICONS.Count;
+			string ret = $"private Bitmap[] m_Bitmaps = new Bitmap[{cnt}];\r\n";
+			ret += $"int idx = 0;\r\n";
 
 			int idx = 0;
-			foreach (string file in list) 
+			foreach (string file in listICONS)
 			{
-				ret += $"m_Bitmaps[{idx:000}] = Properties.Resources.{file};\r\n";
+				ret += $"m_Bitmaps[idx] = Properties.Resources.{file};idx++;//{idx}\r\n";
 				idx++;
 			}
+			foreach (string file in list) 
+			{
+				ret += $"m_Bitmaps[idx] = Properties.Resources.{file};idx++;//{idx}\r\n";
+				idx++;
+			}
+
 			ret += "// ***********************************\r\n";
 			ret += "private strings[] m_BitmapsNames =new string[]{\r\n";
+			idx = 0;
+			foreach (string file in listICONS)
+			{
+				ret += $"\"{file}\",//{idx}\r\n";
+				idx++;
+			}
 			foreach (string file in list)
 			{
-				ret += $"\"{file}\",\r\n";
+				ret += $"\"{file}\",//{idx}\r\n";
+				idx++;
 			}
 			ret += "};\r\n";
 			Console.WriteLine(ret);

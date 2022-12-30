@@ -1,32 +1,27 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Diagnostics;
-using System.Drawing;
+﻿using System.ComponentModel;
 using System.Drawing.Drawing2D;
-using System.Linq;
-using System.Reflection;
-using System.Security.Cryptography.Xml;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Forms;
 
 namespace Hypowered
 {
-	
+
 	public class TargetChangedEventArgs : EventArgs
 	{
 		public int Index;
 		public HyperControl? control;
 		public TargetChangedEventArgs(int idx, HyperControl? c)
 		{
-			Index= idx;
+			Index = idx;
 			control = c;
 		}
 	}
-
-
+	public class HControlAddEventArgs : EventArgs
+	{
+		public HyperControl? control;
+		public HControlAddEventArgs(HyperControl? c)
+		{
+			control = c;
+		}
+	}
 	public partial class HyperBaseForm : Form
 	{
 		#region Event
@@ -40,12 +35,32 @@ namespace Hypowered
 				TargetChanged(this, e);
 			}
 		}
+		// *********************************************************
 		public event EventHandler? ControlChanged;
 		protected virtual void OnControlChanged(EventArgs e)
 		{
 			if (ControlChanged != null)
 			{
 				ControlChanged(this, e);
+			}
+		}
+		// *********************************************************
+		public delegate void HControlAddHandler(object sender, HControlAddEventArgs e);
+		public event HControlAddHandler? HControlAdd;
+		protected virtual void OnHControlAdd(HControlAddEventArgs e)
+		{
+			if (HControlAdd != null)
+			{
+				HControlAdd(this, e);
+			}
+		}
+		// *********************************************************
+		public event EventHandler? HControlRemoved;
+		protected virtual void OnHControlRemoved(EventArgs e)
+		{
+			if (HControlRemoved != null)
+			{
+				HControlRemoved(this, e);
 			}
 		}
 		#endregion
@@ -181,8 +196,6 @@ ControlStyles.AllPaintingInWmPaint |
 ControlStyles.SupportsTransparentBackColor,
 true);
 			this.UpdateStyles();
-			this.ControlAdded += HyperForm_ControlAdded;
-			this.ControlRemoved += HyperForm_ControlRemoved;
 			InitializeComponent();
 
 			ChkControls();
@@ -199,7 +212,7 @@ true);
 
 
 		// ***********************************************************************
-		protected void ChkControls()
+		protected virtual void ChkControls()
 		{
 			if (this.Controls.Count > 0)
 			{
@@ -211,41 +224,16 @@ true);
 					{
 						HyperControl h = (HyperControl)c;
 						h.SetIndex(idx);
-						//h.HyperForm= this;
+						h.ParentForm= this;
 						h.IsEditMode = m_IsEditMode;
 					}
 					idx++;
 				}
 			}
-			OnControlChanged(new EventArgs());
 		}
 		// ***********************************************************************
-		private void HyperForm_ControlAdded(object? sender, ControlEventArgs e)
-		{
-			SetIsEditMode(m_IsEditMode);
-			if (this.Controls.Count > 0)
-			{
-				foreach (Control c in this.Controls)
-				{
-					if (c is HyperControl)
-					{
-						HyperControl hc = (HyperControl)c;
-						hc.LocationChanged -=Hc_LocationChanged;
-						hc.LocationChanged += Hc_LocationChanged;
-					}
-				}
-			}
-		}
 
-		private void Hc_LocationChanged(object? sender, EventArgs e)
-		{
-			this.Invalidate();
-		}
 
-		private void HyperForm_ControlRemoved(object? sender, ControlEventArgs e)
-		{
-			this.Invalidate();
-		}
 		// ***********************************************************************
 		protected override void OnPaint(PaintEventArgs e)
 		{
@@ -287,7 +275,7 @@ true);
 				DrawFrame(g, p, this.ClientRectangle);
 				//g.DrawRectangle(p,new Rectangle(0,0,Width-1,Height-1));
 			}
-			
+
 		}
 		// ****************************************************************************
 		public void DrawFrame(Graphics g, Pen p, Rectangle rct)
@@ -302,7 +290,7 @@ true);
 			if (m_FrameWeight.Bottom > 0)
 			{
 				p.Width = (float)m_FrameWeight.Bottom;
-				pw2 = rct.Bottom - (float)m_FrameWeight.Bottom/2;
+				pw2 = rct.Bottom - (float)m_FrameWeight.Bottom / 2;
 				g.DrawLine(p, rct.Left, pw2, rct.Right, pw2);
 			}
 			if (m_FrameWeight.Left > 0)
@@ -314,7 +302,7 @@ true);
 			if (m_FrameWeight.Right > 0)
 			{
 				p.Width = (float)m_FrameWeight.Right;
-				pw2 = rct.Right - (float)m_FrameWeight.Right/2;
+				pw2 = rct.Right - (float)m_FrameWeight.Right / 2;
 				g.DrawLine(p, pw2, rct.Top, pw2, rct.Bottom);
 			}
 
@@ -323,8 +311,8 @@ true);
 		// ******************************************************************************
 		public Control? FindControl(string name)
 		{
-			Control[] ret = this.Controls.Find(name,false);
-			if(ret.Length>0)
+			Control[] ret = this.Controls.Find(name, false);
+			if (ret.Length > 0)
 			{
 				return ret[0];
 			}
@@ -333,7 +321,7 @@ true);
 				return null;
 			}
 		}
-	
+
 		public int FindControlIndex(string name)
 		{
 			int ret = -1;
@@ -352,9 +340,9 @@ true);
 			}
 			return ret;
 		}
-		public Control? CreateControl(ControlType ct)
+		public HyperControl? CreateControl(ControlType ct)
 		{
-			Control? ctrl = null;
+			HyperControl? ctrl = null;
 			switch (ct)
 			{
 				case ControlType.Label:
@@ -390,40 +378,48 @@ true);
 				case ControlType.PictureBox:
 					ctrl = new HyperPictureBox();
 					break;
+				case ControlType.Icon:
+					ctrl = new HyperIcon();
+					break;
 				default:
 					break;
 			}
 			return ctrl;
 		}
 		// ******************************************************************************
-		public bool AddControl(ControlType ct,string name,string tx,Font fnt)
+		public bool AddControl(ControlType ct, string name, string tx, Font fnt)
 		{
 			bool ret = false;
-			Control? ctrl = CreateControl(ct);
+			HyperControl? ctrl = CreateControl(ct);
 			if (ctrl != null)
 			{
-				if(name!="") ctrl.Name = name;
-				if(tx!="") ctrl.Text = tx;
-				if(fnt!=null) ctrl.Font= fnt;
-				((HyperControl)ctrl).IsEditMode= this.IsEditMode;
+				if (name != "") ctrl.Name = name;
+				if (tx != "") ctrl.Text = tx;
+				if (fnt != null) ctrl.Font = fnt;
+				ctrl.IsEditMode = this.IsEditMode;
+				ctrl.ParentForm = this;
+				ctrl.LocationChanged += Hc_LocationChanged;
 				this.Controls.Add(ctrl);
-				//this.Controls.SetChildIndex(ctrl, 1);
 				ChkControls();
-				//m_Script.InitControls(this.Controls);
+				OnHControlAdd(new HControlAddEventArgs(ctrl));
 			}
 			return ret;
+		}
+		private void Hc_LocationChanged(object? sender, EventArgs e)
+		{
+			this.Invalidate();
 		}
 		// ******************************************************************************
 		public bool RemoveControl(string key)
 		{
 			bool ret = false;
-			Control[] ctrls = this.Controls.Find(key,false);
-			if(ctrls.Length>=1)
+			Control[] ctrls = this.Controls.Find(key, false);
+			if (ctrls.Length >= 1)
 			{
 				this.Controls.Remove(ctrls[0]);
 				ChkControls();
-				//m_Script.InitControls(this.Controls);
 				ret = true;
+				OnHControlRemoved(new EventArgs());
 			}
 			return ret;
 		}

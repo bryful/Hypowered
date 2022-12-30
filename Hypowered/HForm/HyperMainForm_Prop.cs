@@ -12,8 +12,32 @@ namespace Hypowered
 {
     partial class HyperMainForm
 	{
+		// ****************************************************************************
 		public HyperPictLib PictLib = new HyperPictLib();
+		public HyperScript Script = new HyperScript();
 		public HyperScriptCode ScriptCode = new HyperScriptCode();
+		// ****************************************************************************
+		public HyperPropForm? PropForm = null;
+		public HyperControlList? ControlList = null;
+
+		public Rectangle PropFormBounds = new Rectangle(-1, -1, 0, 0);
+		public Rectangle ControlListBounds = new Rectangle(-1, -1, 0,0);
+		public Rectangle ScriptEditBounds = new Rectangle(-1, -1, 0, 0);
+		// ****************************************************************************
+		// ****************************************************************************
+		public void ExecuteCode(string code)
+		{
+			if (code != "")
+			{
+
+				Script.ExecuteCode(code);
+			}
+		}
+		public void InitScript()
+		{
+			Script.Init();
+			Script.InitControls(this.Controls);
+		}
 		public void SetInScript(InScript s)
 		{
 			ScriptCode.SetInScript(s);
@@ -56,16 +80,11 @@ namespace Hypowered
 			get { return ScriptCode.Script_KeyPress; }
 			set { ScriptCode.Script_KeyPress = value; }
 		}
-		private string m_FileName = "Home";
+		protected string m_FileName = "";
 		[Category("Hypowerd_Form")]
 		public string FileName
 		{
 			get { return m_FileName; }
-			set
-			{
-				m_FileName = value;
-				base.Name = Path.GetFileNameWithoutExtension(value);
-			}
 		}
 		[Category("Hypowerd_Form")]
 		public new string Name
@@ -73,23 +92,6 @@ namespace Hypowered
 			get { return base.Name; }
 			set
 			{
-				if (m_FileName == "")
-				{
-					m_FileName = value;
-				}
-				else
-				{
-					string? d = Path.GetDirectoryName(m_FileName);
-					string e = Path.GetExtension(m_FileName);
-					m_FileName = value + e;
-					if (d != null)
-					{
-						m_FileName = Path.Combine(d, m_FileName);
-					}
-
-				}
-				base.Name = value;
-
 			}
 		}
 
@@ -103,7 +105,7 @@ namespace Hypowered
 		public override JsonObject ToJson()
 		{
 			JsonFile jf = new JsonFile(base.ToJson());
-			jf.SetValue(nameof(FileName), FileName);//String
+			jf.SetValue(nameof(Name), Name);//String
 			jf.SetValue(nameof(IsShowMenu), IsShowMenu);//Boolean
 
 			jf.SetValue(nameof(Script_MouseClick), Script_MouseClick);//string
@@ -171,8 +173,8 @@ namespace Hypowered
 							if(Obj != null)
 							{
 								FromJson(Obj);
-								m_Script.Init();
-								m_Script.InitControls(this.Controls);
+								Script.Init();
+								Script.InitControls(this.Controls);
 								ret = true;
 							}
 						}
@@ -190,8 +192,8 @@ namespace Hypowered
 			base.FromJson(jo);
 			JsonFile jf = new JsonFile(jo);
 			object? v = null;
-			v = jf.ValueAuto("FileName", typeof(String).Name);
-			if (v != null) FileName = (String)v;
+			v = jf.ValueAuto("Name", typeof(String).Name);
+			if (v != null) base.Name = (String)v;
 			v = jf.ValueAuto("IsShowMenu", typeof(Boolean).Name);
 			if (v != null) IsShowMenu = (Boolean)v;
 

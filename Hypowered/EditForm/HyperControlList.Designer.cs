@@ -46,7 +46,7 @@
 			this.controlListBox1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
 			this.controlListBox1.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(185)))), ((int)(((byte)(185)))), ((int)(((byte)(185)))));
 			this.controlListBox1.FormattingEnabled = true;
-			this.controlListBox1.HyperForm = null;
+			this.controlListBox1.MainForm = null;
 			this.controlListBox1.ItemHeight = 15;
 			this.controlListBox1.Location = new System.Drawing.Point(0, 30);
 			this.controlListBox1.Name = "controlListBox1";

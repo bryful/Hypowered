@@ -85,7 +85,28 @@ namespace Hypowered
 			set { base.Text = value; this.Invalidate(); }
 		}
 		[Browsable(false)]
-		public HyperMainForm? HyperForm { get; set; }
+		protected object? m_parent = null;
+		public object? ParentForm 
+		{
+			get { return m_parent; }
+			set
+			{ m_parent= value;}
+		}
+		public HyperMainForm? MainForm
+		{
+			get
+			{
+				if(m_parent is HyperMainForm)
+				{
+					return(HyperMainForm)m_parent;
+				}
+				else
+				{
+					return null;
+				}
+			}
+
+		}
 		/// <summary>
 		/// 複数選択時の親コントロールのインデックス番号
 		/// </summary>
@@ -260,6 +281,7 @@ namespace Hypowered
 	ControlStyles.SupportsTransparentBackColor,
 	true);
 			this.UpdateStyles();
+
 		}
 
 		// ****************************************************************************
@@ -463,9 +485,9 @@ namespace Hypowered
 		{
 			if (m_IsEditMode)
 			{
-				if (HyperForm != null)
+				if (MainForm != null)
 				{
-					HyperForm.EditControl();
+					MainForm.EditControl();
 				}
 				/*
 				HyperScriptEditor ed = new HyperScriptEditor();

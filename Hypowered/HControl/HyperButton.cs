@@ -98,9 +98,9 @@ namespace Hypowered
 		protected override void OnMouseClick(MouseEventArgs e)
 		{
 			base.OnMouseClick(e);
-			if ((HyperForm != null) && (m_IsEditMode == false))
+			if ((MainForm != null) && (m_IsEditMode == false))
 			{
-				HyperForm.ExecuteCode(Script_MouseClick);
+				MainForm.ExecuteCode(Script_MouseClick);
 			}
 		}
 		public override JsonObject ToJson()

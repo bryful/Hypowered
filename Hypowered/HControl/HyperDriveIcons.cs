@@ -14,7 +14,6 @@ using System.Linq;
 using System.Security.Cryptography.X509Certificates;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-using System.Management;
 using System.Text.Json.Nodes;
 
 namespace Hypowered
@@ -30,9 +29,9 @@ namespace Hypowered
 			{
 				CurrentDirChanged(this, e);
 			}
-			if ((HyperForm != null))
+			if ((MainForm != null))
 			{
-				HyperForm.ExecuteCode(Script_CurrentDirChanged);
+				MainForm.ExecuteCode(Script_CurrentDirChanged);
 			}
 		}
 		private int m_SelectedDRIndex = -1;

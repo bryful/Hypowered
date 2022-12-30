@@ -205,6 +205,7 @@ namespace Hypowered
 								if(hh!=null)
 								{
 									hh.FromJson(obj);
+									hh.LocationChanged += Hc_LocationChanged;
 									this.Controls.Add(hh);
 
 								}

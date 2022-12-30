@@ -19,6 +19,7 @@ namespace Hypowered
 		DirList,
 		FileList,
 		PictureBox,
+		Icon
 	}
 
 

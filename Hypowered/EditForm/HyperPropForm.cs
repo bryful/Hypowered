@@ -4,6 +4,7 @@ using System.ComponentModel;
 using System.Data;
 using System.Drawing;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
@@ -50,7 +51,7 @@ namespace Hypowered
 						propertyGrid1.SelectedObject = m_HyperControl;
 						lbCaption.Text = m_HyperControl.Name;
 					}
-					catch(Exception ex)
+					catch
 					{
 
 					}
@@ -106,5 +107,22 @@ namespace Hypowered
 			}
 
 		}
+		protected override void OnSizeChanged(EventArgs e)
+		{
+			base.OnSizeChanged(e);
+			if (m_HyperForm != null)
+			{
+				m_HyperForm.PropFormBounds = this.Bounds;
+			}
+		}
+		protected override void OnLocationChanged(EventArgs e)
+		{
+			base.OnLocationChanged(e);
+			if (m_HyperForm != null)
+			{
+				m_HyperForm.PropFormBounds = this.Bounds;
+			}
+		}
+
 	}
 }

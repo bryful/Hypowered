@@ -32,9 +32,9 @@ namespace Hypowered
 			{
 				m_HyperLabel.Text = e.Path;
 			}
-			if ((HyperForm != null))
+			if ((MainForm != null))
 			{
-				HyperForm.ExecuteCode(Script_CurrentDirChanged);
+				MainForm.ExecuteCode(Script_CurrentDirChanged);
 			}
 
 		}
@@ -46,9 +46,9 @@ namespace Hypowered
 			{
 				SelectedIndexChanged(this, e);
 			}
-			if ((HyperForm != null))
+			if ((MainForm != null))
 			{
-				HyperForm.ExecuteCode(Script_SelectedIndexChanged);
+				MainForm.ExecuteCode(Script_SelectedIndexChanged);
 			}
 
 		}
@@ -144,10 +144,14 @@ namespace Hypowered
 				string ret = "";
 				if( m_ListBox.SelectedItem != null )
 				{
-					ret =  m_ListBox.SelectedItem.ToString();
-					if(m_CurrentDir!="")
+					string? s = m_ListBox.SelectedItem.ToString();
+					if(s != null )
 					{
-						ret = Path.Combine(m_CurrentDir, ret);
+						ret = s;
+						if (m_CurrentDir != "")
+						{
+							ret = Path.Combine(m_CurrentDir, ret);
+						}
 					}
 				}
 				return ret;
@@ -252,7 +256,8 @@ namespace Hypowered
 			string s = "";
 			if((SelectedIndex>=0)&&(SelectedIndex<Count))
 			{
-				s = m_ListBox.Items[SelectedIndex].ToString();
+				string? ss = m_ListBox.Items[SelectedIndex].ToString();
+				if(ss!=null) { s = ss; }
 			}
 			OnSelectedIndexChanged(new SelectedIndexChangedEventArgs(SelectedIndex, s));
 		}
@@ -262,7 +267,9 @@ namespace Hypowered
 			int si = m_ListBox.SelectedIndex;
 			if((si>=0)&&(si<m_ListBox.Items.Count))
 			{
-				DirectoryInfo di = new DirectoryInfo(Path.Combine(m_CurrentDir, m_ListBox.Items[si].ToString()));
+				string? s = m_ListBox.Items[si].ToString();
+				if (s == null) return;
+				DirectoryInfo di = new DirectoryInfo(Path.Combine(m_CurrentDir,s ));
 				m_CurrentDir = di.FullName;
 				Listup();
 				m_ListBox.SelectedIndex = -1;

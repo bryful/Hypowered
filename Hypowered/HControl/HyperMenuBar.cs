@@ -203,7 +203,7 @@ true);
 			{
 				if(m_IsEditMode)
 				{
-					if (HyperForm != null)
+					if (ParentForm != null)
 					{
 						//HyperForm.ChkTarget(this);
 					}

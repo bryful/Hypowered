@@ -970,7 +970,7 @@ namespace Hypowered
 			{
 				if (Obj.ContainsKey(key))
 				{
-					JsonObject? jo = Obj[key].AsObject();
+					JsonArray? jo = Obj[key].AsArray();
 					ret = RectangleFromJson(jo);
 				}
 			}
@@ -1109,31 +1109,6 @@ namespace Hypowered
 				}
 			}
 			return ret;
-		}
-		// ****************************************************
-		public void StoreForm(Form fm)
-		{
-			if (fm == null) return;
-			SetValue("FormBounds", fm.Bounds);
-		}
-		// ****************************************************
-		public void RestoreForm(Form fm)
-		{
-			if (fm == null) return;
-			bool ok = false;
-			Rectangle? r = ValueRectangle("FormBounds");
-			if (r!=null)
-			{
-				fm.MaximumSize = new Size(65536, 65536);
-				fm.Bounds = (Rectangle)r;
-			}
-			if ((r==null) || (ScreenIn(r) == false))
-			{
-				Rectangle rct = Screen.PrimaryScreen.Bounds;
-				Point p = new Point((rct.Width - fm.Width) / 2, (rct.Height - fm.Height) / 2);
-				fm.Location = p;
-			}
-
 		}
 		// ****************************************************
 

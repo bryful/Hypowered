@@ -22,11 +22,60 @@ namespace Hypowered
 			{
 				RBValueChanged(this, e);
 			}
-			if ((HyperForm != null))
+			if ((MainForm != null))
 			{
-				HyperForm.ExecuteCode(Script_ValueChanged);
+				MainForm.ExecuteCode(Script_ValueChanged);
 			}
 		}
+		[Category("Hypowerd")]
+		public new Font Font
+		{
+			get { return base.Font; }
+			set 
+			{
+				base.Font = value; 
+				if(this.Controls.Count > 0) 
+				{
+					foreach(Control control in this.Controls)
+					{
+						control.Font = value;
+					}
+				}
+			}
+		}
+		[Category("Hypowerd_Color")]
+		public new Color ForeColor
+		{
+			get { return base.ForeColor; }
+			set
+			{
+				base.ForeColor = value;
+				if (this.Controls.Count > 0)
+				{
+					foreach (Control control in this.Controls)
+					{
+						control.ForeColor = value;
+					}
+				}
+			}
+		}
+		[Category("Hypowerd_Color")]
+		public new Color BackColor
+		{
+			get { return base.BackColor; }
+			set
+			{
+				base.BackColor = value;
+				if (this.Controls.Count > 0)
+				{
+					foreach (Control control in this.Controls)
+					{
+						control.BackColor = value;
+					}
+				}
+			}
+		}
+		[Category("Hypowerd")]
 		public new bool IsEditMode
 		{
 			get { return base.m_IsEditMode; }
@@ -142,7 +191,44 @@ namespace Hypowered
 
 			}
 		}
-
+		[Category("Hypowerd_Text")]
+		public new StringAlignment TextAligiment
+		{
+			get { return base.TextAligiment; }
+			set
+			{
+				base.TextAligiment = value;
+				if (this.Controls.Count > 0)
+				{
+					foreach (var item in this.Controls)
+					{
+						if (item is RadioButtonChild)
+						{
+							((RadioButtonChild)item).TextAligiment = value;
+						}
+					}
+				}
+			}
+		}
+		[Category("Hypowerd_Text")]
+		public new StringAlignment TextLineAligiment
+		{
+			get { return base.TextLineAligiment; }
+			set
+			{
+				base.TextLineAligiment = value;
+				if (this.Controls.Count > 0)
+				{
+					foreach (var item in this.Controls)
+					{
+						if (item is RadioButtonChild)
+						{
+							((RadioButtonChild)item).TextLineAligiment = value;
+						}
+					}
+				}
+			}
+		}
 		public HyperRadioButton()
 		{
 			SetMyType(ControlType.RadioButton);
@@ -247,14 +333,7 @@ namespace Hypowered
 
 			}
 		}
-		public void CallMouseDown(MouseEventArgs e)
-		{
-			OnMouseDown(e);
-		}
-		public void CallMouseUp(MouseEventArgs e)
-		{
-			OnMouseUp(e);
-		}
+
 		protected override void OnMouseDown(MouseEventArgs e)
 		{
 			if (m_IsEditMode)
@@ -289,6 +368,11 @@ namespace Hypowered
 			jf.SetValue(nameof(Count), Count);
 			jf.SetValue(nameof(Value), Value);
 			jf.SetValue(nameof(CheckSize), CheckSize);//Int32
+			jf.SetValue(nameof(Font), Font);
+			jf.SetValue(nameof(ForeColor), ForeColor);
+			jf.SetValue(nameof(BackColor), BackColor);
+			jf.SetValue(nameof(TextAligiment), (int)TextAligiment);
+			jf.SetValue(nameof(TextLineAligiment), (int)TextLineAligiment);
 
 
 			return jf.Obj;
@@ -306,6 +390,16 @@ namespace Hypowered
 			if (v != null) Value = (Int32)v;
 			v = jf.ValueAuto("CheckSize", typeof(Int32).Name);
 			if (v != null) CheckSize = (Int32)v;
+			v = jf.ValueAuto("Font", typeof(Font).Name);
+			if (v != null) Font = (Font)v;
+			v = jf.ValueAuto("ForeColor", typeof(Color).Name);
+			if (v != null) ForeColor = (Color)v;
+			v = jf.ValueAuto("BackColor", typeof(Color).Name);
+			if (v != null) BackColor = (Color)v;
+			v = jf.ValueAuto("TextAligiment", typeof(Int32).Name);
+			if (v != null) TextAligiment = (StringAlignment)v;
+			v = jf.ValueAuto("TextLineAligiment", typeof(Int32).Name);
+			if (v != null) TextLineAligiment = (StringAlignment)v;
 		}
 	}
 }
