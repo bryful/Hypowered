@@ -12,6 +12,7 @@ using System.Text;
 using System.Text.Json.Nodes;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using System.Windows.Media.Animation;
 using BRY;
 
 namespace Hypowered
@@ -20,30 +21,57 @@ namespace Hypowered
     public partial class HyperMainForm : HyperBaseForm
 	{
 		private System.Threading.Mutex? _mutex = null;
-
+		public HyperFormList FormList = new HyperFormList();
 		protected HyperMenuBar m_menuBar = new HyperMenuBar();
 		protected HyperMenuItem? m_FileMenu = null;
 		protected HyperMenuItem? m_EditlMenu = null;
 		protected HyperMenuItem? m_ControlMenu = null;
 		protected HyperMenuItem? m_UserMenu = null;
 
+		public override void SetIsEditMode(bool value)
+		{
+			m_IsEditMode = value;
+			if (this.Controls.Count > 0)
+			{
+				foreach (Control c in this.Controls)
+				{
+					if (c is HyperControl)
+					{
+						((HyperControl)c).IsEditMode = m_IsEditMode;
+					}
+				}
+			}
+			if(FormList.Count>1)
+			{
+				for(int i=1;i<FormList.Count;i++)
+				{
+					if (FormList[i] != null)
+					{
+						FormList[i].SetIsEditMode(value);
+					}
+				}
+			}
+			//ChkControls();
+			this.Invalidate();
+		}
 		public HyperMainForm()
 		{
 			SetInScript(InScript.Startup| InScript.MouseClick| InScript.KeyPress);
-
+			FormList.SetMain(this);
 			base.KeyPreview = true;
 			BackColor = ColU.ToColor(HyperColor.Back);
 			ForeColor = ColU.ToColor(HyperColor.Fore);
 			base.Name = "HyperForm";
 			FormBorderStyle = FormBorderStyle.None;
 			AutoScaleMode = AutoScaleMode.None;
+			TransparencyKey = Color.Empty;
 			this.SetStyle(
 //ControlStyles.Selectable |
 //ControlStyles.UserMouse |
 ControlStyles.DoubleBuffer |
 ControlStyles.UserPaint |
-ControlStyles.AllPaintingInWmPaint |
-ControlStyles.SupportsTransparentBackColor,
+ControlStyles.AllPaintingInWmPaint ,
+//ControlStyles.SupportsTransparentBackColor,
 true);
 			this.UpdateStyles();
 			SetupFuncs();
@@ -127,10 +155,28 @@ true);
 			}
 			StopServer();
 		}
-
-
-
+		protected override void OnHControlAdd(HControlAddEventArgs e)
+		{
+			base.OnHControlAdd(e);
+			Script.InitControls(this.Controls);
+		}
+		public override void OnHControlRemoved(EventArgs e)
+		{
+			base.OnHControlRemoved(e);
+			Script.InitControls(this.Controls);
+		}
+		protected override void OnActivated(EventArgs e)
+		{
+			
+			base.OnActivated(e);
+		}
+		protected override void OnDeactivate(EventArgs e)
+		{
+		
+			base.OnDeactivate(e);
+		}
 		// ****************************************************************************
+		/*
 		public ToolStripMenuItem[] GetMenuControls(HyperControl? target, System.EventHandler func)
 		{
 			List<ToolStripMenuItem> list = new List<ToolStripMenuItem>();
@@ -153,6 +199,7 @@ true);
 			}
 			return list.ToArray();
 		}
+		*/
 		// ****************************************************************************
 		protected override bool ProcessDialogKey(Keys keyData)
 		{
@@ -257,10 +304,24 @@ true);
 			}
 			return ret;
 		}
+		public void InitForm()
+		{
+			FormList.Init();
+			if(this.Controls.Count > 1)
+			{
+				for(int i= this.Controls.Count-1; i>=1;i--)
+				{
+					this.Controls[i].Dispose();
+					this.Controls.RemoveAt(i);
+				}
+			}
+			Script.Init();
+		}
 		public bool LoadToHYPF(string p)
 		{
 			bool ret = false;
 			if (p == "") return ret;
+			InitForm();
 			ret = LoadForm(p);
 			if (ret)
 			{
@@ -324,6 +385,18 @@ true);
 				ret = false;
 			}
 			return ret;
+		}
+
+		private void button1_Click(object sender, EventArgs e)
+		{
+			PropertyInfo[] pp =typeof( Properties.Resources).GetProperties();
+
+			string ret = "";
+			foreach (PropertyInfo prop in pp)
+			{
+				ret += prop.Name+"\r\n";
+			}
+			MessageBox.Show(ret);
 		}
 	}
 }

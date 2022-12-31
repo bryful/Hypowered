@@ -37,7 +37,7 @@ namespace Hypowered
 		public void SetBitmap(int idx)
 		{
 			if (MainForm == null) return;
-			m_Bitmap = MainForm.PictLib[idx];
+			m_Bitmap = MainForm.PictLib[idx].Bitmap;
 			if (m_Bitmap != null)
 			{
 				m_PictName = MainForm.PictLib.BitmapName(idx);

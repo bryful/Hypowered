@@ -131,7 +131,6 @@ namespace Hypowered
 				jf.SetValue("Controls", ja);
 			}
 
-
 			return jf.Obj;
 		}
 
@@ -205,6 +204,7 @@ namespace Hypowered
 
 			v = jf.ValueAuto("Script_Startup", typeof(String).Name);
 			if (v != null) Script_Startup = (String)v;
+
 			JsonObject? mm = jf.ValueObject("Menu");
 			if (mm != null)
 			{

@@ -7,11 +7,14 @@ namespace Hypowered
 	public class TargetChangedEventArgs : EventArgs
 	{
 		public int Index;
-		public HyperControl? control;
-		public TargetChangedEventArgs(int idx, HyperControl? c)
+		public HyperControl? Control;
+		public HyperBaseForm? Form;
+		public TargetChangedEventArgs(int idx, HyperBaseForm bf, HyperControl? c)
 		{
 			Index = idx;
-			control = c;
+			Control = c;
+			Form = bf;
+
 		}
 	}
 	public class HControlAddEventArgs : EventArgs
@@ -24,6 +27,7 @@ namespace Hypowered
 	}
 	public partial class HyperBaseForm : Form
 	{
+		public int Index = -1;
 		#region Event
 		// ****************************************************************************
 		public delegate void TargetChangedHandler(object sender, TargetChangedEventArgs e);
@@ -56,7 +60,7 @@ namespace Hypowered
 		}
 		// *********************************************************
 		public event EventHandler? HControlRemoved;
-		protected virtual void OnHControlRemoved(EventArgs e)
+		public virtual void OnHControlRemoved(EventArgs e)
 		{
 			if (HControlRemoved != null)
 			{
@@ -80,7 +84,7 @@ namespace Hypowered
 				this.Invalidate();
 			}
 		}
-		public void SetIsEditMode(bool value)
+		public virtual void SetIsEditMode(bool value)
 		{
 			m_IsEditMode = value;
 			if (this.Controls.Count > 0)
@@ -106,7 +110,7 @@ namespace Hypowered
 				if (m_TargetIndex != value)
 				{
 					m_TargetIndex = value;
-					OnTargetChanged(new TargetChangedEventArgs(m_TargetIndex, TargetControl));
+					OnTargetChanged(new TargetChangedEventArgs(m_TargetIndex,this, TargetControl));
 				}
 				this.Invalidate();
 			}
@@ -164,6 +168,44 @@ namespace Hypowered
 			get { return m_TargetColor; }
 			set { m_TargetColor = value; this.Invalidate(); }
 		}
+		private bool m_CanSetTransparencyKey = false;
+		[Category("Hypowerd_Color")]
+		public bool CanSetTransparencyKey
+		{
+			get { return m_CanSetTransparencyKey; }
+			set 
+			{
+				m_CanSetTransparencyKey = value; 
+
+				if(m_CanSetTransparencyKey==false)
+				{
+					base.TransparencyKey = Color.Empty;
+				}
+				else
+				{
+					base.TransparencyKey = m_TransparencyKey_Backup;
+				}
+				this.Invalidate(); 
+			}
+		}
+		private Color m_TransparencyKey_Backup = Color.White;
+		[Category("Hypowerd_Color")]
+		public new Color TransparencyKey
+		{
+			get { return base.TransparencyKey; }
+			set
+			{
+				m_TransparencyKey_Backup = value;
+				if (m_CanSetTransparencyKey)
+				{
+					base.TransparencyKey = value;
+				}
+				else
+				{
+					base.TransparencyKey = Color.Empty;
+				}
+			}
+		}
 		// ***********************************************************************************
 		[Browsable(false)]
 		public new bool KeyPreview
@@ -187,13 +229,14 @@ namespace Hypowered
 			this.Name = "HyperDilaog";
 			FormBorderStyle = FormBorderStyle.None;
 			AutoScaleMode = AutoScaleMode.None;
+			TransparencyKey = Color.Empty;
 			this.SetStyle(
 //ControlStyles.Selectable |
 //ControlStyles.UserMouse |
 ControlStyles.DoubleBuffer |
 ControlStyles.UserPaint |
-ControlStyles.AllPaintingInWmPaint |
-ControlStyles.SupportsTransparentBackColor,
+ControlStyles.AllPaintingInWmPaint ,
+//ControlStyles.SupportsTransparentBackColor,
 true);
 			this.UpdateStyles();
 			InitializeComponent();
@@ -209,10 +252,31 @@ true);
 			base.OnFormClosed(e);
 		}
 
-
+		public ToolStripMenuItem[] GetControlsForMenu(HyperControl? target, System.EventHandler func)
+		{
+			List<ToolStripMenuItem> list = new List<ToolStripMenuItem>();
+			if (this.Controls.Count > 0)
+			{
+				foreach (Control c in this.Controls)
+				{
+					if (c is not HyperControl) continue;
+					HyperControl hc = (HyperControl)c;
+					ToolStripMenuItem mi = new ToolStripMenuItem();
+					if (target != null)
+					{
+						mi.Checked = (hc.Index == target.Index);
+					}
+					mi.Text = hc.Name;
+					mi.Tag = (object)hc;
+					mi.Click += func;
+					list.Add(mi);
+				}
+			}
+			return list.ToArray();
+		}
 
 		// ***********************************************************************
-		protected virtual void ChkControls()
+		public virtual void ChkControls()
 		{
 			if (this.Controls.Count > 0)
 			{
@@ -387,9 +451,10 @@ true);
 			return ctrl;
 		}
 		// ******************************************************************************
-		public bool AddControl(ControlType ct, string name, string tx, Font fnt)
+		public bool AddControl(HyperBaseForm? bf,ControlType ct, string name, string tx, Font fnt)
 		{
 			bool ret = false;
+			if (bf == null) return ret;
 			HyperControl? ctrl = CreateControl(ct);
 			if (ctrl != null)
 			{
@@ -399,9 +464,9 @@ true);
 				ctrl.IsEditMode = this.IsEditMode;
 				ctrl.ParentForm = this;
 				ctrl.LocationChanged += Hc_LocationChanged;
-				this.Controls.Add(ctrl);
-				ChkControls();
-				OnHControlAdd(new HControlAddEventArgs(ctrl));
+				bf.Controls.Add(ctrl);
+				bf.ChkControls();
+				bf.OnHControlAdd(new HControlAddEventArgs(ctrl));
 			}
 			return ret;
 		}
@@ -410,7 +475,7 @@ true);
 			this.Invalidate();
 		}
 		// ******************************************************************************
-		public bool RemoveControl(string key)
+		public virtual bool RemoveControl(string key)
 		{
 			bool ret = false;
 			Control[] ctrls = this.Controls.Find(key, false);
@@ -488,6 +553,7 @@ true);
 				{
 					OnTargetChanged(new TargetChangedEventArgs(
 						m_TargetIndex,
+						this,
 						TargetControl
 						));
 				}
@@ -586,6 +652,7 @@ true);
 			{
 				OnTargetChanged(new TargetChangedEventArgs(
 					m_TargetIndex,
+					this,
 					TargetControl
 					));
 			}

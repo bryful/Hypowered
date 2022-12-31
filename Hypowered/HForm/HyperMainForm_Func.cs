@@ -120,13 +120,15 @@ namespace Hypowered
 		public bool NewControl()
 		{
 			if (m_IsEditMode==false) return false;
-			EditControlForm dlg= new EditControlForm();
+			if (FormList.TargetForm == null) return false;
+
+			EditControlForm dlg = new EditControlForm();
 			dlg.ControlType= m_ct;
-			dlg.SetTarget(this);
-			if(dlg.ShowDialog(this)==DialogResult.OK )
+			dlg.SetMainForm(this,FormList.TargetForm,null);
+			if(dlg.ShowDialog(FormList.TargetForm) ==DialogResult.OK )
 			{
 				m_ct= dlg.ControlType;
-				AddControl(dlg.ControlType, dlg.ControlName, dlg.ControlText, dlg.Font);
+				AddControl(FormList.TargetForm, dlg.ControlType, dlg.ControlName, dlg.ControlText, dlg.Font);
 				return true;
 			}
 			return false;
@@ -143,17 +145,21 @@ namespace Hypowered
 		{
 			if (m_IsEditMode == false) return false;
 			if(m_TargetIndex<=0) return false;
+			if (FormList.TargetForm == null) return false;
+			if (FormList.TargetForm.TargetControl == null) return false;
+			HyperControl hc = FormList.TargetForm.TargetControl;
 			EditControlForm dlg = new EditControlForm();
-			HyperControl hc = (HyperControl)this.Controls[m_TargetIndex];
-			dlg.SetTarget(this, hc);
-			if (dlg.ShowDialog(this) == DialogResult.OK)
+			dlg.SetMainForm(this, FormList.TargetForm, hc);
+			if (dlg.ShowDialog(FormList.TargetForm) == DialogResult.OK)
 			{
 				if (hc.Name != dlg.ControlName) hc.Name = dlg.ControlName;
 				if (hc.Text != dlg.ControlText) hc.Text = dlg.ControlText;
-				hc.Font = dlg.Font;
 				return true;
 			}
-			return false;
+			else
+			{
+				return false;
+			}
 		}
 		// *************************************************************************
 		public bool ShowPropForm()
@@ -161,7 +167,7 @@ namespace Hypowered
 			if (PropForm == null)
 			{
 				PropForm = new HyperPropForm();
-				PropForm.HyperForm = this;
+				PropForm.SetMainForm(this);
 				if(PropFormBounds.Left==-1)
 				{
 					PropForm.Location = new Point(
@@ -172,15 +178,18 @@ namespace Hypowered
 				{
 					PropForm.Bounds = PropFormBounds;
 				}
+
 			}
 			if (PropForm.Visible == false)
 			{
 				PropForm.Visible = true;
+				PropForm.IsShow= true;
 				PropForm.Activate();
 			}
 			else
 			{
 				PropForm.Visible = false;
+				PropForm.IsShow = false;
 			}
 			return true;
 		}
@@ -190,7 +199,7 @@ namespace Hypowered
 			if (ControlList == null)
 			{
 				ControlList = new HyperControlList();
-				ControlList.MainForm = this;
+				ControlList.SetMainForm(this);
 				if (ControlListBounds.Left == -1)
 				{
 					ControlList.Location = new Point(
@@ -221,10 +230,9 @@ namespace Hypowered
 		{
 			bool ret = false;
 			if(m_IsEditMode==false) return ret;
-			if (this.TargetIndex==0) return ret;
 			using (HyperScriptEditor dlg = new HyperScriptEditor())
 			{
-				dlg.SetHyperForm(this);
+				dlg.SetMainForm(this);
 				if (ScriptEditBounds.Left == -1)
 				{
 					dlg.Bounds = this.Bounds;
@@ -264,9 +272,41 @@ namespace Hypowered
 			ofd.Filter = "*.png|*.png|*.jpg|*.jpg|*.*|*.*";
 			if(ofd.ShowDialog(this)==DialogResult.OK)
 			{
-				PictLib.AddUserPict(ofd.FileName);
-				ret = true;
+				string nm = Path.GetFileName(ofd.FileName);
+				int idx = PictLib.IndexOf(nm);
+				if(idx >=0)
+				{
+					MessageBox.Show("同じ名前のファイルがあります。");
+					return false;
+				}
+
+				if(PictLib.AddUserPict(ofd.FileName)==true)
+				{
+					MessageBox.Show("[ "+nm + " ]を追加しました。");
+					ret = true;
+				}
 			}
+			return ret;
+		}
+		public bool RemoveControl()
+		{
+			bool ret = false;
+
+			HyperBaseForm? bf = FormList.TargetForm;
+			if (bf!=null)
+			{
+				Control? c = bf.TargetControl;
+				if (c!=null)
+				{
+					if (c is HyperMenuBar) return ret;
+					bf.Controls.Remove(c);
+					bf.ChkControls();
+					ret = true;
+					bf.OnHControlRemoved(new EventArgs());
+
+				}
+			}
+
 			return ret;
 		}
 	}

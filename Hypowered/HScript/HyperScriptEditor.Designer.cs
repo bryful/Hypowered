@@ -36,11 +36,11 @@
 			this.toolStrip = new System.Windows.Forms.ToolStrip();
 			this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
 			this.btnOK = new System.Windows.Forms.ToolStripButton();
-			this.btnCancel = new System.Windows.Forms.ToolStripButton();
-			this.cmbScript = new System.Windows.Forms.ToolStripComboBox();
-			this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
-			this.controlBrowser1 = new Hypowered.ControlBrowser();
 			this.toolStripSeparator3 = new System.Windows.Forms.ToolStripSeparator();
+			this.btnCancel = new System.Windows.Forms.ToolStripButton();
+			this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
+			this.cmbScript = new System.Windows.Forms.ToolStripComboBox();
+			this.controlBrowser1 = new Hypowered.ControlBrowser();
 			this.splitContainer1 = new System.Windows.Forms.SplitContainer();
 			this.toolStrip.SuspendLayout();
 			((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
@@ -108,6 +108,11 @@
 			this.btnOK.Text = "OK";
 			this.btnOK.Click += new System.EventHandler(this.btnOK_Click_1);
 			// 
+			// toolStripSeparator3
+			// 
+			this.toolStripSeparator3.Name = "toolStripSeparator3";
+			this.toolStripSeparator3.Size = new System.Drawing.Size(6, 25);
+			// 
 			// btnCancel
 			// 
 			this.btnCancel.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
@@ -118,16 +123,16 @@
 			this.btnCancel.Text = "Cancel";
 			this.btnCancel.Click += new System.EventHandler(this.MenuHide_Click);
 			// 
+			// toolStripSeparator1
+			// 
+			this.toolStripSeparator1.Name = "toolStripSeparator1";
+			this.toolStripSeparator1.Size = new System.Drawing.Size(6, 25);
+			// 
 			// cmbScript
 			// 
 			this.cmbScript.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
 			this.cmbScript.Name = "cmbScript";
 			this.cmbScript.Size = new System.Drawing.Size(180, 25);
-			// 
-			// toolStripSeparator1
-			// 
-			this.toolStripSeparator1.Name = "toolStripSeparator1";
-			this.toolStripSeparator1.Size = new System.Drawing.Size(6, 25);
 			// 
 			// controlBrowser1
 			// 
@@ -137,11 +142,6 @@
 			this.controlBrowser1.Size = new System.Drawing.Size(225, 533);
 			this.controlBrowser1.TabIndex = 2;
 			this.controlBrowser1.Text = "controlBrowser1";
-			// 
-			// toolStripSeparator3
-			// 
-			this.toolStripSeparator3.Name = "toolStripSeparator3";
-			this.toolStripSeparator3.Size = new System.Drawing.Size(6, 25);
 			// 
 			// splitContainer1
 			// 

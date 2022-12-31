@@ -6,12 +6,17 @@ using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Documents;
 using System.Windows.Forms;
 
 namespace Hypowered
 {
 	public partial class ControlListBox : ListBox
 	{
+		public HyperMainForm? MainForm = null;
+		public HyperBaseForm? TargetForm = null;
+		public HyperControl? TargetControl = null;
+
 		[Category("Hypowerd_Color")]
 		public new Color ForeColor
 		{
@@ -33,20 +38,7 @@ namespace Hypowered
 		{
 			return false;
 		}
-		private HyperMainForm? m_HyperForm = null;
-		[Category("Hypowerd")]
-		public HyperMainForm? MainForm
-		{
-			get { return m_HyperForm; }
-			set { SetHyperForm(value);}
-		}
 
-		private ControlCollection? m_HyperControls = null;
-		[Category("Hypowerd")]
-		public ControlCollection? HyperControls
-		{
-			get { return m_HyperControls; }
-		}
 		public ControlListBox()
 		{
 			BackColor = ColU.ToColor(HyperColor.Back);
@@ -54,48 +46,52 @@ namespace Hypowered
 			BorderStyle= BorderStyle.FixedSingle;
 			InitializeComponent();
 		}
-		public void SetHyperForm(HyperMainForm hf)
+		public void SetMainForm(HyperMainForm? mf)
 		{
-			base.Items.Clear();
-			this.Items.Clear();
-			m_HyperForm = hf;
-			if(m_HyperForm!=null)
+			this.MainForm = mf;
+			if (MainForm != null)
 			{
-				m_HyperControls = m_HyperForm.Controls;
+				MainForm.TargetChanged -= MainForm_TargetChanged;
+				MainForm.TargetChanged += MainForm_TargetChanged; ;
+				if(MainForm.TargetControl!= null)
+				{
+					SetTargetControl(MainForm, MainForm.TargetControl, MainForm.TargetControl.Index);
+				}
+			}
+		}
+		public void SetTargetControl(HyperBaseForm? bf, HyperControl? c,int idx)
+		{
+			if (TargetForm != bf)
+			{
+				TargetForm = bf;
+				TargetControl = c;
 				Listup();
-				
-				m_HyperForm.TargetChanged += M_HyperForm_TargetChanged;
-				m_HyperForm.ControlChanged += M_HyperForm_ControlChanged;
+				if (SelectedIndex != idx)
+				{
+					SelectedIndex = idx;
+				}
 			}
 		}
-
-		private void M_HyperForm_ControlChanged(object? sender, EventArgs e)
+		private void MainForm_TargetChanged(object sender, TargetChangedEventArgs e)
 		{
-			Listup();
+			SetTargetControl(e.Form, e.Control,e.Index);
 		}
 
-		private void M_HyperForm_TargetChanged(object sender, TargetChangedEventArgs e)
-		{
-			if(SelectedIndex != e.Index)
-			{
-				SelectedIndex = e.Index;
-			}
-		}
 		public void Listup()
 		{
 			this.SuspendLayout();
 			base.Items.Clear();
 
-			if((m_HyperForm!=null)&&(m_HyperControls!=null)&&(m_HyperControls.Count>0))
+			if((MainForm!=null)&&(TargetForm!=null)&&(TargetForm.Controls.Count>0))
 			{
 				List<string> strings= new List<string>();
-				foreach(Control control in m_HyperControls)
+				foreach(Control control in TargetForm.Controls)
 				{
 					strings.Add(control.Name);
 				}
 				base.Items.AddRange(strings.ToArray());
 
-				this.SelectedIndex = m_HyperForm.TargetIndex;
+				this.SelectedIndex = TargetForm.TargetIndex;
 			}
 			this.ResumeLayout();
 		}
@@ -106,13 +102,14 @@ namespace Hypowered
 		protected override void OnSelectedIndexChanged(EventArgs e)
 		{
 			base.OnSelectedIndexChanged(e);
-			if(m_HyperForm!= null)
+			if(TargetForm!= null)
 			{
-				if (m_HyperForm.TargetIndex != SelectedIndex)
+				if (TargetForm.TargetIndex != SelectedIndex)
 				{
-					m_HyperForm.TargetIndex = SelectedIndex;
+					TargetForm.TargetIndex = SelectedIndex;
 				}
 			}
 		}
+
 	}
 }

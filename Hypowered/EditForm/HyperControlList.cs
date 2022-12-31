@@ -12,17 +12,14 @@ namespace Hypowered
 {
 	public partial class HyperControlList : Form
 	{
-		private HyperMainForm? m_form = null;
-		[Category("Hypowerd")]
-		public HyperMainForm? MainForm
+		private HyperMainForm? MainForm = null;
+
+		public void SetMainForm(HyperMainForm? mf)
 		{
-			get { return controlListBox1.MainForm; }
-			set 
-			{
-				m_form = value;
-				controlListBox1.MainForm = value;
-			}
+			this.MainForm = mf;
+			controlListBox1.SetMainForm(mf);
 		}
+
 		public HyperControlList()
 		{
 			BackColor = ColU.ToColor(HyperColor.Back);
@@ -37,17 +34,57 @@ namespace Hypowered
 		protected override void OnSizeChanged(EventArgs e)
 		{
 			base.OnSizeChanged(e);
-			if (m_form != null)
+			if (MainForm != null)
 			{
-				m_form.ControlListBounds = this.Bounds;
+				MainForm.ControlListBounds = this.Bounds;
 			}
 		}
 		protected override void OnLocationChanged(EventArgs e)
 		{
 			base.OnLocationChanged(e);
-			if (m_form != null)
+			if (MainForm != null)
 			{
-				m_form.ControlListBounds = this.Bounds;
+				MainForm.ControlListBounds = this.Bounds;
+			}
+		}
+
+		private void toolStrip1_ItemClicked(object sender, ToolStripItemClickedEventArgs e)
+		{
+
+		}
+		private void menuForm_Click(object sender, EventArgs e)
+		{
+			if (MainForm != null)
+			{
+
+				ToolStripMenuItem[] m = MainForm.FormList.GetFormsForMenu(Mi_Click);
+				menuForm.DropDownItems.Clear();
+				menuForm.DropDownItems.AddRange(m);
+
+			}
+
+		}
+
+		private void Mi_Click(object? sender, EventArgs e)
+		{
+			if (MainForm != null)
+			{
+				ToolStripMenuItem? mi = (ToolStripMenuItem?)sender;
+				if ((mi != null) && (mi.Tag is HyperBaseForm))
+				{
+					MainForm.FormList.TargetIndex = ((HyperBaseForm)mi.Tag).Index;
+					controlListBox1.TargetForm = MainForm.FormList.TargetForm;
+
+				}
+			}
+
+		}
+
+		private void toolStripButton1_Click(object sender, EventArgs e)
+		{
+			if(controlListBox1.TargetForm!= null)
+			{
+				controlListBox1.TargetForm.Activate();
 			}
 		}
 	}

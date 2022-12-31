@@ -14,42 +14,43 @@ namespace Hypowered
 
 	public partial class HyperPropForm : Form
 	{
-		protected HyperMainForm? m_HyperForm = null;
-		public HyperMainForm? HyperForm
+		public bool IsShow = true;
+		protected HyperMainForm? MainForm = null;
+		public void SetMainForm(HyperMainForm? mf)
 		{
-			get { return m_HyperForm; }
-			set 
-			{ 
-				m_HyperForm = value;
-				if(m_HyperForm!=null)
-				{
-					SetHyperControl(m_HyperForm.TargetControl);
-					m_HyperForm.TargetChanged += M_HyperForm_TargetChanged;
-
-				}
+			this.MainForm = mf;
+			if (MainForm != null)
+			{
+				MainForm.TargetChanged -= MainForm_TargetChanged;
+				MainForm.TargetChanged += MainForm_TargetChanged;
+				SetTargetControl(mf, mf.TargetControl);
 			}
 		}
-		private HyperControl? m_HyperControl = null;
 
-
-		private void M_HyperForm_TargetChanged(object sender, TargetChangedEventArgs e)
+		private void MainForm_TargetChanged(object sender, TargetChangedEventArgs e)
 		{
-			if (m_HyperForm != null)
+			if (e.Form != null)
 			{
-				SetHyperControl(m_HyperForm.TargetControl);
+				SetTargetControl(e.Form, e.Control);
 			}
 		}
-		private void SetHyperControl(HyperControl? c)
+
+		protected HyperBaseForm? m_TargetForm = null;
+
+		private HyperControl? m_TargetControl = null;
+
+		private void SetTargetControl(HyperBaseForm bf, HyperControl? c)
 		{
-			if (m_HyperForm != null)
+			m_TargetForm = bf;
+			m_TargetControl = c;
+			if ((bf != null))
 			{
-				m_HyperControl = m_HyperForm.TargetControl;
-				if (m_HyperControl != null)
+				if (c != null)
 				{
 					try
 					{
-						propertyGrid1.SelectedObject = m_HyperControl;
-						lbCaption.Text = m_HyperControl.Name;
+						propertyGrid1.SelectedObject = c;
+						lbCaption.Text = c.Name;
 					}
 					catch
 					{
@@ -58,9 +59,26 @@ namespace Hypowered
 				}
 				else
 				{
-					propertyGrid1.SelectedObject = m_HyperForm;
-					lbCaption.Text = m_HyperForm.Name;
+					try
+					{
+						propertyGrid1.SelectedObject = bf;
+						lbCaption.Text = bf.Name;
+					}
+					catch
+					{
+
+					}
 				}
+			}
+		}
+	
+		public new bool TopMost
+		{
+			get { return base.TopMost; }
+			set
+			{
+				base.TopMost = value;
+				btnTopMost.Checked= value;
 			}
 		}
 
@@ -68,26 +86,27 @@ namespace Hypowered
 		{
 			InitializeComponent();
 			propertyGrid1.CollapseAllGridItems();
+			btnTopMost.Checked = this.TopMost;
 		}
 
-		private void ToolStripButton1_Click(object sender, EventArgs e)
+		private void btnHide_Click(object sender, EventArgs e)
 		{
 			this.Visible = false;
 		}
 
-		private void BtnMainForm_Click(object sender, EventArgs e)
+		private void btnActive_Click(object sender, EventArgs e)
 		{
-			if(m_HyperForm!=null)
+			if(m_TargetForm!=null)
 			{
-				m_HyperForm.Activate();
+				m_TargetForm.Activate();
 			}
 		}
 
-		private void toolStripDropDownButton1_Click(object sender, EventArgs e)
+		private void menuControl_Click(object sender, EventArgs e)
 		{
-			if (m_HyperForm != null)
+			if (m_TargetForm != null)
 			{
-				ToolStripMenuItem[] m = m_HyperForm.GetMenuControls(m_HyperControl, Mi_Click);
+				ToolStripMenuItem[] m = m_TargetForm.GetControlsForMenu(m_TargetControl, Mi_Click);
 				menuControl.DropDownItems.Clear();
 				menuControl.DropDownItems.AddRange(m);
 
@@ -97,12 +116,12 @@ namespace Hypowered
 
 		private void Mi_Click(object? sender, EventArgs e)
 		{
-			if ((m_HyperForm != null) && (m_HyperControl != null))
+			if ((m_TargetForm != null) && (m_TargetControl != null))
 			{
 				ToolStripMenuItem? mi = (ToolStripMenuItem?)sender;
 				if ((mi != null) && (mi.Tag is HyperControl))
 				{
-					m_HyperForm.TargetIndex = ((HyperControl)mi.Tag).Index;
+					m_TargetForm.TargetIndex = ((HyperControl)mi.Tag).Index;
 				}
 			}
 
@@ -110,19 +129,23 @@ namespace Hypowered
 		protected override void OnSizeChanged(EventArgs e)
 		{
 			base.OnSizeChanged(e);
-			if (m_HyperForm != null)
+			if (MainForm != null)
 			{
-				m_HyperForm.PropFormBounds = this.Bounds;
+				MainForm.PropFormBounds = this.Bounds;
 			}
 		}
 		protected override void OnLocationChanged(EventArgs e)
 		{
 			base.OnLocationChanged(e);
-			if (m_HyperForm != null)
+			if (MainForm != null)
 			{
-				m_HyperForm.PropFormBounds = this.Bounds;
+				MainForm.PropFormBounds = this.Bounds;
 			}
 		}
 
+		private void btnTopMost_Click(object sender, EventArgs e)
+		{
+			this.TopMost = ! this.TopMost;
+		}
 	}
 }

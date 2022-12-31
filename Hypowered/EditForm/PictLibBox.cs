@@ -173,14 +173,15 @@ true);
 		protected void DrawIcon(Graphics g, SolidBrush sb, Pen p,Point pnt,int idx)
 		{
 			if (m_PictLib == null) return;
+			if (idx >= m_PictLib.Count) return;
 			Rectangle rct = new Rectangle(pnt, m_IconSize);
-			if(m_PictLib.IsUserPict(idx))
+			if(m_PictLib[idx].IsRes)
 			{
-				p.Color = UserPictColor;
+				p.Color = ForeColor;
 			}
 			else
 			{
-				p.Color = ForeColor;
+				p.Color = UserPictColor;
 			}
 			p.Width = 1;
 			g.DrawRectangle(p, rct);
@@ -229,28 +230,25 @@ true);
 		protected override void OnMouseDown(MouseEventArgs e)
 		{
 			base.OnMouseDown(e);
+			if (m_PictLib == null) return;
 			int cx = e.X / m_IconSize.Width;
 			if (cx >= m_WCount) cx = m_WCount - 1;
 			int cy = e.Y / m_IconSize.Height;
 			if (cy >= m_HCount) cy = m_HCount - 1;
 			int idx = cx + m_WCount * cy;
 			idx += m_PageIndex * m_PageCount;
+
 			if(m_TargetIndex != idx)
 			{
 				m_TargetIndex = idx;
 
-				if(m_PictLib!=null)
+				if (m_TextBox_FileName != null)
 				{
-					m_PictName = m_PictLib.BitmapName(m_TargetIndex);
-					m_PictSize = m_PictLib.BitmapSize(m_TargetIndex);
-					if (m_TextBox_FileName != null)
-					{
-						m_TextBox_FileName.Text = m_PictName;
-					}
-					if (m_TextBox_Info != null)
-					{
-						m_TextBox_Info.Text = m_PictSize.ToString();
-					}
+					m_TextBox_FileName.Text = m_PictLib[idx].Name;
+				}
+				if (m_TextBox_Info != null)
+				{
+					m_TextBox_Info.Text = m_PictLib.BitmapInfo(idx);
 				}
 
 				this.Invalidate();

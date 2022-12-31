@@ -77,7 +77,7 @@ namespace Hypowered
             {
                 foreach (ZipArchiveEntry e in a.Entries)
                 {
-                    list.Add(e.Name);
+                    list.Add(e.FullName);
                     //Console.WriteLine("名前       : {0}", e.Name);
                     //ディレクトリ付きのファイル名
                     //Console.WriteLine("フルパス   : {0}", e.FullName);
@@ -88,13 +88,41 @@ namespace Hypowered
             }
             return list.ToArray();
         }
-        /// <summary>
-        /// メモリストリームに
-        /// </summary>
-        /// <param name="zipName"></param>
-        /// <param name="entryName"></param>
-        /// <returns></returns>
-        static public MemoryStream? GetEntryToStream(string zipName, string entryName)
+		static public string[] EntryList(string zipFile,string dir)
+		{
+			if (zipFile == "") return new string[0];
+			List<string> list = new List<string>();
+			using (ZipArchive a = ZipFile.OpenRead(zipFile))
+			{
+				if(dir!="")
+				{
+					if (dir[dir.Length - 1] != '/') dir += "/";
+				}
+				foreach (ZipArchiveEntry e in a.Entries)
+				{
+					if(dir=="")
+					{
+						list.Add(e.FullName);
+
+					}
+					else
+					{
+						if(e.FullName.IndexOf(dir)==0)
+						{
+							list.Add(e.Name);
+						}
+					}
+				}
+			}
+			return list.ToArray();
+		}
+		/// <summary>
+		/// メモリストリームに
+		/// </summary>
+		/// <param name="zipName"></param>
+		/// <param name="entryName"></param>
+		/// <returns></returns>
+		static public MemoryStream? GetEntryToStream(string zipName, string entryName)
         {
             MemoryStream? ret = null;
 			if ((zipName == "") || (entryName == "")) return ret;

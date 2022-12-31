@@ -22,7 +22,7 @@ namespace Hypowered.Properties {
     [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "17.0.0.0")]
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
-    internal class Resources {
+    public class Resources {
         
         private static global::System.Resources.ResourceManager resourceMan;
         
@@ -36,7 +36,7 @@ namespace Hypowered.Properties {
         ///   このクラスで使用されているキャッシュされた ResourceManager インスタンスを返します。
         /// </summary>
         [global::System.ComponentModel.EditorBrowsableAttribute(global::System.ComponentModel.EditorBrowsableState.Advanced)]
-        internal static global::System.Resources.ResourceManager ResourceManager {
+        public static global::System.Resources.ResourceManager ResourceManager {
             get {
                 if (object.ReferenceEquals(resourceMan, null)) {
                     global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("Hypowered.Properties.Resources", typeof(Resources).Assembly);
@@ -51,7 +51,7 @@ namespace Hypowered.Properties {
         ///   現在のスレッドの CurrentUICulture プロパティをオーバーライドします。
         /// </summary>
         [global::System.ComponentModel.EditorBrowsableAttribute(global::System.ComponentModel.EditorBrowsableState.Advanced)]
-        internal static global::System.Globalization.CultureInfo Culture {
+        public static global::System.Globalization.CultureInfo Culture {
             get {
                 return resourceCulture;
             }
@@ -63,7 +63,7 @@ namespace Hypowered.Properties {
         /// <summary>
         ///   型 System.Drawing.Bitmap のローカライズされたリソースを検索します。
         /// </summary>
-        internal static System.Drawing.Bitmap add {
+        public static System.Drawing.Bitmap add {
             get {
                 object obj = ResourceManager.GetObject("add", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
@@ -73,7 +73,7 @@ namespace Hypowered.Properties {
         /// <summary>
         ///   型 System.Drawing.Bitmap のローカライズされたリソースを検索します。
         /// </summary>
-        internal static System.Drawing.Bitmap add_circle {
+        public static System.Drawing.Bitmap add_circle {
             get {
                 object obj = ResourceManager.GetObject("add_circle", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
@@ -83,7 +83,7 @@ namespace Hypowered.Properties {
         /// <summary>
         ///   型 System.Drawing.Bitmap のローカライズされたリソースを検索します。
         /// </summary>
-        internal static System.Drawing.Bitmap all_inclusive {
+        public static System.Drawing.Bitmap all_inclusive {
             get {
                 object obj = ResourceManager.GetObject("all_inclusive", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
@@ -93,7 +93,7 @@ namespace Hypowered.Properties {
         /// <summary>
         ///   型 System.Drawing.Bitmap のローカライズされたリソースを検索します。
         /// </summary>
-        internal static System.Drawing.Bitmap apartment {
+        public static System.Drawing.Bitmap apartment {
             get {
                 object obj = ResourceManager.GetObject("apartment", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
@@ -103,7 +103,7 @@ namespace Hypowered.Properties {
         /// <summary>
         ///   型 System.Drawing.Bitmap のローカライズされたリソースを検索します。
         /// </summary>
-        internal static System.Drawing.Bitmap api {
+        public static System.Drawing.Bitmap api {
             get {
                 object obj = ResourceManager.GetObject("api", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
@@ -113,7 +113,7 @@ namespace Hypowered.Properties {
         /// <summary>
         ///   型 System.Drawing.Bitmap のローカライズされたリソースを検索します。
         /// </summary>
-        internal static System.Drawing.Bitmap arrow_back {
+        public static System.Drawing.Bitmap arrow_back {
             get {
                 object obj = ResourceManager.GetObject("arrow_back", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
@@ -123,7 +123,7 @@ namespace Hypowered.Properties {
         /// <summary>
         ///   型 System.Drawing.Bitmap のローカライズされたリソースを検索します。
         /// </summary>
-        internal static System.Drawing.Bitmap arrow_back_ios {
+        public static System.Drawing.Bitmap arrow_back_ios {
             get {
                 object obj = ResourceManager.GetObject("arrow_back_ios", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
@@ -133,7 +133,7 @@ namespace Hypowered.Properties {
         /// <summary>
         ///   型 System.Drawing.Bitmap のローカライズされたリソースを検索します。
         /// </summary>
-        internal static System.Drawing.Bitmap arrow_back_ios_new {
+        public static System.Drawing.Bitmap arrow_back_ios_new {
             get {
                 object obj = ResourceManager.GetObject("arrow_back_ios_new", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
@@ -143,7 +143,7 @@ namespace Hypowered.Properties {
         /// <summary>
         ///   型 System.Drawing.Bitmap のローカライズされたリソースを検索します。
         /// </summary>
-        internal static System.Drawing.Bitmap arrow_circle_down {
+        public static System.Drawing.Bitmap arrow_circle_down {
             get {
                 object obj = ResourceManager.GetObject("arrow_circle_down", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
@@ -153,7 +153,7 @@ namespace Hypowered.Properties {
         /// <summary>
         ///   型 System.Drawing.Bitmap のローカライズされたリソースを検索します。
         /// </summary>
-        internal static System.Drawing.Bitmap arrow_downward {
+        public static System.Drawing.Bitmap arrow_downward {
             get {
                 object obj = ResourceManager.GetObject("arrow_downward", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
@@ -163,7 +163,7 @@ namespace Hypowered.Properties {
         /// <summary>
         ///   型 System.Drawing.Bitmap のローカライズされたリソースを検索します。
         /// </summary>
-        internal static System.Drawing.Bitmap arrow_drop_down {
+        public static System.Drawing.Bitmap arrow_drop_down {
             get {
                 object obj = ResourceManager.GetObject("arrow_drop_down", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
@@ -173,7 +173,7 @@ namespace Hypowered.Properties {
         /// <summary>
         ///   型 System.Drawing.Bitmap のローカライズされたリソースを検索します。
         /// </summary>
-        internal static System.Drawing.Bitmap arrow_drop_down_circle {
+        public static System.Drawing.Bitmap arrow_drop_down_circle {
             get {
                 object obj = ResourceManager.GetObject("arrow_drop_down_circle", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
@@ -183,7 +183,7 @@ namespace Hypowered.Properties {
         /// <summary>
         ///   型 System.Drawing.Bitmap のローカライズされたリソースを検索します。
         /// </summary>
-        internal static System.Drawing.Bitmap arrow_drop_up {
+        public static System.Drawing.Bitmap arrow_drop_up {
             get {
                 object obj = ResourceManager.GetObject("arrow_drop_up", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
@@ -193,7 +193,7 @@ namespace Hypowered.Properties {
         /// <summary>
         ///   型 System.Drawing.Bitmap のローカライズされたリソースを検索します。
         /// </summary>
-        internal static System.Drawing.Bitmap arrow_forward {
+        public static System.Drawing.Bitmap arrow_forward {
             get {
                 object obj = ResourceManager.GetObject("arrow_forward", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
@@ -203,7 +203,7 @@ namespace Hypowered.Properties {
         /// <summary>
         ///   型 System.Drawing.Bitmap のローカライズされたリソースを検索します。
         /// </summary>
-        internal static System.Drawing.Bitmap arrow_forward_ios {
+        public static System.Drawing.Bitmap arrow_forward_ios {
             get {
                 object obj = ResourceManager.GetObject("arrow_forward_ios", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
@@ -213,7 +213,7 @@ namespace Hypowered.Properties {
         /// <summary>
         ///   型 System.Drawing.Bitmap のローカライズされたリソースを検索します。
         /// </summary>
-        internal static System.Drawing.Bitmap arrow_insert {
+        public static System.Drawing.Bitmap arrow_insert {
             get {
                 object obj = ResourceManager.GetObject("arrow_insert", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
@@ -223,7 +223,7 @@ namespace Hypowered.Properties {
         /// <summary>
         ///   型 System.Drawing.Bitmap のローカライズされたリソースを検索します。
         /// </summary>
-        internal static System.Drawing.Bitmap arrow_left {
+        public static System.Drawing.Bitmap arrow_left {
             get {
                 object obj = ResourceManager.GetObject("arrow_left", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
@@ -233,7 +233,7 @@ namespace Hypowered.Properties {
         /// <summary>
         ///   型 System.Drawing.Bitmap のローカライズされたリソースを検索します。
         /// </summary>
-        internal static System.Drawing.Bitmap arrow_right {
+        public static System.Drawing.Bitmap arrow_right {
             get {
                 object obj = ResourceManager.GetObject("arrow_right", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
@@ -243,7 +243,7 @@ namespace Hypowered.Properties {
         /// <summary>
         ///   型 System.Drawing.Bitmap のローカライズされたリソースを検索します。
         /// </summary>
-        internal static System.Drawing.Bitmap arrow_right_alt {
+        public static System.Drawing.Bitmap arrow_right_alt {
             get {
                 object obj = ResourceManager.GetObject("arrow_right_alt", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
@@ -253,7 +253,7 @@ namespace Hypowered.Properties {
         /// <summary>
         ///   型 System.Drawing.Bitmap のローカライズされたリソースを検索します。
         /// </summary>
-        internal static System.Drawing.Bitmap arrow_upward {
+        public static System.Drawing.Bitmap arrow_upward {
             get {
                 object obj = ResourceManager.GetObject("arrow_upward", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
@@ -263,7 +263,7 @@ namespace Hypowered.Properties {
         /// <summary>
         ///   型 System.Drawing.Bitmap のローカライズされたリソースを検索します。
         /// </summary>
-        internal static System.Drawing.Bitmap aspect_ratio {
+        public static System.Drawing.Bitmap aspect_ratio {
             get {
                 object obj = ResourceManager.GetObject("aspect_ratio", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
@@ -273,7 +273,7 @@ namespace Hypowered.Properties {
         /// <summary>
         ///   型 System.Drawing.Bitmap のローカライズされたリソースを検索します。
         /// </summary>
-        internal static System.Drawing.Bitmap assistant_navigation {
+        public static System.Drawing.Bitmap assistant_navigation {
             get {
                 object obj = ResourceManager.GetObject("assistant_navigation", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
@@ -283,7 +283,7 @@ namespace Hypowered.Properties {
         /// <summary>
         ///   型 System.Drawing.Bitmap のローカライズされたリソースを検索します。
         /// </summary>
-        internal static System.Drawing.Bitmap auto_awesome {
+        public static System.Drawing.Bitmap auto_awesome {
             get {
                 object obj = ResourceManager.GetObject("auto_awesome", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
@@ -293,7 +293,7 @@ namespace Hypowered.Properties {
         /// <summary>
         ///   型 System.Drawing.Bitmap のローカライズされたリソースを検索します。
         /// </summary>
-        internal static System.Drawing.Bitmap background_replace {
+        public static System.Drawing.Bitmap background_replace {
             get {
                 object obj = ResourceManager.GetObject("background_replace", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
@@ -303,7 +303,7 @@ namespace Hypowered.Properties {
         /// <summary>
         ///   型 System.Drawing.Bitmap のローカライズされたリソースを検索します。
         /// </summary>
-        internal static System.Drawing.Bitmap barcode {
+        public static System.Drawing.Bitmap barcode {
             get {
                 object obj = ResourceManager.GetObject("barcode", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
@@ -313,7 +313,7 @@ namespace Hypowered.Properties {
         /// <summary>
         ///   型 System.Drawing.Bitmap のローカライズされたリソースを検索します。
         /// </summary>
-        internal static System.Drawing.Bitmap barcode_scanner {
+        public static System.Drawing.Bitmap barcode_scanner {
             get {
                 object obj = ResourceManager.GetObject("barcode_scanner", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
@@ -323,7 +323,7 @@ namespace Hypowered.Properties {
         /// <summary>
         ///   型 System.Drawing.Bitmap のローカライズされたリソースを検索します。
         /// </summary>
-        internal static System.Drawing.Bitmap barefoot {
+        public static System.Drawing.Bitmap barefoot {
             get {
                 object obj = ResourceManager.GetObject("barefoot", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
@@ -333,7 +333,7 @@ namespace Hypowered.Properties {
         /// <summary>
         ///   型 System.Drawing.Bitmap のローカライズされたリソースを検索します。
         /// </summary>
-        internal static System.Drawing.Bitmap battery_4_bar {
+        public static System.Drawing.Bitmap battery_4_bar {
             get {
                 object obj = ResourceManager.GetObject("battery_4_bar", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
@@ -343,7 +343,7 @@ namespace Hypowered.Properties {
         /// <summary>
         ///   型 System.Drawing.Bitmap のローカライズされたリソースを検索します。
         /// </summary>
-        internal static System.Drawing.Bitmap beach_access {
+        public static System.Drawing.Bitmap beach_access {
             get {
                 object obj = ResourceManager.GetObject("beach_access", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
@@ -353,7 +353,7 @@ namespace Hypowered.Properties {
         /// <summary>
         ///   型 System.Drawing.Bitmap のローカライズされたリソースを検索します。
         /// </summary>
-        internal static System.Drawing.Bitmap block {
+        public static System.Drawing.Bitmap block {
             get {
                 object obj = ResourceManager.GetObject("block", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
@@ -363,7 +363,7 @@ namespace Hypowered.Properties {
         /// <summary>
         ///   型 System.Drawing.Bitmap のローカライズされたリソースを検索します。
         /// </summary>
-        internal static System.Drawing.Bitmap bluetooth {
+        public static System.Drawing.Bitmap bluetooth {
             get {
                 object obj = ResourceManager.GetObject("bluetooth", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
@@ -373,7 +373,7 @@ namespace Hypowered.Properties {
         /// <summary>
         ///   型 System.Drawing.Bitmap のローカライズされたリソースを検索します。
         /// </summary>
-        internal static System.Drawing.Bitmap bolt {
+        public static System.Drawing.Bitmap bolt {
             get {
                 object obj = ResourceManager.GetObject("bolt", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
@@ -383,7 +383,7 @@ namespace Hypowered.Properties {
         /// <summary>
         ///   型 System.Drawing.Bitmap のローカライズされたリソースを検索します。
         /// </summary>
-        internal static System.Drawing.Bitmap cable {
+        public static System.Drawing.Bitmap cable {
             get {
                 object obj = ResourceManager.GetObject("cable", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
@@ -393,7 +393,7 @@ namespace Hypowered.Properties {
         /// <summary>
         ///   型 System.Drawing.Bitmap のローカライズされたリソースを検索します。
         /// </summary>
-        internal static System.Drawing.Bitmap call {
+        public static System.Drawing.Bitmap call {
             get {
                 object obj = ResourceManager.GetObject("call", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
@@ -403,7 +403,7 @@ namespace Hypowered.Properties {
         /// <summary>
         ///   型 System.Drawing.Bitmap のローカライズされたリソースを検索します。
         /// </summary>
-        internal static System.Drawing.Bitmap call_missed_outgoing {
+        public static System.Drawing.Bitmap call_missed_outgoing {
             get {
                 object obj = ResourceManager.GetObject("call_missed_outgoing", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
@@ -413,7 +413,7 @@ namespace Hypowered.Properties {
         /// <summary>
         ///   型 System.Drawing.Bitmap のローカライズされたリソースを検索します。
         /// </summary>
-        internal static System.Drawing.Bitmap camera {
+        public static System.Drawing.Bitmap camera {
             get {
                 object obj = ResourceManager.GetObject("camera", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
@@ -423,7 +423,7 @@ namespace Hypowered.Properties {
         /// <summary>
         ///   型 System.Drawing.Bitmap のローカライズされたリソースを検索します。
         /// </summary>
-        internal static System.Drawing.Bitmap cell_tower {
+        public static System.Drawing.Bitmap cell_tower {
             get {
                 object obj = ResourceManager.GetObject("cell_tower", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
@@ -433,7 +433,7 @@ namespace Hypowered.Properties {
         /// <summary>
         ///   型 System.Drawing.Bitmap のローカライズされたリソースを検索します。
         /// </summary>
-        internal static System.Drawing.Bitmap change_history {
+        public static System.Drawing.Bitmap change_history {
             get {
                 object obj = ResourceManager.GetObject("change_history", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
@@ -443,7 +443,7 @@ namespace Hypowered.Properties {
         /// <summary>
         ///   型 System.Drawing.Bitmap のローカライズされたリソースを検索します。
         /// </summary>
-        internal static System.Drawing.Bitmap chat {
+        public static System.Drawing.Bitmap chat {
             get {
                 object obj = ResourceManager.GetObject("chat", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
@@ -453,7 +453,7 @@ namespace Hypowered.Properties {
         /// <summary>
         ///   型 System.Drawing.Bitmap のローカライズされたリソースを検索します。
         /// </summary>
-        internal static System.Drawing.Bitmap check {
+        public static System.Drawing.Bitmap check {
             get {
                 object obj = ResourceManager.GetObject("check", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
@@ -463,7 +463,7 @@ namespace Hypowered.Properties {
         /// <summary>
         ///   型 System.Drawing.Bitmap のローカライズされたリソースを検索します。
         /// </summary>
-        internal static System.Drawing.Bitmap check_box {
+        public static System.Drawing.Bitmap check_box {
             get {
                 object obj = ResourceManager.GetObject("check_box", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
@@ -473,7 +473,7 @@ namespace Hypowered.Properties {
         /// <summary>
         ///   型 System.Drawing.Bitmap のローカライズされたリソースを検索します。
         /// </summary>
-        internal static System.Drawing.Bitmap check_box_outline_blank {
+        public static System.Drawing.Bitmap check_box_outline_blank {
             get {
                 object obj = ResourceManager.GetObject("check_box_outline_blank", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
@@ -483,7 +483,7 @@ namespace Hypowered.Properties {
         /// <summary>
         ///   型 System.Drawing.Bitmap のローカライズされたリソースを検索します。
         /// </summary>
-        internal static System.Drawing.Bitmap check_circle {
+        public static System.Drawing.Bitmap check_circle {
             get {
                 object obj = ResourceManager.GetObject("check_circle", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
@@ -493,7 +493,7 @@ namespace Hypowered.Properties {
         /// <summary>
         ///   型 System.Drawing.Bitmap のローカライズされたリソースを検索します。
         /// </summary>
-        internal static System.Drawing.Bitmap check_small {
+        public static System.Drawing.Bitmap check_small {
             get {
                 object obj = ResourceManager.GetObject("check_small", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
@@ -503,7 +503,7 @@ namespace Hypowered.Properties {
         /// <summary>
         ///   型 System.Drawing.Bitmap のローカライズされたリソースを検索します。
         /// </summary>
-        internal static System.Drawing.Bitmap chevron_left {
+        public static System.Drawing.Bitmap chevron_left {
             get {
                 object obj = ResourceManager.GetObject("chevron_left", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
@@ -513,7 +513,7 @@ namespace Hypowered.Properties {
         /// <summary>
         ///   型 System.Drawing.Bitmap のローカライズされたリソースを検索します。
         /// </summary>
-        internal static System.Drawing.Bitmap chevron_right {
+        public static System.Drawing.Bitmap chevron_right {
             get {
                 object obj = ResourceManager.GetObject("chevron_right", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
@@ -523,7 +523,7 @@ namespace Hypowered.Properties {
         /// <summary>
         ///   型 System.Drawing.Bitmap のローカライズされたリソースを検索します。
         /// </summary>
-        internal static System.Drawing.Bitmap close {
+        public static System.Drawing.Bitmap close {
             get {
                 object obj = ResourceManager.GetObject("close", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
@@ -533,7 +533,7 @@ namespace Hypowered.Properties {
         /// <summary>
         ///   型 System.Drawing.Bitmap のローカライズされたリソースを検索します。
         /// </summary>
-        internal static System.Drawing.Bitmap close_fullscreen {
+        public static System.Drawing.Bitmap close_fullscreen {
             get {
                 object obj = ResourceManager.GetObject("close_fullscreen", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
@@ -543,7 +543,7 @@ namespace Hypowered.Properties {
         /// <summary>
         ///   型 System.Drawing.Bitmap のローカライズされたリソースを検索します。
         /// </summary>
-        internal static System.Drawing.Bitmap cloud_queue {
+        public static System.Drawing.Bitmap cloud_queue {
             get {
                 object obj = ResourceManager.GetObject("cloud_queue", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
@@ -553,7 +553,7 @@ namespace Hypowered.Properties {
         /// <summary>
         ///   型 System.Drawing.Bitmap のローカライズされたリソースを検索します。
         /// </summary>
-        internal static System.Drawing.Bitmap code {
+        public static System.Drawing.Bitmap code {
             get {
                 object obj = ResourceManager.GetObject("code", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
@@ -563,7 +563,7 @@ namespace Hypowered.Properties {
         /// <summary>
         ///   型 System.Drawing.Bitmap のローカライズされたリソースを検索します。
         /// </summary>
-        internal static System.Drawing.Bitmap construction {
+        public static System.Drawing.Bitmap construction {
             get {
                 object obj = ResourceManager.GetObject("construction", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
@@ -573,7 +573,7 @@ namespace Hypowered.Properties {
         /// <summary>
         ///   型 System.Drawing.Bitmap のローカライズされたリソースを検索します。
         /// </summary>
-        internal static System.Drawing.Bitmap contactless {
+        public static System.Drawing.Bitmap contactless {
             get {
                 object obj = ResourceManager.GetObject("contactless", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
@@ -583,7 +583,7 @@ namespace Hypowered.Properties {
         /// <summary>
         ///   型 System.Drawing.Bitmap のローカライズされたリソースを検索します。
         /// </summary>
-        internal static System.Drawing.Bitmap conversion_path {
+        public static System.Drawing.Bitmap conversion_path {
             get {
                 object obj = ResourceManager.GetObject("conversion_path", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
@@ -593,7 +593,7 @@ namespace Hypowered.Properties {
         /// <summary>
         ///   型 System.Drawing.Bitmap のローカライズされたリソースを検索します。
         /// </summary>
-        internal static System.Drawing.Bitmap currency_yen {
+        public static System.Drawing.Bitmap currency_yen {
             get {
                 object obj = ResourceManager.GetObject("currency_yen", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
@@ -603,7 +603,7 @@ namespace Hypowered.Properties {
         /// <summary>
         ///   型 System.Drawing.Bitmap のローカライズされたリソースを検索します。
         /// </summary>
-        internal static System.Drawing.Bitmap dark_mode {
+        public static System.Drawing.Bitmap dark_mode {
             get {
                 object obj = ResourceManager.GetObject("dark_mode", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
@@ -613,7 +613,7 @@ namespace Hypowered.Properties {
         /// <summary>
         ///   型 System.Drawing.Bitmap のローカライズされたリソースを検索します。
         /// </summary>
-        internal static System.Drawing.Bitmap database {
+        public static System.Drawing.Bitmap database {
             get {
                 object obj = ResourceManager.GetObject("database", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
@@ -623,7 +623,7 @@ namespace Hypowered.Properties {
         /// <summary>
         ///   型 System.Drawing.Bitmap のローカライズされたリソースを検索します。
         /// </summary>
-        internal static System.Drawing.Bitmap delete {
+        public static System.Drawing.Bitmap delete {
             get {
                 object obj = ResourceManager.GetObject("delete", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
@@ -633,7 +633,7 @@ namespace Hypowered.Properties {
         /// <summary>
         ///   型 System.Drawing.Bitmap のローカライズされたリソースを検索します。
         /// </summary>
-        internal static System.Drawing.Bitmap do_not_disturb_on {
+        public static System.Drawing.Bitmap do_not_disturb_on {
             get {
                 object obj = ResourceManager.GetObject("do_not_disturb_on", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
@@ -643,7 +643,7 @@ namespace Hypowered.Properties {
         /// <summary>
         ///   型 System.Drawing.Bitmap のローカライズされたリソースを検索します。
         /// </summary>
-        internal static System.Drawing.Bitmap door_front {
+        public static System.Drawing.Bitmap door_front {
             get {
                 object obj = ResourceManager.GetObject("door_front", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
@@ -653,7 +653,7 @@ namespace Hypowered.Properties {
         /// <summary>
         ///   型 System.Drawing.Bitmap のローカライズされたリソースを検索します。
         /// </summary>
-        internal static System.Drawing.Bitmap double_arrow {
+        public static System.Drawing.Bitmap double_arrow {
             get {
                 object obj = ResourceManager.GetObject("double_arrow", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
@@ -663,7 +663,7 @@ namespace Hypowered.Properties {
         /// <summary>
         ///   型 System.Drawing.Bitmap のローカライズされたリソースを検索します。
         /// </summary>
-        internal static System.Drawing.Bitmap draft {
+        public static System.Drawing.Bitmap draft {
             get {
                 object obj = ResourceManager.GetObject("draft", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
@@ -673,7 +673,7 @@ namespace Hypowered.Properties {
         /// <summary>
         ///   型 System.Drawing.Bitmap のローカライズされたリソースを検索します。
         /// </summary>
-        internal static System.Drawing.Bitmap draw {
+        public static System.Drawing.Bitmap draw {
             get {
                 object obj = ResourceManager.GetObject("draw", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
@@ -683,7 +683,7 @@ namespace Hypowered.Properties {
         /// <summary>
         ///   型 System.Drawing.Bitmap のローカライズされたリソースを検索します。
         /// </summary>
-        internal static System.Drawing.Bitmap eco {
+        public static System.Drawing.Bitmap eco {
             get {
                 object obj = ResourceManager.GetObject("eco", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
@@ -693,7 +693,7 @@ namespace Hypowered.Properties {
         /// <summary>
         ///   型 System.Drawing.Bitmap のローカライズされたリソースを検索します。
         /// </summary>
-        internal static System.Drawing.Bitmap edit {
+        public static System.Drawing.Bitmap edit {
             get {
                 object obj = ResourceManager.GetObject("edit", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
@@ -703,7 +703,7 @@ namespace Hypowered.Properties {
         /// <summary>
         ///   型 System.Drawing.Bitmap のローカライズされたリソースを検索します。
         /// </summary>
-        internal static System.Drawing.Bitmap edit_square {
+        public static System.Drawing.Bitmap edit_square {
             get {
                 object obj = ResourceManager.GetObject("edit_square", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
@@ -713,7 +713,7 @@ namespace Hypowered.Properties {
         /// <summary>
         ///   型 System.Drawing.Bitmap のローカライズされたリソースを検索します。
         /// </summary>
-        internal static System.Drawing.Bitmap eject {
+        public static System.Drawing.Bitmap eject {
             get {
                 object obj = ResourceManager.GetObject("eject", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
@@ -723,7 +723,7 @@ namespace Hypowered.Properties {
         /// <summary>
         ///   型 System.Drawing.Bitmap のローカライズされたリソースを検索します。
         /// </summary>
-        internal static System.Drawing.Bitmap emergency_home {
+        public static System.Drawing.Bitmap emergency_home {
             get {
                 object obj = ResourceManager.GetObject("emergency_home", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
@@ -733,7 +733,7 @@ namespace Hypowered.Properties {
         /// <summary>
         ///   型 System.Drawing.Bitmap のローカライズされたリソースを検索します。
         /// </summary>
-        internal static System.Drawing.Bitmap emoji_objects {
+        public static System.Drawing.Bitmap emoji_objects {
             get {
                 object obj = ResourceManager.GetObject("emoji_objects", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
@@ -743,7 +743,7 @@ namespace Hypowered.Properties {
         /// <summary>
         ///   型 System.Drawing.Bitmap のローカライズされたリソースを検索します。
         /// </summary>
-        internal static System.Drawing.Bitmap enable {
+        public static System.Drawing.Bitmap enable {
             get {
                 object obj = ResourceManager.GetObject("enable", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
@@ -753,7 +753,7 @@ namespace Hypowered.Properties {
         /// <summary>
         ///   型 System.Drawing.Bitmap のローカライズされたリソースを検索します。
         /// </summary>
-        internal static System.Drawing.Bitmap error_med {
+        public static System.Drawing.Bitmap error_med {
             get {
                 object obj = ResourceManager.GetObject("error_med", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
@@ -763,7 +763,7 @@ namespace Hypowered.Properties {
         /// <summary>
         ///   型 System.Drawing.Bitmap のローカライズされたリソースを検索します。
         /// </summary>
-        internal static System.Drawing.Bitmap event_ {
+        public static System.Drawing.Bitmap event_ {
             get {
                 object obj = ResourceManager.GetObject("event_", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
@@ -773,7 +773,7 @@ namespace Hypowered.Properties {
         /// <summary>
         ///   型 System.Drawing.Bitmap のローカライズされたリソースを検索します。
         /// </summary>
-        internal static System.Drawing.Bitmap expand_less {
+        public static System.Drawing.Bitmap expand_less {
             get {
                 object obj = ResourceManager.GetObject("expand_less", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
@@ -783,7 +783,7 @@ namespace Hypowered.Properties {
         /// <summary>
         ///   型 System.Drawing.Bitmap のローカライズされたリソースを検索します。
         /// </summary>
-        internal static System.Drawing.Bitmap expand_more {
+        public static System.Drawing.Bitmap expand_more {
             get {
                 object obj = ResourceManager.GetObject("expand_more", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
@@ -793,7 +793,7 @@ namespace Hypowered.Properties {
         /// <summary>
         ///   型 System.Drawing.Bitmap のローカライズされたリソースを検索します。
         /// </summary>
-        internal static System.Drawing.Bitmap extension {
+        public static System.Drawing.Bitmap extension {
             get {
                 object obj = ResourceManager.GetObject("extension", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
@@ -803,7 +803,7 @@ namespace Hypowered.Properties {
         /// <summary>
         ///   型 System.Drawing.Bitmap のローカライズされたリソースを検索します。
         /// </summary>
-        internal static System.Drawing.Bitmap fast_forward {
+        public static System.Drawing.Bitmap fast_forward {
             get {
                 object obj = ResourceManager.GetObject("fast_forward", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
@@ -813,7 +813,7 @@ namespace Hypowered.Properties {
         /// <summary>
         ///   型 System.Drawing.Bitmap のローカライズされたリソースを検索します。
         /// </summary>
-        internal static System.Drawing.Bitmap fast_rewind {
+        public static System.Drawing.Bitmap fast_rewind {
             get {
                 object obj = ResourceManager.GetObject("fast_rewind", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
@@ -823,7 +823,7 @@ namespace Hypowered.Properties {
         /// <summary>
         ///   型 System.Drawing.Bitmap のローカライズされたリソースを検索します。
         /// </summary>
-        internal static System.Drawing.Bitmap file_download_done {
+        public static System.Drawing.Bitmap file_download_done {
             get {
                 object obj = ResourceManager.GetObject("file_download_done", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
@@ -833,7 +833,7 @@ namespace Hypowered.Properties {
         /// <summary>
         ///   型 System.Drawing.Bitmap のローカライズされたリソースを検索します。
         /// </summary>
-        internal static System.Drawing.Bitmap flare {
+        public static System.Drawing.Bitmap flare {
             get {
                 object obj = ResourceManager.GetObject("flare", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
@@ -843,7 +843,7 @@ namespace Hypowered.Properties {
         /// <summary>
         ///   型 System.Drawing.Bitmap のローカライズされたリソースを検索します。
         /// </summary>
-        internal static System.Drawing.Bitmap flatware {
+        public static System.Drawing.Bitmap flatware {
             get {
                 object obj = ResourceManager.GetObject("flatware", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
@@ -853,7 +853,7 @@ namespace Hypowered.Properties {
         /// <summary>
         ///   型 System.Drawing.Bitmap のローカライズされたリソースを検索します。
         /// </summary>
-        internal static System.Drawing.Bitmap flight {
+        public static System.Drawing.Bitmap flight {
             get {
                 object obj = ResourceManager.GetObject("flight", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
@@ -863,7 +863,7 @@ namespace Hypowered.Properties {
         /// <summary>
         ///   型 System.Drawing.Bitmap のローカライズされたリソースを検索します。
         /// </summary>
-        internal static System.Drawing.Bitmap folder {
+        public static System.Drawing.Bitmap folder {
             get {
                 object obj = ResourceManager.GetObject("folder", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
@@ -873,7 +873,7 @@ namespace Hypowered.Properties {
         /// <summary>
         ///   型 System.Drawing.Bitmap のローカライズされたリソースを検索します。
         /// </summary>
-        internal static System.Drawing.Bitmap folder_open {
+        public static System.Drawing.Bitmap folder_open {
             get {
                 object obj = ResourceManager.GetObject("folder_open", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
@@ -883,7 +883,7 @@ namespace Hypowered.Properties {
         /// <summary>
         ///   型 System.Drawing.Bitmap のローカライズされたリソースを検索します。
         /// </summary>
-        internal static System.Drawing.Bitmap footprint {
+        public static System.Drawing.Bitmap footprint {
             get {
                 object obj = ResourceManager.GetObject("footprint", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
@@ -893,7 +893,7 @@ namespace Hypowered.Properties {
         /// <summary>
         ///   型 System.Drawing.Bitmap のローカライズされたリソースを検索します。
         /// </summary>
-        internal static System.Drawing.Bitmap format_list_numbered {
+        public static System.Drawing.Bitmap format_list_numbered {
             get {
                 object obj = ResourceManager.GetObject("format_list_numbered", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
@@ -903,7 +903,7 @@ namespace Hypowered.Properties {
         /// <summary>
         ///   型 System.Drawing.Bitmap のローカライズされたリソースを検索します。
         /// </summary>
-        internal static System.Drawing.Bitmap forward {
+        public static System.Drawing.Bitmap forward {
             get {
                 object obj = ResourceManager.GetObject("forward", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
@@ -913,7 +913,7 @@ namespace Hypowered.Properties {
         /// <summary>
         ///   型 System.Drawing.Bitmap のローカライズされたリソースを検索します。
         /// </summary>
-        internal static System.Drawing.Bitmap front_hand {
+        public static System.Drawing.Bitmap front_hand {
             get {
                 object obj = ResourceManager.GetObject("front_hand", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
@@ -923,7 +923,7 @@ namespace Hypowered.Properties {
         /// <summary>
         ///   型 System.Drawing.Bitmap のローカライズされたリソースを検索します。
         /// </summary>
-        internal static System.Drawing.Bitmap grade {
+        public static System.Drawing.Bitmap grade {
             get {
                 object obj = ResourceManager.GetObject("grade", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
@@ -933,7 +933,7 @@ namespace Hypowered.Properties {
         /// <summary>
         ///   型 System.Drawing.Bitmap のローカライズされたリソースを検索します。
         /// </summary>
-        internal static System.Drawing.Bitmap grid_on {
+        public static System.Drawing.Bitmap grid_on {
             get {
                 object obj = ResourceManager.GetObject("grid_on", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
@@ -943,7 +943,7 @@ namespace Hypowered.Properties {
         /// <summary>
         ///   型 System.Drawing.Bitmap のローカライズされたリソースを検索します。
         /// </summary>
-        internal static System.Drawing.Bitmap group {
+        public static System.Drawing.Bitmap group {
             get {
                 object obj = ResourceManager.GetObject("group", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
@@ -953,7 +953,7 @@ namespace Hypowered.Properties {
         /// <summary>
         ///   型 System.Drawing.Bitmap のローカライズされたリソースを検索します。
         /// </summary>
-        internal static System.Drawing.Bitmap grouped_bar_chart {
+        public static System.Drawing.Bitmap grouped_bar_chart {
             get {
                 object obj = ResourceManager.GetObject("grouped_bar_chart", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
@@ -963,7 +963,7 @@ namespace Hypowered.Properties {
         /// <summary>
         ///   型 System.Drawing.Bitmap のローカライズされたリソースを検索します。
         /// </summary>
-        internal static System.Drawing.Bitmap groups {
+        public static System.Drawing.Bitmap groups {
             get {
                 object obj = ResourceManager.GetObject("groups", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
@@ -973,7 +973,7 @@ namespace Hypowered.Properties {
         /// <summary>
         ///   型 System.Drawing.Bitmap のローカライズされたリソースを検索します。
         /// </summary>
-        internal static System.Drawing.Bitmap handyman {
+        public static System.Drawing.Bitmap handyman {
             get {
                 object obj = ResourceManager.GetObject("handyman", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
@@ -983,7 +983,7 @@ namespace Hypowered.Properties {
         /// <summary>
         ///   型 System.Drawing.Bitmap のローカライズされたリソースを検索します。
         /// </summary>
-        internal static System.Drawing.Bitmap headphones {
+        public static System.Drawing.Bitmap headphones {
             get {
                 object obj = ResourceManager.GetObject("headphones", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
@@ -993,7 +993,7 @@ namespace Hypowered.Properties {
         /// <summary>
         ///   型 System.Drawing.Bitmap のローカライズされたリソースを検索します。
         /// </summary>
-        internal static System.Drawing.Bitmap help {
+        public static System.Drawing.Bitmap help {
             get {
                 object obj = ResourceManager.GetObject("help", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
@@ -1003,7 +1003,7 @@ namespace Hypowered.Properties {
         /// <summary>
         ///   型 System.Drawing.Bitmap のローカライズされたリソースを検索します。
         /// </summary>
-        internal static System.Drawing.Bitmap home {
+        public static System.Drawing.Bitmap home {
             get {
                 object obj = ResourceManager.GetObject("home", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
@@ -1013,7 +1013,7 @@ namespace Hypowered.Properties {
         /// <summary>
         ///   型 System.Drawing.Bitmap のローカライズされたリソースを検索します。
         /// </summary>
-        internal static System.Drawing.Bitmap icecream {
+        public static System.Drawing.Bitmap icecream {
             get {
                 object obj = ResourceManager.GetObject("icecream", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
@@ -1023,7 +1023,7 @@ namespace Hypowered.Properties {
         /// <summary>
         ///   型 System.Drawing.Bitmap のローカライズされたリソースを検索します。
         /// </summary>
-        internal static System.Drawing.Bitmap ICON_1000 {
+        public static System.Drawing.Bitmap ICON_1000 {
             get {
                 object obj = ResourceManager.GetObject("ICON_1000", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
@@ -1033,7 +1033,7 @@ namespace Hypowered.Properties {
         /// <summary>
         ///   型 System.Drawing.Bitmap のローカライズされたリソースを検索します。
         /// </summary>
-        internal static System.Drawing.Bitmap ICON_1001 {
+        public static System.Drawing.Bitmap ICON_1001 {
             get {
                 object obj = ResourceManager.GetObject("ICON_1001", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
@@ -1043,7 +1043,7 @@ namespace Hypowered.Properties {
         /// <summary>
         ///   型 System.Drawing.Bitmap のローカライズされたリソースを検索します。
         /// </summary>
-        internal static System.Drawing.Bitmap ICON_1002 {
+        public static System.Drawing.Bitmap ICON_1002 {
             get {
                 object obj = ResourceManager.GetObject("ICON_1002", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
@@ -1053,7 +1053,7 @@ namespace Hypowered.Properties {
         /// <summary>
         ///   型 System.Drawing.Bitmap のローカライズされたリソースを検索します。
         /// </summary>
-        internal static System.Drawing.Bitmap ICON_1003 {
+        public static System.Drawing.Bitmap ICON_1003 {
             get {
                 object obj = ResourceManager.GetObject("ICON_1003", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
@@ -1063,7 +1063,7 @@ namespace Hypowered.Properties {
         /// <summary>
         ///   型 System.Drawing.Bitmap のローカライズされたリソースを検索します。
         /// </summary>
-        internal static System.Drawing.Bitmap ICON_1004 {
+        public static System.Drawing.Bitmap ICON_1004 {
             get {
                 object obj = ResourceManager.GetObject("ICON_1004", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
@@ -1073,7 +1073,7 @@ namespace Hypowered.Properties {
         /// <summary>
         ///   型 System.Drawing.Bitmap のローカライズされたリソースを検索します。
         /// </summary>
-        internal static System.Drawing.Bitmap ICON_1005 {
+        public static System.Drawing.Bitmap ICON_1005 {
             get {
                 object obj = ResourceManager.GetObject("ICON_1005", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
@@ -1083,7 +1083,7 @@ namespace Hypowered.Properties {
         /// <summary>
         ///   型 System.Drawing.Bitmap のローカライズされたリソースを検索します。
         /// </summary>
-        internal static System.Drawing.Bitmap ICON_1006 {
+        public static System.Drawing.Bitmap ICON_1006 {
             get {
                 object obj = ResourceManager.GetObject("ICON_1006", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
@@ -1093,7 +1093,7 @@ namespace Hypowered.Properties {
         /// <summary>
         ///   型 System.Drawing.Bitmap のローカライズされたリソースを検索します。
         /// </summary>
-        internal static System.Drawing.Bitmap ICON_1007 {
+        public static System.Drawing.Bitmap ICON_1007 {
             get {
                 object obj = ResourceManager.GetObject("ICON_1007", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
@@ -1103,7 +1103,7 @@ namespace Hypowered.Properties {
         /// <summary>
         ///   型 System.Drawing.Bitmap のローカライズされたリソースを検索します。
         /// </summary>
-        internal static System.Drawing.Bitmap ICON_1008 {
+        public static System.Drawing.Bitmap ICON_1008 {
             get {
                 object obj = ResourceManager.GetObject("ICON_1008", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
@@ -1113,7 +1113,7 @@ namespace Hypowered.Properties {
         /// <summary>
         ///   型 System.Drawing.Bitmap のローカライズされたリソースを検索します。
         /// </summary>
-        internal static System.Drawing.Bitmap ICON_1009 {
+        public static System.Drawing.Bitmap ICON_1009 {
             get {
                 object obj = ResourceManager.GetObject("ICON_1009", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
@@ -1123,7 +1123,7 @@ namespace Hypowered.Properties {
         /// <summary>
         ///   型 System.Drawing.Bitmap のローカライズされたリソースを検索します。
         /// </summary>
-        internal static System.Drawing.Bitmap ICON_1011 {
+        public static System.Drawing.Bitmap ICON_1011 {
             get {
                 object obj = ResourceManager.GetObject("ICON_1011", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
@@ -1133,7 +1133,7 @@ namespace Hypowered.Properties {
         /// <summary>
         ///   型 System.Drawing.Bitmap のローカライズされたリソースを検索します。
         /// </summary>
-        internal static System.Drawing.Bitmap ICON_1012 {
+        public static System.Drawing.Bitmap ICON_1012 {
             get {
                 object obj = ResourceManager.GetObject("ICON_1012", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
@@ -1143,7 +1143,7 @@ namespace Hypowered.Properties {
         /// <summary>
         ///   型 System.Drawing.Bitmap のローカライズされたリソースを検索します。
         /// </summary>
-        internal static System.Drawing.Bitmap ICON_1013 {
+        public static System.Drawing.Bitmap ICON_1013 {
             get {
                 object obj = ResourceManager.GetObject("ICON_1013", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
@@ -1153,7 +1153,7 @@ namespace Hypowered.Properties {
         /// <summary>
         ///   型 System.Drawing.Bitmap のローカライズされたリソースを検索します。
         /// </summary>
-        internal static System.Drawing.Bitmap ICON_1014 {
+        public static System.Drawing.Bitmap ICON_1014 {
             get {
                 object obj = ResourceManager.GetObject("ICON_1014", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
@@ -1163,7 +1163,7 @@ namespace Hypowered.Properties {
         /// <summary>
         ///   型 System.Drawing.Bitmap のローカライズされたリソースを検索します。
         /// </summary>
-        internal static System.Drawing.Bitmap ICON_1015 {
+        public static System.Drawing.Bitmap ICON_1015 {
             get {
                 object obj = ResourceManager.GetObject("ICON_1015", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
@@ -1173,7 +1173,7 @@ namespace Hypowered.Properties {
         /// <summary>
         ///   型 System.Drawing.Bitmap のローカライズされたリソースを検索します。
         /// </summary>
-        internal static System.Drawing.Bitmap ICON_1016 {
+        public static System.Drawing.Bitmap ICON_1016 {
             get {
                 object obj = ResourceManager.GetObject("ICON_1016", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
@@ -1183,7 +1183,7 @@ namespace Hypowered.Properties {
         /// <summary>
         ///   型 System.Drawing.Bitmap のローカライズされたリソースを検索します。
         /// </summary>
-        internal static System.Drawing.Bitmap ICON_1017 {
+        public static System.Drawing.Bitmap ICON_1017 {
             get {
                 object obj = ResourceManager.GetObject("ICON_1017", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
@@ -1193,7 +1193,7 @@ namespace Hypowered.Properties {
         /// <summary>
         ///   型 System.Drawing.Bitmap のローカライズされたリソースを検索します。
         /// </summary>
-        internal static System.Drawing.Bitmap ICON_1018 {
+        public static System.Drawing.Bitmap ICON_1018 {
             get {
                 object obj = ResourceManager.GetObject("ICON_1018", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
@@ -1203,7 +1203,7 @@ namespace Hypowered.Properties {
         /// <summary>
         ///   型 System.Drawing.Bitmap のローカライズされたリソースを検索します。
         /// </summary>
-        internal static System.Drawing.Bitmap ICON_10181 {
+        public static System.Drawing.Bitmap ICON_10181 {
             get {
                 object obj = ResourceManager.GetObject("ICON_10181", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
@@ -1213,7 +1213,7 @@ namespace Hypowered.Properties {
         /// <summary>
         ///   型 System.Drawing.Bitmap のローカライズされたリソースを検索します。
         /// </summary>
-        internal static System.Drawing.Bitmap ICON_1019 {
+        public static System.Drawing.Bitmap ICON_1019 {
             get {
                 object obj = ResourceManager.GetObject("ICON_1019", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
@@ -1223,7 +1223,7 @@ namespace Hypowered.Properties {
         /// <summary>
         ///   型 System.Drawing.Bitmap のローカライズされたリソースを検索します。
         /// </summary>
-        internal static System.Drawing.Bitmap ICON_1020 {
+        public static System.Drawing.Bitmap ICON_1020 {
             get {
                 object obj = ResourceManager.GetObject("ICON_1020", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
@@ -1233,7 +1233,7 @@ namespace Hypowered.Properties {
         /// <summary>
         ///   型 System.Drawing.Bitmap のローカライズされたリソースを検索します。
         /// </summary>
-        internal static System.Drawing.Bitmap ICON_10610 {
+        public static System.Drawing.Bitmap ICON_10610 {
             get {
                 object obj = ResourceManager.GetObject("ICON_10610", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
@@ -1243,7 +1243,7 @@ namespace Hypowered.Properties {
         /// <summary>
         ///   型 System.Drawing.Bitmap のローカライズされたリソースを検索します。
         /// </summary>
-        internal static System.Drawing.Bitmap ICON_10935 {
+        public static System.Drawing.Bitmap ICON_10935 {
             get {
                 object obj = ResourceManager.GetObject("ICON_10935", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
@@ -1253,7 +1253,7 @@ namespace Hypowered.Properties {
         /// <summary>
         ///   型 System.Drawing.Bitmap のローカライズされたリソースを検索します。
         /// </summary>
-        internal static System.Drawing.Bitmap ICON_11045 {
+        public static System.Drawing.Bitmap ICON_11045 {
             get {
                 object obj = ResourceManager.GetObject("ICON_11045", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
@@ -1263,7 +1263,7 @@ namespace Hypowered.Properties {
         /// <summary>
         ///   型 System.Drawing.Bitmap のローカライズされたリソースを検索します。
         /// </summary>
-        internal static System.Drawing.Bitmap ICON_11216 {
+        public static System.Drawing.Bitmap ICON_11216 {
             get {
                 object obj = ResourceManager.GetObject("ICON_11216", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
@@ -1273,7 +1273,7 @@ namespace Hypowered.Properties {
         /// <summary>
         ///   型 System.Drawing.Bitmap のローカライズされたリソースを検索します。
         /// </summary>
-        internal static System.Drawing.Bitmap ICON_11260 {
+        public static System.Drawing.Bitmap ICON_11260 {
             get {
                 object obj = ResourceManager.GetObject("ICON_11260", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
@@ -1283,7 +1283,7 @@ namespace Hypowered.Properties {
         /// <summary>
         ///   型 System.Drawing.Bitmap のローカライズされたリソースを検索します。
         /// </summary>
-        internal static System.Drawing.Bitmap ICON_11645 {
+        public static System.Drawing.Bitmap ICON_11645 {
             get {
                 object obj = ResourceManager.GetObject("ICON_11645", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
@@ -1293,7 +1293,7 @@ namespace Hypowered.Properties {
         /// <summary>
         ///   型 System.Drawing.Bitmap のローカライズされたリソースを検索します。
         /// </summary>
-        internal static System.Drawing.Bitmap ICON_11714 {
+        public static System.Drawing.Bitmap ICON_11714 {
             get {
                 object obj = ResourceManager.GetObject("ICON_11714", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
@@ -1303,7 +1303,7 @@ namespace Hypowered.Properties {
         /// <summary>
         ///   型 System.Drawing.Bitmap のローカライズされたリソースを検索します。
         /// </summary>
-        internal static System.Drawing.Bitmap ICON_12195 {
+        public static System.Drawing.Bitmap ICON_12195 {
             get {
                 object obj = ResourceManager.GetObject("ICON_12195", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
@@ -1313,7 +1313,7 @@ namespace Hypowered.Properties {
         /// <summary>
         ///   型 System.Drawing.Bitmap のローカライズされたリソースを検索します。
         /// </summary>
-        internal static System.Drawing.Bitmap ICON_12411 {
+        public static System.Drawing.Bitmap ICON_12411 {
             get {
                 object obj = ResourceManager.GetObject("ICON_12411", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
@@ -1323,7 +1323,7 @@ namespace Hypowered.Properties {
         /// <summary>
         ///   型 System.Drawing.Bitmap のローカライズされたリソースを検索します。
         /// </summary>
-        internal static System.Drawing.Bitmap ICON_12722 {
+        public static System.Drawing.Bitmap ICON_12722 {
             get {
                 object obj = ResourceManager.GetObject("ICON_12722", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
@@ -1333,7 +1333,7 @@ namespace Hypowered.Properties {
         /// <summary>
         ///   型 System.Drawing.Bitmap のローカライズされたリソースを検索します。
         /// </summary>
-        internal static System.Drawing.Bitmap ICON_13149 {
+        public static System.Drawing.Bitmap ICON_13149 {
             get {
                 object obj = ResourceManager.GetObject("ICON_13149", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
@@ -1343,7 +1343,7 @@ namespace Hypowered.Properties {
         /// <summary>
         ///   型 System.Drawing.Bitmap のローカライズされたリソースを検索します。
         /// </summary>
-        internal static System.Drawing.Bitmap ICON_13744 {
+        public static System.Drawing.Bitmap ICON_13744 {
             get {
                 object obj = ResourceManager.GetObject("ICON_13744", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
@@ -1353,7 +1353,7 @@ namespace Hypowered.Properties {
         /// <summary>
         ///   型 System.Drawing.Bitmap のローカライズされたリソースを検索します。
         /// </summary>
-        internal static System.Drawing.Bitmap ICON_13745 {
+        public static System.Drawing.Bitmap ICON_13745 {
             get {
                 object obj = ResourceManager.GetObject("ICON_13745", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
@@ -1363,7 +1363,7 @@ namespace Hypowered.Properties {
         /// <summary>
         ///   型 System.Drawing.Bitmap のローカライズされたリソースを検索します。
         /// </summary>
-        internal static System.Drawing.Bitmap ICON_14767 {
+        public static System.Drawing.Bitmap ICON_14767 {
             get {
                 object obj = ResourceManager.GetObject("ICON_14767", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
@@ -1373,7 +1373,7 @@ namespace Hypowered.Properties {
         /// <summary>
         ///   型 System.Drawing.Bitmap のローカライズされたリソースを検索します。
         /// </summary>
-        internal static System.Drawing.Bitmap ICON_14953 {
+        public static System.Drawing.Bitmap ICON_14953 {
             get {
                 object obj = ResourceManager.GetObject("ICON_14953", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
@@ -1383,7 +1383,7 @@ namespace Hypowered.Properties {
         /// <summary>
         ///   型 System.Drawing.Bitmap のローカライズされたリソースを検索します。
         /// </summary>
-        internal static System.Drawing.Bitmap ICON_15279 {
+        public static System.Drawing.Bitmap ICON_15279 {
             get {
                 object obj = ResourceManager.GetObject("ICON_15279", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
@@ -1393,7 +1393,7 @@ namespace Hypowered.Properties {
         /// <summary>
         ///   型 System.Drawing.Bitmap のローカライズされたリソースを検索します。
         /// </summary>
-        internal static System.Drawing.Bitmap ICON_15420 {
+        public static System.Drawing.Bitmap ICON_15420 {
             get {
                 object obj = ResourceManager.GetObject("ICON_15420", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
@@ -1403,7 +1403,7 @@ namespace Hypowered.Properties {
         /// <summary>
         ///   型 System.Drawing.Bitmap のローカライズされたリソースを検索します。
         /// </summary>
-        internal static System.Drawing.Bitmap ICON_15972 {
+        public static System.Drawing.Bitmap ICON_15972 {
             get {
                 object obj = ResourceManager.GetObject("ICON_15972", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
@@ -1413,7 +1413,7 @@ namespace Hypowered.Properties {
         /// <summary>
         ///   型 System.Drawing.Bitmap のローカライズされたリソースを検索します。
         /// </summary>
-        internal static System.Drawing.Bitmap ICON_15993 {
+        public static System.Drawing.Bitmap ICON_15993 {
             get {
                 object obj = ResourceManager.GetObject("ICON_15993", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
@@ -1423,7 +1423,7 @@ namespace Hypowered.Properties {
         /// <summary>
         ///   型 System.Drawing.Bitmap のローカライズされたリソースを検索します。
         /// </summary>
-        internal static System.Drawing.Bitmap ICON_16321 {
+        public static System.Drawing.Bitmap ICON_16321 {
             get {
                 object obj = ResourceManager.GetObject("ICON_16321", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
@@ -1433,7 +1433,7 @@ namespace Hypowered.Properties {
         /// <summary>
         ///   型 System.Drawing.Bitmap のローカライズされたリソースを検索します。
         /// </summary>
-        internal static System.Drawing.Bitmap ICON_16344 {
+        public static System.Drawing.Bitmap ICON_16344 {
             get {
                 object obj = ResourceManager.GetObject("ICON_16344", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
@@ -1443,7 +1443,7 @@ namespace Hypowered.Properties {
         /// <summary>
         ///   型 System.Drawing.Bitmap のローカライズされたリソースを検索します。
         /// </summary>
-        internal static System.Drawing.Bitmap ICON_16560 {
+        public static System.Drawing.Bitmap ICON_16560 {
             get {
                 object obj = ResourceManager.GetObject("ICON_16560", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
@@ -1453,7 +1453,7 @@ namespace Hypowered.Properties {
         /// <summary>
         ///   型 System.Drawing.Bitmap のローカライズされたリソースを検索します。
         /// </summary>
-        internal static System.Drawing.Bitmap ICON_16692 {
+        public static System.Drawing.Bitmap ICON_16692 {
             get {
                 object obj = ResourceManager.GetObject("ICON_16692", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
@@ -1463,7 +1463,7 @@ namespace Hypowered.Properties {
         /// <summary>
         ///   型 System.Drawing.Bitmap のローカライズされたリソースを検索します。
         /// </summary>
-        internal static System.Drawing.Bitmap ICON_16735 {
+        public static System.Drawing.Bitmap ICON_16735 {
             get {
                 object obj = ResourceManager.GetObject("ICON_16735", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
@@ -1473,7 +1473,7 @@ namespace Hypowered.Properties {
         /// <summary>
         ///   型 System.Drawing.Bitmap のローカライズされたリソースを検索します。
         /// </summary>
-        internal static System.Drawing.Bitmap ICON_17169 {
+        public static System.Drawing.Bitmap ICON_17169 {
             get {
                 object obj = ResourceManager.GetObject("ICON_17169", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
@@ -1483,7 +1483,7 @@ namespace Hypowered.Properties {
         /// <summary>
         ///   型 System.Drawing.Bitmap のローカライズされたリソースを検索します。
         /// </summary>
-        internal static System.Drawing.Bitmap ICON_17214 {
+        public static System.Drawing.Bitmap ICON_17214 {
             get {
                 object obj = ResourceManager.GetObject("ICON_17214", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
@@ -1493,7 +1493,7 @@ namespace Hypowered.Properties {
         /// <summary>
         ///   型 System.Drawing.Bitmap のローカライズされたリソースを検索します。
         /// </summary>
-        internal static System.Drawing.Bitmap ICON_17264 {
+        public static System.Drawing.Bitmap ICON_17264 {
             get {
                 object obj = ResourceManager.GetObject("ICON_17264", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
@@ -1503,7 +1503,7 @@ namespace Hypowered.Properties {
         /// <summary>
         ///   型 System.Drawing.Bitmap のローカライズされたリソースを検索します。
         /// </summary>
-        internal static System.Drawing.Bitmap ICON_17343 {
+        public static System.Drawing.Bitmap ICON_17343 {
             get {
                 object obj = ResourceManager.GetObject("ICON_17343", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
@@ -1513,7 +1513,7 @@ namespace Hypowered.Properties {
         /// <summary>
         ///   型 System.Drawing.Bitmap のローカライズされたリソースを検索します。
         /// </summary>
-        internal static System.Drawing.Bitmap ICON_17357 {
+        public static System.Drawing.Bitmap ICON_17357 {
             get {
                 object obj = ResourceManager.GetObject("ICON_17357", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
@@ -1523,7 +1523,7 @@ namespace Hypowered.Properties {
         /// <summary>
         ///   型 System.Drawing.Bitmap のローカライズされたリソースを検索します。
         /// </summary>
-        internal static System.Drawing.Bitmap ICON_17481 {
+        public static System.Drawing.Bitmap ICON_17481 {
             get {
                 object obj = ResourceManager.GetObject("ICON_17481", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
@@ -1533,7 +1533,7 @@ namespace Hypowered.Properties {
         /// <summary>
         ///   型 System.Drawing.Bitmap のローカライズされたリソースを検索します。
         /// </summary>
-        internal static System.Drawing.Bitmap ICON_17779 {
+        public static System.Drawing.Bitmap ICON_17779 {
             get {
                 object obj = ResourceManager.GetObject("ICON_17779", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
@@ -1543,7 +1543,7 @@ namespace Hypowered.Properties {
         /// <summary>
         ///   型 System.Drawing.Bitmap のローカライズされたリソースを検索します。
         /// </summary>
-        internal static System.Drawing.Bitmap ICON_17838 {
+        public static System.Drawing.Bitmap ICON_17838 {
             get {
                 object obj = ResourceManager.GetObject("ICON_17838", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
@@ -1553,7 +1553,7 @@ namespace Hypowered.Properties {
         /// <summary>
         ///   型 System.Drawing.Bitmap のローカライズされたリソースを検索します。
         /// </summary>
-        internal static System.Drawing.Bitmap ICON_17890 {
+        public static System.Drawing.Bitmap ICON_17890 {
             get {
                 object obj = ResourceManager.GetObject("ICON_17890", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
@@ -1563,7 +1563,7 @@ namespace Hypowered.Properties {
         /// <summary>
         ///   型 System.Drawing.Bitmap のローカライズされたリソースを検索します。
         /// </summary>
-        internal static System.Drawing.Bitmap ICON_17896 {
+        public static System.Drawing.Bitmap ICON_17896 {
             get {
                 object obj = ResourceManager.GetObject("ICON_17896", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
@@ -1573,7 +1573,7 @@ namespace Hypowered.Properties {
         /// <summary>
         ///   型 System.Drawing.Bitmap のローカライズされたリソースを検索します。
         /// </summary>
-        internal static System.Drawing.Bitmap ICON_17937 {
+        public static System.Drawing.Bitmap ICON_17937 {
             get {
                 object obj = ResourceManager.GetObject("ICON_17937", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
@@ -1583,7 +1583,7 @@ namespace Hypowered.Properties {
         /// <summary>
         ///   型 System.Drawing.Bitmap のローカライズされたリソースを検索します。
         /// </summary>
-        internal static System.Drawing.Bitmap ICON_18222 {
+        public static System.Drawing.Bitmap ICON_18222 {
             get {
                 object obj = ResourceManager.GetObject("ICON_18222", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
@@ -1593,7 +1593,7 @@ namespace Hypowered.Properties {
         /// <summary>
         ///   型 System.Drawing.Bitmap のローカライズされたリソースを検索します。
         /// </summary>
-        internal static System.Drawing.Bitmap ICON_18223 {
+        public static System.Drawing.Bitmap ICON_18223 {
             get {
                 object obj = ResourceManager.GetObject("ICON_18223", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
@@ -1603,7 +1603,7 @@ namespace Hypowered.Properties {
         /// <summary>
         ///   型 System.Drawing.Bitmap のローカライズされたリソースを検索します。
         /// </summary>
-        internal static System.Drawing.Bitmap ICON_18607 {
+        public static System.Drawing.Bitmap ICON_18607 {
             get {
                 object obj = ResourceManager.GetObject("ICON_18607", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
@@ -1613,7 +1613,7 @@ namespace Hypowered.Properties {
         /// <summary>
         ///   型 System.Drawing.Bitmap のローカライズされたリソースを検索します。
         /// </summary>
-        internal static System.Drawing.Bitmap ICON_18814 {
+        public static System.Drawing.Bitmap ICON_18814 {
             get {
                 object obj = ResourceManager.GetObject("ICON_18814", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
@@ -1623,7 +1623,7 @@ namespace Hypowered.Properties {
         /// <summary>
         ///   型 System.Drawing.Bitmap のローカライズされたリソースを検索します。
         /// </summary>
-        internal static System.Drawing.Bitmap ICON_19162 {
+        public static System.Drawing.Bitmap ICON_19162 {
             get {
                 object obj = ResourceManager.GetObject("ICON_19162", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
@@ -1633,7 +1633,7 @@ namespace Hypowered.Properties {
         /// <summary>
         ///   型 System.Drawing.Bitmap のローカライズされたリソースを検索します。
         /// </summary>
-        internal static System.Drawing.Bitmap ICON_19381 {
+        public static System.Drawing.Bitmap ICON_19381 {
             get {
                 object obj = ResourceManager.GetObject("ICON_19381", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
@@ -1643,7 +1643,7 @@ namespace Hypowered.Properties {
         /// <summary>
         ///   型 System.Drawing.Bitmap のローカライズされたリソースを検索します。
         /// </summary>
-        internal static System.Drawing.Bitmap ICON_19638 {
+        public static System.Drawing.Bitmap ICON_19638 {
             get {
                 object obj = ResourceManager.GetObject("ICON_19638", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
@@ -1653,7 +1653,7 @@ namespace Hypowered.Properties {
         /// <summary>
         ///   型 System.Drawing.Bitmap のローカライズされたリソースを検索します。
         /// </summary>
-        internal static System.Drawing.Bitmap ICON_19678 {
+        public static System.Drawing.Bitmap ICON_19678 {
             get {
                 object obj = ResourceManager.GetObject("ICON_19678", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
@@ -1663,7 +1663,7 @@ namespace Hypowered.Properties {
         /// <summary>
         ///   型 System.Drawing.Bitmap のローカライズされたリソースを検索します。
         /// </summary>
-        internal static System.Drawing.Bitmap ICON_20000 {
+        public static System.Drawing.Bitmap ICON_20000 {
             get {
                 object obj = ResourceManager.GetObject("ICON_20000", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
@@ -1673,7 +1673,7 @@ namespace Hypowered.Properties {
         /// <summary>
         ///   型 System.Drawing.Bitmap のローカライズされたリソースを検索します。
         /// </summary>
-        internal static System.Drawing.Bitmap ICON_20001 {
+        public static System.Drawing.Bitmap ICON_20001 {
             get {
                 object obj = ResourceManager.GetObject("ICON_20001", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
@@ -1683,7 +1683,7 @@ namespace Hypowered.Properties {
         /// <summary>
         ///   型 System.Drawing.Bitmap のローカライズされたリソースを検索します。
         /// </summary>
-        internal static System.Drawing.Bitmap ICON_20002 {
+        public static System.Drawing.Bitmap ICON_20002 {
             get {
                 object obj = ResourceManager.GetObject("ICON_20002", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
@@ -1693,7 +1693,7 @@ namespace Hypowered.Properties {
         /// <summary>
         ///   型 System.Drawing.Bitmap のローカライズされたリソースを検索します。
         /// </summary>
-        internal static System.Drawing.Bitmap ICON_20003 {
+        public static System.Drawing.Bitmap ICON_20003 {
             get {
                 object obj = ResourceManager.GetObject("ICON_20003", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
@@ -1703,7 +1703,7 @@ namespace Hypowered.Properties {
         /// <summary>
         ///   型 System.Drawing.Bitmap のローカライズされたリソースを検索します。
         /// </summary>
-        internal static System.Drawing.Bitmap ICON_20004 {
+        public static System.Drawing.Bitmap ICON_20004 {
             get {
                 object obj = ResourceManager.GetObject("ICON_20004", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
@@ -1713,7 +1713,7 @@ namespace Hypowered.Properties {
         /// <summary>
         ///   型 System.Drawing.Bitmap のローカライズされたリソースを検索します。
         /// </summary>
-        internal static System.Drawing.Bitmap ICON_2002 {
+        public static System.Drawing.Bitmap ICON_2002 {
             get {
                 object obj = ResourceManager.GetObject("ICON_2002", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
@@ -1723,7 +1723,7 @@ namespace Hypowered.Properties {
         /// <summary>
         ///   型 System.Drawing.Bitmap のローカライズされたリソースを検索します。
         /// </summary>
-        internal static System.Drawing.Bitmap ICON_20098 {
+        public static System.Drawing.Bitmap ICON_20098 {
             get {
                 object obj = ResourceManager.GetObject("ICON_20098", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
@@ -1733,7 +1733,7 @@ namespace Hypowered.Properties {
         /// <summary>
         ///   型 System.Drawing.Bitmap のローカライズされたリソースを検索します。
         /// </summary>
-        internal static System.Drawing.Bitmap ICON_20186 {
+        public static System.Drawing.Bitmap ICON_20186 {
             get {
                 object obj = ResourceManager.GetObject("ICON_20186", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
@@ -1743,7 +1743,7 @@ namespace Hypowered.Properties {
         /// <summary>
         ///   型 System.Drawing.Bitmap のローカライズされたリソースを検索します。
         /// </summary>
-        internal static System.Drawing.Bitmap ICON_20689 {
+        public static System.Drawing.Bitmap ICON_20689 {
             get {
                 object obj = ResourceManager.GetObject("ICON_20689", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
@@ -1753,7 +1753,7 @@ namespace Hypowered.Properties {
         /// <summary>
         ///   型 System.Drawing.Bitmap のローカライズされたリソースを検索します。
         /// </summary>
-        internal static System.Drawing.Bitmap ICON_20965 {
+        public static System.Drawing.Bitmap ICON_20965 {
             get {
                 object obj = ResourceManager.GetObject("ICON_20965", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
@@ -1763,7 +1763,7 @@ namespace Hypowered.Properties {
         /// <summary>
         ///   型 System.Drawing.Bitmap のローカライズされたリソースを検索します。
         /// </summary>
-        internal static System.Drawing.Bitmap ICON_2101 {
+        public static System.Drawing.Bitmap ICON_2101 {
             get {
                 object obj = ResourceManager.GetObject("ICON_2101", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
@@ -1773,7 +1773,7 @@ namespace Hypowered.Properties {
         /// <summary>
         ///   型 System.Drawing.Bitmap のローカライズされたリソースを検索します。
         /// </summary>
-        internal static System.Drawing.Bitmap ICON_2102 {
+        public static System.Drawing.Bitmap ICON_2102 {
             get {
                 object obj = ResourceManager.GetObject("ICON_2102", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
@@ -1783,7 +1783,7 @@ namespace Hypowered.Properties {
         /// <summary>
         ///   型 System.Drawing.Bitmap のローカライズされたリソースを検索します。
         /// </summary>
-        internal static System.Drawing.Bitmap ICON_2103 {
+        public static System.Drawing.Bitmap ICON_2103 {
             get {
                 object obj = ResourceManager.GetObject("ICON_2103", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
@@ -1793,7 +1793,7 @@ namespace Hypowered.Properties {
         /// <summary>
         ///   型 System.Drawing.Bitmap のローカライズされたリソースを検索します。
         /// </summary>
-        internal static System.Drawing.Bitmap ICON_2104 {
+        public static System.Drawing.Bitmap ICON_2104 {
             get {
                 object obj = ResourceManager.GetObject("ICON_2104", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
@@ -1803,7 +1803,7 @@ namespace Hypowered.Properties {
         /// <summary>
         ///   型 System.Drawing.Bitmap のローカライズされたリソースを検索します。
         /// </summary>
-        internal static System.Drawing.Bitmap ICON_2105 {
+        public static System.Drawing.Bitmap ICON_2105 {
             get {
                 object obj = ResourceManager.GetObject("ICON_2105", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
@@ -1813,7 +1813,7 @@ namespace Hypowered.Properties {
         /// <summary>
         ///   型 System.Drawing.Bitmap のローカライズされたリソースを検索します。
         /// </summary>
-        internal static System.Drawing.Bitmap ICON_2106 {
+        public static System.Drawing.Bitmap ICON_2106 {
             get {
                 object obj = ResourceManager.GetObject("ICON_2106", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
@@ -1823,7 +1823,7 @@ namespace Hypowered.Properties {
         /// <summary>
         ///   型 System.Drawing.Bitmap のローカライズされたリソースを検索します。
         /// </summary>
-        internal static System.Drawing.Bitmap ICON_21060 {
+        public static System.Drawing.Bitmap ICON_21060 {
             get {
                 object obj = ResourceManager.GetObject("ICON_21060", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
@@ -1833,7 +1833,7 @@ namespace Hypowered.Properties {
         /// <summary>
         ///   型 System.Drawing.Bitmap のローカライズされたリソースを検索します。
         /// </summary>
-        internal static System.Drawing.Bitmap ICON_21209 {
+        public static System.Drawing.Bitmap ICON_21209 {
             get {
                 object obj = ResourceManager.GetObject("ICON_21209", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
@@ -1843,7 +1843,7 @@ namespace Hypowered.Properties {
         /// <summary>
         ///   型 System.Drawing.Bitmap のローカライズされたリソースを検索します。
         /// </summary>
-        internal static System.Drawing.Bitmap ICON_21437 {
+        public static System.Drawing.Bitmap ICON_21437 {
             get {
                 object obj = ResourceManager.GetObject("ICON_21437", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
@@ -1853,7 +1853,7 @@ namespace Hypowered.Properties {
         /// <summary>
         ///   型 System.Drawing.Bitmap のローカライズされたリソースを検索します。
         /// </summary>
-        internal static System.Drawing.Bitmap ICON_21449 {
+        public static System.Drawing.Bitmap ICON_21449 {
             get {
                 object obj = ResourceManager.GetObject("ICON_21449", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
@@ -1863,7 +1863,7 @@ namespace Hypowered.Properties {
         /// <summary>
         ///   型 System.Drawing.Bitmap のローカライズされたリソースを検索します。
         /// </summary>
-        internal static System.Drawing.Bitmap ICON_21573 {
+        public static System.Drawing.Bitmap ICON_21573 {
             get {
                 object obj = ResourceManager.GetObject("ICON_21573", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
@@ -1873,7 +1873,7 @@ namespace Hypowered.Properties {
         /// <summary>
         ///   型 System.Drawing.Bitmap のローカライズされたリソースを検索します。
         /// </summary>
-        internal static System.Drawing.Bitmap ICON_21574 {
+        public static System.Drawing.Bitmap ICON_21574 {
             get {
                 object obj = ResourceManager.GetObject("ICON_21574", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
@@ -1883,7 +1883,7 @@ namespace Hypowered.Properties {
         /// <summary>
         ///   型 System.Drawing.Bitmap のローカライズされたリソースを検索します。
         /// </summary>
-        internal static System.Drawing.Bitmap ICON_21575 {
+        public static System.Drawing.Bitmap ICON_21575 {
             get {
                 object obj = ResourceManager.GetObject("ICON_21575", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
@@ -1893,7 +1893,7 @@ namespace Hypowered.Properties {
         /// <summary>
         ///   型 System.Drawing.Bitmap のローカライズされたリソースを検索します。
         /// </summary>
-        internal static System.Drawing.Bitmap ICON_21576 {
+        public static System.Drawing.Bitmap ICON_21576 {
             get {
                 object obj = ResourceManager.GetObject("ICON_21576", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
@@ -1903,7 +1903,7 @@ namespace Hypowered.Properties {
         /// <summary>
         ///   型 System.Drawing.Bitmap のローカライズされたリソースを検索します。
         /// </summary>
-        internal static System.Drawing.Bitmap ICON_2162 {
+        public static System.Drawing.Bitmap ICON_2162 {
             get {
                 object obj = ResourceManager.GetObject("ICON_2162", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
@@ -1913,7 +1913,7 @@ namespace Hypowered.Properties {
         /// <summary>
         ///   型 System.Drawing.Bitmap のローカライズされたリソースを検索します。
         /// </summary>
-        internal static System.Drawing.Bitmap ICON_21700 {
+        public static System.Drawing.Bitmap ICON_21700 {
             get {
                 object obj = ResourceManager.GetObject("ICON_21700", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
@@ -1923,7 +1923,7 @@ namespace Hypowered.Properties {
         /// <summary>
         ///   型 System.Drawing.Bitmap のローカライズされたリソースを検索します。
         /// </summary>
-        internal static System.Drawing.Bitmap ICON_21711 {
+        public static System.Drawing.Bitmap ICON_21711 {
             get {
                 object obj = ResourceManager.GetObject("ICON_21711", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
@@ -1933,7 +1933,7 @@ namespace Hypowered.Properties {
         /// <summary>
         ///   型 System.Drawing.Bitmap のローカライズされたリソースを検索します。
         /// </summary>
-        internal static System.Drawing.Bitmap ICON_2181 {
+        public static System.Drawing.Bitmap ICON_2181 {
             get {
                 object obj = ResourceManager.GetObject("ICON_2181", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
@@ -1943,7 +1943,7 @@ namespace Hypowered.Properties {
         /// <summary>
         ///   型 System.Drawing.Bitmap のローカライズされたリソースを検索します。
         /// </summary>
-        internal static System.Drawing.Bitmap ICON_21847 {
+        public static System.Drawing.Bitmap ICON_21847 {
             get {
                 object obj = ResourceManager.GetObject("ICON_21847", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
@@ -1953,7 +1953,7 @@ namespace Hypowered.Properties {
         /// <summary>
         ///   型 System.Drawing.Bitmap のローカライズされたリソースを検索します。
         /// </summary>
-        internal static System.Drawing.Bitmap ICON_22308 {
+        public static System.Drawing.Bitmap ICON_22308 {
             get {
                 object obj = ResourceManager.GetObject("ICON_22308", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
@@ -1963,7 +1963,7 @@ namespace Hypowered.Properties {
         /// <summary>
         ///   型 System.Drawing.Bitmap のローカライズされたリソースを検索します。
         /// </summary>
-        internal static System.Drawing.Bitmap ICON_22855 {
+        public static System.Drawing.Bitmap ICON_22855 {
             get {
                 object obj = ResourceManager.GetObject("ICON_22855", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
@@ -1973,7 +1973,7 @@ namespace Hypowered.Properties {
         /// <summary>
         ///   型 System.Drawing.Bitmap のローカライズされたリソースを検索します。
         /// </summary>
-        internal static System.Drawing.Bitmap ICON_22978 {
+        public static System.Drawing.Bitmap ICON_22978 {
             get {
                 object obj = ResourceManager.GetObject("ICON_22978", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
@@ -1983,7 +1983,7 @@ namespace Hypowered.Properties {
         /// <summary>
         ///   型 System.Drawing.Bitmap のローカライズされたリソースを検索します。
         /// </summary>
-        internal static System.Drawing.Bitmap ICON_23078 {
+        public static System.Drawing.Bitmap ICON_23078 {
             get {
                 object obj = ResourceManager.GetObject("ICON_23078", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
@@ -1993,7 +1993,7 @@ namespace Hypowered.Properties {
         /// <summary>
         ///   型 System.Drawing.Bitmap のローカライズされたリソースを検索します。
         /// </summary>
-        internal static System.Drawing.Bitmap ICON_2335 {
+        public static System.Drawing.Bitmap ICON_2335 {
             get {
                 object obj = ResourceManager.GetObject("ICON_2335", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
@@ -2003,7 +2003,7 @@ namespace Hypowered.Properties {
         /// <summary>
         ///   型 System.Drawing.Bitmap のローカライズされたリソースを検索します。
         /// </summary>
-        internal static System.Drawing.Bitmap ICON_23613 {
+        public static System.Drawing.Bitmap ICON_23613 {
             get {
                 object obj = ResourceManager.GetObject("ICON_23613", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
@@ -2013,7 +2013,7 @@ namespace Hypowered.Properties {
         /// <summary>
         ///   型 System.Drawing.Bitmap のローカライズされたリソースを検索します。
         /// </summary>
-        internal static System.Drawing.Bitmap ICON_23717 {
+        public static System.Drawing.Bitmap ICON_23717 {
             get {
                 object obj = ResourceManager.GetObject("ICON_23717", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
@@ -2023,7 +2023,7 @@ namespace Hypowered.Properties {
         /// <summary>
         ///   型 System.Drawing.Bitmap のローカライズされたリソースを検索します。
         /// </summary>
-        internal static System.Drawing.Bitmap ICON_23718 {
+        public static System.Drawing.Bitmap ICON_23718 {
             get {
                 object obj = ResourceManager.GetObject("ICON_23718", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
@@ -2033,7 +2033,7 @@ namespace Hypowered.Properties {
         /// <summary>
         ///   型 System.Drawing.Bitmap のローカライズされたリソースを検索します。
         /// </summary>
-        internal static System.Drawing.Bitmap ICON_24081 {
+        public static System.Drawing.Bitmap ICON_24081 {
             get {
                 object obj = ResourceManager.GetObject("ICON_24081", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
@@ -2043,7 +2043,7 @@ namespace Hypowered.Properties {
         /// <summary>
         ///   型 System.Drawing.Bitmap のローカライズされたリソースを検索します。
         /// </summary>
-        internal static System.Drawing.Bitmap ICON_24317 {
+        public static System.Drawing.Bitmap ICON_24317 {
             get {
                 object obj = ResourceManager.GetObject("ICON_24317", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
@@ -2053,7 +2053,7 @@ namespace Hypowered.Properties {
         /// <summary>
         ///   型 System.Drawing.Bitmap のローカライズされたリソースを検索します。
         /// </summary>
-        internal static System.Drawing.Bitmap ICON_24694 {
+        public static System.Drawing.Bitmap ICON_24694 {
             get {
                 object obj = ResourceManager.GetObject("ICON_24694", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
@@ -2063,7 +2063,7 @@ namespace Hypowered.Properties {
         /// <summary>
         ///   型 System.Drawing.Bitmap のローカライズされたリソースを検索します。
         /// </summary>
-        internal static System.Drawing.Bitmap ICON_24753 {
+        public static System.Drawing.Bitmap ICON_24753 {
             get {
                 object obj = ResourceManager.GetObject("ICON_24753", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
@@ -2073,7 +2073,7 @@ namespace Hypowered.Properties {
         /// <summary>
         ///   型 System.Drawing.Bitmap のローカライズされたリソースを検索します。
         /// </summary>
-        internal static System.Drawing.Bitmap ICON_2478 {
+        public static System.Drawing.Bitmap ICON_2478 {
             get {
                 object obj = ResourceManager.GetObject("ICON_2478", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
@@ -2083,7 +2083,7 @@ namespace Hypowered.Properties {
         /// <summary>
         ///   型 System.Drawing.Bitmap のローカライズされたリソースを検索します。
         /// </summary>
-        internal static System.Drawing.Bitmap ICON_24830 {
+        public static System.Drawing.Bitmap ICON_24830 {
             get {
                 object obj = ResourceManager.GetObject("ICON_24830", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
@@ -2093,7 +2093,7 @@ namespace Hypowered.Properties {
         /// <summary>
         ///   型 System.Drawing.Bitmap のローカライズされたリソースを検索します。
         /// </summary>
-        internal static System.Drawing.Bitmap ICON_25002 {
+        public static System.Drawing.Bitmap ICON_25002 {
             get {
                 object obj = ResourceManager.GetObject("ICON_25002", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
@@ -2103,7 +2103,7 @@ namespace Hypowered.Properties {
         /// <summary>
         ///   型 System.Drawing.Bitmap のローカライズされたリソースを検索します。
         /// </summary>
-        internal static System.Drawing.Bitmap ICON_2507 {
+        public static System.Drawing.Bitmap ICON_2507 {
             get {
                 object obj = ResourceManager.GetObject("ICON_2507", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
@@ -2113,7 +2113,7 @@ namespace Hypowered.Properties {
         /// <summary>
         ///   型 System.Drawing.Bitmap のローカライズされたリソースを検索します。
         /// </summary>
-        internal static System.Drawing.Bitmap ICON_25309 {
+        public static System.Drawing.Bitmap ICON_25309 {
             get {
                 object obj = ResourceManager.GetObject("ICON_25309", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
@@ -2123,7 +2123,7 @@ namespace Hypowered.Properties {
         /// <summary>
         ///   型 System.Drawing.Bitmap のローカライズされたリソースを検索します。
         /// </summary>
-        internal static System.Drawing.Bitmap ICON_26020 {
+        public static System.Drawing.Bitmap ICON_26020 {
             get {
                 object obj = ResourceManager.GetObject("ICON_26020", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
@@ -2133,7 +2133,7 @@ namespace Hypowered.Properties {
         /// <summary>
         ///   型 System.Drawing.Bitmap のローカライズされたリソースを検索します。
         /// </summary>
-        internal static System.Drawing.Bitmap ICON_26425 {
+        public static System.Drawing.Bitmap ICON_26425 {
             get {
                 object obj = ResourceManager.GetObject("ICON_26425", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
@@ -2143,7 +2143,7 @@ namespace Hypowered.Properties {
         /// <summary>
         ///   型 System.Drawing.Bitmap のローカライズされたリソースを検索します。
         /// </summary>
-        internal static System.Drawing.Bitmap ICON_26635 {
+        public static System.Drawing.Bitmap ICON_26635 {
             get {
                 object obj = ResourceManager.GetObject("ICON_26635", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
@@ -2153,7 +2153,7 @@ namespace Hypowered.Properties {
         /// <summary>
         ///   型 System.Drawing.Bitmap のローカライズされたリソースを検索します。
         /// </summary>
-        internal static System.Drawing.Bitmap ICON_26665 {
+        public static System.Drawing.Bitmap ICON_26665 {
             get {
                 object obj = ResourceManager.GetObject("ICON_26665", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
@@ -2163,7 +2163,7 @@ namespace Hypowered.Properties {
         /// <summary>
         ///   型 System.Drawing.Bitmap のローカライズされたリソースを検索します。
         /// </summary>
-        internal static System.Drawing.Bitmap ICON_26865 {
+        public static System.Drawing.Bitmap ICON_26865 {
             get {
                 object obj = ResourceManager.GetObject("ICON_26865", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
@@ -2173,7 +2173,7 @@ namespace Hypowered.Properties {
         /// <summary>
         ///   型 System.Drawing.Bitmap のローカライズされたリソースを検索します。
         /// </summary>
-        internal static System.Drawing.Bitmap ICON_26884 {
+        public static System.Drawing.Bitmap ICON_26884 {
             get {
                 object obj = ResourceManager.GetObject("ICON_26884", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
@@ -2183,7 +2183,7 @@ namespace Hypowered.Properties {
         /// <summary>
         ///   型 System.Drawing.Bitmap のローカライズされたリソースを検索します。
         /// </summary>
-        internal static System.Drawing.Bitmap ICON_27009 {
+        public static System.Drawing.Bitmap ICON_27009 {
             get {
                 object obj = ResourceManager.GetObject("ICON_27009", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
@@ -2193,7 +2193,7 @@ namespace Hypowered.Properties {
         /// <summary>
         ///   型 System.Drawing.Bitmap のローカライズされたリソースを検索します。
         /// </summary>
-        internal static System.Drawing.Bitmap ICON_27056 {
+        public static System.Drawing.Bitmap ICON_27056 {
             get {
                 object obj = ResourceManager.GetObject("ICON_27056", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
@@ -2203,7 +2203,7 @@ namespace Hypowered.Properties {
         /// <summary>
         ///   型 System.Drawing.Bitmap のローカライズされたリソースを検索します。
         /// </summary>
-        internal static System.Drawing.Bitmap ICON_2730 {
+        public static System.Drawing.Bitmap ICON_2730 {
             get {
                 object obj = ResourceManager.GetObject("ICON_2730", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
@@ -2213,7 +2213,7 @@ namespace Hypowered.Properties {
         /// <summary>
         ///   型 System.Drawing.Bitmap のローカライズされたリソースを検索します。
         /// </summary>
-        internal static System.Drawing.Bitmap ICON_27328 {
+        public static System.Drawing.Bitmap ICON_27328 {
             get {
                 object obj = ResourceManager.GetObject("ICON_27328", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
@@ -2223,7 +2223,7 @@ namespace Hypowered.Properties {
         /// <summary>
         ///   型 System.Drawing.Bitmap のローカライズされたリソースを検索します。
         /// </summary>
-        internal static System.Drawing.Bitmap ICON_27774 {
+        public static System.Drawing.Bitmap ICON_27774 {
             get {
                 object obj = ResourceManager.GetObject("ICON_27774", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
@@ -2233,7 +2233,7 @@ namespace Hypowered.Properties {
         /// <summary>
         ///   型 System.Drawing.Bitmap のローカライズされたリソースを検索します。
         /// </summary>
-        internal static System.Drawing.Bitmap ICON_27969 {
+        public static System.Drawing.Bitmap ICON_27969 {
             get {
                 object obj = ResourceManager.GetObject("ICON_27969", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
@@ -2243,7 +2243,7 @@ namespace Hypowered.Properties {
         /// <summary>
         ///   型 System.Drawing.Bitmap のローカライズされたリソースを検索します。
         /// </summary>
-        internal static System.Drawing.Bitmap ICON_28022 {
+        public static System.Drawing.Bitmap ICON_28022 {
             get {
                 object obj = ResourceManager.GetObject("ICON_28022", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
@@ -2253,7 +2253,7 @@ namespace Hypowered.Properties {
         /// <summary>
         ///   型 System.Drawing.Bitmap のローカライズされたリソースを検索します。
         /// </summary>
-        internal static System.Drawing.Bitmap ICON_28023 {
+        public static System.Drawing.Bitmap ICON_28023 {
             get {
                 object obj = ResourceManager.GetObject("ICON_28023", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
@@ -2263,7 +2263,7 @@ namespace Hypowered.Properties {
         /// <summary>
         ///   型 System.Drawing.Bitmap のローカライズされたリソースを検索します。
         /// </summary>
-        internal static System.Drawing.Bitmap ICON_28024 {
+        public static System.Drawing.Bitmap ICON_28024 {
             get {
                 object obj = ResourceManager.GetObject("ICON_28024", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
@@ -2273,7 +2273,7 @@ namespace Hypowered.Properties {
         /// <summary>
         ///   型 System.Drawing.Bitmap のローカライズされたリソースを検索します。
         /// </summary>
-        internal static System.Drawing.Bitmap ICON_28226 {
+        public static System.Drawing.Bitmap ICON_28226 {
             get {
                 object obj = ResourceManager.GetObject("ICON_28226", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
@@ -2283,7 +2283,7 @@ namespace Hypowered.Properties {
         /// <summary>
         ///   型 System.Drawing.Bitmap のローカライズされたリソースを検索します。
         /// </summary>
-        internal static System.Drawing.Bitmap ICON_28654 {
+        public static System.Drawing.Bitmap ICON_28654 {
             get {
                 object obj = ResourceManager.GetObject("ICON_28654", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
@@ -2293,7 +2293,7 @@ namespace Hypowered.Properties {
         /// <summary>
         ///   型 System.Drawing.Bitmap のローカライズされたリソースを検索します。
         /// </summary>
-        internal static System.Drawing.Bitmap ICON_28810 {
+        public static System.Drawing.Bitmap ICON_28810 {
             get {
                 object obj = ResourceManager.GetObject("ICON_28810", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
@@ -2303,7 +2303,7 @@ namespace Hypowered.Properties {
         /// <summary>
         ///   型 System.Drawing.Bitmap のローカライズされたリソースを検索します。
         /// </summary>
-        internal static System.Drawing.Bitmap ICON_28811 {
+        public static System.Drawing.Bitmap ICON_28811 {
             get {
                 object obj = ResourceManager.GetObject("ICON_28811", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
@@ -2313,7 +2313,7 @@ namespace Hypowered.Properties {
         /// <summary>
         ///   型 System.Drawing.Bitmap のローカライズされたリソースを検索します。
         /// </summary>
-        internal static System.Drawing.Bitmap ICON_29019 {
+        public static System.Drawing.Bitmap ICON_29019 {
             get {
                 object obj = ResourceManager.GetObject("ICON_29019", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
@@ -2323,7 +2323,7 @@ namespace Hypowered.Properties {
         /// <summary>
         ///   型 System.Drawing.Bitmap のローカライズされたリソースを検索します。
         /// </summary>
-        internal static System.Drawing.Bitmap ICON_29114 {
+        public static System.Drawing.Bitmap ICON_29114 {
             get {
                 object obj = ResourceManager.GetObject("ICON_29114", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
@@ -2333,7 +2333,7 @@ namespace Hypowered.Properties {
         /// <summary>
         ///   型 System.Drawing.Bitmap のローカライズされたリソースを検索します。
         /// </summary>
-        internal static System.Drawing.Bitmap ICON_29183 {
+        public static System.Drawing.Bitmap ICON_29183 {
             get {
                 object obj = ResourceManager.GetObject("ICON_29183", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
@@ -2343,7 +2343,7 @@ namespace Hypowered.Properties {
         /// <summary>
         ///   型 System.Drawing.Bitmap のローカライズされたリソースを検索します。
         /// </summary>
-        internal static System.Drawing.Bitmap ICON_29484 {
+        public static System.Drawing.Bitmap ICON_29484 {
             get {
                 object obj = ResourceManager.GetObject("ICON_29484", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
@@ -2353,7 +2353,7 @@ namespace Hypowered.Properties {
         /// <summary>
         ///   型 System.Drawing.Bitmap のローカライズされたリソースを検索します。
         /// </summary>
-        internal static System.Drawing.Bitmap ICON_29589 {
+        public static System.Drawing.Bitmap ICON_29589 {
             get {
                 object obj = ResourceManager.GetObject("ICON_29589", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
@@ -2363,7 +2363,7 @@ namespace Hypowered.Properties {
         /// <summary>
         ///   型 System.Drawing.Bitmap のローカライズされたリソースを検索します。
         /// </summary>
-        internal static System.Drawing.Bitmap ICON_2980 {
+        public static System.Drawing.Bitmap ICON_2980 {
             get {
                 object obj = ResourceManager.GetObject("ICON_2980", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
@@ -2373,7 +2373,7 @@ namespace Hypowered.Properties {
         /// <summary>
         ///   型 System.Drawing.Bitmap のローカライズされたリソースを検索します。
         /// </summary>
-        internal static System.Drawing.Bitmap ICON_29903 {
+        public static System.Drawing.Bitmap ICON_29903 {
             get {
                 object obj = ResourceManager.GetObject("ICON_29903", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
@@ -2383,7 +2383,7 @@ namespace Hypowered.Properties {
         /// <summary>
         ///   型 System.Drawing.Bitmap のローカライズされたリソースを検索します。
         /// </summary>
-        internal static System.Drawing.Bitmap ICON_30215 {
+        public static System.Drawing.Bitmap ICON_30215 {
             get {
                 object obj = ResourceManager.GetObject("ICON_30215", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
@@ -2393,7 +2393,7 @@ namespace Hypowered.Properties {
         /// <summary>
         ///   型 System.Drawing.Bitmap のローカライズされたリソースを検索します。
         /// </summary>
-        internal static System.Drawing.Bitmap ICON_30557 {
+        public static System.Drawing.Bitmap ICON_30557 {
             get {
                 object obj = ResourceManager.GetObject("ICON_30557", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
@@ -2403,7 +2403,7 @@ namespace Hypowered.Properties {
         /// <summary>
         ///   型 System.Drawing.Bitmap のローカライズされたリソースを検索します。
         /// </summary>
-        internal static System.Drawing.Bitmap ICON_30696 {
+        public static System.Drawing.Bitmap ICON_30696 {
             get {
                 object obj = ResourceManager.GetObject("ICON_30696", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
@@ -2413,7 +2413,7 @@ namespace Hypowered.Properties {
         /// <summary>
         ///   型 System.Drawing.Bitmap のローカライズされたリソースを検索します。
         /// </summary>
-        internal static System.Drawing.Bitmap ICON_3071 {
+        public static System.Drawing.Bitmap ICON_3071 {
             get {
                 object obj = ResourceManager.GetObject("ICON_3071", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
@@ -2423,7 +2423,7 @@ namespace Hypowered.Properties {
         /// <summary>
         ///   型 System.Drawing.Bitmap のローカライズされたリソースを検索します。
         /// </summary>
-        internal static System.Drawing.Bitmap ICON_30970 {
+        public static System.Drawing.Bitmap ICON_30970 {
             get {
                 object obj = ResourceManager.GetObject("ICON_30970", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
@@ -2433,7 +2433,7 @@ namespace Hypowered.Properties {
         /// <summary>
         ///   型 System.Drawing.Bitmap のローカライズされたリソースを検索します。
         /// </summary>
-        internal static System.Drawing.Bitmap ICON_31685 {
+        public static System.Drawing.Bitmap ICON_31685 {
             get {
                 object obj = ResourceManager.GetObject("ICON_31685", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
@@ -2443,7 +2443,7 @@ namespace Hypowered.Properties {
         /// <summary>
         ///   型 System.Drawing.Bitmap のローカライズされたリソースを検索します。
         /// </summary>
-        internal static System.Drawing.Bitmap ICON_31885 {
+        public static System.Drawing.Bitmap ICON_31885 {
             get {
                 object obj = ResourceManager.GetObject("ICON_31885", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
@@ -2453,7 +2453,7 @@ namespace Hypowered.Properties {
         /// <summary>
         ///   型 System.Drawing.Bitmap のローカライズされたリソースを検索します。
         /// </summary>
-        internal static System.Drawing.Bitmap ICON_32462 {
+        public static System.Drawing.Bitmap ICON_32462 {
             get {
                 object obj = ResourceManager.GetObject("ICON_32462", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
@@ -2463,7 +2463,7 @@ namespace Hypowered.Properties {
         /// <summary>
         ///   型 System.Drawing.Bitmap のローカライズされたリソースを検索します。
         /// </summary>
-        internal static System.Drawing.Bitmap ICON_32488 {
+        public static System.Drawing.Bitmap ICON_32488 {
             get {
                 object obj = ResourceManager.GetObject("ICON_32488", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
@@ -2473,7 +2473,7 @@ namespace Hypowered.Properties {
         /// <summary>
         ///   型 System.Drawing.Bitmap のローカライズされたリソースを検索します。
         /// </summary>
-        internal static System.Drawing.Bitmap ICON_32650 {
+        public static System.Drawing.Bitmap ICON_32650 {
             get {
                 object obj = ResourceManager.GetObject("ICON_32650", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
@@ -2483,7 +2483,7 @@ namespace Hypowered.Properties {
         /// <summary>
         ///   型 System.Drawing.Bitmap のローカライズされたリソースを検索します。
         /// </summary>
-        internal static System.Drawing.Bitmap ICON_32670 {
+        public static System.Drawing.Bitmap ICON_32670 {
             get {
                 object obj = ResourceManager.GetObject("ICON_32670", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
@@ -2493,7 +2493,7 @@ namespace Hypowered.Properties {
         /// <summary>
         ///   型 System.Drawing.Bitmap のローカライズされたリソースを検索します。
         /// </summary>
-        internal static System.Drawing.Bitmap ICON_3333 {
+        public static System.Drawing.Bitmap ICON_3333 {
             get {
                 object obj = ResourceManager.GetObject("ICON_3333", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
@@ -2503,7 +2503,7 @@ namespace Hypowered.Properties {
         /// <summary>
         ///   型 System.Drawing.Bitmap のローカライズされたリソースを検索します。
         /// </summary>
-        internal static System.Drawing.Bitmap ICON_3358 {
+        public static System.Drawing.Bitmap ICON_3358 {
             get {
                 object obj = ResourceManager.GetObject("ICON_3358", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
@@ -2513,7 +2513,7 @@ namespace Hypowered.Properties {
         /// <summary>
         ///   型 System.Drawing.Bitmap のローカライズされたリソースを検索します。
         /// </summary>
-        internal static System.Drawing.Bitmap ICON_3430 {
+        public static System.Drawing.Bitmap ICON_3430 {
             get {
                 object obj = ResourceManager.GetObject("ICON_3430", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
@@ -2523,7 +2523,7 @@ namespace Hypowered.Properties {
         /// <summary>
         ///   型 System.Drawing.Bitmap のローカライズされたリソースを検索します。
         /// </summary>
-        internal static System.Drawing.Bitmap ICON_3584 {
+        public static System.Drawing.Bitmap ICON_3584 {
             get {
                 object obj = ResourceManager.GetObject("ICON_3584", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
@@ -2533,7 +2533,7 @@ namespace Hypowered.Properties {
         /// <summary>
         ///   型 System.Drawing.Bitmap のローカライズされたリソースを検索します。
         /// </summary>
-        internal static System.Drawing.Bitmap ICON_3835 {
+        public static System.Drawing.Bitmap ICON_3835 {
             get {
                 object obj = ResourceManager.GetObject("ICON_3835", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
@@ -2543,7 +2543,7 @@ namespace Hypowered.Properties {
         /// <summary>
         ///   型 System.Drawing.Bitmap のローカライズされたリソースを検索します。
         /// </summary>
-        internal static System.Drawing.Bitmap ICON_4263 {
+        public static System.Drawing.Bitmap ICON_4263 {
             get {
                 object obj = ResourceManager.GetObject("ICON_4263", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
@@ -2553,7 +2553,7 @@ namespace Hypowered.Properties {
         /// <summary>
         ///   型 System.Drawing.Bitmap のローカライズされたリソースを検索します。
         /// </summary>
-        internal static System.Drawing.Bitmap ICON_4432 {
+        public static System.Drawing.Bitmap ICON_4432 {
             get {
                 object obj = ResourceManager.GetObject("ICON_4432", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
@@ -2563,7 +2563,7 @@ namespace Hypowered.Properties {
         /// <summary>
         ///   型 System.Drawing.Bitmap のローカライズされたリソースを検索します。
         /// </summary>
-        internal static System.Drawing.Bitmap ICON_4895 {
+        public static System.Drawing.Bitmap ICON_4895 {
             get {
                 object obj = ResourceManager.GetObject("ICON_4895", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
@@ -2573,7 +2573,7 @@ namespace Hypowered.Properties {
         /// <summary>
         ///   型 System.Drawing.Bitmap のローカライズされたリソースを検索します。
         /// </summary>
-        internal static System.Drawing.Bitmap ICON_5472 {
+        public static System.Drawing.Bitmap ICON_5472 {
             get {
                 object obj = ResourceManager.GetObject("ICON_5472", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
@@ -2583,7 +2583,7 @@ namespace Hypowered.Properties {
         /// <summary>
         ///   型 System.Drawing.Bitmap のローカライズされたリソースを検索します。
         /// </summary>
-        internal static System.Drawing.Bitmap ICON_6043 {
+        public static System.Drawing.Bitmap ICON_6043 {
             get {
                 object obj = ResourceManager.GetObject("ICON_6043", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
@@ -2593,7 +2593,7 @@ namespace Hypowered.Properties {
         /// <summary>
         ///   型 System.Drawing.Bitmap のローカライズされたリソースを検索します。
         /// </summary>
-        internal static System.Drawing.Bitmap ICON_6044 {
+        public static System.Drawing.Bitmap ICON_6044 {
             get {
                 object obj = ResourceManager.GetObject("ICON_6044", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
@@ -2603,7 +2603,7 @@ namespace Hypowered.Properties {
         /// <summary>
         ///   型 System.Drawing.Bitmap のローカライズされたリソースを検索します。
         /// </summary>
-        internal static System.Drawing.Bitmap ICON_6179 {
+        public static System.Drawing.Bitmap ICON_6179 {
             get {
                 object obj = ResourceManager.GetObject("ICON_6179", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
@@ -2613,7 +2613,7 @@ namespace Hypowered.Properties {
         /// <summary>
         ///   型 System.Drawing.Bitmap のローカライズされたリソースを検索します。
         /// </summary>
-        internal static System.Drawing.Bitmap ICON_6460 {
+        public static System.Drawing.Bitmap ICON_6460 {
             get {
                 object obj = ResourceManager.GetObject("ICON_6460", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
@@ -2623,7 +2623,7 @@ namespace Hypowered.Properties {
         /// <summary>
         ///   型 System.Drawing.Bitmap のローカライズされたリソースを検索します。
         /// </summary>
-        internal static System.Drawing.Bitmap ICON_6491 {
+        public static System.Drawing.Bitmap ICON_6491 {
             get {
                 object obj = ResourceManager.GetObject("ICON_6491", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
@@ -2633,7 +2633,7 @@ namespace Hypowered.Properties {
         /// <summary>
         ///   型 System.Drawing.Bitmap のローカライズされたリソースを検索します。
         /// </summary>
-        internal static System.Drawing.Bitmap ICON_6544 {
+        public static System.Drawing.Bitmap ICON_6544 {
             get {
                 object obj = ResourceManager.GetObject("ICON_6544", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
@@ -2643,7 +2643,7 @@ namespace Hypowered.Properties {
         /// <summary>
         ///   型 System.Drawing.Bitmap のローカライズされたリソースを検索します。
         /// </summary>
-        internal static System.Drawing.Bitmap ICON_6560 {
+        public static System.Drawing.Bitmap ICON_6560 {
             get {
                 object obj = ResourceManager.GetObject("ICON_6560", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
@@ -2653,7 +2653,7 @@ namespace Hypowered.Properties {
         /// <summary>
         ///   型 System.Drawing.Bitmap のローカライズされたリソースを検索します。
         /// </summary>
-        internal static System.Drawing.Bitmap ICON_6720 {
+        public static System.Drawing.Bitmap ICON_6720 {
             get {
                 object obj = ResourceManager.GetObject("ICON_6720", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
@@ -2663,7 +2663,7 @@ namespace Hypowered.Properties {
         /// <summary>
         ///   型 System.Drawing.Bitmap のローカライズされたリソースを検索します。
         /// </summary>
-        internal static System.Drawing.Bitmap ICON_6724 {
+        public static System.Drawing.Bitmap ICON_6724 {
             get {
                 object obj = ResourceManager.GetObject("ICON_6724", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
@@ -2673,7 +2673,7 @@ namespace Hypowered.Properties {
         /// <summary>
         ///   型 System.Drawing.Bitmap のローカライズされたリソースを検索します。
         /// </summary>
-        internal static System.Drawing.Bitmap ICON_7012 {
+        public static System.Drawing.Bitmap ICON_7012 {
             get {
                 object obj = ResourceManager.GetObject("ICON_7012", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
@@ -2683,7 +2683,7 @@ namespace Hypowered.Properties {
         /// <summary>
         ///   型 System.Drawing.Bitmap のローカライズされたリソースを検索します。
         /// </summary>
-        internal static System.Drawing.Bitmap ICON_7142 {
+        public static System.Drawing.Bitmap ICON_7142 {
             get {
                 object obj = ResourceManager.GetObject("ICON_7142", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
@@ -2693,7 +2693,7 @@ namespace Hypowered.Properties {
         /// <summary>
         ///   型 System.Drawing.Bitmap のローカライズされたリソースを検索します。
         /// </summary>
-        internal static System.Drawing.Bitmap ICON_7417 {
+        public static System.Drawing.Bitmap ICON_7417 {
             get {
                 object obj = ResourceManager.GetObject("ICON_7417", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
@@ -2703,7 +2703,7 @@ namespace Hypowered.Properties {
         /// <summary>
         ///   型 System.Drawing.Bitmap のローカライズされたリソースを検索します。
         /// </summary>
-        internal static System.Drawing.Bitmap ICON_766 {
+        public static System.Drawing.Bitmap ICON_766 {
             get {
                 object obj = ResourceManager.GetObject("ICON_766", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
@@ -2713,7 +2713,7 @@ namespace Hypowered.Properties {
         /// <summary>
         ///   型 System.Drawing.Bitmap のローカライズされたリソースを検索します。
         /// </summary>
-        internal static System.Drawing.Bitmap ICON_8323 {
+        public static System.Drawing.Bitmap ICON_8323 {
             get {
                 object obj = ResourceManager.GetObject("ICON_8323", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
@@ -2723,7 +2723,7 @@ namespace Hypowered.Properties {
         /// <summary>
         ///   型 System.Drawing.Bitmap のローカライズされたリソースを検索します。
         /// </summary>
-        internal static System.Drawing.Bitmap ICON_8347 {
+        public static System.Drawing.Bitmap ICON_8347 {
             get {
                 object obj = ResourceManager.GetObject("ICON_8347", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
@@ -2733,7 +2733,7 @@ namespace Hypowered.Properties {
         /// <summary>
         ///   型 System.Drawing.Bitmap のローカライズされたリソースを検索します。
         /// </summary>
-        internal static System.Drawing.Bitmap ICON_8348 {
+        public static System.Drawing.Bitmap ICON_8348 {
             get {
                 object obj = ResourceManager.GetObject("ICON_8348", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
@@ -2743,7 +2743,7 @@ namespace Hypowered.Properties {
         /// <summary>
         ///   型 System.Drawing.Bitmap のローカライズされたリソースを検索します。
         /// </summary>
-        internal static System.Drawing.Bitmap ICON_8349 {
+        public static System.Drawing.Bitmap ICON_8349 {
             get {
                 object obj = ResourceManager.GetObject("ICON_8349", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
@@ -2753,7 +2753,7 @@ namespace Hypowered.Properties {
         /// <summary>
         ///   型 System.Drawing.Bitmap のローカライズされたリソースを検索します。
         /// </summary>
-        internal static System.Drawing.Bitmap ICON_8350 {
+        public static System.Drawing.Bitmap ICON_8350 {
             get {
                 object obj = ResourceManager.GetObject("ICON_8350", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
@@ -2763,7 +2763,7 @@ namespace Hypowered.Properties {
         /// <summary>
         ///   型 System.Drawing.Bitmap のローカライズされたリソースを検索します。
         /// </summary>
-        internal static System.Drawing.Bitmap ICON_8419 {
+        public static System.Drawing.Bitmap ICON_8419 {
             get {
                 object obj = ResourceManager.GetObject("ICON_8419", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
@@ -2773,7 +2773,7 @@ namespace Hypowered.Properties {
         /// <summary>
         ///   型 System.Drawing.Bitmap のローカライズされたリソースを検索します。
         /// </summary>
-        internal static System.Drawing.Bitmap ICON_8538 {
+        public static System.Drawing.Bitmap ICON_8538 {
             get {
                 object obj = ResourceManager.GetObject("ICON_8538", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
@@ -2783,7 +2783,7 @@ namespace Hypowered.Properties {
         /// <summary>
         ///   型 System.Drawing.Bitmap のローカライズされたリソースを検索します。
         /// </summary>
-        internal static System.Drawing.Bitmap ICON_8961 {
+        public static System.Drawing.Bitmap ICON_8961 {
             get {
                 object obj = ResourceManager.GetObject("ICON_8961", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
@@ -2793,7 +2793,7 @@ namespace Hypowered.Properties {
         /// <summary>
         ///   型 System.Drawing.Bitmap のローカライズされたリソースを検索します。
         /// </summary>
-        internal static System.Drawing.Bitmap ICON_8964 {
+        public static System.Drawing.Bitmap ICON_8964 {
             get {
                 object obj = ResourceManager.GetObject("ICON_8964", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
@@ -2803,7 +2803,7 @@ namespace Hypowered.Properties {
         /// <summary>
         ///   型 System.Drawing.Bitmap のローカライズされたリソースを検索します。
         /// </summary>
-        internal static System.Drawing.Bitmap ICON_8979 {
+        public static System.Drawing.Bitmap ICON_8979 {
             get {
                 object obj = ResourceManager.GetObject("ICON_8979", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
@@ -2813,7 +2813,7 @@ namespace Hypowered.Properties {
         /// <summary>
         ///   型 System.Drawing.Bitmap のローカライズされたリソースを検索します。
         /// </summary>
-        internal static System.Drawing.Bitmap ICON_8980 {
+        public static System.Drawing.Bitmap ICON_8980 {
             get {
                 object obj = ResourceManager.GetObject("ICON_8980", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
@@ -2823,7 +2823,7 @@ namespace Hypowered.Properties {
         /// <summary>
         ///   型 System.Drawing.Bitmap のローカライズされたリソースを検索します。
         /// </summary>
-        internal static System.Drawing.Bitmap ICON_902 {
+        public static System.Drawing.Bitmap ICON_902 {
             get {
                 object obj = ResourceManager.GetObject("ICON_902", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
@@ -2833,7 +2833,7 @@ namespace Hypowered.Properties {
         /// <summary>
         ///   型 System.Drawing.Bitmap のローカライズされたリソースを検索します。
         /// </summary>
-        internal static System.Drawing.Bitmap ICON_9104 {
+        public static System.Drawing.Bitmap ICON_9104 {
             get {
                 object obj = ResourceManager.GetObject("ICON_9104", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
@@ -2843,7 +2843,7 @@ namespace Hypowered.Properties {
         /// <summary>
         ///   型 System.Drawing.Bitmap のローカライズされたリソースを検索します。
         /// </summary>
-        internal static System.Drawing.Bitmap ICON_9120 {
+        public static System.Drawing.Bitmap ICON_9120 {
             get {
                 object obj = ResourceManager.GetObject("ICON_9120", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
@@ -2853,7 +2853,7 @@ namespace Hypowered.Properties {
         /// <summary>
         ///   型 System.Drawing.Bitmap のローカライズされたリソースを検索します。
         /// </summary>
-        internal static System.Drawing.Bitmap ICON_9301 {
+        public static System.Drawing.Bitmap ICON_9301 {
             get {
                 object obj = ResourceManager.GetObject("ICON_9301", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
@@ -2863,7 +2863,7 @@ namespace Hypowered.Properties {
         /// <summary>
         ///   型 System.Drawing.Bitmap のローカライズされたリソースを検索します。
         /// </summary>
-        internal static System.Drawing.Bitmap ICON_9761 {
+        public static System.Drawing.Bitmap ICON_9761 {
             get {
                 object obj = ResourceManager.GetObject("ICON_9761", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
@@ -2873,7 +2873,7 @@ namespace Hypowered.Properties {
         /// <summary>
         ///   型 System.Drawing.Bitmap のローカライズされたリソースを検索します。
         /// </summary>
-        internal static System.Drawing.Bitmap image {
+        public static System.Drawing.Bitmap image {
             get {
                 object obj = ResourceManager.GetObject("image", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
@@ -2883,7 +2883,7 @@ namespace Hypowered.Properties {
         /// <summary>
         ///   型 System.Drawing.Bitmap のローカライズされたリソースを検索します。
         /// </summary>
-        internal static System.Drawing.Bitmap info {
+        public static System.Drawing.Bitmap info {
             get {
                 object obj = ResourceManager.GetObject("info", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
@@ -2893,7 +2893,7 @@ namespace Hypowered.Properties {
         /// <summary>
         ///   型 System.Drawing.Bitmap のローカライズされたリソースを検索します。
         /// </summary>
-        internal static System.Drawing.Bitmap keyboard_control_key {
+        public static System.Drawing.Bitmap keyboard_control_key {
             get {
                 object obj = ResourceManager.GetObject("keyboard_control_key", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
@@ -2903,7 +2903,7 @@ namespace Hypowered.Properties {
         /// <summary>
         ///   型 System.Drawing.Bitmap のローカライズされたリソースを検索します。
         /// </summary>
-        internal static System.Drawing.Bitmap keyboard_double_arrow_down {
+        public static System.Drawing.Bitmap keyboard_double_arrow_down {
             get {
                 object obj = ResourceManager.GetObject("keyboard_double_arrow_down", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
@@ -2913,7 +2913,7 @@ namespace Hypowered.Properties {
         /// <summary>
         ///   型 System.Drawing.Bitmap のローカライズされたリソースを検索します。
         /// </summary>
-        internal static System.Drawing.Bitmap keyboard_double_arrow_left {
+        public static System.Drawing.Bitmap keyboard_double_arrow_left {
             get {
                 object obj = ResourceManager.GetObject("keyboard_double_arrow_left", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
@@ -2923,7 +2923,7 @@ namespace Hypowered.Properties {
         /// <summary>
         ///   型 System.Drawing.Bitmap のローカライズされたリソースを検索します。
         /// </summary>
-        internal static System.Drawing.Bitmap keyboard_double_arrow_right {
+        public static System.Drawing.Bitmap keyboard_double_arrow_right {
             get {
                 object obj = ResourceManager.GetObject("keyboard_double_arrow_right", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
@@ -2933,7 +2933,7 @@ namespace Hypowered.Properties {
         /// <summary>
         ///   型 System.Drawing.Bitmap のローカライズされたリソースを検索します。
         /// </summary>
-        internal static System.Drawing.Bitmap keyboard_double_arrow_up {
+        public static System.Drawing.Bitmap keyboard_double_arrow_up {
             get {
                 object obj = ResourceManager.GetObject("keyboard_double_arrow_up", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
@@ -2943,7 +2943,7 @@ namespace Hypowered.Properties {
         /// <summary>
         ///   型 System.Drawing.Bitmap のローカライズされたリソースを検索します。
         /// </summary>
-        internal static System.Drawing.Bitmap label {
+        public static System.Drawing.Bitmap label {
             get {
                 object obj = ResourceManager.GetObject("label", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
@@ -2953,7 +2953,7 @@ namespace Hypowered.Properties {
         /// <summary>
         ///   型 System.Drawing.Bitmap のローカライズされたリソースを検索します。
         /// </summary>
-        internal static System.Drawing.Bitmap language {
+        public static System.Drawing.Bitmap language {
             get {
                 object obj = ResourceManager.GetObject("language", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
@@ -2963,7 +2963,7 @@ namespace Hypowered.Properties {
         /// <summary>
         ///   型 System.Drawing.Bitmap のローカライズされたリソースを検索します。
         /// </summary>
-        internal static System.Drawing.Bitmap light {
+        public static System.Drawing.Bitmap light {
             get {
                 object obj = ResourceManager.GetObject("light", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
@@ -2973,7 +2973,7 @@ namespace Hypowered.Properties {
         /// <summary>
         ///   型 System.Drawing.Bitmap のローカライズされたリソースを検索します。
         /// </summary>
-        internal static System.Drawing.Bitmap light_mode {
+        public static System.Drawing.Bitmap light_mode {
             get {
                 object obj = ResourceManager.GetObject("light_mode", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
@@ -2983,7 +2983,7 @@ namespace Hypowered.Properties {
         /// <summary>
         ///   型 System.Drawing.Bitmap のローカライズされたリソースを検索します。
         /// </summary>
-        internal static System.Drawing.Bitmap link {
+        public static System.Drawing.Bitmap link {
             get {
                 object obj = ResourceManager.GetObject("link", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
@@ -2993,7 +2993,7 @@ namespace Hypowered.Properties {
         /// <summary>
         ///   型 System.Drawing.Bitmap のローカライズされたリソースを検索します。
         /// </summary>
-        internal static System.Drawing.Bitmap local_cafe {
+        public static System.Drawing.Bitmap local_cafe {
             get {
                 object obj = ResourceManager.GetObject("local_cafe", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
@@ -3003,7 +3003,7 @@ namespace Hypowered.Properties {
         /// <summary>
         ///   型 System.Drawing.Bitmap のローカライズされたリソースを検索します。
         /// </summary>
-        internal static System.Drawing.Bitmap local_florist {
+        public static System.Drawing.Bitmap local_florist {
             get {
                 object obj = ResourceManager.GetObject("local_florist", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
@@ -3013,7 +3013,7 @@ namespace Hypowered.Properties {
         /// <summary>
         ///   型 System.Drawing.Bitmap のローカライズされたリソースを検索します。
         /// </summary>
-        internal static System.Drawing.Bitmap lock_ {
+        public static System.Drawing.Bitmap lock_ {
             get {
                 object obj = ResourceManager.GetObject("lock_", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
@@ -3023,7 +3023,7 @@ namespace Hypowered.Properties {
         /// <summary>
         ///   型 System.Drawing.Bitmap のローカライズされたリソースを検索します。
         /// </summary>
-        internal static System.Drawing.Bitmap lock_clock {
+        public static System.Drawing.Bitmap lock_clock {
             get {
                 object obj = ResourceManager.GetObject("lock_clock", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
@@ -3033,7 +3033,7 @@ namespace Hypowered.Properties {
         /// <summary>
         ///   型 System.Drawing.Bitmap のローカライズされたリソースを検索します。
         /// </summary>
-        internal static System.Drawing.Bitmap lock_open {
+        public static System.Drawing.Bitmap lock_open {
             get {
                 object obj = ResourceManager.GetObject("lock_open", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
@@ -3043,7 +3043,7 @@ namespace Hypowered.Properties {
         /// <summary>
         ///   型 System.Drawing.Bitmap のローカライズされたリソースを検索します。
         /// </summary>
-        internal static System.Drawing.Bitmap mail {
+        public static System.Drawing.Bitmap mail {
             get {
                 object obj = ResourceManager.GetObject("mail", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
@@ -3053,7 +3053,7 @@ namespace Hypowered.Properties {
         /// <summary>
         ///   型 System.Drawing.Bitmap のローカライズされたリソースを検索します。
         /// </summary>
-        internal static System.Drawing.Bitmap medication {
+        public static System.Drawing.Bitmap medication {
             get {
                 object obj = ResourceManager.GetObject("medication", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
@@ -3063,7 +3063,7 @@ namespace Hypowered.Properties {
         /// <summary>
         ///   型 System.Drawing.Bitmap のローカライズされたリソースを検索します。
         /// </summary>
-        internal static System.Drawing.Bitmap memory {
+        public static System.Drawing.Bitmap memory {
             get {
                 object obj = ResourceManager.GetObject("memory", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
@@ -3073,7 +3073,7 @@ namespace Hypowered.Properties {
         /// <summary>
         ///   型 System.Drawing.Bitmap のローカライズされたリソースを検索します。
         /// </summary>
-        internal static System.Drawing.Bitmap menu {
+        public static System.Drawing.Bitmap menu {
             get {
                 object obj = ResourceManager.GetObject("menu", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
@@ -3083,7 +3083,7 @@ namespace Hypowered.Properties {
         /// <summary>
         ///   型 System.Drawing.Bitmap のローカライズされたリソースを検索します。
         /// </summary>
-        internal static System.Drawing.Bitmap mic_external_on {
+        public static System.Drawing.Bitmap mic_external_on {
             get {
                 object obj = ResourceManager.GetObject("mic_external_on", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
@@ -3093,7 +3093,7 @@ namespace Hypowered.Properties {
         /// <summary>
         ///   型 System.Drawing.Bitmap のローカライズされたリソースを検索します。
         /// </summary>
-        internal static System.Drawing.Bitmap mode_fan {
+        public static System.Drawing.Bitmap mode_fan {
             get {
                 object obj = ResourceManager.GetObject("mode_fan", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
@@ -3103,7 +3103,7 @@ namespace Hypowered.Properties {
         /// <summary>
         ///   型 System.Drawing.Bitmap のローカライズされたリソースを検索します。
         /// </summary>
-        internal static System.Drawing.Bitmap monitor {
+        public static System.Drawing.Bitmap monitor {
             get {
                 object obj = ResourceManager.GetObject("monitor", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
@@ -3113,7 +3113,7 @@ namespace Hypowered.Properties {
         /// <summary>
         ///   型 System.Drawing.Bitmap のローカライズされたリソースを検索します。
         /// </summary>
-        internal static System.Drawing.Bitmap mood {
+        public static System.Drawing.Bitmap mood {
             get {
                 object obj = ResourceManager.GetObject("mood", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
@@ -3123,7 +3123,7 @@ namespace Hypowered.Properties {
         /// <summary>
         ///   型 System.Drawing.Bitmap のローカライズされたリソースを検索します。
         /// </summary>
-        internal static System.Drawing.Bitmap mop {
+        public static System.Drawing.Bitmap mop {
             get {
                 object obj = ResourceManager.GetObject("mop", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
@@ -3133,7 +3133,7 @@ namespace Hypowered.Properties {
         /// <summary>
         ///   型 System.Drawing.Bitmap のローカライズされたリソースを検索します。
         /// </summary>
-        internal static System.Drawing.Bitmap mouse {
+        public static System.Drawing.Bitmap mouse {
             get {
                 object obj = ResourceManager.GetObject("mouse", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
@@ -3143,7 +3143,7 @@ namespace Hypowered.Properties {
         /// <summary>
         ///   型 System.Drawing.Bitmap のローカライズされたリソースを検索します。
         /// </summary>
-        internal static System.Drawing.Bitmap move_down {
+        public static System.Drawing.Bitmap move_down {
             get {
                 object obj = ResourceManager.GetObject("move_down", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
@@ -3153,7 +3153,7 @@ namespace Hypowered.Properties {
         /// <summary>
         ///   型 System.Drawing.Bitmap のローカライズされたリソースを検索します。
         /// </summary>
-        internal static System.Drawing.Bitmap move_up {
+        public static System.Drawing.Bitmap move_up {
             get {
                 object obj = ResourceManager.GetObject("move_up", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
@@ -3163,7 +3163,7 @@ namespace Hypowered.Properties {
         /// <summary>
         ///   型 System.Drawing.Bitmap のローカライズされたリソースを検索します。
         /// </summary>
-        internal static System.Drawing.Bitmap music_note {
+        public static System.Drawing.Bitmap music_note {
             get {
                 object obj = ResourceManager.GetObject("music_note", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
@@ -3173,7 +3173,7 @@ namespace Hypowered.Properties {
         /// <summary>
         ///   型 System.Drawing.Bitmap のローカライズされたリソースを検索します。
         /// </summary>
-        internal static System.Drawing.Bitmap nightlife {
+        public static System.Drawing.Bitmap nightlife {
             get {
                 object obj = ResourceManager.GetObject("nightlife", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
@@ -3183,7 +3183,7 @@ namespace Hypowered.Properties {
         /// <summary>
         ///   型 System.Drawing.Bitmap のローカライズされたリソースを検索します。
         /// </summary>
-        internal static System.Drawing.Bitmap notifications {
+        public static System.Drawing.Bitmap notifications {
             get {
                 object obj = ResourceManager.GetObject("notifications", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
@@ -3193,7 +3193,7 @@ namespace Hypowered.Properties {
         /// <summary>
         ///   型 System.Drawing.Bitmap のローカライズされたリソースを検索します。
         /// </summary>
-        internal static System.Drawing.Bitmap notifications_active {
+        public static System.Drawing.Bitmap notifications_active {
             get {
                 object obj = ResourceManager.GetObject("notifications_active", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
@@ -3203,7 +3203,7 @@ namespace Hypowered.Properties {
         /// <summary>
         ///   型 System.Drawing.Bitmap のローカライズされたリソースを検索します。
         /// </summary>
-        internal static System.Drawing.Bitmap open_with {
+        public static System.Drawing.Bitmap open_with {
             get {
                 object obj = ResourceManager.GetObject("open_with", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
@@ -3213,7 +3213,7 @@ namespace Hypowered.Properties {
         /// <summary>
         ///   型 System.Drawing.Bitmap のローカライズされたリソースを検索します。
         /// </summary>
-        internal static System.Drawing.Bitmap overview {
+        public static System.Drawing.Bitmap overview {
             get {
                 object obj = ResourceManager.GetObject("overview", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
@@ -3223,7 +3223,7 @@ namespace Hypowered.Properties {
         /// <summary>
         ///   型 System.Drawing.Bitmap のローカライズされたリソースを検索します。
         /// </summary>
-        internal static System.Drawing.Bitmap pan_tool {
+        public static System.Drawing.Bitmap pan_tool {
             get {
                 object obj = ResourceManager.GetObject("pan_tool", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
@@ -3233,7 +3233,7 @@ namespace Hypowered.Properties {
         /// <summary>
         ///   型 System.Drawing.Bitmap のローカライズされたリソースを検索します。
         /// </summary>
-        internal static System.Drawing.Bitmap pan_tool_alt {
+        public static System.Drawing.Bitmap pan_tool_alt {
             get {
                 object obj = ResourceManager.GetObject("pan_tool_alt", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
@@ -3243,7 +3243,7 @@ namespace Hypowered.Properties {
         /// <summary>
         ///   型 System.Drawing.Bitmap のローカライズされたリソースを検索します。
         /// </summary>
-        internal static System.Drawing.Bitmap pause {
+        public static System.Drawing.Bitmap pause {
             get {
                 object obj = ResourceManager.GetObject("pause", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
@@ -3253,7 +3253,7 @@ namespace Hypowered.Properties {
         /// <summary>
         ///   型 System.Drawing.Bitmap のローカライズされたリソースを検索します。
         /// </summary>
-        internal static System.Drawing.Bitmap pause_circle {
+        public static System.Drawing.Bitmap pause_circle {
             get {
                 object obj = ResourceManager.GetObject("pause_circle", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
@@ -3263,7 +3263,7 @@ namespace Hypowered.Properties {
         /// <summary>
         ///   型 System.Drawing.Bitmap のローカライズされたリソースを検索します。
         /// </summary>
-        internal static System.Drawing.Bitmap pedal_bike {
+        public static System.Drawing.Bitmap pedal_bike {
             get {
                 object obj = ResourceManager.GetObject("pedal_bike", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
@@ -3273,7 +3273,7 @@ namespace Hypowered.Properties {
         /// <summary>
         ///   型 System.Drawing.Bitmap のローカライズされたリソースを検索します。
         /// </summary>
-        internal static System.Drawing.Bitmap pending {
+        public static System.Drawing.Bitmap pending {
             get {
                 object obj = ResourceManager.GetObject("pending", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
@@ -3283,7 +3283,7 @@ namespace Hypowered.Properties {
         /// <summary>
         ///   型 System.Drawing.Bitmap のローカライズされたリソースを検索します。
         /// </summary>
-        internal static System.Drawing.Bitmap person {
+        public static System.Drawing.Bitmap person {
             get {
                 object obj = ResourceManager.GetObject("person", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
@@ -3293,7 +3293,7 @@ namespace Hypowered.Properties {
         /// <summary>
         ///   型 System.Drawing.Bitmap のローカライズされたリソースを検索します。
         /// </summary>
-        internal static System.Drawing.Bitmap pets {
+        public static System.Drawing.Bitmap pets {
             get {
                 object obj = ResourceManager.GetObject("pets", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
@@ -3303,7 +3303,7 @@ namespace Hypowered.Properties {
         /// <summary>
         ///   型 System.Drawing.Bitmap のローカライズされたリソースを検索します。
         /// </summary>
-        internal static System.Drawing.Bitmap photo_camera {
+        public static System.Drawing.Bitmap photo_camera {
             get {
                 object obj = ResourceManager.GetObject("photo_camera", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
@@ -3313,7 +3313,17 @@ namespace Hypowered.Properties {
         /// <summary>
         ///   型 System.Drawing.Bitmap のローカライズされたリソースを検索します。
         /// </summary>
-        internal static System.Drawing.Bitmap pin_drop {
+        public static System.Drawing.Bitmap PICT_ERR {
+            get {
+                object obj = ResourceManager.GetObject("PICT_ERR", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   型 System.Drawing.Bitmap のローカライズされたリソースを検索します。
+        /// </summary>
+        public static System.Drawing.Bitmap pin_drop {
             get {
                 object obj = ResourceManager.GetObject("pin_drop", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
@@ -3323,7 +3333,7 @@ namespace Hypowered.Properties {
         /// <summary>
         ///   型 System.Drawing.Bitmap のローカライズされたリソースを検索します。
         /// </summary>
-        internal static System.Drawing.Bitmap play_arrow {
+        public static System.Drawing.Bitmap play_arrow {
             get {
                 object obj = ResourceManager.GetObject("play_arrow", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
@@ -3333,7 +3343,7 @@ namespace Hypowered.Properties {
         /// <summary>
         ///   型 System.Drawing.Bitmap のローカライズされたリソースを検索します。
         /// </summary>
-        internal static System.Drawing.Bitmap play_circle {
+        public static System.Drawing.Bitmap play_circle {
             get {
                 object obj = ResourceManager.GetObject("play_circle", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
@@ -3343,7 +3353,7 @@ namespace Hypowered.Properties {
         /// <summary>
         ///   型 System.Drawing.Bitmap のローカライズされたリソースを検索します。
         /// </summary>
-        internal static System.Drawing.Bitmap podcasts {
+        public static System.Drawing.Bitmap podcasts {
             get {
                 object obj = ResourceManager.GetObject("podcasts", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
@@ -3353,7 +3363,7 @@ namespace Hypowered.Properties {
         /// <summary>
         ///   型 System.Drawing.Bitmap のローカライズされたリソースを検索します。
         /// </summary>
-        internal static System.Drawing.Bitmap policy {
+        public static System.Drawing.Bitmap policy {
             get {
                 object obj = ResourceManager.GetObject("policy", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
@@ -3363,7 +3373,7 @@ namespace Hypowered.Properties {
         /// <summary>
         ///   型 System.Drawing.Bitmap のローカライズされたリソースを検索します。
         /// </summary>
-        internal static System.Drawing.Bitmap power {
+        public static System.Drawing.Bitmap power {
             get {
                 object obj = ResourceManager.GetObject("power", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
@@ -3373,7 +3383,7 @@ namespace Hypowered.Properties {
         /// <summary>
         ///   型 System.Drawing.Bitmap のローカライズされたリソースを検索します。
         /// </summary>
-        internal static System.Drawing.Bitmap power_off {
+        public static System.Drawing.Bitmap power_off {
             get {
                 object obj = ResourceManager.GetObject("power_off", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
@@ -3383,7 +3393,7 @@ namespace Hypowered.Properties {
         /// <summary>
         ///   型 System.Drawing.Bitmap のローカライズされたリソースを検索します。
         /// </summary>
-        internal static System.Drawing.Bitmap power_settings_new {
+        public static System.Drawing.Bitmap power_settings_new {
             get {
                 object obj = ResourceManager.GetObject("power_settings_new", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
@@ -3393,7 +3403,7 @@ namespace Hypowered.Properties {
         /// <summary>
         ///   型 System.Drawing.Bitmap のローカライズされたリソースを検索します。
         /// </summary>
-        internal static System.Drawing.Bitmap priority_high {
+        public static System.Drawing.Bitmap priority_high {
             get {
                 object obj = ResourceManager.GetObject("priority_high", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
@@ -3403,7 +3413,7 @@ namespace Hypowered.Properties {
         /// <summary>
         ///   型 System.Drawing.Bitmap のローカライズされたリソースを検索します。
         /// </summary>
-        internal static System.Drawing.Bitmap privacy_tip {
+        public static System.Drawing.Bitmap privacy_tip {
             get {
                 object obj = ResourceManager.GetObject("privacy_tip", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
@@ -3413,7 +3423,7 @@ namespace Hypowered.Properties {
         /// <summary>
         ///   型 System.Drawing.Bitmap のローカライズされたリソースを検索します。
         /// </summary>
-        internal static System.Drawing.Bitmap public_ {
+        public static System.Drawing.Bitmap public_ {
             get {
                 object obj = ResourceManager.GetObject("public_", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
@@ -3423,7 +3433,7 @@ namespace Hypowered.Properties {
         /// <summary>
         ///   型 System.Drawing.Bitmap のローカライズされたリソースを検索します。
         /// </summary>
-        internal static System.Drawing.Bitmap radio {
+        public static System.Drawing.Bitmap radio {
             get {
                 object obj = ResourceManager.GetObject("radio", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
@@ -3433,7 +3443,7 @@ namespace Hypowered.Properties {
         /// <summary>
         ///   型 System.Drawing.Bitmap のローカライズされたリソースを検索します。
         /// </summary>
-        internal static System.Drawing.Bitmap radio_button_checked {
+        public static System.Drawing.Bitmap radio_button_checked {
             get {
                 object obj = ResourceManager.GetObject("radio_button_checked", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
@@ -3443,7 +3453,7 @@ namespace Hypowered.Properties {
         /// <summary>
         ///   型 System.Drawing.Bitmap のローカライズされたリソースを検索します。
         /// </summary>
-        internal static System.Drawing.Bitmap radio_button_unchecked {
+        public static System.Drawing.Bitmap radio_button_unchecked {
             get {
                 object obj = ResourceManager.GetObject("radio_button_unchecked", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
@@ -3453,7 +3463,7 @@ namespace Hypowered.Properties {
         /// <summary>
         ///   型 System.Drawing.Bitmap のローカライズされたリソースを検索します。
         /// </summary>
-        internal static System.Drawing.Bitmap rainy {
+        public static System.Drawing.Bitmap rainy {
             get {
                 object obj = ResourceManager.GetObject("rainy", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
@@ -3463,7 +3473,7 @@ namespace Hypowered.Properties {
         /// <summary>
         ///   型 System.Drawing.Bitmap のローカライズされたリソースを検索します。
         /// </summary>
-        internal static System.Drawing.Bitmap receipt_long {
+        public static System.Drawing.Bitmap receipt_long {
             get {
                 object obj = ResourceManager.GetObject("receipt_long", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
@@ -3473,7 +3483,7 @@ namespace Hypowered.Properties {
         /// <summary>
         ///   型 System.Drawing.Bitmap のローカライズされたリソースを検索します。
         /// </summary>
-        internal static System.Drawing.Bitmap recycling {
+        public static System.Drawing.Bitmap recycling {
             get {
                 object obj = ResourceManager.GetObject("recycling", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
@@ -3483,7 +3493,7 @@ namespace Hypowered.Properties {
         /// <summary>
         ///   型 System.Drawing.Bitmap のローカライズされたリソースを検索します。
         /// </summary>
-        internal static System.Drawing.Bitmap redo {
+        public static System.Drawing.Bitmap redo {
             get {
                 object obj = ResourceManager.GetObject("redo", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
@@ -3493,7 +3503,7 @@ namespace Hypowered.Properties {
         /// <summary>
         ///   型 System.Drawing.Bitmap のローカライズされたリソースを検索します。
         /// </summary>
-        internal static System.Drawing.Bitmap refresh {
+        public static System.Drawing.Bitmap refresh {
             get {
                 object obj = ResourceManager.GetObject("refresh", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
@@ -3503,7 +3513,7 @@ namespace Hypowered.Properties {
         /// <summary>
         ///   型 System.Drawing.Bitmap のローカライズされたリソースを検索します。
         /// </summary>
-        internal static System.Drawing.Bitmap remove_ {
+        public static System.Drawing.Bitmap remove_ {
             get {
                 object obj = ResourceManager.GetObject("remove_", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
@@ -3513,7 +3523,7 @@ namespace Hypowered.Properties {
         /// <summary>
         ///   型 System.Drawing.Bitmap のローカライズされたリソースを検索します。
         /// </summary>
-        internal static System.Drawing.Bitmap repeat {
+        public static System.Drawing.Bitmap repeat {
             get {
                 object obj = ResourceManager.GetObject("repeat", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
@@ -3523,7 +3533,7 @@ namespace Hypowered.Properties {
         /// <summary>
         ///   型 System.Drawing.Bitmap のローカライズされたリソースを検索します。
         /// </summary>
-        internal static System.Drawing.Bitmap replay {
+        public static System.Drawing.Bitmap replay {
             get {
                 object obj = ResourceManager.GetObject("replay", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
@@ -3533,7 +3543,7 @@ namespace Hypowered.Properties {
         /// <summary>
         ///   型 System.Drawing.Bitmap のローカライズされたリソースを検索します。
         /// </summary>
-        internal static System.Drawing.Bitmap reply {
+        public static System.Drawing.Bitmap reply {
             get {
                 object obj = ResourceManager.GetObject("reply", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
@@ -3543,7 +3553,7 @@ namespace Hypowered.Properties {
         /// <summary>
         ///   型 System.Drawing.Bitmap のローカライズされたリソースを検索します。
         /// </summary>
-        internal static System.Drawing.Bitmap restaurant {
+        public static System.Drawing.Bitmap restaurant {
             get {
                 object obj = ResourceManager.GetObject("restaurant", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
@@ -3553,7 +3563,7 @@ namespace Hypowered.Properties {
         /// <summary>
         ///   型 System.Drawing.Bitmap のローカライズされたリソースを検索します。
         /// </summary>
-        internal static System.Drawing.Bitmap rocket_launch {
+        public static System.Drawing.Bitmap rocket_launch {
             get {
                 object obj = ResourceManager.GetObject("rocket_launch", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
@@ -3563,7 +3573,7 @@ namespace Hypowered.Properties {
         /// <summary>
         ///   型 System.Drawing.Bitmap のローカライズされたリソースを検索します。
         /// </summary>
-        internal static System.Drawing.Bitmap run_circle {
+        public static System.Drawing.Bitmap run_circle {
             get {
                 object obj = ResourceManager.GetObject("run_circle", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
@@ -3573,7 +3583,7 @@ namespace Hypowered.Properties {
         /// <summary>
         ///   型 System.Drawing.Bitmap のローカライズされたリソースを検索します。
         /// </summary>
-        internal static System.Drawing.Bitmap safety_check {
+        public static System.Drawing.Bitmap safety_check {
             get {
                 object obj = ResourceManager.GetObject("safety_check", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
@@ -3583,7 +3593,7 @@ namespace Hypowered.Properties {
         /// <summary>
         ///   型 System.Drawing.Bitmap のローカライズされたリソースを検索します。
         /// </summary>
-        internal static System.Drawing.Bitmap schedule {
+        public static System.Drawing.Bitmap schedule {
             get {
                 object obj = ResourceManager.GetObject("schedule", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
@@ -3593,7 +3603,7 @@ namespace Hypowered.Properties {
         /// <summary>
         ///   型 System.Drawing.Bitmap のローカライズされたリソースを検索します。
         /// </summary>
-        internal static System.Drawing.Bitmap security {
+        public static System.Drawing.Bitmap security {
             get {
                 object obj = ResourceManager.GetObject("security", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
@@ -3603,7 +3613,7 @@ namespace Hypowered.Properties {
         /// <summary>
         ///   型 System.Drawing.Bitmap のローカライズされたリソースを検索します。
         /// </summary>
-        internal static System.Drawing.Bitmap select_all {
+        public static System.Drawing.Bitmap select_all {
             get {
                 object obj = ResourceManager.GetObject("select_all", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
@@ -3613,7 +3623,7 @@ namespace Hypowered.Properties {
         /// <summary>
         ///   型 System.Drawing.Bitmap のローカライズされたリソースを検索します。
         /// </summary>
-        internal static System.Drawing.Bitmap send {
+        public static System.Drawing.Bitmap send {
             get {
                 object obj = ResourceManager.GetObject("send", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
@@ -3623,7 +3633,7 @@ namespace Hypowered.Properties {
         /// <summary>
         ///   型 System.Drawing.Bitmap のローカライズされたリソースを検索します。
         /// </summary>
-        internal static System.Drawing.Bitmap sensors {
+        public static System.Drawing.Bitmap sensors {
             get {
                 object obj = ResourceManager.GetObject("sensors", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
@@ -3633,7 +3643,7 @@ namespace Hypowered.Properties {
         /// <summary>
         ///   型 System.Drawing.Bitmap のローカライズされたリソースを検索します。
         /// </summary>
-        internal static System.Drawing.Bitmap sentiment_dissatisfied {
+        public static System.Drawing.Bitmap sentiment_dissatisfied {
             get {
                 object obj = ResourceManager.GetObject("sentiment_dissatisfied", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
@@ -3643,7 +3653,7 @@ namespace Hypowered.Properties {
         /// <summary>
         ///   型 System.Drawing.Bitmap のローカライズされたリソースを検索します。
         /// </summary>
-        internal static System.Drawing.Bitmap sentiment_extremely_dissatisfied {
+        public static System.Drawing.Bitmap sentiment_extremely_dissatisfied {
             get {
                 object obj = ResourceManager.GetObject("sentiment_extremely_dissatisfied", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
@@ -3653,7 +3663,7 @@ namespace Hypowered.Properties {
         /// <summary>
         ///   型 System.Drawing.Bitmap のローカライズされたリソースを検索します。
         /// </summary>
-        internal static System.Drawing.Bitmap sentiment_neutral {
+        public static System.Drawing.Bitmap sentiment_neutral {
             get {
                 object obj = ResourceManager.GetObject("sentiment_neutral", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
@@ -3663,7 +3673,7 @@ namespace Hypowered.Properties {
         /// <summary>
         ///   型 System.Drawing.Bitmap のローカライズされたリソースを検索します。
         /// </summary>
-        internal static System.Drawing.Bitmap sentiment_satisfied {
+        public static System.Drawing.Bitmap sentiment_satisfied {
             get {
                 object obj = ResourceManager.GetObject("sentiment_satisfied", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
@@ -3673,7 +3683,7 @@ namespace Hypowered.Properties {
         /// <summary>
         ///   型 System.Drawing.Bitmap のローカライズされたリソースを検索します。
         /// </summary>
-        internal static System.Drawing.Bitmap sentiment_very_dissatisfied {
+        public static System.Drawing.Bitmap sentiment_very_dissatisfied {
             get {
                 object obj = ResourceManager.GetObject("sentiment_very_dissatisfied", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
@@ -3683,7 +3693,7 @@ namespace Hypowered.Properties {
         /// <summary>
         ///   型 System.Drawing.Bitmap のローカライズされたリソースを検索します。
         /// </summary>
-        internal static System.Drawing.Bitmap sentiment_very_satisfied {
+        public static System.Drawing.Bitmap sentiment_very_satisfied {
             get {
                 object obj = ResourceManager.GetObject("sentiment_very_satisfied", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
@@ -3693,7 +3703,7 @@ namespace Hypowered.Properties {
         /// <summary>
         ///   型 System.Drawing.Bitmap のローカライズされたリソースを検索します。
         /// </summary>
-        internal static System.Drawing.Bitmap settings {
+        public static System.Drawing.Bitmap settings {
             get {
                 object obj = ResourceManager.GetObject("settings", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
@@ -3703,7 +3713,7 @@ namespace Hypowered.Properties {
         /// <summary>
         ///   型 System.Drawing.Bitmap のローカライズされたリソースを検索します。
         /// </summary>
-        internal static System.Drawing.Bitmap settings_backup_restore {
+        public static System.Drawing.Bitmap settings_backup_restore {
             get {
                 object obj = ResourceManager.GetObject("settings_backup_restore", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
@@ -3713,7 +3723,7 @@ namespace Hypowered.Properties {
         /// <summary>
         ///   型 System.Drawing.Bitmap のローカライズされたリソースを検索します。
         /// </summary>
-        internal static System.Drawing.Bitmap shield {
+        public static System.Drawing.Bitmap shield {
             get {
                 object obj = ResourceManager.GetObject("shield", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
@@ -3723,7 +3733,7 @@ namespace Hypowered.Properties {
         /// <summary>
         ///   型 System.Drawing.Bitmap のローカライズされたリソースを検索します。
         /// </summary>
-        internal static System.Drawing.Bitmap shopping_bag {
+        public static System.Drawing.Bitmap shopping_bag {
             get {
                 object obj = ResourceManager.GetObject("shopping_bag", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
@@ -3733,7 +3743,7 @@ namespace Hypowered.Properties {
         /// <summary>
         ///   型 System.Drawing.Bitmap のローカライズされたリソースを検索します。
         /// </summary>
-        internal static System.Drawing.Bitmap shopping_cart {
+        public static System.Drawing.Bitmap shopping_cart {
             get {
                 object obj = ResourceManager.GetObject("shopping_cart", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
@@ -3743,7 +3753,7 @@ namespace Hypowered.Properties {
         /// <summary>
         ///   型 System.Drawing.Bitmap のローカライズされたリソースを検索します。
         /// </summary>
-        internal static System.Drawing.Bitmap sick {
+        public static System.Drawing.Bitmap sick {
             get {
                 object obj = ResourceManager.GetObject("sick", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
@@ -3753,7 +3763,7 @@ namespace Hypowered.Properties {
         /// <summary>
         ///   型 System.Drawing.Bitmap のローカライズされたリソースを検索します。
         /// </summary>
-        internal static System.Drawing.Bitmap skip_next {
+        public static System.Drawing.Bitmap skip_next {
             get {
                 object obj = ResourceManager.GetObject("skip_next", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
@@ -3763,7 +3773,7 @@ namespace Hypowered.Properties {
         /// <summary>
         ///   型 System.Drawing.Bitmap のローカライズされたリソースを検索します。
         /// </summary>
-        internal static System.Drawing.Bitmap skip_previous {
+        public static System.Drawing.Bitmap skip_previous {
             get {
                 object obj = ResourceManager.GetObject("skip_previous", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
@@ -3773,7 +3783,7 @@ namespace Hypowered.Properties {
         /// <summary>
         ///   型 System.Drawing.Bitmap のローカライズされたリソースを検索します。
         /// </summary>
-        internal static System.Drawing.Bitmap skull {
+        public static System.Drawing.Bitmap skull {
             get {
                 object obj = ResourceManager.GetObject("skull", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
@@ -3783,7 +3793,7 @@ namespace Hypowered.Properties {
         /// <summary>
         ///   型 System.Drawing.Bitmap のローカライズされたリソースを検索します。
         /// </summary>
-        internal static System.Drawing.Bitmap sos {
+        public static System.Drawing.Bitmap sos {
             get {
                 object obj = ResourceManager.GetObject("sos", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
@@ -3793,7 +3803,7 @@ namespace Hypowered.Properties {
         /// <summary>
         ///   型 System.Drawing.Bitmap のローカライズされたリソースを検索します。
         /// </summary>
-        internal static System.Drawing.Bitmap spatial_audio_off {
+        public static System.Drawing.Bitmap spatial_audio_off {
             get {
                 object obj = ResourceManager.GetObject("spatial_audio_off", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
@@ -3803,7 +3813,7 @@ namespace Hypowered.Properties {
         /// <summary>
         ///   型 System.Drawing.Bitmap のローカライズされたリソースを検索します。
         /// </summary>
-        internal static System.Drawing.Bitmap speaker {
+        public static System.Drawing.Bitmap speaker {
             get {
                 object obj = ResourceManager.GetObject("speaker", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
@@ -3813,7 +3823,7 @@ namespace Hypowered.Properties {
         /// <summary>
         ///   型 System.Drawing.Bitmap のローカライズされたリソースを検索します。
         /// </summary>
-        internal static System.Drawing.Bitmap sports_esports {
+        public static System.Drawing.Bitmap sports_esports {
             get {
                 object obj = ResourceManager.GetObject("sports_esports", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
@@ -3823,7 +3833,7 @@ namespace Hypowered.Properties {
         /// <summary>
         ///   型 System.Drawing.Bitmap のローカライズされたリソースを検索します。
         /// </summary>
-        internal static System.Drawing.Bitmap star_rate {
+        public static System.Drawing.Bitmap star_rate {
             get {
                 object obj = ResourceManager.GetObject("star_rate", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
@@ -3833,7 +3843,7 @@ namespace Hypowered.Properties {
         /// <summary>
         ///   型 System.Drawing.Bitmap のローカライズされたリソースを検索します。
         /// </summary>
-        internal static System.Drawing.Bitmap stars {
+        public static System.Drawing.Bitmap stars {
             get {
                 object obj = ResourceManager.GetObject("stars", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
@@ -3843,7 +3853,7 @@ namespace Hypowered.Properties {
         /// <summary>
         ///   型 System.Drawing.Bitmap のローカライズされたリソースを検索します。
         /// </summary>
-        internal static System.Drawing.Bitmap storage {
+        public static System.Drawing.Bitmap storage {
             get {
                 object obj = ResourceManager.GetObject("storage", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
@@ -3853,7 +3863,7 @@ namespace Hypowered.Properties {
         /// <summary>
         ///   型 System.Drawing.Bitmap のローカライズされたリソースを検索します。
         /// </summary>
-        internal static System.Drawing.Bitmap stream {
+        public static System.Drawing.Bitmap stream {
             get {
                 object obj = ResourceManager.GetObject("stream", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
@@ -3863,7 +3873,7 @@ namespace Hypowered.Properties {
         /// <summary>
         ///   型 System.Drawing.Bitmap のローカライズされたリソースを検索します。
         /// </summary>
-        internal static System.Drawing.Bitmap subdirectory_arrow_right {
+        public static System.Drawing.Bitmap subdirectory_arrow_right {
             get {
                 object obj = ResourceManager.GetObject("subdirectory_arrow_right", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
@@ -3873,7 +3883,7 @@ namespace Hypowered.Properties {
         /// <summary>
         ///   型 System.Drawing.Bitmap のローカライズされたリソースを検索します。
         /// </summary>
-        internal static System.Drawing.Bitmap sunny {
+        public static System.Drawing.Bitmap sunny {
             get {
                 object obj = ResourceManager.GetObject("sunny", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
@@ -3883,7 +3893,7 @@ namespace Hypowered.Properties {
         /// <summary>
         ///   型 System.Drawing.Bitmap のローカライズされたリソースを検索します。
         /// </summary>
-        internal static System.Drawing.Bitmap support {
+        public static System.Drawing.Bitmap support {
             get {
                 object obj = ResourceManager.GetObject("support", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
@@ -3893,7 +3903,7 @@ namespace Hypowered.Properties {
         /// <summary>
         ///   型 System.Drawing.Bitmap のローカライズされたリソースを検索します。
         /// </summary>
-        internal static System.Drawing.Bitmap switch_left {
+        public static System.Drawing.Bitmap switch_left {
             get {
                 object obj = ResourceManager.GetObject("switch_left", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
@@ -3903,7 +3913,7 @@ namespace Hypowered.Properties {
         /// <summary>
         ///   型 System.Drawing.Bitmap のローカライズされたリソースを検索します。
         /// </summary>
-        internal static System.Drawing.Bitmap switch_right {
+        public static System.Drawing.Bitmap switch_right {
             get {
                 object obj = ResourceManager.GetObject("switch_right", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
@@ -3913,7 +3923,7 @@ namespace Hypowered.Properties {
         /// <summary>
         ///   型 System.Drawing.Bitmap のローカライズされたリソースを検索します。
         /// </summary>
-        internal static System.Drawing.Bitmap sync {
+        public static System.Drawing.Bitmap sync {
             get {
                 object obj = ResourceManager.GetObject("sync", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
@@ -3923,7 +3933,7 @@ namespace Hypowered.Properties {
         /// <summary>
         ///   型 System.Drawing.Bitmap のローカライズされたリソースを検索します。
         /// </summary>
-        internal static System.Drawing.Bitmap task {
+        public static System.Drawing.Bitmap task {
             get {
                 object obj = ResourceManager.GetObject("task", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
@@ -3933,7 +3943,7 @@ namespace Hypowered.Properties {
         /// <summary>
         ///   型 System.Drawing.Bitmap のローカライズされたリソースを検索します。
         /// </summary>
-        internal static System.Drawing.Bitmap task_alt {
+        public static System.Drawing.Bitmap task_alt {
             get {
                 object obj = ResourceManager.GetObject("task_alt", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
@@ -3943,7 +3953,7 @@ namespace Hypowered.Properties {
         /// <summary>
         ///   型 System.Drawing.Bitmap のローカライズされたリソースを検索します。
         /// </summary>
-        internal static System.Drawing.Bitmap token {
+        public static System.Drawing.Bitmap token {
             get {
                 object obj = ResourceManager.GetObject("token", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
@@ -3953,7 +3963,7 @@ namespace Hypowered.Properties {
         /// <summary>
         ///   型 System.Drawing.Bitmap のローカライズされたリソースを検索します。
         /// </summary>
-        internal static System.Drawing.Bitmap tools_wrench {
+        public static System.Drawing.Bitmap tools_wrench {
             get {
                 object obj = ResourceManager.GetObject("tools_wrench", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
@@ -3963,7 +3973,7 @@ namespace Hypowered.Properties {
         /// <summary>
         ///   型 System.Drawing.Bitmap のローカライズされたリソースを検索します。
         /// </summary>
-        internal static System.Drawing.Bitmap topic {
+        public static System.Drawing.Bitmap topic {
             get {
                 object obj = ResourceManager.GetObject("topic", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
@@ -3973,7 +3983,7 @@ namespace Hypowered.Properties {
         /// <summary>
         ///   型 System.Drawing.Bitmap のローカライズされたリソースを検索します。
         /// </summary>
-        internal static System.Drawing.Bitmap umbrella {
+        public static System.Drawing.Bitmap umbrella {
             get {
                 object obj = ResourceManager.GetObject("umbrella", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
@@ -3983,7 +3993,7 @@ namespace Hypowered.Properties {
         /// <summary>
         ///   型 System.Drawing.Bitmap のローカライズされたリソースを検索します。
         /// </summary>
-        internal static System.Drawing.Bitmap undo {
+        public static System.Drawing.Bitmap undo {
             get {
                 object obj = ResourceManager.GetObject("undo", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
@@ -3993,7 +4003,7 @@ namespace Hypowered.Properties {
         /// <summary>
         ///   型 System.Drawing.Bitmap のローカライズされたリソースを検索します。
         /// </summary>
-        internal static System.Drawing.Bitmap unfold_less_double {
+        public static System.Drawing.Bitmap unfold_less_double {
             get {
                 object obj = ResourceManager.GetObject("unfold_less_double", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
@@ -4003,7 +4013,7 @@ namespace Hypowered.Properties {
         /// <summary>
         ///   型 System.Drawing.Bitmap のローカライズされたリソースを検索します。
         /// </summary>
-        internal static System.Drawing.Bitmap video_file {
+        public static System.Drawing.Bitmap video_file {
             get {
                 object obj = ResourceManager.GetObject("video_file", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
@@ -4013,7 +4023,7 @@ namespace Hypowered.Properties {
         /// <summary>
         ///   型 System.Drawing.Bitmap のローカライズされたリソースを検索します。
         /// </summary>
-        internal static System.Drawing.Bitmap video_label {
+        public static System.Drawing.Bitmap video_label {
             get {
                 object obj = ResourceManager.GetObject("video_label", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
@@ -4023,7 +4033,7 @@ namespace Hypowered.Properties {
         /// <summary>
         ///   型 System.Drawing.Bitmap のローカライズされたリソースを検索します。
         /// </summary>
-        internal static System.Drawing.Bitmap vital_signs {
+        public static System.Drawing.Bitmap vital_signs {
             get {
                 object obj = ResourceManager.GetObject("vital_signs", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
@@ -4033,7 +4043,7 @@ namespace Hypowered.Properties {
         /// <summary>
         ///   型 System.Drawing.Bitmap のローカライズされたリソースを検索します。
         /// </summary>
-        internal static System.Drawing.Bitmap volume_up {
+        public static System.Drawing.Bitmap volume_up {
             get {
                 object obj = ResourceManager.GetObject("volume_up", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
@@ -4043,7 +4053,7 @@ namespace Hypowered.Properties {
         /// <summary>
         ///   型 System.Drawing.Bitmap のローカライズされたリソースを検索します。
         /// </summary>
-        internal static System.Drawing.Bitmap volunteer_activism {
+        public static System.Drawing.Bitmap volunteer_activism {
             get {
                 object obj = ResourceManager.GetObject("volunteer_activism", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
@@ -4053,7 +4063,7 @@ namespace Hypowered.Properties {
         /// <summary>
         ///   型 System.Drawing.Bitmap のローカライズされたリソースを検索します。
         /// </summary>
-        internal static System.Drawing.Bitmap warning {
+        public static System.Drawing.Bitmap warning {
             get {
                 object obj = ResourceManager.GetObject("warning", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
@@ -4063,7 +4073,7 @@ namespace Hypowered.Properties {
         /// <summary>
         ///   型 System.Drawing.Bitmap のローカライズされたリソースを検索します。
         /// </summary>
-        internal static System.Drawing.Bitmap watch {
+        public static System.Drawing.Bitmap watch {
             get {
                 object obj = ResourceManager.GetObject("watch", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
@@ -4073,7 +4083,7 @@ namespace Hypowered.Properties {
         /// <summary>
         ///   型 System.Drawing.Bitmap のローカライズされたリソースを検索します。
         /// </summary>
-        internal static System.Drawing.Bitmap water {
+        public static System.Drawing.Bitmap water {
             get {
                 object obj = ResourceManager.GetObject("water", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
@@ -4083,7 +4093,7 @@ namespace Hypowered.Properties {
         /// <summary>
         ///   型 System.Drawing.Bitmap のローカライズされたリソースを検索します。
         /// </summary>
-        internal static System.Drawing.Bitmap water_drop {
+        public static System.Drawing.Bitmap water_drop {
             get {
                 object obj = ResourceManager.GetObject("water_drop", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
@@ -4093,7 +4103,7 @@ namespace Hypowered.Properties {
         /// <summary>
         ///   型 System.Drawing.Bitmap のローカライズされたリソースを検索します。
         /// </summary>
-        internal static System.Drawing.Bitmap yard {
+        public static System.Drawing.Bitmap yard {
             get {
                 object obj = ResourceManager.GetObject("yard", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));

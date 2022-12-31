@@ -15,27 +15,28 @@ namespace Hypowered
 {
     public partial class HyperScriptEditor : Form
 	{
-		private HyperMainForm? m_HyperForm = null;
-		private HyperControl? m_HyperControl = null;
+		private HyperMainForm? m_MainForm = null;
+		private HyperMainForm? m_TargetForm = null;
+		private HyperControl? m_TargetControl = null;
 		private HyperScriptCode? m_HyperScriptCode = null;
 		private string[] m_texts = new string[0];
-		public void SetHyperForm(HyperMainForm? fm)
+		public void SetMainForm(HyperMainForm? fm)
 		{
-			m_HyperForm = fm;
-			controlBrowser1.SetHyperForm(fm);
-			if (m_HyperForm!=null)
+			m_MainForm = fm;
+			controlBrowser1.SetMainForm(fm);
+			if ((m_MainForm!=null)&&(m_MainForm.FormList.TargetForm!=null))
 			{
-				m_HyperControl = m_HyperForm.TargetControl;
-				if (m_HyperControl!=null)
+				m_TargetControl = m_MainForm.FormList.TargetForm.TargetControl;
+				if (m_TargetControl!=null)
 				{
-					Type t = m_HyperControl.GetType();
-					SetScriptCode( m_HyperControl .ScriptCode);
-					this.Text = m_HyperControl.Name;
+					Type t = m_TargetControl.GetType();
+					SetScriptCode( m_TargetControl.ScriptCode);
+					this.Text = m_TargetControl.Name;
 				}
 				else
 				{
-					SetScriptCode(m_HyperForm.ScriptCode);
-					this.Text = m_HyperForm.Name;
+					SetScriptCode(((HyperMainForm)m_MainForm.FormList.TargetForm).ScriptCode);
+					this.Text = m_MainForm.FormList.TargetForm.Name;
 				}
 			}
 		}

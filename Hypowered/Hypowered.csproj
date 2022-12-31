@@ -10,6 +10,1632 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="Resources\add.png" />
+    <None Remove="Resources\add_circle.png" />
+    <None Remove="Resources\all_inclusive.png" />
+    <None Remove="Resources\apartment.png" />
+    <None Remove="Resources\api.png" />
+    <None Remove="Resources\arrow_back.png" />
+    <None Remove="Resources\arrow_back_ios.png" />
+    <None Remove="Resources\arrow_back_ios_new.png" />
+    <None Remove="Resources\arrow_circle_down.png" />
+    <None Remove="Resources\arrow_downward.png" />
+    <None Remove="Resources\arrow_drop_down.png" />
+    <None Remove="Resources\arrow_drop_down_circle.png" />
+    <None Remove="Resources\arrow_drop_up.png" />
+    <None Remove="Resources\arrow_forward.png" />
+    <None Remove="Resources\arrow_forward_ios.png" />
+    <None Remove="Resources\arrow_insert.png" />
+    <None Remove="Resources\arrow_left.png" />
+    <None Remove="Resources\arrow_right.png" />
+    <None Remove="Resources\arrow_right_alt.png" />
+    <None Remove="Resources\arrow_upward.png" />
+    <None Remove="Resources\aspect_ratio.png" />
+    <None Remove="Resources\assistant_navigation.png" />
+    <None Remove="Resources\auto_awesome.png" />
+    <None Remove="Resources\background_replace.png" />
+    <None Remove="Resources\barcode.png" />
+    <None Remove="Resources\barcode_scanner.png" />
+    <None Remove="Resources\barefoot.png" />
+    <None Remove="Resources\battery_4_bar.png" />
+    <None Remove="Resources\beach_access.png" />
+    <None Remove="Resources\block.png" />
+    <None Remove="Resources\bluetooth.png" />
+    <None Remove="Resources\bolt.png" />
+    <None Remove="Resources\cable.png" />
+    <None Remove="Resources\call.png" />
+    <None Remove="Resources\call_missed_outgoing.png" />
+    <None Remove="Resources\camera.png" />
+    <None Remove="Resources\cell_tower.png" />
+    <None Remove="Resources\change_history.png" />
+    <None Remove="Resources\chat.png" />
+    <None Remove="Resources\check.png" />
+    <None Remove="Resources\check_box.png" />
+    <None Remove="Resources\check_box_outline_blank.png" />
+    <None Remove="Resources\check_circle.png" />
+    <None Remove="Resources\check_small.png" />
+    <None Remove="Resources\chevron_left.png" />
+    <None Remove="Resources\chevron_right.png" />
+    <None Remove="Resources\close.png" />
+    <None Remove="Resources\close_fullscreen.png" />
+    <None Remove="Resources\cloud_queue.png" />
+    <None Remove="Resources\code.png" />
+    <None Remove="Resources\construction.png" />
+    <None Remove="Resources\contactless.png" />
+    <None Remove="Resources\conversion_path.png" />
+    <None Remove="Resources\currency_yen.png" />
+    <None Remove="Resources\dark_mode.png" />
+    <None Remove="Resources\database.png" />
+    <None Remove="Resources\delete.png" />
+    <None Remove="Resources\door_front.png" />
+    <None Remove="Resources\double_arrow.png" />
+    <None Remove="Resources\do_not_disturb_on.png" />
+    <None Remove="Resources\draft.png" />
+    <None Remove="Resources\draw.png" />
+    <None Remove="Resources\eco.png" />
+    <None Remove="Resources\edit.png" />
+    <None Remove="Resources\edit_square.png" />
+    <None Remove="Resources\eject.png" />
+    <None Remove="Resources\emergency_home.png" />
+    <None Remove="Resources\emoji_objects.png" />
+    <None Remove="Resources\enable.png" />
+    <None Remove="Resources\error_med.png" />
+    <None Remove="Resources\event_.png" />
+    <None Remove="Resources\expand_less.png" />
+    <None Remove="Resources\expand_more.png" />
+    <None Remove="Resources\extension.png" />
+    <None Remove="Resources\fast_forward.png" />
+    <None Remove="Resources\fast_rewind.png" />
+    <None Remove="Resources\file_download_done.png" />
+    <None Remove="Resources\flare.png" />
+    <None Remove="Resources\flatware.png" />
+    <None Remove="Resources\flight.png" />
+    <None Remove="Resources\folder.png" />
+    <None Remove="Resources\folder_open.png" />
+    <None Remove="Resources\footprint.png" />
+    <None Remove="Resources\format_list_numbered.png" />
+    <None Remove="Resources\forward.png" />
+    <None Remove="Resources\front_hand.png" />
+    <None Remove="Resources\grade.png" />
+    <None Remove="Resources\grid_on.png" />
+    <None Remove="Resources\group.png" />
+    <None Remove="Resources\grouped_bar_chart.png" />
+    <None Remove="Resources\groups.png" />
+    <None Remove="Resources\handyman.png" />
+    <None Remove="Resources\headphones.png" />
+    <None Remove="Resources\help.png" />
+    <None Remove="Resources\home.png" />
+    <None Remove="Resources\icecream.png" />
+    <None Remove="Resources\ICON_1000.png" />
+    <None Remove="Resources\ICON_1001.png" />
+    <None Remove="Resources\ICON_1002.png" />
+    <None Remove="Resources\ICON_1003.png" />
+    <None Remove="Resources\ICON_1004.png" />
+    <None Remove="Resources\ICON_1005.png" />
+    <None Remove="Resources\ICON_1006.png" />
+    <None Remove="Resources\ICON_1007.png" />
+    <None Remove="Resources\ICON_1008.png" />
+    <None Remove="Resources\ICON_1009.png" />
+    <None Remove="Resources\ICON_1011.png" />
+    <None Remove="Resources\ICON_1012.png" />
+    <None Remove="Resources\ICON_1013.png" />
+    <None Remove="Resources\ICON_1014.png" />
+    <None Remove="Resources\ICON_1015.png" />
+    <None Remove="Resources\ICON_1016.png" />
+    <None Remove="Resources\ICON_1017.png" />
+    <None Remove="Resources\ICON_1018.png" />
+    <None Remove="Resources\ICON_10181.png" />
+    <None Remove="Resources\ICON_1019.png" />
+    <None Remove="Resources\ICON_1020.png" />
+    <None Remove="Resources\ICON_10610.png" />
+    <None Remove="Resources\ICON_10935.png" />
+    <None Remove="Resources\ICON_11045.png" />
+    <None Remove="Resources\ICON_11216.png" />
+    <None Remove="Resources\ICON_11260.png" />
+    <None Remove="Resources\ICON_11645.png" />
+    <None Remove="Resources\ICON_11714.png" />
+    <None Remove="Resources\ICON_12195.png" />
+    <None Remove="Resources\ICON_12411.png" />
+    <None Remove="Resources\ICON_12722.png" />
+    <None Remove="Resources\ICON_13149.png" />
+    <None Remove="Resources\ICON_13744.png" />
+    <None Remove="Resources\ICON_13745.png" />
+    <None Remove="Resources\ICON_14767.png" />
+    <None Remove="Resources\ICON_14953.png" />
+    <None Remove="Resources\ICON_15279.png" />
+    <None Remove="Resources\ICON_15420.png" />
+    <None Remove="Resources\ICON_15972.png" />
+    <None Remove="Resources\ICON_15993.png" />
+    <None Remove="Resources\ICON_16321.png" />
+    <None Remove="Resources\ICON_16344.png" />
+    <None Remove="Resources\ICON_16560.png" />
+    <None Remove="Resources\ICON_16692.png" />
+    <None Remove="Resources\ICON_16735.png" />
+    <None Remove="Resources\ICON_17169.png" />
+    <None Remove="Resources\ICON_17214.png" />
+    <None Remove="Resources\ICON_17264.png" />
+    <None Remove="Resources\ICON_17343.png" />
+    <None Remove="Resources\ICON_17357.png" />
+    <None Remove="Resources\ICON_17481.png" />
+    <None Remove="Resources\ICON_17779.png" />
+    <None Remove="Resources\ICON_17838.png" />
+    <None Remove="Resources\ICON_17890.png" />
+    <None Remove="Resources\ICON_17896.png" />
+    <None Remove="Resources\ICON_17937.png" />
+    <None Remove="Resources\ICON_18222.png" />
+    <None Remove="Resources\ICON_18223.png" />
+    <None Remove="Resources\ICON_18607.png" />
+    <None Remove="Resources\ICON_18814.png" />
+    <None Remove="Resources\ICON_19162.png" />
+    <None Remove="Resources\ICON_19381.png" />
+    <None Remove="Resources\ICON_19638.png" />
+    <None Remove="Resources\ICON_19678.png" />
+    <None Remove="Resources\ICON_20000.png" />
+    <None Remove="Resources\ICON_20001.png" />
+    <None Remove="Resources\ICON_20002.png" />
+    <None Remove="Resources\ICON_20003.png" />
+    <None Remove="Resources\ICON_20004.png" />
+    <None Remove="Resources\ICON_2002.png" />
+    <None Remove="Resources\ICON_20098.png" />
+    <None Remove="Resources\ICON_20186.png" />
+    <None Remove="Resources\ICON_20689.png" />
+    <None Remove="Resources\ICON_20965.png" />
+    <None Remove="Resources\ICON_2101.png" />
+    <None Remove="Resources\ICON_2102.png" />
+    <None Remove="Resources\ICON_2103.png" />
+    <None Remove="Resources\ICON_2104.png" />
+    <None Remove="Resources\ICON_2105.png" />
+    <None Remove="Resources\ICON_2106.png" />
+    <None Remove="Resources\ICON_21060.png" />
+    <None Remove="Resources\ICON_21209.png" />
+    <None Remove="Resources\ICON_21437.png" />
+    <None Remove="Resources\ICON_21449.png" />
+    <None Remove="Resources\ICON_21573.png" />
+    <None Remove="Resources\ICON_21574.png" />
+    <None Remove="Resources\ICON_21575.png" />
+    <None Remove="Resources\ICON_21576.png" />
+    <None Remove="Resources\ICON_2162.png" />
+    <None Remove="Resources\ICON_21700.png" />
+    <None Remove="Resources\ICON_21711.png" />
+    <None Remove="Resources\ICON_2181.png" />
+    <None Remove="Resources\ICON_21847.png" />
+    <None Remove="Resources\ICON_22308.png" />
+    <None Remove="Resources\ICON_22855.png" />
+    <None Remove="Resources\ICON_22978.png" />
+    <None Remove="Resources\ICON_23078.png" />
+    <None Remove="Resources\ICON_2335.png" />
+    <None Remove="Resources\ICON_23613.png" />
+    <None Remove="Resources\ICON_23717.png" />
+    <None Remove="Resources\ICON_23718.png" />
+    <None Remove="Resources\ICON_24081.png" />
+    <None Remove="Resources\ICON_24317.png" />
+    <None Remove="Resources\ICON_24694.png" />
+    <None Remove="Resources\ICON_24753.png" />
+    <None Remove="Resources\ICON_2478.png" />
+    <None Remove="Resources\ICON_24830.png" />
+    <None Remove="Resources\ICON_25002.png" />
+    <None Remove="Resources\ICON_2507.png" />
+    <None Remove="Resources\ICON_25309.png" />
+    <None Remove="Resources\ICON_26020.png" />
+    <None Remove="Resources\ICON_26425.png" />
+    <None Remove="Resources\ICON_26635.png" />
+    <None Remove="Resources\ICON_26665.png" />
+    <None Remove="Resources\ICON_26865.png" />
+    <None Remove="Resources\ICON_26884.png" />
+    <None Remove="Resources\ICON_27009.png" />
+    <None Remove="Resources\ICON_27056.png" />
+    <None Remove="Resources\ICON_2730.png" />
+    <None Remove="Resources\ICON_27328.png" />
+    <None Remove="Resources\ICON_27774.png" />
+    <None Remove="Resources\ICON_27969.png" />
+    <None Remove="Resources\ICON_28022.png" />
+    <None Remove="Resources\ICON_28023.png" />
+    <None Remove="Resources\ICON_28024.png" />
+    <None Remove="Resources\ICON_28226.png" />
+    <None Remove="Resources\ICON_28654.png" />
+    <None Remove="Resources\ICON_28810.png" />
+    <None Remove="Resources\ICON_28811.png" />
+    <None Remove="Resources\ICON_29019.png" />
+    <None Remove="Resources\ICON_29114.png" />
+    <None Remove="Resources\ICON_29183.png" />
+    <None Remove="Resources\ICON_29484.png" />
+    <None Remove="Resources\ICON_29589.png" />
+    <None Remove="Resources\ICON_2980.png" />
+    <None Remove="Resources\ICON_29903.png" />
+    <None Remove="Resources\ICON_30215.png" />
+    <None Remove="Resources\ICON_30557.png" />
+    <None Remove="Resources\ICON_30696.png" />
+    <None Remove="Resources\ICON_3071.png" />
+    <None Remove="Resources\ICON_30970.png" />
+    <None Remove="Resources\ICON_31685.png" />
+    <None Remove="Resources\ICON_31885.png" />
+    <None Remove="Resources\ICON_32462.png" />
+    <None Remove="Resources\ICON_32488.png" />
+    <None Remove="Resources\ICON_32650.png" />
+    <None Remove="Resources\ICON_32670.png" />
+    <None Remove="Resources\ICON_3333.png" />
+    <None Remove="Resources\ICON_3358.png" />
+    <None Remove="Resources\ICON_3430.png" />
+    <None Remove="Resources\ICON_3584.png" />
+    <None Remove="Resources\ICON_3835.png" />
+    <None Remove="Resources\ICON_4263.png" />
+    <None Remove="Resources\ICON_4432.png" />
+    <None Remove="Resources\ICON_4895.png" />
+    <None Remove="Resources\ICON_5472.png" />
+    <None Remove="Resources\ICON_6043.png" />
+    <None Remove="Resources\ICON_6044.png" />
+    <None Remove="Resources\ICON_6179.png" />
+    <None Remove="Resources\ICON_6460.png" />
+    <None Remove="Resources\ICON_6491.png" />
+    <None Remove="Resources\ICON_6544.png" />
+    <None Remove="Resources\ICON_6560.png" />
+    <None Remove="Resources\ICON_6720.png" />
+    <None Remove="Resources\ICON_6724.png" />
+    <None Remove="Resources\ICON_7012.png" />
+    <None Remove="Resources\ICON_7142.png" />
+    <None Remove="Resources\ICON_7417.png" />
+    <None Remove="Resources\ICON_766.png" />
+    <None Remove="Resources\ICON_8323.png" />
+    <None Remove="Resources\ICON_8347.png" />
+    <None Remove="Resources\ICON_8348.png" />
+    <None Remove="Resources\ICON_8349.png" />
+    <None Remove="Resources\ICON_8350.png" />
+    <None Remove="Resources\ICON_8419.png" />
+    <None Remove="Resources\ICON_8538.png" />
+    <None Remove="Resources\ICON_8961.png" />
+    <None Remove="Resources\ICON_8964.png" />
+    <None Remove="Resources\ICON_8979.png" />
+    <None Remove="Resources\ICON_8980.png" />
+    <None Remove="Resources\ICON_902.png" />
+    <None Remove="Resources\ICON_9104.png" />
+    <None Remove="Resources\ICON_9120.png" />
+    <None Remove="Resources\ICON_9301.png" />
+    <None Remove="Resources\ICON_9761.png" />
+    <None Remove="Resources\image.png" />
+    <None Remove="Resources\info.png" />
+    <None Remove="Resources\keyboard_control_key.png" />
+    <None Remove="Resources\keyboard_double_arrow_down.png" />
+    <None Remove="Resources\keyboard_double_arrow_left.png" />
+    <None Remove="Resources\keyboard_double_arrow_right.png" />
+    <None Remove="Resources\keyboard_double_arrow_up.png" />
+    <None Remove="Resources\label.png" />
+    <None Remove="Resources\language.png" />
+    <None Remove="Resources\light.png" />
+    <None Remove="Resources\light_mode.png" />
+    <None Remove="Resources\link.png" />
+    <None Remove="Resources\local_cafe.png" />
+    <None Remove="Resources\local_florist.png" />
+    <None Remove="Resources\lock_.png" />
+    <None Remove="Resources\lock_clock.png" />
+    <None Remove="Resources\lock_open.png" />
+    <None Remove="Resources\mail.png" />
+    <None Remove="Resources\medication.png" />
+    <None Remove="Resources\memory.png" />
+    <None Remove="Resources\menu.png" />
+    <None Remove="Resources\mic_external_on.png" />
+    <None Remove="Resources\mode_fan.png" />
+    <None Remove="Resources\monitor.png" />
+    <None Remove="Resources\mood.png" />
+    <None Remove="Resources\mop.png" />
+    <None Remove="Resources\mouse.png" />
+    <None Remove="Resources\move_down.png" />
+    <None Remove="Resources\move_up.png" />
+    <None Remove="Resources\music_note.png" />
+    <None Remove="Resources\nightlife.png" />
+    <None Remove="Resources\notifications.png" />
+    <None Remove="Resources\notifications_active.png" />
+    <None Remove="Resources\open_with.png" />
+    <None Remove="Resources\overview.png" />
+    <None Remove="Resources\pan_tool.png" />
+    <None Remove="Resources\pan_tool_alt.png" />
+    <None Remove="Resources\pause.png" />
+    <None Remove="Resources\pause_circle.png" />
+    <None Remove="Resources\pedal_bike.png" />
+    <None Remove="Resources\pending.png" />
+    <None Remove="Resources\person.png" />
+    <None Remove="Resources\pets.png" />
+    <None Remove="Resources\photo_camera.png" />
+    <None Remove="Resources\PICT_ERR.png" />
+    <None Remove="Resources\pin_drop.png" />
+    <None Remove="Resources\play_arrow.png" />
+    <None Remove="Resources\play_circle.png" />
+    <None Remove="Resources\podcasts.png" />
+    <None Remove="Resources\policy.png" />
+    <None Remove="Resources\power.png" />
+    <None Remove="Resources\power_off.png" />
+    <None Remove="Resources\power_settings_new.png" />
+    <None Remove="Resources\priority_high.png" />
+    <None Remove="Resources\privacy_tip.png" />
+    <None Remove="Resources\public_.png" />
+    <None Remove="Resources\radio.png" />
+    <None Remove="Resources\radio_button_checked.png" />
+    <None Remove="Resources\radio_button_unchecked.png" />
+    <None Remove="Resources\rainy.png" />
+    <None Remove="Resources\receipt_long.png" />
+    <None Remove="Resources\recycling.png" />
+    <None Remove="Resources\redo.png" />
+    <None Remove="Resources\refresh.png" />
+    <None Remove="Resources\remove_.png" />
+    <None Remove="Resources\repeat.png" />
+    <None Remove="Resources\replay.png" />
+    <None Remove="Resources\reply.png" />
+    <None Remove="Resources\restaurant.png" />
+    <None Remove="Resources\rocket_launch.png" />
+    <None Remove="Resources\run_circle.png" />
+    <None Remove="Resources\safety_check.png" />
+    <None Remove="Resources\schedule.png" />
+    <None Remove="Resources\security.png" />
+    <None Remove="Resources\select_all.png" />
+    <None Remove="Resources\send.png" />
+    <None Remove="Resources\sensors.png" />
+    <None Remove="Resources\sentiment_dissatisfied.png" />
+    <None Remove="Resources\sentiment_extremely_dissatisfied.png" />
+    <None Remove="Resources\sentiment_neutral.png" />
+    <None Remove="Resources\sentiment_satisfied.png" />
+    <None Remove="Resources\sentiment_very_dissatisfied.png" />
+    <None Remove="Resources\sentiment_very_satisfied.png" />
+    <None Remove="Resources\settings.png" />
+    <None Remove="Resources\settings_backup_restore.png" />
+    <None Remove="Resources\shield.png" />
+    <None Remove="Resources\shopping_bag.png" />
+    <None Remove="Resources\shopping_cart.png" />
+    <None Remove="Resources\sick.png" />
+    <None Remove="Resources\skip_next.png" />
+    <None Remove="Resources\skip_previous.png" />
+    <None Remove="Resources\skull.png" />
+    <None Remove="Resources\sos.png" />
+    <None Remove="Resources\spatial_audio_off.png" />
+    <None Remove="Resources\speaker.png" />
+    <None Remove="Resources\sports_esports.png" />
+    <None Remove="Resources\stars.png" />
+    <None Remove="Resources\star_rate.png" />
+    <None Remove="Resources\storage.png" />
+    <None Remove="Resources\stream.png" />
+    <None Remove="Resources\subdirectory_arrow_right.png" />
+    <None Remove="Resources\sunny.png" />
+    <None Remove="Resources\support.png" />
+    <None Remove="Resources\switch_left.png" />
+    <None Remove="Resources\switch_right.png" />
+    <None Remove="Resources\sync.png" />
+    <None Remove="Resources\task.png" />
+    <None Remove="Resources\task_alt.png" />
+    <None Remove="Resources\token.png" />
+    <None Remove="Resources\tools_wrench.png" />
+    <None Remove="Resources\topic.png" />
+    <None Remove="Resources\umbrella.png" />
+    <None Remove="Resources\undo.png" />
+    <None Remove="Resources\unfold_less_double.png" />
+    <None Remove="Resources\video_file.png" />
+    <None Remove="Resources\video_label.png" />
+    <None Remove="Resources\vital_signs.png" />
+    <None Remove="Resources\volume_up.png" />
+    <None Remove="Resources\volunteer_activism.png" />
+    <None Remove="Resources\warning.png" />
+    <None Remove="Resources\watch.png" />
+    <None Remove="Resources\water.png" />
+    <None Remove="Resources\water_drop.png" />
+    <None Remove="Resources\yard.png" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Include="Resources\add.png">
+      <Generator></Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\add_circle.png">
+      <Generator></Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\all_inclusive.png">
+      <Generator></Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\apartment.png">
+      <Generator></Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\api.png">
+      <Generator></Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\arrow_back.png">
+      <Generator></Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\arrow_back_ios.png">
+      <Generator></Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\arrow_back_ios_new.png">
+      <Generator></Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\arrow_circle_down.png">
+      <Generator></Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\arrow_downward.png">
+      <Generator></Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\arrow_drop_down.png">
+      <Generator></Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\arrow_drop_down_circle.png">
+      <Generator></Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\arrow_drop_up.png">
+      <Generator></Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\arrow_forward.png">
+      <Generator></Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\arrow_forward_ios.png">
+      <Generator></Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\arrow_insert.png">
+      <Generator></Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\arrow_left.png">
+      <Generator></Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\arrow_right.png">
+      <Generator></Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\arrow_right_alt.png">
+      <Generator></Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\arrow_upward.png">
+      <Generator></Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\aspect_ratio.png">
+      <Generator></Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\assistant_navigation.png">
+      <Generator></Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\auto_awesome.png">
+      <Generator></Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\background_replace.png">
+      <Generator></Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\barcode.png">
+      <Generator></Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\barcode_scanner.png">
+      <Generator></Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\barefoot.png">
+      <Generator></Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\battery_4_bar.png">
+      <Generator></Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\beach_access.png">
+      <Generator></Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\block.png">
+      <Generator></Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\bluetooth.png">
+      <Generator></Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\bolt.png">
+      <Generator></Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\cable.png">
+      <Generator></Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\call.png">
+      <Generator></Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\call_missed_outgoing.png">
+      <Generator></Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\camera.png">
+      <Generator></Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\cell_tower.png">
+      <Generator></Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\change_history.png">
+      <Generator></Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\chat.png">
+      <Generator></Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\check.png">
+      <Generator></Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\check_box.png">
+      <Generator></Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\check_box_outline_blank.png">
+      <Generator></Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\check_circle.png">
+      <Generator></Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\check_small.png">
+      <Generator></Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\chevron_left.png">
+      <Generator></Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\chevron_right.png">
+      <Generator></Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\close.png">
+      <Generator></Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\close_fullscreen.png">
+      <Generator></Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\cloud_queue.png">
+      <Generator></Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\code.png">
+      <Generator></Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\construction.png">
+      <Generator></Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\contactless.png">
+      <Generator></Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\conversion_path.png">
+      <Generator></Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\currency_yen.png">
+      <Generator></Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\dark_mode.png">
+      <Generator></Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\database.png">
+      <Generator></Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\delete.png">
+      <Generator></Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\door_front.png">
+      <Generator></Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\double_arrow.png">
+      <Generator></Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\do_not_disturb_on.png">
+      <Generator></Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\draft.png">
+      <Generator></Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\draw.png">
+      <Generator></Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\eco.png">
+      <Generator></Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\edit.png">
+      <Generator></Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\edit_square.png">
+      <Generator></Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\eject.png">
+      <Generator></Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\emergency_home.png">
+      <Generator></Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\emoji_objects.png">
+      <Generator></Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\enable.png">
+      <Generator></Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\error_med.png">
+      <Generator></Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\event_.png">
+      <Generator></Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\expand_less.png">
+      <Generator></Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\expand_more.png">
+      <Generator></Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\extension.png">
+      <Generator></Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\fast_forward.png">
+      <Generator></Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\fast_rewind.png">
+      <Generator></Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\file_download_done.png">
+      <Generator></Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\flare.png">
+      <Generator></Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\flatware.png">
+      <Generator></Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\flight.png">
+      <Generator></Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\folder.png">
+      <Generator></Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\folder_open.png">
+      <Generator></Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\footprint.png">
+      <Generator></Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\format_list_numbered.png">
+      <Generator></Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\forward.png">
+      <Generator></Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\front_hand.png">
+      <Generator></Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\grade.png">
+      <Generator></Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\grid_on.png">
+      <Generator></Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\group.png">
+      <Generator></Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\grouped_bar_chart.png">
+      <Generator></Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\groups.png">
+      <Generator></Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\handyman.png">
+      <Generator></Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\headphones.png">
+      <Generator></Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\help.png">
+      <Generator></Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\home.png">
+      <Generator></Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\icecream.png">
+      <Generator></Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\ICON_1000.png">
+      <Generator></Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\ICON_1001.png">
+      <Generator></Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\ICON_1002.png">
+      <Generator></Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\ICON_1003.png">
+      <Generator></Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\ICON_1004.png">
+      <Generator></Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\ICON_1005.png">
+      <Generator></Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\ICON_1006.png">
+      <Generator></Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\ICON_1007.png">
+      <Generator></Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\ICON_1008.png">
+      <Generator></Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\ICON_1009.png">
+      <Generator></Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\ICON_1011.png">
+      <Generator></Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\ICON_1012.png">
+      <Generator></Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\ICON_1013.png">
+      <Generator></Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\ICON_1014.png">
+      <Generator></Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\ICON_1015.png">
+      <Generator></Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\ICON_1016.png">
+      <Generator></Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\ICON_1017.png">
+      <Generator></Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\ICON_1018.png">
+      <Generator></Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\ICON_10181.png">
+      <Generator></Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\ICON_1019.png">
+      <Generator></Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\ICON_1020.png">
+      <Generator></Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\ICON_10610.png">
+      <Generator></Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\ICON_10935.png">
+      <Generator></Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\ICON_11045.png">
+      <Generator></Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\ICON_11216.png">
+      <Generator></Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\ICON_11260.png">
+      <Generator></Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\ICON_11645.png">
+      <Generator></Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\ICON_11714.png">
+      <Generator></Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\ICON_12195.png">
+      <Generator></Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\ICON_12411.png">
+      <Generator></Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\ICON_12722.png">
+      <Generator></Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\ICON_13149.png">
+      <Generator></Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\ICON_13744.png">
+      <Generator></Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\ICON_13745.png">
+      <Generator></Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\ICON_14767.png">
+      <Generator></Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\ICON_14953.png">
+      <Generator></Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\ICON_15279.png">
+      <Generator></Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\ICON_15420.png">
+      <Generator></Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\ICON_15972.png">
+      <Generator></Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\ICON_15993.png">
+      <Generator></Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\ICON_16321.png">
+      <Generator></Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\ICON_16344.png">
+      <Generator></Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\ICON_16560.png">
+      <Generator></Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\ICON_16692.png">
+      <Generator></Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\ICON_16735.png">
+      <Generator></Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\ICON_17169.png">
+      <Generator></Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\ICON_17214.png">
+      <Generator></Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\ICON_17264.png">
+      <Generator></Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\ICON_17343.png">
+      <Generator></Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\ICON_17357.png">
+      <Generator></Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\ICON_17481.png">
+      <Generator></Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\ICON_17779.png">
+      <Generator></Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\ICON_17838.png">
+      <Generator></Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\ICON_17890.png">
+      <Generator></Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\ICON_17896.png">
+      <Generator></Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\ICON_17937.png">
+      <Generator></Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\ICON_18222.png">
+      <Generator></Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\ICON_18223.png">
+      <Generator></Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\ICON_18607.png">
+      <Generator></Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\ICON_18814.png">
+      <Generator></Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\ICON_19162.png">
+      <Generator></Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\ICON_19381.png">
+      <Generator></Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\ICON_19638.png">
+      <Generator></Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\ICON_19678.png">
+      <Generator></Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\ICON_20000.png">
+      <Generator></Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\ICON_20001.png">
+      <Generator></Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\ICON_20002.png">
+      <Generator></Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\ICON_20003.png">
+      <Generator></Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\ICON_20004.png">
+      <Generator></Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\ICON_2002.png">
+      <Generator></Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\ICON_20098.png">
+      <Generator></Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\ICON_20186.png">
+      <Generator></Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\ICON_20689.png">
+      <Generator></Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\ICON_20965.png">
+      <Generator></Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\ICON_2101.png">
+      <Generator></Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\ICON_2102.png">
+      <Generator></Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\ICON_2103.png">
+      <Generator></Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\ICON_2104.png">
+      <Generator></Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\ICON_2105.png">
+      <Generator></Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\ICON_2106.png">
+      <Generator></Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\ICON_21060.png">
+      <Generator></Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\ICON_21209.png">
+      <Generator></Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\ICON_21437.png">
+      <Generator></Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\ICON_21449.png">
+      <Generator></Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\ICON_21573.png">
+      <Generator></Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\ICON_21574.png">
+      <Generator></Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\ICON_21575.png">
+      <Generator></Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\ICON_21576.png">
+      <Generator></Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\ICON_2162.png">
+      <Generator></Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\ICON_21700.png">
+      <Generator></Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\ICON_21711.png">
+      <Generator></Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\ICON_2181.png">
+      <Generator></Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\ICON_21847.png">
+      <Generator></Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\ICON_22308.png">
+      <Generator></Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\ICON_22855.png">
+      <Generator></Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\ICON_22978.png">
+      <Generator></Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\ICON_23078.png">
+      <Generator></Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\ICON_2335.png">
+      <Generator></Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\ICON_23613.png">
+      <Generator></Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\ICON_23717.png">
+      <Generator></Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\ICON_23718.png">
+      <Generator></Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\ICON_24081.png">
+      <Generator></Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\ICON_24317.png">
+      <Generator></Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\ICON_24694.png">
+      <Generator></Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\ICON_24753.png">
+      <Generator></Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\ICON_2478.png">
+      <Generator></Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\ICON_24830.png">
+      <Generator></Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\ICON_25002.png">
+      <Generator></Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\ICON_2507.png">
+      <Generator></Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\ICON_25309.png">
+      <Generator></Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\ICON_26020.png">
+      <Generator></Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\ICON_26425.png">
+      <Generator></Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\ICON_26635.png">
+      <Generator></Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\ICON_26665.png">
+      <Generator></Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\ICON_26865.png">
+      <Generator></Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\ICON_26884.png">
+      <Generator></Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\ICON_27009.png">
+      <Generator></Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\ICON_27056.png">
+      <Generator></Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\ICON_2730.png">
+      <Generator></Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\ICON_27328.png">
+      <Generator></Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\ICON_27774.png">
+      <Generator></Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\ICON_27969.png">
+      <Generator></Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\ICON_28022.png">
+      <Generator></Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\ICON_28023.png">
+      <Generator></Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\ICON_28024.png">
+      <Generator></Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\ICON_28226.png">
+      <Generator></Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\ICON_28654.png">
+      <Generator></Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\ICON_28810.png">
+      <Generator></Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\ICON_28811.png">
+      <Generator></Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\ICON_29019.png">
+      <Generator></Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\ICON_29114.png">
+      <Generator></Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\ICON_29183.png">
+      <Generator></Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\ICON_29484.png">
+      <Generator></Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\ICON_29589.png">
+      <Generator></Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\ICON_2980.png">
+      <Generator></Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\ICON_29903.png">
+      <Generator></Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\ICON_30215.png">
+      <Generator></Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\ICON_30557.png">
+      <Generator></Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\ICON_30696.png">
+      <Generator></Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\ICON_3071.png">
+      <Generator></Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\ICON_30970.png">
+      <Generator></Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\ICON_31685.png">
+      <Generator></Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\ICON_31885.png">
+      <Generator></Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\ICON_32462.png">
+      <Generator></Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\ICON_32488.png">
+      <Generator></Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\ICON_32650.png">
+      <Generator></Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\ICON_32670.png">
+      <Generator></Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\ICON_3333.png">
+      <Generator></Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\ICON_3358.png">
+      <Generator></Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\ICON_3430.png">
+      <Generator></Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\ICON_3584.png">
+      <Generator></Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\ICON_3835.png">
+      <Generator></Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\ICON_4263.png">
+      <Generator></Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\ICON_4432.png">
+      <Generator></Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\ICON_4895.png">
+      <Generator></Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\ICON_5472.png">
+      <Generator></Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\ICON_6043.png">
+      <Generator></Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\ICON_6044.png">
+      <Generator></Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\ICON_6179.png">
+      <Generator></Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\ICON_6460.png">
+      <Generator></Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\ICON_6491.png">
+      <Generator></Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\ICON_6544.png">
+      <Generator></Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\ICON_6560.png">
+      <Generator></Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\ICON_6720.png">
+      <Generator></Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\ICON_6724.png">
+      <Generator></Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\ICON_7012.png">
+      <Generator></Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\ICON_7142.png">
+      <Generator></Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\ICON_7417.png">
+      <Generator></Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\ICON_766.png">
+      <Generator></Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\ICON_8323.png">
+      <Generator></Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\ICON_8347.png">
+      <Generator></Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\ICON_8348.png">
+      <Generator></Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\ICON_8349.png">
+      <Generator></Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\ICON_8350.png">
+      <Generator></Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\ICON_8419.png">
+      <Generator></Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\ICON_8538.png">
+      <Generator></Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\ICON_8961.png">
+      <Generator></Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\ICON_8964.png">
+      <Generator></Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\ICON_8979.png">
+      <Generator></Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\ICON_8980.png">
+      <Generator></Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\ICON_902.png">
+      <Generator></Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\ICON_9104.png">
+      <Generator></Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\ICON_9120.png">
+      <Generator></Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\ICON_9301.png">
+      <Generator></Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\ICON_9761.png">
+      <Generator></Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\image.png">
+      <Generator></Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\info.png">
+      <Generator></Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\keyboard_control_key.png">
+      <Generator></Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\keyboard_double_arrow_down.png">
+      <Generator></Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\keyboard_double_arrow_left.png">
+      <Generator></Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\keyboard_double_arrow_right.png">
+      <Generator></Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\keyboard_double_arrow_up.png">
+      <Generator></Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\label.png">
+      <Generator></Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\language.png">
+      <Generator></Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\light.png">
+      <Generator></Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\light_mode.png">
+      <Generator></Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\link.png">
+      <Generator></Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\local_cafe.png">
+      <Generator></Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\local_florist.png">
+      <Generator></Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\lock_.png">
+      <Generator></Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\lock_clock.png">
+      <Generator></Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\lock_open.png">
+      <Generator></Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\mail.png">
+      <Generator></Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\medication.png">
+      <Generator></Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\memory.png">
+      <Generator></Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\menu.png">
+      <Generator></Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\mic_external_on.png">
+      <Generator></Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\mode_fan.png">
+      <Generator></Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\monitor.png">
+      <Generator></Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\mood.png">
+      <Generator></Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\mop.png">
+      <Generator></Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\mouse.png">
+      <Generator></Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\move_down.png">
+      <Generator></Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\move_up.png">
+      <Generator></Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\music_note.png">
+      <Generator></Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\nightlife.png">
+      <Generator></Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\notifications.png">
+      <Generator></Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\notifications_active.png">
+      <Generator></Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\open_with.png">
+      <Generator></Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\overview.png">
+      <Generator></Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\pan_tool.png">
+      <Generator></Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\pan_tool_alt.png">
+      <Generator></Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\pause.png">
+      <Generator></Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\pause_circle.png">
+      <Generator></Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\pedal_bike.png">
+      <Generator></Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\pending.png">
+      <Generator></Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\person.png">
+      <Generator></Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\pets.png">
+      <Generator></Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\photo_camera.png">
+      <Generator></Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\PICT_ERR.png">
+      <Generator></Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\pin_drop.png">
+      <Generator></Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\play_arrow.png">
+      <Generator></Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\play_circle.png">
+      <Generator></Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\podcasts.png">
+      <Generator></Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\policy.png">
+      <Generator></Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\power.png">
+      <Generator></Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\power_off.png">
+      <Generator></Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\power_settings_new.png">
+      <Generator></Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\priority_high.png">
+      <Generator></Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\privacy_tip.png">
+      <Generator></Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\public_.png">
+      <Generator></Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\radio.png">
+      <Generator></Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\radio_button_checked.png">
+      <Generator></Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\radio_button_unchecked.png">
+      <Generator></Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\rainy.png">
+      <Generator></Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\receipt_long.png">
+      <Generator></Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\recycling.png">
+      <Generator></Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\redo.png">
+      <Generator></Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\refresh.png">
+      <Generator></Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\remove_.png">
+      <Generator></Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\repeat.png">
+      <Generator></Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\replay.png">
+      <Generator></Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\reply.png">
+      <Generator></Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\restaurant.png">
+      <Generator></Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\rocket_launch.png">
+      <Generator></Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\run_circle.png">
+      <Generator></Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\safety_check.png">
+      <Generator></Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\schedule.png">
+      <Generator></Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\security.png">
+      <Generator></Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\select_all.png">
+      <Generator></Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\send.png">
+      <Generator></Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\sensors.png">
+      <Generator></Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\sentiment_dissatisfied.png">
+      <Generator></Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\sentiment_extremely_dissatisfied.png">
+      <Generator></Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\sentiment_neutral.png">
+      <Generator></Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\sentiment_satisfied.png">
+      <Generator></Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\sentiment_very_dissatisfied.png">
+      <Generator></Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\sentiment_very_satisfied.png">
+      <Generator></Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\settings.png">
+      <Generator></Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\settings_backup_restore.png">
+      <Generator></Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\shield.png">
+      <Generator></Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\shopping_bag.png">
+      <Generator></Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\shopping_cart.png">
+      <Generator></Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\sick.png">
+      <Generator></Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\skip_next.png">
+      <Generator></Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\skip_previous.png">
+      <Generator></Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\skull.png">
+      <Generator></Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\sos.png">
+      <Generator></Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\spatial_audio_off.png">
+      <Generator></Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\speaker.png">
+      <Generator></Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\sports_esports.png">
+      <Generator></Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\stars.png">
+      <Generator></Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\star_rate.png">
+      <Generator></Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\storage.png">
+      <Generator></Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\stream.png">
+      <Generator></Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\subdirectory_arrow_right.png">
+      <Generator></Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\sunny.png">
+      <Generator></Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\support.png">
+      <Generator></Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\switch_left.png">
+      <Generator></Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\switch_right.png">
+      <Generator></Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\sync.png">
+      <Generator></Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\task.png">
+      <Generator></Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\task_alt.png">
+      <Generator></Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\token.png">
+      <Generator></Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\tools_wrench.png">
+      <Generator></Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\topic.png">
+      <Generator></Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\umbrella.png">
+      <Generator></Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\undo.png">
+      <Generator></Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\unfold_less_double.png">
+      <Generator></Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\video_file.png">
+      <Generator></Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\video_label.png">
+      <Generator></Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\vital_signs.png">
+      <Generator></Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\volume_up.png">
+      <Generator></Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\volunteer_activism.png">
+      <Generator></Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\warning.png">
+      <Generator></Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\watch.png">
+      <Generator></Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\water.png">
+      <Generator></Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\water_drop.png">
+      <Generator></Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\yard.png">
+      <Generator></Generator>
+    </EmbeddedResource>
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="AvalonEdit" Version="6.2.0.78" />
     <PackageReference Include="Microsoft.ClearScript" Version="7.3.6" />
     <PackageReference Include="Microsoft.ClearScript.V8" Version="7.3.6" />
@@ -27,7 +1653,7 @@
 
   <ItemGroup>
     <EmbeddedResource Update="Properties\Resources.resx">
-      <Generator>ResXFileCodeGenerator</Generator>
+      <Generator>PublicResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
   </ItemGroup>

@@ -32,7 +32,6 @@
 			this.tbName = new System.Windows.Forms.TextBox();
 			this.tbText = new System.Windows.Forms.TextBox();
 			this.label2 = new System.Windows.Forms.Label();
-			this.btnFont = new System.Windows.Forms.Button();
 			this.btnCancel = new System.Windows.Forms.Button();
 			this.btnOK = new System.Windows.Forms.Button();
 			this.label3 = new System.Windows.Forms.Label();
@@ -88,18 +87,6 @@
 			this.label2.TabIndex = 5;
 			this.label2.Text = "Text";
 			// 
-			// btnFont
-			// 
-			this.btnFont.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-			this.btnFont.ForeColor = System.Drawing.Color.Gainsboro;
-			this.btnFont.Location = new System.Drawing.Point(30, 165);
-			this.btnFont.Name = "btnFont";
-			this.btnFont.Size = new System.Drawing.Size(55, 30);
-			this.btnFont.TabIndex = 8;
-			this.btnFont.Text = "Font";
-			this.btnFont.UseVisualStyleBackColor = true;
-			this.btnFont.Click += new System.EventHandler(this.BtnFont_Click);
-			// 
 			// btnCancel
 			// 
 			this.btnCancel.DialogResult = System.Windows.Forms.DialogResult.Cancel;
@@ -123,6 +110,7 @@
 			this.btnOK.TabIndex = 10;
 			this.btnOK.Text = "OK";
 			this.btnOK.UseVisualStyleBackColor = true;
+			this.btnOK.Click += new System.EventHandler(this.btnOK_Click_1);
 			// 
 			// label3
 			// 
@@ -139,10 +127,12 @@
 			// 
 			this.editControlComb1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(35)))), ((int)(((byte)(35)))), ((int)(((byte)(35)))));
 			this.editControlComb1.ControlType = Hypowered.ControlType.Button;
+			this.editControlComb1.DropDownHeight = 200;
 			this.editControlComb1.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
 			this.editControlComb1.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
 			this.editControlComb1.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(185)))), ((int)(((byte)(185)))), ((int)(((byte)(185)))));
 			this.editControlComb1.FormattingEnabled = true;
+			this.editControlComb1.IntegralHeight = false;
 			this.editControlComb1.Location = new System.Drawing.Point(91, 39);
 			this.editControlComb1.Name = "editControlComb1";
 			this.editControlComb1.Size = new System.Drawing.Size(206, 23);
@@ -182,13 +172,12 @@
 			// 
 			this.button1.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
 			this.button1.ForeColor = System.Drawing.Color.Gainsboro;
-			this.button1.Location = new System.Drawing.Point(97, 166);
+			this.button1.Location = new System.Drawing.Point(33, 165);
 			this.button1.Name = "button1";
 			this.button1.Size = new System.Drawing.Size(55, 30);
 			this.button1.TabIndex = 12;
 			this.button1.Text = "Test";
 			this.button1.UseVisualStyleBackColor = true;
-			this.button1.Click += new System.EventHandler(this.Button1_Click);
 			// 
 			// EditControlForm
 			// 
@@ -205,7 +194,6 @@
 			this.Controls.Add(this.label3);
 			this.Controls.Add(this.btnOK);
 			this.Controls.Add(this.btnCancel);
-			this.Controls.Add(this.btnFont);
 			this.Controls.Add(this.tbText);
 			this.Controls.Add(this.label2);
 			this.Controls.Add(this.tbName);
@@ -227,7 +215,6 @@
 		private TextBox tbName;
 		private TextBox tbText;
 		private Label label2;
-		private Button btnFont;
 		private Button btnCancel;
 		private Button btnOK;
 		private Label label3;

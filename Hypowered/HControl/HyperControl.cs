@@ -127,7 +127,7 @@ namespace Hypowered
 		/// <summary>
 		/// 編集モード
 		/// </summary>
-		//[Browsable(false)]
+		[Browsable(false)]
 		public bool IsEditMode
 		{
 			get { return m_IsEditMode; }
@@ -267,7 +267,6 @@ namespace Hypowered
 			m_UnCheckedColor = ColU.ToColor(HyperColor.Dark);
 			m_format.Alignment = StringAlignment.Near;
 			m_format.LineAlignment = StringAlignment.Center;
-
 			this.Name = "HyperControl";
 			this.Size = ControlDef.DefSize;
 			this.Location = new Point(100, 100);

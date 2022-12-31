@@ -14,7 +14,8 @@ namespace Hypowered
 {
 	public partial class EditControlForm : Form
 	{
-		
+
+		private HyperMainForm? MainForm = null;
 
 		private bool IsNewMode = false;
 		static private ControlType m_ct = ControlType.Button;
@@ -36,26 +37,33 @@ namespace Hypowered
 			get { return tbText.Text; }
 			set { tbText.Text = value; }
 		}
-		private string m_ScriptCode = "";
-		[Category("Hypowerd")]
-		public string ScriptCode
+		public void SetMainForm(HyperMainForm? mf,HyperBaseForm bf,HyperControl? c=null)
 		{
-			get { return m_ScriptCode; }
-			set { m_ScriptCode = value; }
+			this.MainForm = mf;
+			if(bf != null)
+			{
+				m_TargetForm = bf;
+				m_TargetControl = c;
+				IsNewMode = (c == null);
+				if (IsNewMode == false)
+				{
+					if ((m_TargetControl != null) && (m_TargetControl.MyType != null))
+					{
+						editControlComb1.ControlType = (ControlType)m_TargetControl.MyType;
+						editControlComb1.Enabled = false;
+						tbName.Text = m_TargetControl.Name;
+						tbText.Text = m_TargetControl.Text;
+					}
+				}
+			}
 		}
-		private Font m_Font = new Font("System",9);
-		public new Font Font
-		{
-			get { return m_Font;}
-			set { m_Font = value;}
-		}
-		private HyperMainForm? Form = null;
-		private HyperControl? TargetControl = null; 
+		private HyperBaseForm? m_TargetForm = null;
+		private HyperControl? m_TargetControl = null;
+				
 		public EditControlForm()
 		{
 			BackColor = ColU.ToColor(HyperColor.Back);
 			ForeColor = ColU.ToColor(HyperColor.Fore);
-			m_Font = this.Font;
 			InitializeComponent();
 			editControlComb1.ControlType= m_ct;
 			NameSet();
@@ -86,12 +94,12 @@ namespace Hypowered
 				tbName.Focus();
 				return;
 			}
-			if(Form!=null)
+			if(m_TargetForm!=null)
 			{
-				int idx = Form.FindControlIndex(nm);
+				int idx = m_TargetForm.FindControlIndex(nm);
 				if(idx>=0)
 				{
-					if ((TargetControl!=null)&&(IsNewMode == false) && (idx == TargetControl.Index))
+					if ((m_TargetControl!=null)&&(IsNewMode == false) && (idx == m_TargetControl.Index))
 					{
 						this.DialogResult = DialogResult.OK;
 					}
@@ -116,25 +124,6 @@ namespace Hypowered
 		private void TbName_TextChanged(object? sender, EventArgs e)
 		{
 			btnOK.Enabled = (tbName.Text != "");
-		}
-
-		public void SetTarget(HyperMainForm? fm,HyperControl? cnt=null)
-		{
-			Form= fm;
-			IsNewMode = (cnt == null);
-			if (IsNewMode==false)
-			{
-				TargetControl = cnt;
-				if ((TargetControl != null)&&(TargetControl.MyType!=null))
-				{
-					editControlComb1.ControlType = (ControlType)TargetControl.MyType;
-					editControlComb1.Enabled= false;
-					m_Font = TargetControl.Font;
-					tbName.Text = TargetControl.Name;
-					tbText.Text = TargetControl.Text;
-
-				}
-			}
 		}
 		private void ToolStrip1_MouseUp(object? sender, MouseEventArgs e)
 		{
@@ -202,11 +191,6 @@ namespace Hypowered
 			base.OnKeyDown(e);
 		}
 
-		private void BtnFont_Click(object sender, EventArgs e)
-		{
-			Font? f = FntU.Dialog(this, this.Font);
-			if(f!=null) this.Font = f;
-		}
 		protected override void OnPaint(PaintEventArgs e)
 		{
 			base.OnPaint(e);
@@ -217,18 +201,9 @@ namespace Hypowered
 			}
 		}
 
-		private void Button1_Click(object sender, EventArgs e)
+		private void btnOK_Click_1(object sender, EventArgs e)
 		{
-			
-			if(TargetControl!=null)
-			{
-				//JsonFile.JsonSave(TargetControl.Name + ".json", TargetControl);
-				string s = PropUtil.GetPropList(TargetControl);
-				//string s = TargetControl.ToJsonCode();
-				Clipboard.SetText(s);
-				MessageBox.Show(s);
-			}
-			
+
 		}
 	}
 }
