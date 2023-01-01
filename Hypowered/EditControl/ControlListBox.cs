@@ -51,30 +51,69 @@ namespace Hypowered
 			this.MainForm = mf;
 			if (MainForm != null)
 			{
-				MainForm.TargetChanged -= MainForm_TargetChanged;
-				MainForm.TargetChanged += MainForm_TargetChanged; ;
-				if(MainForm.TargetControl!= null)
-				{
-					SetTargetControl(MainForm, MainForm.TargetControl, MainForm.TargetControl.Index);
-				}
+				MainForm.FormChanged -= MainForm_FormChanged;
+				MainForm.FormChanged += MainForm_FormChanged;
+				SetTargetControl(MainForm, MainForm.TargetControl);
 			}
 		}
-		public void SetTargetControl(HyperBaseForm? bf, HyperControl? c,int idx)
+
+		private void MainForm_FormChanged(object sender, HyperChangedEventArgs e)
 		{
-			if (TargetForm != bf)
+
+			SetTargetControl(e.Form, e.Control);
+		}
+
+		public void SetTargetControl(HyperBaseForm? bf, HyperControl? c)
+		{
+			if ((bf!=null))
 			{
-				TargetForm = bf;
-				TargetControl = c;
+				if (TargetForm != bf)
+				{
+					TargetForm = bf;
+					TargetForm.ControlChanged -= TargetForm_ControlChanged;
+					TargetForm.ControlChanged += TargetForm_ControlChanged;
+					TargetForm.CreatedControl -= TargetForm_CreatedControl;
+					TargetForm.CreatedControl += TargetForm_CreatedControl;
+					TargetForm.DeletetedControl -= TargetForm_DeletetedControl;
+					TargetForm.DeletetedControl += TargetForm_DeletetedControl;
+				}
+				if (c != null)
+				{
+					TargetControl = c;
+				}
 				Listup();
-				if (SelectedIndex != idx)
+				if (c != null)
+				{
+					SelectedIndex = c.Index;
+				}
+
+			}
+		}
+
+		private void TargetForm_ControlChanged(object sender, HyperChangedEventArgs e)
+		{
+			if(e.Control!= null)
+			{
+				int idx = e.Control.Index;
+				if(SelectedIndex!=idx)
 				{
 					SelectedIndex = idx;
 				}
 			}
 		}
-		private void MainForm_TargetChanged(object sender, TargetChangedEventArgs e)
+
+		private void TargetForm_DeletetedControl(object? sender, EventArgs e)
 		{
-			SetTargetControl(e.Form, e.Control,e.Index);
+			Listup();
+		}
+
+		private void TargetForm_CreatedControl(object sender, HyperChangedEventArgs e)
+		{
+			Listup();
+			if (e.Control != null)
+			{
+				SelectedIndex = e.Control.Index;
+			}
 		}
 
 		public void Listup()

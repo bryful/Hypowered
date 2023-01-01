@@ -47,19 +47,14 @@ namespace Hypowered
 				MainForm.ControlListBounds = this.Bounds;
 			}
 		}
-
-		private void toolStrip1_ItemClicked(object sender, ToolStripItemClickedEventArgs e)
-		{
-
-		}
-		private void menuForm_Click(object sender, EventArgs e)
+		private void btnForm_Click(object sender, EventArgs e)
 		{
 			if (MainForm != null)
 			{
 
 				ToolStripMenuItem[] m = MainForm.FormList.GetFormsForMenu(Mi_Click);
-				menuForm.DropDownItems.Clear();
-				menuForm.DropDownItems.AddRange(m);
+				btnForm.DropDownItems.Clear();
+				btnForm.DropDownItems.AddRange(m);
 
 			}
 
@@ -74,13 +69,16 @@ namespace Hypowered
 				{
 					MainForm.FormList.TargetIndex = ((HyperBaseForm)mi.Tag).Index;
 					controlListBox1.TargetForm = MainForm.FormList.TargetForm;
-
+					if (controlListBox1.TargetForm != null)
+					{
+						btnForm.Text = controlListBox1.TargetForm.Name;
+					}
 				}
 			}
 
 		}
 
-		private void toolStripButton1_Click(object sender, EventArgs e)
+		private void btnActive_Click(object sender, EventArgs e)
 		{
 			if(controlListBox1.TargetForm!= null)
 			{

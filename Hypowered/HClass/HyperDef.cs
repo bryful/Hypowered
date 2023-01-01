@@ -182,4 +182,15 @@ namespace Hypowered
 			Index = v;
 		}
 	}
+
+	public class HyperChangedEventArgs : EventArgs
+	{
+		public HyperBaseForm? Form = null;
+		public HyperControl? Control =null;
+		public HyperChangedEventArgs(HyperBaseForm? bf, HyperControl? c)
+		{
+			Form = bf;
+			Control = c;
+		}
+	}	
 }

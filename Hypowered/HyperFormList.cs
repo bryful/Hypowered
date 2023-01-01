@@ -9,6 +9,16 @@ namespace Hypowered
 {
 	public class HyperFormList
 	{
+		// ****************************************************************************
+		public delegate void FormChangedHandler(object sender, HyperChangedEventArgs e);
+		public event FormChangedHandler? FormChanged;
+		protected virtual void OnFormChanged(HyperChangedEventArgs e)
+		{
+			if (FormChanged != null)
+			{
+				FormChanged(this, e);
+			}
+		}
 		public HyperMainForm? MainForm { get; set; } = null;
 		private List<HyperBaseForm> m_Items= new List<HyperBaseForm>();
 		private int m_TargetIndex = -1;
@@ -20,6 +30,11 @@ namespace Hypowered
 		public int Count
 		{
 			get { return m_Items.Count; }
+		}
+		public List<HyperBaseForm> Items
+		{
+			get { return m_Items; }
+			set { m_Items = value; }
 		}
 		public HyperBaseForm? this[int idx]
 		{
@@ -43,15 +58,21 @@ namespace Hypowered
 				}
 			}
 		}
-		public void Init()
+		public void Clear()
 		{
 			if(m_Items.Count > 1) 
 			{
 				for(int i= m_Items.Count-1; i>=1;i--)
 				{
-					m_Items[i].Dispose();
-					m_Items.RemoveAt(i);
-
+					if (this.m_Items[i] is HyperMainForm)
+					{
+						//
+					}
+					else
+					{
+						m_Items[i].Dispose();
+						m_Items.RemoveAt(i);
+					}
 				}
 			}
 		}
@@ -60,14 +81,25 @@ namespace Hypowered
 		{
 			get
 			{
-				if((m_TargetIndex <= 0)&&(m_Items.Count<=1))
-				{
-					return (HyperBaseForm?)MainForm;
-				}
-				else
+				if((m_TargetIndex >= 0)&&(m_TargetIndex<m_Items.Count))
 				{
 					return m_Items[m_TargetIndex];
 				}
+				else
+				{
+					return null;
+				}
+			}
+			set
+			{ 
+				if (value != null)
+				{
+					m_TargetIndex = value.Index;
+					if (TargetForm != null)
+					{
+						OnFormChanged(new HyperChangedEventArgs(TargetForm, TargetForm.TargetControl));
+					}
+				} 
 			}
 		}
 		public int TargetIndex
@@ -80,10 +112,12 @@ namespace Hypowered
 					if(m_TargetIndex != value)
 					{
 						m_TargetIndex = value;
+						if (TargetForm != null)
+						{
+							OnFormChanged(new HyperChangedEventArgs(TargetForm, TargetForm.TargetControl));
+						}
 					}
-
 				}
-					
 			}
 		}
 		// ************************************************************************
@@ -105,7 +139,7 @@ namespace Hypowered
 			HyperBaseForm? c = (HyperBaseForm?)sender;
 			if(c != null)
 			{
-				m_TargetIndex = c.Index;
+				TargetIndex = c.Index;
 			}
 		}
 
@@ -133,6 +167,7 @@ namespace Hypowered
 				mf.Index = 0;
 				mf.Activated -= Bf_Activated;
 				mf.Activated += Bf_Activated;
+				OnFormChanged(new HyperChangedEventArgs(mf, mf.TargetControl));
 			}
 		}
 		// ************************************************************************

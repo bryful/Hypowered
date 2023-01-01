@@ -31,13 +31,10 @@
 			System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(HyperPropForm));
 			this.propertyGrid1 = new System.Windows.Forms.PropertyGrid();
 			this.toolStrip1 = new System.Windows.Forms.ToolStrip();
-			this.lbCaption = new System.Windows.Forms.ToolStripLabel();
+			this.btnForm = new System.Windows.Forms.ToolStripDropDownButton();
 			this.toolStripSeparator4 = new System.Windows.Forms.ToolStripSeparator();
-			this.menuControl = new System.Windows.Forms.ToolStripDropDownButton();
+			this.btnControl = new System.Windows.Forms.ToolStripDropDownButton();
 			this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
-			this.menuTopMost = new System.Windows.Forms.ToolStripDropDownButton();
-			this.btnTopMost = new System.Windows.Forms.ToolStripMenuItem();
-			this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
 			this.btnActive = new System.Windows.Forms.ToolStripButton();
 			this.toolStripSeparator3 = new System.Windows.Forms.ToolStripSeparator();
 			this.btnHide = new System.Windows.Forms.ToolStripButton();
@@ -74,12 +71,10 @@
 			this.toolStrip1.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
 			this.toolStrip1.GripStyle = System.Windows.Forms.ToolStripGripStyle.Hidden;
 			this.toolStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.lbCaption,
+            this.btnForm,
             this.toolStripSeparator4,
-            this.menuControl,
+            this.btnControl,
             this.toolStripSeparator1,
-            this.menuTopMost,
-            this.toolStripSeparator2,
             this.btnActive,
             this.toolStripSeparator3,
             this.btnHide});
@@ -89,60 +84,37 @@
 			this.toolStrip1.TabIndex = 1;
 			this.toolStrip1.Text = "toolStrip1";
 			// 
-			// lbCaption
+			// btnForm
 			// 
-			this.lbCaption.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
-			this.lbCaption.ForeColor = System.Drawing.Color.Gainsboro;
-			this.lbCaption.Name = "lbCaption";
-			this.lbCaption.Size = new System.Drawing.Size(48, 22);
-			this.lbCaption.Text = "Caption";
+			this.btnForm.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
+			this.btnForm.ForeColor = System.Drawing.Color.LightGray;
+			this.btnForm.Image = ((System.Drawing.Image)(resources.GetObject("btnForm.Image")));
+			this.btnForm.ImageTransparentColor = System.Drawing.Color.Magenta;
+			this.btnForm.Name = "btnForm";
+			this.btnForm.Size = new System.Drawing.Size(47, 22);
+			this.btnForm.Text = "Form";
+			this.btnForm.Click += new System.EventHandler(this.btnForm_Click);
 			// 
 			// toolStripSeparator4
 			// 
 			this.toolStripSeparator4.Name = "toolStripSeparator4";
 			this.toolStripSeparator4.Size = new System.Drawing.Size(6, 25);
 			// 
-			// menuControl
+			// btnControl
 			// 
-			this.menuControl.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
-			this.menuControl.ForeColor = System.Drawing.Color.Gainsboro;
-			this.menuControl.Image = ((System.Drawing.Image)(resources.GetObject("menuControl.Image")));
-			this.menuControl.ImageTransparentColor = System.Drawing.Color.Magenta;
-			this.menuControl.Name = "menuControl";
-			this.menuControl.Size = new System.Drawing.Size(59, 22);
-			this.menuControl.Text = "Control";
-			this.menuControl.Click += new System.EventHandler(this.menuControl_Click);
+			this.btnControl.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
+			this.btnControl.ForeColor = System.Drawing.Color.Gainsboro;
+			this.btnControl.Image = ((System.Drawing.Image)(resources.GetObject("btnControl.Image")));
+			this.btnControl.ImageTransparentColor = System.Drawing.Color.Magenta;
+			this.btnControl.Name = "btnControl";
+			this.btnControl.Size = new System.Drawing.Size(59, 22);
+			this.btnControl.Text = "Control";
+			this.btnControl.Click += new System.EventHandler(this.btnControl_Click);
 			// 
 			// toolStripSeparator1
 			// 
 			this.toolStripSeparator1.Name = "toolStripSeparator1";
 			this.toolStripSeparator1.Size = new System.Drawing.Size(6, 25);
-			// 
-			// menuTopMost
-			// 
-			this.menuTopMost.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
-			this.menuTopMost.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.btnTopMost});
-			this.menuTopMost.ForeColor = System.Drawing.Color.LightGray;
-			this.menuTopMost.Image = ((System.Drawing.Image)(resources.GetObject("menuTopMost.Image")));
-			this.menuTopMost.ImageTransparentColor = System.Drawing.Color.Magenta;
-			this.menuTopMost.Name = "menuTopMost";
-			this.menuTopMost.Size = new System.Drawing.Size(72, 22);
-			this.menuTopMost.Text = "TopMoset";
-			// 
-			// btnTopMost
-			// 
-			this.btnTopMost.Checked = true;
-			this.btnTopMost.CheckState = System.Windows.Forms.CheckState.Checked;
-			this.btnTopMost.Name = "btnTopMost";
-			this.btnTopMost.Size = new System.Drawing.Size(120, 22);
-			this.btnTopMost.Text = "TopMost";
-			this.btnTopMost.Click += new System.EventHandler(this.btnTopMost_Click);
-			// 
-			// toolStripSeparator2
-			// 
-			this.toolStripSeparator2.Name = "toolStripSeparator2";
-			this.toolStripSeparator2.Size = new System.Drawing.Size(6, 25);
 			// 
 			// btnActive
 			// 
@@ -203,12 +175,9 @@
 		private ToolStripButton btnHide;
 		private ToolStripSeparator toolStripSeparator1;
 		private ToolStripButton btnActive;
-		private ToolStripSeparator toolStripSeparator2;
-		private ToolStripDropDownButton menuControl;
-		private ToolStripLabel lbCaption;
+		private ToolStripDropDownButton btnControl;
 		private ToolStripSeparator toolStripSeparator3;
 		private ToolStripSeparator toolStripSeparator4;
-		private ToolStripDropDownButton menuTopMost;
-		private ToolStripMenuItem btnTopMost;
+		private ToolStripDropDownButton btnForm;
 	}
 }

@@ -33,9 +33,9 @@
 			this.btnDel = new System.Windows.Forms.Button();
 			this.btnUp = new System.Windows.Forms.Button();
 			this.btnDown = new System.Windows.Forms.Button();
-			this.toolStripButton1 = new System.Windows.Forms.ToolStripButton();
+			this.btnActive = new System.Windows.Forms.ToolStripButton();
 			this.toolStrip1 = new System.Windows.Forms.ToolStrip();
-			this.menuForm = new System.Windows.Forms.ToolStripDropDownButton();
+			this.btnForm = new System.Windows.Forms.ToolStripDropDownButton();
 			this.btnHide = new System.Windows.Forms.ToolStripButton();
 			this.toolStrip1.SuspendLayout();
 			this.SuspendLayout();
@@ -87,40 +87,39 @@
 			this.btnDown.Text = "Down";
 			this.btnDown.UseVisualStyleBackColor = true;
 			// 
-			// toolStripButton1
+			// btnActive
 			// 
-			this.toolStripButton1.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
-			this.toolStripButton1.ForeColor = System.Drawing.Color.Black;
-			this.toolStripButton1.Image = ((System.Drawing.Image)(resources.GetObject("toolStripButton1.Image")));
-			this.toolStripButton1.ImageTransparentColor = System.Drawing.Color.Magenta;
-			this.toolStripButton1.Name = "toolStripButton1";
-			this.toolStripButton1.Size = new System.Drawing.Size(44, 22);
-			this.toolStripButton1.Text = "Active";
-			this.toolStripButton1.Click += new System.EventHandler(this.toolStripButton1_Click);
+			this.btnActive.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
+			this.btnActive.ForeColor = System.Drawing.Color.Black;
+			this.btnActive.Image = ((System.Drawing.Image)(resources.GetObject("btnActive.Image")));
+			this.btnActive.ImageTransparentColor = System.Drawing.Color.Magenta;
+			this.btnActive.Name = "btnActive";
+			this.btnActive.Size = new System.Drawing.Size(44, 22);
+			this.btnActive.Text = "Active";
+			this.btnActive.Click += new System.EventHandler(this.btnActive_Click);
 			// 
 			// toolStrip1
 			// 
 			this.toolStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.menuForm,
-            this.toolStripButton1,
+            this.btnForm,
+            this.btnActive,
             this.btnHide});
 			this.toolStrip1.Location = new System.Drawing.Point(0, 0);
 			this.toolStrip1.Name = "toolStrip1";
 			this.toolStrip1.Size = new System.Drawing.Size(218, 25);
 			this.toolStrip1.TabIndex = 1;
 			this.toolStrip1.Text = "toolStrip1";
-			this.toolStrip1.ItemClicked += new System.Windows.Forms.ToolStripItemClickedEventHandler(this.toolStrip1_ItemClicked);
 			// 
-			// menuForm
+			// btnForm
 			// 
-			this.menuForm.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
-			this.menuForm.ForeColor = System.Drawing.Color.Black;
-			this.menuForm.Image = ((System.Drawing.Image)(resources.GetObject("menuForm.Image")));
-			this.menuForm.ImageTransparentColor = System.Drawing.Color.Magenta;
-			this.menuForm.Name = "menuForm";
-			this.menuForm.Size = new System.Drawing.Size(47, 22);
-			this.menuForm.Text = "Form";
-			this.menuForm.Click += new System.EventHandler(this.menuForm_Click);
+			this.btnForm.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
+			this.btnForm.ForeColor = System.Drawing.Color.Black;
+			this.btnForm.Image = ((System.Drawing.Image)(resources.GetObject("btnForm.Image")));
+			this.btnForm.ImageTransparentColor = System.Drawing.Color.Magenta;
+			this.btnForm.Name = "btnForm";
+			this.btnForm.Size = new System.Drawing.Size(47, 22);
+			this.btnForm.Text = "Form";
+			this.btnForm.Click += new System.EventHandler(this.btnForm_Click);
 			// 
 			// btnHide
 			// 
@@ -164,9 +163,9 @@
 		private Button btnDel;
 		private Button btnUp;
 		private Button btnDown;
-		private ToolStripButton toolStripButton1;
+		private ToolStripButton btnActive;
 		private ToolStrip toolStrip1;
-		private ToolStripDropDownButton menuForm;
+		private ToolStripDropDownButton btnForm;
 		private ToolStripButton btnHide;
 	}
 }

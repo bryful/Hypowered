@@ -3,68 +3,40 @@ using System.Drawing.Drawing2D;
 
 namespace Hypowered
 {
-
-	public class TargetChangedEventArgs : EventArgs
-	{
-		public int Index;
-		public HyperControl? Control;
-		public HyperBaseForm? Form;
-		public TargetChangedEventArgs(int idx, HyperBaseForm bf, HyperControl? c)
-		{
-			Index = idx;
-			Control = c;
-			Form = bf;
-
-		}
-	}
-	public class HControlAddEventArgs : EventArgs
-	{
-		public HyperControl? control;
-		public HControlAddEventArgs(HyperControl? c)
-		{
-			control = c;
-		}
-	}
 	public partial class HyperBaseForm : Form
 	{
 		public int Index = -1;
 		#region Event
+
 		// ****************************************************************************
-		public delegate void TargetChangedHandler(object sender, TargetChangedEventArgs e);
-		public event TargetChangedHandler? TargetChanged;
-		protected virtual void OnTargetChanged(TargetChangedEventArgs e)
-		{
-			if (TargetChanged != null)
-			{
-				TargetChanged(this, e);
-			}
-		}
-		// *********************************************************
-		public event EventHandler? ControlChanged;
-		protected virtual void OnControlChanged(EventArgs e)
+		public delegate void ControlChangedHandler(object sender, HyperChangedEventArgs e);
+		public event ControlChangedHandler? ControlChanged;
+		protected virtual void OnControlChanged(HyperChangedEventArgs e)
 		{
 			if (ControlChanged != null)
 			{
 				ControlChanged(this, e);
 			}
 		}
+
 		// *********************************************************
-		public delegate void HControlAddHandler(object sender, HControlAddEventArgs e);
-		public event HControlAddHandler? HControlAdd;
-		protected virtual void OnHControlAdd(HControlAddEventArgs e)
+		public delegate void CreatedControlHandler(object sender, HyperChangedEventArgs e);
+		public event CreatedControlHandler? CreatedControl;
+		protected virtual void OnCreatedControl(HyperChangedEventArgs e)
 		{
-			if (HControlAdd != null)
+			if (CreatedControl != null)
 			{
-				HControlAdd(this, e);
+				CreatedControl(this, e);
 			}
 		}
 		// *********************************************************
-		public event EventHandler? HControlRemoved;
-		public virtual void OnHControlRemoved(EventArgs e)
+		public delegate void DeletedControlHandler(object sender, HyperChangedEventArgs e);
+		public event DeletedControlHandler? DeletetedControl;
+		public virtual void OnDeletedControl(HyperChangedEventArgs e)
 		{
-			if (HControlRemoved != null)
+			if (DeletetedControl != null)
 			{
-				HControlRemoved(this, e);
+				DeletetedControl(this, e);
 			}
 		}
 		#endregion
@@ -110,7 +82,7 @@ namespace Hypowered
 				if (m_TargetIndex != value)
 				{
 					m_TargetIndex = value;
-					OnTargetChanged(new TargetChangedEventArgs(m_TargetIndex,this, TargetControl));
+					OnControlChanged(new HyperChangedEventArgs(this, TargetControl));
 				}
 				this.Invalidate();
 			}
@@ -139,6 +111,20 @@ namespace Hypowered
 					}
 				}
 				return ret;
+			}
+			set
+			{
+				if(value != null)
+				{
+					if((value.Index>=0)&&(value.Index< this.Controls.Count))
+					{
+						if (m_TargetIndex != value.Index)
+						{
+							m_TargetIndex = value.Index;
+							OnControlChanged(new HyperChangedEventArgs(this, TargetControl));
+						}
+					}
+				}
 			}
 		}
 		protected Padding m_FrameWeight = new Padding(1, 1, 1, 1);
@@ -257,6 +243,7 @@ true);
 			List<ToolStripMenuItem> list = new List<ToolStripMenuItem>();
 			if (this.Controls.Count > 0)
 			{
+				ChkControls();
 				foreach (Control c in this.Controls)
 				{
 					if (c is not HyperControl) continue;
@@ -274,7 +261,7 @@ true);
 			}
 			return list.ToArray();
 		}
-
+		
 		// ***********************************************************************
 		public virtual void ChkControls()
 		{
@@ -386,7 +373,7 @@ true);
 			}
 		}
 
-		public int FindControlIndex(string name)
+		public int FindControlIndex( string name)
 		{
 			int ret = -1;
 			int cnt = 0;
@@ -451,6 +438,27 @@ true);
 			return ctrl;
 		}
 		// ******************************************************************************
+		public bool AddControl(HyperBaseForm? bf, Control ctrl)
+		{
+			if (bf == null) return false;
+			if (ctrl is HyperControl)
+			{
+				HyperControl hc = (HyperControl)ctrl;
+				hc.IsEditMode = bf.IsEditMode;
+				hc.ParentForm = bf;
+				hc.LocationChanged += bf.Hc_LocationChanged;
+				int IsMenu = 0;
+				if (bf.Controls.Count > 0)
+				{
+					if (bf.Controls[0] is HyperMenuBar) IsMenu = 1;
+				}
+				bf.Controls.Add(hc);
+				bf.Controls.SetChildIndex(hc, IsMenu);
+				bf.ChkControls();
+				return true;
+			}
+			return false;
+		}
 		public bool AddControl(HyperBaseForm? bf,ControlType ct, string name, string tx, Font fnt)
 		{
 			bool ret = false;
@@ -461,12 +469,10 @@ true);
 				if (name != "") ctrl.Name = name;
 				if (tx != "") ctrl.Text = tx;
 				if (fnt != null) ctrl.Font = fnt;
-				ctrl.IsEditMode = this.IsEditMode;
-				ctrl.ParentForm = this;
-				ctrl.LocationChanged += Hc_LocationChanged;
-				bf.Controls.Add(ctrl);
-				bf.ChkControls();
-				bf.OnHControlAdd(new HControlAddEventArgs(ctrl));
+				if( AddControl(bf,ctrl))
+				{
+					bf.OnCreatedControl(new HyperChangedEventArgs(bf, ctrl));
+				}
 			}
 			return ret;
 		}
@@ -475,21 +481,22 @@ true);
 			this.Invalidate();
 		}
 		// ******************************************************************************
-		public virtual bool RemoveControl(string key)
+		public virtual bool RemoveControl( string key)
 		{
 			bool ret = false;
 			Control[] ctrls = this.Controls.Find(key, false);
 			if (ctrls.Length >= 1)
 			{
+				if (ctrls[0] is HyperMenuBar) return ret;
 				this.Controls.Remove(ctrls[0]);
 				ChkControls();
 				ret = true;
-				OnHControlRemoved(new EventArgs());
+				OnDeletedControl(new HyperChangedEventArgs(this,null));
 			}
 			return ret;
 		}
 		// ******************************************************************************
-		public HyperControl[] GetControls()
+		public HyperControl[]? GetControls()
 		{
 			List<HyperControl> list = new List<HyperControl>();
 			if (this.Controls.Count > 0)
@@ -551,11 +558,7 @@ true);
 			{
 				if (m_TargetIndex >= 0)
 				{
-					OnTargetChanged(new TargetChangedEventArgs(
-						m_TargetIndex,
-						this,
-						TargetControl
-						));
+					OnControlChanged(new HyperChangedEventArgs(this, TargetControl));
 				}
 			}
 		}
@@ -650,11 +653,7 @@ true);
 			// イベントの発生
 			if (TI != m_TargetIndex)
 			{
-				OnTargetChanged(new TargetChangedEventArgs(
-					m_TargetIndex,
-					this,
-					TargetControl
-					));
+				OnControlChanged(new HyperChangedEventArgs(this, TargetControl));
 			}
 		}
 
@@ -673,16 +672,19 @@ true);
 				{
 					if (c is HyperMenuBar) continue;
 					HyperControl h = (HyperControl)c;
-					if (h == null) continue;
-					if (h.Index != m_TargetIndex)
+					if (h != null)
 					{
-						try
+						if (h.Index != m_TargetIndex)
 						{
-							int x = h.ParentLocation.X + pp.Left;
-							int y = h.ParentLocation.Y + pp.Top;
-							h.Location = new Point(x, y);
+							try
+							{
+								Point pt = h.ParentLocation;
+								int x = pt.X + pp.Left;
+								int y = pt.Y + pp.Top;
+								h.Location = new Point(x, y);
+							}
+							catch { }
 						}
-						catch { }
 					}
 				}
 			}
@@ -760,48 +762,12 @@ true);
 			}
 			base.OnMouseUp(e);
 		}
-		protected override void OnMouseClick(MouseEventArgs e)
-		{
-			base.OnMouseClick(e);
-			/*
-			if(Script_MouseClick!="")
-			{
-				//ExecuteCode(Script_MouseClick);
-			}
-			*/
-		}
-		protected override void OnKeyPress(KeyPressEventArgs e)
-		{
-			base.OnKeyPress(e);
-			/*
-			if (Script_KeyPress != "")
-			{
-				//ExecuteCode(Script_KeyPress);
-			}
-			*/
-		}
 		// ****************************************************************************
 		protected override void OnResize(EventArgs e)
 		{
 			base.OnResize(e);
 			this.Invalidate();
 
-		}
-		// ******************************************************************************
-		public void SetEventHandler(Control objControl)
-		{
-			objControl.MouseDown += (sender, e) => this.OnMouseDown(e);
-			objControl.MouseMove += (sender, e) => this.OnMouseMove(e);
-			objControl.MouseUp += (sender, e) => this.OnMouseUp(e);
-
-		}
-		protected override bool ProcessDialogKey(Keys keyData)
-		{
-#if DEBUG
-			this.Text = String.Format("{0}", keyData.ToString());
-#endif
-
-			return base.ProcessDialogKey(keyData);
 		}
 	}
 }

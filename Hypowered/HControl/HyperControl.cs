@@ -193,8 +193,8 @@ namespace Hypowered
 		[Category("Hypowerd_Script")]
 		public string Script_CurrentDirChanged
 		{
-			get { return ScriptCode.Script_ValueChanged; }
-			set { ScriptCode.Script_ValueChanged = value; }
+			get { return ScriptCode.Script_CurrentDirChanged; }
+			set { ScriptCode.Script_CurrentDirChanged = value; }
 		}
 		[Category("Hypowerd_Script")]
 		public string Script_ValueChanged

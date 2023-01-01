@@ -376,7 +376,26 @@ namespace Hypowered
 			}
 		}
 		// ****************
-	
+		public void SetValue(string key, string s)
+		{
+			if (Obj == null) return;
+
+			/*
+			if(s!="")
+			{
+				s = s.Replace('\\','/');
+			}
+			*/
+			if (Obj.ContainsKey(key))
+			{
+				Obj[key] = (string)s;
+
+			}
+			else
+			{
+				Obj.Add(key, (string)s);
+			}
+		}
 		public void SetValue(string key, AnchorStyles sa)
 		{
 			if (Obj == null) return;
@@ -645,11 +664,13 @@ namespace Hypowered
 						ret = Obj[key].GetValue<float?>();
 						break;
 					case "String":
-						ret = Obj[key].GetValue<string?>();
+					case "string":
+						//ret = Obj[key].GetValue<string?>();
+						ret = ValueStr(key);
 						break;
 					case "String[]":
 					case "String []":
-						ret = Obj[key].GetValue<string?>();
+						ret = Obj[key].GetValue<string[]?>();
 						break;
 					case "Boolean":
 					case "Bool":
@@ -697,6 +718,12 @@ namespace Hypowered
 					ret = Obj[key].GetValue<string?>();
 				}
 			}
+			/*
+			if((ret!=null)&&(ret!=""))
+			{
+				ret = ret.Replace('/', '\\');
+			}
+			*/
 			return ret;
 		}
 		public string[]? ValueStrArray(string key)

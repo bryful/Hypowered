@@ -21,13 +21,13 @@ namespace Hypowered
 			this.MainForm = mf;
 			if (MainForm != null)
 			{
-				MainForm.TargetChanged -= MainForm_TargetChanged;
-				MainForm.TargetChanged += MainForm_TargetChanged;
-				SetTargetControl(mf, mf.TargetControl);
+				MainForm.FormChanged -= MainForm_FormChanged;
+				MainForm.FormChanged += MainForm_FormChanged;
+				SetTargetControl(MainForm, MainForm.TargetControl);
 			}
 		}
 
-		private void MainForm_TargetChanged(object sender, TargetChangedEventArgs e)
+		private void MainForm_FormChanged(object sender, HyperChangedEventArgs e)
 		{
 			if (e.Form != null)
 			{
@@ -39,18 +39,25 @@ namespace Hypowered
 
 		private HyperControl? m_TargetControl = null;
 
-		private void SetTargetControl(HyperBaseForm bf, HyperControl? c)
+		private void SetTargetControl(HyperBaseForm? bf, HyperControl? c)
 		{
-			m_TargetForm = bf;
-			m_TargetControl = c;
 			if ((bf != null))
 			{
+				m_TargetForm = bf;
+				btnForm.Text = bf.Name;
+				bf.ControlChanged -= Bf_ControlChanged;
+				bf.ControlChanged += Bf_ControlChanged;
+				bf.CreatedControl -= Bf_CreatedControl;
+				bf.CreatedControl += Bf_CreatedControl;
+				bf.DeletetedControl -= Bf_CreatedControl;
+				bf.DeletetedControl += Bf_CreatedControl;
 				if (c != null)
 				{
+					m_TargetControl = c;
+					btnControl.Text = c.Name;
 					try
 					{
 						propertyGrid1.SelectedObject = c;
-						lbCaption.Text = c.Name;
 					}
 					catch
 					{
@@ -62,7 +69,6 @@ namespace Hypowered
 					try
 					{
 						propertyGrid1.SelectedObject = bf;
-						lbCaption.Text = bf.Name;
 					}
 					catch
 					{
@@ -71,22 +77,21 @@ namespace Hypowered
 				}
 			}
 		}
-	
-		public new bool TopMost
+
+		private void Bf_CreatedControl(object sender, HyperChangedEventArgs e)
 		{
-			get { return base.TopMost; }
-			set
-			{
-				base.TopMost = value;
-				btnTopMost.Checked= value;
-			}
+			SetTargetControl(e.Form, e.Control);
+		}
+
+		private void Bf_ControlChanged(object sender, HyperChangedEventArgs e)
+		{
+			SetTargetControl(e.Form, e.Control);
 		}
 
 		public HyperPropForm()
 		{
 			InitializeComponent();
 			propertyGrid1.CollapseAllGridItems();
-			btnTopMost.Checked = this.TopMost;
 		}
 
 		private void btnHide_Click(object sender, EventArgs e)
@@ -102,13 +107,13 @@ namespace Hypowered
 			}
 		}
 
-		private void menuControl_Click(object sender, EventArgs e)
+		private void btnControl_Click(object sender, EventArgs e)
 		{
-			if (m_TargetForm != null)
+			if ((m_TargetForm != null)&&(m_TargetControl!=null))
 			{
 				ToolStripMenuItem[] m = m_TargetForm.GetControlsForMenu(m_TargetControl, Mi_Click);
-				menuControl.DropDownItems.Clear();
-				menuControl.DropDownItems.AddRange(m);
+				btnControl.DropDownItems.Clear();
+				btnControl.DropDownItems.AddRange(m);
 
 			}
 
@@ -119,9 +124,11 @@ namespace Hypowered
 			if ((m_TargetForm != null) && (m_TargetControl != null))
 			{
 				ToolStripMenuItem? mi = (ToolStripMenuItem?)sender;
-				if ((mi != null) && (mi.Tag is HyperControl))
+				if ((mi != null) &&(mi.Tag!=null)&& (mi.Tag is HyperControl))
 				{
-					m_TargetForm.TargetIndex = ((HyperControl)mi.Tag).Index;
+					HyperControl c = (HyperControl)mi.Tag;
+					m_TargetForm.TargetIndex = c.Index;
+					SetTargetControl(m_TargetForm, c);
 				}
 			}
 
@@ -143,9 +150,29 @@ namespace Hypowered
 			}
 		}
 
-		private void btnTopMost_Click(object sender, EventArgs e)
+		private void btnForm_Click(object sender, EventArgs e)
 		{
-			this.TopMost = ! this.TopMost;
+			if(MainForm!= null)
+			{
+				ToolStripMenuItem[] m = MainForm.GetFormsForMenu(m_TargetForm, Form_Click);
+				btnForm.DropDownItems.Clear();
+				btnForm.DropDownItems.AddRange(m);
+			}
+		}
+
+		private void Form_Click(object? sender, EventArgs e)
+		{
+			if (MainForm != null)
+			{
+				ToolStripMenuItem? mi = (ToolStripMenuItem?)sender;
+				if ((mi != null) && (mi.Tag is HyperBaseForm))
+				{
+					HyperBaseForm t= (HyperBaseForm)mi.Tag;
+					MainForm.FormList.TargetIndex = t.Index;
+					SetTargetControl(t, t.TargetControl);
+				}
+			}
+
 		}
 	}
 }

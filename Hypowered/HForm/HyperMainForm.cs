@@ -21,43 +21,67 @@ namespace Hypowered
     public partial class HyperMainForm : HyperBaseForm
 	{
 		private System.Threading.Mutex? _mutex = null;
+		// ****************************************************************************
+		public delegate void FormChangedHandler(object sender, HyperChangedEventArgs e);
+		public event FormChangedHandler? FormChanged;
+		protected virtual void OnFormChanged(HyperChangedEventArgs e)
+		{
+			if (FormChanged != null)
+			{
+				FormChanged(this, e);
+			}
+		}
 		public HyperFormList FormList = new HyperFormList();
+		private void FormList_FormChanged(object sender, HyperChangedEventArgs e)
+		{
+			OnFormChanged(e);
+		}
+
+		public ToolStripMenuItem[] GetFormsForMenu(HyperBaseForm? target, System.EventHandler func)
+		{
+			List<ToolStripMenuItem> list = new List<ToolStripMenuItem>();
+			if ( FormList.Count> 0)
+			{
+				foreach (HyperBaseForm c in FormList.Items)
+				{
+					ToolStripMenuItem mi = new ToolStripMenuItem();
+					if (target != null)
+					{
+						mi.Checked = (c.Index == target.Index);
+					}
+					mi.Text = c.Name;
+					mi.Tag = (object)c;
+					mi.Click += func;
+					list.Add(mi);
+				}
+			}
+			return list.ToArray();
+		}
+		// ****************************************************************************
 		protected HyperMenuBar m_menuBar = new HyperMenuBar();
 		protected HyperMenuItem? m_FileMenu = null;
 		protected HyperMenuItem? m_EditlMenu = null;
 		protected HyperMenuItem? m_ControlMenu = null;
 		protected HyperMenuItem? m_UserMenu = null;
 
+		
 		public override void SetIsEditMode(bool value)
 		{
-			m_IsEditMode = value;
-			if (this.Controls.Count > 0)
+			for (int i = 1; i < FormList.Count; i++)
 			{
-				foreach (Control c in this.Controls)
+				if (FormList[i] != this)
 				{
-					if (c is HyperControl)
-					{
-						((HyperControl)c).IsEditMode = m_IsEditMode;
-					}
+					FormList[i].SetIsEditMode(value);
 				}
 			}
-			if(FormList.Count>1)
-			{
-				for(int i=1;i<FormList.Count;i++)
-				{
-					if (FormList[i] != null)
-					{
-						FormList[i].SetIsEditMode(value);
-					}
-				}
-			}
-			//ChkControls();
-			this.Invalidate();
+			base.SetIsEditMode(value);
 		}
 		public HyperMainForm()
 		{
 			SetInScript(InScript.Startup| InScript.MouseClick| InScript.KeyPress);
 			FormList.SetMain(this);
+			FormList.FormChanged += FormList_FormChanged;
+
 			base.KeyPreview = true;
 			BackColor = ColU.ToColor(HyperColor.Back);
 			ForeColor = ColU.ToColor(HyperColor.Fore);
@@ -76,6 +100,16 @@ true);
 			this.UpdateStyles();
 			SetupFuncs();
 			InitializeComponent();
+			
+			//念のためデザイナーで作られた物の確認
+			if(this.Controls.Count > 0)
+			{
+				foreach(Control c in this.Controls)
+				{
+					AddControl(this,c);
+				}
+			}
+
 
 			if(m_menuBar==null)m_menuBar = new HyperMenuBar();
 			m_FileMenu = new HyperMenuItem(m_menuBar, "File", null);
@@ -96,6 +130,9 @@ true);
 
 			InitScript();
 		}
+
+
+
 		// *********************************************************************
 		public void Command(string[] args, PIPECALL IsPipe = PIPECALL.StartupExec)
 		{
@@ -131,9 +168,17 @@ true);
 
 			LoadStatus(StatusFileName());
 
+			if(base.Name=="")
+			{
+				MessageBox.Show("Server Error");
+			}
+			else
+			{
+				StartServer(base.Name);
+			}
+			InitScript();
 
-			StartServer(base.Name);
-			if(Script_Startup!="")
+			if (Script_Startup!="")
 			{
 				ExecuteCode(Script_Startup);
 			}
@@ -155,51 +200,16 @@ true);
 			}
 			StopServer();
 		}
-		protected override void OnHControlAdd(HControlAddEventArgs e)
+		protected override void OnCreatedControl(HyperChangedEventArgs e)
 		{
-			base.OnHControlAdd(e);
+			base.OnCreatedControl(e);
 			Script.InitControls(this.Controls);
 		}
-		public override void OnHControlRemoved(EventArgs e)
+		public override void OnDeletedControl(HyperChangedEventArgs e)
 		{
-			base.OnHControlRemoved(e);
+			base.OnDeletedControl(e);
 			Script.InitControls(this.Controls);
 		}
-		protected override void OnActivated(EventArgs e)
-		{
-			
-			base.OnActivated(e);
-		}
-		protected override void OnDeactivate(EventArgs e)
-		{
-		
-			base.OnDeactivate(e);
-		}
-		// ****************************************************************************
-		/*
-		public ToolStripMenuItem[] GetMenuControls(HyperControl? target, System.EventHandler func)
-		{
-			List<ToolStripMenuItem> list = new List<ToolStripMenuItem>();
-			if (this.Controls.Count > 0)
-			{
-				foreach (Control c in this.Controls)
-				{
-					if (c is not HyperControl) continue;
-					HyperControl hc = (HyperControl)c;
-					ToolStripMenuItem mi = new ToolStripMenuItem();
-					if (target != null)
-					{
-						mi.Checked = (hc.Index == target.Index);
-					}
-					mi.Text = hc.Name;
-					mi.Tag = (object)hc;
-					mi.Click += func;
-					list.Add(mi);
-				}
-			}
-			return list.ToArray();
-		}
-		*/
 		// ****************************************************************************
 		protected override bool ProcessDialogKey(Keys keyData)
 		{
@@ -304,9 +314,9 @@ true);
 			}
 			return ret;
 		}
-		public void InitForm()
+		public void ClearFroms()
 		{
-			FormList.Init();
+			FormList.Clear();
 			if(this.Controls.Count > 1)
 			{
 				for(int i= this.Controls.Count-1; i>=1;i--)
@@ -321,7 +331,7 @@ true);
 		{
 			bool ret = false;
 			if (p == "") return ret;
-			InitForm();
+			ClearFroms();
 			ret = LoadForm(p);
 			if (ret)
 			{
@@ -385,18 +395,6 @@ true);
 				ret = false;
 			}
 			return ret;
-		}
-
-		private void button1_Click(object sender, EventArgs e)
-		{
-			PropertyInfo[] pp =typeof( Properties.Resources).GetProperties();
-
-			string ret = "";
-			foreach (PropertyInfo prop in pp)
-			{
-				ret += prop.Name+"\r\n";
-			}
-			MessageBox.Show(ret);
 		}
 	}
 }

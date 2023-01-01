@@ -201,6 +201,12 @@ namespace BRY
 		// ************************************************************
 		public void Server(string pipeName)
 		{
+			if (pipeName == "")
+			{
+				MessageBox.Show("Server Err");
+				return;
+			}
+
 			Task.Run(() =>
 			{ //Taskを使ってクライアント待ち
 				while (_execution)

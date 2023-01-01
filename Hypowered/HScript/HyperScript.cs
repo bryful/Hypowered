@@ -62,7 +62,8 @@ namespace Hypowered
 			{
 				foreach(Control c in cs)
 				{
-					engine.AddHostObject(c.Name, c);
+					if(c is HyperControl)
+					engine.AddHostObject(c.Name, (HyperControl)c);
 				}
 			}
 		}

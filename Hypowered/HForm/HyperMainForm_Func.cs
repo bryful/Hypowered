@@ -27,6 +27,7 @@ namespace Hypowered
 			lst.Add(new FuncItem(ShowScriptEdit, Keys.Control | Keys.E, "スクリプト編集"));
 			lst.Add(new FuncItem(PictLibDialog, Keys.Control | Keys.F1, "Pict選択"));
 			lst.Add(new FuncItem(AddUserPict, Keys.Control | Keys.U, "ユーザー画像追加"));
+			lst.Add(new FuncItem(RemoveControl, Keys.Delete, "コントロール削除"));
 			Funcs.SetFuncItems(lst.ToArray());
 		}
 		// *************************************************************************
@@ -52,6 +53,7 @@ namespace Hypowered
 		private HyperMenuItem? m_ScriptEditMenu = null;
 		private HyperMenuItem? m_PictLibMenu = null;
 		private HyperMenuItem? m_AddUserPictMenu = null;
+		private HyperMenuItem? m_RemoveControlMenu = null;
 		// *************************************************************************
 		public void MakeMenu()
 		{
@@ -73,6 +75,7 @@ namespace Hypowered
 			m_ScriptEditMenu = CreateMenuItem(ShowScriptEdit);
 			m_PictLibMenu = CreateMenuItem(PictLibDialog);
 			m_AddUserPictMenu = CreateMenuItem(AddUserPict);
+			m_RemoveControlMenu = CreateMenuItem(RemoveControl);
 			if (m_ControlMenu != null)
 			{
 				m_ControlMenu.Add(m_EditModeMenu);
@@ -84,6 +87,7 @@ namespace Hypowered
 				m_ControlMenu.Add(m_AddUserPictMenu);
 				m_ControlMenu.Add(null);
 				m_ControlMenu.Add(m_ScriptEditMenu);
+				m_ControlMenu.Add(m_RemoveControlMenu);
 				m_ControlMenu.Add(m_NewControlMenu);
 			}
 		}
@@ -128,7 +132,7 @@ namespace Hypowered
 			if(dlg.ShowDialog(FormList.TargetForm) ==DialogResult.OK )
 			{
 				m_ct= dlg.ControlType;
-				AddControl(FormList.TargetForm, dlg.ControlType, dlg.ControlName, dlg.ControlText, dlg.Font);
+				AddControl(FormList.TargetForm, dlg.ControlType, dlg.ControlName, dlg.ControlText,dlg.Font);
 				return true;
 			}
 			return false;
@@ -301,9 +305,9 @@ namespace Hypowered
 					if (c is HyperMenuBar) return ret;
 					bf.Controls.Remove(c);
 					bf.ChkControls();
+					bf.Invalidate();
 					ret = true;
-					bf.OnHControlRemoved(new EventArgs());
-
+					bf.OnDeletedControl(new HyperChangedEventArgs(bf,null));
 				}
 			}
 

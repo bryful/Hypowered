@@ -154,7 +154,7 @@ namespace Hypowered
             if (bs != null)
             {
 				ret = System.Text.Encoding.UTF8.GetString(bs);
-				if (ret != null) ret = Regex.Unescape(ret);
+				//if (ret != null) ret = Regex.Unescape(ret);
 			}
 			return ret;
 
