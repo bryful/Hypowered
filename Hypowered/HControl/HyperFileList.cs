@@ -27,22 +27,20 @@ namespace Hypowered
 			}
 
 		}
-		public delegate void DoubleClickHandler(object sender, EventArgs e);
-		public new event DoubleClickHandler? DoubleClick;
 		protected override void OnDoubleClick(EventArgs e)
 		{
-			if (DoubleClick != null)
+			base.OnDoubleClick(e);
+			if (IsEditMode == false)
 			{
-				DoubleClick(this, e);
-			}
-			if (MainForm != null)
-			{
-				MainForm.ExecuteCode(Script_MouseDoubleClick);
+				if (MainForm != null)
+				{
+					MainForm.ExecuteCode(Script_MouseDoubleClick);
+				}
 			}
 		}
 		private ListBox m_ListBox = new ListBox();
 		private string m_CurrentDir = Directory.GetCurrentDirectory();
-		[Category("Hypowerd_DirList")]
+		[Category("Hypowered_DirList")]
 		public string CurrentDir
 		{
 			get { return m_CurrentDir; }
@@ -55,8 +53,8 @@ namespace Hypowered
 				}
 			}
 		}
-		[Category("Hypowerd_DirList")]
-		public string SelectedFile
+		[Category("Hypowered_DirList")]
+		public string SelectedItem
 		{
 			get
 			{
@@ -65,6 +63,11 @@ namespace Hypowered
 				if((si>=0)&&(si<m_ListBox.Items.Count))
 				{
 					ret = m_ListBox.Items[si].ToString();
+					if (ret == null) ret = "";
+					if(m_CurrentDir!="")
+					{
+						ret = Path.Combine(m_CurrentDir, ret);
+					}
 				}
 				return ret;
 			}
@@ -76,7 +79,7 @@ namespace Hypowered
 			m_IsEditMode = value;
 			m_ListBox.Visible = !value;
 		}
-		[Category("Hypowerd")]
+		[Category("Hypowered")]
 		public new Font Font
 		{
 			get { return m_ListBox.Font; }
@@ -86,7 +89,7 @@ namespace Hypowered
 				base.Font = value;
 			}
 		}
-		[Category("Hypowerd_FileList")]
+		[Category("Hypowered_FileList")]
 		public ListBox ListBox
 		{
 			get { return m_ListBox; }
@@ -96,7 +99,7 @@ namespace Hypowered
 			}
 		}
 		
-		[Category("Hypowerd_FileList")]
+		[Category("Hypowered_FileList")]
 		public bool IntegralHeight
 		{
 			get { return m_ListBox.IntegralHeight; }
@@ -105,7 +108,7 @@ namespace Hypowered
 				m_ListBox.IntegralHeight = value;
 			}
 		}
-		[Category("Hypowerd_FileList")]
+		[Category("Hypowered_FileList")]
 		public int ItemHeight
 		{
 			get { return m_ListBox.ItemHeight; }
@@ -114,7 +117,7 @@ namespace Hypowered
 				m_ListBox.ItemHeight = value;
 			}
 		}
-		[Category("Hypowerd_FileList")]
+		[Category("Hypowered_FileList")]
 		public int SelectedIndex
 		{
 			get { return m_ListBox.SelectedIndex; }
@@ -123,17 +126,17 @@ namespace Hypowered
 				m_ListBox.SelectedIndex = value;
 			}
 		}
-		[Category("Hypowerd_FileList")]
+		[Category("Hypowered_FileList")]
 		public ListBox.ObjectCollection Items
 		{
 			get { return m_ListBox.Items; }
 		}
-		[Category("Hypowerd_FileList")]
+		[Category("Hypowered_FileList")]
 		public int Count
 		{
 			get { return m_ListBox.Items.Count; }
 		}
-		[Category("Hypowerd_Color")]
+		[Category("Hypowered_Color")]
 		public new Color ForeColor
 		{
 			get { return m_ListBox.ForeColor; }
@@ -143,7 +146,7 @@ namespace Hypowered
 				m_ListBox.ForeColor = value;
 			}
 		}
-		[Category("Hypowerd_Color")]
+		[Category("Hypowered_Color")]
 		public new Color BackColor
 		{
 			get { return m_ListBox.BackColor; }
@@ -154,8 +157,8 @@ namespace Hypowered
 			}
 		}
 		private HyperDirList? m_HyperDirList = null;
-		[Category("Hypowerd_FileList")]
-		public HyperDirList? HyperDirList
+		[Category("Hypowered_FileList")]
+		public HyperDirList? DirList
 		{
 			get { return m_HyperDirList; }
 			set
@@ -173,8 +176,8 @@ namespace Hypowered
 			}
 		}
 		private HyperLabel? m_HyperLabel = null;
-		[Category("Hypowerd_DirList")]
-		public HyperLabel? HyperLabel
+		[Category("Hypowered_DirList")]
+		public HyperLabel? Label
 		{
 			get { return m_HyperLabel; }
 			set
@@ -182,7 +185,7 @@ namespace Hypowered
 				m_HyperLabel = value;
 				if (m_HyperLabel != null)
 				{
-					m_HyperLabel.Text = SelectedFile;
+					m_HyperLabel.Text = SelectedItem;
 				}
 			}
 		}
@@ -198,6 +201,11 @@ namespace Hypowered
 		public HyperFileList()
 		{
 			SetMyType(ControlType.FileList);
+			SetConnectProps(
+				new ControlType[] 
+				{ ControlType.DirList,
+					ControlType.Label 
+				});
 			SetInScript(InScript.MouseDoubleClick | InScript.SelectedIndexChanged);
 			this.Size = new Size(150, 150);
 			m_ListBox.Location = new Point(0, 0);

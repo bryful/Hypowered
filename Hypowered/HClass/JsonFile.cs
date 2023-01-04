@@ -294,6 +294,20 @@ namespace Hypowered
 				}
 			}
 		}
+		public void SetValue(string key, JsonArray? value)
+		{
+			if (Obj != null)
+			{
+				if (Obj.ContainsKey(key))
+				{
+					Obj[key] = value;
+				}
+				else
+				{
+					Obj.Add(key, value);
+				}
+			}
+		}
 		public void SetValue(string key, Color c)
 		{
 			if (Obj == null) return;
@@ -549,19 +563,6 @@ namespace Hypowered
 			}
 		}
 		// *********************************
-		public void SetValue(string key, JsonArray jo)
-		{
-			if (Obj == null) return;
-			if (Obj.ContainsKey(key))
-			{
-				Obj[key] = jo;
-
-			}
-			else
-			{
-				Obj.Add(key, jo);
-			}
-		}
 		// *********************************
 		public void SetValue(string key, string[] ary)
 		{
@@ -657,24 +658,41 @@ namespace Hypowered
 					case "FormBorderStyle":
 						ret = Obj[key].GetValue<int?>();
 						break;
+					case "Int32[]":
+					case "Int32 []":
+						ret = ValueIntArray(key);
+						break;
 					case "Double":
 						ret = Obj[key].GetValue<double?>();
+						break;
+					case "Double[]":
+					case "Double []":
+						ret = ValueDoubleArray(key);
 						break;
 					case "Float":
 						ret = Obj[key].GetValue<float?>();
 						break;
+					case "Float[]":
+					case "Float []":
+						ret = ValueFloatArray(key);
+						break;
 					case "String":
 					case "string":
-						//ret = Obj[key].GetValue<string?>();
 						ret = ValueStr(key);
 						break;
 					case "String[]":
 					case "String []":
-						ret = Obj[key].GetValue<string[]?>();
+						ret = ValueStrArray(key);
 						break;
 					case "Boolean":
 					case "Bool":
 						ret = Obj[key].GetValue<bool?>();
+						break;
+					case "Boolean[]":
+					case "Boolean []":
+					case "Bool[]":
+					case "Bool []":
+						ret = ValueBoolArray(key);
 						break;
 				}
 

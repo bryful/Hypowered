@@ -20,7 +20,20 @@ namespace Hypowered
 
     public partial class HyperMainForm : HyperBaseForm
 	{
+		private readonly string m_MainENtryName = "hyperform.json";
+		private readonly string m_BackupENtryName = "hyperform_backup.json";
 		private System.Threading.Mutex? _mutex = null;
+		protected string m_FileName = "";
+		[Category("Hypowered_Form")]
+		public string FileName
+		{
+			get { return m_FileName; }
+		}
+		[Category("Hypowered_Form")]
+		public string IDName
+		{
+			get { return Path.GetFileNameWithoutExtension(m_FileName); }
+		}
 		// ****************************************************************************
 		public delegate void FormChangedHandler(object sender, HyperChangedEventArgs e);
 		public event FormChangedHandler? FormChanged;
@@ -31,7 +44,44 @@ namespace Hypowered
 				FormChanged(this, e);
 			}
 		}
-		public HyperFormList FormList = new HyperFormList();
+		public HyperFormList forms = new HyperFormList();
+		[Browsable(false)]
+		public List<HyperBaseForm> formItems
+		{
+			get { return forms.Items; }
+
+		}
+		[Browsable(false)]
+		public HyperBaseForm? targetForm
+		{
+			get { return forms.TargetForm; }
+		}
+		[Browsable(false)]
+		public HyperControl? targetControl
+		{
+			get
+			{
+				if((forms.TargetFormIndex>=0)&&(forms.TargetFormIndex <= forms.Count))
+				{
+					return forms[forms.TargetFormIndex].TargetControl;
+				}
+				else
+				{
+					return null;
+				}
+
+			}
+
+		}
+		[Browsable(false)]
+		public string[] GetAllControlNames
+		{
+			get { return forms.GetAllContorolName(); }
+		}
+		public bool IsNameChk(string name)
+		{
+			return forms.IsNameChk(name);
+		}
 		private void FormList_FormChanged(object sender, HyperChangedEventArgs e)
 		{
 			OnFormChanged(e);
@@ -40,9 +90,9 @@ namespace Hypowered
 		public ToolStripMenuItem[] GetFormsForMenu(HyperBaseForm? target, System.EventHandler func)
 		{
 			List<ToolStripMenuItem> list = new List<ToolStripMenuItem>();
-			if ( FormList.Count> 0)
+			if ( forms.Count> 0)
 			{
-				foreach (HyperBaseForm c in FormList.Items)
+				foreach (HyperBaseForm c in forms.Items)
 				{
 					ToolStripMenuItem mi = new ToolStripMenuItem();
 					if (target != null)
@@ -57,6 +107,18 @@ namespace Hypowered
 			}
 			return list.ToArray();
 		}
+		public string[] GetFormsForList()
+		{
+			List<string> list = new List<string>();
+			if (forms.Count > 0)
+			{
+				foreach (HyperBaseForm c in forms.Items)
+				{
+					list.Add(((HyperBaseForm)c).Name);
+				}
+			}
+			return list.ToArray();
+		}
 		// ****************************************************************************
 		protected HyperMenuBar m_menuBar = new HyperMenuBar();
 		protected HyperMenuItem? m_FileMenu = null;
@@ -67,20 +129,25 @@ namespace Hypowered
 		
 		public override void SetIsEditMode(bool value)
 		{
-			for (int i = 1; i < FormList.Count; i++)
+			for (int i = 1; i < forms.Count; i++)
 			{
-				if (FormList[i] != this)
+				if (forms[i] != this)
 				{
-					FormList[i].SetIsEditMode(value);
+					forms[i].SetIsEditMode(value);
 				}
 			}
 			base.SetIsEditMode(value);
 		}
+
 		public HyperMainForm()
 		{
-			SetInScript(InScript.Startup| InScript.MouseClick| InScript.KeyPress);
-			FormList.SetMain(this);
-			FormList.FormChanged += FormList_FormChanged;
+			SetInScript(
+				InScript.Startup| 
+				InScript.MouseDoubleClick|
+				InScript.KeyPress|
+				InScript.Shutdown);
+			forms.SetMain(this);
+			forms.FormChanged += FormList_FormChanged;
 
 			base.KeyPreview = true;
 			BackColor = ColU.ToColor(HyperColor.Back);
@@ -141,7 +208,55 @@ true);
 				return;
 			}
 			HArgs args1 = new HArgs(args);
-			LoadToHYPF(args1.First);
+			if (args1.FileName != "")
+			{
+				if (args1.Option == Option.Create)
+				{
+					if (args1.FileName != "")
+					{
+						m_FileName = args1.FileName;
+						base.Name = IDName;
+						if (SaveToHYPF())
+						{
+							StartServer();
+						}
+					}
+				} 
+				else
+				{
+					LoadToHYPF(args1.FileName);
+				}
+			}
+		}
+		// *********************************************************************
+		public void FormInit(string fn,bool IsOpen =true)
+		{
+			//ホームファイルを読む無かったら作る
+			m_FileName = "";
+			base.Name = "";
+			ClearFroms();
+		}
+		public void FormFisnish()
+		{
+			if (m_FileName != "")
+			{
+				SaveToHYPF();
+				if (_mutex != null)
+				{
+					try
+					{
+						_mutex.ReleaseMutex();
+					}
+					catch
+					{
+
+					}
+					_mutex.Dispose();
+					_mutex = null;
+				}
+				StopServer();
+				ClearFroms();
+			}
 		}
 		// *********************************************************************
 		protected override void OnLoad(EventArgs e)
@@ -158,57 +273,46 @@ true);
 				{
 					m_FileName = home;
 					base.Name = Path.GetFileNameWithoutExtension(home);
-					SaveToHYPF();
+					if(SaveToHYPF())
+					{
+						StartServer();
+					}
+					else
+					{
+						MessageBox.Show("Err1");
+					}
 				}
 				else
 				{
-					LoadToHYPF(home);
+					if (LoadToHYPF(home)==false)
+					{
+						MessageBox.Show("Err2");
+					}
 				}
 			}
+			
+			
 
-			LoadStatus(StatusFileName());
+			
 
-			if(base.Name=="")
-			{
-				MessageBox.Show("Server Error");
-			}
-			else
-			{
-				StartServer(base.Name);
-			}
-			InitScript();
-
-			if (Script_Startup!="")
-			{
-				ExecuteCode(Script_Startup);
-			}
 		}
 		protected override void OnFormClosed(FormClosedEventArgs e)
 		{
 			base.OnFormClosed(e);
 
-			if(PropForm!=null) PropForm.Dispose();
 			if(ControlList!=null) ControlList.Dispose();
 
-			SaveStatus(StatusFileName());
-			SaveToHYPF();
-			if(_mutex!=null)
-			{
-				_mutex.ReleaseMutex(); 
-				_mutex.Dispose();
-				_mutex= null;
-			}
-			StopServer();
+			FormFisnish();
 		}
 		protected override void OnCreatedControl(HyperChangedEventArgs e)
 		{
 			base.OnCreatedControl(e);
-			Script.InitControls(this.Controls);
+			Script.InitControls(this);
 		}
 		public override void OnDeletedControl(HyperChangedEventArgs e)
 		{
 			base.OnDeletedControl(e);
-			Script.InitControls(this.Controls);
+			Script.InitControls(this);
 		}
 		// ****************************************************************************
 		protected override bool ProcessDialogKey(Keys keyData)
@@ -227,10 +331,15 @@ true);
 		// ****************************************************************************
 		// ********************************************************************
 		private F_Pipe m_Server = new F_Pipe();
-		public void StartServer(string pipename)
+		public void StartServer()
 		{
-			m_Server.Server(pipename);
-			m_Server.Reception += M_Server_Reception;
+			string id = IDName;
+			if(id!="")
+			{
+				m_Server.Server(id);
+				m_Server.Reception += M_Server_Reception;
+			}
+
 		}
 		// ********************************************************************
 		public void StopServer()
@@ -255,7 +364,7 @@ true);
 		public string StatusFileName()
 		{
 			string p = JsonFile.GetAppDataPath();
-			string n = Path.GetFileNameWithoutExtension(Application.ExecutablePath);
+			string n = IDName;
 			return Path.Combine(p, n + ".json");
 		}
 		public string DefaultFileName()
@@ -267,10 +376,13 @@ true);
 		{
 			JsonFile jf = new JsonFile();
 			jf.SetValue(nameof(Location), Location);
-			jf.SetValue(nameof(PropFormBounds), PropFormBounds);
 			jf.SetValue(nameof(ControlListBounds), ControlListBounds);
 			jf.SetValue(nameof(ScriptEditBounds), ScriptEditBounds);
 			return jf.Save(s);
+		}
+		public bool Connect(HyperControl s, ControlType ct,HyperControl d)
+		{
+			return ConnectList.AddConnect(this.Controls, s.Name, ct, d.Name);
 		}
 		// ****************************************************************************
 		public bool LoadStatus(string s)
@@ -282,8 +394,6 @@ true);
 			object? v = null;
 			v = jf.ValueAuto("Location", typeof(Point).Name);
 			if (v != null) Location = (Point)v;
-			v = jf.ValueAuto("PropFormBounds", typeof(Rectangle).Name);
-			if (v != null) PropFormBounds = (Rectangle)v;
 			v = jf.ValueAuto("ControlListBounds", typeof(Rectangle).Name);
 			if (v != null) ControlListBounds = (Rectangle)v;
 			v = jf.ValueAuto("ScriptEditBounds", typeof(Rectangle).Name);
@@ -305,23 +415,25 @@ true);
 			ret = SaveForm(m_FileName);
 			if (ret)
 			{
+				SaveStatus(StatusFileName());
 				base.Name = Path.GetFileNameWithoutExtension(m_FileName);
 				PictLib.SetMainForm(this);//FileNameを設定してる
 				if (_mutex == null)
 				{
 					_mutex = new System.Threading.Mutex(false, base.Name);
 				}
+				InitScript();
 			}
 			return ret;
 		}
 		public void ClearFroms()
 		{
-			FormList.Clear();
+			forms.Clear();
 			if(this.Controls.Count > 1)
 			{
 				for(int i= this.Controls.Count-1; i>=1;i--)
 				{
-					this.Controls[i].Dispose();
+					//this.Controls[i].Dispose();
 					this.Controls.RemoveAt(i);
 				}
 			}
@@ -331,17 +443,26 @@ true);
 		{
 			bool ret = false;
 			if (p == "") return ret;
-			ClearFroms();
+			FormFisnish();
+
 			ret = LoadForm(p);
 			if (ret)
 			{
 				m_FileName = p;
-				base.Name = Path.GetFileNameWithoutExtension(p);
+				base.Name = IDName;
+				StartServer();
 				PictLib.SetMainForm(this);//FileNameを設定してる
 
 				if (_mutex == null)
 				{
-					_mutex = new System.Threading.Mutex(false, base.Name);
+					_mutex = new System.Threading.Mutex(false, IDName);
+				}
+				ConnectList.ConnectAll(this.Controls);
+				LoadStatus(StatusFileName());
+				InitScript();
+				if (Script_Startup != "")
+				{
+					ExecuteCode(Script_Startup);
 				}
 			}
 			return ret;
@@ -355,10 +476,15 @@ true);
 				m_FileName = p;
 				base.Name = Path.GetFileNameWithoutExtension(p);
 				string js = ToJsonCode();
-				ZipUtil.SetEntryFromStr(p, "hyperform.json", js);
+				bool b = File.Exists(m_FileName);
+				if(b) ZipUtil.BackupEntry(p, m_MainENtryName, m_BackupENtryName);
+				ZipUtil.SetEntryFromStr(p, m_MainENtryName, js);
+				if(!b) ZipUtil.BackupEntry(p, m_MainENtryName, m_BackupENtryName);
+				ret = true;
 			}
 			catch
 			{
+				m_FileName = "";
 				ret = false;
 			}
 			return ret;
@@ -367,32 +493,51 @@ true);
 		{
 			bool ret = false;
 
-			try
+			JsonObject? GetEntry(string entryName)
 			{
-				string? js = ZipUtil.GetEntryToStr(p, "hyperform.json");
-				if (js!= null)
+				JsonObject? ret = null;
+				string? js = ZipUtil.GetEntryToStr(p, m_MainENtryName);
+				if (js != null)
 				{
 					var doc = JsonNode.Parse(js);
 					if (doc != null)
 					{
-						var Obj = (JsonObject?)doc;
-						if (Obj != null)
+						ret = (JsonObject?)doc;
+					}
+				}
+				return ret;
+			}
+
+			try
+			{
+				JsonObject? Obj = GetEntry(m_MainENtryName);
+				if(Obj!=null)
+				{
+					try
+					{
+						ClearFroms();
+						FromJson(Obj);
+					}
+					catch
+					{
+						Obj = GetEntry(m_BackupENtryName);
+						if(Obj!=null)
 						{
+							ClearFroms(); 
 							FromJson(Obj);
-							Script.Init();
-							Script.InitControls(this.Controls);
-							m_FileName = p;
-							base.Name = Path.GetFileNameWithoutExtension(p);
-							ret = true;
 						}
 					}
-
-					m_FileName = p;
 				}
+				Script.Init();
+				Script.InitControls(this);
+				m_FileName = p;
+				base.Name = IDName;
+				ret = true;
 			}
 			catch
 			{
 				ret = false;
+				m_FileName = "";
 			}
 			return ret;
 		}

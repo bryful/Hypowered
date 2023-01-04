@@ -18,39 +18,51 @@ namespace Hypowered
 		{
 			base.SetIsEditMode(value);
 			m_TextBox.Visible = !m_IsEditMode;
+			if (m_TextBox.Visible ==false)
+			{
+				base.Text = m_TextBox.Text;
+			}
+			else
+			{
+				m_TextBox.Text =base.Text;
+			}
 		}
 		private TextBox m_TextBox = new TextBox();
-		[Category("Hypowerd_TextBox")]
+		[Category("Hypowered_TextBox")]
 		public TextBox TextBox
 		{
 			get { return m_TextBox; }
 			set { m_TextBox = value; }
 		}
-		[Category("Hypowerd_TextBox")]
+		[Category("Hypowered_TextBox")]
 		public bool Multiline
 		{
 			get { return m_TextBox.Multiline; }
 			set { m_TextBox.Multiline = value; ChkSize(); }
 		}
-		[Category("Hypowerd_TextBox")]
+		[Category("Hypowered_TextBox")]
 		public BorderStyle BorderStyle
 		{
 			get { return m_TextBox.BorderStyle; }
 			set { m_TextBox.BorderStyle = value; }
 		}
-		[Category("Hypowerd_TextBox")]
+		[Category("Hypowered_TextBox")]
 		public new string Text
 		{
 			get { return m_TextBox.Text; }
-			set { m_TextBox.Text = value; }
+			set 
+			{
+				base.Text = value;
+				m_TextBox.Text = value; 
+			}
 		}
-		[Category("Hypowerd_TextBox")]
+		[Category("Hypowered_TextBox")]
 		public  HorizontalAlignment TextAlign
 		{
 			get { return m_TextBox.TextAlign; }
 			set { m_TextBox.TextAlign = value; }
 		}
-		[Category("Hypowerd")]
+		[Category("Hypowered")]
 		public new Font Font
 		{
 			get { return m_TextBox.Font; }
@@ -61,7 +73,7 @@ namespace Hypowered
 				this.Size = new Size(m_TextBox.Width + 2, m_TextBox.Height + 2);
 			}
 		}
-		[Category("Hypowerd_TextBox")]
+		[Category("Hypowered_TextBox")]
 		public bool ReadOnly
 		{
 			get { return m_TextBox.ReadOnly; }
@@ -70,7 +82,7 @@ namespace Hypowered
 				m_TextBox.ReadOnly = value;
 			}
 		}
-		[Category("Hypowerd_Color")]
+		[Category("Hypowered_Color")]
 		public new Color ForeColor
 		{
 			get { return m_TextBox.ForeColor; }
@@ -80,7 +92,7 @@ namespace Hypowered
 				m_TextBox.ForeColor = value;
 			}
 		}
-		[Category("Hypowerd_Color")]
+		[Category("Hypowered_Color")]
 		public new Color BackColor
 		{
 			get { return m_TextBox.BackColor; }

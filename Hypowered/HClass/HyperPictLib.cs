@@ -9,6 +9,7 @@ using System.Xml.Linq;
 using Microsoft.VisualBasic;
 using System.Windows.Input;
 using System.Text.Json.Nodes;
+using System.Windows;
 
 namespace Hypowered
 {
@@ -204,6 +205,7 @@ namespace Hypowered
 				return ret;
 			}
 		}
+		
 		// ***********************************************************************
 		private Bitmap? LoadBitmaps(int idx)
 		{
@@ -237,6 +239,15 @@ namespace Hypowered
 			{
 				return "";
 			}
+		}
+		public string PictName(int idx)
+		{
+			string ret = "";
+			if ((idx >= 0) && (idx < m_Items.Count))
+			{
+				ret = m_Items[idx].Name;
+			}
+			return ret;
 		}
 		public string BitmapInfo(int idx)
 		{

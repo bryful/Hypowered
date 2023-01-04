@@ -29,17 +29,15 @@ namespace Hypowered
 				MainForm.ExecuteCode(Script_SelectedIndexChanged);
 			}
 		}
-		public delegate void DoubleClickHandler(object sender, EventArgs e);
-		public new event DoubleClickHandler? DoubleClick;
 		protected override void OnDoubleClick(EventArgs e)
 		{
-			if (DoubleClick != null)
+			base.OnDoubleClick(e);
+			if (IsEditMode == false)
 			{
-				DoubleClick(this, e);
-			}
-			if (MainForm != null)
-			{
-				MainForm.ExecuteCode(Script_MouseDoubleClick);
+				if (MainForm != null)
+				{
+					MainForm.ExecuteCode(Script_MouseDoubleClick);
+				}
 			}
 		}
 		public override void SetIsEditMode(bool value)
@@ -47,7 +45,7 @@ namespace Hypowered
 			m_IsEditMode = value;
 			m_ListBox.Visible = !value;
 		}
-		[Category("Hypowerd")]
+		[Category("Hypowered")]
 		public new Font Font
 		{
 			get { return m_ListBox.Font; }
@@ -57,7 +55,7 @@ namespace Hypowered
 				base.Font = value;
 			}
 		}
-		[Category("Hypowerd_ListBox")]
+		[Category("Hypowered_ListBox")]
 		public  ListBox ListBox
 		{
 			get { return m_ListBox; }
@@ -66,7 +64,7 @@ namespace Hypowered
 				m_ListBox = value;
 			}
 		}
-		[Category("Hypowerd_ListBox")]
+		[Category("Hypowered_ListBox")]
 		public bool IntegralHeight
 		{
 			get { return m_ListBox.IntegralHeight; }
@@ -75,7 +73,7 @@ namespace Hypowered
 				m_ListBox.IntegralHeight = value;
 			}
 		}
-		[Category("Hypowerd_ListBox")]
+		[Category("Hypowered_ListBox")]
 		public int ItemHeight
 		{
 			get { return m_ListBox.ItemHeight; }
@@ -84,7 +82,40 @@ namespace Hypowered
 				m_ListBox.ItemHeight = value;
 			}
 		}
-		[Category("Hypowerd_ListBox")]
+		public string[] ToArray()
+		{
+			List<string> list = new List<string>();
+			if (m_ListBox.Items.Count > 0)
+			{
+				foreach (var s in m_ListBox.Items)
+				{
+					if (s != null)
+					{
+						list.Add(s.ToString());
+					}
+				}
+			}
+			return list.ToArray();
+		}
+		public void FromArray(string[] arr)
+		{
+			m_ListBox.Items.Clear();
+			m_ListBox.Items.AddRange(arr);
+		}
+		[Category("Hypowered_ListBox")]
+		public new string[] Lines
+		{
+			get
+			{
+				return ToArray();
+			}
+			set
+			{
+				SelectedIndex = -1;
+				FromArray(value);
+			}
+		}
+		[Category("Hypowered_ListBox")]
 		public int SelectedIndex
 		{
 			get { return m_ListBox.SelectedIndex; }
@@ -93,17 +124,31 @@ namespace Hypowered
 				m_ListBox.SelectedIndex = value;
 			}
 		}
-		[Category("Hypowerd_ListBox")]
+		[Category("Hypowered_ListBox")]
+		public string SelectedItem
+		{
+			get
+			{
+				string? s = null;
+				if (m_ListBox.SelectedItem != null)
+				{
+					s = m_ListBox.SelectedItem.ToString();
+				}
+					if (s == null) s = "";
+				return s;
+			}
+		}
+		[Category("Hypowered_ListBox")]
 		public ListBox.ObjectCollection Items
 		{
 			get { return m_ListBox.Items; }
 		}
-		[Category("Hypowerd_ListBox")]
+		[Category("Hypowered_ListBox")]
 		public int Count
 		{
 			get { return m_ListBox.Items.Count; }
 		}
-		[Category("Hypowerd_Color")]
+		[Category("Hypowered_Color")]
 		public new Color ForeColor
 		{
 			get { return m_ListBox.ForeColor; }
@@ -113,7 +158,7 @@ namespace Hypowered
 				m_ListBox.ForeColor = value;
 			}
 		}
-		[Category("Hypowerd_Color")]
+		[Category("Hypowered_Color")]
 		public new Color BackColor
 		{
 			get { return m_ListBox.BackColor; }
@@ -188,7 +233,7 @@ namespace Hypowered
 			jf.SetValue(nameof(MyType), (int?)MyType);//Nullable`1
 			jf.SetValue(nameof(IntegralHeight), IntegralHeight);//Boolean
 			jf.SetValue(nameof(ItemHeight), ItemHeight);//Int32
-			jf.SetValue(nameof(Items), Items);//ObjectCollection
+			jf.SetValue(nameof(Lines), Lines);//ObjectCollection
 			jf.SetValue(nameof(ForeColor), ForeColor);//Color
 			jf.SetValue(nameof(BackColor), BackColor);//Color
 			jf.SetValue(nameof(Font), Font);//Font
@@ -204,8 +249,8 @@ namespace Hypowered
 			if (v != null) IntegralHeight = (Boolean)v;
 			v = jf.ValueAuto("ItemHeight", typeof(Int32).Name);
 			if (v != null) ItemHeight = (Int32)v;
-			v = jf.ValueAuto("Items", typeof(ListBox.ObjectCollection).Name);
-			if (v != null) Items.AddRange((string[])v);
+			v = jf.ValueAuto("Lines", typeof(string[]).Name);
+			if (v != null) Lines = (string[])v;
 			v = jf.ValueAuto("ForeColor", typeof(Color).Name);
 			if (v != null) ForeColor = (Color)v;
 			v = jf.ValueAuto("BackColor", typeof(Color).Name);

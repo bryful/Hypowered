@@ -14,12 +14,13 @@ namespace Hypowered
 		[STAThread]
 		static void Main(string[] args)
 		{
+			/*
 			//Hypowered‚Ì‚¢‚¸‚ê‚©‚ª‹N“®‚µ‚Ä‚¢‚é
-			bool IsRunning = (_mutex.WaitOne(0, false)) == false;
-
+			bool IsRunning = (_mutex.WaitOne(0, false) == false);
+			HArgs hargs = new HArgs(args);
 			if(IsRunning)
 			{
-				string filename = (new HArgs(args)).First;
+				string filename = hargs.FileName;
 				if (filename != "")
 				{
 					string nID = Path.GetFileNameWithoutExtension(filename);
@@ -33,11 +34,18 @@ namespace Hypowered
 					}
 				}
 			}
+			else
+			{
+				ApplicationConfiguration.Initialize();
+				HyperMainForm mf = new HyperMainForm();
+				Application.Run(mf);
+			}
 			// To customize application configuration such as set high DPI settings or default font,
 			// see https://aka.ms/applicationconfiguration.
 			//ApplicationConfiguration.Initialize();
 			//Application.Run(new HyperMainForm());
 			//Form1 mf = new Form1();
+			*/
 			ApplicationConfiguration.Initialize();
 			HyperMainForm mf = new HyperMainForm();
 			Application.Run(mf);

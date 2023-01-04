@@ -173,6 +173,7 @@
 			this.Controls.Add(this.toolStrip);
 			this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.SizableToolWindow;
 			this.Name = "HyperScriptEditor";
+			this.StartPosition = System.Windows.Forms.FormStartPosition.Manual;
 			this.Text = "HyperScriptEditor";
 			this.toolStrip.ResumeLayout(false);
 			this.toolStrip.PerformLayout();

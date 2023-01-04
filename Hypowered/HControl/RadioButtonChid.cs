@@ -29,14 +29,14 @@ namespace Hypowered
 			}
 		}
 		private bool m_Checked;
-		[Category("Hypowerd_RadioButton")]
+		[Category("Hypowered_RadioButton")]
 		public bool Checked
 		{
 			get { return m_Checked; }
 			set { m_Checked = value; this.Invalidate(); }
 		}
 		private int m_CheckSize;
-		[Category("Hypowerd_RadioButton")]
+		[Category("Hypowered_RadioButton")]
 		public int CheckSize
 		{
 			get { return m_CheckSize; }

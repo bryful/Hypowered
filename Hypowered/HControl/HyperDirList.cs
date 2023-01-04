@@ -54,7 +54,7 @@ namespace Hypowered
 		}
 		private ListBox m_ListBox = new ListBox();
 		private string m_CurrentDir = Directory.GetCurrentDirectory();
-		[Category("Hypowerd_DirList")]
+		[Category("Hypowered_DirList")]
 		public string CurrentDir
 		{
 			get { return m_CurrentDir; }
@@ -69,20 +69,7 @@ namespace Hypowered
 			}
 		}
 
-		[Category("Hypowerd_DirList")]
-		public string SelectedDir
-		{
-			get
-			{
-				string ret = "";
-				int si =m_ListBox.SelectedIndex;
-				if((si>=0)&&(si<m_ListBox.Items.Count))
-				{
-					ret = m_ListBox.Items[si].ToString();
-				}
-				return ret;
-			}
-		}
+
 
 
 		public override void SetIsEditMode(bool value)
@@ -90,7 +77,7 @@ namespace Hypowered
 			m_IsEditMode = value;
 			m_ListBox.Visible = !value;
 		}
-		[Category("Hypowerd")]
+		[Category("Hypowered")]
 		public new Font Font
 		{
 			get { return m_ListBox.Font; }
@@ -100,7 +87,7 @@ namespace Hypowered
 				base.Font = value;
 			}
 		}
-		[Category("Hypowerd_DirList")]
+		[Category("Hypowered_DirList")]
 		public ListBox ListBox
 		{
 			get { return m_ListBox; }
@@ -109,7 +96,7 @@ namespace Hypowered
 				m_ListBox = value;
 			}
 		}
-		[Category("Hypowerd_DirList")]
+		[Category("Hypowered_DirList")]
 		public bool IntegralHeight
 		{
 			get { return m_ListBox.IntegralHeight; }
@@ -118,7 +105,7 @@ namespace Hypowered
 				m_ListBox.IntegralHeight = value;
 			}
 		}
-		[Category("Hypowerd_DirList")]
+		[Category("Hypowered_DirList")]
 		public int ItemHeight
 		{
 			get { return m_ListBox.ItemHeight; }
@@ -127,7 +114,7 @@ namespace Hypowered
 				m_ListBox.ItemHeight = value;
 			}
 		}
-		[Category("Hypowerd_DirList")]
+		[Category("Hypowered_DirList")]
 		public int SelectedIndex
 		{
 			get { return m_ListBox.SelectedIndex; }
@@ -136,7 +123,7 @@ namespace Hypowered
 				m_ListBox.SelectedIndex = value;
 			}
 		}
-		[Category("Hypowerd_DirList")]
+		[Category("Hypowered_DirList")]
 		public string SelectedItem
 		{
 			get
@@ -158,17 +145,17 @@ namespace Hypowered
 			}
 			
 		}
-		[Category("Hypowerd_DirList")]
+		[Category("Hypowered_DirList")]
 		public ListBox.ObjectCollection Items
 		{
 			get { return m_ListBox.Items; }
 		}
-		[Category("Hypowerd_DirList")]
+		[Category("Hypowered_DirList")]
 		public int Count
 		{
 			get { return m_ListBox.Items.Count; }
 		}
-		[Category("Hypowerd_Color")]
+		[Category("Hypowered_Color")]
 		public new Color ForeColor
 		{
 			get { return m_ListBox.ForeColor; }
@@ -178,7 +165,7 @@ namespace Hypowered
 				m_ListBox.ForeColor = value;
 			}
 		}
-		[Category("Hypowerd_Color")]
+		[Category("Hypowered_Color")]
 		public new Color BackColor
 		{
 			get { return m_ListBox.BackColor; }
@@ -189,8 +176,8 @@ namespace Hypowered
 			}
 		}
 		private HyperDriveIcons? m_HyperDriveIcons = null;
-		[Category("Hypowerd_DirList")]
-		public HyperDriveIcons? HyperDriveIcons
+		[Category("Hypowered_DirList")]
+		public HyperDriveIcons? DriveIcons
 		{
 			get { return m_HyperDriveIcons; }
 			set
@@ -204,8 +191,8 @@ namespace Hypowered
 			}
 		}
 		private HyperLabel? m_HyperLabel = null;
-		[Category("Hypowerd_DirList")]
-		public HyperLabel? HyperLabel
+		[Category("Hypowered_DirList")]
+		public HyperLabel? Label
 		{
 			get { return m_HyperLabel; }
 			set
@@ -228,6 +215,13 @@ namespace Hypowered
 		public HyperDirList()
 		{
 			SetMyType(ControlType.DirList);
+			SetConnectProps(
+				new ControlType[]
+				{
+					ControlType.DriveIcons,
+					ControlType.FileList,
+				}
+			);
 			SetInScript(
 				InScript.CurrentDirChanged| 
 				InScript.SelectedIndexChanged

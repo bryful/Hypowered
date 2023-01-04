@@ -6,30 +6,43 @@ using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using System.Windows.Documents;
 using System.Windows.Forms;
 
 namespace Hypowered
 {
 	public partial class ControlListBox : ListBox
 	{
+		private PropertyGrid? m_pg = null;
+		public PropertyGrid? PropertyGrid
+		{
+			get { return m_pg; }
+			set
+			{
+				m_pg = value;
+				if (m_pg != null)
+				{
+					m_pg.SelectedObject = m_obj;
+				}
+			}
+		}
+		private Object? m_obj = null;
 		public HyperMainForm? MainForm = null;
 		public HyperBaseForm? TargetForm = null;
 		public HyperControl? TargetControl = null;
 
-		[Category("Hypowerd_Color")]
+		[Category("Hypowered_Color")]
 		public new Color ForeColor
 		{
 			get { return base.ForeColor; }
 			set { base.ForeColor = value; this.Invalidate(); }
 		}
-		[Category("Hypowerd_Color")]
+		[Category("Hypowered_Color")]
 		public new Color BackColor
 		{
 			get { return base.BackColor; }
 			set { base.BackColor = value; this.Invalidate(); }
 		}
-		[Category("Hypowerd")]
+		[Category("Hypowered")]
 		public new ObjectCollection Items
 		{
 			get { return base.Items; }
@@ -54,6 +67,7 @@ namespace Hypowered
 				MainForm.FormChanged -= MainForm_FormChanged;
 				MainForm.FormChanged += MainForm_FormChanged;
 				SetTargetControl(MainForm, MainForm.TargetControl);
+
 			}
 		}
 
@@ -65,28 +79,33 @@ namespace Hypowered
 
 		public void SetTargetControl(HyperBaseForm? bf, HyperControl? c)
 		{
-			if ((bf!=null))
+			TargetForm = bf;
+			TargetControl = c;
+			if ((TargetForm != null))
 			{
-				if (TargetForm != bf)
-				{
-					TargetForm = bf;
-					TargetForm.ControlChanged -= TargetForm_ControlChanged;
-					TargetForm.ControlChanged += TargetForm_ControlChanged;
-					TargetForm.CreatedControl -= TargetForm_CreatedControl;
-					TargetForm.CreatedControl += TargetForm_CreatedControl;
-					TargetForm.DeletetedControl -= TargetForm_DeletetedControl;
-					TargetForm.DeletetedControl += TargetForm_DeletetedControl;
-				}
-				if (c != null)
-				{
-					TargetControl = c;
-				}
-				Listup();
-				if (c != null)
-				{
-					SelectedIndex = c.Index;
-				}
+				TargetForm.ControlChanged -= TargetForm_ControlChanged;
+				TargetForm.ControlChanged += TargetForm_ControlChanged;
+				TargetForm.ControlsChanged -= TargetForm_ControlsChanged;
+				TargetForm.ControlsChanged += TargetForm_ControlsChanged;
 
+				TargetForm.CreatedControl -= TargetForm_CreatedControl;
+				TargetForm.CreatedControl += TargetForm_CreatedControl;
+				TargetForm.DeletetedControl -= TargetForm_DeletetedControl;
+				TargetForm.DeletetedControl += TargetForm_DeletetedControl;
+			Listup();
+			}
+		}
+
+		private void TargetForm_ControlsChanged(object sender, HyperChangedEventArgs e)
+		{
+			if (e.Control != null)
+			{
+				Listup();
+				int idx = e.Control.Index;
+				if (SelectedIndex != idx)
+				{
+					SelectedIndex = idx;
+				}
 			}
 		}
 
@@ -98,6 +117,13 @@ namespace Hypowered
 				if(SelectedIndex!=idx)
 				{
 					SelectedIndex = idx;
+				}
+			}
+			else
+			{
+				if (SelectedIndex != -1)
+				{
+					SelectedIndex = -1;
 				}
 			}
 		}
@@ -130,6 +156,10 @@ namespace Hypowered
 				}
 				base.Items.AddRange(strings.ToArray());
 
+				if (TargetForm.TargetIndex >= base.Items.Count)
+				{
+					TargetForm.TargetIndex = base.Items.Count - 1;
+				}
 				this.SelectedIndex = TargetForm.TargetIndex;
 			}
 			this.ResumeLayout();
@@ -147,6 +177,21 @@ namespace Hypowered
 				{
 					TargetForm.TargetIndex = SelectedIndex;
 				}
+			}
+			if(m_pg!=null)
+			{
+				if (MainForm != null)
+				{
+					if (SelectedIndex >= 0)
+					{
+						m_pg.SelectedObject = MainForm.targetControl;
+					}
+					else
+					{
+						m_pg.SelectedObject = MainForm.targetForm;
+					}
+				}
+
 			}
 		}
 

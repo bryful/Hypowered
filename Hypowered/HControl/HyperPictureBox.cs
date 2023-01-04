@@ -13,7 +13,7 @@ namespace Hypowered
 {
 	public partial class HyperPictureBox : HyperControl
 	{
-		[Category("Hypowerd")]
+		[Category("Hypowered")]
 		public new bool IsEditMode
 		{
 			get { return base.m_IsEditMode; }
@@ -26,13 +26,13 @@ namespace Hypowered
 		protected Color m_BaseColor = Color.Transparent;
 		protected Color m_LineColor = Color.DimGray;
 
-		[Category("Hypowerd_Color")]
+		[Category("Hypowered_Color")]
 		public Color BaseColor
 		{
 			get { return m_BaseColor; }
 			set { m_BaseColor = value;}
 		}
-		[Category("Hypowerd_Color")]
+		[Category("Hypowered_Color")]
 		public Color LineColor
 		{
 			get { return m_LineColor; }
@@ -42,16 +42,17 @@ namespace Hypowered
 				Invalidate();
 			}
 		}
-		private string m_FileName = "";
-		[Category("Hypowerd_PictureBox")]
+		private FileNameEX m_FileName = new FileNameEX();
+		[Category("Hypowered_PictureBox")]
 		public String FileName
 		{
-			get { return m_FileName; }
+			get { return m_FileName.Path; }
 			set 
 			{
-				if (File.Exists(value))
+				m_FileName.Path = value;
+				if (File.Exists(m_FileName.Path))
 				{
-					OpenFile(value);
+					OpenFile(m_FileName.Path);
 				}
 				else
 				{
@@ -59,7 +60,7 @@ namespace Hypowered
 				}
 			}
 		}
-		[Category("Hypowerd_PictureBox")]
+		[Category("Hypowered_PictureBox")]
 		public Bitmap? Bitmap
 		{
 			get { return m_OffScr; }
@@ -74,19 +75,19 @@ namespace Hypowered
 				Graphics g = Graphics.FromImage(m_OffScr);
 				g.DrawImage(value, 0, 0);
 				ChkSize();
-				m_FileName = "";
+				m_FileName.Clear();
 			}
 		}
 		public void Reload()
 		{
-			if (m_FileName != "")
+			if (m_FileName.Path != "")
 			{
-				OpenFile(m_FileName);
+				OpenFile(m_FileName.Path);
 				Invalidate();
 			}
 		}
 		
-		[Category("Hypowerd_PictureBox")]
+		[Category("Hypowered_PictureBox")]
 		public float Ratio
 		{
 			get { return m_ratio; }
@@ -101,7 +102,7 @@ namespace Hypowered
 			}
 		}
 		protected bool m_AutoFit = true;
-		[Category("Hypowerd_PictureBox")]
+		[Category("Hypowered_PictureBox")]
 		public bool AutoFit
 		{
 			get { return m_AutoFit; }
@@ -241,7 +242,7 @@ namespace Hypowered
 					m_OffScr = new Bitmap(path);
 				}
 				ChkSize();
-				m_FileName = path;
+				m_FileName.Path = path;
 				if (m_AutoFit) Fit();
 				ret = true;
 				this.Invalidate();
@@ -259,7 +260,7 @@ namespace Hypowered
 			if (m_OffScr == null) return;
 			m_OffScr.Dispose();
 			m_OffScr = null;
-			m_FileName = "";
+			m_FileName.Clear();
 			this.Invalidate();
 		}
 		protected override void OnResize(EventArgs e)

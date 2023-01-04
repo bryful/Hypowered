@@ -1,5 +1,6 @@
 ﻿using System.ComponentModel;
 using System.Drawing.Drawing2D;
+using System.Reflection;
 
 namespace Hypowered
 {
@@ -27,6 +28,16 @@ namespace Hypowered
 			if (CreatedControl != null)
 			{
 				CreatedControl(this, e);
+			}
+		}
+		// *********************************************************
+		public delegate void ControlsChangedHandler(object sender, HyperChangedEventArgs e);
+		public event ControlsChangedHandler? ControlsChanged;
+		protected virtual void OnControlsChangedl(HyperChangedEventArgs e)
+		{
+			if (ControlsChanged != null)
+			{
+				ControlsChanged(this, e);
 			}
 		}
 		// *********************************************************
@@ -73,7 +84,7 @@ namespace Hypowered
 			this.Invalidate();
 		}
 		protected int m_TargetIndex = -1;
-		[Category("Hypowerd_Form")]
+		[Category("Hypowered_Form")]
 		public int TargetIndex
 		{
 			get { return m_TargetIndex; }
@@ -87,7 +98,7 @@ namespace Hypowered
 				this.Invalidate();
 			}
 		}
-		[Category("Hypowerd_Form")]
+		[Category("Hypowered_Form")]
 		public new string Name
 		{
 			get { return base.Name; }
@@ -128,34 +139,46 @@ namespace Hypowered
 			}
 		}
 		protected Padding m_FrameWeight = new Padding(1, 1, 1, 1);
-		[Category("Hypowerd")]
+		[Category("Hypowered")]
 		public Padding FrameWeight
 		{
 			get { return m_FrameWeight; }
 			set { m_FrameWeight = value; this.Invalidate(); }
 		}
-		[Category("Hypowerd_Form")]
+		[Category("Hypowered_Form")]
 		public new Size Size
 		{
 			get { return base.Size; }
 			set { base.Size = value; this.Invalidate(); }
 		}
 		private Color m_SelectedColor = Color.Red;
-		[Category("Hypowerd_Color")]
+		[Category("Hypowered_Color")]
 		public Color SelectedColor
 		{
 			get { return m_SelectedColor; }
 			set { m_SelectedColor = value; this.Invalidate(); }
 		}
 		private Color m_TargetColor = Color.Blue;
-		[Category("Hypowerd_Color")]
+		[Category("Hypowered_Color")]
 		public Color TargetColor
 		{
 			get { return m_TargetColor; }
 			set { m_TargetColor = value; this.Invalidate(); }
 		}
+		[Category("Hypowered_Color")]
+		public new Color ForeColor
+		{
+			get { return base.ForeColor; }
+			set { base.ForeColor = value; this.Invalidate(); }
+		}
+		[Category("Hypowered_Color")]
+		public new Color BackColor
+		{
+			get { return base.BackColor; }
+			set { base.BackColor = value; this.Invalidate(); }
+		}
 		private bool m_CanSetTransparencyKey = false;
-		[Category("Hypowerd_Color")]
+		[Category("Hypowered_Color")]
 		public bool CanSetTransparencyKey
 		{
 			get { return m_CanSetTransparencyKey; }
@@ -175,7 +198,7 @@ namespace Hypowered
 			}
 		}
 		private Color m_TransparencyKey_Backup = Color.White;
-		[Category("Hypowerd_Color")]
+		[Category("Hypowered_Color")]
 		public new Color TransparencyKey
 		{
 			get { return base.TransparencyKey; }
@@ -202,6 +225,185 @@ namespace Hypowered
 		private bool ShouldSerializeKeyPreview()
 		{
 			return false;
+		}
+		[Browsable(false)]
+		public new IButtonControl AcceptButton
+		{
+			get { return base.AcceptButton; }
+			set { base.AcceptButton = value; }
+		}
+		[Browsable(false)]
+		public new IButtonControl CancelButton
+		{
+			get { return base.CancelButton; }
+			set { base.CancelButton = value; }
+		}
+		[Browsable(false)]
+		public new bool ControlBox
+		{
+			get { return base.ControlBox; }
+			set { base.ControlBox = value; }
+		}
+		[Browsable(false)]
+		public new bool HelpButton
+		{
+			get { return base.HelpButton; }
+			set { base.HelpButton = value; }
+		}
+		[Browsable(false)]
+		public new Icon Icon
+		{
+			get { return base.Icon; }
+			set { base.Icon = value; }
+		}
+		[Browsable(false)]
+		public new bool IsMdiContainer
+		{
+			get { return base.IsMdiContainer; }
+			set { base.IsMdiContainer = value; }
+		}
+		[Browsable(false)]
+		public new MenuStrip MainMenuStrip
+		{
+			get { return base.MainMenuStrip; }
+			set { base.MainMenuStrip = value; }
+		}
+		[Browsable(false)]
+		public new bool MaximizeBox
+		{
+			get { return base.MaximizeBox; }
+			set { base.MaximizeBox = value; }
+		}
+		[Browsable(false)]
+		public new bool MdiChildrenMinimizedAnchorBottom
+		{
+			get { return base.MdiChildrenMinimizedAnchorBottom; }
+			set { base.MdiChildrenMinimizedAnchorBottom = value; }
+		}
+		[Browsable(false)]
+		public new bool MinimizeBox
+		{
+			get { return base.MinimizeBox; }
+			set { base.MinimizeBox = value; }
+		}
+		[Browsable(false)]
+		public new ControlBindingsCollection DataBindings
+		{
+			get { return base.DataBindings; }
+		}
+		[Category("Hypowered")]
+		public new Object? Tag
+		{
+			get { return base.Tag; }
+			set { base.Tag = value; }
+		}
+		[Browsable(false)]
+		public new Cursor Cursor
+		{
+			get { return base.Cursor; }
+			set { base.Cursor = value; }
+		}
+		[Browsable(false)]
+		public new bool CausesValidation
+		{
+			get { return base.CausesValidation; }
+			set { base.CausesValidation = value; }
+		}
+		[Browsable(false)]
+		public new string AccessibleDescription
+		{
+			get { return base.AccessibleDescription; }
+			set { base.AccessibleDescription = value; }
+		}
+		[Browsable(false)]
+		public new string AccessibleName
+		{
+			get { return base.AccessibleName; }
+			set { base.AccessibleName = value; }
+		}
+		[Browsable(false)]
+		public new AccessibleRole AccessibleRole
+		{
+			get { return base.AccessibleRole; }
+			set { base.AccessibleRole = value; }
+		}
+		[Browsable(false)]
+		public new FormBorderStyle FormBorderStyle
+		{
+			get { return base.FormBorderStyle; }
+			set { base.FormBorderStyle = value; }
+		}
+		[Browsable(false)]
+		public new System.Drawing.Image? BackgroundImage
+		{
+			get { return base.BackgroundImage; }
+			set { base.BackgroundImage = value; }
+		}
+		[Browsable(false)]
+		public new ImageLayout BackgroundImageLayout
+		{
+			get { return base.BackgroundImageLayout; }
+			set { base.BackgroundImageLayout = value; }
+		}
+		[Browsable(false)]
+		public new ContextMenuStrip ContextMenuStrip
+		{
+			get { return base.ContextMenuStrip; }
+			set { base.ContextMenuStrip = value; }
+		}
+		[Browsable(false)]
+		public new AutoValidate AutoValidate
+		{
+			get { return base.AutoValidate; }
+			set { base.AutoValidate = value; }
+		}
+		[Browsable(false)]
+		public new bool AutoScroll
+		{
+			get { return base.AutoScroll; }
+			set { base.AutoScroll = value; }
+		}
+		[Browsable(false)]
+		public new bool AutoSize
+		{
+			get { return base.AutoSize; }
+			set { base.AutoSize = value; }
+		}
+		[Browsable(false)]
+		public new AutoSizeMode AutoSizeMode
+		{
+			get { return base.AutoSizeMode; }
+			set { base.AutoSizeMode = value; }
+		}
+		[Browsable(false)]
+		public new FormWindowState WindowState
+		{
+			get { return base.WindowState; }
+			set { base.WindowState = value; }
+		}
+		[Browsable(false)]
+		public new Size AutoScrollMargin
+		{
+			get { return base.AutoScrollMargin; }
+			set { base.AutoScrollMargin = value; }
+		}
+		[Browsable(false)]
+		public new Size AutoScrollMinSize
+		{
+			get { return base.AutoScrollMinSize; }
+			set { base.AutoScrollMinSize = value; }
+		}
+		[Category("Hypowered_Text")]
+		public new string Text
+		{
+			get { return base.Text; }
+			set { base.Text = value; }
+		}
+		[Category("Hypowered_Text")]
+		public new Font Font
+		{
+			get { return base.Font; }
+			set { base.Font = value; }
 		}
 		#endregion
 
@@ -237,7 +439,24 @@ true);
 		{
 			base.OnFormClosed(e);
 		}
-
+		public int IndexOfName(string nm)
+		{
+			int ret = -1;
+			if (this.Controls.Count > 0)
+			{
+				int cnt = 0;
+				foreach (Control c in this.Controls)
+				{
+					if (c.Name == nm)
+					{
+						ret = cnt;
+						break;
+					}
+					cnt++;
+				}
+			}
+			return ret;
+		}
 		public ToolStripMenuItem[] GetControlsForMenu(HyperControl? target, System.EventHandler func)
 		{
 			List<ToolStripMenuItem> list = new List<ToolStripMenuItem>();
@@ -283,7 +502,7 @@ true);
 			}
 		}
 		// ***********************************************************************
-
+		
 
 		// ***********************************************************************
 		protected override void OnPaint(PaintEventArgs e)
@@ -481,18 +700,15 @@ true);
 			this.Invalidate();
 		}
 		// ******************************************************************************
-		public virtual bool RemoveControl( string key)
+		public virtual bool DeleteControl(HyperControl c)
 		{
 			bool ret = false;
-			Control[] ctrls = this.Controls.Find(key, false);
-			if (ctrls.Length >= 1)
-			{
-				if (ctrls[0] is HyperMenuBar) return ret;
-				this.Controls.Remove(ctrls[0]);
-				ChkControls();
-				ret = true;
-				OnDeletedControl(new HyperChangedEventArgs(this,null));
-			}
+			if(c == null) return ret;
+			if (c is HyperMenuBar) return ret;
+			this.Controls.Remove(c);
+			ChkControls();
+			ret = true;
+			OnDeletedControl(new HyperChangedEventArgs(this,null));
 			return ret;
 		}
 		// ******************************************************************************
@@ -513,6 +729,46 @@ true);
 			return list.ToArray();
 		}
 
+		// ****************************************************************************
+		public bool ControlToUp(HyperControl c)
+		{
+			if(c.Index<=0) return false;
+			if ((c.Index == 1) && (this.Controls[0] is HyperMenuBar)) return false;
+			this.Controls.SetChildIndex(c, c.Index-1);
+			ChkControls();
+			OnControlsChangedl(new HyperChangedEventArgs(this,c));
+			return true;
+		}
+		// ****************************************************************************
+		public bool ControlToDown(HyperControl c)
+		{
+			if (c.Index >= this.Controls.Count-1) return false;
+			if (c is HyperMenuBar) return false;
+			this.Controls.SetChildIndex(c, c.Index + 1);
+			ChkControls();
+			OnControlsChangedl(new HyperChangedEventArgs(this, c));
+			return true;
+		}
+		// ****************************************************************************
+		public bool ControlToFront(HyperControl c)
+		{
+			int idx = 0;
+			if (this.Controls[0] is HyperMenuBar) idx = 1;
+			this.Controls.SetChildIndex(c, idx);
+			ChkControls();
+			OnControlsChangedl(new HyperChangedEventArgs(this, c));
+			return true;
+		}
+		// ****************************************************************************
+		public bool ControlToFloor(HyperControl c)
+		{
+			if (c.Index >= this.Controls.Count - 1) return false;
+			if (c is HyperMenuBar) return false;
+			this.Controls.SetChildIndex(c, this.Controls.Count-1);
+			ChkControls();
+			OnControlsChangedl(new HyperChangedEventArgs(this, c));
+			return true;
+		}
 		// ****************************************************************************
 		public void ChkTarget(HyperControl? hc)
 		{
@@ -546,6 +802,10 @@ true);
 							{
 								m_TargetIndex = hc.Index;
 								h.Selected = true;
+							}
+							else
+							{
+								h.Selected = false;
 							}
 						}
 					}
@@ -590,6 +850,7 @@ true);
 							h.ParentIndex = -1;
 						}
 					}
+					OnControlChanged(new HyperChangedEventArgs(this, null));
 				}
 				else
 				{

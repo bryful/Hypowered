@@ -16,7 +16,8 @@ namespace Hypowered
         CurrentDirChanged,
         ValueChanged,
         KeyPress,
-    }
+		Shutdown,
+	}
     [Flags]
     public enum InScript
     {
@@ -35,8 +36,10 @@ namespace Hypowered
             = 0b_0000_0010_0000,
         KeyPress
             = 0b_0000_0100_0000,
-    }
-    public class HyperScriptCode
+		Shutdown
+			= 0b_0000_1000_0000,
+	}
+	public class HyperScriptCode
     {
         protected InScript m_InScript = InScript.None;
         public InScript InScript
@@ -62,8 +65,11 @@ namespace Hypowered
             m_InScript = ist;
             GetValidSprictNames(ist);
         }
-        private string[] m_Codes = new string[] { "", "", "", "", "", "", "" };
-
+        private string[] m_Codes = new string[] { "", "", "", "", "", "", "","" };
+        public string Code(ScriptKind sk)
+        {
+            return m_Codes[(int)sk];
+		}
         public string Script_Startup
         {
             get { return m_Codes[(int)ScriptKind.Startup]; }
@@ -99,7 +105,12 @@ namespace Hypowered
             get { return m_Codes[(int)ScriptKind.ValueChanged]; }
             set { m_Codes[(int)ScriptKind.ValueChanged] = value; }
         }
-        public string GetScriptCode(ScriptKind ist)
+		public string Script_Shutdown
+		{
+			get { return m_Codes[(int)ScriptKind.Shutdown]; }
+			set { m_Codes[(int)ScriptKind.Shutdown] = value; }
+		}
+		public string GetScriptCode(ScriptKind ist)
         {
             string ret = "";
             ret = m_Codes[(int)ist];

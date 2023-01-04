@@ -111,10 +111,10 @@ namespace Hypowered
 		{
 			m_FormComp.Items.Clear();
 			if (m_MainForm == null) return;
-			m_FormComp.Items.AddRange(m_MainForm.FormList.GetForms());
-			if(m_MainForm.FormList.TargetForm!=null)
+			m_FormComp.Items.AddRange(m_MainForm.forms.GetForms());
+			if(m_MainForm.forms.TargetForm!=null)
 			{
-				m_FormComp.SelectedIndex = m_MainForm.FormList.TargetForm.Index;
+				m_FormComp.SelectedIndex = m_MainForm.forms.TargetForm.Index;
 			}
 		}
 
@@ -125,7 +125,7 @@ namespace Hypowered
 			if (m_MainForm == null) return;
 			if (m_FormComp.SelectedIndex < 0) return;
 
-			HyperBaseForm? bf = m_MainForm.FormList[m_FormComp.SelectedIndex];			
+			HyperBaseForm? bf = m_MainForm.forms[m_FormComp.SelectedIndex];			
 			if(bf==null) return;
 			List<string> list = new List<string>();
 			list.Add(bf.Name);
@@ -153,24 +153,26 @@ namespace Hypowered
 			int idx = m_ControlListBox.SelectedIndex;
 
 			object? targetObj = null; ;
-			HyperBaseForm? bf = m_MainForm.FormList[m_FormComp.SelectedIndex];
+			HyperBaseForm? bf = m_MainForm.forms[m_FormComp.SelectedIndex];
 			if (bf == null) return;
+			string [] connects = new string[0];
 			if (idx==0)
 			{
 				targetObj = bf;
 			}else if(idx>=1)
 			{
 				targetObj = bf.Controls[idx-1];
+				connects = ((HyperControl)targetObj).ConnectPropsNames;
 			}
 			if (targetObj == null) return;
 			List<string> list = new List<string>();
-			var ps = bf.GetType().GetProperties(BindingFlags.Public | BindingFlags.Instance);
+			var ps = bf.GetType().GetProperties(/*BindingFlags.Public | BindingFlags.Instance*/);
 			foreach (var p in ps)
 			{
 				list.Add($" {p.Name}\t({p.PropertyType.Name})");
 			}
 			var ms = bf.GetType().GetMembers(
-				BindingFlags.Public | BindingFlags.Instance
+				/*BindingFlags.Public | BindingFlags.Instance*/
 				);
 			foreach (var m in ms)
 			{
@@ -190,6 +192,13 @@ namespace Hypowered
 			for(int i= list.Count-1; i>=1;i--)
 			{
 				if (list[i]== list[i-1]) list.RemoveAt(i);
+			}
+			if(connects.Length> 0)
+			{
+				for (int i= connects.Length-1;i>=0;i--)
+				{
+					list.Insert(0, connects[i]);
+				}
 			}
 			m_MemberListBox.Items.AddRange(list.ToArray());
 

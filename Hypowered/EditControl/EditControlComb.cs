@@ -33,7 +33,7 @@ namespace Hypowered
 			}
 		}
 		private ControlType m_ct = ControlType.Button;
-		[Category("Hypowerd")]
+		[Category("Hypowered")]
 		public ControlType ControlType
 		{
 			get { return (ControlType)this.SelectedIndex; }

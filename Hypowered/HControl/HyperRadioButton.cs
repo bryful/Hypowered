@@ -27,7 +27,7 @@ namespace Hypowered
 				MainForm.ExecuteCode(Script_ValueChanged);
 			}
 		}
-		[Category("Hypowerd")]
+		[Category("Hypowered")]
 		public new Font Font
 		{
 			get { return base.Font; }
@@ -43,7 +43,7 @@ namespace Hypowered
 				}
 			}
 		}
-		[Category("Hypowerd_Color")]
+		[Category("Hypowered_Color")]
 		public new Color ForeColor
 		{
 			get { return base.ForeColor; }
@@ -59,7 +59,7 @@ namespace Hypowered
 				}
 			}
 		}
-		[Category("Hypowerd_Color")]
+		[Category("Hypowered_Color")]
 		public new Color BackColor
 		{
 			get { return base.BackColor; }
@@ -75,7 +75,7 @@ namespace Hypowered
 				}
 			}
 		}
-		[Category("Hypowerd")]
+		[Category("Hypowered")]
 		public new bool IsEditMode
 		{
 			get { return base.m_IsEditMode; }
@@ -97,7 +97,7 @@ namespace Hypowered
 			}
 		}
 		private int m_CheckSize;
-		[Category("Hypowerd_RadioButton")]
+		[Category("Hypowered_RadioButton")]
 		public int CheckSize
 		{
 			get { return m_CheckSize; }
@@ -119,13 +119,76 @@ namespace Hypowered
 			}
 		}
 		private int m_Value = -1;
-		[Category("Hypowerd_RadioButton")]
+		[Category("Hypowered_RadioButton")]
 		public int Value
 		{
 			get { return m_Value; }
 			set
 			{
 				SetValue(value);
+			}
+		}
+		public int SelectedIndex
+		{
+			get { return m_Value; }
+			set
+			{
+				SetValue(value);
+			}
+		}
+		[Browsable(false)]
+		public Object?[] Tags
+		{
+			get
+			{
+				List<Object?> list = new List<Object?>();
+				try
+				{
+					foreach (var c in this.Controls)
+					{
+						if (c == null) continue;
+						list.Add(((Control)c).Tag);
+					}
+				}
+				catch
+				{
+
+				}
+				return list.ToArray();
+			}
+			set
+			{
+				int cnt = value.Length;
+				if (cnt > this.Controls.Count) cnt = this.Controls.Count;
+				try
+				{
+					for (int i = 0; i < cnt; i++)
+					{
+						this.Controls[i].Tag = value[i];
+					}
+				}
+				catch
+				{
+
+				}
+			}
+		}
+		public void SetTag(int idx,Object? c)
+		{
+			if((idx>=0)&&(idx<this.Controls.Count))
+			{
+				this.Controls[idx].Tag = c;
+			}
+		}
+		public Object? GetTag(int idx)
+		{
+			if ((idx >= 0) && (idx < this.Controls.Count))
+			{
+				return this.Controls[idx].Tag;
+			}
+			else
+			{
+				return null;
 			}
 		}
 		public bool SetValue(int value,bool IsEvent =true)
@@ -146,7 +209,7 @@ namespace Hypowered
 			return false;
 		}
 		private int m_HorCount = 1;
-		[Category("Hypowerd_RadioButton")]
+		[Category("Hypowered_RadioButton")]
 		public int HorCount
 		{
 			get { return m_HorCount; }
@@ -158,7 +221,7 @@ namespace Hypowered
 			}
 		}
 		private int m_Count = 1;
-		[Category("Hypowerd_RadioButton")]
+		[Category("Hypowered_RadioButton")]
 		public int Count
 		{
 			get { return m_Count; }
@@ -168,8 +231,8 @@ namespace Hypowered
 				ChkButtons();
 			}
 		}
-		[Category("Hypowerd_RadioButton")]
-		public string[] Captions
+		[Category("Hypowered_RadioButton")]
+		public new string[] Lines
 		{
 			get
 			{
@@ -191,7 +254,26 @@ namespace Hypowered
 
 			}
 		}
-		[Category("Hypowerd_Text")]
+		public string Caption(int index)
+		{
+			string ret = "";
+			if((index>=0)&&(index<this.Controls.Count))
+			{
+				ret = this.Controls[index].Text;
+			}
+			return ret;
+		}
+		public bool SetCaption(int index,string v)
+		{
+			bool ret = false;
+			if ((index >= 0) && (index < this.Controls.Count))
+			{
+				this.Controls[index].Text = v;
+				ret =true;
+			}
+			return ret;
+		}
+		[Category("Hypowered_Text")]
 		public new StringAlignment TextAligiment
 		{
 			get { return base.TextAligiment; }
@@ -210,7 +292,7 @@ namespace Hypowered
 				}
 			}
 		}
-		[Category("Hypowerd_Text")]
+		[Category("Hypowered_Text")]
 		public new StringAlignment TextLineAligiment
 		{
 			get { return base.TextLineAligiment; }
@@ -367,6 +449,7 @@ namespace Hypowered
 			jf.SetValue(nameof(HorCount), HorCount);
 			jf.SetValue(nameof(Count), Count);
 			jf.SetValue(nameof(Value), Value);
+			jf.SetValue(nameof(Lines), Lines);
 			jf.SetValue(nameof(CheckSize), CheckSize);//Int32
 			jf.SetValue(nameof(Font), Font);
 			jf.SetValue(nameof(ForeColor), ForeColor);
@@ -384,6 +467,8 @@ namespace Hypowered
 			object? v = null;
 			v = jf.ValueAuto("Count", typeof(Int32).Name);
 			if (v != null) Count = (Int32)v;
+			v = jf.ValueAuto("Lines", typeof(String[]).Name);
+			if (v != null) Lines = (String[])v;
 			v = jf.ValueAuto("HorCount", typeof(Int32).Name);
 			if (v != null) HorCount = (Int32)v;
 			v = jf.ValueAuto("Value", typeof(Int32).Name);

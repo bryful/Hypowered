@@ -29,7 +29,7 @@ namespace Hypowered
 			}
 		}
 		private bool m_Checked = true;
-		[Category("Hypowerd_CheckBox")]
+		[Category("Hypowered_CheckBox")]
 		public bool Checked
 		{
 			get { return m_Checked; }
@@ -44,7 +44,7 @@ namespace Hypowered
 			}
 		}
 		private int m_CheckSize;
-		[Category("Hypowerd_CheckBox")]
+		[Category("Hypowered_CheckBox")]
 		public int CheckSize
 		{
 			get { return m_CheckSize; }

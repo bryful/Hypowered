@@ -24,9 +24,9 @@ namespace Hypowered
 		{
 			m_MainForm = fm;
 			controlBrowser1.SetMainForm(fm);
-			if ((m_MainForm!=null)&&(m_MainForm.FormList.TargetForm!=null))
+			if ((m_MainForm!=null)&&(m_MainForm.forms.TargetForm!=null))
 			{
-				m_TargetControl = m_MainForm.FormList.TargetForm.TargetControl;
+				m_TargetControl = m_MainForm.forms.TargetForm.TargetControl;
 				if (m_TargetControl!=null)
 				{
 					Type t = m_TargetControl.GetType();
@@ -35,8 +35,8 @@ namespace Hypowered
 				}
 				else
 				{
-					SetScriptCode(((HyperMainForm)m_MainForm.FormList.TargetForm).ScriptCode);
-					this.Text = m_MainForm.FormList.TargetForm.Name;
+					SetScriptCode(((HyperMainForm)m_MainForm.forms.TargetForm).ScriptCode);
+					this.Text = m_MainForm.forms.TargetForm.Name;
 				}
 			}
 		}
@@ -109,6 +109,22 @@ true);
 		private void MenuHide_Click(object? sender, EventArgs e)
 		{
 			this.DialogResult = DialogResult.Cancel;
+		}
+		protected override void OnLocationChanged(EventArgs e)
+		{
+			base.OnLocationChanged(e);
+			if(m_MainForm!=null)
+			{
+				m_MainForm.ScriptEditBounds = this.Bounds;
+			}
+		}
+		protected override void OnResize(EventArgs e)
+		{
+			base.OnResize(e);
+			if (m_MainForm != null)
+			{
+				m_MainForm.ScriptEditBounds = this.Bounds;
+			}
 		}
 	}
 }

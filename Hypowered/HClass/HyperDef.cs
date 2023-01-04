@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Text.Json.Nodes;
 using System.Threading.Tasks;
 
 namespace Hypowered
@@ -21,8 +22,29 @@ namespace Hypowered
 		PictureBox,
 		Icon
 	}
-
-
+	public class ControlTypeInfos
+	{
+		static public readonly string[] Texts = new string[]
+		{
+			"Button 通常のボタン",
+			"Label　テキストの表示",
+			"TextBox　テキストの表示",
+			"CheckBox　チェックボックス",
+			"RadioButton　ラジオボタンパネル",
+			"ListBox　リスト表示",
+			"DropdownList　ドロップダウンリスト表示",
+			"DriveIcons　ドライブ選択アイコン",
+			"DirList　ディレクトリ表示リスト",
+			"FileList　ファイル表示リスト",
+			"PictureBox　外部画像ファイル表示",
+			"Icon　内蔵PictLibの画像表示",
+		};
+		static public string Disp(ControlType ct)
+		{
+			return Texts[(int)ct];
+		}
+	}
+	
 	/// <summary>
 	/// フォームやコントロールのクリックされた場所
 	/// </summary>

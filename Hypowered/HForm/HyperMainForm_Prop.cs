@@ -17,13 +17,13 @@ namespace Hypowered
 		public HyperScript Script = new HyperScript();
 		public HyperScriptCode ScriptCode = new HyperScriptCode();
 		// ****************************************************************************
-		public HyperPropForm? PropForm = null;
-		public HyperControlList? ControlList = null;
+		public EditControlList? ControlList = null;
 
-		public Rectangle PropFormBounds = new Rectangle(-1, -1, 0, 0);
 		public Rectangle ControlListBounds = new Rectangle(-1, -1, 0,0);
 		public Rectangle ScriptEditBounds = new Rectangle(-1, -1, 0, 0);
 		// ****************************************************************************
+		public ConnectList ConnectList = new ConnectList();
+
 		// ****************************************************************************
 		public void ExecuteCode(string code)
 		{
@@ -33,60 +33,75 @@ namespace Hypowered
 				Script.ExecuteCode(code);
 			}
 		}
+		public void ExecuteStartup()
+		{
+			Script.ExecuteCode(ScriptCode.Code(ScriptKind.Startup));
+		}
+		public void ExecuteMouseDoubleClick()
+		{
+			Script.ExecuteCode(ScriptCode.Code(ScriptKind.MouseDoubleClick));
+		}
+		public void ExecuteKeyPress()
+		{
+			Script.ExecuteCode(ScriptCode.Code(ScriptKind.KeyPress));
+		}
+		public void ExecuteShutdown()
+		{
+			Script.ExecuteCode(ScriptCode.Code(ScriptKind.Shutdown));
+		}
 		public void InitScript()
 		{
 			Script.Init();
-			Script.InitControls(this.Controls);
+			Script.InitForms(this);
+			Script.InitControls(this);
 		}
 		public void SetInScript(InScript s)
 		{
 			ScriptCode.SetInScript(s);
 		}
-		[Category("Hypowerd_Script")]
+		[Category("Hypowered_Script")]
 		public InScript InScript
 		{
 			get { return ScriptCode.InScript; }
 		}
-		[Category("Hypowerd_Script")]
+		[Category("Hypowered_Script")]
 		public int ScriptCount
 		{
 			get { return ScriptCode.Count; }
 		}
-		[Category("Hypowerd_Script")]
+		[Category("Hypowered_Script")]
 		public string[] ValidSprictNames
 		{
 			get { return ScriptCode.ValidSprictNames; }
 		}
-		[Category("Hypowerd_Script")]
+		[Category("Hypowered_Script")]
 		public ScriptKind[] ScriptKinds
 		{
 			get { return ScriptCode.ScriptKinds; }
 		}
-		[Category("Hypowerd_Script")]
+		[Category("Hypowered_Script")]
+		[Bindable(false)]
 		public string Script_MouseClick
 		{
 			get { return ScriptCode.Script_MouseClick; }
 			set { ScriptCode.Script_MouseClick = value; }
 		}
-		[Category("Hypowerd_Script")]
+		[Category("Hypowered_Script")]
+		[Bindable(false)]
 		public string Script_Startup
 		{
 			get { return ScriptCode.Script_Startup; }
 			set { ScriptCode.Script_Startup = value; }
 		}
-		[Category("Hypowerd_Script")]
+		[Category("Hypowered_Script")]
+		[Bindable(false)]
 		public string Script_KeyPress
 		{
 			get { return ScriptCode.Script_KeyPress; }
 			set { ScriptCode.Script_KeyPress = value; }
 		}
-		protected string m_FileName = "";
-		[Category("Hypowerd_Form")]
-		public string FileName
-		{
-			get { return m_FileName; }
-		}
-		[Category("Hypowerd_Form")]
+
+		[Category("Hypowered_Form")]
 		public new string Name
 		{
 			get { return base.Name; }
@@ -95,7 +110,7 @@ namespace Hypowered
 			}
 		}
 
-		[Category("Hypowerd_Color")]
+		[Category("Hypowered_Color")]
 		public bool IsShowMenu
 		{
 			get { return m_menuBar.Visible; }
@@ -130,6 +145,7 @@ namespace Hypowered
 				}
 				jf.SetValue("Controls", ja);
 			}
+			jf.SetValue("ConnectList", ConnectList.ToJsonArray());
 
 			return jf.Obj;
 		}
@@ -173,7 +189,7 @@ namespace Hypowered
 							{
 								FromJson(Obj);
 								Script.Init();
-								Script.InitControls(this.Controls);
+								Script.InitControls(this);
 								ret = true;
 							}
 						}
@@ -210,6 +226,8 @@ namespace Hypowered
 			{
 				m_menuBar.FromJson(mm);
 			}
+			JsonArray? cl = jf.ValueArray("ConnectList");
+			ConnectList.FromJsonArray(cl);
 		}
 	}
 }

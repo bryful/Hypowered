@@ -17,7 +17,7 @@ namespace Hypowered
 	{
 		static public readonly int MenuHeight = 25;
 		protected HyperMenuItems m_Items = new HyperMenuItems();
-		[Category("Hypowerd_Menu")]
+		[Category("Hypowered_Menu")]
 		public HyperMenuItems Items
 		{
 			get { return m_Items; }
@@ -32,21 +32,21 @@ namespace Hypowered
 			this.Invalidate();
 		}
 		protected Color m_MenuFourcusColor = Color.White;
-		[Category("Hypowerd_Color")]
+		[Category("Hypowered_Color")]
 		public Color MenuFourcusColor
 		{
 			get { return m_MenuFourcusColor; }
 			set { m_MenuFourcusColor = value; this.Invalidate(); }
 		}
 		protected Color m_MenuWakuColor = Color.White;
-		[Category("Hypowerd_Color")]
+		[Category("Hypowered_Color")]
 		public Color MenuWakuColor
 		{
 			get { return m_MenuWakuColor; }
 			set { m_MenuWakuColor = value; this.Invalidate(); }
 		}
 		protected Color m_MenuWakuEditColor = Color.White;
-		[Category("Hypowerd_Color")]
+		[Category("Hypowered_Color")]
 		public Color MenuWakuEditColor
 		{
 			get { return m_MenuWakuEditColor; }
@@ -98,6 +98,15 @@ true);
 				// 背景色
 				g.FillRectangle(sb, this.ClientRectangle);
 
+				p.Color = Color.FromArgb(
+					ForeColor.R / 2,
+					ForeColor.G / 2,
+					ForeColor.B / 2
+					);
+				for(int i=1;i<=3;i++)
+				{
+					g.DrawLine(p,10,i*6,this.Width-10,i*6);
+				}
 
 
 				if (m_Items.Count > 0)
@@ -112,8 +121,12 @@ true);
 						if(m_menuDown==m.Index)
 						{
 							sb.Color = m_MenuFourcusColor;
-							g.FillRectangle(sb, rct);
 						}
+						else
+						{
+							sb.Color = BackColor;
+						}
+						g.FillRectangle(sb, rct);
 						sb.Color = ForeColor;
 						g.DrawString(m.Caption, this.Font, sb, rct, sf);
 					}

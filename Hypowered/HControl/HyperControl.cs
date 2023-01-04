@@ -27,10 +27,10 @@ namespace Hypowered
 		/// <summary>
 		/// コントロールのタイプ識別
 		/// </summary>
-		[Category("Hypowerd")]
+		[Category("Hypowered")]
 		public ControlType? MyType { get { return m_MyType; } }
 
-		[Category("Hypowerd")]
+		[Category("Hypowered")]
 		public new string Name
 		{
 			get { return base.Name; }
@@ -39,25 +39,25 @@ namespace Hypowered
 		/// <summary>
 		/// Nameと同じ
 		/// </summary>
-		[Category("Hypowerd")]
+		[Category("Hypowered")]
 		public string ControlName
 		{
 			get { return base.Name; }
 			set { base.Name = value; this.Invalidate(); }
 		}
-		[Category("Hypowerd")]
+		[Category("Hypowered")]
 		public new Point Location
 		{
 			get { return base.Location; }
 			set { base.Location = value; this.Invalidate(); }
 		}
-		[Category("Hypowerd")]
+		[Category("Hypowered")]
 		public new Size Size
 		{
 			get { return base.Size; }
 			set { base.Size = value; this.Invalidate(); }
 		}
-		[Category("Hypowerd")]
+		[Category("Hypowered_Text")]
 		public new Font Font
 		{
 			get { return base.Font; }
@@ -66,32 +66,43 @@ namespace Hypowered
 				base.Font = value;
 			}
 		}
-		[Category("Hypowerd")]
+		[Category("Hypowered")]
 		protected int m_Index = -1;
 		/// <summary>
 		/// CHkControlで作成されるインデックス番号
 		/// </summary>
-		[Category("Hypowerd")]
+		[Category("Hypowered")]
 		public int Index
 		{
 			get { return m_Index; }
 		}
 		public void SetIndex(int idx) { m_Index = idx; }
 
-		[Category("Hypowerd_Text")]
+		[Category("Hypowered_Text")]
 		public new string Text
 		{
 			get { return base.Text; }
 			set { base.Text = value; this.Invalidate(); }
 		}
-		[Browsable(false)]
+		[Category("Hypowered_Text")]
+		public  string[] Lines
+		{
+			get { return base.Text.Split("\r\n"); }
+			set 
+			{ 
+				base.Text = string.Join("\r\n",value);
+				this.Invalidate();
+			}
+		}
 		protected object? m_parent = null;
+		[Browsable(false)]
 		public object? ParentForm 
 		{
 			get { return m_parent; }
 			set
 			{ m_parent= value;}
 		}
+		[Browsable(false)]
 		public HyperMainForm? MainForm
 		{
 			get
@@ -152,51 +163,51 @@ namespace Hypowered
 		{
 			ScriptCode.SetInScript(s);
 		}
-		[Category("Hypowerd_Script")]
+		[Category("Hypowered_Script")]
 		public InScript InScript
 		{
 			get { return ScriptCode.InScript; }
 		}
-		[Category("Hypowerd_Script")]
+		[Browsable(false)]
 		public int ScriptCount
 		{
 			get { return ScriptCode.Count; }
 		}
-		[Category("Hypowerd_Script")]
+		[Browsable(false)]
 		public string[] ValidSprictNames
 		{
 			get { return ScriptCode.ValidSprictNames; }
 		}
-		[Category("Hypowerd_Script")]
+		[Category("Hypowered_Script")]
 		public ScriptKind[] ScriptKinds
 		{
 			get { return ScriptCode.ScriptKinds; }
 		}
-		[Category("Hypowerd_Script")]
+		[Browsable(false)]
 		public string Script_MouseClick
 		{
 			get { return ScriptCode.Script_MouseClick; }
 			set { ScriptCode.Script_MouseClick = value; }
 		}
-		[Category("Hypowerd_Script")]
+		[Browsable(false)]
 		public string Script_MouseDoubleClick
 		{
 			get { return ScriptCode.Script_MouseDoubleClick; }
 			set { ScriptCode.Script_MouseDoubleClick = value; }
 		}
-		[Category("Hypowerd_Script")]
+		[Browsable(false)]
 		public string Script_SelectedIndexChanged
 		{
 			get { return ScriptCode.Script_SelectedIndexChanged; }
 			set { ScriptCode.Script_SelectedIndexChanged = value; }
 		}
-		[Category("Hypowerd_Script")]
+		[Browsable(false)]
 		public string Script_CurrentDirChanged
 		{
 			get { return ScriptCode.Script_CurrentDirChanged; }
 			set { ScriptCode.Script_CurrentDirChanged = value; }
 		}
-		[Category("Hypowerd_Script")]
+		[Browsable(false)]
 		public string Script_ValueChanged
 		{
 			get { return ScriptCode.Script_ValueChanged; }
@@ -206,57 +217,151 @@ namespace Hypowered
 		// **************************************************************************
 		// **************************************************************************
 		protected Padding m_FrameWeight = new Padding(1,1,1,1);
-		[Category("Hypowerd")]
+		[Category("Hypowered")]
 		public Padding FrameWeight
 		{
 			get { return m_FrameWeight; }
 			set { m_FrameWeight = value; this.Invalidate(); }
 		}
 		protected bool m_CanColorCustum = false;
-		[Category("Hypowerd_Color")]
+		[Category("Hypowered_Color")]
 		public bool CanColorCustum
 		{
 			get { return m_CanColorCustum; }
 			set { m_CanColorCustum = value; }
 		}
 		protected Color m_ForcusColor = Color.White;
-		[Category("Hypowerd_Color")]
+		[Category("Hypowered_Color")]
 		public Color ForcusColor
 		{
 			get { return m_ForcusColor; }
 			set { m_ForcusColor = value; this.Invalidate(); }
 		}
-		[Category("Hypowerd_Color")]
+		[Category("Hypowered_Color")]
 		public new Color ForeColor
 		{
 			get { return base.ForeColor; }
 			set { base.ForeColor = value; this.Invalidate(); }
 		}
-		[Category("Hypowerd_Color")]
+		[Category("Hypowered_Color")]
 		public new Color BackColor
 		{
 			get { return base.BackColor; }
 			set { base.BackColor = value; this.Invalidate(); }
 		}
 		protected Color m_UnCheckedColor = Color.White;
-		[Category("Hypowerd_Color")]
+		[Category("Hypowered_Color")]
 		public Color UnCheckedColor
 		{
 			get { return m_UnCheckedColor; }
 			set { m_UnCheckedColor = value; this.Invalidate(); }
 		}
 		protected StringFormat m_format = new StringFormat();
-		[Category("Hypowerd_Text")]
+		[Category("Hypowered_Text")]
 		public StringAlignment TextAligiment
 		{
 			get { return m_format.Alignment; }
 			set { m_format.Alignment = value; this.Invalidate(); }
 		}
-		[Category("Hypowerd_Text")]
+		[Category("Hypowered_Text")]
 		public StringAlignment TextLineAligiment
 		{
 			get { return m_format.LineAlignment; }
 			set { m_format.LineAlignment = value; this.Invalidate(); }
+		}
+		private ControlType[] m_ConnectProps= new ControlType[0];
+		[Browsable(false)]
+		public ControlType[] ConnectProps
+		{
+			get { return m_ConnectProps; }
+		}
+		[Browsable(false)]
+		public string[] ConnectPropsNames
+		{
+			get {
+				string[]ret = new string[m_ConnectProps.Length];
+				if(m_ConnectProps.Length > 0)
+				{
+					int idx = 0;
+					foreach(var ct in m_ConnectProps)
+					{
+						string? ss = Enum.GetName(typeof(ControlType), ct);
+						if(ss!=null)
+						{
+							ret[idx] = ss;
+						}
+						else
+						{
+							ret[idx] = "";
+						}
+						idx++;
+					}
+				}
+				return ret; 
+			}
+		}
+		public void SetConnectProps(ControlType[] ps)
+		{
+			m_ConnectProps = ps;
+		}
+		[Browsable(false)]
+		public new System.Windows.Forms.ControlBindingsCollection DataBindings
+		{
+			get { return base.DataBindings; }
+		}
+		[Browsable(false)]
+		public new System.Drawing.Image? BackgroundImage
+		{
+			get { return base.BackgroundImage; }
+			set { base.BackgroundImage = value; }
+		}
+		[Browsable(false)]
+		public new ImageLayout BackgroundImageLayout
+		{
+			get { return base.BackgroundImageLayout; }
+			set { base.BackgroundImageLayout = value; }
+		}
+		[Browsable(false)]
+		public new ContextMenuStrip ContextMenuStrip
+		{
+			get { return base.ContextMenuStrip; }
+			set { base.ContextMenuStrip = value; }
+		}
+		[Category("Hypowered")]
+		public new Object? Tag
+		{
+			get { return base.Tag; }
+			set { base.Tag = value; }
+		}
+		[Browsable(false)]
+		public new Cursor Cursor
+		{
+			get { return base.Cursor; }
+			set { base.Cursor = value; }
+		}
+		[Browsable(false)]
+		public new bool CausesValidation
+		{
+			get { return base.CausesValidation; }
+			set { base.CausesValidation = value; }
+		}
+		[Browsable(false)]
+		public new string AccessibleDescription
+		{
+			get { return base.AccessibleDescription; }
+			set { base.AccessibleDescription = value; }
+		}
+		[Browsable(false)]
+		public new string AccessibleName
+		{
+			get { return base.AccessibleName; }
+			set { base.AccessibleName = value; }
+		}
+		[Browsable(false)]
+		public new AccessibleRole AccessibleRole
+		{
+			get { return base.AccessibleRole; }
+			set { base.AccessibleRole = value; }
 		}
 		public HyperControl()
 		{
@@ -282,7 +387,7 @@ namespace Hypowered
 			this.UpdateStyles();
 
 		}
-
+		
 		// ****************************************************************************
 		protected override void OnPaint(PaintEventArgs pe)
 		{
@@ -377,6 +482,13 @@ namespace Hypowered
 				((HyperMainForm)this.Parent).ChkTargetSelected(this);
 			}
 		}
+		protected void ChkTarget()
+		{
+			if ((this.Parent != null) && (this.Parent is HyperMainForm))
+			{
+				((HyperMainForm)this.Parent).ChkTarget(this);
+			}
+		}
 		// ****************************************************************************
 		public new Rectangle Bounds(int sz = 0)
 		{
@@ -386,6 +498,47 @@ namespace Hypowered
 				this.Width + sz * 2,
 				this.Height + sz * 2
 				);
+		}
+		private ToolStripMenuItem? MakeMenuItem(FuncType ft)
+		{
+			ToolStripMenuItem? ret = null;
+			if (MainForm == null) return ret;
+			FuncItem? item = MainForm.Funcs.FindFunc(ft.Method.Name);
+			if (item == null) return ret;
+			ret = new ToolStripMenuItem();
+			ret.Text = item.Caption;
+			ret.Tag = (object?)item.Func;
+			ret.Click += (sender, e) =>
+			{
+				if (sender == null) return;
+				ToolStripMenuItem? m = (ToolStripMenuItem)sender;
+				if (m == null) return;
+				if ((m.Tag != null) && (m.Tag is FuncType))
+				{
+					((FuncType)m.Tag)();
+				}
+			};
+			return ret;
+		}
+		public virtual void ShowCMenu()
+		{
+			ContextMenuStrip ret = new ContextMenuStrip();
+			if (MainForm == null) return;
+			List < ToolStripMenuItem> list = new List<ToolStripMenuItem>();
+			void AddMI(ToolStripMenuItem? mi)
+			{
+				if(mi!=null) list.Add(mi);
+			}
+
+			AddMI(MakeMenuItem(MainForm.ShowEditControl));
+			AddMI(MakeMenuItem(MainForm.ControlToFront));
+			AddMI(MakeMenuItem(MainForm.ControlToUp));
+			AddMI(MakeMenuItem(MainForm.ControlToDown));
+			AddMI(MakeMenuItem(MainForm.ControlToFloor));
+
+			ret.Items.AddRange(list.ToArray());
+			Point p = Cursor.Position;
+			ret.Show(p);
 		}
 		// ****************************************************************************
 		protected MDPos m_MDPos = MDPos.None;
@@ -429,6 +582,10 @@ namespace Hypowered
 						m_MDSize = this.Size;
 						return;
 					}
+				}else if ((e.Button & MouseButtons.Right) == MouseButtons.Right)
+				{
+					ChkTarget();
+					ShowCMenu();
 				}
 			}
 			base.OnMouseDown(e);
@@ -486,16 +643,8 @@ namespace Hypowered
 			{
 				if (MainForm != null)
 				{
-					MainForm.EditControl();
+					MainForm.ShowEditControl();
 				}
-				/*
-				HyperScriptEditor ed = new HyperScriptEditor();
-				ed.ScriptCode = m_ScriptCode;
-				if (ed.ShowDialog() == DialogResult.OK)
-				{
-					m_ScriptCode = ed.ScriptCode;
-					CreateScrits(typeof(App));
-				}*/
 			}
 			else
 			{

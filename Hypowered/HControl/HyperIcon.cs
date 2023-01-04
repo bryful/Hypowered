@@ -17,7 +17,7 @@ namespace Hypowered
 	{
 		private string m_PictName = "";
 		private Bitmap? m_Bitmap = null;
-		[Category("Hypowerd_Icon")]
+		[Category("Hypowered_Icon")]
 		public string PictName
 		{
 			get { return m_PictName;}
@@ -74,7 +74,7 @@ namespace Hypowered
 		}
 		private Rectangle m_BitmapRect = new Rectangle(0,0,0,0);
 		protected bool m_IsDrawFrame = false;
-		[Category("Hypowerd")]
+		[Category("Hypowered")]
 		public bool IsDrawFrame
 		{
 			get { return m_IsDrawFrame; }
@@ -88,6 +88,7 @@ namespace Hypowered
 			FrameWeight = new Padding(1,1,1,1);
 			this.Location = new Point(150, 150);
 			this.Size = new Size(32+4,32+4);
+			this.TabStop= false;
 			//this.MinimumSize = new Size(32 + 4, 32 + 4);
 			//this.MaximumSize = new Size(32 + 4, 32 + 4);
 			this.TabStop= false;
@@ -143,12 +144,13 @@ namespace Hypowered
 					p.Color = ForeColor;
 					DrawFrame(g, p, r1);
 				}
+				/*
 				if (this.Focused)
 				{
 					Rectangle r2 = ReRect(this.ClientRectangle, 1);
 					p.Color = m_ForcusColor;
 					g.DrawRectangle(p, r2);
-				}
+				}*/
 				if(m_IsEditMode)
 				{
 					p.Color = ForeColor;

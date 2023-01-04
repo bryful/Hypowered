@@ -5,6 +5,7 @@ using Microsoft.ClearScript;
 using Microsoft.ClearScript.V8;
 using Microsoft.ClearScript.JavaScript;
 using System.Xml.Linq;
+using System.Dynamic;
 
 namespace Hypowered
 {
@@ -36,12 +37,14 @@ namespace Hypowered
 				"System.Windows.Forms");
 
 			engine.AddHostObject("dotnet", typeCollection);
-
 			engine.AddHostObject("alert", (object)alert);
 			engine.AddHostTypes(new Type[]
 			{
 				typeof(Console),
+				typeof(Enumerable),
 				typeof(Int32),
+				typeof(String),
+				typeof(Array),
 				typeof(String[]),
 				typeof(Boolean),
 				typeof(Point),
@@ -51,19 +54,45 @@ namespace Hypowered
 				typeof(Color),
 				typeof(DateTime),
 				typeof(Bitmap),
-			});
-			engine.AddHostObject("alert", (object)alert);
+				typeof(HyperBaseForm),
+				typeof(HyperMainForm),
+				typeof(HyperFormList),
+				typeof(List<HyperBaseForm>),
 
+			});
+			//engine.Execute("var app={};");
 
 		}
-		public void InitControls(Control.ControlCollection cs)
+		public void InitForms(HyperMainForm mf)
 		{
+			if (engine != null)
+			{
+				engine.AddHostObject("app", mf);
+				engine.AddHostObject("_app_controls", mf.Controls);
+				engine.AddHostObject("_app_forms", mf.formItems);
+			}
+		}
+		public void InitControls(HyperBaseForm? bf)
+		{
+			if (bf == null) return;
+			Control.ControlCollection cs= bf.Controls;
+			//engine.AddHostObject("items", cs);
+			string name;
+			if(bf is HyperBaseForm)
+			{
+				name = "";
+			}
+			else
+			{
+				name = bf.Name+".";
+			}
 			if((engine!=null)&&(cs != null)&&(cs.Count>0))
 			{
-				foreach(Control c in cs)
+
+				foreach (Control c in cs)
 				{
 					if(c is HyperControl)
-					engine.AddHostObject(c.Name, (HyperControl)c);
+					engine.AddHostObject(name + c.Name, (HyperControl)c);
 				}
 			}
 		}

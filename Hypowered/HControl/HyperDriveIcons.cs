@@ -15,12 +15,14 @@ using System.Security.Cryptography.X509Certificates;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Text.Json.Nodes;
+using System.Drawing.Imaging;
 
 namespace Hypowered
 {
 
     public partial class HyperDriveIcons : HyperControl
 	{
+		
 		public delegate void CurrentDirChangedHandler(object sender, CurrentDirChangedEventArgs e);
 		public event CurrentDirChangedHandler? CurrentDirChanged;
 		protected virtual void OnCurrentDirChanged(CurrentDirChangedEventArgs e)
@@ -35,14 +37,28 @@ namespace Hypowered
 			}
 		}
 		private int m_SelectedDRIndex = -1;
-		[Category("Hypowerd_DriveIcons")]
+		[Category("Hypowered_DriveIcons")]
 		public int SelectedDRIndex
 		{
 			get { return m_SelectedDRIndex; }
 		}
+		
+		[Category("Hypowered_DriveIcons")]
+		public string SelectedItem
+		{
+			get 
+			{
+				string ret = "";
+				if((m_SelectedDRIndex>=0)&&(m_SelectedDRIndex< m_drivesPath.Length))
+				{
+					ret = m_drivesPath[m_SelectedDRIndex];
+				}
+				return ret;
+			}
+		}
 		private DriveInfo[] m_drives = new DriveInfo[0];
 		private string[] m_drivesPath = new string[0];
-		[Category("Hypowerd_DriveIcons")]
+		[Category("Hypowered_DriveIcons")]
 		public string CurrentDir
 		{
 			get
@@ -83,11 +99,18 @@ namespace Hypowered
 
 
 		private Size m_IconSize = new Size(18, 18);
-		[Category("Hypowerd_DriveIcons")]
+		[Category("Hypowered_DriveIcons")]
 		public Size IconSize
 		{
 			get { return m_IconSize; }
-			set { m_IconSize = value; }
+			set
+			{
+				if (m_IconSize != value)
+				{
+					m_IconSize = value;
+					LoadBitmap();
+				}
+			}
 		}
 		public bool SetIconSize(Size sz)
 		{
@@ -113,6 +136,35 @@ namespace Hypowered
 				//this.Size = new Size(m_IconSize.Width * (m_drives.Length + 1), m_IconSize.Height);
 			}
 		}
+		private string m_PictName = "replay";
+		private Bitmap? m_Bitmap = null;
+		[Category("Hypowered_DriveIcons")]
+		public string PictName
+		{
+			get { return m_PictName; }
+			set 
+			{
+				m_PictName=value;
+				LoadBitmap();
+				this.Invalidate();
+
+			}
+		}
+		private void LoadBitmap()
+		{
+			if ((MainForm == null)||(m_PictName=="")) return;
+			int idx = MainForm.PictLib.IndexOf(m_PictName);
+			if (idx >= 0)
+			{
+				m_Bitmap = MainForm.PictLib.Thum(idx, IconSize.Width, IconSize.Height);
+			}
+			else
+			{
+				m_PictName = "";
+			}
+
+		}
+
 		public HyperDriveIcons()
 		{
 			Listup();
@@ -139,9 +191,11 @@ namespace Hypowered
 					m_format.Alignment = StringAlignment.Center;
 					int left = 0;
 					Rectangle r = new Rectangle(left + 2, 2, m_IconSize.Width - 4, m_IconSize.Height - 4);
-					g.DrawRectangle(p, r);
+					if ((m_Bitmap == null) && (m_PictName != "")) LoadBitmap();
+					if (m_Bitmap != null) g.DrawImage(m_Bitmap, 0, 0);
+					//g.DrawRectangle(p, r);
 					Rectangle r2 = ReRect(r, 3);
-					g.DrawEllipse(p, r2);
+					//g.DrawEllipse(p, r2); 
 					for (int i=0; i<m_drives.Length; i++)
 					{
 						left = (i+1) * m_IconSize.Width;
@@ -278,6 +332,7 @@ namespace Hypowered
 			JsonFile jf = new JsonFile(base.ToJson());
 			jf.SetValue(nameof(MyType), (int?)MyType);//Nullable`1
 			jf.SetValue(nameof(IconSize), IconSize);//Size
+			jf.SetValue(nameof(PictName), PictName);//Size
 
 			return jf.Obj;
 		}
@@ -288,6 +343,8 @@ namespace Hypowered
 			object? v = null;
 			v = jf.ValueAuto("IconSize", typeof(Size).Name);
 			if (v != null) IconSize = (Size)v;
+			v = jf.ValueAuto("PictName", typeof(string).Name);
+			if (v != null) PictName = (string)v;
 
 		}
 

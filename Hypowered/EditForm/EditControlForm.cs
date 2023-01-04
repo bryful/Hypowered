@@ -12,54 +12,126 @@ using System.Windows.Forms;
 
 namespace Hypowered
 {
-	public partial class EditControlForm : Form
+	public enum DROption
+	{
+		Cancel,
+		OK,
+		Font,
+		Script,
+		Icon,
+		Content,
+		Connect,
+		FileOpen
+	}
+	public partial class EditControlForm : EditForm
 	{
 
 		private HyperMainForm? MainForm = null;
 
 		private bool IsNewMode = false;
 		static private ControlType m_ct = ControlType.Button;
-		[Category("Hypowerd")]
+		[Category("Hypowered")]
 		public ControlType ControlType
 		{
 			get { return editControlComb1.ControlType; }
 			set { editControlComb1.ControlType = value;}
 		}
-		[Category("Hypowerd")]
+		[Category("Hypowered")]
 		public string ControlName
 		{
 			get { return tbName.Text; }
 			set { tbName.Text = value; }
 		}
-		[Category("Hypowerd")]
+		[Category("Hypowered")]
 		public string ControlText
 		{
 			get { return tbText.Text; }
 			set { tbText.Text = value; }
 		}
+		private void ChkEnabled()
+		{
+			ControlType ct = editControlComb1.ControlType;
+			btnFont.Enabled= false;
+			btnScript.Enabled = false;
+			btnIcon.Enabled = false;
+			btnContent.Enabled = false;
+			btnConnect.Enabled = false;
+			btnOpenFile.Enabled = false;
+			switch (ct)
+			{
+				case ControlType.Label:
+				case ControlType.TextBox:
+					btnContent.Enabled = true;
+					btnFont.Enabled = true;
+					break;
+				case ControlType.Button:
+				case ControlType.CheckBox:
+				case ControlType.RadioButton:
+				case ControlType.ListBox:
+				case ControlType.DropdownList:
+					btnContent.Enabled = true;
+					btnScript.Enabled = true;
+					btnFont.Enabled = true;
+					break;
+				case ControlType.DriveIcons:
+				case ControlType.DirList:
+				case ControlType.FileList:
+					btnContent.Enabled = true;
+					btnContent.Enabled = true;
+					btnScript.Enabled = true;
+					btnFont.Enabled = true;
+					break;
+				case ControlType.PictureBox:
+					btnOpenFile.Enabled = true;
+					break;
+				case ControlType.Icon:
+					btnIcon.Enabled = true;
+					break;
+
+			}
+		}
 		public void SetMainForm(HyperMainForm? mf,HyperBaseForm bf,HyperControl? c=null)
 		{
-			this.MainForm = mf;
-			if(bf != null)
+			MainForm = mf;
+			if ((MainForm == null)||(bf==null)) return;
+			m_TargetForm = bf;
+			m_TargetControl = c;
+			IsNewMode = (c == null);
+			if (IsNewMode == false)
 			{
-				m_TargetForm = bf;
-				m_TargetControl = c;
-				IsNewMode = (c == null);
-				if (IsNewMode == false)
+				if ((m_TargetControl != null) && ((m_TargetControl.MyType != null)))
 				{
-					if ((m_TargetControl != null) && (m_TargetControl.MyType != null))
-					{
-						editControlComb1.ControlType = (ControlType)m_TargetControl.MyType;
-						editControlComb1.Enabled = false;
-						tbName.Text = m_TargetControl.Name;
-						tbText.Text = m_TargetControl.Text;
-					}
+					editControlComb1.ControlType = (ControlType)m_TargetControl.MyType;
+					tbDes.Text = ControlTypeInfos.Disp(editControlComb1.ControlType);
+					editControlComb1.Enabled = false;
+					tbName.Text = m_TargetControl.Name;
+					tbText.Text = m_TargetControl.Text;
+					m_OrgName = m_TargetControl.Text;
+					ChkEnabled();
+				}
+				else
+				{
+					return;
 				}
 			}
+			else
+			{
+				btnFont.Enabled = !IsNewMode;
+				btnIcon.Enabled = !IsNewMode;
+				btnScript.Enabled = !IsNewMode;
+				btnContent.Enabled = !IsNewMode;
+				btnConnect.Enabled = !IsNewMode;
+				btnOpenFile.Enabled = !IsNewMode;
+			}
+
+			btnCancel.Enabled = true;
+			btnOK.Enabled = false;
 		}
 		private HyperBaseForm? m_TargetForm = null;
 		private HyperControl? m_TargetControl = null;
-				
+
+		public DROption DROption = DROption.Cancel;
+		public string m_OrgName = "";
 		public EditControlForm()
 		{
 			BackColor = ColU.ToColor(HyperColor.Back);
@@ -67,24 +139,27 @@ namespace Hypowered
 			InitializeComponent();
 			editControlComb1.ControlType= m_ct;
 			NameSet();
-			toolStrip.MouseDown += ToolStrip1_MouseDown;
-			toolStrip.MouseMove += ToolStrip1_MouseMove;
-			toolStrip.MouseUp += ToolStrip1_MouseUp;
-
 			tbName.TextChanged += TbName_TextChanged;
 			tbText.TextChanged += TbName_TextChanged;
 			btnOK.Click += BtnOK_Click;
 			this.StartPosition= FormStartPosition.CenterParent;
 			editControlComb1.ControlTypeChanged += EditControlComb1_ControlTypeChanged;
 		}
-
+		public override void OnButtunClick(EventArgs e)
+		{
+			base.OnButtunClick(e);
+			DialogResult= DialogResult.Cancel;
+		}
 		private void EditControlComb1_ControlTypeChanged(object sender, ControlTypeEventArgs e)
 		{
 			NameSet();
+			tbDes.Text = ControlTypeInfos.Disp(e.Value);
 		}
 		private void NameSet()
 		{
-			tbName.Text = Enum.GetName(typeof(ControlType), editControlComb1.ControlType);
+			string s = Enum.GetName(typeof(ControlType), editControlComb1.ControlType); ;
+			s = s.Substring(0,1).ToLower() + s.Substring(1);
+			tbName.Text = s;
 		}
 		private void BtnOK_Click(object? sender, EventArgs e)
 		{
@@ -94,14 +169,15 @@ namespace Hypowered
 				tbName.Focus();
 				return;
 			}
-			if(m_TargetForm!=null)
+			if(MainForm!=null)
 			{
-				int idx = m_TargetForm.FindControlIndex(nm);
-				if(idx>=0)
+				bool IsN = MainForm.IsNameChk(nm);
+				if(IsN ==true)
 				{
-					if ((m_TargetControl!=null)&&(IsNewMode == false) && (idx == m_TargetControl.Index))
+					if ((m_TargetControl!=null)&&(IsNewMode == false) )
 					{
 						this.DialogResult = DialogResult.OK;
+						DROption = DROption.OK;
 					}
 					else
 					{
@@ -113,11 +189,13 @@ namespace Hypowered
 				else
 				{
 					this.DialogResult = DialogResult.OK;
+					DROption = DROption.OK;
 				}
 			}
 			else
 			{
 				this.DialogResult = DialogResult.Cancel;
+				DROption = DROption.Cancel;
 			}
 		}
 
@@ -125,20 +203,8 @@ namespace Hypowered
 		{
 			btnOK.Enabled = (tbName.Text != "");
 		}
-		private void ToolStrip1_MouseUp(object? sender, MouseEventArgs e)
-		{
-			this.OnMouseUp(e);
-		}
 
-		private void ToolStrip1_MouseMove(object? sender, MouseEventArgs e)
-		{
-			this.OnMouseMove(e);
-		}
-
-		private void ToolStrip1_MouseDown(object? sender, MouseEventArgs e)
-		{
-			this.OnMouseDown(e);
-		}
+		#region Mouse
 		protected MDPos m_MDPos = MDPos.None;
 		protected Point m_MDP = new Point(0, 0);
 		protected Point m_MDLoc = new Point(0, 0);
@@ -190,6 +256,7 @@ namespace Hypowered
 			}
 			base.OnKeyDown(e);
 		}
+		#endregion
 
 		protected override void OnPaint(PaintEventArgs e)
 		{
@@ -201,9 +268,45 @@ namespace Hypowered
 			}
 		}
 
-		private void btnOK_Click_1(object sender, EventArgs e)
+		private void btnFont_Click(object sender, EventArgs e)
 		{
+			if (IsNewMode) return;
+			DROption = DROption.Font;
+			DialogResult= DialogResult.OK;
+		}
 
+		private void btnScript_Click(object sender, EventArgs e)
+		{
+			if (IsNewMode) return;
+			DROption = DROption.Script;
+			DialogResult = DialogResult.OK;
+		}
+
+		private void btnIcon_Click(object sender, EventArgs e)
+		{
+			if (IsNewMode) return;
+			DROption = DROption.Icon;
+			DialogResult = DialogResult.OK;
+		}
+
+		private void btnContent_Click(object sender, EventArgs e)
+		{
+			if (IsNewMode) return;
+			DROption = DROption.Content;
+			DialogResult = DialogResult.OK;
+		}
+
+		private void btnOpenFile_Click(object sender, EventArgs e)
+		{
+			if (IsNewMode) return;
+			DROption = DROption.FileOpen;
+			DialogResult = DialogResult.OK;
+		}
+
+		private void btnCancel_Click(object sender, EventArgs e)
+		{
+			DROption = DROption.Cancel;
+			DialogResult = DialogResult.Cancel;
 		}
 	}
 }

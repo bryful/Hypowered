@@ -145,6 +145,25 @@ namespace Hypowered
             }
             return ret;
         }
+		static public bool SetEntryFromStream(string zipName, string entryName, MemoryStream? ms)
+		{
+			bool ret = false;
+			if ((zipName == "") || (entryName == "")||(ms==null)) return ret;
+			using (ZipArchive a = ZipFile.Open(zipName, ZipArchiveMode.Update))
+			{
+				ZipArchiveEntry? e = a.GetEntry(entryName);
+				if (e != null)
+				{
+					using (Stream stream = e.Open())
+					{
+						ms.CopyTo(stream);
+						stream.Position = 0;
+						ret = true;
+					}
+				}
+			}
+			return ret;
+		}
 		static public string? GetEntryToStr(string zipName, string entryName)
         {
             //  string str = Encoding.GetEncoding("Shift_JIS").GetString(byte2str_arr);
@@ -261,5 +280,14 @@ namespace Hypowered
             }
             return ret;
         }
+
+		static public bool BackupEntry(string zipName, string entryName,string backupName)
+		{
+			bool ret = false;
+			byte[]? bytes = GetEntryToByte(zipName, entryName);
+			if(bytes == null) return false;
+			ret = SetEntryFromByte(zipName, backupName, bytes);
+			return ret;
+		}
     }
 }

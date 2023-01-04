@@ -9,6 +9,7 @@ using System.Text;
 using System.Text.Json.Nodes;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using static Hypowered.HArgs;
 using static System.Windows.Forms.VisualStyles.VisualStyleElement.Header;
 
 namespace Hypowered
@@ -29,8 +30,38 @@ namespace Hypowered
 				MainForm.ExecuteCode(Script_SelectedIndexChanged);
 			}
 		}
+		public string[] ToArray()
+		{
+			List<string> list = new List<string>();
+			if(m_Items.Count>0)
+			{
+				foreach(string s in m_Items)
+				{
+					list.Add(s);
+				}
+			}
+			return list.ToArray();
+		}
+		public void FromArray(string[] arr)
+		{
+			m_Items.Clear();
+			m_Items.AddRange(arr);
+		}
+		[Category("Hypowered_DropdownList")]
+		public new string [] Lines
+		{
+			get 
+			{ 
+				return ToArray(); 
+			}
+			set
+			{
+				SelectedIndex = -1;
+				FromArray(value);
+			}
+		}
 		private int m_SelectedIndex = -1;
-		[Category("Hypowerd_DropdownList")]
+		[Category("Hypowered_DropdownList")]
 		public int SelectedIndex
 		{
 			get { return m_SelectedIndex; }
@@ -39,7 +70,7 @@ namespace Hypowered
 				SetSelectedIndex(value);
 			}
 		}
-		[Category("Hypowerd_DropdownList")]
+		[Category("Hypowered_DropdownList")]
 		public string SelectedItem
 		{
 			get 
@@ -69,7 +100,7 @@ namespace Hypowered
 			this.Invalidate();
 		}
 		private StringCollection m_Items = new StringCollection();
-		[Category("Hypowerd_DropdownList")]
+		[Category("Hypowered_DropdownList")]
 		public StringCollection Items
 		{
 			get { return m_Items; }
@@ -179,7 +210,7 @@ namespace Hypowered
 		{
 			JsonFile jf = new JsonFile(base.ToJson());
 			jf.SetValue(nameof(MyType), (int?)MyType);//Nullable`1
-			jf.SetValue(nameof(Items), Items);//StringCollection
+			jf.SetValue(nameof(Lines), Lines);//StringCollection
 			jf.SetValue(nameof(ForeColor), ForeColor);//Color
 			jf.SetValue(nameof(BackColor), BackColor);//Color
 			jf.SetValue(nameof(Font), Font);//Font
@@ -191,8 +222,8 @@ namespace Hypowered
 			base.FromJson(jo);
 			JsonFile jf = new JsonFile(jo);
 			object? v = null;
-			v = jf.ValueAuto("Items", typeof(StringCollection).Name);
-			if (v != null) Items.AddRange((string[])v);
+			v = jf.ValueAuto("Lines", typeof(String[]).Name);
+			if (v != null) Lines = (string[])v;
 			v = jf.ValueAuto("ForeColor", typeof(Color).Name);
 			if (v != null) ForeColor = (Color)v;
 			v = jf.ValueAuto("BackColor", typeof(Color).Name);

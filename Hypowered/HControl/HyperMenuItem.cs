@@ -77,10 +77,7 @@ namespace Hypowered
 						if((mf!=null)&&(mi.Func!=null))
 						{
 							string nm = mi.Func.Method.Name;
-							if ((mf.PropForm!=null)&&( nm== "ShowPropForm"))
-							{
-								mc.Checked = (mf.PropForm.Visible);
-							}else if ((mf.ControlList != null) && (nm == "ShowControlList"))
+							if ((mf.ControlList != null) && (nm == "ShowControlList"))
 							{
 								mc.Checked = (mf.ControlList.Visible);
 							}

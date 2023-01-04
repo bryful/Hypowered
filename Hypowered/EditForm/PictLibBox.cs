@@ -26,8 +26,9 @@ namespace Hypowered
 		}
 		private Size m_PictSize = new Size(0, 0);
 		public Size PictSize { get { return m_PictSize; } }
-		private string m_PictName = "";
-		public string PictName { get { return m_PictName; } }
+		/*
+
+		*/
 
 		private Size m_IconSize = new Size(48+4, 48+4);
 		private int m_WCount = 1;
@@ -39,7 +40,35 @@ namespace Hypowered
 		public int TargetIndex
 		{
 			get { return m_TargetIndex; }
-			set { m_TargetIndex = value; }
+			set 
+			{
+				m_TargetIndex = value;
+				ChkSize();
+				m_PageIndex = m_TargetIndex / m_PageCount;
+			}
+		}
+		public string PictName
+		{
+			get 
+			{
+				string ret = "";
+				if (m_PictLib != null)
+				{
+					if ((m_TargetIndex >= 0) && (m_TargetIndex < m_PictLib.Count))
+					{
+						ret = m_PictLib.BitmapName(m_TargetIndex);
+					}
+				}
+				return ret;
+			}
+			set
+			{
+				m_TargetIndex = -1;
+				if (m_PictLib != null)
+				{
+					m_TargetIndex = m_PictLib.IndexOf(value);
+				}
+			}
 		}
 		private Button? m_LeftBtn = null;
 		public Button? LeftBtn
@@ -139,14 +168,14 @@ namespace Hypowered
 			}
 		}
 		private Color m_ForcusColor= Color.White;
-		[Category("Hypowerd_Color")]
+		[Category("Hypowered_Color")]
 		public Color ForcusColor
 		{
 			get { return m_ForcusColor; }
 			set { m_ForcusColor = value; this.Invalidate(); }
 		}
 		private Color m_UserPictColor = Color.Red;
-		[Category("Hypowerd_Color")]
+		[Category("Hypowered_Color")]
 		public Color UserPictColor
 		{
 			get { return m_UserPictColor; }
