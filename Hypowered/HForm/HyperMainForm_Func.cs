@@ -414,14 +414,14 @@ namespace Hypowered
 			if(ofd.ShowDialog(this)==DialogResult.OK)
 			{
 				string nm = Path.GetFileName(ofd.FileName);
-				int idx = PictLib.IndexOf(nm);
+				int idx = Lib.IndexOfBitmap(nm);
 				if(idx >=0)
 				{
 					MessageBox.Show("同じ名前のファイルがあります。");
 					return false;
 				}
 
-				if(PictLib.AddUserPict(ofd.FileName)==true)
+				if(Lib.AddUserPict(ofd.FileName)==true)
 				{
 					MessageBox.Show("[ "+nm + " ]を追加しました。");
 					ret = true;

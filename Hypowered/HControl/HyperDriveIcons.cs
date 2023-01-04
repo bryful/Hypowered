@@ -153,10 +153,10 @@ namespace Hypowered
 		private void LoadBitmap()
 		{
 			if ((MainForm == null)||(m_PictName=="")) return;
-			int idx = MainForm.PictLib.IndexOf(m_PictName);
+			int idx = MainForm.Lib.IndexOfBitmap(m_PictName);
 			if (idx >= 0)
 			{
-				m_Bitmap = MainForm.PictLib.Thum(idx, IconSize.Width, IconSize.Height);
+				m_Bitmap = MainForm.Lib.Thum(idx, IconSize.Width, IconSize.Height);
 			}
 			else
 			{

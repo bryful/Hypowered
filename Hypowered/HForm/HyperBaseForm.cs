@@ -7,6 +7,9 @@ namespace Hypowered
 	public partial class HyperBaseForm : Form
 	{
 		public int Index = -1;
+		[Category("Hypowered")]
+		public bool Locked { get; set; } = false;
+
 		#region Event
 
 		// ****************************************************************************
@@ -980,7 +983,10 @@ true);
 					m_MDPos = p;
 					m_MDP = new Point(e.X, e.Y);
 					m_MDLoc = this.Location;
-					m_MDSize = this.Size;
+					if (Locked == false)
+					{
+						m_MDSize = this.Size;
+					}
 					return;
 				}
 			}
@@ -995,14 +1001,28 @@ true);
 				switch (m_MDPos)
 				{
 					case MDPos.BottomRight:
-						this.Size = new Size(
-							m_MDSize.Width + ax,
-							m_MDSize.Height + ay);
+						if (Locked == false)
+						{
+							this.Size = new Size(
+								m_MDSize.Width + ax,
+								m_MDSize.Height + ay);
+						}
 						break;
 					case MDPos.Right:
-						this.Size = new Size(
+						if (Locked == false)
+						{
+							this.Size = new Size(
 							m_MDSize.Width + ax,
 							m_MDSize.Height);
+						}
+						break;
+					case MDPos.Bottom:
+						if (Locked == false)
+						{
+							this.Size = new Size(
+							m_MDSize.Width,
+							m_MDSize.Height+ay);
+						}
 						break;
 					case MDPos.Center:
 					default:

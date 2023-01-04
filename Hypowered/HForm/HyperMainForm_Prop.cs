@@ -13,7 +13,7 @@ namespace Hypowered
     partial class HyperMainForm
 	{
 		// ****************************************************************************
-		public HyperPictLib PictLib = new HyperPictLib();
+		public HyperLib Lib = new HyperLib();
 		public HyperScript Script = new HyperScript();
 		public HyperScriptCode ScriptCode = new HyperScriptCode();
 		// ****************************************************************************

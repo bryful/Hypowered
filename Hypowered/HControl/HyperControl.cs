@@ -29,6 +29,8 @@ namespace Hypowered
 		/// </summary>
 		[Category("Hypowered")]
 		public ControlType? MyType { get { return m_MyType; } }
+		[Category("Hypowered")]
+		public bool Locked { get; set; }=false;
 
 		[Category("Hypowered")]
 		public new string Name
@@ -574,7 +576,7 @@ namespace Hypowered
 					ChkTargetSelected();
 
 					MDPos p = CU.GetMDPos(e.X, e.Y, this.Size);
-					if (p != MDPos.None)
+					if ((p != MDPos.None)&&(Locked==false))
 					{
 						m_MDPos = p;
 						m_MDP = new Point(e.X, e.Y);
@@ -684,6 +686,7 @@ namespace Hypowered
 			JsonFile jf = new JsonFile(jo);
 			jf.SetValue(nameof(MyType), MyType);//Nullable`1
 			jf.SetValue(nameof(Name), Name);//String
+			jf.SetValue(nameof(Locked), Locked);//Size
 			jf.SetValue(nameof(Location), Location);//Point
 			jf.SetValue(nameof(Size), Size);//Size
 			jf.SetValue(nameof(Font), Font);//Font
@@ -738,6 +741,8 @@ namespace Hypowered
 			object? v=null;
 			v = jf.ValueAuto("MyType", typeof(Int32).Name);
 			if (v != null) SetMyType ( (ControlType)v);
+			v = jf.ValueAuto("Locked", typeof(Boolean).Name);
+			if (v != null) Locked = (bool)v;
 			v = jf.ValueAuto("Name", typeof(String).Name);
 			if (v != null) Name = (String)v;
 			v = jf.ValueAuto("Location", typeof(Point).Name);

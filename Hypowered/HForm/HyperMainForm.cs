@@ -417,7 +417,7 @@ true);
 			{
 				SaveStatus(StatusFileName());
 				base.Name = Path.GetFileNameWithoutExtension(m_FileName);
-				PictLib.SetMainForm(this);//FileNameを設定してる
+				Lib.SetMainForm(this);//FileNameを設定してる
 				if (_mutex == null)
 				{
 					_mutex = new System.Threading.Mutex(false, base.Name);
@@ -451,7 +451,7 @@ true);
 				m_FileName = p;
 				base.Name = IDName;
 				StartServer();
-				PictLib.SetMainForm(this);//FileNameを設定してる
+				Lib.SetMainForm(this);//FileNameを設定してる
 
 				if (_mutex == null)
 				{

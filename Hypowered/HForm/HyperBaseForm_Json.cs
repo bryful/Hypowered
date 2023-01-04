@@ -22,6 +22,7 @@ namespace Hypowered
 			JsonObject jo = new JsonObject();
 			JsonFile jf = new JsonFile(jo);
 			jf.SetValue(nameof(Name), Name);//String
+			jf.SetValue(nameof(Locked), Locked);//Bool
 			jf.SetValue(nameof(Size), Size);//Size
 			jf.SetValue(nameof(SelectedColor), SelectedColor);//Color
 			jf.SetValue(nameof(TargetColor), TargetColor);//Color
@@ -103,6 +104,8 @@ namespace Hypowered
 			object? v = null;
 			v = jf.ValueAuto("Name", typeof(String).Name);
 			if (v != null) Name = (String)v;
+			v = jf.ValueAuto("Locked", typeof(Boolean).Name);
+			if (v != null) Locked = (bool)v;
 			v = jf.ValueAuto("Size", typeof(Size).Name);
 			if (v != null) Size = (Size)v;
 			v = jf.ValueAuto("SelectedColor", typeof(Color).Name);

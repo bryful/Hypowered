@@ -37,10 +37,10 @@ namespace Hypowered
 		public void SetBitmap(int idx)
 		{
 			if (MainForm == null) return;
-			m_Bitmap = MainForm.PictLib[idx].Bitmap;
+			m_Bitmap = MainForm.Lib.GetPictItem(idx).Bitmap;
 			if (m_Bitmap != null)
 			{
-				m_PictName = MainForm.PictLib.BitmapName(idx);
+				m_PictName = MainForm.Lib.PictName(idx);
 				this.Size = new Size(m_Bitmap.Width + 4, m_Bitmap.Height + 4);
 				ChkSize();
 			}
@@ -52,7 +52,7 @@ namespace Hypowered
 				m_PictName = "";
 				return;
 			}
-			int idx = MainForm.PictLib.IndexOf(value);
+			int idx = MainForm.Lib.IndexOfBitmap(value);
 			if (idx >= 0)
 			{
 				SetBitmap(idx);
@@ -64,7 +64,7 @@ namespace Hypowered
 				int index = -1;
 				if (int.TryParse(value, out index))
 				{
-					if ((index >= 0) && (index < MainForm.PictLib.Count))
+					if ((index >= 0) && (index < MainForm.Lib.BitmapCount))
 					{
 						SetBitmap(index);
 						this.Invalidate();

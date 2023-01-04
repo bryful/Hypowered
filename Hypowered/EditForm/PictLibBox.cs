@@ -13,13 +13,13 @@ namespace Hypowered
 	public partial class PictLibBox : Control
 	{
 		private HyperMainForm? m_form = null;
-		private HyperPictLib? m_PictLib = null;
+		private HyperLib? m_PictLib = null;
 		public void SetMainForm(HyperMainForm? mf)
 		{
 			m_form= mf;
 			if(m_form!=null)
 			{
-				m_PictLib = mf.PictLib;
+				m_PictLib = mf.Lib;
 				ChkSize();
 				this.Invalidate();
 			}
@@ -54,9 +54,9 @@ namespace Hypowered
 				string ret = "";
 				if (m_PictLib != null)
 				{
-					if ((m_TargetIndex >= 0) && (m_TargetIndex < m_PictLib.Count))
+					if ((m_TargetIndex >= 0) && (m_TargetIndex < m_PictLib.BitmapCount))
 					{
-						ret = m_PictLib.BitmapName(m_TargetIndex);
+						ret = m_PictLib.PictName(m_TargetIndex);
 					}
 				}
 				return ret;
@@ -66,7 +66,7 @@ namespace Hypowered
 				m_TargetIndex = -1;
 				if (m_PictLib != null)
 				{
-					m_TargetIndex = m_PictLib.IndexOf(value);
+					m_TargetIndex = m_PictLib.IndexOfBitmap(value);
 				}
 			}
 		}
@@ -146,8 +146,8 @@ namespace Hypowered
 			m_PageCount = m_WCount * m_HCount;
 			if(m_PictLib!= null)
 			{
-				m_PageMax = m_PictLib.Count / m_PageCount;
-				if ((m_PictLib.Count % m_PageCount) != 0) m_PageMax += 1;
+				m_PageMax = m_PictLib.BitmapCount / m_PageCount;
+				if ((m_PictLib.BitmapCount % m_PageCount) != 0) m_PageMax += 1;
 				if (m_PageIndex >= m_PageMax) m_PageIndex = m_PageMax - 1;
 			}
 			else
@@ -202,9 +202,9 @@ true);
 		protected void DrawIcon(Graphics g, SolidBrush sb, Pen p,Point pnt,int idx)
 		{
 			if (m_PictLib == null) return;
-			if (idx >= m_PictLib.Count) return;
+			if (idx >= m_PictLib.BitmapCount) return;
 			Rectangle rct = new Rectangle(pnt, m_IconSize);
-			if(m_PictLib[idx].IsRes)
+			if(m_PictLib.GetPictItem(idx).IsRes)
 			{
 				p.Color = ForeColor;
 			}
@@ -273,7 +273,7 @@ true);
 
 				if (m_TextBox_FileName != null)
 				{
-					m_TextBox_FileName.Text = m_PictLib[idx].Name;
+					m_TextBox_FileName.Text = m_PictLib.GetPictItem(idx).Name;
 				}
 				if (m_TextBox_Info != null)
 				{
