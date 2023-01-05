@@ -19,7 +19,7 @@ namespace Hypowered
 		Shutdown,
 	}
     [Flags]
-    public enum InScript
+    public enum InScriptBit
     {
         None = 0,
         Startup
@@ -41,8 +41,8 @@ namespace Hypowered
 	}
 	public class HyperScriptCode
     {
-        protected InScript m_InScript = InScript.None;
-        public InScript InScript
+        protected InScriptBit m_InScript = InScriptBit.None;
+        public InScriptBit InScript
         {
             get { return m_InScript; }
         }
@@ -60,7 +60,7 @@ namespace Hypowered
         {
             get { return m_ValidSprictNames.Length; }
         }
-        public void SetInScript(InScript ist)
+        public void SetInScript(InScriptBit ist)
         {
             m_InScript = ist;
             GetValidSprictNames(ist);
@@ -164,14 +164,14 @@ namespace Hypowered
         public HyperScriptCode()
         {
         }
-        private void GetValidSprictNames(InScript sc)
+        private void GetValidSprictNames(InScriptBit sc)
         {
             List<string> list = new List<string>();
             List<ScriptKind> slist = new List<ScriptKind>();
             string[] names = Enum.GetNames(typeof(ScriptKind));
             for (int i = 0; i < 16; i++)
             {
-                InScript v = (InScript)(0x01 << i);
+                InScriptBit v = (InScriptBit)(0x01 << i);
                 if ((sc & v) == v)
                 {
                     ScriptKind sk = (ScriptKind)i;

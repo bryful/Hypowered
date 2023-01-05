@@ -314,7 +314,7 @@ namespace Hypowered
 		public HyperRadioButton()
 		{
 			SetMyType(ControlType.RadioButton);
-			SetInScript(InScript.ValueChanged);
+			SetInScript(InScriptBit.ValueChanged);
 			//m_ScriptCodes = "//RadioButton";
 			ControlName = "HyperRadioButton";
 			m_format.Alignment = StringAlignment.Near;

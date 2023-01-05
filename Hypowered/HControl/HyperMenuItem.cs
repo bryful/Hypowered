@@ -16,7 +16,7 @@ namespace Hypowered
 		public int Right { get { return Left + Width; } }
 		public FuncType? Func = null;
 		public Keys Key = Keys.None;
-		public bool Visibled = true;
+		public bool IsEditModeOnly = false;
 		//public ContextMenuStrip? Menu = null;
 		public List<HyperMenuItem?> Items = new List<HyperMenuItem?>();
 		public HyperMenuItem(Control? fm, string c, FuncItem? f)
@@ -59,7 +59,7 @@ namespace Hypowered
 				return null;
 			}
 		}
-		public ContextMenuStrip MakeMenu(HyperMainForm? mf=null )
+		public ContextMenuStrip MakeMenu(HyperMainForm? mf)
 		{
 			ContextMenuStrip ret = new ContextMenuStrip();
 			if (Items.Count > 0)
@@ -84,6 +84,20 @@ namespace Hypowered
 							
 						}
 						mc.Checked= mi.Checked;
+						if (mf != null)
+						{
+							if(mi.IsEditModeOnly)
+							{
+								mc.Visible = mf.IsEditMode;
+							}
+							else
+							{
+								mc.Visible = true;
+							}
+
+
+
+						}
 						mc.Text = mi.Caption;
 						mc.Click += Mc_Click;
 						mc.ShortcutKeys = mi.Key;

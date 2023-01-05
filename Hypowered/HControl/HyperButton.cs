@@ -11,10 +11,10 @@ using System.Windows.Forms;
 
 namespace Hypowered
 {
-    public partial class HyperButton : HyperControl
+	public partial class HyperButton : HyperControl
 	{
 		protected Color m_PushedColor = Color.White;
-		[Category("Hypowered_Color")]
+		[Category("Hypowerd_Color")]
 		public Color PushedColor
 		{
 			get { return m_PushedColor; }
@@ -23,7 +23,7 @@ namespace Hypowered
 		public HyperButton()
 		{
 			SetMyType(ControlType.Button);
-			ScriptCode.SetInScript(InScript.MouseClick| InScript.MouseDoubleClick);
+			SetInScript(InScriptBit.MouseClick);
 			this.Location = new Point(100, 100);
 			this.Size = ControlDef.DefSize;
 			InitializeComponent();
@@ -100,7 +100,7 @@ namespace Hypowered
 			base.OnMouseClick(e);
 			if ((MainForm != null) && (m_IsEditMode == false))
 			{
-				MainForm.ExecuteCode(Script_MouseClick);
+				MainForm.ExecuteCode(GetScriptCode(ScriptKind.MouseClick));
 			}
 		}
 		public override JsonObject ToJson()

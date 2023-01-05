@@ -105,7 +105,7 @@ namespace Hypowered
 		public HyperTextBox()
 		{
 			SetMyType(ControlType.TextBox);
-			SetInScript(InScript.ValueChanged);
+			SetInScript(InScriptBit.ValueChanged);
 			m_TextBox.BorderStyle = BorderStyle.FixedSingle;
 			BackColor = ColU.ToColor(HyperColor.Back);
 			ForeColor = ColU.ToColor(HyperColor.Fore);

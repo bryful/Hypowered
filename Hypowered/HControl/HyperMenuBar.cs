@@ -227,7 +227,7 @@ true);
 					m_menuDown= idx;
 					this.Invalidate();
 
-					ContextMenuStrip? menu = m_Items[idx].MakeMenu();
+					ContextMenuStrip? menu = m_Items[idx].MakeMenu(MainForm);
 					if (menu != null)
 					{
 						menu.Show(this, new Point(m_Items[idx].Left, MenuHeight));

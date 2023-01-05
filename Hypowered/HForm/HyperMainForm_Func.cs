@@ -24,7 +24,8 @@ namespace Hypowered
 			lst.Add(new FuncItem(ToggleEditMode, Keys.Control | Keys.B, "編集モード"));
 			lst.Add(new FuncItem(ToggleShowMenu, Keys.Control | Keys.F12, "メニューを消す"));
 			lst.Add(new FuncItem(ShowControlList, Keys.Control | Keys.U, "コントロールリスト"));
-			lst.Add(new FuncItem(ShowScriptEdit, Keys.Alt | Keys.E, "スクリプト編集"));
+			lst.Add(new FuncItem(OpenScriptEdit, Keys.Control | Keys.L, "スクリプト編集表示"));
+			lst.Add(new FuncItem(ExecScriptEdit, Keys.Alt | Keys.E, "スクリプト編集"));
 			lst.Add(new FuncItem(ShowPictLibDialog, Keys.Control | Keys.F1, "アイコン選択"));
 			lst.Add(new FuncItem(AddUserPict, Keys.Control | Keys.F2, "ユーザー画像追加"));
 			lst.Add(new FuncItem(DeleteControl, Keys.Delete, "コントロール削除"));
@@ -35,16 +36,19 @@ namespace Hypowered
 			lst.Add(new FuncItem(ControlToUp, Keys.Alt | Keys.Up, "コントロールを上へ"));
 			lst.Add(new FuncItem(ControlToFloor, Keys.Alt | Keys.Down, "コントロールを一番下へ"));
 			lst.Add(new FuncItem(ControlToFront, Keys.Alt | Keys.Up, "コントロールを一番上へ"));
+			lst.Add(new FuncItem(ShowInputForm, Keys.Control | Keys.F9, "JavaScript Input"));
+			lst.Add(new FuncItem(ShowOutputForm, Keys.Control | Keys.F8, "JavaScript Output"));
 			Funcs.SetFuncItems(lst.ToArray());
 		}
 		// *************************************************************************
-		private HyperMenuItem? CreateMenuItem(FuncType fnc)
+		private HyperMenuItem? CreateMenuItem(FuncType fnc,bool IsEO=false)
 		{
 			HyperMenuItem? ret = null;
 			if (fnc == null) return ret;
 			FuncItem? fi = Funcs.FindFunc(fnc.Method.Name);
 			if(fi==null) return ret;
 			ret = new HyperMenuItem(m_menuBar, fi.Caption, fi);
+			ret.IsEditModeOnly = IsEO;
 			return ret;
 		}
 		// *************************************************************************
@@ -57,12 +61,15 @@ namespace Hypowered
 		private HyperMenuItem? m_ShowMenu = null;
 		private HyperMenuItem? m_ControlListmMenu = null;
 		private HyperMenuItem? m_NewControlMenu = null;
+		private HyperMenuItem? m_OpenScriptEditMenu = null;
 		private HyperMenuItem? m_ScriptEditMenu = null;
 		private HyperMenuItem? m_PictLibMenu = null;
 		private HyperMenuItem? m_AddUserPictMenu = null;
 		private HyperMenuItem? m_DeleteControlMenu = null;
 		private HyperMenuItem? m_FontMenu = null;
 		private HyperMenuItem? m_ContentMenu = null;
+		private HyperMenuItem? m_InputMenu = null;
+		private HyperMenuItem? m_OutputMenu = null;
 		// *************************************************************************
 		public void MakeMenu()
 		{
@@ -78,16 +85,20 @@ namespace Hypowered
 				m_FileMenu.Add(null);
 				m_FileMenu.Add(m_menuQuit);
 			}
-			m_NewControlMenu = CreateMenuItem(NewControl);
-			m_EditModeMenu　= CreateMenuItem(ToggleEditMode);
+			m_EditModeMenu = CreateMenuItem(ToggleEditMode);
 			m_ShowMenu = CreateMenuItem(ToggleShowMenu);
-			m_ControlListmMenu = CreateMenuItem(ShowControlList);
-			m_ScriptEditMenu = CreateMenuItem(ShowScriptEdit);
-			m_PictLibMenu = CreateMenuItem(ShowPictLibDialog);
-			m_AddUserPictMenu = CreateMenuItem(AddUserPict);
-			m_DeleteControlMenu = CreateMenuItem(DeleteControl);
-			m_FontMenu = CreateMenuItem(ShowFontDialog);
-			m_ContentMenu = CreateMenuItem(ShowEditContent);
+
+			m_NewControlMenu = CreateMenuItem(NewControl,true);
+			m_ControlListmMenu = CreateMenuItem(ShowControlList, true);
+			m_OpenScriptEditMenu = CreateMenuItem(OpenScriptEdit);
+			m_ScriptEditMenu = CreateMenuItem(ExecScriptEdit, true);
+			m_PictLibMenu = CreateMenuItem(ShowPictLibDialog, true);
+			m_AddUserPictMenu = CreateMenuItem(AddUserPict, true);
+			m_DeleteControlMenu = CreateMenuItem(DeleteControl, true);
+			m_FontMenu = CreateMenuItem(ShowFontDialog, true);
+			m_ContentMenu = CreateMenuItem(ShowEditContent, true);
+			m_InputMenu = CreateMenuItem(ShowInputForm);
+			m_OutputMenu = CreateMenuItem(ShowOutputForm);
 			if (m_ControlMenu != null)
 			{
 				m_ControlMenu.Add(m_EditModeMenu);
@@ -96,10 +107,13 @@ namespace Hypowered
 				m_ControlMenu.Add(m_ControlListmMenu);
 				m_ControlMenu.Add(m_AddUserPictMenu);
 				m_ControlMenu.Add(m_PictLibMenu);
-				m_ControlMenu.Add(m_ScriptEditMenu);
+				m_ControlMenu.Add(m_OpenScriptEditMenu);
 				m_ControlMenu.Add(m_FontMenu);
 				m_ControlMenu.Add(m_ContentMenu);
+				m_ControlMenu.Add(m_OutputMenu);
 				m_ControlMenu.Add(null);
+				m_ControlMenu.Add(m_ScriptEditMenu);
+				m_ControlMenu.Add(m_InputMenu);
 				m_ControlMenu.Add(m_DeleteControlMenu);
 				m_ControlMenu.Add(m_NewControlMenu);
 			}
@@ -184,7 +198,14 @@ namespace Hypowered
 		// *************************************************************************
 		public bool ToggleEditMode()
 		{
-			SetIsEditMode(!m_IsEditMode);
+			if(m_CanEditMode==false)
+			{
+				if(m_IsEditMode==true) SetIsEditMode(false);
+			}
+			else
+			{
+				SetIsEditMode(!m_IsEditMode);
+			}
 			return true;
 		}
 		// *************************************************************************
@@ -247,7 +268,7 @@ namespace Hypowered
 				switch (dlg.DROption)
 				{
 					case DROption.Script:
-						ShowScriptEdit();
+						ExecScriptEdit();
 						break;
 					case DROption.Font:
 						ShowFontDialog();
@@ -297,45 +318,170 @@ namespace Hypowered
 				{
 					ControlList.Bounds = ControlListBounds;
 				}
-			}
-
-			if (ControlList.Visible == false)
-			{
-				ControlList.Visible = true;
-				ControlList.Activate();
+				ControlList.Show(this);
 			}
 			else
 			{
-				ControlList.Visible = false;
+				if (ControlList.Visible == false)
+				{
+					ControlList.Visible = true;
+					ControlList.Activate();
+				}
+				else
+				{
+					ControlList.Visible = false;
+				}
+
 			}
+
 
 			return true;
 		}
 		// *************************************************************************
-		// *************************************************************************
-		public bool ShowScriptEdit()
+		public bool ShowOutputForm()
 		{
-			bool ret = false;
-			if(m_IsEditMode==false) return ret;
-			using (HyperScriptEditor dlg = new HyperScriptEditor())
+			if (OutputForm == null)
 			{
-				dlg.SetMainForm(this);
-				if (ScriptEditBounds.Left == -1)
+				OutputForm = new JSOutputForm();
+				OutputForm.MainForm =this;
+				if (OutputFormBounds.Left == -1)
 				{
-					dlg.Bounds = this.Bounds;
+					OutputForm.Location = new Point(
+						this.Left,
+						this.Bottom);
 				}
 				else
 				{
-					dlg.Bounds = ScriptEditBounds;
+					OutputForm.Bounds = OutputFormBounds;
+				}
+				OutputForm.LocationChanged += (sender,e)=>
+				{
+					OutputFormBounds = OutputForm.Bounds;
+				};
+				OutputForm.SizeChanged += (sender, e) =>
+				{
+					OutputFormBounds = OutputForm.Bounds;
+				};
+				OutputForm.Show(this);
+			}
+			else
+			{
+				if (OutputForm.Visible == false)
+				{
+					OutputForm.Visible = true;
+					OutputForm.Activate();
+				}
+				else
+				{
+					OutputForm.Visible = true;
 				}
 
-				if (dlg.ShowDialog() == DialogResult.OK)
-				{
-					ret = true;
-				}
-				ScriptEditBounds = dlg.Bounds;
 			}
-			return ret;
+
+
+			return true;
+		}
+		// *************************************************************************
+		public bool ShowInputForm()
+		{
+			if (InputForm == null)
+			{
+				InputForm = new JSInputForm();
+				InputForm.MainForm = this;
+				if (InputFormBounds.Left == -1)
+				{
+					InputForm.Location = new Point(
+						this.Left,
+						this.Bottom);
+				}
+				else
+				{
+					InputForm.Bounds = InputFormBounds;
+				}
+				InputForm.LocationChanged += (sender, e) =>
+				{
+					InputFormBounds = InputForm.Bounds;
+				};
+				InputForm.SizeChanged += (sender, e) =>
+				{
+					InputFormBounds = InputForm.Bounds;
+				};
+				InputForm.Show(this);
+			}
+			else
+			{
+				if (InputForm.Visible == false)
+				{
+					InputForm.Visible = true;
+					InputForm.Activate();
+				}
+				else
+				{
+					InputForm.Visible = true;
+				}
+			}
+
+
+			return true;
+		}
+		// *************************************************************************
+		public void OutputWrite(object? o)
+		{
+			if (OutputForm == null) ShowOutputForm();
+			if(OutputForm!=null)
+			{
+				OutputForm.write(o);
+			}
+		}
+		// *************************************************************************
+		public void OutputWriteLine(object? o)
+		{
+			if (OutputForm == null) ShowOutputForm();
+			if (OutputForm != null)
+			{
+				OutputForm.writeLine(o);
+			}
+		}
+		public void OutputClear()
+		{
+			if (OutputForm == null) return;
+			OutputForm.clear();
+		}
+		// *************************************************************************
+		public bool OpenScriptEdit()
+		{
+			if (ScriptEdit == null)
+			{
+				ScriptEdit = new HyperScriptEditor();
+				ScriptEdit.SetMainForm(this);
+				if (ScriptEditBounds.Left == -1)
+				{
+					ScriptEdit.Location = new Point(
+						this.Left,
+						this.Top);
+				}
+				else
+				{
+					ScriptEdit.Bounds = ScriptEditBounds;
+				}
+				ScriptEdit.Show(this);
+			}
+			else
+			{
+				ScriptEdit.Visible = true;
+			}
+			return true;
+		}
+		// *************************************************************************
+		public bool ExecScriptEdit()
+		{
+			bool ret = false;
+			OpenScriptEdit();
+			if (ScriptEdit != null)
+			{
+				ScriptEdit.SetTargetControl(targetForm, targetControl);
+			}
+			return true;
 		}
 		public bool ShowPictLibDialog()
 		{

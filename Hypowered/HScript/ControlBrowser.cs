@@ -22,6 +22,36 @@ namespace Hypowered
 		private ListBox m_MemberListBox = new ListBox();
 		private SplitContainer m_spliter = new SplitContainer();
 		private List<string> m_Props = new List<string>();
+
+		public new Color BackColor
+		{
+			get { return base.BackColor; } 
+			set
+			{
+				base.BackColor = value;
+				m_TextBox.BackColor = value;
+				m_Button.BackColor = value;
+				m_FormComp.BackColor = value;
+				m_ControlListBox.BackColor = value;
+				m_MemberListBox.BackColor = value;
+				m_spliter.BackColor = value;
+			}
+		}
+		public new Color ForeColor
+		{
+			get { return base.ForeColor; }
+			set
+			{
+				base.ForeColor = value;
+				m_TextBox.ForeColor = value;
+				m_Button.ForeColor = value;
+				m_FormComp.ForeColor = value;
+				m_ControlListBox.ForeColor = value;
+				m_MemberListBox.ForeColor = value;
+				m_spliter.ForeColor = value;
+			}
+		}
+
 		public ControlBrowser()
 		{
 			InitializeComponent();
@@ -30,14 +60,20 @@ namespace Hypowered
 			m_FormComp.ForeColor = this.ForeColor;
 			m_FormComp.BackColor = this.BackColor;
 			m_FormComp.DropDownStyle = ComboBoxStyle.DropDownList;
+			m_FormComp.FlatStyle= FlatStyle.Flat;
 			m_ControlListBox.ForeColor = this.ForeColor;
 			m_ControlListBox.BackColor = this.BackColor;
 			m_ControlListBox.IntegralHeight = false;
 			m_ControlListBox.Dock= DockStyle.Fill;
+			m_ControlListBox.BorderStyle = BorderStyle.FixedSingle;
+			//m_ControlListBox.FlatStyle = FlatStyle.Flat;
+
 			m_MemberListBox.ForeColor = this.ForeColor;
 			m_MemberListBox.BackColor = this.BackColor;
 			m_MemberListBox.IntegralHeight = false;
 			m_MemberListBox.Dock = DockStyle.Fill;
+			m_MemberListBox.BorderStyle = BorderStyle.FixedSingle;
+			//m_MemberListBox.FlatStyle = FlatStyle.Flat;
 			ChkSize();
 			m_spliter.SplitterDistance = m_spliter.Width / 2;
 			this.Controls.Add(m_TextBox);

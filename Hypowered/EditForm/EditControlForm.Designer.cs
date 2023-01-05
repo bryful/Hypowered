@@ -272,6 +272,8 @@
 			this.Controls.Add(this.label1);
 			this.ForeColor = System.Drawing.Color.Gainsboro;
 			this.Name = "EditControlForm";
+			this.ShowIcon = false;
+			this.ShowInTaskbar = false;
 			this.Text = "EditControlForm";
 			this.Controls.SetChildIndex(this.label1, 0);
 			this.Controls.SetChildIndex(this.tbName, 0);

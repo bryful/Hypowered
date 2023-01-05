@@ -83,7 +83,7 @@ namespace Hypowered
 		public HyperIcon()
 		{
 			SetMyType(ControlType.Icon);
-			ScriptCode.SetInScript(InScript.MouseClick | InScript.MouseDoubleClick);
+			ScriptCode.SetInScript(InScriptBit.MouseClick | InScriptBit.MouseDoubleClick);
 			BackColor = Color.Transparent;
 			FrameWeight = new Padding(1,1,1,1);
 			this.Location = new Point(150, 150);

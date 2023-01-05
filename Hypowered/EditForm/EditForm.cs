@@ -37,6 +37,16 @@ namespace Hypowered
 				base.Text = value;
 			}
 		}
+		public Color MenuBackColor
+		{
+			get { return m_MenuBar.BackColor; }
+			set { m_MenuBar.BackColor = value; }
+		}
+		public Color MenuForeColor
+		{
+			get { return m_MenuBar.ForeColor; }
+			set { m_MenuBar.ForeColor = value; }
+		}
 		public EditForm()
 		{
 			BackColor = ColU.ToColor(HyperColor.Back);

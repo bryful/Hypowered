@@ -12,6 +12,7 @@ namespace Hypowered
 
     public class HyperScript
     {
+		public HyperMainForm? MainForm { get; set; } = null;
 		private string startCode =
 	  @"var System = dotnet.System;\r\n"
 	+ @"var System.Core = dotnet.System.Core;"
@@ -38,6 +39,9 @@ namespace Hypowered
 
 			engine.AddHostObject("dotnet", typeCollection);
 			engine.AddHostObject("alert", (object)alert);
+			engine.AddHostObject("write", (object)write);
+			engine.AddHostObject("writeLine", (object)writeLine);
+			engine.AddHostObject("writeClear", (object)writeClear);
 			engine.AddHostTypes(new Type[]
 			{
 				typeof(Console),
@@ -98,23 +102,31 @@ namespace Hypowered
 		}
 		public void alert(object? s)
 		{
-			string ret = "";
-			try
+			AlertForm dlg = new AlertForm();
+			dlg.SelectedObject= s;
+			dlg.ShowDialog();
+			dlg.Dispose();
+		}
+		public void write(object? s)
+		{
+			if(MainForm!=null)
 			{
-				if (s != null)
-				{
-					ret = s.ToString();
-				}
-				else
-				{
-					ret = "null";
-				}
+				MainForm.OutputWrite(s);
 			}
-			catch
+		}
+		public void writeLine(object? s)
+		{
+			if (MainForm != null)
 			{
-				ret = "null";
+				MainForm.OutputWriteLine(s);
 			}
-			MessageBox.Show($"{ret}");
+		}
+		public void writeClear()
+		{
+			if (MainForm != null)
+			{
+				MainForm.OutputClear();
+			}
 		}
 		public void ExecuteCode(string code)
 		{
@@ -125,7 +137,11 @@ namespace Hypowered
 			}
 			catch (Exception e)
 			{
-				MessageBox.Show(e.ToString());
+				AlertForm dlg= new AlertForm();
+				dlg.SelectedObject = e;
+				dlg.ChkSize();
+				dlg.ShowDialog();
+				dlg.Dispose();
 			}
 		}
 	}

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Accessibility;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -15,8 +16,9 @@ namespace Hypowered
 {
     public partial class HyperScriptEditor : Form
 	{
+		private bool EditNow = false;
 		private HyperMainForm? m_MainForm = null;
-		private HyperMainForm? m_TargetForm = null;
+		private HyperBaseForm? m_TargetForm = null;
 		private HyperControl? m_TargetControl = null;
 		private HyperScriptCode? m_HyperScriptCode = null;
 		private string[] m_texts = new string[0];
@@ -24,6 +26,7 @@ namespace Hypowered
 		{
 			m_MainForm = fm;
 			controlBrowser1.SetMainForm(fm);
+			/*
 			if ((m_MainForm!=null)&&(m_MainForm.forms.TargetForm!=null))
 			{
 				m_TargetControl = m_MainForm.forms.TargetForm.TargetControl;
@@ -37,6 +40,42 @@ namespace Hypowered
 				{
 					SetScriptCode(((HyperMainForm)m_MainForm.forms.TargetForm).ScriptCode);
 					this.Text = m_MainForm.forms.TargetForm.Name;
+				}
+			}
+			*/
+		}
+		public void SetTargetControl(HyperBaseForm? tf, HyperControl? tc)
+		{
+			if (EditNow) return;
+			EditNow = false;
+			if (m_MainForm == null) return;
+			if (m_MainForm.IsEditMode == false) return;
+			if (tf != null)
+			{
+				m_TargetForm = tf;
+				m_TargetControl = tc;
+				m_MainForm.CanEditMode = false;
+				EditNow = true;
+				btnScriptEdit.Enabled = false;
+				btnExec.Enabled = true;
+				btnEditEnd.Enabled = true;
+				cmbScript.Enabled = true;
+				if (m_TargetControl != null)
+				{
+					Type t = m_TargetControl.GetType();
+					SetScriptCode(m_TargetControl.ScriptCode);
+					lbControl.Text =
+					this.Text = m_TargetControl.Name;
+
+				}
+				else
+				{
+					if(m_TargetForm is HyperMainForm)
+					{
+						SetScriptCode(((HyperMainForm)m_TargetForm).ScriptCode);
+						lbControl.Text =
+								this.Text = m_TargetForm.Name;
+					}
 				}
 			}
 		}
@@ -94,21 +133,35 @@ true);
 
 		}
 
-		private void btnOK_Click_1(object sender, EventArgs e)
+		private void btnExec_Click(object sender, EventArgs e)
 		{
+			if (EditNow == false) return;
+			if ((m_MainForm!=null) &&(m_HyperScriptCode != null))
+			{
+				if (cmbScript.SelectedIndex >= 0)
+				{
+					WriteCode(); 
+					m_MainForm.ExecuteCode(m_texts[cmbScript.SelectedIndex]);
+				}
+			}
+		}
+		private void WriteCode()
+		{
+			if (EditNow == false) return;
 			if (m_HyperScriptCode != null)
 			{
 				if (cmbScript.SelectedIndex >= 0)
 				{
 					m_texts[cmbScript.SelectedIndex] = editPad1.Text;
+					m_HyperScriptCode.SetScriptCodes(m_texts);
 				}
-				m_HyperScriptCode.SetScriptCodes(m_texts);
 			}
-			this.DialogResult = DialogResult.OK;
 		}
 		private void MenuHide_Click(object? sender, EventArgs e)
 		{
-			this.DialogResult = DialogResult.Cancel;
+			if(m_MainForm==null) return;
+			EditEnd();
+			this.Visible = false;
 		}
 		protected override void OnLocationChanged(EventArgs e)
 		{
@@ -125,6 +178,37 @@ true);
 			{
 				m_MainForm.ScriptEditBounds = this.Bounds;
 			}
+		}
+
+		private void BtnEditEnd_Click(object sender, EventArgs e)
+		{
+			EditEnd();
+		}
+		private void EditEnd()
+		{
+			if (m_MainForm == null) return;
+			if (EditNow == false) return;
+			WriteCode();
+			m_MainForm.CanEditMode = true;
+			m_MainForm.SetIsEditMode(true);
+			EditNow = false;
+			lbControl.Text = "(None)";
+			this.Text = lbControl.Text;
+			editPad1.Text = "";
+			btnScriptEdit.Enabled = true;
+			btnExec.Enabled = false;
+			btnEditEnd.Enabled = false;
+			cmbScript.Enabled = false;
+			cmbScript.Items.Clear();
+			oldIndex = -1;
+		}
+
+		private void BtnScriptEdit_Click(object sender, EventArgs e)
+		{
+			if(m_MainForm==null) return;
+			if(EditNow == true) return;
+			if (m_MainForm.targetForm == null) return;
+			SetTargetControl(m_MainForm.targetForm, m_MainForm.TargetControl);
 		}
 	}
 }

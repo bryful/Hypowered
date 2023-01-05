@@ -70,6 +70,22 @@ namespace Hypowered
 				this.Invalidate();
 			}
 		}
+		protected bool m_CanEditMode = true;
+		public bool CanEditMode
+		{
+			get { return m_CanEditMode; }
+			set
+			{
+				m_CanEditMode = value;
+				if (m_CanEditMode == false)
+				{
+					SetIsEditMode(false);
+				}
+				this.Invalidate();
+			}
+		}
+
+
 		public virtual void SetIsEditMode(bool value)
 		{
 			m_IsEditMode = value;

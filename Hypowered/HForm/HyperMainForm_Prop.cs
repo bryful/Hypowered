@@ -18,9 +18,14 @@ namespace Hypowered
 		public HyperScriptCode ScriptCode = new HyperScriptCode();
 		// ****************************************************************************
 		public EditControlList? ControlList = null;
+		public HyperScriptEditor? ScriptEdit = null;
+		public JSOutputForm? OutputForm = null;
+		public JSInputForm? InputForm = null;
 
 		public Rectangle ControlListBounds = new Rectangle(-1, -1, 0,0);
 		public Rectangle ScriptEditBounds = new Rectangle(-1, -1, 0, 0);
+		public Rectangle InputFormBounds = new Rectangle(-1, -1, 0, 0);
+		public Rectangle OutputFormBounds = new Rectangle(-1, -1, 0, 0);
 		// ****************************************************************************
 		public ConnectList ConnectList = new ConnectList();
 
@@ -55,12 +60,12 @@ namespace Hypowered
 			Script.InitForms(this);
 			Script.InitControls(this);
 		}
-		public void SetInScript(InScript s)
+		public void SetInScript(InScriptBit s)
 		{
 			ScriptCode.SetInScript(s);
 		}
 		[Category("Hypowered_Script")]
-		public InScript InScript
+		public InScriptBit InScript
 		{
 			get { return ScriptCode.InScript; }
 		}

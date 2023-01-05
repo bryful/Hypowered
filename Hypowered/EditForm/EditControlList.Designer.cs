@@ -101,9 +101,10 @@
 			this.Controls.Add(this.splitContainer1);
 			this.ForeColor = System.Drawing.Color.Gainsboro;
 			this.Name = "EditControlList";
+			this.ShowIcon = false;
+			this.ShowInTaskbar = false;
 			this.StartPosition = System.Windows.Forms.FormStartPosition.Manual;
 			this.Text = "EditControlList";
-			this.TopMost = true;
 			this.Controls.SetChildIndex(this.splitContainer1, 0);
 			this.splitContainer1.Panel1.ResumeLayout(false);
 			this.splitContainer1.Panel2.ResumeLayout(false);

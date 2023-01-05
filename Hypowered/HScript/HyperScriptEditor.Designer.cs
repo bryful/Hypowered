@@ -34,12 +34,15 @@
 			System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(HyperScriptEditor));
 			this.editPad1 = new Hypowered.EditPad();
 			this.toolStrip = new System.Windows.Forms.ToolStrip();
+			this.btnScriptEdit = new System.Windows.Forms.ToolStripButton();
 			this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
-			this.btnOK = new System.Windows.Forms.ToolStripButton();
+			this.btnExec = new System.Windows.Forms.ToolStripButton();
 			this.toolStripSeparator3 = new System.Windows.Forms.ToolStripSeparator();
-			this.btnCancel = new System.Windows.Forms.ToolStripButton();
+			this.btnEditEnd = new System.Windows.Forms.ToolStripButton();
 			this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
+			this.lbControl = new System.Windows.Forms.ToolStripLabel();
 			this.cmbScript = new System.Windows.Forms.ToolStripComboBox();
+			this.btnHide = new System.Windows.Forms.ToolStripButton();
 			this.controlBrowser1 = new Hypowered.ControlBrowser();
 			this.splitContainer1 = new System.Windows.Forms.SplitContainer();
 			this.toolStrip.SuspendLayout();
@@ -71,7 +74,7 @@
 			this.editPad1.ShowLineNumbers = true;
 			this.editPad1.ShowSpaces = false;
 			this.editPad1.ShowTabs = true;
-			this.editPad1.Size = new System.Drawing.Size(550, 533);
+			this.editPad1.Size = new System.Drawing.Size(488, 328);
 			this.editPad1.SyntaxHighlighting = null;
 			this.editPad1.TabIndex = 0;
 			this.editPad1.WordWrap = true;
@@ -80,66 +83,97 @@
 			// 
 			this.toolStrip.GripStyle = System.Windows.Forms.ToolStripGripStyle.Hidden;
 			this.toolStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.btnScriptEdit,
             this.toolStripSeparator2,
-            this.btnOK,
+            this.btnExec,
             this.toolStripSeparator3,
-            this.btnCancel,
+            this.btnEditEnd,
             this.toolStripSeparator1,
-            this.cmbScript});
+            this.lbControl,
+            this.cmbScript,
+            this.btnHide});
 			this.toolStrip.Location = new System.Drawing.Point(0, 0);
 			this.toolStrip.Name = "toolStrip";
-			this.toolStrip.RightToLeft = System.Windows.Forms.RightToLeft.Yes;
-			this.toolStrip.Size = new System.Drawing.Size(779, 25);
+			this.toolStrip.Size = new System.Drawing.Size(694, 25);
 			this.toolStrip.TabIndex = 1;
 			this.toolStrip.Text = "toolStrip1";
+			// 
+			// btnScriptEdit
+			// 
+			this.btnScriptEdit.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
+			this.btnScriptEdit.Image = ((System.Drawing.Image)(resources.GetObject("btnScriptEdit.Image")));
+			this.btnScriptEdit.ImageTransparentColor = System.Drawing.Color.Magenta;
+			this.btnScriptEdit.Name = "btnScriptEdit";
+			this.btnScriptEdit.Size = new System.Drawing.Size(61, 22);
+			this.btnScriptEdit.Text = "ScriptEdit";
+			this.btnScriptEdit.Click += new System.EventHandler(this.BtnScriptEdit_Click);
 			// 
 			// toolStripSeparator2
 			// 
 			this.toolStripSeparator2.Name = "toolStripSeparator2";
 			this.toolStripSeparator2.Size = new System.Drawing.Size(6, 25);
 			// 
-			// btnOK
+			// btnExec
 			// 
-			this.btnOK.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
-			this.btnOK.Image = ((System.Drawing.Image)(resources.GetObject("btnOK.Image")));
-			this.btnOK.ImageTransparentColor = System.Drawing.Color.Magenta;
-			this.btnOK.Name = "btnOK";
-			this.btnOK.Size = new System.Drawing.Size(27, 22);
-			this.btnOK.Text = "OK";
-			this.btnOK.Click += new System.EventHandler(this.btnOK_Click_1);
+			this.btnExec.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
+			this.btnExec.Enabled = false;
+			this.btnExec.Image = ((System.Drawing.Image)(resources.GetObject("btnExec.Image")));
+			this.btnExec.ImageTransparentColor = System.Drawing.Color.Magenta;
+			this.btnExec.Name = "btnExec";
+			this.btnExec.Size = new System.Drawing.Size(52, 22);
+			this.btnExec.Text = "Execute";
+			this.btnExec.Click += new System.EventHandler(this.btnExec_Click);
 			// 
 			// toolStripSeparator3
 			// 
 			this.toolStripSeparator3.Name = "toolStripSeparator3";
 			this.toolStripSeparator3.Size = new System.Drawing.Size(6, 25);
 			// 
-			// btnCancel
+			// btnEditEnd
 			// 
-			this.btnCancel.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
-			this.btnCancel.Image = ((System.Drawing.Image)(resources.GetObject("btnCancel.Image")));
-			this.btnCancel.ImageTransparentColor = System.Drawing.Color.Magenta;
-			this.btnCancel.Name = "btnCancel";
-			this.btnCancel.Size = new System.Drawing.Size(46, 22);
-			this.btnCancel.Text = "Cancel";
-			this.btnCancel.Click += new System.EventHandler(this.MenuHide_Click);
+			this.btnEditEnd.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
+			this.btnEditEnd.Enabled = false;
+			this.btnEditEnd.Image = ((System.Drawing.Image)(resources.GetObject("btnEditEnd.Image")));
+			this.btnEditEnd.ImageTransparentColor = System.Drawing.Color.Magenta;
+			this.btnEditEnd.Name = "btnEditEnd";
+			this.btnEditEnd.Size = new System.Drawing.Size(51, 22);
+			this.btnEditEnd.Text = "EditEnd";
+			this.btnEditEnd.Click += new System.EventHandler(this.BtnEditEnd_Click);
 			// 
 			// toolStripSeparator1
 			// 
 			this.toolStripSeparator1.Name = "toolStripSeparator1";
 			this.toolStripSeparator1.Size = new System.Drawing.Size(6, 25);
 			// 
+			// lbControl
+			// 
+			this.lbControl.Name = "lbControl";
+			this.lbControl.Size = new System.Drawing.Size(46, 22);
+			this.lbControl.Text = "Control";
+			// 
 			// cmbScript
 			// 
 			this.cmbScript.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+			this.cmbScript.Enabled = false;
 			this.cmbScript.Name = "cmbScript";
 			this.cmbScript.Size = new System.Drawing.Size(180, 25);
+			// 
+			// btnHide
+			// 
+			this.btnHide.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
+			this.btnHide.Image = ((System.Drawing.Image)(resources.GetObject("btnHide.Image")));
+			this.btnHide.ImageTransparentColor = System.Drawing.Color.Magenta;
+			this.btnHide.Name = "btnHide";
+			this.btnHide.Size = new System.Drawing.Size(36, 22);
+			this.btnHide.Text = "Hide";
+			this.btnHide.Click += new System.EventHandler(this.MenuHide_Click);
 			// 
 			// controlBrowser1
 			// 
 			this.controlBrowser1.Dock = System.Windows.Forms.DockStyle.Fill;
 			this.controlBrowser1.Location = new System.Drawing.Point(0, 0);
 			this.controlBrowser1.Name = "controlBrowser1";
-			this.controlBrowser1.Size = new System.Drawing.Size(225, 533);
+			this.controlBrowser1.Size = new System.Drawing.Size(202, 328);
 			this.controlBrowser1.TabIndex = 2;
 			this.controlBrowser1.Text = "controlBrowser1";
 			// 
@@ -158,8 +192,8 @@
 			// splitContainer1.Panel2
 			// 
 			this.splitContainer1.Panel2.Controls.Add(this.controlBrowser1);
-			this.splitContainer1.Size = new System.Drawing.Size(779, 533);
-			this.splitContainer1.SplitterDistance = 550;
+			this.splitContainer1.Size = new System.Drawing.Size(694, 328);
+			this.splitContainer1.SplitterDistance = 488;
 			this.splitContainer1.TabIndex = 3;
 			// 
 			// HyperScriptEditor
@@ -167,7 +201,7 @@
 			this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
 			this.BackColor = System.Drawing.Color.Gainsboro;
-			this.ClientSize = new System.Drawing.Size(779, 562);
+			this.ClientSize = new System.Drawing.Size(694, 357);
 			this.ControlBox = false;
 			this.Controls.Add(this.splitContainer1);
 			this.Controls.Add(this.toolStrip);
@@ -190,13 +224,16 @@
 
 		private EditPad editPad1;
 		private ToolStrip toolStrip;
-		private ToolStripButton btnCancel;
-		private ToolStripSeparator toolStripSeparator2;
+		private ToolStripButton btnHide;
 		private ToolStripSeparator toolStripSeparator1;
-		private ToolStripButton btnOK;
+		private ToolStripButton btnExec;
 		private ToolStripComboBox cmbScript;
 		private ControlBrowser controlBrowser1;
 		private ToolStripSeparator toolStripSeparator3;
 		private SplitContainer splitContainer1;
+		private ToolStripButton btnEditEnd;
+		private ToolStripLabel lbControl;
+		private ToolStripButton btnScriptEdit;
+		private ToolStripSeparator toolStripSeparator2;
 	}
 }

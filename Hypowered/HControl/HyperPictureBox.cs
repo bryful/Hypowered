@@ -23,6 +23,23 @@ namespace Hypowered
 				this.Invalidate();
 			}
 		}
+		[Category("Hypowered_PictureBox")]
+		public new String FileName
+		{
+			get { return base.FileName; }
+			set
+			{
+				base.FileName = value;
+				if (File.Exists(base.FileName))
+				{
+					OpenFile(base.FileName);
+				}
+				else
+				{
+					ClearOffscr();
+				}
+			}
+		}
 		protected Color m_BaseColor = Color.Transparent;
 		protected Color m_LineColor = Color.DimGray;
 
@@ -42,24 +59,7 @@ namespace Hypowered
 				Invalidate();
 			}
 		}
-		private FileNameEX m_FileName = new FileNameEX();
-		[Category("Hypowered_PictureBox")]
-		public String FileName
-		{
-			get { return m_FileName.Path; }
-			set 
-			{
-				m_FileName.Path = value;
-				if (File.Exists(m_FileName.Path))
-				{
-					OpenFile(m_FileName.Path);
-				}
-				else
-				{
-					ClearOffscr();
-				}
-			}
-		}
+		
 		[Category("Hypowered_PictureBox")]
 		public Bitmap? Bitmap
 		{
@@ -75,14 +75,14 @@ namespace Hypowered
 				Graphics g = Graphics.FromImage(m_OffScr);
 				g.DrawImage(value, 0, 0);
 				ChkSize();
-				m_FileName.Clear();
+				FileName= "";
 			}
 		}
 		public void Reload()
 		{
-			if (m_FileName.Path != "")
+			if (FileName!="")
 			{
-				OpenFile(m_FileName.Path);
+				OpenFile(FileName);
 				Invalidate();
 			}
 		}
@@ -126,7 +126,7 @@ namespace Hypowered
 		{
 			AllowDrop= true;
 			SetMyType(ControlType.PictureBox);
-			ScriptCode.SetInScript(InScript.MouseDoubleClick);
+			ScriptCode.SetInScript(InScriptBit.MouseDoubleClick);
 			BackColor = Color.Transparent;
 			this.Size = new Size(306, 306);
 			InitializeComponent();
@@ -242,7 +242,7 @@ namespace Hypowered
 					m_OffScr = new Bitmap(path);
 				}
 				ChkSize();
-				m_FileName.Path = path;
+				base.FileName = path;
 				if (m_AutoFit) Fit();
 				ret = true;
 				this.Invalidate();
@@ -260,7 +260,7 @@ namespace Hypowered
 			if (m_OffScr == null) return;
 			m_OffScr.Dispose();
 			m_OffScr = null;
-			m_FileName.Clear();
+			FileName = "";
 			this.Invalidate();
 		}
 		protected override void OnResize(EventArgs e)
@@ -383,7 +383,10 @@ namespace Hypowered
 			jf.SetValue(nameof(MyType), (int?)MyType);//Nullable`1
 			jf.SetValue(nameof(BaseColor), BaseColor);//Color
 			jf.SetValue(nameof(LineColor), BaseColor);//Color
-			jf.SetValue(nameof(FileName), FileName);
+			if (IsSaveFileName)
+			{
+				jf.SetValue(nameof(FileName), FileName);//Color
+			}
 			jf.SetValue(nameof(AutoFit), AutoFit);//Color
 			jf.SetValue(nameof(Ratio), Ratio);//Color
 			//jf.SetValue(nameof(BorderStyle), (int)BorderStyle);//Color
@@ -397,6 +400,11 @@ namespace Hypowered
 			object? v = null;
 			v = jf.ValueAuto("BaseColor", typeof(Color).Name);
 			if (v != null) BaseColor = (Color)v;
+			if (IsSaveFileName)
+			{
+				v = jf.ValueAuto("FileName", typeof(string).Name);
+				if (v != null) FileName = (string)v;
+			}
 			v = jf.ValueAuto("LineColor", typeof(Color).Name);
 			if (v != null) LineColor = (Color)v;
 			v = jf.ValueAuto("AutoFit", typeof(Boolean).Name);
@@ -405,8 +413,7 @@ namespace Hypowered
 			if (v != null) Ratio = (float)v;
 			//v = jf.ValueAuto("BorderStyle", typeof(Int32).Name);
 			//if (v != null) BorderStyle = (BorderStyle)v;
-			v = jf.ValueAuto("FileName", typeof(string).Name);
-			if (v != null) FileName = (string)v;
+			
 		}
 	}
 }

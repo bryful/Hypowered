@@ -206,7 +206,7 @@ namespace Hypowered
 				{ ControlType.DirList,
 					ControlType.Label 
 				});
-			SetInScript(InScript.MouseDoubleClick | InScript.SelectedIndexChanged);
+			SetInScript(InScriptBit.MouseDoubleClick | InScriptBit.SelectedIndexChanged);
 			this.Size = new Size(150, 150);
 			m_ListBox.Location = new Point(0, 0);
 			m_ListBox.Size = new Size(this.Width,this.Height);

@@ -14,13 +14,14 @@ using System.Text.Encodings.Web;
 using System.Text.Unicode;
 using System.Windows.Forms.Layout;
 using System.Windows.Documents;
+using Hypowered.HClass;
 
 namespace Hypowered
 {
 
     public partial class HyperControl : Control
 	{
-		
+
 		private ControlType? m_MyType = null;
 		protected void SetMyType(ControlType? c) { m_MyType = c; }
 
@@ -30,13 +31,38 @@ namespace Hypowered
 		[Category("Hypowered")]
 		public ControlType? MyType { get { return m_MyType; } }
 		[Category("Hypowered")]
-		public bool Locked { get; set; }=false;
+		public bool Locked { get; set; } = false;
 
 		[Category("Hypowered")]
 		public new string Name
 		{
 			get { return base.Name; }
 			set { base.Name = value; this.Invalidate(); }
+		}
+		protected bool m_IsDrawFocuse = true;
+		[Category("Hypowered")]
+		public bool IsDrawFocuse
+		{
+			get { return m_IsDrawFocuse; }
+			set { m_IsDrawFocuse = value; this.Invalidate(); }
+		}
+		protected bool m_IsSaveFileName = true;
+		[Category("Hypowered")]
+		public bool IsSaveFileName
+		{
+			get { return m_IsSaveFileName; }
+			set { m_IsSaveFileName = value; }
+		}
+		private FileNameEX m_FileName = new FileNameEX();
+		[Category("Hypowered_PictureBox")]
+		public String FileName
+		{
+			get { return m_FileName.Path; }
+			set
+			{
+				m_FileName.Path = value;
+
+			}
 		}
 		/// <summary>
 		/// Nameと同じ
@@ -87,38 +113,37 @@ namespace Hypowered
 			set { base.Text = value; this.Invalidate(); }
 		}
 		[Category("Hypowered_Text")]
-		public  string[] Lines
+		public string[] Lines
 		{
 			get { return base.Text.Split("\r\n"); }
-			set 
-			{ 
-				base.Text = string.Join("\r\n",value);
+			set
+			{
+				base.Text = string.Join("\r\n", value);
 				this.Invalidate();
 			}
 		}
 		protected object? m_parent = null;
 		[Browsable(false)]
-		public object? ParentForm 
+		public object? ParentForm
 		{
 			get { return m_parent; }
 			set
-			{ m_parent= value;}
+			{ m_parent = value; }
 		}
 		[Browsable(false)]
 		public HyperMainForm? MainForm
 		{
 			get
 			{
-				if(m_parent is HyperMainForm)
+				if (m_parent is HyperMainForm)
 				{
-					return(HyperMainForm)m_parent;
+					return (HyperMainForm)m_parent;
 				}
 				else
 				{
 					return null;
 				}
 			}
-
 		}
 		/// <summary>
 		/// 複数選択時の親コントロールのインデックス番号
@@ -160,13 +185,17 @@ namespace Hypowered
 		 */
 		// **************************************************************************
 		public HyperScriptCode ScriptCode = new HyperScriptCode();
-		
-		public void SetInScript(InScript s)
+
+		public void SetInScript(InScriptBit s)
 		{
 			ScriptCode.SetInScript(s);
 		}
+		public string GetScriptCode(ScriptKind ist)
+		{
+			return ScriptCode.GetScriptCode(ist);
+		}
 		[Category("Hypowered_Script")]
-		public InScript InScript
+		public InScriptBit InScript
 		{
 			get { return ScriptCode.InScript; }
 		}
@@ -218,7 +247,7 @@ namespace Hypowered
 
 		// **************************************************************************
 		// **************************************************************************
-		protected Padding m_FrameWeight = new Padding(1,1,1,1);
+		protected Padding m_FrameWeight = new Padding(1, 1, 1, 1);
 		[Category("Hypowered")]
 		public Padding FrameWeight
 		{
@@ -271,7 +300,7 @@ namespace Hypowered
 			get { return m_format.LineAlignment; }
 			set { m_format.LineAlignment = value; this.Invalidate(); }
 		}
-		private ControlType[] m_ConnectProps= new ControlType[0];
+		private ControlType[] m_ConnectProps = new ControlType[0];
 		[Browsable(false)]
 		public ControlType[] ConnectProps
 		{
@@ -280,15 +309,16 @@ namespace Hypowered
 		[Browsable(false)]
 		public string[] ConnectPropsNames
 		{
-			get {
-				string[]ret = new string[m_ConnectProps.Length];
-				if(m_ConnectProps.Length > 0)
+			get
+			{
+				string[] ret = new string[m_ConnectProps.Length];
+				if (m_ConnectProps.Length > 0)
 				{
 					int idx = 0;
-					foreach(var ct in m_ConnectProps)
+					foreach (var ct in m_ConnectProps)
 					{
 						string? ss = Enum.GetName(typeof(ControlType), ct);
-						if(ss!=null)
+						if (ss != null)
 						{
 							ret[idx] = ss;
 						}
@@ -299,7 +329,7 @@ namespace Hypowered
 						idx++;
 					}
 				}
-				return ret; 
+				return ret;
 			}
 		}
 		public void SetConnectProps(ControlType[] ps)
@@ -367,7 +397,7 @@ namespace Hypowered
 		}
 		public HyperControl()
 		{
-			SetInScript(InScript.MouseClick);
+			SetInScript(InScriptBit.None);
 			BackColor = ColU.ToColor(HyperColor.Back);
 			ForeColor = ColU.ToColor(HyperColor.Fore);
 			m_ForcusColor = ColU.ToColor(HyperColor.Forcus);
@@ -389,7 +419,7 @@ namespace Hypowered
 			this.UpdateStyles();
 
 		}
-		
+
 		// ****************************************************************************
 		protected override void OnPaint(PaintEventArgs pe)
 		{
@@ -403,10 +433,10 @@ namespace Hypowered
 				// 外枠
 				Rectangle rr = ReRect(this.ClientRectangle, 2);
 				p.Color = ForeColor;
-				DrawFrame(g,p,rr);
+				DrawFrame(g, p, rr);
 				//g.DrawRectangle(p, rr);
 
-				if (this.Focused)
+				if ((this.Focused) && (m_IsDrawFocuse))
 				{
 					rr = ReRect(this.ClientRectangle, 1);
 					p.Color = m_ForcusColor;
@@ -446,14 +476,14 @@ namespace Hypowered
 			return new RectangleF((float)r.Left + v / 2, (float)r.Top + v / 2, (float)r.Width - v, (float)r.Height - v);
 		}
 		// ****************************************************************************
-		public void  DrawFrame(Graphics g,Pen p,Rectangle rct)
+		public void DrawFrame(Graphics g, Pen p, Rectangle rct)
 		{
 			float pw2;
-			if (m_FrameWeight.Top>0)
+			if (m_FrameWeight.Top > 0)
 			{
-				p.Width= (float)m_FrameWeight.Top;
+				p.Width = (float)m_FrameWeight.Top;
 				pw2 = rct.Top + (float)m_FrameWeight.Top / 2;
-				g.DrawLine(p, rct.Left, pw2, rct.Right,pw2);
+				g.DrawLine(p, rct.Left, pw2, rct.Right, pw2);
 			}
 			if (m_FrameWeight.Bottom > 0)
 			{
@@ -526,10 +556,10 @@ namespace Hypowered
 		{
 			ContextMenuStrip ret = new ContextMenuStrip();
 			if (MainForm == null) return;
-			List < ToolStripMenuItem> list = new List<ToolStripMenuItem>();
+			List<ToolStripMenuItem> list = new List<ToolStripMenuItem>();
 			void AddMI(ToolStripMenuItem? mi)
 			{
-				if(mi!=null) list.Add(mi);
+				if (mi != null) list.Add(mi);
 			}
 
 			AddMI(MakeMenuItem(MainForm.ShowEditControl));
@@ -576,7 +606,7 @@ namespace Hypowered
 					ChkTargetSelected();
 
 					MDPos p = CU.GetMDPos(e.X, e.Y, this.Size);
-					if ((p != MDPos.None)&&(Locked==false))
+					if ((p != MDPos.None) && (Locked == false))
 					{
 						m_MDPos = p;
 						m_MDP = new Point(e.X, e.Y);
@@ -584,7 +614,8 @@ namespace Hypowered
 						m_MDSize = this.Size;
 						return;
 					}
-				}else if ((e.Button & MouseButtons.Right) == MouseButtons.Right)
+				}
+				else if ((e.Button & MouseButtons.Right) == MouseButtons.Right)
 				{
 					ChkTarget();
 					ShowCMenu();
@@ -687,6 +718,13 @@ namespace Hypowered
 			jf.SetValue(nameof(MyType), MyType);//Nullable`1
 			jf.SetValue(nameof(Name), Name);//String
 			jf.SetValue(nameof(Locked), Locked);//Size
+			jf.SetValue(nameof(IsDrawFocuse), IsDrawFocuse);//Size
+			jf.SetValue(nameof(IsSaveFileName), IsSaveFileName);//Size
+			if (IsSaveFileName)
+			{
+				jf.SetValue(nameof(FileName), FileName);
+			}
+
 			jf.SetValue(nameof(Location), Location);//Point
 			jf.SetValue(nameof(Size), Size);//Size
 			jf.SetValue(nameof(Font), Font);//Font
@@ -738,11 +776,20 @@ namespace Hypowered
 		public virtual void FromJson(JsonObject jo)
 		{
 			JsonFile jf = new JsonFile(jo);
-			object? v=null;
+			object? v = null;
 			v = jf.ValueAuto("MyType", typeof(Int32).Name);
-			if (v != null) SetMyType ( (ControlType)v);
+			if (v != null) SetMyType((ControlType)v);
 			v = jf.ValueAuto("Locked", typeof(Boolean).Name);
 			if (v != null) Locked = (bool)v;
+			v = jf.ValueAuto("IsDrawFocuse", typeof(Boolean).Name);
+			if (v != null) IsDrawFocuse = (bool)v;
+			v = jf.ValueAuto("IsSaveFileName", typeof(Boolean).Name);
+			if (v != null) IsSaveFileName = (bool)v;
+			if (IsSaveFileName)
+			{
+				v = jf.ValueAuto("FileName", typeof(string).Name);
+				if (v != null) FileName = (string)v;
+			}
 			v = jf.ValueAuto("Name", typeof(String).Name);
 			if (v != null) Name = (String)v;
 			v = jf.ValueAuto("Location", typeof(Point).Name);

@@ -86,7 +86,6 @@ namespace Hypowered
 		{
 			OnFormChanged(e);
 		}
-
 		public ToolStripMenuItem[] GetFormsForMenu(HyperBaseForm? target, System.EventHandler func)
 		{
 			List<ToolStripMenuItem> list = new List<ToolStripMenuItem>();
@@ -142,11 +141,13 @@ namespace Hypowered
 		public HyperMainForm()
 		{
 			SetInScript(
-				InScript.Startup| 
-				InScript.MouseDoubleClick|
-				InScript.KeyPress|
-				InScript.Shutdown);
+				InScriptBit.Startup| 
+				InScriptBit.MouseDoubleClick|
+				InScriptBit.KeyPress|
+				InScriptBit.Shutdown);
 			forms.SetMain(this);
+			Script.MainForm= this;
+
 			forms.FormChanged += FormList_FormChanged;
 
 			base.KeyPreview = true;
@@ -179,6 +180,7 @@ true);
 
 
 			if(m_menuBar==null)m_menuBar = new HyperMenuBar();
+			m_menuBar.ParentForm = this;
 			m_FileMenu = new HyperMenuItem(m_menuBar, "File", null);
 			m_EditlMenu = new HyperMenuItem(m_menuBar, "Edit", null);
 			m_ControlMenu = new HyperMenuItem(m_menuBar, "Control", null);
@@ -296,6 +298,19 @@ true);
 			
 
 		}
+		/*
+		private bool m_ActveTine=false;
+		protected override void OnActivated(EventArgs e)
+		{
+			if (m_ActveTine == true) return;
+			base.OnActivated(e);
+			if (ControlList != null) ControlList.Activate();
+			if (InputForm != null) InputForm.Activate();
+			if (OutputForm != null) OutputForm.Activate();
+			this.Activate();
+			m_ActveTine = false;
+		}
+		*/
 		protected override void OnFormClosed(FormClosedEventArgs e)
 		{
 			base.OnFormClosed(e);
@@ -378,6 +393,8 @@ true);
 			jf.SetValue(nameof(Location), Location);
 			jf.SetValue(nameof(ControlListBounds), ControlListBounds);
 			jf.SetValue(nameof(ScriptEditBounds), ScriptEditBounds);
+			jf.SetValue(nameof(OutputFormBounds), OutputFormBounds);
+			jf.SetValue(nameof(InputFormBounds), InputFormBounds);
 			return jf.Save(s);
 		}
 		public bool Connect(HyperControl s, ControlType ct,HyperControl d)
@@ -398,6 +415,10 @@ true);
 			if (v != null) ControlListBounds = (Rectangle)v;
 			v = jf.ValueAuto("ScriptEditBounds", typeof(Rectangle).Name);
 			if (v != null) ScriptEditBounds = (Rectangle)v;
+			v = jf.ValueAuto("InputFormBounds", typeof(Rectangle).Name);
+			if (v != null) InputFormBounds = (Rectangle)v;
+			v = jf.ValueAuto("OutputFormBounds", typeof(Rectangle).Name);
+			if (v != null) OutputFormBounds = (Rectangle)v;
 
 			if (JsonFile.ScreenIn(this.Bounds) == false)
 			{

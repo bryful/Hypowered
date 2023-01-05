@@ -223,8 +223,8 @@ namespace Hypowered
 				}
 			);
 			SetInScript(
-				InScript.CurrentDirChanged| 
-				InScript.SelectedIndexChanged
+				InScriptBit.CurrentDirChanged|
+				InScriptBit.SelectedIndexChanged
 				);
 			this.Size = new Size(150, 150);
 			m_ListBox.Location = new Point(0, 0);
