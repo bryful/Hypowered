@@ -109,11 +109,11 @@ true);
 				}
 
 
+				StringFormat sf = new StringFormat();
+				sf.Alignment = StringAlignment.Center;
+				sf.LineAlignment = StringAlignment.Center;
 				if (m_Items.Count > 0)
 				{
-					StringFormat sf = new StringFormat();
-					sf.Alignment = StringAlignment.Center;
-					sf.LineAlignment = StringAlignment.Center;
 					int x = HyperMenuItems.Leftmargin;
 					foreach (HyperMenuItem? m in m_Items.Items)
 					{
@@ -130,6 +130,21 @@ true);
 						sb.Color = ForeColor;
 						g.DrawString(m.Caption, this.Font, sb, rct, sf);
 					}
+				}
+				if(MainForm!=null)
+				{
+					string s = "[ " + MainForm.Text +" ]";
+					int xx = HyperMenuItems.Leftmargin;
+					if(m_Items.Count>0)
+					{
+						xx = m_Items[m_Items.Count - 1].Right;
+					}
+					SizeF sz = g.MeasureString(s, this.Font, 1000,sf);
+					Rectangle rct2 = new Rectangle(xx, 2, (int)sz.Width+10, this.Height - 4);
+					sb.Color = BackColor;
+					g.FillRectangle(sb, rct2);
+					sb.Color = ForeColor;
+					g.DrawString(s, this.Font, sb, rct2, sf);
 				}
 
 

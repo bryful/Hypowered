@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.IO;
 
-namespace Hypowered.HClass
+namespace Hypowered
 {
     public class FileNameEX
     {

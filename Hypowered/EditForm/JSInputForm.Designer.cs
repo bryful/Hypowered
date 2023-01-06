@@ -89,7 +89,6 @@
 			this.editPad1.ShowSpaces = false;
 			this.editPad1.ShowTabs = true;
 			this.editPad1.Size = new System.Drawing.Size(586, 200);
-			this.editPad1.SyntaxHighlighting = null;
 			this.editPad1.TabIndex = 5;
 			this.editPad1.WordWrap = true;
 			// 

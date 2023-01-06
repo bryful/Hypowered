@@ -18,10 +18,11 @@ using Microsoft.CodeAnalysis;
 using Microsoft.ClearScript.V8;
 using Microsoft.ClearScript.JavaScript;
 using ICSharpCode.AvalonEdit.Highlighting;
+using ICSharpCode.AvalonEdit.Document;
 
 namespace Hypowered
 {
-    public partial class EditPad : System.Windows.Forms.Control
+	public partial class EditPad : System.Windows.Forms.Control
 	{
 		#region Prop
 		[Category("_ED")]
@@ -103,16 +104,55 @@ namespace Hypowered
 			get { return Edit.Options.ShowSpaces; }
 			set { Edit.Options.ShowSpaces = value; }
 		}
-		[Category("_ED")]
-		public IHighlightingDefinition SyntaxHighlighting
-		{
-			get { return Edit.SyntaxHighlighting; }
-			set { Edit.SyntaxHighlighting = value; }
-		}
 
+		[Category("_ED")]
+		public TextDocument Document
+		{
+			get { return Edit.Document; }
+			set { Edit.Document= value; }
+		}
+		[Category("_ED")]
+		public string SelectedText
+		{
+			get { return Edit.SelectedText; }
+			set { Edit.SelectedText = value; }
+		}
+		[Category("_ED")]
+		public int SelectionStart
+		{
+			get { return Edit.SelectionStart; }
+			set { Edit.SelectionStart = value; }
+		}
+		[Category("_ED")]
+		public int SelectionLength
+		{
+			get { return Edit.SelectionLength; }
+			set { Edit.SelectionLength = value; }
+		}
+		[Category("_ED")]
+		public int Offset
+		{
+			get { return Edit.TextArea.Caret.Offset; }
+			set { Edit.TextArea.Caret.Offset = value; }
+		}
+		public void Select(int start,int length)
+		{
+			Edit.Select(start, length);
+		}
+		public void SetText(string s)
+		{
+			if(Edit.SelectionLength> 0)
+			{
+				Edit.SelectedText = s;
+			}
+			else
+			{
+				Edit.Document.Insert(Edit.TextArea.Caret.Offset, s);
+			}
+		}
 		#endregion
 		private ElementHost m_Element = new ElementHost();
-		public TextEditor Edit = new TextEditor();
+		public TextEditor Edit { get;} = new TextEditor();
 		public EditPad()
 		{
 			InitializeComponent();
@@ -122,7 +162,7 @@ namespace Hypowered
 	
 			m_Element.Child = Edit;
 			this.Controls.Add(m_Element);
-			Edit.Options.IndentationSize = 4;
+			//Edit.Options.IndentationSize = 4;
 			
 			
 		}
@@ -135,10 +175,6 @@ namespace Hypowered
 		public void AppendText(string text)
 		{
 			Edit.AppendText(text);
-		}
-		protected virtual void EditorLoaded(object sender, System.Windows.RoutedEventArgs e)
-		{
-			
 		}
 		protected override void OnPaint(PaintEventArgs pe)
 		{

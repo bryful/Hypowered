@@ -20,7 +20,8 @@ namespace Hypowered
 		DirList,
 		FileList,
 		PictureBox,
-		Icon
+		Icon,
+		Design
 	}
 	public class ControlTypeInfos
 	{
@@ -38,6 +39,8 @@ namespace Hypowered
 			"FileList　ファイル表示リスト",
 			"PictureBox　外部画像ファイル表示",
 			"Icon　内蔵PictLibの画像表示",
+			"Design　色々な形を描画",
+
 		};
 		static public string Disp(ControlType ct)
 		{

@@ -7,6 +7,8 @@
     <UseWindowsForms>true</UseWindowsForms>
     <ImplicitUsings>enable</ImplicitUsings>
     <Platforms>AnyCPU;x64;x86</Platforms>
+    <ApplicationIcon>HPD.ico</ApplicationIcon>
+    <RunPostBuildEvent>OnOutputUpdated</RunPostBuildEvent>
   </PropertyGroup>
 
   <ItemGroup>
@@ -415,6 +417,10 @@
     <None Remove="Resources\water.png" />
     <None Remove="Resources\water_drop.png" />
     <None Remove="Resources\yard.png" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Include="HPD.ico" />
   </ItemGroup>
 
   <ItemGroup>
@@ -1657,5 +1663,9 @@
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
   </ItemGroup>
+
+  <Target Name="PostBuild" AfterTargets="PostBuildEvent">
+    <Exec Command="InsertIcons.exe &quot;$(TargetDir)$(TargetName).exe&quot; &quot;$(ProjectDir)HYPF.ico&quot;" />
+  </Target>
 
 </Project>

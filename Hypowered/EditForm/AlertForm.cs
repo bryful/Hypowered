@@ -5,9 +5,14 @@ using System.Data;
 using System.Drawing;
 using System.Linq;
 using System.Text;
+using System.Text.Encodings.Web;
+using System.Text.Json;
+using System.Text.Json.Nodes;
+using System.Text.Unicode;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Forms;
+using System.Windows.Markup;
 
 namespace Hypowered
 {
@@ -65,6 +70,51 @@ namespace Hypowered
 				}
 				textBox1.Text = ret;
 			}
+		}
+		public void SetSelectedObject(Object? value,bool IsJson=false)
+		{
+			string ret = "";
+			if (value == null)
+			{
+				ret = "null";
+			}
+			else
+			{
+				if (IsJson)
+				{
+					ret = ToJson(value);
+				}
+				else
+				{
+					ret = value.ToString();
+				}
+			}
+			textBox1.Text = ret;
+		}
+		private string ToJson(Object? Obj)
+		{
+			if (Obj != null)
+			{
+				try
+				{
+					var js = JsonSerializer.Serialize(Obj,
+						new JsonSerializerOptions
+						{
+							WriteIndented = true,
+							Encoder = JavaScriptEncoder.Create(UnicodeRanges.All)
+						});
+					return js;
+				}
+				catch
+				{
+					return "null";
+				}
+			}
+			else
+			{
+				return "(null)";
+			}
+
 		}
 	}
 }

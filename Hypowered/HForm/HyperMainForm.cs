@@ -34,6 +34,12 @@ namespace Hypowered
 		{
 			get { return Path.GetFileNameWithoutExtension(m_FileName); }
 		}
+		[Category("Hypowered")]
+		public new string Text
+		{
+			get { return base.Text; }
+			set {; }
+		}
 		// ****************************************************************************
 		public delegate void FormChangedHandler(object sender, HyperChangedEventArgs e);
 		public event FormChangedHandler? FormChanged;
@@ -223,7 +229,14 @@ true);
 							StartServer();
 						}
 					}
-				} 
+				} else if(args1.Option == Option.Open)
+				{
+					if (LoadToHYPF(args1.FileName)==false)
+					{
+						Application.Exit();
+					}
+
+				}
 				else
 				{
 					LoadToHYPF(args1.FileName);
@@ -242,6 +255,10 @@ true);
 		{
 			if (m_FileName != "")
 			{
+				if(Script_Shutdown!="")
+				{
+					Script.ExecuteCode(Script_Shutdown);
+				}
 				SaveToHYPF();
 				if (_mutex != null)
 				{
@@ -263,6 +280,7 @@ true);
 		// *********************************************************************
 		protected override void OnLoad(EventArgs e)
 		{
+			RelatingFile(".hypf");
 			base.OnLoad(e);
 			//ホームファイルを読む無かったら作る
 			m_FileName = "";
@@ -311,6 +329,22 @@ true);
 			m_ActveTine = false;
 		}
 		*/
+		protected override void OnMouseDoubleClick(MouseEventArgs e)
+		{
+			base.OnMouseDoubleClick(e);
+			if(Script_MouseDoubleClick!="")
+			{
+				Script.ExecuteCode(Script_MouseDoubleClick);
+			}
+		}
+		protected override void OnKeyPress(KeyPressEventArgs e)
+		{
+			base.OnKeyPress(e);
+			if (Script_KeyPress != "")
+			{
+				Script.ExecuteCode(Script_KeyPress);
+			}
+		}
 		protected override void OnFormClosed(FormClosedEventArgs e)
 		{
 			base.OnFormClosed(e);
@@ -332,9 +366,6 @@ true);
 		// ****************************************************************************
 		protected override bool ProcessDialogKey(Keys keyData)
 		{
-#if DEBUG
-			this.Text = String.Format("{0}", keyData.ToString());
-#endif
 			FuncItem? fi = Funcs.FindKeys(keyData);
 			if ((fi != null) && (fi.Func != null))
 			{
@@ -471,6 +502,7 @@ true);
 			{
 				m_FileName = p;
 				base.Name = IDName;
+				base.Text = IDName;
 				StartServer();
 				Lib.SetMainForm(this);//FileNameを設定してる
 
@@ -495,7 +527,8 @@ true);
 			try
 			{
 				m_FileName = p;
-				base.Name = Path.GetFileNameWithoutExtension(p);
+				base.Name = IDName;
+				base.Text = IDName;
 				string js = ToJsonCode();
 				bool b = File.Exists(m_FileName);
 				if(b) ZipUtil.BackupEntry(p, m_MainENtryName, m_BackupENtryName);

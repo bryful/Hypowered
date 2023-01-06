@@ -26,6 +26,17 @@ namespace Hypowered
 		{
 			m_MainForm = fm;
 			controlBrowser1.SetMainForm(fm);
+			if(m_MainForm!= null)
+			{
+				m_MainForm.FormChanged += (sender, e) =>
+				{
+					controlBrowser1.SetMainForm(fm);
+				};
+				m_MainForm.ControlChanged += (sender, e) =>
+				{
+					controlBrowser1.SetMainForm(fm);
+				};
+			}
 			/*
 			if ((m_MainForm!=null)&&(m_MainForm.forms.TargetForm!=null))
 			{
@@ -70,7 +81,7 @@ namespace Hypowered
 				}
 				else
 				{
-					if(m_TargetForm is HyperMainForm)
+					if (m_TargetForm is HyperMainForm)
 					{
 						SetScriptCode(((HyperMainForm)m_TargetForm).ScriptCode);
 						lbControl.Text =
@@ -130,6 +141,7 @@ true);
 			this.UpdateStyles();
 			//MakeMenu();
 			InitializeComponent();
+			controlBrowser1.EditPad = editPad1;
 
 		}
 
@@ -209,6 +221,11 @@ true);
 			if(EditNow == true) return;
 			if (m_MainForm.targetForm == null) return;
 			SetTargetControl(m_MainForm.targetForm, m_MainForm.TargetControl);
+		}
+
+		private void ToolStripButton1_Click(object sender, EventArgs e)
+		{
+			this.Text = $"offset:{editPad1.Offset}start:{editPad1.SelectionStart},length{editPad1.SelectionLength},";
 		}
 	}
 }

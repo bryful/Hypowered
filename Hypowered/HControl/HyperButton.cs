@@ -14,7 +14,7 @@ namespace Hypowered
 	public partial class HyperButton : HyperControl
 	{
 		protected Color m_PushedColor = Color.White;
-		[Category("Hypowerd_Color")]
+		[Category("Hypowered_Color")]
 		public Color PushedColor
 		{
 			get { return m_PushedColor; }

@@ -16,7 +16,8 @@ namespace Hypowered
 		{
 			List<FuncItem> lst = new List<FuncItem>();
 
-			lst.Add(new FuncItem(OpenForm, Keys.Control | Keys.O, "開く"));
+			lst.Add(new FuncItem(OpenForm, Keys.Control | Keys.O, "別のフォームで開く"));
+			lst.Add(new FuncItem(LoadForm, Keys.Alt | Keys.O, "開く"));
 			lst.Add(new FuncItem(NewForm, Keys.Control | Keys.N, "新規"));
 			lst.Add(new FuncItem(SaveAsForm, Keys.Control | Keys.S, "コピーを保存"));
 			lst.Add(new FuncItem(Quit, Keys.Control| Keys.Q, "終了"));
@@ -53,6 +54,7 @@ namespace Hypowered
 		}
 		// *************************************************************************
 		private HyperMenuItem? m_menuOpen = null;
+		private HyperMenuItem? m_menuLoad = null;
 		private HyperMenuItem? m_menuNew = null;
 		private HyperMenuItem? m_menuSaveAs = null;
 		private HyperMenuItem? m_menuQuit = null;
@@ -74,12 +76,14 @@ namespace Hypowered
 		public void MakeMenu()
 		{
 			m_menuOpen = CreateMenuItem(OpenForm);
+			m_menuLoad = CreateMenuItem(LoadForm);
 			m_menuNew = CreateMenuItem(NewForm);
 			m_menuSaveAs = CreateMenuItem(SaveAsForm);
 			m_menuQuit = CreateMenuItem(Quit);
 			if (m_FileMenu != null)
 			{
 				m_FileMenu.Add(m_menuOpen);
+				m_FileMenu.Add(m_menuLoad);
 				m_FileMenu.Add(m_menuNew);
 				m_FileMenu.Add(m_menuSaveAs);
 				m_FileMenu.Add(null);
@@ -136,17 +140,28 @@ namespace Hypowered
 		{
 			bool ret = false;
 			OpenFileDialog dlg = new OpenFileDialog();
-			dlg.InitialDirectory = Path.GetDirectoryName(m_FileName);
-			dlg.FileName = Path.GetFileName(m_FileName);
+			if (m_FileName != "")
+			{
+				dlg.InitialDirectory = Path.GetDirectoryName(m_FileName);
+				dlg.FileName = Path.GetFileName(m_FileName);
+			}
 			dlg.Filter = "*.hypf|*.hypf|*.*|*.*";
 			if (dlg.ShowDialog() == DialogResult.OK)
 			{
-				ret = LoadToHYPF( dlg.FileName);
+				if (m_FileName != dlg.FileName)
+				{
+					var app = new ProcessStartInfo();
+					app.FileName = Application.ExecutablePath;
+					app.Arguments = "-open \"" + dlg.FileName + "\"";
+					Process.Start(app);
+					ret = true;
+				}
 			}
 			return ret;
 		}
 		public bool NewForm()
 		{
+			bool ret = false;
 			SaveFileDialog dlg = new SaveFileDialog();
 			if (m_FileName != "")
 			{
@@ -162,11 +177,12 @@ namespace Hypowered
 					app.FileName = Application.ExecutablePath;
 					app.Arguments = "-new \"" + dlg.FileName+"\"";
 					Process.Start(app);
+					ret = true;
 				}
 			}
 
 
-			return true;
+			return ret;
 		}
 		// *************************************************************************
 		public bool SaveAsForm()

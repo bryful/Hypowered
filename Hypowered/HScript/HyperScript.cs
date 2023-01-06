@@ -6,6 +6,9 @@ using Microsoft.ClearScript.V8;
 using Microsoft.ClearScript.JavaScript;
 using System.Xml.Linq;
 using System.Dynamic;
+using System.Text.Encodings.Web;
+using System.Text.Json;
+using System.Text.Unicode;
 
 namespace Hypowered
 {
@@ -103,7 +106,7 @@ namespace Hypowered
 		public void alert(object? s)
 		{
 			AlertForm dlg = new AlertForm();
-			dlg.SelectedObject= s;
+			dlg.SelectedObject = s;
 			dlg.ShowDialog();
 			dlg.Dispose();
 		}
@@ -114,6 +117,7 @@ namespace Hypowered
 				MainForm.OutputWrite(s);
 			}
 		}
+
 		public void writeLine(object? s)
 		{
 			if (MainForm != null)

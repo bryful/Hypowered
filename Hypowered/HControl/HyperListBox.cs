@@ -33,7 +33,7 @@ namespace Hypowered
 			m_IsEditMode = value;
 			m_ListBox.Visible = !value;
 		}
-		[Category("Hypowerd")]
+		[Category("Hypowered")]
 		public new Font Font
 		{
 			get { return m_ListBox.Font; }
@@ -43,7 +43,7 @@ namespace Hypowered
 				base.Font = value;
 			}
 		}
-		[Category("Hypowerd_ListBox")]
+		[Category("Hypowered_ListBox")]
 		public  ListBox ListBox
 		{
 			get { return m_ListBox; }
@@ -52,7 +52,7 @@ namespace Hypowered
 				m_ListBox = value;
 			}
 		}
-		[Category("Hypowerd_ListBox")]
+		[Category("Hypowered_ListBox")]
 		public bool IntegralHeight
 		{
 			get { return m_ListBox.IntegralHeight; }
@@ -61,7 +61,7 @@ namespace Hypowered
 				m_ListBox.IntegralHeight = value;
 			}
 		}
-		[Category("Hypowerd_ListBox")]
+		[Category("Hypowered_ListBox")]
 		public int ItemHeight
 		{
 			get { return m_ListBox.ItemHeight; }
@@ -70,7 +70,7 @@ namespace Hypowered
 				m_ListBox.ItemHeight = value;
 			}
 		}
-		[Category("Hypowerd_ListBox")]
+		[Category("Hypowered_ListBox")]
 		public int SelectedIndex
 		{
 			get { return m_ListBox.SelectedIndex; }
@@ -79,17 +79,17 @@ namespace Hypowered
 				m_ListBox.SelectedIndex = value;
 			}
 		}
-		[Category("Hypowerd_ListBox")]
+		[Category("Hypowered_ListBox")]
 		public ListBox.ObjectCollection Items
 		{
 			get { return m_ListBox.Items; }
 		}
-		[Category("Hypowerd_ListBox")]
+		[Category("Hypowered_ListBox")]
 		public int Count
 		{
 			get { return m_ListBox.Items.Count; }
 		}
-		[Category("Hypowerd_Color")]
+		[Category("Hypowered_Color")]
 		public new Color ForeColor
 		{
 			get { return m_ListBox.ForeColor; }
@@ -99,7 +99,7 @@ namespace Hypowered
 				m_ListBox.ForeColor = value;
 			}
 		}
-		[Category("Hypowerd_Color")]
+		[Category("Hypowered_Color")]
 		public new Color BackColor
 		{
 			get { return m_ListBox.BackColor; }

@@ -29,6 +29,10 @@
 		private void InitializeComponent()
 		{
 			System.Windows.Media.SolidColorBrush solidColorBrush1 = new System.Windows.Media.SolidColorBrush();
+			ICSharpCode.AvalonEdit.Document.TextDocument textDocument1 = new ICSharpCode.AvalonEdit.Document.TextDocument();
+			System.ComponentModel.Design.ServiceContainer serviceContainer1 = new System.ComponentModel.Design.ServiceContainer();
+			ICSharpCode.AvalonEdit.Document.UndoStack undoStack1 = new ICSharpCode.AvalonEdit.Document.UndoStack();
+			ICSharpCode.AvalonEdit.TextEditor textEditor1 = new ICSharpCode.AvalonEdit.TextEditor();
 			System.Windows.Media.SolidColorBrush solidColorBrush2 = new System.Windows.Media.SolidColorBrush();
 			System.Windows.Media.SolidColorBrush solidColorBrush3 = new System.Windows.Media.SolidColorBrush();
 			System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(HyperScriptEditor));
@@ -43,6 +47,7 @@
 			this.lbControl = new System.Windows.Forms.ToolStripLabel();
 			this.cmbScript = new System.Windows.Forms.ToolStripComboBox();
 			this.btnHide = new System.Windows.Forms.ToolStripButton();
+			this.toolStripButton1 = new System.Windows.Forms.ToolStripButton();
 			this.controlBrowser1 = new Hypowered.ControlBrowser();
 			this.splitContainer1 = new System.Windows.Forms.SplitContainer();
 			this.toolStrip.SuspendLayout();
@@ -59,25 +64,50 @@
 			this.editPad1.Background = solidColorBrush1;
 			this.editPad1.ConvertTabsToSpaces = true;
 			this.editPad1.Dock = System.Windows.Forms.DockStyle.Fill;
+			textDocument1.FileName = null;
+			textDocument1.ServiceProvider = serviceContainer1;
+			textDocument1.Text = "aaa";
+			undoStack1.SizeLimit = 2147483647;
+			textDocument1.UndoStack = undoStack1;
+			this.editPad1.Document = textDocument1;
+			textEditor1.Background = solidColorBrush1;
+			textEditor1.Document = textDocument1;
+			solidColorBrush2.Color = System.Windows.Media.Color.FromArgb(((byte)(255)), ((byte)(0)), ((byte)(0)), ((byte)(0)));
+			textEditor1.Foreground = solidColorBrush2;
+			textEditor1.Height = double.NaN;
+			textEditor1.HorizontalAlignment = System.Windows.HorizontalAlignment.Stretch;
+			textEditor1.HorizontalScrollBarVisibility = System.Windows.Controls.ScrollBarVisibility.Auto;
+			textEditor1.IsModified = true;
+			solidColorBrush3.Color = System.Windows.Media.Color.FromArgb(((byte)(255)), ((byte)(0)), ((byte)(0)), ((byte)(0)));
+			textEditor1.LineNumbersForeground = solidColorBrush3;
+			textEditor1.Margin = new System.Windows.Thickness(0D, 0D, 0D, 0D);
+			textEditor1.Options = ((ICSharpCode.AvalonEdit.TextEditorOptions)(resources.GetObject("textEditor1.Options")));
+			textEditor1.ShowLineNumbers = true;
+			textEditor1.SyntaxHighlighting = null;
+			textEditor1.Text = "aaa";
+			textEditor1.VerticalAlignment = System.Windows.VerticalAlignment.Stretch;
+			textEditor1.Width = double.NaN;
+			textEditor1.WordWrap = false;
 			this.editPad1.Font = new System.Drawing.Font("源ノ角ゴシック Code JP R", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
 			this.editPad1.ForeColor = System.Drawing.Color.Black;
-			solidColorBrush2.Color = System.Windows.Media.Color.FromArgb(((byte)(255)), ((byte)(0)), ((byte)(0)), ((byte)(0)));
 			this.editPad1.Foreground = solidColorBrush2;
 			this.editPad1.HorizontalScrollBarVisibility = System.Windows.Controls.ScrollBarVisibility.Auto;
-			solidColorBrush3.Color = System.Windows.Media.Color.FromArgb(((byte)(255)), ((byte)(0)), ((byte)(0)), ((byte)(0)));
 			this.editPad1.LineNumbersForeground = solidColorBrush3;
 			this.editPad1.Location = new System.Drawing.Point(0, 0);
 			this.editPad1.Name = "editPad1";
+			this.editPad1.Offset = 3;
 			this.editPad1.Options = ((ICSharpCode.AvalonEdit.TextEditorOptions)(resources.GetObject("editPad1.Options")));
-			this.editPad1.ShowColumnRuler = true;
+			this.editPad1.SelectedText = "aaa";
+			this.editPad1.SelectionLength = 3;
+			this.editPad1.SelectionStart = 0;
+			this.editPad1.ShowColumnRuler = false;
 			this.editPad1.ShowEndOfLine = true;
 			this.editPad1.ShowLineNumbers = true;
 			this.editPad1.ShowSpaces = false;
-			this.editPad1.ShowTabs = true;
-			this.editPad1.Size = new System.Drawing.Size(488, 328);
-			this.editPad1.SyntaxHighlighting = null;
+			this.editPad1.ShowTabs = false;
+			this.editPad1.Size = new System.Drawing.Size(511, 419);
 			this.editPad1.TabIndex = 0;
-			this.editPad1.WordWrap = true;
+			this.editPad1.WordWrap = false;
 			// 
 			// toolStrip
 			// 
@@ -91,10 +121,11 @@
             this.toolStripSeparator1,
             this.lbControl,
             this.cmbScript,
-            this.btnHide});
+            this.btnHide,
+            this.toolStripButton1});
 			this.toolStrip.Location = new System.Drawing.Point(0, 0);
 			this.toolStrip.Name = "toolStrip";
-			this.toolStrip.Size = new System.Drawing.Size(694, 25);
+			this.toolStrip.Size = new System.Drawing.Size(727, 25);
 			this.toolStrip.TabIndex = 1;
 			this.toolStrip.Text = "toolStrip1";
 			// 
@@ -168,12 +199,24 @@
 			this.btnHide.Text = "Hide";
 			this.btnHide.Click += new System.EventHandler(this.MenuHide_Click);
 			// 
+			// toolStripButton1
+			// 
+			this.toolStripButton1.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+			this.toolStripButton1.Image = ((System.Drawing.Image)(resources.GetObject("toolStripButton1.Image")));
+			this.toolStripButton1.ImageTransparentColor = System.Drawing.Color.Magenta;
+			this.toolStripButton1.Name = "toolStripButton1";
+			this.toolStripButton1.Size = new System.Drawing.Size(23, 22);
+			this.toolStripButton1.Text = "toolStripButton1";
+			this.toolStripButton1.Click += new System.EventHandler(this.ToolStripButton1_Click);
+			// 
 			// controlBrowser1
 			// 
 			this.controlBrowser1.Dock = System.Windows.Forms.DockStyle.Fill;
+			this.controlBrowser1.EditPad = null;
 			this.controlBrowser1.Location = new System.Drawing.Point(0, 0);
 			this.controlBrowser1.Name = "controlBrowser1";
-			this.controlBrowser1.Size = new System.Drawing.Size(202, 328);
+			this.controlBrowser1.Size = new System.Drawing.Size(212, 419);
+			this.controlBrowser1.SplitterDistance = 104;
 			this.controlBrowser1.TabIndex = 2;
 			this.controlBrowser1.Text = "controlBrowser1";
 			// 
@@ -192,8 +235,8 @@
 			// splitContainer1.Panel2
 			// 
 			this.splitContainer1.Panel2.Controls.Add(this.controlBrowser1);
-			this.splitContainer1.Size = new System.Drawing.Size(694, 328);
-			this.splitContainer1.SplitterDistance = 488;
+			this.splitContainer1.Size = new System.Drawing.Size(727, 419);
+			this.splitContainer1.SplitterDistance = 511;
 			this.splitContainer1.TabIndex = 3;
 			// 
 			// HyperScriptEditor
@@ -201,7 +244,7 @@
 			this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
 			this.BackColor = System.Drawing.Color.Gainsboro;
-			this.ClientSize = new System.Drawing.Size(694, 357);
+			this.ClientSize = new System.Drawing.Size(727, 448);
 			this.ControlBox = false;
 			this.Controls.Add(this.splitContainer1);
 			this.Controls.Add(this.toolStrip);
@@ -235,5 +278,6 @@
 		private ToolStripLabel lbControl;
 		private ToolStripButton btnScriptEdit;
 		private ToolStripSeparator toolStripSeparator2;
+		private ToolStripButton toolStripButton1;
 	}
 }

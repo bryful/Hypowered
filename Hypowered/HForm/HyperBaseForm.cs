@@ -71,6 +71,7 @@ namespace Hypowered
 			}
 		}
 		protected bool m_CanEditMode = true;
+		[Category("Hypowered")]
 		public bool CanEditMode
 		{
 			get { return m_CanEditMode; }
@@ -670,6 +671,9 @@ true);
 				case ControlType.Icon:
 					ctrl = new HyperIcon();
 					break;
+				case ControlType.Design:
+					ctrl = new HyperDesign();
+					break;
 				default:
 					break;
 			}
@@ -1065,6 +1069,36 @@ true);
 			base.OnResize(e);
 			this.Invalidate();
 
+		}
+		public void RelatingFile(string extension)
+		{
+			string commandline = "\"" + Application.ExecutablePath + "\" \"%1\"";
+			string fileType = Application.ProductName + ".0";
+			string description = "Hypowered form file";
+			string verb = "open";
+			string verbDescription = ProductName + "で開く(&O)";
+			string iconPath = Application.ExecutablePath;
+			int iconIndex = 1;
+			Microsoft.Win32.RegistryKey currentUserKey = Microsoft.Win32.Registry.CurrentUser;
+
+			Microsoft.Win32.RegistryKey regkey = currentUserKey.CreateSubKey("Software\\Classes\\" + extension);
+			regkey.SetValue("", fileType);
+			regkey.Close();
+			Microsoft.Win32.RegistryKey typekey = currentUserKey.CreateSubKey("Software\\Classes\\" + fileType);
+			typekey.SetValue("", description);
+			typekey.Close();
+
+			Microsoft.Win32.RegistryKey verblkey = currentUserKey.CreateSubKey("Software\\Classes\\" + fileType + "\\shell\\" + verb);
+			verblkey.SetValue("", verbDescription);
+			verblkey.Close();
+
+			Microsoft.Win32.RegistryKey cmdkey = currentUserKey.CreateSubKey("Software\\Classes\\" + fileType + "\\shell\\" + verb + "\\command");
+			cmdkey.SetValue("", commandline);
+			cmdkey.Close();
+
+			Microsoft.Win32.RegistryKey iconkey = currentUserKey.CreateSubKey("Software\\Classes\\" + fileType + "\\DefaultIcon");
+			iconkey.SetValue("", iconPath + "," + iconIndex.ToString());
+			iconkey.Close();
 		}
 	}
 }

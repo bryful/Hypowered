@@ -92,8 +92,9 @@ namespace Hypowered
 									break;
 								case "o":
 								case "open":
-								case "load":
+								case "l":
 								case "ld":
+								case "load":
 									m_Option = Option.Open;
 									break;
 

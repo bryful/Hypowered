@@ -14,7 +14,6 @@ using System.Text.Encodings.Web;
 using System.Text.Unicode;
 using System.Windows.Forms.Layout;
 using System.Windows.Documents;
-using Hypowered.HClass;
 
 namespace Hypowered
 {
@@ -46,7 +45,7 @@ namespace Hypowered
 			get { return m_IsDrawFocuse; }
 			set { m_IsDrawFocuse = value; this.Invalidate(); }
 		}
-		protected bool m_IsSaveFileName = true;
+		protected bool m_IsSaveFileName = false;
 		[Category("Hypowered")]
 		public bool IsSaveFileName
 		{
@@ -54,7 +53,7 @@ namespace Hypowered
 			set { m_IsSaveFileName = value; }
 		}
 		private FileNameEX m_FileName = new FileNameEX();
-		[Category("Hypowered_PictureBox")]
+		[Category("Hypowered")]
 		public String FileName
 		{
 			get { return m_FileName.Path; }
@@ -710,6 +709,64 @@ namespace Hypowered
 			base.OnLostFocus(e);
 			this.Invalidate();
 		}
+		// ****************************************************************************
+		public string LoadFromTextFile(string fn)
+		{
+			string ret = "";
+			if(File.Exists(fn))
+			{
+				try
+				{
+					ret = File.ReadAllText(fn);
+				}
+				catch
+				{
+					ret = "";
+				}
+			}
+			return ret;
+
+		}
+		// ****************************************************************************
+		public bool SaveToTextFile(string fn,string s)
+		{
+			bool ret = false;
+			try
+			{
+				File.WriteAllText(fn, s);
+				ret = true;
+			}
+			catch
+			{
+				ret = false;
+			}
+			return ret;
+		}
+		public void LoadFileToText(string path)
+		{
+			this.Text = LoadFromTextFile(path);
+			if (FileName != path) FileName = path; ;
+		}
+		public void LoadFileToText()
+		{
+			if (FileName != null)
+			{
+				this.Text = LoadFromTextFile(FileName);
+			}
+		}
+		public void SaveFileFromText(string path)
+		{
+			SaveToTextFile(path, this.Text);
+			if (FileName != path) FileName = path; ;
+		}
+		public void SaveFileFromText()
+		{
+			if (FileName != "")
+			{
+				SaveToTextFile(FileName, this.Text);
+			}
+		}
+		// ****************************************************************************
 
 		public virtual JsonObject ToJson()
 		{

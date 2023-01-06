@@ -51,7 +51,12 @@ namespace Hypowered
 				m_spliter.ForeColor = value;
 			}
 		}
-
+		public int SplitterDistance
+		{
+			get { return m_spliter.SplitterDistance; }
+			set { m_spliter.SplitterDistance = value; }
+		}
+		public EditPad EditPad { get; set; } = null;
 		public ControlBrowser()
 		{
 			InitializeComponent();
@@ -87,14 +92,66 @@ namespace Hypowered
 			m_FormComp.SelectedIndexChanged += FormComp_SelectedIndexChanged;
 			m_ControlListBox.SelectedIndexChanged += ControlListBox_SelectedIndexChanged;
 			m_MemberListBox.SelectedIndexChanged += MenberListBox_SelectedIndexChanged;
+			m_ControlListBox.DoubleClick += M_ControlListBox_DoubleClick;
+			m_MemberListBox.DoubleClick += M_MemberListBox_DoubleClick;
+			m_Button.Click += M_Button_Click;
+		}
+
+		private void M_Button_Click(object? sender, EventArgs e)
+		{
+			if ((EditPad != null) )
+			{
+				EditPad.SetText(m_TextBox.Text);
+			}
+		}
+
+		private void M_MemberListBox_DoubleClick(object? sender, EventArgs e)
+		{
+			if ((EditPad != null) && (m_MemberListBox.SelectedIndex >= 0))
+			{
+				string? s = m_MemberListBox.Items[m_MemberListBox.SelectedIndex].ToString();
+				if ((s != null) && (s.Length > 0))
+				{
+					s = s.Split("\t")[0].Trim();
+					EditPad.SetText(s);
+				}
+			}
+		}
+
+		private void M_ControlListBox_DoubleClick(object? sender, EventArgs e)
+		{
+			if((EditPad != null)&&(m_ControlListBox.SelectedIndex >=0))
+			{
+				string? s = m_ControlListBox.Items[m_ControlListBox.SelectedIndex].ToString();
+				if ((s != null) && (s.Length > 0))
+				{
+					EditPad.SetText(s);
+				}
+			}
 		}
 
 		private void MenberListBox_SelectedIndexChanged(object? sender, EventArgs e)
 		{
 			if((m_ControlListBox.SelectedIndex >= 0)&&(m_MemberListBox.SelectedIndex >= 0))
 			{
-				string s0 = m_ControlListBox.SelectedItem.ToString();
-				string s1 = m_MemberListBox.SelectedItem.ToString().Split("\t")[0];
+				string? s0 = m_ControlListBox.SelectedItem.ToString();
+				if (s0 == null)
+				{
+					s0 = "";
+				}
+				else
+				{
+					s0 = s0.Trim();
+				}
+				string? s1 = m_MemberListBox.SelectedItem.ToString();
+				if (s1 == null)
+				{
+					s1 = "";
+				}
+				else
+				{
+					s1 = s1.Split("\t")[0].Trim();
+				}
 				m_TextBox.Text = s0+"."+s1;
 			}
 		}
