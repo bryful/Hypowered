@@ -45,6 +45,13 @@ namespace Hypowered
 			get { return m_IsDrawFocuse; }
 			set { m_IsDrawFocuse = value; this.Invalidate(); }
 		}
+		protected bool m_IsDrawFrame = true;
+		[Category("Hypowered")]
+		public bool IsDrawFrame
+		{
+			get { return m_IsDrawFrame; }
+			set { m_IsDrawFrame = value; this.Invalidate(); }
+		}
 		protected bool m_IsSaveFileName = false;
 		[Category("Hypowered")]
 		public bool IsSaveFileName
@@ -430,16 +437,19 @@ namespace Hypowered
 				g.FillRectangle(sb, this.ClientRectangle);
 
 				// 外枠
-				Rectangle rr = ReRect(this.ClientRectangle, 2);
-				p.Color = ForeColor;
-				DrawFrame(g, p, rr);
+				if (m_IsDrawFrame)
+				{
+					Rectangle rr = ReRect(this.ClientRectangle, 2);
+					p.Color = ForeColor;
+					DrawFrame(g, p, rr);
+				}
 				//g.DrawRectangle(p, rr);
 
 				if ((this.Focused) && (m_IsDrawFocuse))
 				{
-					rr = ReRect(this.ClientRectangle, 1);
+					Rectangle r2 = ReRect(this.ClientRectangle, 1);
 					p.Color = m_ForcusColor;
-					g.DrawRectangle(p, rr);
+					g.DrawRectangle(p, r2);
 				}
 				DrawType(g, sb);
 			}
@@ -882,14 +892,16 @@ namespace Hypowered
 			if (v != null) Script_ValueChanged = (String)v;
 
 
-			v = jf.ValueAuto("TextAligiment", typeof(StringAlignment).Name);
+			v = jf.ValueAuto("TextAligiment", typeof(int).Name);
 			if (v != null) TextAligiment = (StringAlignment)v;
-			v = jf.ValueAuto("TextLineAligiment", typeof(StringAlignment).Name);
+			v = jf.ValueAuto("TextLineAligiment", typeof(int).Name);
 			if (v != null) TextLineAligiment = (StringAlignment)v;
+
+			v = jf.ValueAuto("AccessibleRole", typeof(int).Name);
 			if (v != null) AccessibleRole = (AccessibleRole)v;
 			v = jf.ValueAuto("AllowDrop", typeof(Boolean).Name);
 			if (v != null) AllowDrop = (Boolean)v;
-			v = jf.ValueAuto("Anchor", typeof(AnchorStyles).Name);
+			v = jf.ValueAuto("Anchor", typeof(int).Name);
 			if (v != null) Anchor = (AnchorStyles)v;
 			v = jf.ValueAuto("AutoSize", typeof(Boolean).Name);
 			if (v != null) AutoSize = (Boolean)v;
@@ -899,7 +911,7 @@ namespace Hypowered
 			if (v != null) Capture = (Boolean)v;
 			v = jf.ValueAuto("CausesValidation", typeof(Boolean).Name);
 			if (v != null) CausesValidation = (Boolean)v;
-			v = jf.ValueAuto("Dock", typeof(DockStyle).Name);
+			v = jf.ValueAuto("Dock", typeof(int).Name);
 			if (v != null) Dock = (DockStyle)v;
 			v = jf.ValueAuto("Enabled", typeof(Boolean).Name);
 			if (v != null) Enabled = (Boolean)v;

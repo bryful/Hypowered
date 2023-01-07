@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Hypowered;
+using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
@@ -11,6 +12,51 @@ namespace BRY
 {
 	public class F_W
 	{
+		[DllImport("shell32.dll", CharSet = CharSet.Unicode, ExactSpelling = true)]
+		static public extern void SHChangeNotify(uint wEventId, uint uFlags, IntPtr dwItem1, IntPtr dwItem2);
+
+		static public void SHChangeNotify()
+		{
+			SHChangeNotify((uint)0x08000000, (uint)0x1000, (IntPtr)null, (IntPtr)null);
+		}
+		static public void RelatingFile(string extension,string description)
+		{
+			string commandline = "\"" + Application.ExecutablePath + "\" \"%1\"";
+			string fileType = Application.ProductName + ".0";
+			string verb = "open";
+			string verbDescription = Application.ProductName + "で開く(&O)";
+			string iconPath = Application.ExecutablePath;
+			int iconIndex = 1;
+			Microsoft.Win32.RegistryKey currentUserKey = Microsoft.Win32.Registry.CurrentUser;
+
+			Microsoft.Win32.RegistryKey regkey = currentUserKey.CreateSubKey("Software\\Classes\\" + extension);
+			regkey.SetValue("", fileType);
+			regkey.Close();
+			Microsoft.Win32.RegistryKey typekey = currentUserKey.CreateSubKey("Software\\Classes\\" + fileType);
+			typekey.SetValue("", description);
+			typekey.Close();
+
+			Microsoft.Win32.RegistryKey verblkey = currentUserKey.CreateSubKey("Software\\Classes\\" + fileType + "\\shell\\" + verb);
+			verblkey.SetValue("", verbDescription);
+			verblkey.Close();
+
+			Microsoft.Win32.RegistryKey cmdkey = currentUserKey.CreateSubKey("Software\\Classes\\" + fileType + "\\shell\\" + verb + "\\command");
+			cmdkey.SetValue("", commandline);
+			cmdkey.Close();
+
+			Microsoft.Win32.RegistryKey iconkey = currentUserKey.CreateSubKey("Software\\Classes\\" + fileType + "\\DefaultIcon");
+			iconkey.SetValue("", iconPath + "," + iconIndex.ToString());
+			iconkey.Close();
+			F_W.SHChangeNotify();
+		}
+		static public void UnRelatingFile(string extension)
+		{
+			string fileType = Application.ProductName + ".0";
+			Microsoft.Win32.RegistryKey currentUserKey = Microsoft.Win32.Registry.CurrentUser;
+			currentUserKey.DeleteSubKeyTree("Software\\Classes\\" + extension);
+			currentUserKey.DeleteSubKeyTree("Software\\Classes\\" + fileType);
+			F_W.SHChangeNotify();
+		}
 		[StructLayout(LayoutKind.Sequential, CharSet = CharSet.Auto)]
 		struct SHFILEINFO
 		{

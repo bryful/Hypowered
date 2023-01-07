@@ -11,6 +11,8 @@ namespace Hypowered
 		None,
 		Open,
 		Create,
+		InstallExt,
+		UnInstallExt,
 	}
 	public class HArgs
 	{
@@ -96,6 +98,14 @@ namespace Hypowered
 								case "ld":
 								case "load":
 									m_Option = Option.Open;
+									break;
+								case "inst":
+								case "installext":
+									m_Option = Option.InstallExt;
+									break;
+								case "uninst":
+								case "uninstallext":
+									m_Option = Option.UnInstallExt;
 									break;
 
 							}

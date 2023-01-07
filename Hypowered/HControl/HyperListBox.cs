@@ -149,6 +149,13 @@ namespace Hypowered
 			else
 			{
 				pe.Graphics.Clear(BackColor);
+				if (IsDrawFrame)
+				{
+					using (Pen p = new Pen(ForeColor))
+					{
+						DrawFrame(pe.Graphics, p, this.ClientRectangle);
+					}
+				}
 			}
 		}
 		protected override void OnResize(EventArgs e)

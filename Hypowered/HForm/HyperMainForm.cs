@@ -23,7 +23,11 @@ namespace Hypowered
 	{
 		private readonly string m_MainENtryName = "hyperform.json";
 		private readonly string m_BackupENtryName = "hyperform_backup.json";
-		static private System.Threading.Mutex? _mutex = null;
+		private string m_HYPF_Folder = "";
+		public string HYPF_Folder
+		{
+			get { return m_HYPF_Folder; }
+		}
 		protected string m_FileName = "";
 		[Category("Hypowered_Form")]
 		public string FileName
@@ -41,6 +45,7 @@ namespace Hypowered
 			get { return base.Text; }
 			set {; }
 		}
+	
 		// ****************************************************************************
 		public delegate void FormChangedHandler(object sender, HyperChangedEventArgs e);
 		public event FormChangedHandler? FormChanged;
@@ -143,6 +148,10 @@ namespace Hypowered
 				}
 			}
 			base.SetIsEditMode(value);
+			if (value == false)
+			{
+				SaveToHYPF();
+			}
 		}
 
 		public HyperMainForm()
@@ -205,6 +214,16 @@ true);
 			ChkControls();
 
 			InitScript();
+			//
+			string? dir= Path.GetDirectoryName(Application.ExecutablePath);
+			if(dir==null) Directory.GetCurrentDirectory();
+			string home = Path.Combine(dir,"hypf");
+			if (Directory.Exists(home)==false)
+			{
+				Directory.CreateDirectory(home);
+			}
+			m_HYPF_Folder= home;
+
 		}
 
 
@@ -212,7 +231,8 @@ true);
 		// *********************************************************************
 		public void Command(string[] args, PIPECALL IsPipe = PIPECALL.StartupExec)
 		{
-			if(IsPipe!= PIPECALL.StartupExec)
+			Debug.WriteLine("Command-01" + IDName);
+			if (IsPipe!= PIPECALL.StartupExec)
 			{
 				this.Activate();
 				return;
@@ -229,61 +249,30 @@ true);
 						base.Text= base.Name;
 						if (SaveToHYPF())
 						{
+							Debug.WriteLine("Command-SaveToHYPF" + IDName);
 							StartServer();
-							MutexStart();
 						}
 					}
 				} else if(args1.Option == Option.Open)
 				{
-					if (LoadToHYPF(args1.FileName)==false)
+					if (LoadFromHYPF(args1.FileName)==false)
 					{
 						Application.Exit();
 					}
-					MutexStart();
 
 				}
 				else
 				{
-					if(LoadToHYPF(args1.FileName))
+					Debug.WriteLine("Command-LoadToHYPF1" + IDName);
+					if (LoadFromHYPF(args1.FileName))
 					{
-						MutexStart();
+						Debug.WriteLine("Command-LoadToHYPF2" + IDName);
+						StartServer();
 					}
 				}
 			}
 		}
 		// *********************************************************************
-		public void MutexStart()
-		{
-			MutexStop();
-			_mutex = new System.Threading.Mutex(false, base.Name);
-			MessageBox.Show("MutexStart/" + base.Name);
-		}
-		public void MutexStop()
-		{
-			if (_mutex != null)
-			{
-				/*
-				try
-				{
-					_mutex.ReleaseMutex();
-				}
-				catch 
-				{
-					MessageBox.Show("Error:ReleaseMutex");
-				}*/
-				try
-				{
-					_mutex.Dispose();
-				}
-				catch
-				{
-					MessageBox.Show("Error:DisposeMutex");
-				}
-				_mutex = null;
-			}
-
-		}
-
 		public void FormInit(string fn,bool IsOpen =true)
 		{
 			//ホームファイルを読む無かったら作る
@@ -300,7 +289,6 @@ true);
 					Script.ExecuteCode(Script_Shutdown);
 				}
 				SaveToHYPF();
-				MutexStop();
 				StopServer();
 				ClearFroms();
 			}
@@ -308,7 +296,7 @@ true);
 		// *********************************************************************
 		protected override void OnLoad(EventArgs e)
 		{
-			RelatingFile(".hypf");
+			//RelatingFile(".hypf");
 			base.OnLoad(e);
 			//ホームファイルを読む無かったら作る
 			m_FileName = "";
@@ -320,11 +308,11 @@ true);
 				if (File.Exists(home) == false)
 				{
 					m_FileName = home;
-					base.Name = Path.GetFileNameWithoutExtension(home);
-					if(SaveToHYPF())
+					base.Name = IDName;
+					base.Text = IDName;
+					if (SaveToHYPF())
 					{
 						StartServer();
-						MutexStart();
 					}
 					else
 					{
@@ -333,13 +321,9 @@ true);
 				}
 				else
 				{
-					if (LoadToHYPF(home)==false)
+					if (LoadFromHYPF(home)==true)
 					{
-						MessageBox.Show("Err2");
-					}
-					else
-					{
-						MutexStart();
+						StartServer();
 					}
 				}
 			}
@@ -397,8 +381,11 @@ true);
 			string id = IDName;
 			if(id!="")
 			{
-				m_Server.Server(id);
-				m_Server.Reception += M_Server_Reception;
+				if (m_Server.IsServerRunning == false)
+				{
+					m_Server.Server(id);
+					m_Server.Reception += M_Server_Reception;
+				}
 			}
 
 		}
@@ -430,7 +417,7 @@ true);
 		}
 		public string DefaultFileName()
 		{
-			return Path.ChangeExtension(Application.ExecutablePath, ".hypf");
+			return Path.ChangeExtension(Application.ExecutablePath, Def.DefaultExt);
 		}
 		// ****************************************************************************
 		public bool SaveStatus(string s)
@@ -482,10 +469,11 @@ true);
 			ret = SaveForm(m_FileName);
 			if (ret)
 			{
+				try { Directory.SetCurrentDirectory(Path.GetDirectoryName(m_FileName)); } catch { }
 				SaveStatus(StatusFileName());
 				base.Name = Path.GetFileNameWithoutExtension(m_FileName);
 				Lib.SetMainForm(this);//FileNameを設定してる
-				InitScript();
+			//	InitScript();
 			}
 			return ret;
 		}
@@ -502,10 +490,24 @@ true);
 			}
 			Script.Init();
 		}
-		public bool LoadToHYPF(string p)
+		public bool OpenFromHYPF(string p)
+		{
+			if (File.Exists(p) == false) return false;
+			string home = Path.ChangeExtension(Application.ExecutablePath, Def.DefaultExt);
+			if (home == p) return false;
+
+			var app = new ProcessStartInfo();
+			app.FileName = Application.ExecutablePath;
+			app.Arguments = "-open \"" + p + "\"";
+			Process.Start(app);
+			return true;
+		}
+		public bool LoadFromHYPF(string p)
 		{
 			bool ret = false;
 			if (p == "") return ret;
+			if (File.Exists(p) == false) return ret;
+			SaveToHYPF();
 			FormFisnish();
 
 			ret = LoadForm(p);
@@ -514,6 +516,8 @@ true);
 				m_FileName = p;
 				base.Name = IDName;
 				base.Text = IDName;
+
+				try { Directory.SetCurrentDirectory(Path.GetDirectoryName(m_FileName)); } catch { }
 				Lib.SetMainForm(this);//FileNameを設定してる
 				ConnectList.ConnectAll(this.Controls);
 				LoadStatus(StatusFileName());

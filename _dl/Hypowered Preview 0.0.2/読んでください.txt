@@ -1,0 +1,45 @@
+Hypowered.exe
+
+昔のMacにバンドルされてたHyperCardっぽいアプリです。
+ツール作成が目標でカード型データベースっぽい使い方は出来ません。
+
+64bit版です。
+
+実行するとHomeフォーム(Hypowered.hypf)を読み込みます。
+
+フォーム(Form)は、HyperCardでいうスタックになります。hypf拡張子です。
+ボタンとかの部品はコントロール(Control)と呼びます。
+
+とりあえず、サンプルとしてPictView.hypfを入れてあります。
+ホームのボタンを押すと呼び出します。
+
+
+inst.batを実行すれば拡張子がレジストリに登録されます。
+実行ファイルの場所を変えた時はuninst.batで登録削除して、再度inst.batを実行してください。
+
+
+
+使い方はまだ仕様が確定していないので説明できません。すみません。
+メニューで編集モードに変えて新規コントロールで部品を配置して、コントロールパネルで各種プロパティを設定するのが基本になります。
+ここら辺はC#の仕様べったりです。
+
+
+スクリプトはClearScriptのV8JavaScriptです。
+
+今のところ組み込み関数は以下の通りです。
+alert(object? s) // alertを表示
+write(object? s) // OutputFormに出力
+writeLine(object? s) // OutputFormに出力
+writeClear(object? s)//OutputFormを消去
+openForm(string windowspath) // フォームを別に開く
+loadForm(string windowspath) /フォームを読み込む/
+appPath(void) // Hypowered.exeのフルパス。
+hypfPath(void) // hypfフォルダのフルパス
+homeHypf(void) // Hypowered.hypf(Homeフォーム)のフルパス
+loadHome(void) // Hypowered.hypf(Homeフォーム)を読み込む
+
+
+bryful
+2023/01/07
+
+

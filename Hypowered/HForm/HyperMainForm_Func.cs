@@ -127,12 +127,19 @@ namespace Hypowered
 		{
 			bool ret = false;
 			OpenFileDialog dlg = new OpenFileDialog();
-			dlg.InitialDirectory = Path.GetDirectoryName(m_FileName);
-			dlg.FileName = Path.GetFileName(m_FileName);
-			dlg.Filter = "*.hypf|*.hypf|*.*|*.*";
+			if(m_FileName=="")
+			{
+				dlg.InitialDirectory = HYPF_Folder;
+			}
+			else
+			{
+				dlg.InitialDirectory = Path.GetDirectoryName(m_FileName);
+				dlg.FileName = Path.GetFileName(m_FileName);
+			}
+			dlg.Filter = $"*{Def.DefaultExt}|*{Def.DefaultExt}|*.*|*.*";
 			if (dlg.ShowDialog() == DialogResult.OK)
 			{
-				ret = LoadToHYPF(dlg.FileName);
+				ret = LoadFromHYPF(dlg.FileName);
 			}
 			return ret;
 		}
@@ -140,12 +147,16 @@ namespace Hypowered
 		{
 			bool ret = false;
 			OpenFileDialog dlg = new OpenFileDialog();
-			if (m_FileName != "")
+			if (m_FileName == "")
+			{
+				dlg.InitialDirectory = HYPF_Folder;
+			}
+			else
 			{
 				dlg.InitialDirectory = Path.GetDirectoryName(m_FileName);
 				dlg.FileName = Path.GetFileName(m_FileName);
 			}
-			dlg.Filter = "*.hypf|*.hypf|*.*|*.*";
+			dlg.Filter = $"*{Def.DefaultExt}|*{Def.DefaultExt}|*.*|*.*";
 			if (dlg.ShowDialog() == DialogResult.OK)
 			{
 				if (m_FileName != dlg.FileName)
@@ -163,12 +174,12 @@ namespace Hypowered
 		{
 			bool ret = false;
 			SaveFileDialog dlg = new SaveFileDialog();
+			dlg.InitialDirectory = HYPF_Folder;
 			if (m_FileName != "")
 			{
-				dlg.InitialDirectory = Path.GetDirectoryName(m_FileName);
 				dlg.FileName = Path.GetFileName(m_FileName);
 			}
-			dlg.Filter = "*.hypf|*.hypf|*.*|*.*";
+			dlg.Filter = $"*{Def.DefaultExt}|*{Def.DefaultExt}|*.*|*.*";
 			if (dlg.ShowDialog() == DialogResult.OK)
 			{
 				if (m_FileName != dlg.FileName)
@@ -188,50 +199,35 @@ namespace Hypowered
 		public bool SaveAsForm()
 		{
 			bool ret = false;
-			System.Diagnostics.Process[] ps =
-			System.Diagnostics.Process.GetProcesses();
-			List<string> list = new List<string>();
-			foreach (System.Diagnostics.Process p in ps)
-			{
-				string ss = "";
-				//if (p.MainModule.FileName == Application.ExecutablePath)
-				{
-					try
-					{
-						if (p.MainModule.FileName.IndexOf("Hyper") == 0)
-						{
-							//プロセス名を出力する
-							ss += $"プロセス名: {p.ProcessName}";
-							//ID
-							ss += $",id: {p.Id}";
-							ss += $",fn: {p.MainModule.FileName}";
-							ss = ss.Trim();
-							if (ss != "")
-								list.Add(ss);
-						}
-					}
-					catch (Exception ex)
-					{
-						//ss += $",fn: {ex.Message}";
-					}
-				}
-			}
-			Clipboard.SetText(string.Join("\r\n", list));
-			MessageBox.Show(string.Join("\r\n", list));
-			return true;
 			if (m_FileName == "") return ret;
-			string m = m_FileName;
 			SaveFileDialog dlg = new SaveFileDialog();
-			dlg.InitialDirectory= Path.GetDirectoryName(m);
-			dlg.FileName = Path.GetFileName(m);
-			dlg.Filter = "*.hypf|*.hypf|*.*|*.*";
+			dlg.InitialDirectory = HYPF_Folder;
+			dlg.FileName = Path.GetFileName(m_FileName);
+			dlg.Filter = $"*{Def.DefaultExt}|*{Def.DefaultExt}|*.*|*.*";
 			if (dlg.ShowDialog() == DialogResult.OK)
 			{
+				string home = Path.ChangeExtension(Application.ExecutablePath,Def.DefaultExt);
+				if(dlg.FileName==home)
+				{
+					Alert.Show($"{home}\r\n can not create!");
+				}
 				if(m_FileName!=dlg.FileName)
 				{
+					//とりあえず保存
 					ret = SaveToHYPF();
+					//同じのあったら消す
+					if(File.Exists(dlg.FileName)) File.Delete(dlg.FileName);
+					//新しい名前でコピー
 					File.Copy(m_FileName, dlg.FileName);
-					m_FileName = dlg.FileName;
+					ret = true;
+
+					if (answerDialog.Show($"{Path.GetFileName(dlg.FileName)}を開きますか？"))
+					{
+						var app = new ProcessStartInfo();
+						app.FileName = Application.ExecutablePath;
+						app.Arguments = "-open \"" + dlg.FileName + "\"";
+						Process.Start(app);
+					}
 				}
 			}
 			return ret;

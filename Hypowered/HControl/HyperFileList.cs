@@ -40,7 +40,7 @@ namespace Hypowered
 		}
 		private ListBox m_ListBox = new ListBox();
 		private string m_CurrentDir = Directory.GetCurrentDirectory();
-		[Category("Hypowered_DirList")]
+		[Category("Hypowered_FileList")]
 		public string CurrentDir
 		{
 			get { return m_CurrentDir; }
@@ -53,7 +53,7 @@ namespace Hypowered
 				}
 			}
 		}
-		[Category("Hypowered_DirList")]
+		[Category("Hypowered_FileList")]
 		public string SelectedItem
 		{
 			get
@@ -62,11 +62,18 @@ namespace Hypowered
 				int si =m_ListBox.SelectedIndex;
 				if((si>=0)&&(si<m_ListBox.Items.Count))
 				{
-					ret = m_ListBox.Items[si].ToString();
-					if (ret == null) ret = "";
-					if(m_CurrentDir!="")
+					string? s = m_ListBox.Items[si].ToString();
+					if (s == null)
 					{
-						ret = Path.Combine(m_CurrentDir, ret);
+						ret = "";
+					}
+					else
+					{
+						ret = s;
+						if (m_CurrentDir != "")
+						{
+							ret = Path.Combine(m_CurrentDir, ret);
+						}
 					}
 				}
 				return ret;
@@ -175,8 +182,50 @@ namespace Hypowered
 				}
 			}
 		}
+		private string [] m_Filter = new string[0];
+		[Category("Hypowered_FileList")]
+		public string Filter
+		{
+			get
+			{
+				string ret = "";
+				if (m_Filter.Length > 0)
+				{
+					foreach (var s in m_Filter)
+					{
+						if (ret != "") ret += "|";
+						ret += s;
+					}
+
+				}
+				return ret;
+			}
+			set
+			{
+				if(value.Trim() =="")
+				{
+					m_Filter = new string[0];
+				}
+				else
+				{
+					string[] sa = value.Split('|');
+					if(sa.Length>0)
+					{
+						List<string> list = new List<string>();
+						foreach(var s in sa)
+						{
+							string ss = s.Trim();
+							if (ss == "") continue;
+							list.Add(ss);
+						}
+						m_Filter = list.ToArray();
+					}
+					Listup();
+				}
+			}
+		}
 		private HyperLabel? m_HyperLabel = null;
-		[Category("Hypowered_DirList")]
+		[Category("Hypowered_FileList")]
 		public HyperLabel? Label
 		{
 			get { return m_HyperLabel; }
@@ -208,16 +257,12 @@ namespace Hypowered
 				});
 			SetInScript(InScriptBit.MouseDoubleClick | InScriptBit.SelectedIndexChanged);
 			this.Size = new Size(150, 150);
-			m_ListBox.Location = new Point(0, 0);
-			m_ListBox.Size = new Size(this.Width,this.Height);
-			if(Height!= m_ListBox.Height)
-			{
-				this.Size = new Size(this.Width, m_ListBox.Height);
-			}
-
+			m_ListBox.Location = new Point(2, 2);
+			m_ListBox.Size = new Size(this.Width - 4,this.Height - 4);
+			
 			m_ListBox.BackColor =base.BackColor;
 			m_ListBox.ForeColor = base.ForeColor;
-			m_ListBox.BorderStyle= BorderStyle.FixedSingle;
+			m_ListBox.BorderStyle= BorderStyle.None;
 			m_ListBox.IntegralHeight = false;
 			InitializeComponent();
 			this.Controls.Add(m_ListBox);
@@ -228,12 +273,15 @@ namespace Hypowered
 
 		private void M_ListBox_SelectedIndexChanged(object? sender, EventArgs e)
 		{
-			string s = "";
+			string? s = "";
 			if((SelectedIndex>=0)&&(SelectedIndex<Count))
 			{
 				s = m_ListBox.Items[SelectedIndex].ToString();
 			}
-			OnSelectedIndexChanged(new SelectedIndexChangedEventArgs(SelectedIndex, s));
+			if (s != null)
+			{
+				OnSelectedIndexChanged(new SelectedIndexChangedEventArgs(SelectedIndex, s));
+			}
 		}
 
 		private void M_ListBox_DoubleClick(object? sender, EventArgs e)
@@ -256,7 +304,25 @@ namespace Hypowered
 				foreach (string str in files)
 				{
 					string n = Path.GetFileName(str);
-					strings.Add(n);
+
+					if(m_Filter.Length>0)
+					{
+						string e = Path.GetExtension(n);
+						foreach(var s in m_Filter)
+						{
+							if(string.Compare(e,s,true)==0)
+							{
+								strings.Add(n);
+								break;
+							}
+						}
+					}
+					else
+					{
+						strings.Add(n);
+					}
+
+					
 				}
 				m_ListBox.Items.Clear();
 				m_ListBox.Items.AddRange(strings.ToArray());
@@ -275,16 +341,20 @@ namespace Hypowered
 			else
 			{
 				pe.Graphics.Clear(BackColor);
+				if (IsDrawFrame)
+				{
+					using (Pen p = new Pen(ForeColor))
+					{
+						DrawFrame(pe.Graphics, p, this.ClientRectangle);
+					}
+				}
 			}
 		}
 		protected override void OnResize(EventArgs e)
 		{
 			base.OnResize(e);
-			m_ListBox.Size = new Size(this.Width, this.Height);
-			if (Height != m_ListBox.Height)
-			{
-				this.Size = new Size(this.Width, m_ListBox.Height);
-			}
+			m_ListBox.Size = new Size(this.Width - 4, this.Height - 4);
+		
 		}
 		public override JsonObject ToJson()
 		{
@@ -296,6 +366,7 @@ namespace Hypowered
 			jf.SetValue(nameof(ForeColor), ForeColor);//Color
 			jf.SetValue(nameof(BackColor), BackColor);//Color
 			jf.SetValue(nameof(Font), Font);//Font
+			jf.SetValue(nameof(Filter), Filter);//Font
 
 			return jf.Obj;
 		}
@@ -316,7 +387,8 @@ namespace Hypowered
 			if (v != null) BackColor = (Color)v;
 			v = jf.ValueAuto("Font", typeof(Font).Name);
 			if (v != null) Font = (Font)v;
-
+			v = jf.ValueAuto("Filter", typeof(string).Name);
+			if (v != null) Filter = (string)v;
 
 		}
 	}

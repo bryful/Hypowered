@@ -4,6 +4,7 @@ using System.ComponentModel;
 using System.Data;
 using System.Drawing;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Text;
 using System.Text.Encodings.Web;
 using System.Text.Json;
@@ -117,4 +118,16 @@ namespace Hypowered
 
 		}
 	}
+	public class Alert
+	{
+		static public void Show(Object? obj)
+		{
+			AlertForm dlg = new AlertForm();
+			dlg.SelectedObject= obj;
+			if(dlg.ShowDialog() == DialogResult.OK)
+			{
+			}
+		}
+	}
+
 }

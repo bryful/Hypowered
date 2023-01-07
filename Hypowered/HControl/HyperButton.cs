@@ -24,6 +24,7 @@ namespace Hypowered
 		{
 			SetMyType(ControlType.Button);
 			SetInScript(InScriptBit.MouseClick);
+			m_FrameWeight = new Padding(1, 1, 1, 1);
 			this.Location = new Point(100, 100);
 			this.Size = ControlDef.DefSize;
 			InitializeComponent();
@@ -58,7 +59,7 @@ namespace Hypowered
 				// 外枠
 				Rectangle rr = ReRect(this.ClientRectangle, 2);
 				p.Color = ForeColor;
-				g.DrawRectangle(p, rr);
+				DrawFrame(g, p, rr);
 
 				if (this.Focused)
 				{

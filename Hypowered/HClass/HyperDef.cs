@@ -7,6 +7,11 @@ using System.Threading.Tasks;
 
 namespace Hypowered
 {
+	public class Def
+	{
+		static public readonly string DefaultExt = ".hypf";
+		static public readonly string hypfFolder = "hypf";
+	}
 	public enum ControlType
 	{
 		Button = 0,
@@ -47,7 +52,6 @@ namespace Hypowered
 			return Texts[(int)ct];
 		}
 	}
-	
 	/// <summary>
 	/// フォームやコントロールのクリックされた場所
 	/// </summary>

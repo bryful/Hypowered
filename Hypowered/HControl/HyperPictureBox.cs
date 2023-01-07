@@ -40,6 +40,17 @@ namespace Hypowered
 				}
 			}
 		}
+		private bool m_IsDrawFrame = true;
+		[Category("Hypowered_PictureBox")]
+		public bool IsDrawFrame
+		{
+			get { return m_IsDrawFrame; }
+			set
+			{
+				m_IsDrawFrame = value;
+				this.Invalidate();
+			}
+		}
 		protected Color m_BaseColor = Color.Transparent;
 		protected Color m_LineColor = Color.DimGray;
 
@@ -124,6 +135,7 @@ namespace Hypowered
 
 		public HyperPictureBox()
 		{
+			
 			AllowDrop= true;
 			SetMyType(ControlType.PictureBox);
 			ScriptCode.SetInScript(InScriptBit.MouseDoubleClick);
@@ -175,6 +187,11 @@ namespace Hypowered
 						p.Color = LineColor;
 						g.DrawRectangle(p, new Rectangle(0, 0, this.Width - 1, this.Height - 1));
 					//}
+				}
+				if(m_IsDrawFrame)
+				{
+					p.Color = ForeColor;
+					DrawFrame(g, p, this.ClientRectangle);
 				}
 				if (m_IsEditMode)
 				{

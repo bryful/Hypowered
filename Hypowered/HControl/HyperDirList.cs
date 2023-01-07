@@ -32,6 +32,10 @@ namespace Hypowered
 			{
 				m_HyperLabel.Text = e.Path;
 			}
+			if (m_FileList != null)
+			{
+				m_FileList.CurrentDir = e.Path;
+			}
 			if ((MainForm != null))
 			{
 				MainForm.ExecuteCode(Script_CurrentDirChanged);
@@ -190,6 +194,20 @@ namespace Hypowered
 				}
 			}
 		}
+		private HyperFileList? m_FileList = null;
+		[Category("Hypowered_DirList")]
+		public HyperFileList? FileList
+		{
+			get { return m_FileList; }
+			set
+			{
+				m_FileList = value;
+				if (m_FileList != null)
+				{
+					m_FileList.CurrentDir = m_CurrentDir;
+				}
+			}
+		}
 		private HyperLabel? m_HyperLabel = null;
 		[Category("Hypowered_DirList")]
 		public HyperLabel? Label
@@ -202,6 +220,15 @@ namespace Hypowered
 				{
 					m_HyperLabel.Text = m_CurrentDir;
 				}
+			}
+		}
+		[Category("Hypowered_DirList")]
+		public BorderStyle BorderStyle
+		{
+			get { return m_ListBox.BorderStyle; }
+			set
+			{
+				m_ListBox.BorderStyle = value;
 			}
 		}
 		private void M_HyperDriveIcons_CurrentDirChanged(object sender, CurrentDirChangedEventArgs e)
@@ -227,16 +254,16 @@ namespace Hypowered
 				InScriptBit.SelectedIndexChanged
 				);
 			this.Size = new Size(150, 150);
-			m_ListBox.Location = new Point(0, 0);
-			m_ListBox.Size = new Size(this.Width,this.Height);
-			if(Height!= m_ListBox.Height)
+			m_ListBox.Location = new Point(2, 2);
+			m_ListBox.Size = new Size(this.Width-4,this.Height-4);
+			if(Height!= m_ListBox.Height+4)
 			{
-				this.Size = new Size(this.Width, m_ListBox.Height);
+				this.Size = new Size(this.Width, m_ListBox.Height+4);
 			}
 
 			m_ListBox.BackColor =base.BackColor;
 			m_ListBox.ForeColor = base.ForeColor;
-			m_ListBox.BorderStyle= BorderStyle.FixedSingle;
+			m_ListBox.BorderStyle= BorderStyle.None;
 			m_ListBox.IntegralHeight = false;
 			InitializeComponent();
 			this.Controls.Add(m_ListBox);
@@ -305,16 +332,19 @@ namespace Hypowered
 			else
 			{
 				pe.Graphics.Clear(BackColor);
+				if(IsDrawFrame)
+				{
+					using(Pen p = new Pen(ForeColor))
+					{
+						DrawFrame(pe.Graphics, p, this.ClientRectangle);
+					}
+				}
 			}
 		}
 		protected override void OnResize(EventArgs e)
 		{
 			base.OnResize(e);
-			m_ListBox.Size = new Size(this.Width, this.Height);
-			if (Height != m_ListBox.Height)
-			{
-				this.Size = new Size(this.Width, m_ListBox.Height);
-			}
+			m_ListBox.Size = new Size(this.Width-4, this.Height-4);
 		}
 		public override JsonObject ToJson()
 		{
@@ -326,6 +356,7 @@ namespace Hypowered
 			jf.SetValue(nameof(ForeColor), ForeColor);//Color
 			jf.SetValue(nameof(BackColor), BackColor);//Color
 			jf.SetValue(nameof(Font), Font);//Font
+			jf.SetValue(nameof(BorderStyle), (int)BorderStyle);//Font
 
 			return jf.Obj;
 		}
@@ -346,7 +377,8 @@ namespace Hypowered
 			if (v != null) BackColor = (Color)v;
 			v = jf.ValueAuto("Font", typeof(Font).Name);
 			if (v != null) Font = (Font)v;
-
+			v = jf.ValueAuto("BorderStyle", typeof(int).Name);
+			if (v != null) BorderStyle = (BorderStyle)v;
 
 		}
 	}

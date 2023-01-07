@@ -1,11 +1,27 @@
 using BRY;
-using System.Security.Cryptography;
+using System.Diagnostics;
 
 namespace Hypowered
 {
 	internal static class Program
 	{
-		static private System.Threading.Mutex? _mutex = null;
+		static public bool IsWindow(string idname)
+		{
+			bool ret = false;
+			Process[] ps =Process.GetProcessesByName("Hypowered");
+			if(ps.Length > 0)
+			{
+				foreach(var ps2 in ps)
+				{
+					if (string.Compare( ps2.MainWindowTitle,idname,true)==0)
+					{
+						ret = true;
+						break;
+					}
+				}
+			}
+			return ret;
+		}
 		/// <summary>
 		///  The main entry point for the application.
 		/// </summary>
@@ -13,37 +29,34 @@ namespace Hypowered
 		static void Main(string[] args)
 		{
 			HArgs hargs = new HArgs(args);
+			if(hargs.Option== Option.InstallExt)
+			{
+				F_W.RelatingFile(Def.DefaultExt, "Hypowered hyfp file");
+				return;
+			}else if (hargs.Option == Option.UnInstallExt)
+			{
+				F_W.UnRelatingFile(Def.DefaultExt);
+				return;
+			}
+
+
 			string AId = hargs.FileName;
 			if (AId == "") AId = Application.ExecutablePath;
 			AId = Path.GetFileNameWithoutExtension(AId);
-			_mutex = new System.Threading.Mutex(false, AId);
-			
-			if(_mutex.WaitOne(0, false) == false) 
+
+			if(IsWindow(AId))
 			{
-				MessageBox.Show("Running/"+ AId);
 				PipeData pd = new PipeData(args, PIPECALL.DoubleExec);
 				F_Pipe.Client(AId, pd.ToJson()).Wait();
-				return;
 			}
 			else
 			{
-				//無かったらリリース
-				try
-				{
-					_mutex.ReleaseMutex();
-				}
-				catch
-				{
-					MessageBox.Show("program:ReleaseMutex");
-				}
-				_mutex.Dispose();
+				///通常起動
+				ApplicationConfiguration.Initialize();
+				HyperMainForm mf = new HyperMainForm();
+				Application.Run(mf);
 			}
-			MessageBox.Show("none/"+AId);
-			///通常起動
-			ApplicationConfiguration.Initialize();
-			HyperMainForm mf = new HyperMainForm();
-			Application.Run(mf);
-			
+
 			// To customize application configuration such as set high DPI settings or default font,
 			// see https://aka.ms/applicationconfiguration.
 			//ApplicationConfiguration.Initialize();

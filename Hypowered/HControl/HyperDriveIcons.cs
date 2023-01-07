@@ -228,7 +228,7 @@ namespace Hypowered
 					p.Color = m_ForcusColor;
 					g.DrawRectangle(p, rr);
 				}
-				if (this.Focused)
+				if ((this.Focused)&&(m_IsDrawFocuse))
 				{
 					rr = ReRect(this.ClientRectangle, 1);
 					p.Color = m_ForcusColor;

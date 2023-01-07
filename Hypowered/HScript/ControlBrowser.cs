@@ -198,6 +198,14 @@ namespace Hypowered
 			if(m_MainForm!=null)
 			{
 				ListupForms();
+				m_MainForm.FontChanged += (sender, e) =>
+				{
+					ListupForms();
+				};
+				m_MainForm.ControlChanged += (sender, e) =>
+				{
+					ListupForms();
+				};
 			}
 		}
 		private void ListupForms()

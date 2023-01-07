@@ -41,6 +41,12 @@ namespace Hypowered
 			set { m_TextBox.Multiline = value; ChkSize(); }
 		}
 		[Category("Hypowered_TextBox")]
+		public ScrollBars ScrollBars
+		{
+			get { return m_TextBox.ScrollBars; }
+			set { m_TextBox.ScrollBars = value; ChkSize(); }
+		}
+		[Category("Hypowered_TextBox")]
 		public BorderStyle BorderStyle
 		{
 			get { return m_TextBox.BorderStyle; }
@@ -155,6 +161,7 @@ namespace Hypowered
 			jf.SetValue(nameof(ForeColor), ForeColor);
 			jf.SetValue(nameof(BackColor), BackColor);
 			jf.SetValue(nameof(BorderStyle), (int)BorderStyle);
+			jf.SetValue(nameof(ScrollBars), (int)ScrollBars);
 			return jf.Obj;
 		}
 		public override void FromJson(JsonObject jo)
@@ -164,6 +171,8 @@ namespace Hypowered
 			object? v = null;
 			v = jf.ValueAuto("Multiline", typeof(Boolean).Name);
 			if (v != null) Multiline = (Boolean)v;
+			v = jf.ValueAuto("Size", typeof(Size).Name);
+			if (v != null) Size = (Size)v;
 			v = jf.ValueAuto("Text", typeof(String).Name);
 			if (v != null) Text = (String)v;
 			v = jf.ValueAuto("TextAlign", typeof(HorizontalAlignment).Name);
@@ -178,6 +187,8 @@ namespace Hypowered
 			if (v != null) BackColor = (Color)v;
 			v = jf.ValueAuto("BorderStyle", typeof(Int32).Name);
 			if (v != null) BorderStyle = (BorderStyle)v;
+			v = jf.ValueAuto("ScrollBars", typeof(Int32).Name);
+			if (v != null) ScrollBars = (ScrollBars)v;
 		}
 	}
 }

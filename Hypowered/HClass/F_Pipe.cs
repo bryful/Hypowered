@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using System.IO.Pipes;
 using System.Text.Json;
 using System.Text.Json.Nodes;
+using System.Diagnostics;
 
 namespace BRY
 {
@@ -34,7 +35,6 @@ namespace BRY
 	public class PipeData
 	{
 		private JsonObject obj = new JsonObject();
-
 		public string[] Args { get { return GetArgs(); } set { SetArgs(value); } }
 		public PIPECALL PIPECALL { get { return GetPIPECALL(); } set { SetPIPECALL(value); } }
 		public PipeData(string[] args, PIPECALL pc)
@@ -156,6 +156,13 @@ namespace BRY
 	public class F_Pipe
 	{
 		private bool _execution = true;
+		private bool m_IsServerRunning = false;
+		public bool IsServerRunning { get { return m_IsServerRunning; } }
+		private string m_PipeName = "";
+		public string PipeName
+		{
+			get { return m_PipeName; }
+		}
 		public delegate void ReceptionHandler(object sender, ReceptionArg e);
 		public event ReceptionHandler? Reception;
 		// ************************************************************
@@ -166,7 +173,6 @@ namespace BRY
 				Reception(this, e);
 			}
 		}
-		public bool IsRunning { get { return _execution; } }
 		// ************************************************************
 		public void StopServer()
 		{
@@ -192,20 +198,33 @@ namespace BRY
 		public F_Pipe()
 		{
 			_execution = true;
+			m_IsServerRunning=false;
 		}
 		public F_Pipe(string pipeName)
 		{
 			_execution = true;
+			m_IsServerRunning = false;
 			Server(pipeName);
 		}
+		
 		// ************************************************************
 		public void Server(string pipeName)
 		{
-			if (pipeName == "")
+			Debug.WriteLine($"serevrstart:{pipeName}/{m_IsServerRunning}");
+			if (m_IsServerRunning)
 			{
+				Debug.WriteLine($"serevrstartErr:{pipeName}/{m_IsServerRunning}");
 				return;
 			}
+			if (pipeName == "")
+			{
+				Debug.WriteLine($"serevrstartErr2:{pipeName}/{m_IsServerRunning}");
+				return;
+			}
+			Debug.WriteLine($"serevrstart2:{pipeName}/{m_IsServerRunning}");
+			m_IsServerRunning = true;
 			_execution = true;
+			m_PipeName= pipeName;
 			Task.Run(() =>
 			{ //Taskを使ってクライアント待ち
 				while (_execution)
@@ -223,22 +242,16 @@ namespace BRY
 							string read = ssSv.ReadString(); //クライアントの引数を受信 
 							if (string.IsNullOrEmpty(read))
 								break;
-
-							//引数が受信できたら、Applicationに登録されているだろうForm1に引数を送る
-							/*
-							FormCollection apcl = Application.OpenForms;
-
-							if (apcl.Count > 0)
-							{
-								PipeData pd = new PipeData(read);
-								((MainForm)apcl[0]).Command(pd.GetArgs(), pd.GetPIPECALL()); //取得した引数を送る
-							}*/
-
 							ReceptionArg rcp = new ReceptionArg(read);
 							OnReception(rcp);
 
 							if (!_execution)
+							{
+								Debug.WriteLine($"serevrstart3end:{pipeName}/{m_IsServerRunning}");
+								m_IsServerRunning = false;
+								m_PipeName= "";
 								break; //起動停止？
+							}
 						}
 						ssSv = null;
 					}

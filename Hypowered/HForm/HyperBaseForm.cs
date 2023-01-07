@@ -1,4 +1,5 @@
-﻿using System.ComponentModel;
+﻿using BRY;
+using System.ComponentModel;
 using System.Drawing.Drawing2D;
 using System.Reflection;
 
@@ -127,7 +128,15 @@ namespace Hypowered
 				base.Name = value;
 			}
 		}
-
+		[Category("Hypowered_Form")]
+		public new bool DoubleBuffered
+		{
+			get { return base.DoubleBuffered; }
+			set
+			{
+				base.DoubleBuffered = value;
+			}
+		}
 		[Browsable(false)]
 		public HyperControl? TargetControl
 		{
@@ -429,8 +438,7 @@ namespace Hypowered
 
 		public HyperBaseForm()
 		{
-			//SetInScript(InScript.Startup| InScript.MouseClick| InScript.KeyPress);
-
+			//SetInScript(InScriptBit.None);
 			base.KeyPreview = true;
 			BackColor = ColU.ToColor(HyperColor.Back);
 			ForeColor = ColU.ToColor(HyperColor.Fore);
@@ -998,7 +1006,7 @@ true);
 			if ((e.Button & MouseButtons.Left) == MouseButtons.Left)
 			{
 				MDPos p = CU.GetMDPos(e.X, e.Y, this.Size);
-				if (p != MDPos.None)
+				if ((p != MDPos.None)&&(p!= MDPos.Center))
 				{
 					m_MDPos = p;
 					m_MDP = new Point(e.X, e.Y);
@@ -1028,23 +1036,10 @@ true);
 								m_MDSize.Height + ay);
 						}
 						break;
-					case MDPos.Right:
-						if (Locked == false)
-						{
-							this.Size = new Size(
-							m_MDSize.Width + ax,
-							m_MDSize.Height);
-						}
-						break;
 					case MDPos.Bottom:
-						if (Locked == false)
-						{
-							this.Size = new Size(
-							m_MDSize.Width,
-							m_MDSize.Height+ay);
-						}
-						break;
-					case MDPos.Center:
+					case MDPos.Right:
+					case MDPos.Left:
+					case MDPos.Top:
 					default:
 						this.Location = new Point(
 							this.Location.X + ax,
@@ -1076,7 +1071,7 @@ true);
 			string fileType = Application.ProductName + ".0";
 			string description = "Hypowered form file";
 			string verb = "open";
-			string verbDescription = ProductName + "で開く(&O)";
+			string verbDescription = Application.ProductName + "で開く(&O)";
 			string iconPath = Application.ExecutablePath;
 			int iconIndex = 1;
 			Microsoft.Win32.RegistryKey currentUserKey = Microsoft.Win32.Registry.CurrentUser;
@@ -1099,6 +1094,25 @@ true);
 			Microsoft.Win32.RegistryKey iconkey = currentUserKey.CreateSubKey("Software\\Classes\\" + fileType + "\\DefaultIcon");
 			iconkey.SetValue("", iconPath + "," + iconIndex.ToString());
 			iconkey.Close();
+		}
+		public void UnRelatingFile(string extension)
+		{
+			string fileType = Application.ProductName + ".0";
+			Microsoft.Win32.RegistryKey currentUserKey = Microsoft.Win32.Registry.CurrentUser;
+			currentUserKey.DeleteSubKeyTree("Software\\Classes\\" + extension);
+			currentUserKey.DeleteSubKeyTree("Software\\Classes\\" + fileType);
+		}
+		public bool InstallExt()
+		{
+			RelatingFile(Def.DefaultExt);
+			F_W.SHChangeNotify();
+			return true;
+		}
+		public bool UnInstallExt()
+		{
+			UnRelatingFile(Def.DefaultExt);
+			F_W.SHChangeNotify();
+			return true;
 		}
 	}
 }

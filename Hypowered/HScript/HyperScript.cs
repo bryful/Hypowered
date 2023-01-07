@@ -45,6 +45,12 @@ namespace Hypowered
 			engine.AddHostObject("write", (object)write);
 			engine.AddHostObject("writeLine", (object)writeLine);
 			engine.AddHostObject("writeClear", (object)writeClear);
+			engine.AddHostObject("openForm", (object)openForm);
+			engine.AddHostObject("loadForm", (object)loadForm);
+			engine.AddHostObject("appPath", (object)appPath);
+			engine.AddHostObject("hypfPath", (object)hypfPath);
+			engine.AddHostObject("homeHypf", (object)homeHypf);
+			engine.AddHostObject("loadHome", (object)loadHome);
 			engine.AddHostTypes(new Type[]
 			{
 				typeof(Console),
@@ -83,23 +89,13 @@ namespace Hypowered
 		{
 			if (bf == null) return;
 			Control.ControlCollection cs= bf.Controls;
-			//engine.AddHostObject("items", cs);
-			string name;
-			if(bf is HyperBaseForm)
-			{
-				name = "";
-			}
-			else
-			{
-				name = bf.Name+".";
-			}
+			engine.AddHostObject("controls", cs);
 			if((engine!=null)&&(cs != null)&&(cs.Count>0))
 			{
-
 				foreach (Control c in cs)
 				{
 					if(c is HyperControl)
-					engine.AddHostObject(name + c.Name, (HyperControl)c);
+					engine.AddHostObject(c.Name, (HyperControl)c);
 				}
 			}
 		}
@@ -147,6 +143,51 @@ namespace Hypowered
 				dlg.ShowDialog();
 				dlg.Dispose();
 			}
+		}
+		public bool loadForm(string fn)
+		{
+			if (MainForm!=null)
+			{
+				return MainForm.LoadFromHYPF(fn);
+			}
+			else
+			{
+				return false;
+			}
+		}
+		public bool openForm(string fn)
+		{
+			if (MainForm != null)
+			{
+				return MainForm.OpenFromHYPF(fn);
+			}
+			else
+			{
+				return false;
+			}
+		}
+		public string appPath()
+		{
+			string? p = Path.GetDirectoryName(Application.ExecutablePath);
+			if(p == null)
+			{
+				p = Directory.GetCurrentDirectory();
+			}
+			return p;
+		}
+		public string hypfPath()
+		{
+			return Path.Combine(appPath(), Def.hypfFolder);
+		}
+		public string homeHypf()
+		{
+			string? p = Path.ChangeExtension(Application.ExecutablePath,Def.DefaultExt);
+			if (p == null) p = "";
+			return p;
+		}
+		public void loadHome()
+		{
+			loadForm(homeHypf());
 		}
 	}
 }
