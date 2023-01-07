@@ -15,7 +15,6 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Windows.Media.Animation;
 using BRY;
-
 namespace Hypowered
 {
 
@@ -23,6 +22,11 @@ namespace Hypowered
 	{
 		private readonly string m_MainENtryName = "hyperform.json";
 		private readonly string m_BackupENtryName = "hyperform_backup.json";
+		private string m_HOME_HYPF_FILE = "";
+		public string HOME_HYPF_FILE
+		{
+			get { return m_HOME_HYPF_FILE; }
+		}
 		private string m_HYPF_Folder = "";
 		public string HYPF_Folder
 		{
@@ -156,6 +160,9 @@ namespace Hypowered
 
 		public HyperMainForm()
 		{
+			m_HOME_HYPF_FILE = DefaultHomeFileName();
+			m_HYPF_Folder = DefaultHypfFolder();
+
 			SetInScript(
 				InScriptBit.Startup| 
 				InScriptBit.MouseDoubleClick|
@@ -215,47 +222,38 @@ true);
 
 			InitScript();
 			//
-			string? dir= Path.GetDirectoryName(Application.ExecutablePath);
-			if(dir==null) Directory.GetCurrentDirectory();
-			string home = Path.Combine(dir,"hypf");
-			if (Directory.Exists(home)==false)
-			{
-				Directory.CreateDirectory(home);
-			}
-			m_HYPF_Folder= home;
 
 		}
 
 
 
 		// *********************************************************************
+		private HArgs m_Args = new HArgs();
 		public void Command(string[] args, PIPECALL IsPipe = PIPECALL.StartupExec)
 		{
-			Debug.WriteLine("Command-01" + IDName);
 			if (IsPipe!= PIPECALL.StartupExec)
 			{
 				this.Activate();
 				return;
 			}
-			HArgs args1 = new HArgs(args);
-			if (args1.FileName != "")
+			m_Args.SetArgs(args);
+			if (m_Args.FileName != "")
 			{
-				if (args1.Option == Option.Create)
+				if (m_Args.Option == Option.Create)
 				{
-					if (args1.FileName != "")
+					if (m_Args.FileName != "")
 					{
-						m_FileName = args1.FileName;
+						m_FileName = m_Args.FileName;
 						base.Name = IDName;
 						base.Text= base.Name;
 						if (SaveToHYPF())
 						{
-							Debug.WriteLine("Command-SaveToHYPF" + IDName);
 							StartServer();
 						}
 					}
-				} else if(args1.Option == Option.Open)
+				} else if(m_Args.Option == Option.Open)
 				{
-					if (LoadFromHYPF(args1.FileName)==false)
+					if (LoadFromHYPF(m_Args.FileName)==false)
 					{
 						Application.Exit();
 					}
@@ -263,10 +261,8 @@ true);
 				}
 				else
 				{
-					Debug.WriteLine("Command-LoadToHYPF1" + IDName);
-					if (LoadFromHYPF(args1.FileName))
+					if (LoadFromHYPF(m_Args.FileName))
 					{
-						Debug.WriteLine("Command-LoadToHYPF2" + IDName);
 						StartServer();
 					}
 				}
@@ -304,10 +300,9 @@ true);
 			Command(Environment.GetCommandLineArgs().Skip(1).ToArray(), PIPECALL.StartupExec);
 			if (m_FileName == "")
 			{
-				string home = DefaultFileName();
-				if (File.Exists(home) == false)
+				if (File.Exists(m_HOME_HYPF_FILE) == false)
 				{
-					m_FileName = home;
+					m_FileName = m_HOME_HYPF_FILE;
 					base.Name = IDName;
 					base.Text = IDName;
 					if (SaveToHYPF())
@@ -321,7 +316,7 @@ true);
 				}
 				else
 				{
-					if (LoadFromHYPF(home)==true)
+					if (LoadFromHYPF(m_HOME_HYPF_FILE) ==true)
 					{
 						StartServer();
 					}
@@ -415,9 +410,36 @@ true);
 			string n = IDName;
 			return Path.Combine(p, n + ".json");
 		}
-		public string DefaultFileName()
+		public string DefaultHomeFileName()
 		{
-			return Path.ChangeExtension(Application.ExecutablePath, Def.DefaultExt);
+			string? p = Def.GetENV(Path.GetFileNameWithoutExtension(Application.ExecutablePath)+ Def.ENV_HOME_PATH);
+			if((p!=null)&&(Directory.Exists(p)))
+			{
+				string n = Path.GetFileNameWithoutExtension(Application.ExecutablePath);
+				return Path.Combine(p, n + Def.DefaultExt);
+			}
+			else
+			{
+				return Path.ChangeExtension(Application.ExecutablePath, Def.DefaultExt);
+			}
+		}
+		public string DefaultHypfFolder()
+		{
+			string? p = Def.GetENV(Path.GetFileNameWithoutExtension(Application.ExecutablePath) + Def.ENV_HOME_PATH);
+			if ((p != null) && (Directory.Exists(p)))
+			{
+				string n = Path.GetFileNameWithoutExtension(Application.ExecutablePath);
+				n = Path.Combine(p, Def.hypfFolder);
+				if (Directory.Exists(n) == false) Directory.CreateDirectory(n);
+				return n;
+			}
+			else
+			{
+				string n=  Path.GetDirectoryName(Application.ExecutablePath);
+				n = Path.Combine(n, Def.hypfFolder);
+				if (Directory.Exists(n) == false) Directory.CreateDirectory(n);
+				return n;
+			}
 		}
 		// ****************************************************************************
 		public bool SaveStatus(string s)
@@ -493,13 +515,9 @@ true);
 		public bool OpenFromHYPF(string p)
 		{
 			if (File.Exists(p) == false) return false;
-			string home = Path.ChangeExtension(Application.ExecutablePath, Def.DefaultExt);
-			if (home == p) return false;
+			if (m_HOME_HYPF_FILE == p) return false;
 
-			var app = new ProcessStartInfo();
-			app.FileName = Application.ExecutablePath;
-			app.Arguments = "-open \"" + p + "\"";
-			Process.Start(app);
+			F_W.ProcessStart(Application.ExecutablePath, "-open \"" + p + "\"");
 			return true;
 		}
 		public bool LoadFromHYPF(string p)

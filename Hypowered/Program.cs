@@ -5,6 +5,7 @@ namespace Hypowered
 {
 	internal static class Program
 	{
+
 		static public bool IsWindow(string idname)
 		{
 			bool ret = false;
@@ -36,6 +37,16 @@ namespace Hypowered
 			}else if (hargs.Option == Option.UnInstallExt)
 			{
 				F_W.UnRelatingFile(Def.DefaultExt);
+				return;
+			}else if (hargs.Option == Option.Call)
+			{
+				string cl = hargs.CommandLine(1);
+				F_W.ProcessStart(Application.ExecutablePath, cl);
+				return;
+			}else if(hargs.Option == Option.EnvSet)
+			{
+
+				Def.SetDirectoryToEnvDialog(Path.GetFileNameWithoutExtension(Application.ExecutablePath) + Def.ENV_HOME_PATH);
 				return;
 			}
 

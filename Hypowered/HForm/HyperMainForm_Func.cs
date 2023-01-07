@@ -1,4 +1,5 @@
-﻿using System;
+﻿using BRY;
+using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
@@ -161,10 +162,7 @@ namespace Hypowered
 			{
 				if (m_FileName != dlg.FileName)
 				{
-					var app = new ProcessStartInfo();
-					app.FileName = Application.ExecutablePath;
-					app.Arguments = "-open \"" + dlg.FileName + "\"";
-					Process.Start(app);
+					F_W.ProcessStart(Application.ExecutablePath, "-open \"" + dlg.FileName + "\"");
 					ret = true;
 				}
 			}
@@ -184,10 +182,7 @@ namespace Hypowered
 			{
 				if (m_FileName != dlg.FileName)
 				{
-					var app = new ProcessStartInfo();
-					app.FileName = Application.ExecutablePath;
-					app.Arguments = "-new \"" + dlg.FileName+"\"";
-					Process.Start(app);
+					F_W.ProcessStart(Application.ExecutablePath, "-new \"" + dlg.FileName + "\"");
 					ret = true;
 				}
 			}
@@ -206,10 +201,10 @@ namespace Hypowered
 			dlg.Filter = $"*{Def.DefaultExt}|*{Def.DefaultExt}|*.*|*.*";
 			if (dlg.ShowDialog() == DialogResult.OK)
 			{
-				string home = Path.ChangeExtension(Application.ExecutablePath,Def.DefaultExt);
-				if(dlg.FileName==home)
+				if(dlg.FileName==m_HOME_HYPF_FILE)
 				{
-					Alert.Show($"{home}\r\n can not create!");
+					Alert.Show($"{m_HOME_HYPF_FILE}\r\n can not override!");
+					return ret;
 				}
 				if(m_FileName!=dlg.FileName)
 				{
@@ -223,10 +218,7 @@ namespace Hypowered
 
 					if (answerDialog.Show($"{Path.GetFileName(dlg.FileName)}を開きますか？"))
 					{
-						var app = new ProcessStartInfo();
-						app.FileName = Application.ExecutablePath;
-						app.Arguments = "-open \"" + dlg.FileName + "\"";
-						Process.Start(app);
+						F_W.ProcessStart(Application.ExecutablePath, "-open \"" + dlg.FileName + "\"");
 					}
 				}
 			}

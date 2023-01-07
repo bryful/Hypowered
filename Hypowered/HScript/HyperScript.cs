@@ -51,6 +51,11 @@ namespace Hypowered
 			engine.AddHostObject("hypfPath", (object)hypfPath);
 			engine.AddHostObject("homeHypf", (object)homeHypf);
 			engine.AddHostObject("loadHome", (object)loadHome);
+			engine.AddHostObject("yesnoDialog", (object)yesnoDialog);
+
+			engine.AddHostObject("getEnv", (object)Def.GetENV);
+			engine.AddHostObject("setEnv", (object)Def.SetENV);
+
 			engine.AddHostTypes(new Type[]
 			{
 				typeof(Console),
@@ -177,17 +182,40 @@ namespace Hypowered
 		}
 		public string hypfPath()
 		{
-			return Path.Combine(appPath(), Def.hypfFolder);
+			if (MainForm != null)
+			{
+				return MainForm.HYPF_Folder;
+			}
+			else
+			{
+				return "";
+			}
 		}
 		public string homeHypf()
 		{
-			string? p = Path.ChangeExtension(Application.ExecutablePath,Def.DefaultExt);
-			if (p == null) p = "";
-			return p;
+			if (MainForm != null)
+			{
+				return MainForm.HOME_HYPF_FILE;
+			}
+			else
+			{
+				return "";
+			}
 		}
 		public void loadHome()
 		{
 			loadForm(homeHypf());
+		}
+		public bool yesnoDialog(string cap,string title)
+		{
+			if (MainForm != null)
+			{
+				return answerDialog.Show(cap, title);
+			}
+			else
+			{
+				return false;
+			}
 		}
 	}
 }

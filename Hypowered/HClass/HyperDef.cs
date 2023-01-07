@@ -11,6 +11,39 @@ namespace Hypowered
 	{
 		static public readonly string DefaultExt = ".hypf";
 		static public readonly string hypfFolder = "hypf";
+		static public readonly string ENV_HOME_PATH = "Home";
+
+		static public string? GetENV(string nm)
+		{
+			return System.Environment.GetEnvironmentVariable(nm, System.EnvironmentVariableTarget.User);
+		}
+		static public void SetENV(string nm,string value)
+		{
+			System.Environment.SetEnvironmentVariable(nm, value ,System.EnvironmentVariableTarget.User);
+		}
+		static public bool SetDirectoryToEnvDialog(string nm)
+		{
+			bool ret = false;
+			FolderBrowserDialog dlg = new FolderBrowserDialog();
+			string? defp = GetENV(nm);
+			if ((defp != null)&&(Directory.Exists(defp)))
+			{
+				dlg.SelectedPath = defp;
+			}
+			else
+			{
+				dlg.SelectedPath = Path.GetDirectoryName(Application.ExecutablePath);
+			}
+			if(dlg.ShowDialog() == DialogResult.OK)
+			{
+				if(dlg.SelectedPath != null)
+				{
+					SetENV(nm, dlg.SelectedPath);
+					ret = true;
+				}
+			}
+			return ret;
+		}
 	}
 	public enum ControlType
 	{

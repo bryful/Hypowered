@@ -13,14 +13,30 @@ namespace Hypowered
 		Create,
 		InstallExt,
 		UnInstallExt,
+		Call,
+		EnvSet
 	}
 	public class HArgs
 	{
-		
+
 		public class Arg
 		{
-			private string m_Value="";
+			private string m_Value = "";
 			public string Value { get { return m_Value; } }
+			public string CommandValue
+			{
+				get
+				{
+					if (m_IsOption)
+					{
+						return m_Value;
+					}
+					else
+					{
+						return "\"" + m_Value + "\"";
+					}
+				}
+			}
 			private int m_Index =-1;
 			public int Index { get { return m_Index; } }
 			private bool m_IsOption=false;
@@ -64,12 +80,24 @@ namespace Hypowered
 			}
 
 		}
+		public string CommandLine(int start =0)
+		{
+			string ret = "";
+			if(Args.Length-start>0)
+			{
+				for(int i=start;i< Args.Length;i++)
+				{
+					if (ret != "") ret += " ";
+					ret += Args[i].CommandValue;
+				}
+			}
+			return ret;
+		}
 		private Option m_Option = Option.None;
 		public Option Option { get { return m_Option; } }
 		private string m_FileName = "";
 		public string FileName { get { return m_FileName; } }
-
-		public HArgs(string[] args)
+		public void SetArgs(string[] args)
 		{
 			Args = new Arg[args.Length];
 			int idx = 0;
@@ -79,7 +107,7 @@ namespace Hypowered
 				for (int i = 0; i < args.Length; i++)
 				{
 					Args[idx] = new Arg(args[i], i);
-					if (Args[idx].IsOption) 
+					if (Args[idx].IsOption)
 					{
 						string op = "";
 						op = Args[idx].Option.ToLower();
@@ -101,13 +129,32 @@ namespace Hypowered
 									break;
 								case "inst":
 								case "installext":
-									m_Option = Option.InstallExt;
+									if (args.Length == 1)
+									{
+										m_Option = Option.InstallExt;
+									}
 									break;
 								case "uninst":
 								case "uninstallext":
-									m_Option = Option.UnInstallExt;
+									if (args.Length == 1)
+									{
+										m_Option = Option.UnInstallExt;
+									}
 									break;
-
+								case "call":
+								case "callsystem":
+									if (i == 0)
+									{
+										m_Option = Option.Call;
+									}
+									break;
+								case "envset":
+								case "env":
+									if (args.Length == 1)
+									{
+										m_Option = Option.EnvSet;
+									}
+									break;
 							}
 						}
 					}
@@ -122,6 +169,14 @@ namespace Hypowered
 
 				}
 			}
+		}
+
+		public HArgs()
+		{
+		}
+		public HArgs(string[] args)
+		{
+			SetArgs(args);
 		}
 	}
 }

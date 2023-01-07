@@ -45,7 +45,7 @@
 			this.textBox1.Location = new System.Drawing.Point(29, 48);
 			this.textBox1.Multiline = true;
 			this.textBox1.Name = "textBox1";
-			this.textBox1.Size = new System.Drawing.Size(426, 48);
+			this.textBox1.Size = new System.Drawing.Size(426, 25);
 			this.textBox1.TabIndex = 1;
 			// 
 			// btnOK
@@ -55,11 +55,11 @@
 			this.btnOK.DialogResult = System.Windows.Forms.DialogResult.OK;
 			this.btnOK.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
 			this.btnOK.ForeColor = System.Drawing.Color.Gainsboro;
-			this.btnOK.Location = new System.Drawing.Point(367, 120);
+			this.btnOK.Location = new System.Drawing.Point(360, 79);
 			this.btnOK.Name = "btnOK";
 			this.btnOK.Size = new System.Drawing.Size(75, 23);
 			this.btnOK.TabIndex = 2;
-			this.btnOK.Text = "OK";
+			this.btnOK.Text = "YES";
 			this.btnOK.UseVisualStyleBackColor = false;
 			// 
 			// btnCancel
@@ -69,11 +69,11 @@
 			this.btnCancel.DialogResult = System.Windows.Forms.DialogResult.Cancel;
 			this.btnCancel.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
 			this.btnCancel.ForeColor = System.Drawing.Color.Gainsboro;
-			this.btnCancel.Location = new System.Drawing.Point(286, 120);
+			this.btnCancel.Location = new System.Drawing.Point(279, 79);
 			this.btnCancel.Name = "btnCancel";
 			this.btnCancel.Size = new System.Drawing.Size(75, 23);
 			this.btnCancel.TabIndex = 3;
-			this.btnCancel.Text = "Cancel";
+			this.btnCancel.Text = "NO";
 			this.btnCancel.UseVisualStyleBackColor = false;
 			// 
 			// YesNoDialog
@@ -83,7 +83,7 @@
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
 			this.CancelButton = this.btnCancel;
 			this.CanResize = true;
-			this.ClientSize = new System.Drawing.Size(484, 155);
+			this.ClientSize = new System.Drawing.Size(484, 114);
 			this.Controls.Add(this.btnCancel);
 			this.Controls.Add(this.btnOK);
 			this.Controls.Add(this.textBox1);
