@@ -188,6 +188,37 @@ namespace Hypowered
 		public bool SaveAsForm()
 		{
 			bool ret = false;
+			System.Diagnostics.Process[] ps =
+			System.Diagnostics.Process.GetProcesses();
+			List<string> list = new List<string>();
+			foreach (System.Diagnostics.Process p in ps)
+			{
+				string ss = "";
+				//if (p.MainModule.FileName == Application.ExecutablePath)
+				{
+					try
+					{
+						if (p.MainModule.FileName.IndexOf("Hyper") == 0)
+						{
+							//プロセス名を出力する
+							ss += $"プロセス名: {p.ProcessName}";
+							//ID
+							ss += $",id: {p.Id}";
+							ss += $",fn: {p.MainModule.FileName}";
+							ss = ss.Trim();
+							if (ss != "")
+								list.Add(ss);
+						}
+					}
+					catch (Exception ex)
+					{
+						//ss += $",fn: {ex.Message}";
+					}
+				}
+			}
+			Clipboard.SetText(string.Join("\r\n", list));
+			MessageBox.Show(string.Join("\r\n", list));
+			return true;
 			if (m_FileName == "") return ret;
 			string m = m_FileName;
 			SaveFileDialog dlg = new SaveFileDialog();

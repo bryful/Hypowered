@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -22,7 +23,7 @@ namespace Hypowered
 	{
 		private readonly string m_MainENtryName = "hyperform.json";
 		private readonly string m_BackupENtryName = "hyperform_backup.json";
-		private System.Threading.Mutex? _mutex = null;
+		static private System.Threading.Mutex? _mutex = null;
 		protected string m_FileName = "";
 		[Category("Hypowered_Form")]
 		public string FileName
@@ -213,6 +214,7 @@ true);
 		{
 			if(IsPipe!= PIPECALL.StartupExec)
 			{
+				this.Activate();
 				return;
 			}
 			HArgs args1 = new HArgs(args);
@@ -224,9 +226,11 @@ true);
 					{
 						m_FileName = args1.FileName;
 						base.Name = IDName;
+						base.Text= base.Name;
 						if (SaveToHYPF())
 						{
 							StartServer();
+							MutexStart();
 						}
 					}
 				} else if(args1.Option == Option.Open)
@@ -235,15 +239,51 @@ true);
 					{
 						Application.Exit();
 					}
+					MutexStart();
 
 				}
 				else
 				{
-					LoadToHYPF(args1.FileName);
+					if(LoadToHYPF(args1.FileName))
+					{
+						MutexStart();
+					}
 				}
 			}
 		}
 		// *********************************************************************
+		public void MutexStart()
+		{
+			MutexStop();
+			_mutex = new System.Threading.Mutex(false, base.Name);
+			MessageBox.Show("MutexStart/" + base.Name);
+		}
+		public void MutexStop()
+		{
+			if (_mutex != null)
+			{
+				/*
+				try
+				{
+					_mutex.ReleaseMutex();
+				}
+				catch 
+				{
+					MessageBox.Show("Error:ReleaseMutex");
+				}*/
+				try
+				{
+					_mutex.Dispose();
+				}
+				catch
+				{
+					MessageBox.Show("Error:DisposeMutex");
+				}
+				_mutex = null;
+			}
+
+		}
+
 		public void FormInit(string fn,bool IsOpen =true)
 		{
 			//ホームファイルを読む無かったら作る
@@ -260,19 +300,7 @@ true);
 					Script.ExecuteCode(Script_Shutdown);
 				}
 				SaveToHYPF();
-				if (_mutex != null)
-				{
-					try
-					{
-						_mutex.ReleaseMutex();
-					}
-					catch
-					{
-
-					}
-					_mutex.Dispose();
-					_mutex = null;
-				}
+				MutexStop();
 				StopServer();
 				ClearFroms();
 			}
@@ -296,6 +324,7 @@ true);
 					if(SaveToHYPF())
 					{
 						StartServer();
+						MutexStart();
 					}
 					else
 					{
@@ -308,27 +337,13 @@ true);
 					{
 						MessageBox.Show("Err2");
 					}
+					else
+					{
+						MutexStart();
+					}
 				}
 			}
-			
-			
-
-			
-
 		}
-		/*
-		private bool m_ActveTine=false;
-		protected override void OnActivated(EventArgs e)
-		{
-			if (m_ActveTine == true) return;
-			base.OnActivated(e);
-			if (ControlList != null) ControlList.Activate();
-			if (InputForm != null) InputForm.Activate();
-			if (OutputForm != null) OutputForm.Activate();
-			this.Activate();
-			m_ActveTine = false;
-		}
-		*/
 		protected override void OnMouseDoubleClick(MouseEventArgs e)
 		{
 			base.OnMouseDoubleClick(e);
@@ -470,10 +485,6 @@ true);
 				SaveStatus(StatusFileName());
 				base.Name = Path.GetFileNameWithoutExtension(m_FileName);
 				Lib.SetMainForm(this);//FileNameを設定してる
-				if (_mutex == null)
-				{
-					_mutex = new System.Threading.Mutex(false, base.Name);
-				}
 				InitScript();
 			}
 			return ret;
@@ -503,13 +514,7 @@ true);
 				m_FileName = p;
 				base.Name = IDName;
 				base.Text = IDName;
-				StartServer();
 				Lib.SetMainForm(this);//FileNameを設定してる
-
-				if (_mutex == null)
-				{
-					_mutex = new System.Threading.Mutex(false, IDName);
-				}
 				ConnectList.ConnectAll(this.Controls);
 				LoadStatus(StatusFileName());
 				InitScript();
@@ -594,6 +599,31 @@ true);
 				m_FileName = "";
 			}
 			return ret;
+		}
+
+		private void Button1_Click(object sender, EventArgs e)
+		{
+			System.Diagnostics.Process[] ps =
+				System.Diagnostics.Process.GetProcesses();
+			List<string> list = new List<string>();
+			foreach (System.Diagnostics.Process p in ps)
+			{
+				string ss = "";
+				try
+				{
+					//プロセス名を出力する
+					ss+=$"プロセス名: {p.ProcessName}";
+					//ID
+					ss += $",id: {p.Id}";
+					ss += $",fn: {p.MainModule.FileName}";
+				}
+				catch (Exception ex)
+				{
+					ss += $",fn: {ex.Message}";
+				}
+				list.Add(ss);
+			}
+			MessageBox.Show(string.Join("\r\n", list));
 		}
 	}
 }

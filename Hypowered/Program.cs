@@ -5,50 +5,50 @@ namespace Hypowered
 {
 	internal static class Program
 	{
-		public const string MyAppId = "Hypowered"; // GUIDなどユニークなもの
-																	 // *******************************************************************************************
-		private static System.Threading.Mutex _mutex = new System.Threading.Mutex(false, MyAppId);
+		static private System.Threading.Mutex? _mutex = null;
 		/// <summary>
 		///  The main entry point for the application.
 		/// </summary>
 		[STAThread]
 		static void Main(string[] args)
 		{
-			/*
-			//Hypoweredのいずれかが起動している
-			bool IsRunning = (_mutex.WaitOne(0, false) == false);
 			HArgs hargs = new HArgs(args);
-			if(IsRunning)
+			string AId = hargs.FileName;
+			if (AId == "") AId = Application.ExecutablePath;
+			AId = Path.GetFileNameWithoutExtension(AId);
+			_mutex = new System.Threading.Mutex(false, AId);
+			
+			if(_mutex.WaitOne(0, false) == false) 
 			{
-				string filename = hargs.FileName;
-				if (filename != "")
-				{
-					string nID = Path.GetFileNameWithoutExtension(filename);
-					System.Threading.Mutex _mutexA
-						= new System.Threading.Mutex(false, nID);
-					if((_mutex.WaitOne(0, false)) == false)
-					{
-						PipeData pd = new PipeData(args, PIPECALL.DoubleExec);
-						F_Pipe.Client(nID, pd.ToJson()).Wait();
-						return;
-					}
-				}
+				MessageBox.Show("Running/"+ AId);
+				PipeData pd = new PipeData(args, PIPECALL.DoubleExec);
+				F_Pipe.Client(AId, pd.ToJson()).Wait();
+				return;
 			}
 			else
 			{
-				ApplicationConfiguration.Initialize();
-				HyperMainForm mf = new HyperMainForm();
-				Application.Run(mf);
+				//無かったらリリース
+				try
+				{
+					_mutex.ReleaseMutex();
+				}
+				catch
+				{
+					MessageBox.Show("program:ReleaseMutex");
+				}
+				_mutex.Dispose();
 			}
+			MessageBox.Show("none/"+AId);
+			///通常起動
+			ApplicationConfiguration.Initialize();
+			HyperMainForm mf = new HyperMainForm();
+			Application.Run(mf);
+			
 			// To customize application configuration such as set high DPI settings or default font,
 			// see https://aka.ms/applicationconfiguration.
 			//ApplicationConfiguration.Initialize();
 			//Application.Run(new HyperMainForm());
 			//Form1 mf = new Form1();
-			*/
-			ApplicationConfiguration.Initialize();
-			HyperMainForm mf = new HyperMainForm();
-			Application.Run(mf);
 		}
 	}
 }
