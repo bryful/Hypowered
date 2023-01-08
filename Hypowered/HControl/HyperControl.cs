@@ -935,5 +935,113 @@ namespace Hypowered
 			if (v != null) ImeMode = (ImeMode)v;
 
 		}
+		public HyperIcon? asIcon
+		{
+			get
+			{
+				HyperIcon? ret = null;
+				if (this is HyperIcon) ret = (HyperIcon)this;
+				return ret;
+			}
+		}
+		public HyperButton? asButton
+		{
+			get
+			{
+				HyperButton? ret = null;
+				if (this is HyperButton) ret = (HyperButton)this;
+				return ret;
+			}
+		}
+		public HyperTextBox? asTextBox
+		{
+			get
+			{
+				HyperTextBox? ret = null;
+				if (this is HyperTextBox) ret = (HyperTextBox)this;
+				return ret;
+			}
+		}
+		public HyperCheckBox? asCheckBox
+		{
+			get
+			{
+				HyperCheckBox? ret = null;
+				if (this is HyperCheckBox) ret = (HyperCheckBox)this;
+				return ret;
+			}
+		}
+		public HyperRadioButton? asRadioButton
+		{
+			get
+			{
+				HyperRadioButton? ret = null;
+				if (this is HyperRadioButton) ret = (HyperRadioButton)this;
+				return ret;
+			}
+		}
+		public HyperListBox? asListBox
+		{
+			get
+			{
+				HyperListBox? ret = null;
+				if (this is HyperListBox) ret = (HyperListBox)this;
+				return ret;
+			}
+		}
+		public HyperDropdownList? asDropdownList
+		{
+			get
+			{
+				HyperDropdownList? ret = null;
+				if (this is HyperDropdownList) ret = (HyperDropdownList)this;
+				return ret;
+			}
+		}
+		public HyperDriveIcons? asDriveIcons
+		{
+			get
+			{
+				HyperDriveIcons? ret = null;
+				if (this is HyperDriveIcons) ret = (HyperDriveIcons)this;
+				return ret;
+			}
+		}
+		public HyperDirList? asDirList
+		{
+			get
+			{
+				HyperDirList? ret = null;
+				if (this is HyperDirList) ret = (HyperDirList)this;
+				return ret;
+			}
+		}
+		public HyperFileList? asFileList
+		{
+			get
+			{
+				HyperFileList? ret = null;
+				if (this is HyperFileList) ret = (HyperFileList)this;
+				return ret;
+			}
+		}
+		public HyperPictureBox? asPictureBox
+		{
+			get
+			{
+				HyperPictureBox? ret = null;
+				if (this is HyperPictureBox) ret = (HyperPictureBox)this;
+				return ret;
+			}
+		}
+		public HyperDesign? asDesign
+		{
+			get
+			{
+				HyperDesign? ret = null;
+				if (this is HyperDesign) ret = (HyperDesign)this;
+				return ret;
+			}
+		}
 	}
 }

@@ -465,6 +465,7 @@ namespace Hypowered
 			if (OutputForm == null) ShowOutputForm();
 			if(OutputForm!=null)
 			{
+				if (OutputForm.Visible == false) OutputForm.Visible = true;
 				OutputForm.write(o);
 			}
 		}
@@ -474,12 +475,14 @@ namespace Hypowered
 			if (OutputForm == null) ShowOutputForm();
 			if (OutputForm != null)
 			{
+				if (OutputForm.Visible == false) OutputForm.Visible = true;
 				OutputForm.writeLine(o);
 			}
 		}
 		public void OutputClear()
 		{
 			if (OutputForm == null) return;
+			if (OutputForm.Visible == false) OutputForm.Visible = true;
 			OutputForm.clear();
 		}
 		// *************************************************************************

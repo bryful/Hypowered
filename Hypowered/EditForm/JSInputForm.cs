@@ -22,6 +22,39 @@ namespace Hypowered
 				controlBrowser1.SetMainForm(value);
 			}
 		}
+		public void SetMainForm(HyperMainForm? fm)
+		{
+			m_MainForm = fm;
+			controlBrowser1.SetMainForm(fm);
+			if (m_MainForm != null)
+			{
+				m_MainForm.FormChanged += (sender, e) =>
+				{
+					controlBrowser1.SetMainForm(fm);
+				};
+				m_MainForm.ControlChanged += (sender, e) =>
+				{
+					controlBrowser1.SetMainForm(fm);
+				};
+			}
+			/*
+			if ((m_MainForm!=null)&&(m_MainForm.forms.TargetForm!=null))
+			{
+				m_TargetControl = m_MainForm.forms.TargetForm.TargetControl;
+				if (m_TargetControl!=null)
+				{
+					Type t = m_TargetControl.GetType();
+					SetScriptCode( m_TargetControl.ScriptCode);
+					this.Text = m_TargetControl.Name;
+				}
+				else
+				{
+					SetScriptCode(((HyperMainForm)m_MainForm.forms.TargetForm).ScriptCode);
+					this.Text = m_MainForm.forms.TargetForm.Name;
+				}
+			}
+			*/
+		}
 		private List<string> m_back = new List<string>();
 		private int m_backCount = -1;
 		public override void OnButtunClick(EventArgs e)

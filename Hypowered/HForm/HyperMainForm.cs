@@ -169,7 +169,7 @@ namespace Hypowered
 				InScriptBit.KeyPress|
 				InScriptBit.Shutdown);
 			forms.SetMain(this);
-			Script.MainForm= this;
+			Script.SetMainForm(this);
 
 			forms.FormChanged += FormList_FormChanged;
 

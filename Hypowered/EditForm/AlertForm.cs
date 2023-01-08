@@ -56,6 +56,29 @@ namespace Hypowered
 				if(h > textBox1.Height ) { this.Height = h+hh;}
 			}
 		}
+		private string ToS(object? o)
+		{
+			string ret = "";
+			if (o == null)
+			{
+				ret = "(null)";
+			}
+			else if (o is Array)
+			{
+				foreach (object o1 in (Array)o)
+				{
+					if (o1 == null) continue;
+					if (ret != "") ret += ",";
+					ret += o1.ToString();
+				}
+				ret = "[" + ret + "]";
+			}
+			else
+			{
+				ret = o.ToString();
+			}
+			return ret;
+		}
 		public Object? SelectedObject
 		{
 			get { return (object)textBox1.Text; }
@@ -67,7 +90,7 @@ namespace Hypowered
 					ret = "null";
 				}else
 				{
-					ret = value.ToString();
+					ret = ToS(value);
 				}
 				textBox1.Text = ret;
 			}
@@ -87,7 +110,7 @@ namespace Hypowered
 				}
 				else
 				{
-					ret = value.ToString();
+					ret = ToS( value);
 				}
 			}
 			textBox1.Text = ret;

@@ -29,7 +29,17 @@ namespace Hypowered
 			if(o ==null)
 			{
 				ret = "(null)";
-			}else 
+			}else if (o is Array)
+			{
+				foreach(object o1 in (Array)o)
+				{
+					if (o1 == null) continue;
+					if (ret != "") ret += ",";
+					ret += o1.ToString();
+				}
+				ret= "[" + ret+"]";
+			}
+			else 
 			{
 				ret = o.ToString();
 			}

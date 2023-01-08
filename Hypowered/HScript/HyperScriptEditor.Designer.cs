@@ -28,13 +28,12 @@
 		/// </summary>
 		private void InitializeComponent()
 		{
-			System.Windows.Media.SolidColorBrush solidColorBrush1 = new System.Windows.Media.SolidColorBrush();
-			ICSharpCode.AvalonEdit.Document.TextDocument textDocument1 = new ICSharpCode.AvalonEdit.Document.TextDocument();
-			System.ComponentModel.Design.ServiceContainer serviceContainer1 = new System.ComponentModel.Design.ServiceContainer();
-			ICSharpCode.AvalonEdit.Document.UndoStack undoStack1 = new ICSharpCode.AvalonEdit.Document.UndoStack();
-			ICSharpCode.AvalonEdit.TextEditor textEditor1 = new ICSharpCode.AvalonEdit.TextEditor();
-			System.Windows.Media.SolidColorBrush solidColorBrush2 = new System.Windows.Media.SolidColorBrush();
-			System.Windows.Media.SolidColorBrush solidColorBrush3 = new System.Windows.Media.SolidColorBrush();
+			System.Windows.Media.SolidColorBrush solidColorBrush4 = new System.Windows.Media.SolidColorBrush();
+			ICSharpCode.AvalonEdit.Document.TextDocument textDocument2 = new ICSharpCode.AvalonEdit.Document.TextDocument();
+			System.ComponentModel.Design.ServiceContainer serviceContainer2 = new System.ComponentModel.Design.ServiceContainer();
+			ICSharpCode.AvalonEdit.Document.UndoStack undoStack2 = new ICSharpCode.AvalonEdit.Document.UndoStack();
+			System.Windows.Media.SolidColorBrush solidColorBrush5 = new System.Windows.Media.SolidColorBrush();
+			System.Windows.Media.SolidColorBrush solidColorBrush6 = new System.Windows.Media.SolidColorBrush();
 			System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(HyperScriptEditor));
 			this.editPad1 = new Hypowered.EditPad();
 			this.toolStrip = new System.Windows.Forms.ToolStrip();
@@ -60,45 +59,29 @@
 			// editPad1
 			// 
 			this.editPad1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
-			solidColorBrush1.Color = System.Windows.Media.Color.FromArgb(((byte)(255)), ((byte)(221)), ((byte)(221)), ((byte)(221)));
-			this.editPad1.Background = solidColorBrush1;
+			solidColorBrush4.Color = System.Windows.Media.Color.FromArgb(((byte)(255)), ((byte)(221)), ((byte)(221)), ((byte)(221)));
+			this.editPad1.Background = solidColorBrush4;
 			this.editPad1.ConvertTabsToSpaces = true;
 			this.editPad1.Dock = System.Windows.Forms.DockStyle.Fill;
-			textDocument1.FileName = null;
-			textDocument1.ServiceProvider = serviceContainer1;
-			textDocument1.Text = "aaa";
-			undoStack1.SizeLimit = 2147483647;
-			textDocument1.UndoStack = undoStack1;
-			this.editPad1.Document = textDocument1;
-			textEditor1.Background = solidColorBrush1;
-			textEditor1.Document = textDocument1;
-			solidColorBrush2.Color = System.Windows.Media.Color.FromArgb(((byte)(255)), ((byte)(0)), ((byte)(0)), ((byte)(0)));
-			textEditor1.Foreground = solidColorBrush2;
-			textEditor1.Height = double.NaN;
-			textEditor1.HorizontalAlignment = System.Windows.HorizontalAlignment.Stretch;
-			textEditor1.HorizontalScrollBarVisibility = System.Windows.Controls.ScrollBarVisibility.Auto;
-			textEditor1.IsModified = true;
-			solidColorBrush3.Color = System.Windows.Media.Color.FromArgb(((byte)(255)), ((byte)(0)), ((byte)(0)), ((byte)(0)));
-			textEditor1.LineNumbersForeground = solidColorBrush3;
-			textEditor1.Margin = new System.Windows.Thickness(0D, 0D, 0D, 0D);
-			textEditor1.Options = ((ICSharpCode.AvalonEdit.TextEditorOptions)(resources.GetObject("textEditor1.Options")));
-			textEditor1.ShowLineNumbers = true;
-			textEditor1.SyntaxHighlighting = null;
-			textEditor1.Text = "aaa";
-			textEditor1.VerticalAlignment = System.Windows.VerticalAlignment.Stretch;
-			textEditor1.Width = double.NaN;
-			textEditor1.WordWrap = false;
+			textDocument2.FileName = null;
+			textDocument2.ServiceProvider = serviceContainer2;
+			textDocument2.Text = "";
+			undoStack2.SizeLimit = 2147483647;
+			textDocument2.UndoStack = undoStack2;
+			this.editPad1.Document = textDocument2;
 			this.editPad1.Font = new System.Drawing.Font("源ノ角ゴシック Code JP R", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
 			this.editPad1.ForeColor = System.Drawing.Color.Black;
-			this.editPad1.Foreground = solidColorBrush2;
+			solidColorBrush5.Color = System.Windows.Media.Color.FromArgb(((byte)(255)), ((byte)(0)), ((byte)(0)), ((byte)(0)));
+			this.editPad1.Foreground = solidColorBrush5;
 			this.editPad1.HorizontalScrollBarVisibility = System.Windows.Controls.ScrollBarVisibility.Auto;
-			this.editPad1.LineNumbersForeground = solidColorBrush3;
+			solidColorBrush6.Color = System.Windows.Media.Color.FromArgb(((byte)(255)), ((byte)(0)), ((byte)(0)), ((byte)(0)));
+			this.editPad1.LineNumbersForeground = solidColorBrush6;
 			this.editPad1.Location = new System.Drawing.Point(0, 0);
 			this.editPad1.Name = "editPad1";
-			this.editPad1.Offset = 3;
+			this.editPad1.Offset = 0;
 			this.editPad1.Options = ((ICSharpCode.AvalonEdit.TextEditorOptions)(resources.GetObject("editPad1.Options")));
-			this.editPad1.SelectedText = "aaa";
-			this.editPad1.SelectionLength = 3;
+			this.editPad1.SelectedText = "";
+			this.editPad1.SelectionLength = 0;
 			this.editPad1.SelectionStart = 0;
 			this.editPad1.ShowColumnRuler = false;
 			this.editPad1.ShowEndOfLine = true;
@@ -212,7 +195,7 @@
 			// controlBrowser1
 			// 
 			this.controlBrowser1.Dock = System.Windows.Forms.DockStyle.Fill;
-			this.controlBrowser1.EditPad = null;
+			this.controlBrowser1.EditPad = this.editPad1;
 			this.controlBrowser1.Location = new System.Drawing.Point(0, 0);
 			this.controlBrowser1.Name = "controlBrowser1";
 			this.controlBrowser1.Size = new System.Drawing.Size(212, 419);

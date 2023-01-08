@@ -15,7 +15,18 @@ namespace Hypowered
 
     public class HyperScript
     {
-		public HyperMainForm? MainForm { get; set; } = null;
+		protected HyperApp? app = null;
+		protected HyperMainForm? m_MainForm  = null;
+		public HyperMainForm? MainForm
+		{
+			get { return m_MainForm; }
+		}
+		public void SetMainForm(HyperMainForm? mf)
+		{
+			m_MainForm = mf;
+			app = new HyperApp(mf);
+			if(engine!=null) engine.AddHostObject("app", app);
+		}
 		private string startCode =
 	  @"var System = dotnet.System;\r\n"
 	+ @"var System.Core = dotnet.System.Core;"
@@ -38,13 +49,14 @@ namespace Hypowered
 				"System",
 				"System.Core",
 				"System.Drawing",
+				"System.Collections",
 				"System.Windows.Forms");
 
 			engine.AddHostObject("dotnet", typeCollection);
 			engine.AddHostObject("alert", (object)alert);
 			engine.AddHostObject("write", (object)write);
-			engine.AddHostObject("writeLine", (object)writeLine);
-			engine.AddHostObject("writeClear", (object)writeClear);
+			engine.AddHostObject("writeln", (object)writeLine);
+			engine.AddHostObject("clr", (object)writeClear);
 			engine.AddHostObject("openForm", (object)openForm);
 			engine.AddHostObject("loadForm", (object)loadForm);
 			engine.AddHostObject("appPath", (object)appPath);
@@ -76,32 +88,81 @@ namespace Hypowered
 				typeof(HyperMainForm),
 				typeof(HyperFormList),
 				typeof(List<HyperBaseForm>),
+				typeof(Dictionary<string, HyperControl>),
+				typeof(HyperAppBase),
+				typeof(HyperApp),
+				typeof(HyperIcon),
+				typeof(HyperButton),
+				typeof(HyperControl),
+				typeof(ControlType),
+				typeof(HControlList),
+				typeof(HFormList),
 
 			});
-			//engine.Execute("var app={};");
+			if(app!=null) engine.AddHostObject("app",app);
+
 
 		}
 		public void InitForms(HyperMainForm mf)
 		{
 			if (engine != null)
 			{
-				engine.AddHostObject("app", mf);
-				engine.AddHostObject("_app_controls", mf.Controls);
-				engine.AddHostObject("_app_forms", mf.formItems);
 			}
 		}
-		public void InitControls(HyperBaseForm? bf)
+		private void InitControlsSub(HyperBaseForm? bf)
 		{
-			if (bf == null) return;
-			Control.ControlCollection cs= bf.Controls;
-			engine.AddHostObject("controls", cs);
-			if((engine!=null)&&(cs != null)&&(cs.Count>0))
+			if ((engine == null) || (bf == null)) return;
+
+			engine.Script[bf.Name] = new ExpandoObject();
+			if (bf.Controls.Count > 0)
 			{
-				foreach (Control c in cs)
+				foreach (Control c in bf.Controls)
 				{
-					if(c is HyperControl)
-					engine.AddHostObject(c.Name, (HyperControl)c);
+					if (c is HyperControl)
+					{
+						engine.AddHostObject(bf.Name +"."+ c.Name, (HyperControl)c);
+					}
 				}
+			}
+		}
+		public void InitControls(HyperMainForm? mf)
+		{
+			/*
+			 *
+			 engine.Script["a"] = new ExpandoObject();
+				engine.Script["a"].b = 1;
+			*/
+			if ((engine == null) || (mf == null)) return;
+			if (mf.Controls.Count > 0)
+			{
+				foreach (Control c in mf.Controls)
+				{
+					if (c is HyperControl)
+					{
+						engine.AddHostObject(c.Name, (HyperControl)c);
+					}
+				}
+			}
+			if(mf.forms.Count>0)
+			{
+				foreach (var c in mf.forms)
+				{
+					if (c is HyperBaseForm)
+					{
+						InitControlsSub((HyperBaseForm)c);
+					}
+				}
+			}
+
+			if (app != null)
+			{
+				app.ListupControls();
+			}
+			else
+			{
+				app = new HyperApp(mf);
+				app.ListupControls();
+
 			}
 		}
 		public void alert(object? s)
@@ -113,24 +174,24 @@ namespace Hypowered
 		}
 		public void write(object? s)
 		{
-			if(MainForm!=null)
+			if(m_MainForm!=null)
 			{
-				MainForm.OutputWrite(s);
+				m_MainForm.OutputWrite(s);
 			}
 		}
 
 		public void writeLine(object? s)
 		{
-			if (MainForm != null)
+			if (m_MainForm != null)
 			{
-				MainForm.OutputWriteLine(s);
+				m_MainForm.OutputWriteLine(s);
 			}
 		}
 		public void writeClear()
 		{
-			if (MainForm != null)
+			if (m_MainForm != null)
 			{
-				MainForm.OutputClear();
+				m_MainForm.OutputClear();
 			}
 		}
 		public void ExecuteCode(string code)
@@ -151,9 +212,9 @@ namespace Hypowered
 		}
 		public bool loadForm(string fn)
 		{
-			if (MainForm!=null)
+			if (m_MainForm!=null)
 			{
-				return MainForm.LoadFromHYPF(fn);
+				return m_MainForm.LoadFromHYPF(fn);
 			}
 			else
 			{
@@ -162,9 +223,9 @@ namespace Hypowered
 		}
 		public bool openForm(string fn)
 		{
-			if (MainForm != null)
+			if (m_MainForm != null)
 			{
-				return MainForm.OpenFromHYPF(fn);
+				return m_MainForm.OpenFromHYPF(fn);
 			}
 			else
 			{
@@ -182,9 +243,9 @@ namespace Hypowered
 		}
 		public string hypfPath()
 		{
-			if (MainForm != null)
+			if (m_MainForm != null)
 			{
-				return MainForm.HYPF_Folder;
+				return m_MainForm.HYPF_Folder;
 			}
 			else
 			{
@@ -193,9 +254,9 @@ namespace Hypowered
 		}
 		public string homeHypf()
 		{
-			if (MainForm != null)
+			if (m_MainForm != null)
 			{
-				return MainForm.HOME_HYPF_FILE;
+				return m_MainForm.HOME_HYPF_FILE;
 			}
 			else
 			{
@@ -208,7 +269,7 @@ namespace Hypowered
 		}
 		public bool yesnoDialog(string cap,string title)
 		{
-			if (MainForm != null)
+			if (m_MainForm != null)
 			{
 				return answerDialog.Show(cap, title);
 			}
