@@ -64,7 +64,7 @@ namespace Hypowered
 	{
 		private HFormList m_forms = new HFormList();
 		public HyperBaseForm []forms { get { return m_forms.items; } }
-		public dynamic formsEO { get { return m_forms.itemsEO; } set { m_forms.itemsEO = value; } }
+		public dynamic formsEO { get { return m_forms.itemsEO; }  }
 		public IDictionary<string, dynamic> formsD
 		{
 			get { return (IDictionary<string, dynamic>)m_forms.itemsEO; }
