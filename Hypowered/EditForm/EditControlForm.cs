@@ -65,6 +65,11 @@ namespace Hypowered
 					btnFont.Enabled = true;
 					break;
 				case ControlType.Button:
+					btnContent.Enabled = true;
+					btnScript.Enabled = true;
+					btnFont.Enabled = true;
+					btnIcon.Enabled = true;
+					break;
 				case ControlType.CheckBox:
 				case ControlType.RadioButton:
 				case ControlType.ListBox:
@@ -87,7 +92,8 @@ namespace Hypowered
 				case ControlType.Icon:
 					btnIcon.Enabled = true;
 					break;
-
+				default:
+					break;
 			}
 		}
 		public void SetMainForm(HyperMainForm? mf,HyperBaseForm bf,HyperControl? c=null)

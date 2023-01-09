@@ -557,10 +557,7 @@ true);
 		// ***********************************************************************
 		protected override void OnPaint(PaintEventArgs e)
 		{
-			Debug.WriteLine("OnPaint Base");
-			//base.OnPaint(e);
 			Graphics g = e.Graphics;
-			Rectangle? tRct =null;
 			using (Pen p = new Pen(ForeColor))
 			{
 				if (m_IsEditMode)
@@ -580,8 +577,6 @@ true);
 									p.DashStyle = DashStyle.Dot;
 									g.DrawRectangle(p, h.Bounds(2));
 									p.DashStyle = DashStyle.Solid;
-									
-									//tRct = h.Bounds(10);
 								}
 								else if (h.Selected)
 								{
@@ -599,10 +594,6 @@ true);
 				p.Color = ForeColor;
 				DrawFrame(g, p, this.ClientRectangle);
 				//g.DrawRectangle(p,new Rectangle(0,0,Width-1,Height-1));
-				if(tRct!=null)
-				{
-					//DrawTarget((Rectangle)tRct);
-				}
 			}
 
 		}
@@ -712,6 +703,9 @@ true);
 					break;
 				case ControlType.Design:
 					ctrl = new HyperDesign();
+					break;
+				case ControlType.Html:
+					ctrl = new HyperHtml();
 					break;
 				default:
 					break;

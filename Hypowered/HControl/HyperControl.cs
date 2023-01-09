@@ -994,6 +994,7 @@ namespace Hypowered
 			if (v != null) ImeMode = (ImeMode)v;
 
 		}
+		[Browsable(false)]
 		public HyperIcon? asIcon
 		{
 			get
@@ -1003,6 +1004,7 @@ namespace Hypowered
 				return ret;
 			}
 		}
+		[Browsable(false)]
 		public HyperButton? asButton
 		{
 			get
@@ -1012,6 +1014,7 @@ namespace Hypowered
 				return ret;
 			}
 		}
+		[Browsable(false)]
 		public HyperTextBox? asTextBox
 		{
 			get
@@ -1021,6 +1024,7 @@ namespace Hypowered
 				return ret;
 			}
 		}
+		[Browsable(false)]
 		public HyperCheckBox? asCheckBox
 		{
 			get
@@ -1030,6 +1034,7 @@ namespace Hypowered
 				return ret;
 			}
 		}
+		[Browsable(false)]
 		public HyperRadioButton? asRadioButton
 		{
 			get
@@ -1039,6 +1044,7 @@ namespace Hypowered
 				return ret;
 			}
 		}
+		[Browsable(false)]
 		public HyperListBox? asListBox
 		{
 			get
@@ -1048,6 +1054,7 @@ namespace Hypowered
 				return ret;
 			}
 		}
+		[Browsable(false)]
 		public HyperDropdownList? asDropdownList
 		{
 			get
@@ -1057,6 +1064,7 @@ namespace Hypowered
 				return ret;
 			}
 		}
+		[Browsable(false)]
 		public HyperDriveIcons? asDriveIcons
 		{
 			get
@@ -1066,6 +1074,7 @@ namespace Hypowered
 				return ret;
 			}
 		}
+		[Browsable(false)]
 		public HyperDirList? asDirList
 		{
 			get
@@ -1075,6 +1084,7 @@ namespace Hypowered
 				return ret;
 			}
 		}
+		[Browsable(false)]
 		public HyperFileList? asFileList
 		{
 			get
@@ -1084,6 +1094,7 @@ namespace Hypowered
 				return ret;
 			}
 		}
+		[Browsable(false)]
 		public HyperPictureBox? asPictureBox
 		{
 			get
@@ -1093,12 +1104,23 @@ namespace Hypowered
 				return ret;
 			}
 		}
+		[Browsable(false)]
 		public HyperDesign? asDesign
 		{
 			get
 			{
 				HyperDesign? ret = null;
 				if (this is HyperDesign) ret = (HyperDesign)this;
+				return ret;
+			}
+		}
+		[Browsable(false)]
+		public HyperHtml? asHtml
+		{
+			get
+			{
+				HyperHtml? ret = null;
+				if (this is HyperHtml) ret = (HyperHtml)this;
 				return ret;
 			}
 		}

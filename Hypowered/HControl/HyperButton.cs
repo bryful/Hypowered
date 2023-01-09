@@ -146,6 +146,9 @@ namespace Hypowered
 		{
 			SetControlType(Hypowered.ControlType.Button);
 			SetInScript(InScriptBit.MouseClick);
+			this.TextAligiment = StringAlignment.Center;
+			this.TextLineAligiment = StringAlignment.Center;
+
 			m_FrameWeight = new Padding(1, 1, 1, 1);
 			this.Location = new Point(100, 100);
 			this.Size = ControlDef.DefSize;
@@ -310,13 +313,16 @@ namespace Hypowered
 
 
 				// 外枠
-				Rectangle rr = ReRect(this.ClientRectangle, 2);
-				p.Color = ForeColor;
-				DrawFrame(g, p, rr);
+				if (m_IsDrawFrame)
+				{
+					Rectangle rr = ReRect(this.ClientRectangle, 2);
+					p.Color = ForeColor;
+					DrawFrame(g, p, rr);
+				}
 
 				if ((this.Focused)&&(m_IsDrawFocuse))
 				{
-					rr = ReRect(this.ClientRectangle, 1);
+					Rectangle rr = ReRect(this.ClientRectangle, 1);
 					p.Color = m_ForcusColor;
 					g.DrawRectangle(p, rr);
 				}

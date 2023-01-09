@@ -64,6 +64,7 @@ namespace Hypowered
 				m_TargetIndex = value;
 				ChkSize();
 				m_PageIndex = m_TargetIndex / m_PageCount;
+				this.Invalidate();
 			}
 		}
 		public string PictName
@@ -85,7 +86,7 @@ namespace Hypowered
 				m_TargetIndex = -1;
 				if (m_PictLib != null)
 				{
-					m_TargetIndex = m_PictLib.IndexOfBitmap(value);
+					TargetIndex = m_PictLib.IndexOfBitmap(value);
 				}
 			}
 		}
