@@ -35,6 +35,8 @@
 			this.tbInfo = new System.Windows.Forms.TextBox();
 			this.btnOK = new System.Windows.Forms.Button();
 			this.btnCancel = new System.Windows.Forms.Button();
+			this.rbPictName = new System.Windows.Forms.RadioButton();
+			this.rbPictName_Down = new System.Windows.Forms.RadioButton();
 			this.SuspendLayout();
 			// 
 			// pictLibBox1
@@ -48,6 +50,7 @@
 			this.pictLibBox1.LeftBtn = this.btnLeft;
 			this.pictLibBox1.Location = new System.Drawing.Point(50, 31);
 			this.pictLibBox1.Name = "pictLibBox1";
+			this.pictLibBox1.PictName = "";
 			this.pictLibBox1.RightBtn = this.btnRight;
 			this.pictLibBox1.Size = new System.Drawing.Size(577, 349);
 			this.pictLibBox1.TabIndex = 1;
@@ -107,9 +110,9 @@
 			this.btnOK.DialogResult = System.Windows.Forms.DialogResult.OK;
 			this.btnOK.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
 			this.btnOK.ForeColor = System.Drawing.Color.Silver;
-			this.btnOK.Location = new System.Drawing.Point(512, 405);
+			this.btnOK.Location = new System.Drawing.Point(512, 415);
 			this.btnOK.Name = "btnOK";
-			this.btnOK.Size = new System.Drawing.Size(115, 45);
+			this.btnOK.Size = new System.Drawing.Size(115, 35);
 			this.btnOK.TabIndex = 2;
 			this.btnOK.Text = "OK";
 			this.btnOK.UseVisualStyleBackColor = true;
@@ -120,19 +123,46 @@
 			this.btnCancel.DialogResult = System.Windows.Forms.DialogResult.Cancel;
 			this.btnCancel.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
 			this.btnCancel.ForeColor = System.Drawing.Color.Silver;
-			this.btnCancel.Location = new System.Drawing.Point(391, 405);
+			this.btnCancel.Location = new System.Drawing.Point(391, 415);
 			this.btnCancel.Name = "btnCancel";
-			this.btnCancel.Size = new System.Drawing.Size(115, 45);
+			this.btnCancel.Size = new System.Drawing.Size(115, 35);
 			this.btnCancel.TabIndex = 3;
 			this.btnCancel.Text = "Cancel";
 			this.btnCancel.UseVisualStyleBackColor = true;
 			// 
-			// HyperPictLibDialog
+			// rbPictName
+			// 
+			this.rbPictName.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+			this.rbPictName.AutoSize = true;
+			this.rbPictName.Location = new System.Drawing.Point(430, 390);
+			this.rbPictName.Name = "rbPictName";
+			this.rbPictName.Size = new System.Drawing.Size(76, 19);
+			this.rbPictName.TabIndex = 8;
+			this.rbPictName.TabStop = true;
+			this.rbPictName.Text = "PictName";
+			this.rbPictName.UseVisualStyleBackColor = true;
+			// 
+			// rbPictName_Down
+			// 
+			this.rbPictName_Down.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+			this.rbPictName_Down.AutoSize = true;
+			this.rbPictName_Down.Location = new System.Drawing.Point(512, 390);
+			this.rbPictName_Down.Name = "rbPictName_Down";
+			this.rbPictName_Down.Size = new System.Drawing.Size(112, 19);
+			this.rbPictName_Down.TabIndex = 9;
+			this.rbPictName_Down.TabStop = true;
+			this.rbPictName_Down.Text = "PictName_Down";
+			this.rbPictName_Down.UseVisualStyleBackColor = true;
+			// 
+			// EditPictLibDialog
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
 			this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(32)))), ((int)(((byte)(32)))), ((int)(((byte)(32)))));
+			this.CanResize = true;
 			this.ClientSize = new System.Drawing.Size(670, 460);
+			this.Controls.Add(this.rbPictName_Down);
+			this.Controls.Add(this.rbPictName);
 			this.Controls.Add(this.tbInfo);
 			this.Controls.Add(this.tbName);
 			this.Controls.Add(this.btnRight);
@@ -140,7 +170,8 @@
 			this.Controls.Add(this.btnCancel);
 			this.Controls.Add(this.btnOK);
 			this.Controls.Add(this.pictLibBox1);
-			this.Name = "HyperPictLibDialog";
+			this.DoubleBuffered = true;
+			this.Name = "EditPictLibDialog";
 			this.Text = "HyperPictLibDialog";
 			this.Controls.SetChildIndex(this.pictLibBox1, 0);
 			this.Controls.SetChildIndex(this.btnOK, 0);
@@ -149,6 +180,8 @@
 			this.Controls.SetChildIndex(this.btnRight, 0);
 			this.Controls.SetChildIndex(this.tbName, 0);
 			this.Controls.SetChildIndex(this.tbInfo, 0);
+			this.Controls.SetChildIndex(this.rbPictName, 0);
+			this.Controls.SetChildIndex(this.rbPictName_Down, 0);
 			this.ResumeLayout(false);
 			this.PerformLayout();
 
@@ -162,5 +195,7 @@
 		private Button btnRight;
 		private TextBox tbName;
 		private TextBox tbInfo;
+		private RadioButton rbPictName;
+		private RadioButton rbPictName_Down;
 	}
 }

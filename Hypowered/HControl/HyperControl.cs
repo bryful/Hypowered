@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Drawing;
+using System.Drawing.Drawing2D;
 using System.Linq;
 using System.Text;
 using System.Text.Json;
@@ -14,6 +15,7 @@ using System.Text.Encodings.Web;
 using System.Text.Unicode;
 using System.Windows.Forms.Layout;
 using System.Windows.Documents;
+using System.Diagnostics;
 
 namespace Hypowered
 {
@@ -21,24 +23,34 @@ namespace Hypowered
     public partial class HyperControl : Control
 	{
 
-		private ControlType? m_MyType = null;
-		protected void SetMyType(ControlType? c) { m_MyType = c; }
+		private ControlType? m_ControlType = null;
+		protected void SetControlType(ControlType? c) { m_ControlType = c; }
 
 		/// <summary>
 		/// コントロールのタイプ識別
 		/// </summary>
 		[Category("Hypowered")]
-		public ControlType? MyType { get { return m_MyType; } }
+		public ControlType? ControlType { get { return m_ControlType; } }
+		/// <summary>
+		/// 移動、リサイズの固定
+		/// </summary>
 		[Category("Hypowered")]
 		public bool Locked { get; set; } = false;
 
+		/// <summary>
+		/// コントロールの名前。変更はSetName()を使用
+		/// </summary>
 		[Category("Hypowered")]
 		public new string Name
 		{
 			get { return base.Name; }
-			set { base.Name = value; this.Invalidate(); }
+			//set {  }
 		}
+		public void SetName(string n){base.Name = n;}
 		protected bool m_IsDrawFocuse = true;
+		/// <summary>
+		/// フォーカス時の線の描画するかどうか
+		/// </summary>
 		[Category("Hypowered")]
 		public bool IsDrawFocuse
 		{
@@ -46,6 +58,9 @@ namespace Hypowered
 			set { m_IsDrawFocuse = value; this.Invalidate(); }
 		}
 		protected bool m_IsDrawFrame = true;
+		/// <summary>
+		/// 基本枠を描画するかどうか
+		/// </summary>
 		[Category("Hypowered")]
 		public bool IsDrawFrame
 		{
@@ -53,6 +68,9 @@ namespace Hypowered
 			set { m_IsDrawFrame = value; this.Invalidate(); }
 		}
 		protected bool m_IsSaveFileName = false;
+		/// <summary>
+		/// ファイル名を保存するかどうか.
+		/// </summary>
 		[Category("Hypowered")]
 		public bool IsSaveFileName
 		{
@@ -77,8 +95,9 @@ namespace Hypowered
 		public string ControlName
 		{
 			get { return base.Name; }
-			set { base.Name = value; this.Invalidate(); }
+			
 		}
+		public void SetControlName(string n) { base.Name = n; }
 		[Category("Hypowered")]
 		public new Point Location
 		{
@@ -118,6 +137,9 @@ namespace Hypowered
 			get { return base.Text; }
 			set { base.Text = value; this.Invalidate(); }
 		}
+		/// <summary>
+		/// Textを配列として
+		/// </summary>
 		[Category("Hypowered_Text")]
 		public string[] Lines
 		{
@@ -152,13 +174,9 @@ namespace Hypowered
 			}
 		}
 		/// <summary>
-		/// 複数選択時の親コントロールのインデックス番号
-		/// </summary>
-		public int ParentIndex = -1;
-		/// <summary>
 		/// ターゲットのコントロールからの相対位置
 		/// </summary>
-		public Point ParentLocation = new Point(0, 0);
+		public Point LocationBack = new Point(0, 0);
 		protected bool m_Selected = false;
 		[Browsable(false)]
 		public bool Selected
@@ -254,6 +272,9 @@ namespace Hypowered
 		// **************************************************************************
 		// **************************************************************************
 		protected Padding m_FrameWeight = new Padding(1, 1, 1, 1);
+		/// <summary>
+		/// フレームの太さ
+		/// </summary>
 		[Category("Hypowered")]
 		public Padding FrameWeight
 		{
@@ -306,42 +327,7 @@ namespace Hypowered
 			get { return m_format.LineAlignment; }
 			set { m_format.LineAlignment = value; this.Invalidate(); }
 		}
-		private ControlType[] m_ConnectProps = new ControlType[0];
-		[Browsable(false)]
-		public ControlType[] ConnectProps
-		{
-			get { return m_ConnectProps; }
-		}
-		[Browsable(false)]
-		public string[] ConnectPropsNames
-		{
-			get
-			{
-				string[] ret = new string[m_ConnectProps.Length];
-				if (m_ConnectProps.Length > 0)
-				{
-					int idx = 0;
-					foreach (var ct in m_ConnectProps)
-					{
-						string? ss = Enum.GetName(typeof(ControlType), ct);
-						if (ss != null)
-						{
-							ret[idx] = ss;
-						}
-						else
-						{
-							ret[idx] = "";
-						}
-						idx++;
-					}
-				}
-				return ret;
-			}
-		}
-		public void SetConnectProps(ControlType[] ps)
-		{
-			m_ConnectProps = ps;
-		}
+
 		[Browsable(false)]
 		public new System.Windows.Forms.ControlBindingsCollection DataBindings
 		{
@@ -410,7 +396,7 @@ namespace Hypowered
 			m_UnCheckedColor = ColU.ToColor(HyperColor.Dark);
 			m_format.Alignment = StringAlignment.Near;
 			m_format.LineAlignment = StringAlignment.Center;
-			this.Name = "HyperControl";
+			SetName("HyperControl");
 			this.Size = ControlDef.DefSize;
 			this.Location = new Point(100, 100);
 			InitializeComponent();
@@ -451,18 +437,41 @@ namespace Hypowered
 					p.Color = m_ForcusColor;
 					g.DrawRectangle(p, r2);
 				}
-				DrawType(g, sb);
+				DrawEditMode(g, p, sb);
 			}
 		}
-		protected virtual void DrawType(Graphics g, SolidBrush sb)
+		private Rectangle? m_DrawTarget_Rect = null;
+		private int m_DrawTarget_count = 0;
+		protected virtual void DrawTarget(Rectangle rct)
+		{
+			Debug.WriteLine($"DrawTarget Base{m_DrawTarget_count}");
+			/*
+			if(m_DrawTarget_Rect != null)
+			{
+				ControlPaint.DrawReversibleFrame(
+										(Rectangle)m_DrawTarget_Rect,
+										BackColor,
+										FrameStyle.Thick);
+			}
+			*/
+			Point tl = this.PointToScreen(rct.Location);
+			m_DrawTarget_Rect = new Rectangle(tl, rct.Size);
+			ControlPaint.DrawReversibleFrame(
+									(Rectangle)m_DrawTarget_Rect,
+									BackColor,
+									FrameStyle.Thick);
+			m_DrawTarget_count++;
+		}
+		protected virtual void DrawEditMode(Graphics g, Pen p, SolidBrush sb)
 		{
 			if (m_IsEditMode)
 			{
+				//ControlPaint.DrawReversibleFrame(new Rectangle(10, 210, 40, 40),Color.White, FrameStyle.Thick);
 				sb.Color = m_ForcusColor;
 				string s = "Control";
-				if (m_MyType != null)
+				if (m_ControlType != null)
 				{
-					s = Enum.GetName(typeof(ControlType), m_MyType);
+					s = Enum.GetName(typeof(ControlType), m_ControlType);
 				}
 				g.DrawString(s, this.Font, sb, this.ClientRectangle);
 			}
@@ -586,6 +595,8 @@ namespace Hypowered
 		protected Point m_MDP = new Point(0, 0);
 		protected Point m_MDLoc = new Point(0, 0);
 		protected Size m_MDSize = new Size(0, 0);
+		protected bool m_isMDmove = false;
+
 		public void CallMouseDown(MouseEventArgs e)
 		{
 			this.OnMouseDown(e);
@@ -606,6 +617,10 @@ namespace Hypowered
 		{
 			this.OnMouseDoubleClick(e);
 		}
+		protected Point MousePos(MouseEventArgs e)
+		{
+			return new Point(e.X+this.Left, e.Y+this.Top);
+		}
 		protected override void OnMouseDown(MouseEventArgs e)
 		{
 			if (m_IsEditMode)
@@ -617,8 +632,9 @@ namespace Hypowered
 					MDPos p = CU.GetMDPos(e.X, e.Y, this.Size);
 					if ((p != MDPos.None) && (Locked == false))
 					{
+						if (MainForm != null) MainForm.LocationBackup();
 						m_MDPos = p;
-						m_MDP = new Point(e.X, e.Y);
+						m_MDP =  MousePos(e);
 						m_MDLoc = this.Location;
 						m_MDSize = this.Size;
 						return;
@@ -634,12 +650,14 @@ namespace Hypowered
 		}
 		protected override void OnMouseMove(MouseEventArgs e)
 		{
+			if (m_isMDmove == true) return;
 			if (m_IsEditMode)
 			{
 				if (m_MDPos != MDPos.None)
 				{
-					int ax = e.X - m_MDP.X;
-					int ay = e.Y - m_MDP.Y;
+					Point now = MousePos(e);
+					int ax = now.X - m_MDP.X;
+					int ay = now.Y - m_MDP.Y;
 					switch (m_MDPos)
 					{
 						case MDPos.BottomRight:
@@ -647,19 +665,58 @@ namespace Hypowered
 								m_MDSize.Width + ax,
 								m_MDSize.Height + ay);
 							break;
+						case MDPos.BottomLeft:
+							this.Size = new Size(
+								m_MDSize.Width - ax,
+								m_MDSize.Height + ay);
+							this.Location = new Point(
+								m_MDLoc.X + ax,
+								m_MDLoc.Y
+								);
+							break;
+						case MDPos.TopLeft:
+							this.Size = new Size(
+								m_MDSize.Width - ax,
+								m_MDSize.Height - ay);
+							this.Location = new Point(
+								m_MDLoc.X + ax,
+								m_MDLoc.Y + ay
+								);
+							break;
+						case MDPos.TopRight:
+							this.Size = new Size(
+								m_MDSize.Width + ax,
+								m_MDSize.Height - ay);
+							this.Location = new Point(
+								m_MDLoc.X,
+								m_MDLoc.Y + ay
+								);
+							break;
+						case MDPos.Left:
+							this.Size = new Size(
+								m_MDSize.Width - ax,
+								m_MDSize.Height);
+							this.Location = new Point(
+								m_MDLoc.X + ax,
+								m_MDLoc.Y
+								);
+							break;
 						case MDPos.Right:
 							this.Size = new Size(
 								m_MDSize.Width + ax,
 								m_MDSize.Height);
 							break;
+						case MDPos.Bottom:
+							this.Size = new Size(
+								m_MDSize.Width,
+								m_MDSize.Height+ay);
+							break;
+						case MDPos.Top:
 						case MDPos.Center:
 						default:
-							this.Location = new Point(
-								this.Location.X + ax,
-								this.Location.Y + ay);
-							if ((this.Parent != null) && (this.Parent is HyperMainForm))
+							if (this.MainForm != null)
 							{
-								((HyperMainForm)this.Parent).MoveSelected();
+								MainForm.MoveSelected(new Point(ax,ay));
 							}
 							break;
 					}
@@ -782,7 +839,7 @@ namespace Hypowered
 		{
 			JsonObject jo = new JsonObject();
 			JsonFile jf = new JsonFile(jo);
-			jf.SetValue(nameof(MyType), MyType);//Nullable`1
+			jf.SetValue(nameof(ControlType), ControlType);//Nullable`1
 			jf.SetValue(nameof(Name), Name);//String
 			jf.SetValue(nameof(Locked), Locked);//Size
 			jf.SetValue(nameof(IsDrawFocuse), IsDrawFocuse);//Size
@@ -845,7 +902,9 @@ namespace Hypowered
 			JsonFile jf = new JsonFile(jo);
 			object? v = null;
 			v = jf.ValueAuto("MyType", typeof(Int32).Name);
-			if (v != null) SetMyType((ControlType)v);
+			if (v != null) SetControlType((ControlType)v);
+			v = jf.ValueAuto("ControlType", typeof(Int32).Name);
+			if (v != null) SetControlType((ControlType)v);
 			v = jf.ValueAuto("Locked", typeof(Boolean).Name);
 			if (v != null) Locked = (bool)v;
 			v = jf.ValueAuto("IsDrawFocuse", typeof(Boolean).Name);
@@ -858,7 +917,7 @@ namespace Hypowered
 				if (v != null) FileName = (string)v;
 			}
 			v = jf.ValueAuto("Name", typeof(String).Name);
-			if (v != null) Name = (String)v;
+			if (v != null) SetName( (String)v);
 			v = jf.ValueAuto("Location", typeof(Point).Name);
 			if (v != null) Location = (Point)v;
 			v = jf.ValueAuto("Size", typeof(Size).Name);

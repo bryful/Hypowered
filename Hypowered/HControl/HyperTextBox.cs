@@ -110,7 +110,7 @@ namespace Hypowered
 		}
 		public HyperTextBox()
 		{
-			SetMyType(ControlType.TextBox);
+			SetControlType(Hypowered.ControlType.TextBox);
 			SetInScript(InScriptBit.ValueChanged);
 			m_TextBox.BorderStyle = BorderStyle.FixedSingle;
 			BackColor = ColU.ToColor(HyperColor.Back);
@@ -152,7 +152,7 @@ namespace Hypowered
 		public override JsonObject ToJson()
 		{
 			JsonFile jf = new JsonFile(base.ToJson());
-			jf.SetValue(nameof(MyType), (int?)MyType);
+			jf.SetValue(nameof(ControlType), (int?)ControlType);
 			jf.SetValue(nameof(Multiline), Multiline);
 			jf.SetValue(nameof(Text), Text);
 			jf.SetValue(nameof(TextAlign), (int)TextAlign);

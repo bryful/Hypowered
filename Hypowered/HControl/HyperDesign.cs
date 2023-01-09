@@ -52,7 +52,7 @@ namespace Hypowered
 		}
 		public HyperDesign()
 		{
-			SetMyType(ControlType.Design);
+			SetControlType(Hypowered.ControlType.Design);
 			
 			SetInScript(InScriptBit.None);
 			this.Location = new Point(150, 150);
@@ -104,13 +104,13 @@ namespace Hypowered
 						}
 						break;
 				}
-
+				DrawEditMode(g, p, sb);
 			}
 		}
 		public override JsonObject ToJson()
 		{
 			JsonFile jf = new JsonFile(base.ToJson());
-			jf.SetValue(nameof(MyType), (int?)MyType);//Nullable`1
+			jf.SetValue(nameof(ControlType), (int?)ControlType);//Nullable`1
 
 			jf.SetValue(nameof(DesignType), (int)DesignType);//Color
 			jf.SetValue(nameof(Rot), Rot);//Color

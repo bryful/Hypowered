@@ -24,10 +24,7 @@ namespace Hypowered
 					m_HyperDriveIcons.CurrentDir = e.Path;
 				}
 			}
-			if (CurrentDirChanged != null)
-			{
-				CurrentDirChanged(this, e);
-			}
+
 			if(m_HyperLabel!= null)
 			{
 				m_HyperLabel.Text = e.Path;
@@ -35,6 +32,10 @@ namespace Hypowered
 			if (m_FileList != null)
 			{
 				m_FileList.CurrentDir = e.Path;
+			}
+			if (CurrentDirChanged != null)
+			{
+				CurrentDirChanged(this, e);
 			}
 			if ((MainForm != null))
 			{
@@ -241,14 +242,8 @@ namespace Hypowered
 
 		public HyperDirList()
 		{
-			SetMyType(ControlType.DirList);
-			SetConnectProps(
-				new ControlType[]
-				{
-					ControlType.DriveIcons,
-					ControlType.FileList,
-				}
-			);
+			SetControlType(Hypowered.ControlType.DirList);
+			
 			SetInScript(
 				InScriptBit.CurrentDirChanged|
 				InScriptBit.SelectedIndexChanged
@@ -268,6 +263,16 @@ namespace Hypowered
 			InitializeComponent();
 			this.Controls.Add(m_ListBox);
 			Listup();
+			InitializeComponent();
+			this.SetStyle(
+	ControlStyles.Selectable |
+	ControlStyles.UserMouse |
+	ControlStyles.DoubleBuffer |
+	ControlStyles.UserPaint |
+	ControlStyles.AllPaintingInWmPaint |
+	ControlStyles.SupportsTransparentBackColor,
+	true);
+			this.UpdateStyles();
 			m_ListBox.DoubleClick += M_ListBox_DoubleClick;
 			m_ListBox.SelectedIndexChanged += M_ListBox_SelectedIndexChanged;
 		}
@@ -345,11 +350,12 @@ namespace Hypowered
 		{
 			base.OnResize(e);
 			m_ListBox.Size = new Size(this.Width-4, this.Height-4);
+			this.Invalidate();
 		}
 		public override JsonObject ToJson()
 		{
 			JsonFile jf = new JsonFile(base.ToJson());
-			jf.SetValue(nameof(MyType), (int?)MyType);//Nullable`1
+			jf.SetValue(nameof(ControlType), (int?)ControlType);//Nullable`1
 			jf.SetValue(nameof(IntegralHeight), IntegralHeight);//Boolean
 			//jf.SetValue(nameof(ItemHeight), ItemHeight);//Int32
 			jf.SetValue(nameof(Items), Items);//ObjectCollection

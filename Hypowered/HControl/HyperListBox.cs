@@ -111,7 +111,7 @@ namespace Hypowered
 		}
 		public HyperListBox()
 		{
-			SetMyType(ControlType.ListBox);
+			SetControlType(Hypowered.ControlType.ListBox);
 			SetInScript(InScriptBit.ValueChanged|InScriptBit.SelectedIndexChanged);
 			this.Size = new Size(150, 150);
 			m_ListBox.Location = new Point(0, 0);
@@ -170,7 +170,7 @@ namespace Hypowered
 		public override JsonObject ToJson()
 		{
 			JsonFile jf = new JsonFile(base.ToJson());
-			jf.SetValue(nameof(MyType), (int?)MyType);//Nullable`1
+			jf.SetValue(nameof(ControlType), (int?)ControlType);//Nullable`1
 			jf.SetValue(nameof(IntegralHeight), IntegralHeight);//Boolean
 			jf.SetValue(nameof(ItemHeight), ItemHeight);//Int32
 			jf.SetValue(nameof(Items), Items);//ObjectCollection

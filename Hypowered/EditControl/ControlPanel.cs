@@ -63,7 +63,26 @@ namespace Hypowered
 				this.Invalidate();
 			}
 		}
-
+		[Category("Hypowered_Color")]
+		public Color SelectedColor
+		{
+			get { return m_listbox.SelectedColor; }
+			set
+			{
+				m_listbox.SelectedColor = value;
+				this.Invalidate();
+			}
+		}
+		[Category("Hypowered_Color")]
+		public int ItemHeight
+		{
+			get { return m_listbox.ItemHeight; }
+			set
+			{
+				m_listbox.ItemHeight = value;
+				this.Invalidate();
+			}
+		}
 		public ControlPanel()
 		{
 			BackColor = ColU.ToColor(HyperColor.Back);

@@ -14,7 +14,8 @@ namespace Hypowered
 		InstallExt,
 		UnInstallExt,
 		Call,
-		EnvSet
+		EnvSet,
+		EnvDelete
 	}
 	public class HArgs
 	{
@@ -153,6 +154,16 @@ namespace Hypowered
 									if (args.Length == 1)
 									{
 										m_Option = Option.EnvSet;
+									}
+									break;
+								case "envdelete":
+								case "envdel":
+								case "envremove":
+								case "envclear":
+								case "envreset":
+									if (args.Length == 1)
+									{
+										m_Option = Option.EnvDelete;
 									}
 									break;
 							}

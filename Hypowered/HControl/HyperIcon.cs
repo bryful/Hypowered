@@ -73,6 +73,7 @@ namespace Hypowered
 			}
 		}
 		private Rectangle m_BitmapRect = new Rectangle(0,0,0,0);
+		/*
 		protected bool m_IsDrawFrame = false;
 		[Category("Hypowered")]
 		public bool IsDrawFrame
@@ -80,9 +81,10 @@ namespace Hypowered
 			get { return m_IsDrawFrame; }
 			set { m_IsDrawFrame = value; this.Invalidate(); }
 		}
+		*/
 		public HyperIcon()
 		{
-			SetMyType(ControlType.Icon);
+			SetControlType(Hypowered.ControlType.Icon);
 			ScriptCode.SetInScript(InScriptBit.MouseClick | InScriptBit.MouseDoubleClick);
 			BackColor = Color.Transparent;
 			FrameWeight = new Padding(1,1,1,1);
@@ -144,13 +146,12 @@ namespace Hypowered
 					p.Color = ForeColor;
 					DrawFrame(g, p, r1);
 				}
-				/*
-				if (this.Focused)
+				if ((this.Focused) && (m_IsDrawFocuse))
 				{
 					Rectangle r2 = ReRect(this.ClientRectangle, 1);
 					p.Color = m_ForcusColor;
 					g.DrawRectangle(p, r2);
-				}*/
+				}
 				if(m_IsEditMode)
 				{
 					p.Color = ForeColor;
@@ -158,7 +159,8 @@ namespace Hypowered
 					p.DashStyle = System.Drawing.Drawing2D.DashStyle.Dash;
 					g.DrawRectangle(p,new Rectangle(0,0,this.Width-1,this.Height-1));
 				}
-				DrawType(g, sb);
+				DrawEditMode(g, p, sb);
+
 
 			}
 		}
@@ -170,7 +172,7 @@ namespace Hypowered
 		public override JsonObject ToJson()
 		{
 			JsonFile jf = new JsonFile(base.ToJson());
-			jf.SetValue(nameof(MyType), (int?)MyType);//Nullable`1
+			jf.SetValue(nameof(ControlType), (int?)ControlType);//Nullable`1
 			jf.SetValue(nameof(PictName), PictName);//Color
 			jf.SetValue(nameof(IsDrawFrame), IsDrawFrame);//Color
 

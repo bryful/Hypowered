@@ -119,10 +119,34 @@ namespace Hypowered
 		{
 			MDPos ret = MDPos.None;
 			if ((x < 0) || (y < 0) || (x >= sz.Width) || (y >= sz.Height)) return ret;
-			int ww = 20;
+			int ww = 15;
 			if (ww > sz.Width / 6) ww = sz.Width / 6;
 			if (ww < 2) ww = 2;
-			int hh = 20;
+			int hh = 15;
+			if (hh > sz.Height / 6) hh = sz.Height / 6;
+			if (hh < 2) hh = 2;
+
+			int Xadr = 0;
+			if (x < ww) Xadr = 0;
+			else if (x > sz.Width - ww) Xadr = 2;
+			else Xadr = 1;
+
+			int Yadr = 0;
+			if (y < ww) Yadr = 0;
+			else if (y > sz.Height - ww) Yadr = 2;
+			else Yadr = 1;
+
+			return (MDPos)(Yadr * 3 + Xadr);
+
+		}
+		static public MDPos GetMDPosForm(int x, int y, Size sz)
+		{
+			MDPos ret = MDPos.None;
+			if ((x < 0) || (y < 0) || (x >= sz.Width) || (y >= sz.Height)) return ret;
+			int ww = 25;
+			if (ww > sz.Width / 6) ww = sz.Width / 6;
+			if (ww < 2) ww = 2;
+			int hh = 25;
 			if (hh > sz.Height / 6) hh = sz.Height / 6;
 			if (hh < 2) hh = 2;
 

@@ -54,7 +54,7 @@
 			this.propertyGrid1.Name = "propertyGrid1";
 			this.propertyGrid1.PropertySort = System.Windows.Forms.PropertySort.Categorized;
 			this.propertyGrid1.SelectedItemWithFocusForeColor = System.Drawing.Color.White;
-			this.propertyGrid1.Size = new System.Drawing.Size(221, 469);
+			this.propertyGrid1.Size = new System.Drawing.Size(221, 560);
 			this.propertyGrid1.TabIndex = 6;
 			this.propertyGrid1.ViewBackColor = System.Drawing.Color.Black;
 			this.propertyGrid1.ViewBorderColor = System.Drawing.Color.Gray;
@@ -75,7 +75,7 @@
 			// splitContainer1.Panel2
 			// 
 			this.splitContainer1.Panel2.Controls.Add(this.propertyGrid1);
-			this.splitContainer1.Size = new System.Drawing.Size(428, 469);
+			this.splitContainer1.Size = new System.Drawing.Size(428, 560);
 			this.splitContainer1.SplitterDistance = 203;
 			this.splitContainer1.TabIndex = 7;
 			// 
@@ -84,10 +84,12 @@
 			this.controlPanel1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(35)))), ((int)(((byte)(35)))), ((int)(((byte)(35)))));
 			this.controlPanel1.Dock = System.Windows.Forms.DockStyle.Fill;
 			this.controlPanel1.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(185)))), ((int)(((byte)(185)))), ((int)(((byte)(185)))));
+			this.controlPanel1.ItemHeight = 16;
 			this.controlPanel1.Location = new System.Drawing.Point(0, 0);
 			this.controlPanel1.Name = "controlPanel1";
 			this.controlPanel1.PropertyGrid = this.propertyGrid1;
-			this.controlPanel1.Size = new System.Drawing.Size(203, 469);
+			this.controlPanel1.SelectedColor = System.Drawing.Color.FromArgb(((int)(((byte)(120)))), ((int)(((byte)(32)))), ((int)(((byte)(32)))));
+			this.controlPanel1.Size = new System.Drawing.Size(203, 560);
 			this.controlPanel1.TabIndex = 0;
 			this.controlPanel1.Text = "controlPanel1";
 			// 
@@ -96,9 +98,11 @@
 			this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
 			this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(30)))), ((int)(((byte)(30)))), ((int)(((byte)(30)))));
-			this.ClientSize = new System.Drawing.Size(452, 512);
+			this.CanResize = true;
+			this.ClientSize = new System.Drawing.Size(452, 603);
 			this.ControlBox = false;
 			this.Controls.Add(this.splitContainer1);
+			this.DoubleBuffered = true;
 			this.ForeColor = System.Drawing.Color.Gainsboro;
 			this.Name = "EditControlList";
 			this.ShowIcon = false;

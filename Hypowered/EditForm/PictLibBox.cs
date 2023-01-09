@@ -12,6 +12,25 @@ namespace Hypowered
 {
 	public partial class PictLibBox : Control
 	{
+		public class TargetIndexChangedEventArgs : EventArgs
+		{
+			public string Name;
+			public int Index;
+			public TargetIndexChangedEventArgs(string n,int idx)
+			{
+				Name = n;
+				Index = idx;
+			}
+		}
+		public delegate void TargetIndexChangedHandler(object sender, TargetIndexChangedEventArgs e);
+		public event TargetIndexChangedHandler? TargetIndexChanged;
+		protected virtual void OnTargetIndexChanged(TargetIndexChangedEventArgs e)
+		{
+			if (TargetIndexChanged != null)
+			{
+				TargetIndexChanged(this, e);
+			}
+		}
 		private HyperMainForm? m_form = null;
 		private HyperLib? m_PictLib = null;
 		public void SetMainForm(HyperMainForm? mf)
@@ -279,6 +298,9 @@ true);
 				{
 					m_TextBox_Info.Text = m_PictLib.BitmapInfo(idx);
 				}
+				OnTargetIndexChanged(new TargetIndexChangedEventArgs(
+					m_PictLib.GetPictItem(idx).Name,
+					idx));
 
 				this.Invalidate();
 			}

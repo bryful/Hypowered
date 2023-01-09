@@ -64,6 +64,15 @@ namespace Hypowered
 			}
 			return false;
 		}
+		public string IsNameChkMake(string name)
+		{
+			string n = name;
+			while(IsNameChk(n))
+			{
+				n += "Copy";
+			}
+			return n;
+		}
 		// ************************************************************************
 		public HyperFormList() 
 		{
@@ -230,6 +239,20 @@ namespace Hypowered
 		}
 
 		// ************************************************************************
+		public void ResetMain(HyperMainForm mf)
+		{
+			Clear();
+			MainForm = mf;
+			if (MainForm != null)
+			{
+				m_Items.Clear();
+				m_Items.Add(mf);
+				mf.Index = 0;
+				mf.Activated -= Bf_Activated;
+				mf.Activated += Bf_Activated;
+				OnFormChanged(new HyperChangedEventArgs(mf, mf.TargetControl));
+			}
+		}
 		public void SetMain(HyperMainForm mf)
 		{
 			MainForm = mf;
@@ -237,7 +260,7 @@ namespace Hypowered
 			{
 				if(m_Items.Count > 0) 
 				{
-					if (m_Items[0] is HyperMainForm)
+					if (mf is HyperMainForm)
 					{
 						m_Items[0] = mf;
 					}

@@ -83,20 +83,13 @@ namespace Hypowered
 			if ((e.Button & MouseButtons.Left) == MouseButtons.Left)
 			{
 
-				MDPos p = CU.GetMDPos(e.X, e.Y, this.Size);
-				if ((m_CanResize)&&(p== MDPos.BottomRight))
+				MDPos p = CU.GetMDPosForm(e.X, e.Y, this.Size);
+				if (p != MDPos.None)
 				{
 					m_MDPos = p;
-					m_MDP = new Point(e.X, e.Y);
+					m_MDP = new Point(e.X + this.Left, e.Y + this.Top);
 					m_MDLoc = this.Location;
-					m_MDSize = this.Size;
-
-				}
-				else if (p != MDPos.None)
-				{
-					m_MDPos = p;
-					m_MDP = new Point(e.X, e.Y);
-					m_MDLoc = this.Location;
+					m_MDSize= this.Size;
 					return;
 				}
 			}
@@ -104,25 +97,27 @@ namespace Hypowered
 		}
 		protected override void OnMouseMove(MouseEventArgs e)
 		{
-			if((m_MDPos == MDPos.BottomRight)&&(m_CanResize))
+			if (m_MDPos != MDPos.None)
 			{
-				int ax = e.X - m_MDP.X;
-				int ay = e.Y - m_MDP.Y;
-				this.Size = new Size(
-				m_MDSize.Width + ax,
-				m_MDSize.Height + ay);
-				return;
-
-			}
-			else if (m_MDPos != MDPos.None)
-			{
-				int ax = e.X - m_MDP.X;
-				int ay = e.Y - m_MDP.Y;
-				if (m_MDPos != MDPos.None)
+				int ax = e.X + this.Left - m_MDP.X;
+				int ay = e.Y + this.Top - m_MDP.Y;
+				switch (m_MDPos)
 				{
-					this.Location = new Point(
-						this.Location.X + ax,
-						this.Location.Y + ay);
+					case MDPos.None:
+						break;
+					case MDPos.BottomRight:
+						if(CanResize)
+						{
+							this.Size = new Size(
+								m_MDSize.Width + ax,
+								m_MDSize.Height + ay);
+						}
+						break;
+					case MDPos.Top:
+						this.Location = new Point(
+							m_MDLoc.X + ax,
+							m_MDLoc.Y + ay);
+						break;
 				}
 				return;
 			}

@@ -28,6 +28,25 @@ namespace Hypowered
 			}
 		}
 		[Category("Hypowered")]
+		public new bool IsDrawFocuse
+		{
+			get { return base.IsDrawFocuse; }
+			set
+			{
+				base.IsDrawFocuse = value;
+				if (this.Controls.Count > 0)
+				{
+					foreach (Control control in this.Controls)
+					{
+						if(control is RadioButtonChild)
+						{
+							((RadioButtonChild)control).IsDrawFocuse = value;
+						}
+					}
+				}
+			}
+		}
+		[Category("Hypowered")]
 		public new Font Font
 		{
 			get { return base.Font; }
@@ -313,10 +332,10 @@ namespace Hypowered
 		}
 		public HyperRadioButton()
 		{
-			SetMyType(ControlType.RadioButton);
+			SetControlType(Hypowered.ControlType.RadioButton);
 			SetInScript(InScriptBit.ValueChanged);
 			//m_ScriptCodes = "//RadioButton";
-			ControlName = "HyperRadioButton";
+			SetControlName("HyperRadioButton");
 			m_format.Alignment = StringAlignment.Near;
 			m_format.LineAlignment = StringAlignment.Center;
 			m_UnCheckedColor = ColU.ToColor(HyperColor.Dark);
@@ -405,13 +424,14 @@ namespace Hypowered
 				Rectangle rr = ReRect(this.ClientRectangle, 2);
 				//p.Color = ForeColor;
 				//g.DrawRectangle(p, rr);
-				if (this.Focused)
+				if ((this.Focused)&&(m_IsDrawFocuse))
 				{
 					rr = ReRect(this.ClientRectangle, 1);
 					p.Color = m_ForcusColor;
 					g.DrawRectangle(p, rr);
 				}
-				DrawType(g, sb);
+				DrawEditMode(g, p, sb);
+
 
 			}
 		}
@@ -428,7 +448,7 @@ namespace Hypowered
 					if (p != MDPos.None)
 					{
 						m_MDPos = p;
-						m_MDP = new Point(e.X, e.Y);
+						m_MDP = MousePos(e);
 						m_MDLoc = this.Location;
 						m_MDSize = this.Size;
 						return;
@@ -445,7 +465,7 @@ namespace Hypowered
 		public override JsonObject ToJson()
 		{
 			JsonFile jf = new JsonFile(base.ToJson());
-			jf.SetValue(nameof(MyType), (int?)MyType);//Nullable`1
+			jf.SetValue(nameof(ControlType), (int?)ControlType);//Nullable`1
 			jf.SetValue(nameof(HorCount), HorCount);
 			jf.SetValue(nameof(Count), Count);
 			jf.SetValue(nameof(Value), Value);

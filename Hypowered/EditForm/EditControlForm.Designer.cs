@@ -270,6 +270,7 @@
 			this.Controls.Add(this.label2);
 			this.Controls.Add(this.tbName);
 			this.Controls.Add(this.label1);
+			this.DoubleBuffered = true;
 			this.ForeColor = System.Drawing.Color.Gainsboro;
 			this.Name = "EditControlForm";
 			this.ShowIcon = false;

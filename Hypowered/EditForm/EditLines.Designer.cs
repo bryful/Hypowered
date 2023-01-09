@@ -72,10 +72,12 @@
 			// EditLines
 			// 
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
+			this.CanResize = true;
 			this.ClientSize = new System.Drawing.Size(435, 100);
 			this.Controls.Add(this.btnCancel);
 			this.Controls.Add(this.btnOK);
 			this.Controls.Add(this.textBox1);
+			this.DoubleBuffered = true;
 			this.Name = "EditLines";
 			this.Text = "EditLines";
 			this.Controls.SetChildIndex(this.textBox1, 0);

@@ -168,7 +168,7 @@ namespace Hypowered
 		public HyperDriveIcons()
 		{
 			Listup();
-			SetMyType(ControlType.DriveIcons);
+			SetControlType(Hypowered.ControlType.DriveIcons);
 			SetInScript(InScriptBit.CurrentDirChanged);
 			//m_ScriptCodes = "//DriveIcons";
 			this.Size = ControlDef.DefSize;
@@ -222,19 +222,14 @@ namespace Hypowered
 				Rectangle rr = ReRect(this.ClientRectangle, 2);
 				//p.Color = ForeColor;
 				//g.DrawRectangle(p, rr);
-				if (this.Focused)
-				{
-					rr = ReRect(this.ClientRectangle, 1);
-					p.Color = m_ForcusColor;
-					g.DrawRectangle(p, rr);
-				}
 				if ((this.Focused)&&(m_IsDrawFocuse))
 				{
 					rr = ReRect(this.ClientRectangle, 1);
 					p.Color = m_ForcusColor;
 					g.DrawRectangle(p, rr);
 				}
-				DrawType(g, sb);
+				DrawEditMode(g, p, sb);
+
 			}
 		}
 		private void Listup()
@@ -330,7 +325,7 @@ namespace Hypowered
 		public override JsonObject ToJson()
 		{
 			JsonFile jf = new JsonFile(base.ToJson());
-			jf.SetValue(nameof(MyType), (int?)MyType);//Nullable`1
+			jf.SetValue(nameof(ControlType), (int?)ControlType);//Nullable`1
 			jf.SetValue(nameof(IconSize), IconSize);//Size
 			jf.SetValue(nameof(PictName), PictName);//Size
 

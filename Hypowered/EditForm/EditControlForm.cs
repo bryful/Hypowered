@@ -99,9 +99,9 @@ namespace Hypowered
 			IsNewMode = (c == null);
 			if (IsNewMode == false)
 			{
-				if ((m_TargetControl != null) && ((m_TargetControl.MyType != null)))
+				if ((m_TargetControl != null) && ((m_TargetControl.ControlType != null)))
 				{
-					editControlComb1.ControlType = (ControlType)m_TargetControl.MyType;
+					editControlComb1.ControlType = (ControlType)m_TargetControl.ControlType;
 					tbDes.Text = ControlTypeInfos.Disp(editControlComb1.ControlType);
 					editControlComb1.Enabled = false;
 					tbName.Text = m_TargetControl.Name;
@@ -213,7 +213,7 @@ namespace Hypowered
 			if ((e.Button & MouseButtons.Left) == MouseButtons.Left)
 			{
 
-				MDPos p = CU.GetMDPos(e.X, e.Y, this.Size);
+				MDPos p = CU.GetMDPosForm(e.X, e.Y, this.Size);
 				if (p != MDPos.None)
 				{
 					m_MDPos = p;

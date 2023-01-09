@@ -98,6 +98,10 @@ namespace Hypowered
 		{
 			return forms.IsNameChk(name);
 		}
+		public string IsNameChkMake(string name)
+		{
+			return forms.IsNameChkMake(name);
+		}
 		private void FormList_FormChanged(object sender, HyperChangedEventArgs e)
 		{
 			OnFormChanged(e);
@@ -347,7 +351,7 @@ true);
 
 			FormFisnish();
 		}
-		protected override void OnCreatedControl(HyperChangedEventArgs e)
+		public override void OnCreatedControl(HyperChangedEventArgs e)
 		{
 			base.OnCreatedControl(e);
 			Script.InitControls(this);
@@ -452,10 +456,6 @@ true);
 			jf.SetValue(nameof(InputFormBounds), InputFormBounds);
 			return jf.Save(s);
 		}
-		public bool Connect(HyperControl s, ControlType ct,HyperControl d)
-		{
-			return ConnectList.AddConnect(this.Controls, s.Name, ct, d.Name);
-		}
 		// ****************************************************************************
 		public bool LoadStatus(string s)
 		{
@@ -510,6 +510,7 @@ true);
 					this.Controls.RemoveAt(i);
 				}
 			}
+			forms.Clear();
 			Script.Init();
 		}
 		public bool OpenFromHYPF(string p)
@@ -537,8 +538,8 @@ true);
 
 				try { Directory.SetCurrentDirectory(Path.GetDirectoryName(m_FileName)); } catch { }
 				Lib.SetMainForm(this);//FileNameを設定してる
-				ConnectList.ConnectAll(this.Controls);
 				LoadStatus(StatusFileName());
+				forms.ResetMain(this);
 				InitScript();
 				if (Script_Startup != "")
 				{

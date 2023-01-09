@@ -137,7 +137,7 @@ namespace Hypowered
 		{
 			
 			AllowDrop= true;
-			SetMyType(ControlType.PictureBox);
+			SetControlType(Hypowered.ControlType.PictureBox);
 			ScriptCode.SetInScript(InScriptBit.MouseDoubleClick);
 			BackColor = Color.Transparent;
 			this.Size = new Size(306, 306);
@@ -397,7 +397,7 @@ namespace Hypowered
 		public override JsonObject ToJson()
 		{
 			JsonFile jf = new JsonFile(base.ToJson());
-			jf.SetValue(nameof(MyType), (int?)MyType);//Nullable`1
+			jf.SetValue(nameof(ControlType), (int?)ControlType);//Nullable`1
 			jf.SetValue(nameof(BaseColor), BaseColor);//Color
 			jf.SetValue(nameof(LineColor), BaseColor);//Color
 			if (IsSaveFileName)

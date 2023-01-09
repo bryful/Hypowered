@@ -5,6 +5,7 @@ using System.Diagnostics;
 using System.Linq;
 using System.Security.Policy;
 using System.Text;
+using System.Text.Json.Nodes;
 using System.Threading.Tasks;
 
 namespace Hypowered
@@ -40,6 +41,9 @@ namespace Hypowered
 			lst.Add(new FuncItem(ControlToFront, Keys.Alt | Keys.Up, "コントロールを一番上へ"));
 			lst.Add(new FuncItem(ShowInputForm, Keys.Control | Keys.F9, "JavaScript Input"));
 			lst.Add(new FuncItem(ShowOutputForm, Keys.Control | Keys.F8, "JavaScript Output"));
+			lst.Add(new FuncItem(CopyControl, Keys.Control | Keys.C, "Copy"));
+			lst.Add(new FuncItem(CutControl, Keys.Control | Keys.X, "Cut"));
+			lst.Add(new FuncItem(PasteControl, Keys.Control | Keys.V, "Paste"));
 			Funcs.SetFuncItems(lst.ToArray());
 		}
 		// *************************************************************************
@@ -73,6 +77,11 @@ namespace Hypowered
 		private HyperMenuItem? m_ContentMenu = null;
 		private HyperMenuItem? m_InputMenu = null;
 		private HyperMenuItem? m_OutputMenu = null;
+
+		private HyperMenuItem? m_CopyMenu = null;
+		private HyperMenuItem? m_CutMenu = null;
+		private HyperMenuItem? m_PasteMenu = null;
+
 		// *************************************************************************
 		public void MakeMenu()
 		{
@@ -90,6 +99,16 @@ namespace Hypowered
 				m_FileMenu.Add(null);
 				m_FileMenu.Add(m_menuQuit);
 			}
+			m_CopyMenu = CreateMenuItem(CopyControl,true);
+			m_CutMenu = CreateMenuItem(CutControl, true);
+			m_PasteMenu = CreateMenuItem(PasteControl, true);
+			if (m_EditlMenu!=null)
+			{
+				m_EditlMenu.Add(m_CopyMenu);
+				m_EditlMenu.Add(m_CutMenu);
+				m_EditlMenu.Add(m_PasteMenu);
+			}
+
 			m_EditModeMenu = CreateMenuItem(ToggleEditMode);
 			m_ShowMenu = CreateMenuItem(ToggleShowMenu);
 
@@ -320,7 +339,12 @@ namespace Hypowered
 						ShowPictLibDialog();
 						break;
 					case DROption.OK:
-						if (targetControl.Name != dlg.ControlName) targetControl.Name = dlg.ControlName;
+						if (targetControl.Name != dlg.ControlName)
+						{
+							targetControl.SetName(dlg.ControlName);
+							Script.InitControls(this);
+							OnControlChanged(new HyperChangedEventArgs(targetForm, targetControl));
+						}
 						if (targetControl.Text != dlg.ControlText) targetControl.Text = dlg.ControlText;
 						break;
 					case DROption.Cancel:
@@ -526,8 +550,9 @@ namespace Hypowered
 			bool ret = false;
 			if (m_IsEditMode == false) return ret;
 			if (targetControl == null) return ret;
-			if ((targetControl.MyType == ControlType.Icon)
-				|| (targetControl.MyType == ControlType.DriveIcons))
+			if ((targetControl.ControlType == ControlType.Icon)
+				|| (targetControl.ControlType == ControlType.DriveIcons)
+				|| (targetControl.ControlType == ControlType.Button))
 			{
 				EditPictLibDialog dlg = new EditPictLibDialog();
 				dlg.SetMainForm(this);
@@ -538,6 +563,13 @@ namespace Hypowered
 				{
 					dlg.PictName = ((HyperDriveIcons)targetControl).PictName;
 				}
+				else if (targetControl is HyperButton)
+				{
+					dlg.PictDownMode= true;
+					dlg.PictName = ((HyperButton)targetControl).PictName;
+					dlg.PictName_Down = ((HyperButton)targetControl).PictName_Down;
+
+				}
 				dlg.StartPosition = FormStartPosition.CenterParent;
 				if (dlg.ShowDialog(this) == DialogResult.OK)
 				{
@@ -547,6 +579,11 @@ namespace Hypowered
 					}else if (targetControl is HyperDriveIcons)
 					{
 						((HyperDriveIcons)targetControl).PictName = dlg.PictName;
+					}
+					else if (targetControl is HyperButton)
+					{
+						((HyperButton)targetControl).PictName = dlg.PictName;
+						((HyperButton)targetControl).PictName_Down = dlg.PictName_Down;
 					}
 					ret = true;
 				}
@@ -572,7 +609,7 @@ namespace Hypowered
 			bool ret = false;
 			if (m_IsEditMode == false) return ret;
 			if (targetControl == null) return ret;
-			if (targetControl.MyType != ControlType.PictureBox) return ret;
+			if (targetControl.ControlType != ControlType.PictureBox) return ret;
 			HyperPictureBox pb = (HyperPictureBox)targetControl;
 			OpenFileDialog dlg = new OpenFileDialog();
 			dlg.Filter = "*.png|*.png|*.jpg|*.jpg|*.*|*.*";
@@ -620,7 +657,7 @@ namespace Hypowered
 			if(targetControl==null) return ret;
 			EditLines dlg = new EditLines();
 			dlg.Text = "Edit Content";
-			switch (targetControl.MyType)
+			switch (targetControl.ControlType)
 			{
 				case ControlType.ListBox:
 					dlg.Multiline = true;
@@ -643,7 +680,7 @@ namespace Hypowered
 			}
 			if(dlg.ShowDialog(targetForm)==DialogResult.OK)
 			{
-				switch (targetControl.MyType)
+				switch (targetControl.ControlType)
 				{
 					case ControlType.ListBox:
 						((HyperListBox)targetControl).Lines = dlg.ControlLines;
@@ -701,6 +738,79 @@ namespace Hypowered
 			if ((targetForm != null) && (targetControl != null))
 			{
 				ret = targetForm.ControlToFloor(targetControl);
+			}
+			return ret;
+		}
+		public bool CopyControl()
+		{
+			if (m_IsEditMode == false) return false;
+			bool ret = false;
+			if ((targetForm != null) && (targetControl != null))
+			{
+				string js = targetControl.ToJsonCode();
+				if((js!=null)&&(js!=""))
+				{
+					Clipboard.SetText(js);
+					ret = true;
+				}
+			}
+			return ret;
+		}
+		public bool CutControl()
+		{
+			if (m_IsEditMode == false) return false;
+			bool ret = CopyControl();
+			if(ret)
+			{
+				ret =DeleteControl();
+			}
+			return ret;
+		}
+		public bool PasteControl()
+		{
+			bool ret = false;
+			if (m_IsEditMode == false) return ret;
+			if (targetForm == null) return ret;
+			string js = Clipboard.GetText();
+			if(js==null) return false;
+			HyperControl? hc = null;
+			try
+			{
+				var doc = JsonNode.Parse(js);
+				if (doc != null)
+				{
+					var obj = (JsonObject?)doc;
+					if(obj != null)
+					{
+						if (obj.ContainsKey("ControlType"))
+						{
+							int? mt = obj["ControlType"].GetValue<int?>();
+							if (mt != null)
+							{
+								ControlType ct = (ControlType)mt;
+								hc = (HyperControl?)CreateControl(ct);
+								if (hc != null)
+								{
+									hc.FromJson(obj);
+									hc.LocationChanged += (sender,e)=>
+									{
+										targetForm.Invalidate();
+									};
+									hc.SetName(IsNameChkMake(hc.Name));
+									hc.Location = new Point(hc.Location.X + 50, hc.Location.Y + 50);
+									targetForm.Controls.Add(hc);
+									targetForm.Controls.SetChildIndex(hc,1);
+									targetForm.ChkControls();
+									targetForm.OnCreatedControl(new HyperChangedEventArgs(targetForm, hc));
+								}
+							}
+						}
+					}
+				}
+			}
+			catch
+			{
+				return false;
 			}
 			return ret;
 		}

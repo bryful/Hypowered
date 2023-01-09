@@ -54,14 +54,14 @@ namespace Hypowered
 		}
 		public HyperMenuBar()
 		{
-			SetMyType(null);
+			SetControlType(null);
 
 			m_MenuFourcusColor = ColU.ToColor(HyperColor.MenuFourcus);
 			m_MenuWakuColor = ColU.ToColor(HyperColor.Line);
 			m_MenuWakuEditColor = ColU.ToColor(HyperColor.LineRed);
 			this.Location= new Point(0, 0);
 			this.Size = new Size(200, MenuHeight);
-			this.Name = "HyperMenuBar";
+			SetName("HyperMenuBar");
 			this.SetStyle(
 //ControlStyles.Selectable |
 //ControlStyles.UserMouse |
@@ -167,7 +167,8 @@ true);
 					};
 					DrawMenuFrame(g, p, this.ClientRectangle);
 				}
-				DrawType(g, sb);
+				DrawEditMode(g, p, sb);
+
 
 			}
 		}

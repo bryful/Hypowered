@@ -17,9 +17,9 @@ namespace Hypowered
 	{
 		public HyperLabel()
 		{
-			SetMyType(ControlType.Label);
+			SetControlType(Hypowered.ControlType.Label);
 			SetInScript(InScriptBit.None);
-			this.Name = "HyperLabel";
+			SetName("HyperLabel");
 			this.TabStop= false;
 			this.Size = ControlDef.DefSize;
 			InitializeComponent();
@@ -60,14 +60,15 @@ namespace Hypowered
 					sb.Color = ForeColor;
 					g.DrawString(this.Text, this.Font, sb, ReRect(this.ClientRectangle, 3), m_format);
 				}
-				DrawType(g, sb);
+				DrawEditMode(g, p, sb);
+
 
 			}
 		}
 		public override JsonObject ToJson()
 		{
 			JsonFile jf = new JsonFile(base.ToJson());
-			jf.SetValue(nameof(MyType), (int?)MyType);//Nullable`1
+			jf.SetValue(nameof(ControlType), (int?)ControlType);//Nullable`1
 
 			return jf.Obj;
 		}

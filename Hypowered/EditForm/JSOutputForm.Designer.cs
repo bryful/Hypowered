@@ -54,6 +54,7 @@
 			this.CanResize = true;
 			this.ClientSize = new System.Drawing.Size(900, 240);
 			this.Controls.Add(this.textBox1);
+			this.DoubleBuffered = true;
 			this.Name = "JSOutputForm";
 			this.ShowIcon = false;
 			this.ShowInTaskbar = false;

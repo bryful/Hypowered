@@ -60,6 +60,15 @@ namespace Hypowered
 		public ControlBrowser()
 		{
 			InitializeComponent();
+			this.SetStyle(
+//ControlStyles.Selectable |
+//ControlStyles.UserMouse |
+ControlStyles.DoubleBuffer |
+ControlStyles.UserPaint |
+ControlStyles.AllPaintingInWmPaint |
+ControlStyles.SupportsTransparentBackColor,
+true);
+			this.UpdateStyles();
 			this.Size = new Size(200, 200);
 
 			m_FormComp.ForeColor = this.ForeColor;
@@ -256,14 +265,12 @@ namespace Hypowered
 			object? targetObj = null; ;
 			HyperBaseForm? bf = m_MainForm.forms[m_FormComp.SelectedIndex];
 			if (bf == null) return;
-			string [] connects = new string[0];
 			if (idx==0)
 			{
 				targetObj = bf;
 			}else if(idx>=1)
 			{
 				targetObj = bf.Controls[idx-1];
-				connects = ((HyperControl)targetObj).ConnectPropsNames;
 			}
 			if (targetObj == null) return;
 			List<string> list = new List<string>();
@@ -293,13 +300,6 @@ namespace Hypowered
 			for(int i= list.Count-1; i>=1;i--)
 			{
 				if (list[i]== list[i-1]) list.RemoveAt(i);
-			}
-			if(connects.Length> 0)
-			{
-				for (int i= connects.Length-1;i>=0;i--)
-				{
-					list.Insert(0, connects[i]);
-				}
 			}
 			m_MemberListBox.Items.AddRange(list.ToArray());
 

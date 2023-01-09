@@ -249,12 +249,8 @@ namespace Hypowered
 
 		public HyperFileList()
 		{
-			SetMyType(ControlType.FileList);
-			SetConnectProps(
-				new ControlType[] 
-				{ ControlType.DirList,
-					ControlType.Label 
-				});
+			SetControlType(Hypowered.ControlType.FileList);
+			
 			SetInScript(InScriptBit.MouseDoubleClick | InScriptBit.SelectedIndexChanged);
 			this.Size = new Size(150, 150);
 			m_ListBox.Location = new Point(2, 2);
@@ -267,6 +263,16 @@ namespace Hypowered
 			InitializeComponent();
 			this.Controls.Add(m_ListBox);
 			Listup();
+			InitializeComponent();
+			this.SetStyle(
+	ControlStyles.Selectable |
+	ControlStyles.UserMouse |
+	ControlStyles.DoubleBuffer |
+	ControlStyles.UserPaint |
+	ControlStyles.AllPaintingInWmPaint |
+	ControlStyles.SupportsTransparentBackColor,
+	true);
+			this.UpdateStyles();
 			m_ListBox.DoubleClick += M_ListBox_DoubleClick;
 			m_ListBox.SelectedIndexChanged += M_ListBox_SelectedIndexChanged;
 		}
@@ -354,12 +360,12 @@ namespace Hypowered
 		{
 			base.OnResize(e);
 			m_ListBox.Size = new Size(this.Width - 4, this.Height - 4);
-		
+			this.Invalidate();
 		}
 		public override JsonObject ToJson()
 		{
 			JsonFile jf = new JsonFile(base.ToJson());
-			jf.SetValue(nameof(MyType), (int?)MyType);//Nullable`1
+			jf.SetValue(nameof(ControlType), (int?)ControlType);//Nullable`1
 			jf.SetValue(nameof(IntegralHeight), IntegralHeight);//Boolean
 			jf.SetValue(nameof(ItemHeight), ItemHeight);//Int32
 			//jf.SetValue(nameof(Items), Items);//ObjectCollection

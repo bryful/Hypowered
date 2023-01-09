@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
+using System.Diagnostics;
 using System.Drawing;
 using System.Linq;
 using System.Text;
@@ -42,6 +43,13 @@ namespace Hypowered
 			get { return base.BackColor; }
 			set { base.BackColor = value; this.Invalidate(); }
 		}
+		private Color m_SelectedColor = Color.FromArgb(255, 120, 32, 32);
+		[Category("Hypowered_Color")]
+		public Color SelectedColor
+		{
+			get { return m_SelectedColor; }
+			set { m_SelectedColor = value; this.Invalidate(); }
+		}
 		[Category("Hypowered")]
 		public new ObjectCollection Items
 		{
@@ -57,7 +65,47 @@ namespace Hypowered
 			BackColor = ColU.ToColor(HyperColor.Back);
 			ForeColor = ColU.ToColor(HyperColor.Fore);
 			BorderStyle= BorderStyle.FixedSingle;
+			DrawMode = DrawMode.OwnerDrawFixed;
 			InitializeComponent();
+		}
+
+		protected override void OnDrawItem(DrawItemEventArgs e)
+		{
+			e.DrawBackground();
+
+			Graphics g = e.Graphics;
+
+			if (e.Index > -1)
+			{
+				using(SolidBrush sb = new SolidBrush(ForeColor))
+				{
+					if (MainForm!=null)
+					{
+						if((e.Index>=0)&&(e.Index<MainForm.Controls.Count))
+						{
+							if (MainForm.Controls[e.Index] is HyperControl)
+							{
+								HyperControl hc = (HyperControl)MainForm.Controls[e.Index];
+								if((hc.Selected)&&(e.Index!=MainForm.TargetIndex))
+								{
+									sb.Color = m_SelectedColor;
+									g.FillRectangle(sb, e.Bounds);
+								}
+							}
+						}
+					}
+					string? txt = this.Items[e.Index].ToString();
+					if((txt!=null)&&(txt!=""))
+					{
+						sb.Color = ForeColor;
+						g.DrawString(txt, e.Font, sb, e.Bounds);
+					}
+
+				}
+			}
+
+			//フォーカスを示す四角形を描画
+			e.DrawFocusRectangle();
 		}
 		public void SetMainForm(HyperMainForm? mf)
 		{
@@ -66,9 +114,16 @@ namespace Hypowered
 			{
 				MainForm.FormChanged -= MainForm_FormChanged;
 				MainForm.FormChanged += MainForm_FormChanged;
+				MainForm.ControlChanged -= MainForm_ControlChanged;
+				MainForm.ControlChanged += MainForm_ControlChanged;
 				SetTargetControl(MainForm, MainForm.TargetControl);
 
 			}
+		}
+
+		private void MainForm_ControlChanged(object sender, HyperChangedEventArgs e)
+		{
+			SetTargetControl(e.Form, e.Control);
 		}
 
 		private void MainForm_FormChanged(object sender, HyperChangedEventArgs e)
@@ -107,6 +162,10 @@ namespace Hypowered
 					SelectedIndex = idx;
 				}
 			}
+			else
+			{
+
+			}
 		}
 
 		private void TargetForm_ControlChanged(object sender, HyperChangedEventArgs e)
@@ -124,6 +183,10 @@ namespace Hypowered
 				if (SelectedIndex != -1)
 				{
 					SelectedIndex = -1;
+				}
+				if((m_pg!=null)&&(MainForm!=null))
+				{
+					m_pg.SelectedObject = MainForm.targetForm;
 				}
 			}
 		}
@@ -171,11 +234,13 @@ namespace Hypowered
 		protected override void OnSelectedIndexChanged(EventArgs e)
 		{
 			base.OnSelectedIndexChanged(e);
-			if(TargetForm!= null)
+			if (TargetForm!= null)
 			{
+
 				if (TargetForm.TargetIndex != SelectedIndex)
 				{
-					TargetForm.TargetIndex = SelectedIndex;
+					HyperControl hc = (HyperControl)TargetForm.Controls[SelectedIndex];
+					TargetForm.ChkTargetSelected(hc);
 				}
 			}
 			if(m_pg!=null)
@@ -194,6 +259,5 @@ namespace Hypowered
 
 			}
 		}
-
 	}
 }

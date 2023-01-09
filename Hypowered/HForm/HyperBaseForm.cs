@@ -1,5 +1,6 @@
 ﻿using BRY;
 using System.ComponentModel;
+using System.Diagnostics;
 using System.Drawing.Drawing2D;
 using System.Reflection;
 
@@ -27,7 +28,7 @@ namespace Hypowered
 		// *********************************************************
 		public delegate void CreatedControlHandler(object sender, HyperChangedEventArgs e);
 		public event CreatedControlHandler? CreatedControl;
-		protected virtual void OnCreatedControl(HyperChangedEventArgs e)
+		public virtual void OnCreatedControl(HyperChangedEventArgs e)
 		{
 			if (CreatedControl != null)
 			{
@@ -530,13 +531,36 @@ true);
 			}
 		}
 		// ***********************************************************************
-		
+		private Rectangle? m_DrawTarget_Rect = null;
+		private int m_DrawTarget_count = 0;
+		protected virtual void DrawTarget(Rectangle rct)
+		{
+			Debug.WriteLine($"DrawTarget Base{m_DrawTarget_count}");
+			/*
+			if(m_DrawTarget_Rect != null)
+			{
+				ControlPaint.DrawReversibleFrame(
+										(Rectangle)m_DrawTarget_Rect,
+										BackColor,
+										FrameStyle.Thick);
+			}
+			*/
+			Point tl = this.PointToScreen(rct.Location);
+			m_DrawTarget_Rect = new Rectangle(tl, rct.Size);
+			ControlPaint.DrawReversibleFrame(
+									(Rectangle)m_DrawTarget_Rect,
+									BackColor,
+									FrameStyle.Thick);
+			m_DrawTarget_count++;
+		}
 
 		// ***********************************************************************
 		protected override void OnPaint(PaintEventArgs e)
 		{
-			base.OnPaint(e);
+			Debug.WriteLine("OnPaint Base");
+			//base.OnPaint(e);
 			Graphics g = e.Graphics;
+			Rectangle? tRct =null;
 			using (Pen p = new Pen(ForeColor))
 			{
 				if (m_IsEditMode)
@@ -550,11 +574,14 @@ true);
 								HyperControl h = (HyperControl)c;
 								if (h.Index == m_TargetIndex)
 								{
+									
 									p.Color = TargetColor;
 									p.Width = 2;
 									p.DashStyle = DashStyle.Dot;
 									g.DrawRectangle(p, h.Bounds(2));
 									p.DashStyle = DashStyle.Solid;
+									
+									//tRct = h.Bounds(10);
 								}
 								else if (h.Selected)
 								{
@@ -572,6 +599,10 @@ true);
 				p.Color = ForeColor;
 				DrawFrame(g, p, this.ClientRectangle);
 				//g.DrawRectangle(p,new Rectangle(0,0,Width-1,Height-1));
+				if(tRct!=null)
+				{
+					//DrawTarget((Rectangle)tRct);
+				}
 			}
 
 		}
@@ -716,7 +747,7 @@ true);
 			HyperControl? ctrl = CreateControl(ct);
 			if (ctrl != null)
 			{
-				if (name != "") ctrl.Name = name;
+				if (name != "") ctrl.SetName(name);
 				if (tx != "") ctrl.Text = tx;
 				if (fnt != null) ctrl.Font = fnt;
 				if( AddControl(bf,ctrl))
@@ -816,7 +847,6 @@ true);
 						{
 							HyperControl h = (HyperControl)c;
 							h.Selected = false;
-							h.ParentIndex = -1;
 						}
 					}
 				}
@@ -878,7 +908,6 @@ true);
 						{
 							HyperControl h = (HyperControl)c;
 							h.Selected = false;
-							h.ParentIndex = -1;
 						}
 					}
 					OnControlChanged(new HyperChangedEventArgs(this, null));
@@ -886,13 +915,9 @@ true);
 				else
 				{
 					bool IsShift = ((Control.ModifierKeys & Keys.Shift) == Keys.Shift);
-					if (IsShift)
+					if(IsShift)
 					{
 						m_isMultSelect = true;
-					}
-					else
-					{
-						if (hc.Selected == false) { m_isMultSelect = false; }
 					}
 
 					foreach (Control c in this.Controls)
@@ -903,7 +928,6 @@ true);
 							if (m_isMultSelect == false)
 							{
 								h.Selected = false;
-								h.ParentIndex = -1;
 							}
 							if (h == hc)
 							{
@@ -911,27 +935,6 @@ true);
 								h.Selected = true;
 							}
 
-						}
-					}
-					// 複数選択の処理
-					if (m_isMultSelect)
-					{
-						foreach (Control c in this.Controls)
-						{
-							if (c is HyperControl)
-							{
-								HyperControl h = (HyperControl)c;
-								if (h.Selected && (h.Index != hc.Index))
-								{
-									h.ParentLocation = new Point(h.Left - hc.Left, h.Top - hc.Top);
-									h.ParentIndex = hc.Index;
-								}
-								else
-								{
-									h.ParentLocation = new Point(0, 0);
-									h.ParentIndex = -1;
-								}
-							}
 						}
 					}
 				}
@@ -952,12 +955,12 @@ true);
 		/// <summary>
 		/// 選択されたコントロールを同時に動かす
 		/// </summary>
-		public void MoveSelected()
+		/// 
+		
+		public void MoveSelected(Point moveP)
 		{
 			if (m_TargetIndex < 0) return;
-			if (m_isMultSelect == false) return;
 			if (this.Controls.Count == 0) return;
-			HyperControl pp = (HyperControl)this.Controls[m_TargetIndex];
 			foreach (Control c in this.Controls)
 			{
 				if (c is HyperControl)
@@ -966,13 +969,12 @@ true);
 					HyperControl h = (HyperControl)c;
 					if (h != null)
 					{
-						if (h.Index != m_TargetIndex)
+						if ((h.Selected)||(h.Index ==m_TargetIndex) )
 						{
 							try
 							{
-								Point pt = h.ParentLocation;
-								int x = pt.X + pp.Left;
-								int y = pt.Y + pp.Top;
+								int x = h.LocationBack.X + moveP.X;
+								int y = h.LocationBack.Y + moveP.Y;
 								h.Location = new Point(x, y);
 							}
 							catch { }
@@ -981,13 +983,27 @@ true);
 				}
 			}
 		}
-
+		
 		// ****************************************************************************
 		private MDPos m_MDPos = MDPos.None;
 		private Point m_MDP = new Point(0, 0);
 		private Point m_MDLoc = new Point(0, 0);
 		private Size m_MDSize = new Size(0, 0);
-
+		public void LocationBackup()
+		{
+			if(this.Controls.Count> 0)
+			{
+				foreach(var c in this.Controls)
+				{
+					if (c is HyperMenuBar) continue;
+					if (c is HyperControl)
+					{
+						HyperControl h = (HyperControl)c;
+						h.LocationBack = h.Location;
+					}
+				}
+			}
+		}
 		public void DoMouseDown(MouseEventArgs e)
 		{
 			this.OnMouseDown(e);
@@ -1005,11 +1021,11 @@ true);
 			if (m_IsEditMode) ChkTargetSelected(null);
 			if ((e.Button & MouseButtons.Left) == MouseButtons.Left)
 			{
-				MDPos p = CU.GetMDPos(e.X, e.Y, this.Size);
+				MDPos p = CU.GetMDPosForm(e.X, e.Y, this.Size);
 				if ((p != MDPos.None)&&(p!= MDPos.Center))
 				{
 					m_MDPos = p;
-					m_MDP = new Point(e.X, e.Y);
+					m_MDP = new Point(e.X+this.Left, e.Y+this.Top);
 					m_MDLoc = this.Location;
 					if (Locked == false)
 					{
@@ -1024,8 +1040,8 @@ true);
 		{
 			if (m_MDPos != MDPos.None)
 			{
-				int ax = e.X - m_MDP.X;
-				int ay = e.Y - m_MDP.Y;
+				int ax = e.X+this.Left - m_MDP.X;
+				int ay = e.Y+this.Top - m_MDP.Y;
 				switch (m_MDPos)
 				{
 					case MDPos.BottomRight:
@@ -1037,13 +1053,38 @@ true);
 						}
 						break;
 					case MDPos.Bottom:
+						if (Locked == false)
+						{
+							this.Size = new Size(
+								m_MDSize.Width,
+								m_MDSize.Height + ay);
+						}
+						break;
 					case MDPos.Right:
+						if (Locked == false)
+						{
+							this.Size = new Size(
+								m_MDSize.Width + ax,
+								m_MDSize.Height);
+						}
+						break;
 					case MDPos.Left:
+						if (Locked == false)
+						{
+							this.Size = new Size(
+								m_MDSize.Width - ax,
+								m_MDSize.Height);
+							this.Location = new Point(
+								m_MDLoc.X + ax,
+								m_MDLoc.Y
+								);
+						}
+						break;
 					case MDPos.Top:
 					default:
 						this.Location = new Point(
-							this.Location.X + ax,
-							this.Location.Y + ay);
+							m_MDLoc.X + ax,
+							m_MDLoc.Y + ay);
 						break;
 				}
 				return;
@@ -1062,7 +1103,7 @@ true);
 		protected override void OnResize(EventArgs e)
 		{
 			base.OnResize(e);
-			this.Invalidate();
+			this.Refresh();
 
 		}
 		public void RelatingFile(string extension)

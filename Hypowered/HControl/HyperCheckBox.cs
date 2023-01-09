@@ -53,7 +53,7 @@ namespace Hypowered
 
 		public HyperCheckBox()
 		{
-			SetMyType(ControlType.CheckBox);
+			SetControlType(Hypowered.ControlType.CheckBox);
 			SetInScript(InScriptBit.ValueChanged);
 			m_CheckSize = 16;
 			this.Size = ControlDef.DefSize;
@@ -87,7 +87,7 @@ namespace Hypowered
 				Rectangle rr = ReRect(this.ClientRectangle, 2);
 				//p.Color = ForeColor;
 				//g.DrawRectangle(p, rr);
-				if (this.Focused)
+				if ((this.Focused)&&(m_IsDrawFocuse))
 				{
 					rr = ReRect(this.ClientRectangle, 1);
 					p.Color = m_ForcusColor;
@@ -99,7 +99,8 @@ namespace Hypowered
 					rr = new Rectangle(m_CheckSize + 5, 3, this.Width - m_CheckSize - 5, this.Height - 6);
 					g.DrawString(this.Text, this.Font, sb, rr, m_format);
 				}
-				DrawType(g, sb);
+				DrawEditMode(g, p, sb);
+
 
 			}
 		}
@@ -115,7 +116,7 @@ namespace Hypowered
 					if (p != MDPos.None)
 					{
 						m_MDPos = p;
-						m_MDP = new Point(e.X, e.Y);
+						m_MDP = MousePos(e);
 						m_MDLoc = this.Location;
 						m_MDSize = this.Size;
 						return;
@@ -136,7 +137,7 @@ namespace Hypowered
 		public override JsonObject ToJson()
 		{
 			JsonFile jf = new JsonFile(base.ToJson());
-			jf.SetValue(nameof(MyType), (int?)MyType);//Nullable`1
+			jf.SetValue(nameof(ControlType), (int?)ControlType);//Nullable`1
 			jf.SetValue(nameof(Checked), Checked);//Boolean
 			jf.SetValue(nameof(CheckSize), CheckSize);//Int32
 

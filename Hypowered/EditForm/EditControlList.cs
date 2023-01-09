@@ -47,25 +47,6 @@ namespace Hypowered
 			{
 				MainForm.ControlListBounds = this.Bounds;
 			}
-		}
-		private void Mi_Click(object? sender, EventArgs e)
-		{
-			/*
-			if (MainForm != null)
-			{
-				ToolStripMenuItem? mi = (ToolStripMenuItem?)sender;
-				if ((mi != null) && (mi.Tag is HyperBaseForm))
-				{
-					MainForm.forms.TargetFormIndex = ((HyperBaseForm)mi.Tag).Index;
-					controlListBox1.TargetForm = MainForm.forms.TargetForm;
-					if (controlListBox1.TargetForm != null)
-					{
-						btnForm.Text = controlListBox1.TargetForm.Name;
-					}
-				}
-			}
-			*/
-
-		}
+		}	
 	}
 }

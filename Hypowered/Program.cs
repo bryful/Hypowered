@@ -32,11 +32,19 @@ namespace Hypowered
 			HArgs hargs = new HArgs(args);
 			if(hargs.Option== Option.InstallExt)
 			{
+				F_W.SettupConsole();
 				F_W.RelatingFile(Def.DefaultExt, "Hypowered hyfp file");
+				Console.WriteLine("cls\r\n");
+				Console.WriteLine($"Šg’£q{Def.DefaultExt}‚ğ“o˜^‚µ‚Ü‚µ‚½");
+				F_W.EndConsole();
 				return;
 			}else if (hargs.Option == Option.UnInstallExt)
 			{
+				F_W.SettupConsole();
 				F_W.UnRelatingFile(Def.DefaultExt);
+				Console.WriteLine("cls\r\n");
+				Console.WriteLine($"Šg’£q{Def.DefaultExt}‚ğ‰ğœ‚µ‚Ü‚µ‚½");
+				F_W.EndConsole();
 				return;
 			}else if (hargs.Option == Option.Call)
 			{
@@ -45,8 +53,26 @@ namespace Hypowered
 				return;
 			}else if(hargs.Option == Option.EnvSet)
 			{
-
 				Def.SetDirectoryToEnvDialog(Path.GetFileNameWithoutExtension(Application.ExecutablePath) + Def.ENV_HOME_PATH);
+				return;
+			}
+			else if (hargs.Option == Option.EnvDelete)
+			{
+				F_W.SettupConsole();
+				string homeENV = Path.GetFileNameWithoutExtension(Application.ExecutablePath) + Def.ENV_HOME_PATH;
+				if ((homeENV==null)||(homeENV=="")||(homeENV== Def.ENV_HOME_PATH))
+				{
+					Console.WriteLine("\r\n");
+					Console.WriteLine($"ŠÂ‹«•Ï”{homeENV}‚ªˆÙí‚Å‚·");
+					F_W.EndConsole();
+					return;
+				}
+				string? homeP = Def.GetENV(homeENV);
+				if (homeP == null) homeP = "";
+				Def.SetENV(homeENV, homeP);
+				Console.WriteLine("\r\n");
+				Console.WriteLine($"ŠÂ‹«•Ï”{homeENV}‚ğíœ‚µ‚Ü‚µ‚½");
+				F_W.EndConsole();
 				return;
 			}
 

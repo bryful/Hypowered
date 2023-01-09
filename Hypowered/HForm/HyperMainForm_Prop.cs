@@ -27,7 +27,6 @@ namespace Hypowered
 		public Rectangle InputFormBounds = new Rectangle(-1, -1, 0, 0);
 		public Rectangle OutputFormBounds = new Rectangle(-1, -1, 0, 0);
 		// ****************************************************************************
-		public ConnectList ConnectList = new ConnectList();
 
 		// ****************************************************************************
 		public void ExecuteCode(string code)
@@ -157,7 +156,6 @@ namespace Hypowered
 				}
 				jf.SetValue("Controls", ja);
 			}
-			jf.SetValue("ConnectList", ConnectList.ToJsonArray());
 
 			return jf.Obj;
 		}
@@ -241,8 +239,7 @@ namespace Hypowered
 			{
 				m_menuBar.FromJson(mm);
 			}
-			JsonArray? cl = jf.ValueArray("ConnectList");
-			ConnectList.FromJsonArray(cl);
+			
 		}
 	}
 }
