@@ -6,63 +6,15 @@ using System.Reflection.Metadata;
 using System.Runtime.Intrinsics.X86;
 using System.Text;
 using System.Threading.Tasks;
+using Hypowered.HScript;
+using Microsoft.ClearScript;
 
 namespace Hypowered
 {
-	public class HyperAppBase
+
+    public class HyperApp : HyperAppBase
 	{
-		public HyperBaseForm? form = null;
-		public HyperMainForm? main
-		{
-			get
-			{
-				if (form is HyperMainForm)
-				{
-					return (HyperMainForm?)form;
-				}
-				else
-				{
-					return null;
-				}
-			}
-		}
-		private HControlList m_items = new HControlList();
-		public dynamic itemEO 
-		{
-			get { return m_items.itemsEO; }
-		}
-		public IDictionary<string, dynamic> itemD
-		{
-			get { return (IDictionary<string, dynamic>)m_items.itemsEO; }
-		}
-		public HyperControl[] items { get { return m_items.items; } }
-		//public HControlList items { get { return m_items; } }
-		public int numItems { get { return m_items.length; } }
-		public HyperControl? item(string name,ControlType? ct=null)
-		{
-			return m_items.nameType(name,ct);
-		}
-		public HyperControl[] findType( ControlType ct)
-		{
-			return m_items.findType(ct);
-		}
-		public HyperControl? item(int idx)
-		{
-			return m_items[idx];
-		}
-		public HyperAppBase(HyperBaseForm? fm)
-		{
-			this.form = fm;
-			ListupControls();
-		}
-		public virtual void ListupControls()
-		{
-			if (form != null) m_items.ListupControls(form);
-		}
-	}
-	public class HyperApp : HyperAppBase
-	{
-		private HFormList m_forms = new HFormList();
+		private AppFormList m_forms = new AppFormList();
 		public HyperBaseForm []forms { get { return m_forms.items; } }
 		public dynamic formsEO { get { return m_forms.itemsEO; }  }
 		public IDictionary<string, dynamic> formsD
@@ -75,6 +27,7 @@ namespace Hypowered
 			base.form = main;
 			ListupControls();
 		}
+		[ScriptUsage(ScriptAccess.None)]
 		public override void ListupControls()
 		{
 			base.ListupControls();
@@ -139,35 +92,55 @@ namespace Hypowered
 				return false;
 			}
 		}
-		public string? executablePath()
+
+		public string? executablePath
 		{
-			return Path.GetDirectoryName(Application.ExecutablePath);
+			get { return Path.GetDirectoryName(Application.ExecutablePath); }
 		}
-		public string hypfPath()
+		public string? currentPath
 		{
-			if (main != null)
-			{
-				return main.HYPF_Folder;
-			}
-			else
-			{
-				return "";
+			get { return Directory.GetCurrentDirectory(); }
+			set 
+			{ 
+				if((value!=null)&&(Directory.Exists(value))) 
+					Directory.SetCurrentDirectory(value); 
 			}
 		}
-		public string homeHypf()
+		public string hypfFolder
 		{
-			if (main != null)
+			get
 			{
-				return main.HOME_HYPF_FILE;
+				if (main != null)
+				{
+					return main.HYPF_Folder;
+				}
+				else
+				{
+					return "";
+				}
 			}
-			else
+		}
+		public string homeHypf
+		{
+			get 
 			{
-				return "";
-			}
+				if (main != null)
+				{
+					return main.HOME_HYPF_FILE;
+				}
+				else
+				{
+					return "";
+				}
+			} 
 		}
 		public void loadHome()
 		{
-			loadForm(homeHypf());
+			if(homeHypf != "") loadForm(homeHypf);
+		}
+		public void openHome()
+		{
+			if (homeHypf != "") openForm(homeHypf);
 		}
 		public bool yesnoDialog(string cap, string title)
 		{
@@ -179,6 +152,14 @@ namespace Hypowered
 			{
 				return false;
 			}
+		}
+		public string? getenv(string EnvNane)
+		{
+			return Def.GetENV(EnvNane);
+		}
+		public void getenv(string EnvNane,string value)
+		{
+			Def.SetENV(EnvNane,value);
 		}
 	}
 }

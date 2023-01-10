@@ -32,6 +32,12 @@ namespace Hypowered
 			get { return m_webBrowser.DocumentText; }
 			set { m_webBrowser.DocumentText = value; } 
 		}
+		[Category("Hypowered_Html")]
+		public string MarkDown
+		{
+			get { return m_webBrowser.DocumentText; }
+			set { m_webBrowser.DocumentText = MdToHtml(value); }
+		}
 		public void SetMarkDown(string md)
 		{
 			m_webBrowser.DocumentText = MdToHtml(md);

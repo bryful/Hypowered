@@ -9,6 +9,7 @@ using System.Dynamic;
 using System.Text.Encodings.Web;
 using System.Text.Json;
 using System.Text.Unicode;
+using Hypowered.HScript;
 
 namespace Hypowered
 {
@@ -49,6 +50,7 @@ namespace Hypowered
 				"System",
 				"System.Core",
 				"System.Drawing",
+				"System.IO",
 				"System.Collections",
 				"System.Windows.Forms");
 
@@ -57,17 +59,8 @@ namespace Hypowered
 			engine.AddHostObject("write", (object)write);
 			engine.AddHostObject("writeln", (object)writeLine);
 			engine.AddHostObject("clr", (object)writeClear);
-			engine.AddHostObject("openForm", (object)openForm);
-			engine.AddHostObject("loadForm", (object)loadForm);
-			engine.AddHostObject("appPath", (object)appPath);
-			engine.AddHostObject("hypfPath", (object)hypfPath);
-			engine.AddHostObject("homeHypf", (object)homeHypf);
-			engine.AddHostObject("loadHome", (object)loadHome);
+
 			engine.AddHostObject("yesnoDialog", (object)yesnoDialog);
-
-			engine.AddHostObject("getEnv", (object)Def.GetENV);
-			engine.AddHostObject("setEnv", (object)Def.SetENV);
-
 			engine.AddHostTypes(new Type[]
 			{
 				typeof(Console),
@@ -95,8 +88,8 @@ namespace Hypowered
 				typeof(HyperButton),
 				typeof(HyperControl),
 				typeof(ControlType),
-				typeof(HControlList),
-				typeof(HFormList),
+				typeof(AppControlList),
+				typeof(AppFormList),
 
 			});
 			if(app!=null) engine.AddHostObject("app",app);
@@ -210,63 +203,7 @@ namespace Hypowered
 				dlg.Dispose();
 			}
 		}
-		public bool loadForm(string fn)
-		{
-			if (m_MainForm!=null)
-			{
-				return m_MainForm.LoadFromHYPF(fn);
-			}
-			else
-			{
-				return false;
-			}
-		}
-		public bool openForm(string fn)
-		{
-			if (m_MainForm != null)
-			{
-				return m_MainForm.OpenFromHYPF(fn);
-			}
-			else
-			{
-				return false;
-			}
-		}
-		public string appPath()
-		{
-			string? p = Path.GetDirectoryName(Application.ExecutablePath);
-			if(p == null)
-			{
-				p = Directory.GetCurrentDirectory();
-			}
-			return p;
-		}
-		public string hypfPath()
-		{
-			if (m_MainForm != null)
-			{
-				return m_MainForm.HYPF_Folder;
-			}
-			else
-			{
-				return "";
-			}
-		}
-		public string homeHypf()
-		{
-			if (m_MainForm != null)
-			{
-				return m_MainForm.HOME_HYPF_FILE;
-			}
-			else
-			{
-				return "";
-			}
-		}
-		public void loadHome()
-		{
-			loadForm(homeHypf());
-		}
+
 		public bool yesnoDialog(string cap,string title)
 		{
 			if (m_MainForm != null)

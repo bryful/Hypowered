@@ -2,12 +2,18 @@
 using System.ComponentModel;
 using System.Diagnostics;
 using System.Drawing.Drawing2D;
+using System.Dynamic;
 using System.Reflection;
+using System.Collections.Specialized;
 
 namespace Hypowered
 {
 	public partial class HyperBaseForm : Form
 	{
+		[Category("Hypowered")]
+		public StringCollection strings { get; set; } = new StringCollection();
+		[Category("Hypowered")]
+		public ExpandoObject eo { get; set; } = new ExpandoObject(); 
 		public int Index = -1;
 		[Category("Hypowered")]
 		public bool Locked { get; set; } = false;
