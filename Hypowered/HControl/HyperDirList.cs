@@ -57,6 +57,7 @@ namespace Hypowered
 			}
 
 		}
+		//public StringCollection strings = new StringCollection();
 		private ListBox m_ListBox = new ListBox();
 		private string m_CurrentDir = Directory.GetCurrentDirectory();
 		[Category("Hypowered_DirList")]

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Markdig;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -7,6 +8,7 @@ using System.Linq;
 using System.Security.Policy;
 using System.Text;
 using System.Threading.Tasks;
+using System.Threading.Tasks.Dataflow;
 using System.Windows.Forms;
 
 namespace Hypowered
@@ -23,12 +25,16 @@ namespace Hypowered
 		//private WebView2 
 		[Browsable(false)]
 		public WebBrowser WebBrowser { get { return m_webBrowser; } }
-		[System.ComponentModel.Browsable(false)]
+		//[System.ComponentModel.Browsable(false)]
 		[Category("Hypowered_Html")]
 		public string DocumentText 
 		{
 			get { return m_webBrowser.DocumentText; }
 			set { m_webBrowser.DocumentText = value; } 
+		}
+		public void SetMarkDown(string md)
+		{
+			m_webBrowser.DocumentText = MdToHtml(md);
 		}
 		[System.ComponentModel.Browsable(false)]
 		public string DocumentTitle { get { return m_webBrowser.DocumentTitle; } }
@@ -40,6 +46,15 @@ namespace Hypowered
 		{ 
 			get{ return m_webBrowser.Url; }
 			set { m_webBrowser.Url = value; } 
+		}
+		[Category("Hypowered_Html")]
+		public new string[] Lines
+		{
+			get { return m_webBrowser.DocumentText.Split("\r\n"); }
+			set
+			{
+				m_webBrowser.DocumentText = string.Join("\r\n", value);
+			}
 		}
 		public bool GoBack() { return m_webBrowser.GoBack(); }
 		public bool GoForward() { return m_webBrowser.GoForward(); }
@@ -98,6 +113,11 @@ namespace Hypowered
 		{
 			base.OnResize(e);
 			ChkSize();
+		}
+		static string MdToHtml(string input)
+		{
+			var pipeline = new Markdig.MarkdownPipelineBuilder().UseAdvancedExtensions().Build();
+			return Markdig.Markdown.ToHtml(input, pipeline);
 		}
 	}
 }

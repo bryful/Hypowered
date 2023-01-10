@@ -1646,6 +1646,7 @@
 
   <ItemGroup>
     <PackageReference Include="AvalonEdit" Version="6.2.0.78" />
+    <PackageReference Include="Markdig" Version="0.30.4" />
     <PackageReference Include="Microsoft.ClearScript" Version="7.3.6" />
     <PackageReference Include="Microsoft.ClearScript.V8" Version="7.3.6" />
     <PackageReference Include="Microsoft.ClearScript.V8.Native.win-x64" Version="7.3.6" />

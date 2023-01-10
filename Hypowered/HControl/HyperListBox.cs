@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.Specialized;
 using System.ComponentModel;
 using System.Data;
 using System.Drawing;
@@ -13,7 +14,7 @@ namespace Hypowered
 {
 	public partial class HyperListBox : HyperControl
 	{
-		private ListBox m_ListBox = new ListBox();
+		protected ListBox m_ListBox = new ListBox();
 		public delegate void SelectedIndexChangedHandler(object sender, SelectedIndexChangedEventArgs e);
 		public event SelectedIndexChangedHandler? SelectedIndexChanged;
 		protected virtual void OnSelectedIndexChanged(SelectedIndexChangedEventArgs e)
@@ -83,6 +84,30 @@ namespace Hypowered
 		public ListBox.ObjectCollection Items
 		{
 			get { return m_ListBox.Items; }
+		}
+		[Category("Hypowered_ListBox")]
+		public new string[] Lines
+		{
+			get 
+			{
+				List<string> list = new List<string>();
+				if(m_ListBox.Items.Count> 0)
+				{
+					foreach(var item in m_ListBox.Items)
+					{
+						if (item is string)
+						{
+							list.Add((string)item);
+						}
+					}
+				}
+				return list.ToArray();
+			}
+			set
+			{
+				m_ListBox.Items.Clear();
+				m_ListBox.Items.AddRange(value);
+			}
 		}
 		[Category("Hypowered_ListBox")]
 		public int Count

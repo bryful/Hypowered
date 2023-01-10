@@ -83,5 +83,102 @@ namespace Hypowered
 				m_forms.ListupForms(main);
 			}
 		}
+		public void exit()
+		{
+			Application.Exit();
+		}
+		public void alert(object? s)
+		{
+			using (AlertForm dlg = new AlertForm())
+			{
+				dlg.SelectedObject = s;
+				dlg.ShowDialog();
+			}
+		}
+		public void write(object? s)
+		{
+			if (main != null)
+			{
+				main.OutputWrite(s);
+			}
+		}
+
+		public void writeln(object? s)
+		{
+			if (main != null)
+			{
+				main.OutputWriteLine(s);
+			}
+		}
+		public void cls()
+		{
+			if (main != null)
+			{
+				main.OutputClear();
+			}
+		}
+		public bool loadForm(string fn)
+		{
+			if (main != null)
+			{
+				return main.LoadFromHYPF(fn);
+			}
+			else
+			{
+				return false;
+			}
+		}
+		public bool openForm(string fn)
+		{
+			if (main != null)
+			{
+				return main.OpenFromHYPF(fn);
+			}
+			else
+			{
+				return false;
+			}
+		}
+		public string? executablePath()
+		{
+			return Path.GetDirectoryName(Application.ExecutablePath);
+		}
+		public string hypfPath()
+		{
+			if (main != null)
+			{
+				return main.HYPF_Folder;
+			}
+			else
+			{
+				return "";
+			}
+		}
+		public string homeHypf()
+		{
+			if (main != null)
+			{
+				return main.HOME_HYPF_FILE;
+			}
+			else
+			{
+				return "";
+			}
+		}
+		public void loadHome()
+		{
+			loadForm(homeHypf());
+		}
+		public bool yesnoDialog(string cap, string title)
+		{
+			if (main != null)
+			{
+				return answerDialog.Show(cap, title);
+			}
+			else
+			{
+				return false;
+			}
+		}
 	}
 }

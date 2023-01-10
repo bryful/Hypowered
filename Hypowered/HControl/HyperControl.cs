@@ -16,13 +16,18 @@ using System.Text.Unicode;
 using System.Windows.Forms.Layout;
 using System.Windows.Documents;
 using System.Diagnostics;
+using System.Collections.Specialized;
+using System.Dynamic;
 
 namespace Hypowered
 {
 
     public partial class HyperControl : Control
 	{
-
+		[Category("Hypowered")]
+		public StringCollection strings { get; set; } = new StringCollection();
+		[Category("Hypowered")]
+		public ExpandoObject eo { get; set; } = new ExpandoObject();
 		private ControlType? m_ControlType = null;
 		protected void SetControlType(ControlType? c) { m_ControlType = c; }
 
@@ -712,6 +717,14 @@ namespace Hypowered
 								m_MDSize.Height+ay);
 							break;
 						case MDPos.Top:
+							this.Size = new Size(
+								m_MDSize.Width,
+								m_MDSize.Height - ay);
+							this.Location = new Point(
+								m_MDLoc.X ,
+								m_MDLoc.Y+ay
+								);
+							break;
 						case MDPos.Center:
 						default:
 							if (this.MainForm != null)

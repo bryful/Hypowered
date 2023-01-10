@@ -53,6 +53,7 @@ namespace Hypowered
 				}
 			}
 		}
+		//public StringCollection strings = new StringCollection();
 		[Category("Hypowered_FileList")]
 		public string SelectedItem
 		{
