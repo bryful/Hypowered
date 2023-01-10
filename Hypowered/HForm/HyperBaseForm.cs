@@ -124,10 +124,11 @@ namespace Hypowered
 		public new string Name
 		{
 			get { return base.Name; }
-			set
-			{
-				base.Name = value;
-			}
+			set { }
+		}
+		public void SetName(string n)
+		{
+			base.Name = n;
 		}
 		[Category("Hypowered_Form")]
 		public new bool DoubleBuffered
@@ -443,7 +444,7 @@ namespace Hypowered
 			base.KeyPreview = true;
 			BackColor = ColU.ToColor(HyperColor.Back);
 			ForeColor = ColU.ToColor(HyperColor.Fore);
-			this.Name = "HyperDilaog";
+			SetName( "HyperDilaog");
 			FormBorderStyle = FormBorderStyle.None;
 			AutoScaleMode = AutoScaleMode.None;
 			TransparencyKey = Color.Empty;

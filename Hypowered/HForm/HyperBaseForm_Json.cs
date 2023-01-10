@@ -103,7 +103,7 @@ namespace Hypowered
 			JsonFile jf = new JsonFile(jo);
 			object? v = null;
 			v = jf.ValueAuto("Name", typeof(String).Name);
-			if (v != null) Name = (String)v;
+			if (v != null) SetName((String)v);
 			v = jf.ValueAuto("Locked", typeof(Boolean).Name);
 			if (v != null) Locked = (bool)v;
 			v = jf.ValueAuto("Size", typeof(Size).Name);

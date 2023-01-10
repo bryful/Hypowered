@@ -88,7 +88,8 @@ namespace Hypowered
 			{
 				for(int i=start;i< Args.Length;i++)
 				{
-					if (ret != "") ret += " ";
+					if (Args[i] == null) continue;
+					ret += " ";
 					ret += Args[i].CommandValue;
 				}
 			}
@@ -100,18 +101,22 @@ namespace Hypowered
 		public string FileName { get { return m_FileName; } }
 		public void SetArgs(string[] args)
 		{
-			Args = new Arg[args.Length];
+			Args = new Arg[0];
 			int idx = 0;
 			m_Option = Option.None;
 			if (args.Length > 0)
 			{
+				List<Arg> list = new List<Arg>();
 				for (int i = 0; i < args.Length; i++)
 				{
-					Args[idx] = new Arg(args[i], i);
-					if (Args[idx].IsOption)
+					if ((args[i] == null)||(args[i]=="")) continue;
+					if (args[i] == Application.ExecutablePath) continue;
+					Arg arg = new Arg(args[i], idx); idx++;
+					list.Add(arg);
+					if (arg.IsOption)
 					{
 						string op = "";
-						op = Args[idx].Option.ToLower();
+						op = arg.Option.ToLower();
 						if (m_Option == Option.None)
 						{
 							switch (op)
@@ -177,8 +182,8 @@ namespace Hypowered
 						}
 
 					}
-
 				}
+				Args = list.ToArray();
 			}
 		}
 

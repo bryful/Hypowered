@@ -209,6 +209,13 @@ namespace BRY
 			pSec.nLength = Marshal.SizeOf(pSec);
 			tSec.nLength = Marshal.SizeOf(tSec);
 
+			//MessageBox.Show(args);
+
+			if(args!="")
+			{
+				if (args[0] !=' ') args = " " + args;
+			}
+
 			bool bResult = CreateProcess(
 			  cmd
 			, args
@@ -221,6 +228,8 @@ namespace BRY
 			, ref sInfoEx
 			, out pInfo
 			);
+			CloseHandle(pInfo.hProcess);
+			CloseHandle(pInfo.hThread);
 			return bResult;
 		}
 		// ************************************************************************

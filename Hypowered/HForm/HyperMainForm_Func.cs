@@ -143,6 +143,15 @@ namespace Hypowered
 			}
 		}
 		// *************************************************************************
+		static public  Process? ProcessStart2(string app,string args)
+		{
+			ProcessStartInfo psi = new ProcessStartInfo();
+			psi.FileName = app;
+			psi.Arguments = args;
+			psi.UseShellExecute = true;
+			return Process.Start(psi);
+		}
+		// *************************************************************************
 		public bool LoadForm()
 		{
 			bool ret = false;
@@ -181,7 +190,7 @@ namespace Hypowered
 			{
 				if (m_FileName != dlg.FileName)
 				{
-					F_W.ProcessStart(Application.ExecutablePath, "-open \"" + dlg.FileName + "\"");
+					F_W.ProcessStart(Application.ExecutablePath, " -open \"" + dlg.FileName + "\"");
 					ret = true;
 				}
 			}
@@ -192,16 +201,18 @@ namespace Hypowered
 			bool ret = false;
 			SaveFileDialog dlg = new SaveFileDialog();
 			dlg.InitialDirectory = HYPF_Folder;
-			if (m_FileName != "")
-			{
-				dlg.FileName = Path.GetFileName(m_FileName);
-			}
+			dlg.FileName = "newform.hypf";
 			dlg.Filter = $"*{Def.DefaultExt}|*{Def.DefaultExt}|*.*|*.*";
 			if (dlg.ShowDialog() == DialogResult.OK)
 			{
 				if (m_FileName != dlg.FileName)
 				{
-					F_W.ProcessStart(Application.ExecutablePath, "-new \"" + dlg.FileName + "\"");
+					string s = " /create";
+					s += " ";
+					s += "\"" + dlg.FileName + "\"";
+
+					F_W.ProcessStart(Application.ExecutablePath, s);
+					//F_W.ProcessStart("ArgsTest.exe", s);
 					ret = true;
 				}
 			}
@@ -222,7 +233,7 @@ namespace Hypowered
 			{
 				if(dlg.FileName==m_HOME_HYPF_FILE)
 				{
-					Alert.Show($"{m_HOME_HYPF_FILE}\r\n can not override!");
+					MessageBox.Show($"{m_HOME_HYPF_FILE}\r\n can not override!");
 					return ret;
 				}
 				if(m_FileName!=dlg.FileName)
@@ -237,7 +248,7 @@ namespace Hypowered
 
 					if (answerDialog.Show($"{Path.GetFileName(dlg.FileName)}を開きますか？"))
 					{
-						F_W.ProcessStart(Application.ExecutablePath, "-open \"" + dlg.FileName + "\"");
+						F_W.ProcessStart(Application.ExecutablePath, " -open \"" + dlg.FileName + "\"");
 					}
 				}
 			}

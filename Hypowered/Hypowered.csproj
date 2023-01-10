@@ -9,6 +9,9 @@
     <Platforms>AnyCPU;x64;x86</Platforms>
     <ApplicationIcon>HPD.ico</ApplicationIcon>
     <RunPostBuildEvent>OnOutputUpdated</RunPostBuildEvent>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <Title>Hypowered</Title>
+    <Authors>bry-ful</Authors>
   </PropertyGroup>
 
   <ItemGroup>

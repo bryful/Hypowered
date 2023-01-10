@@ -80,7 +80,6 @@ namespace Hypowered
 			string AId = hargs.FileName;
 			if (AId == "") AId = Application.ExecutablePath;
 			AId = Path.GetFileNameWithoutExtension(AId);
-
 			if(IsWindow(AId))
 			{
 				PipeData pd = new PipeData(args, PIPECALL.DoubleExec);

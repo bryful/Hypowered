@@ -245,6 +245,7 @@ true);
 			{
 				if (m_Args.Option == Option.Create)
 				{
+					bool nb = false;
 					if (m_Args.FileName != "")
 					{
 						m_FileName = m_Args.FileName;
@@ -253,12 +254,19 @@ true);
 						if (SaveToHYPF())
 						{
 							StartServer();
+							nb=true;
 						}
+					}
+					if (nb == false)
+					{
+						MessageBox.Show($"Errer Create:{m_FileName}");
+						Application.Exit();
 					}
 				} else if(m_Args.Option == Option.Open)
 				{
 					if (LoadFromHYPF(m_Args.FileName)==false)
 					{
+						MessageBox.Show($"Errer Open:{m_FileName}");
 						Application.Exit();
 					}
 
@@ -301,13 +309,14 @@ true);
 			//ホームファイルを読む無かったら作る
 			m_FileName = "";
 			base.Name = "";
+			//Command(Environment.GetCommandLineArgs().ToArray(), PIPECALL.StartupExec);
 			Command(Environment.GetCommandLineArgs().Skip(1).ToArray(), PIPECALL.StartupExec);
 			if (m_FileName == "")
 			{
 				if (File.Exists(m_HOME_HYPF_FILE) == false)
 				{
 					m_FileName = m_HOME_HYPF_FILE;
-					base.Name = IDName;
+					SetName(IDName);
 					base.Text = IDName;
 					if (SaveToHYPF())
 					{
@@ -518,7 +527,7 @@ true);
 			if (File.Exists(p) == false) return false;
 			if (m_HOME_HYPF_FILE == p) return false;
 
-			F_W.ProcessStart(Application.ExecutablePath, "-open \"" + p + "\"");
+			F_W.ProcessStart(Application.ExecutablePath, " -open \"" + p + "\"");
 			return true;
 		}
 		public bool LoadFromHYPF(string p)

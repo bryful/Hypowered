@@ -218,7 +218,7 @@ namespace Hypowered
 			JsonFile jf = new JsonFile(jo);
 			object? v = null;
 			v = jf.ValueAuto("Name", typeof(String).Name);
-			if (v != null) base.Name = (String)v;
+			if (v != null) SetName( (String)v);
 			v = jf.ValueAuto("IsShowMenu", typeof(Boolean).Name);
 			if (v != null) IsShowMenu = (Boolean)v;
 
