@@ -171,8 +171,6 @@ namespace Hypowered
 			object? v = null;
 			v = jf.ValueAuto("Multiline", typeof(Boolean).Name);
 			if (v != null) Multiline = (Boolean)v;
-			v = jf.ValueAuto("Size", typeof(Size).Name);
-			if (v != null) Size = (Size)v;
 			v = jf.ValueAuto("Text", typeof(String).Name);
 			if (v != null) Text = (String)v;
 			v = jf.ValueAuto("TextAlign", typeof(HorizontalAlignment).Name);
@@ -189,6 +187,8 @@ namespace Hypowered
 			if (v != null) BorderStyle = (BorderStyle)v;
 			v = jf.ValueAuto("ScrollBars", typeof(Int32).Name);
 			if (v != null) ScrollBars = (ScrollBars)v;
+			v = jf.ValueAuto("Size", typeof(Size).Name);
+			if (v != null) Size = (Size)v;
 		}
 	}
 }

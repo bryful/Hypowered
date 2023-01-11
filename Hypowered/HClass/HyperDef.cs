@@ -60,7 +60,8 @@ namespace Hypowered
 		PictureBox,
 		Icon,
 		Design,
-		Html
+		Html,
+		FootageList
 	}
 	public class ControlTypeInfos
 	{
@@ -80,6 +81,7 @@ namespace Hypowered
 			"Icon　内蔵PictLibの画像表示",
 			"Design　色々な形を描画",
 			"Html　Htmlを表示",
+			"FootageList　映像フッテージファイルのリスト",
 
 		};
 		static public string Disp(ControlType ct)

@@ -54,6 +54,15 @@ namespace Hypowered
 			}
 		}
 		[Category("Hypowered_ListBox")]
+		public BorderStyle BorderStyle
+		{
+			get { return m_ListBox.BorderStyle; }
+			set
+			{
+				m_ListBox.BorderStyle = value;
+			}
+		}
+		[Category("Hypowered_ListBox")]
 		public bool IntegralHeight
 		{
 			get { return m_ListBox.IntegralHeight; }
@@ -80,6 +89,25 @@ namespace Hypowered
 				m_ListBox.SelectedIndex = value;
 			}
 		}
+		[Category("Hypowered_ListBox")]
+		public string SelectedItem
+		{
+			get
+			{
+				string ret = "";
+				int si = m_ListBox.SelectedIndex;
+				if ((si >= 0) && (si < m_ListBox.Items.Count))
+				{
+					string? s = m_ListBox.Items[si].ToString();
+					if (s == null)
+					{
+						ret = "";
+					}
+				}
+				return ret;
+			}
+		}
+
 		[Category("Hypowered_ListBox")]
 		public ListBox.ObjectCollection Items
 		{
@@ -139,7 +167,7 @@ namespace Hypowered
 			SetControlType(Hypowered.ControlType.ListBox);
 			SetInScript(InScriptBit.ValueChanged|InScriptBit.SelectedIndexChanged);
 			this.Size = new Size(150, 150);
-			m_ListBox.Location = new Point(0, 0);
+			m_ListBox.Location = new Point(2, 2);
 			m_ListBox.Size = new Size(this.Width,this.Height);
 			if(Height!= m_ListBox.Height)
 			{
@@ -152,19 +180,26 @@ namespace Hypowered
 			m_ListBox.IntegralHeight = false;
 			InitializeComponent();
 			this.Controls.Add(m_ListBox);
-			m_ListBox.SelectedIndexChanged += M_ListBox_SelectedIndexChanged;
+			m_ListBox.SelectedIndexChanged += OnListBoxSelectedIndexChanged;
+			m_ListBox.DoubleClick += OnListBoxDoubleClick;
 		}
 
-		private void M_ListBox_SelectedIndexChanged(object? sender, EventArgs e)
+		protected virtual void OnListBoxSelectedIndexChanged(object? sender, EventArgs e)
 		{
 			string s = "";
 			if ((m_ListBox.SelectedIndex >= 0) && (m_ListBox.SelectedIndex < m_ListBox.Items.Count))
 			{
-				s = m_ListBox.Items[m_ListBox.SelectedIndex].ToString();
+				if (m_ListBox.Items[m_ListBox.SelectedIndex] != null)
+				{
+					string? ss = m_ListBox.Items[m_ListBox.SelectedIndex].ToString();
+					if(ss != null) s = ss;
+				}
 			}
 			OnSelectedIndexChanged(new SelectedIndexChangedEventArgs(m_ListBox.SelectedIndex,s));	
 		}
-
+		protected virtual void OnListBoxDoubleClick(object? sender, EventArgs e)
+		{
+		}
 		protected override void OnPaint(PaintEventArgs pe)
 		{
 			if (m_IsEditMode)
@@ -186,11 +221,7 @@ namespace Hypowered
 		protected override void OnResize(EventArgs e)
 		{
 			base.OnResize(e);
-			m_ListBox.Size = new Size(this.Width, this.Height);
-			if (Height != m_ListBox.Height)
-			{
-				this.Size = new Size(this.Width, m_ListBox.Height);
-			}
+			m_ListBox.Size = new Size(this.Width-4, this.Height-4);
 		}
 		public override JsonObject ToJson()
 		{
@@ -202,6 +233,7 @@ namespace Hypowered
 			jf.SetValue(nameof(ForeColor), ForeColor);//Color
 			jf.SetValue(nameof(BackColor), BackColor);//Color
 			jf.SetValue(nameof(Font), Font);//Font
+			jf.SetValue(nameof(BorderStyle), (int)BorderStyle);//Font
 
 			return jf.Obj;
 		}
@@ -222,7 +254,8 @@ namespace Hypowered
 			if (v != null) BackColor = (Color)v;
 			v = jf.ValueAuto("Font", typeof(Font).Name);
 			if (v != null) Font = (Font)v;
-
+			v = jf.ValueAuto("BorderStyle", typeof(int).Name);
+			if (v != null) BorderStyle = (BorderStyle)v;
 
 		}
 

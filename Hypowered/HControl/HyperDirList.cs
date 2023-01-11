@@ -11,7 +11,7 @@ using System.Windows.Forms;
 
 namespace Hypowered
 {
-    public partial class HyperDirList : HyperControl
+    public partial class HyperDirList : HyperListBox
 	{
 		public delegate void CurrentDirChangedHandler(object sender, CurrentDirChangedEventArgs e);
 		public event CurrentDirChangedHandler? CurrentDirChanged;
@@ -43,22 +43,6 @@ namespace Hypowered
 			}
 
 		}
-		public delegate void SelectedIndexChangedHandler(object sender, SelectedIndexChangedEventArgs e);
-		public event SelectedIndexChangedHandler? SelectedIndexChanged;
-		protected virtual void OnSelectedIndexChanged(SelectedIndexChangedEventArgs e)
-		{
-			if (SelectedIndexChanged != null)
-			{
-				SelectedIndexChanged(this, e);
-			}
-			if ((MainForm != null))
-			{
-				MainForm.ExecuteCode(Script_SelectedIndexChanged);
-			}
-
-		}
-		//public StringCollection strings = new StringCollection();
-		private ListBox m_ListBox = new ListBox();
 		private string m_CurrentDir = Directory.GetCurrentDirectory();
 		[Category("Hypowered_DirList")]
 		public string CurrentDir
@@ -74,113 +58,6 @@ namespace Hypowered
 				}
 			}
 		}
-
-
-
-
-		public override void SetIsEditMode(bool value)
-		{
-			m_IsEditMode = value;
-			m_ListBox.Visible = !value;
-		}
-		[Category("Hypowered")]
-		public new Font Font
-		{
-			get { return m_ListBox.Font; }
-			set
-			{
-				m_ListBox.Font = value;
-				base.Font = value;
-			}
-		}
-		[Category("Hypowered_DirList")]
-		public ListBox ListBox
-		{
-			get { return m_ListBox; }
-			set
-			{
-				m_ListBox = value;
-			}
-		}
-		[Category("Hypowered_DirList")]
-		public bool IntegralHeight
-		{
-			get { return m_ListBox.IntegralHeight; }
-			set
-			{
-				m_ListBox.IntegralHeight = value;
-			}
-		}
-		[Category("Hypowered_DirList")]
-		public int ItemHeight
-		{
-			get { return m_ListBox.ItemHeight; }
-			set
-			{
-				m_ListBox.ItemHeight = value;
-			}
-		}
-		[Category("Hypowered_DirList")]
-		public int SelectedIndex
-		{
-			get { return m_ListBox.SelectedIndex; }
-			set
-			{
-				m_ListBox.SelectedIndex = value;
-			}
-		}
-		[Category("Hypowered_DirList")]
-		public string SelectedItem
-		{
-			get
-			{
-				string ret = "";
-				if( m_ListBox.SelectedItem != null )
-				{
-					string? s = m_ListBox.SelectedItem.ToString();
-					if(s != null )
-					{
-						ret = s;
-						if (m_CurrentDir != "")
-						{
-							ret = Path.Combine(m_CurrentDir, ret);
-						}
-					}
-				}
-				return ret;
-			}
-			
-		}
-		[Category("Hypowered_DirList")]
-		public ListBox.ObjectCollection Items
-		{
-			get { return m_ListBox.Items; }
-		}
-		[Category("Hypowered_DirList")]
-		public int Count
-		{
-			get { return m_ListBox.Items.Count; }
-		}
-		[Category("Hypowered_Color")]
-		public new Color ForeColor
-		{
-			get { return m_ListBox.ForeColor; }
-			set
-			{
-				base.ForeColor = value;
-				m_ListBox.ForeColor = value;
-			}
-		}
-		[Category("Hypowered_Color")]
-		public new Color BackColor
-		{
-			get { return m_ListBox.BackColor; }
-			set
-			{
-				base.BackColor = value;
-				m_ListBox.BackColor = value;
-			}
-		}
 		private HyperDriveIcons? m_HyperDriveIcons = null;
 		[Category("Hypowered_DirList")]
 		public HyperDriveIcons? DriveIcons
@@ -192,7 +69,13 @@ namespace Hypowered
 				if(m_HyperDriveIcons != null)
 				{
 					m_HyperDriveIcons.CurrentDir = m_CurrentDir;
-					m_HyperDriveIcons.CurrentDirChanged += M_HyperDriveIcons_CurrentDirChanged;
+					m_HyperDriveIcons.CurrentDirChanged += (sender, e) =>
+					{
+						if (m_CurrentDir != e.Path)
+						{
+							CurrentDir = e.Path;
+						}
+					};
 				}
 			}
 		}
@@ -224,22 +107,6 @@ namespace Hypowered
 				}
 			}
 		}
-		[Category("Hypowered_DirList")]
-		public BorderStyle BorderStyle
-		{
-			get { return m_ListBox.BorderStyle; }
-			set
-			{
-				m_ListBox.BorderStyle = value;
-			}
-		}
-		private void M_HyperDriveIcons_CurrentDirChanged(object sender, CurrentDirChangedEventArgs e)
-		{
-			if(m_CurrentDir != e.Path)
-			{
-				CurrentDir= e.Path;
-			}
-		}
 
 		public HyperDirList()
 		{
@@ -249,18 +116,7 @@ namespace Hypowered
 				InScriptBit.CurrentDirChanged|
 				InScriptBit.SelectedIndexChanged
 				);
-			this.Size = new Size(150, 150);
-			m_ListBox.Location = new Point(2, 2);
-			m_ListBox.Size = new Size(this.Width-4,this.Height-4);
-			if(Height!= m_ListBox.Height+4)
-			{
-				this.Size = new Size(this.Width, m_ListBox.Height+4);
-			}
 
-			m_ListBox.BackColor =base.BackColor;
-			m_ListBox.ForeColor = base.ForeColor;
-			m_ListBox.BorderStyle= BorderStyle.None;
-			m_ListBox.IntegralHeight = false;
 			InitializeComponent();
 			this.Controls.Add(m_ListBox);
 			Listup();
@@ -274,22 +130,10 @@ namespace Hypowered
 	ControlStyles.SupportsTransparentBackColor,
 	true);
 			this.UpdateStyles();
-			m_ListBox.DoubleClick += M_ListBox_DoubleClick;
-			m_ListBox.SelectedIndexChanged += M_ListBox_SelectedIndexChanged;
 		}
 
-		private void M_ListBox_SelectedIndexChanged(object? sender, EventArgs e)
-		{
-			string s = "";
-			if((SelectedIndex>=0)&&(SelectedIndex<Count))
-			{
-				string? ss = m_ListBox.Items[SelectedIndex].ToString();
-				if(ss!=null) { s = ss; }
-			}
-			OnSelectedIndexChanged(new SelectedIndexChangedEventArgs(SelectedIndex, s));
-		}
 
-		private void M_ListBox_DoubleClick(object? sender, EventArgs e)
+		protected override void OnListBoxDoubleClick(object? sender, EventArgs e)
 		{
 			int si = m_ListBox.SelectedIndex;
 			if((si>=0)&&(si<m_ListBox.Items.Count))
@@ -303,7 +147,6 @@ namespace Hypowered
 				OnCurrentDirChanged(new CurrentDirChangedEventArgs(m_CurrentDir));
 			}
 		}
-
 		public void Listup()
 		{
 			try
@@ -329,41 +172,11 @@ namespace Hypowered
 
 			}
 		}
-		protected override void OnPaint(PaintEventArgs pe)
-		{
-			if (m_IsEditMode)
-			{
-				base.OnPaint(pe);
-			}
-			else
-			{
-				pe.Graphics.Clear(BackColor);
-				if(IsDrawFrame)
-				{
-					using(Pen p = new Pen(ForeColor))
-					{
-						DrawFrame(pe.Graphics, p, this.ClientRectangle);
-					}
-				}
-			}
-		}
-		protected override void OnResize(EventArgs e)
-		{
-			base.OnResize(e);
-			m_ListBox.Size = new Size(this.Width-4, this.Height-4);
-			this.Invalidate();
-		}
+
 		public override JsonObject ToJson()
 		{
 			JsonFile jf = new JsonFile(base.ToJson());
 			jf.SetValue(nameof(ControlType), (int?)ControlType);//Nullable`1
-			jf.SetValue(nameof(IntegralHeight), IntegralHeight);//Boolean
-			//jf.SetValue(nameof(ItemHeight), ItemHeight);//Int32
-			jf.SetValue(nameof(Items), Items);//ObjectCollection
-			jf.SetValue(nameof(ForeColor), ForeColor);//Color
-			jf.SetValue(nameof(BackColor), BackColor);//Color
-			jf.SetValue(nameof(Font), Font);//Font
-			jf.SetValue(nameof(BorderStyle), (int)BorderStyle);//Font
 
 			return jf.Obj;
 		}
@@ -372,20 +185,7 @@ namespace Hypowered
 			base.FromJson(jo);
 			JsonFile jf = new JsonFile(jo);
 			object? v = null;
-			v = jf.ValueAuto("IntegralHeight", typeof(Boolean).Name);
-			if (v != null) IntegralHeight = (Boolean)v;
-			v = jf.ValueAuto("ItemHeight", typeof(Int32).Name);
-			if (v != null) ItemHeight = (Int32)v;
-			//v = jf.ValueAuto("Items", typeof(ListBox.ObjectCollection).Name);
-			//if (v != null) Items.AddRange((string[])v);
-			v = jf.ValueAuto("ForeColor", typeof(Color).Name);
-			if (v != null) ForeColor = (Color)v;
-			v = jf.ValueAuto("BackColor", typeof(Color).Name);
-			if (v != null) BackColor = (Color)v;
-			v = jf.ValueAuto("Font", typeof(Font).Name);
-			if (v != null) Font = (Font)v;
-			v = jf.ValueAuto("BorderStyle", typeof(int).Name);
-			if (v != null) BorderStyle = (BorderStyle)v;
+
 
 		}
 	}

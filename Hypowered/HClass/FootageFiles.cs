@@ -129,6 +129,7 @@ namespace Hypowered.HClass
         }
         public FootageFiles(string nm)
         {
+            Add(nm);
         }
         public bool Add(string nm)
         {

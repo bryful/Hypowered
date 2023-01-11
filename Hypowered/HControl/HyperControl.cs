@@ -49,7 +49,7 @@ namespace Hypowered
 		public new string Name
 		{
 			get { return base.Name; }
-			//set {  }
+			set {  }
 		}
 		public void SetName(string n){base.Name = n;}
 		protected bool m_IsDrawFocuse = true;
