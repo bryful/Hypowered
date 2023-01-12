@@ -1137,5 +1137,15 @@ namespace Hypowered
 				return ret;
 			}
 		}
+		[Browsable(false)]
+		public HyperFootageList? asFootageList
+		{
+			get
+			{
+				HyperFootageList? ret = null;
+				if (this is HyperFootageList) ret = (HyperFootageList)this;
+				return ret;
+			}
+		}
 	}
 }

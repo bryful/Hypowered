@@ -39,7 +39,7 @@ namespace Hypowered
 		}
 		public void ExecuteStartup()
 		{
-			Script.ExecuteCode(ScriptCode.Code(ScriptKind.Startup));
+			Script.ExecuteCode(ScriptCode.Code(ScriptKind.Load));
 		}
 		public void ExecuteMouseDoubleClick()
 		{
@@ -51,7 +51,7 @@ namespace Hypowered
 		}
 		public void ExecuteShutdown()
 		{
-			Script.ExecuteCode(ScriptCode.Code(ScriptKind.Shutdown));
+			Script.ExecuteCode(ScriptCode.Code(ScriptKind.Closed));
 		}
 		public void InitScript()
 		{
@@ -94,8 +94,8 @@ namespace Hypowered
 		[Bindable(false)]
 		public string Script_Startup
 		{
-			get { return ScriptCode.Script_Startup; }
-			set { ScriptCode.Script_Startup = value; }
+			get { return ScriptCode.Script_Load; }
+			set { ScriptCode.Script_Load = value; }
 		}
 		[Category("Hypowered_Script")]
 		[Bindable(false)]
@@ -108,8 +108,8 @@ namespace Hypowered
 		[Bindable(false)]
 		public string Script_Shutdown
 		{
-			get { return ScriptCode.Script_Shutdown; }
-			set { ScriptCode.Script_Shutdown = value; }
+			get { return ScriptCode.Script_Closed; }
+			set { ScriptCode.Script_Closed = value; }
 		}
 		[Category("Hypowered_Form")]
 		public new string Name

@@ -154,7 +154,7 @@ namespace Hypowered
 			this.UpdateStyles();
 
 		}
-		protected override void OnListBoxSelectedIndexChanged(object? sender, EventArgs e)
+		protected override void ListBoxSelectedIndexChanged(object? sender, EventArgs e)
 		{
 			string s = "";
 			if ((m_ListBox.SelectedIndex >= 0) && (m_ListBox.SelectedIndex < m_ListBox.Items.Count))

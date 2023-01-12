@@ -133,7 +133,7 @@ namespace Hypowered
 		}
 
 
-		protected override void OnListBoxDoubleClick(object? sender, EventArgs e)
+		protected override void ListBoxMouseDoubleClick(object? sender, MouseEventArgs e)
 		{
 			int si = m_ListBox.SelectedIndex;
 			if((si>=0)&&(si<m_ListBox.Items.Count))

@@ -1,28 +1,44 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Controls;
+using System.Xml.Linq;
 
-namespace Hypowered.HClass
+namespace Hypowered
 {
     public class FootageBase
     {
-        public string Node = "";
-        public string Frame = "";
-        public int FrameValue = -1;
-        public string Ext = "";
-		public string Name
+		private bool m_IsFolder = false;
+		public bool IsFolder { get { return m_IsFolder; } }
+		private bool m_Exists = false;
+		public bool Exists { get { return m_Exists; } }
+		private string m_Name= "";
+		public string Name { get { return m_Name; } }
+		private string m_Node = "";
+		public string Node { get { return m_Node; } }
+		private string m_Frame = "";
+		public string Frame { get { return m_Frame; } }
+		private int m_FrameValue = -1;
+		public int FrameValue { get { return m_FrameValue; } }
+		private string m_Ext = "";
+		public string Ext { get { return m_Ext; } }
+		public void Clear()
         {
-            get { return Node + Frame + Ext; }
+			m_IsFolder = false;
+			m_Exists = false;
+			m_Name = "";
+			m_Node = "";
+            m_Frame = "";
+            m_Ext = "";
         }
-        public void Clear()
+        public void SetParent()
         {
-            Node = "";
-            Frame = "";
-            Ext = "";
+            m_Exists= true;
+            m_IsFolder= true;
         }
         private int IndexOfFrame(string n)
         {
@@ -30,7 +46,7 @@ namespace Hypowered.HClass
             if (n.Length <= 0) return ret;
             for (int i = n.Length - 1; i >= 0; i--)
             {
-                if (n[i] >= '0' && n[i] <= '0')
+                if (n[i] >= '0' && n[i] <= '9')
                 {
                     //
                 }
@@ -56,23 +72,35 @@ namespace Hypowered.HClass
         }
         public void SetFileName(string nm)
         {
-            Ext = Path.GetExtension(nm);
+            Clear();
+            if(File.Exists(nm))
+            {
+                m_IsFolder= false;
+                m_Exists= true;
+            }else if (Directory.Exists(nm))
+            {
+				m_IsFolder = true;
+				m_Exists = true;
+			}
+			m_Name = Path.GetFileName(nm);
+			m_Ext = Path.GetExtension(nm);
             string n = Path.GetFileNameWithoutExtension(nm);
             int idx = IndexOfFrame(n);
             if (idx < 0)
             {
-                Node = n;
-                Frame = "";
-                FrameValue = -1;
+                m_Node = n;
+                m_Frame = "";
+                m_FrameValue = -1;
             }
             else
             {
-                Node = n.Substring(0, idx);
-                Frame = n.Substring(idx);
+                m_Node = n.Substring(0, idx);
+                m_Frame = n.Substring(idx);
                 int v = -1;
-                bool ok = int.TryParse(Frame, out v);
-                if (ok) FrameValue = v;
+                bool ok = int.TryParse(m_Frame, out v);
+                if (ok) m_FrameValue = v;
             }
+
         }
         public FootageBase()
         {
@@ -84,19 +112,28 @@ namespace Hypowered.HClass
         }
         public void CopyFrom(FootageBase fb)
         {
-            Node = fb.Node;
-            Frame = fb.Frame;
-            Ext = fb.Ext;
+            m_Node = fb.m_Node;
+            m_Frame = fb.m_Frame;
+            m_Ext = fb.m_Ext;
         }
         public bool Equal(FootageBase fb)
         {
-            return Node == fb.Node && Ext == fb.Ext;
+            return (
+                (m_Node == fb.m_Node) &&
+                (m_Ext == fb.m_Ext)
+                
+				);
         }
     }
     public class FootageFiles
     {
+		private bool m_IsParent = false;
+		public bool IsParent { get { return m_IsParent; } }
 
-        private string m_Directory = "";
+		public bool IsFolder { get { return m_Base.IsFolder; } }
+		public bool Exists { get { return m_Base.Exists; } }
+
+		private string m_Directory = "";
         public string Directory
         {
             get { return m_Directory; }
@@ -118,24 +155,76 @@ namespace Hypowered.HClass
                 }
                 else
                 {
-                    return $"{m_Base.Node}_[{m_Frames[0]}-{m_Frames[m_Frames.Count-1]}]{m_Base.Ext}";
+                    string nd = m_Base.Node;
+                    if(nd.Length>0)
+                    {
+                        if (nd[nd.Length - 1] != '_') nd = nd + "_";
+                    }
+                    return $"{nd}[{m_Frames[0]}-{m_Frames[m_Frames.Count-1]}]{m_Base.Ext}";
                 }
             }
         }
-
-
+		public string FullName
+		{
+			get
+			{
+                if(m_IsParent)
+                {
+                    return m_Directory;
+                }
+                else
+                {
+					if (m_Directory != "")
+					{
+						return Path.Combine(m_Directory, m_Base.Name);
+					}
+					else
+					{
+						return m_Base.Name;
+					}
+				}
+			}
+		}
+		public override string ToString()
+        {
+            if(IsParent)
+            {
+				return $"<Parent>";
+			}
+			else if(IsFolder)
+            {
+				return $"<{CaptionName}>";
+			}
+			else
+            {
+				return CaptionName;
+			}
+		}
+       
         public FootageFiles()
         {
         }
+        public void SetParetn(string? p)
+        {
+            if (p != null)
+            {
+                m_IsParent = true;
+                m_Directory = p;
+                m_Base.SetParent();
+            }
+        }
         public FootageFiles(string nm)
         {
-            Add(nm);
-        }
+			m_Base.SetFileName(nm);
+			string? pp = Path.GetDirectoryName(nm);
+			if (pp != null) { m_Directory = pp; } else { m_Directory = ""; }
+		}
         public bool Add(string nm)
         {
             bool ret = false;
-            FootageBase f = new FootageBase(nm);
-            if (f.Frame != "" || f.FrameValue < 0) return ret;
+			if (IsFolder) return ret;
+			FootageBase f = new FootageBase(nm);
+            if ((f.IsFolder) || (f.Frame == "") || (f.FrameValue < 0)) return ret;
             if (m_Frames.Count == 0)
             {
                 m_Base.CopyFrom(f);

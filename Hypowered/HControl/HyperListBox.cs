@@ -29,6 +29,7 @@ namespace Hypowered
 				MainForm.ExecuteCode(GetScriptCode(ScriptKind.SelectedIndexChanged));
 			}
 		}
+
 		public override void SetIsEditMode(bool value)
 		{
 			m_IsEditMode = value;
@@ -180,11 +181,20 @@ namespace Hypowered
 			m_ListBox.IntegralHeight = false;
 			InitializeComponent();
 			this.Controls.Add(m_ListBox);
-			m_ListBox.SelectedIndexChanged += OnListBoxSelectedIndexChanged;
-			m_ListBox.DoubleClick += OnListBoxDoubleClick;
+			m_ListBox.SelectedIndexChanged += ListBoxSelectedIndexChanged;
+			m_ListBox.MouseDoubleClick += ListBoxMouseDoubleClick;
 		}
 
-		protected virtual void OnListBoxSelectedIndexChanged(object? sender, EventArgs e)
+		protected virtual void ListBoxMouseDoubleClick(object? sender, MouseEventArgs e)
+		{
+			
+			if(ScriptCode.Script_MouseDoubleClick!="")
+			{
+				if(MainForm!=null)
+					MainForm.Script.ExecuteCode(ScriptCode.Script_MouseDoubleClick);
+			}
+		}
+		protected virtual void ListBoxSelectedIndexChanged(object? sender, EventArgs e)
 		{
 			string s = "";
 			if ((m_ListBox.SelectedIndex >= 0) && (m_ListBox.SelectedIndex < m_ListBox.Items.Count))
@@ -197,9 +207,7 @@ namespace Hypowered
 			}
 			OnSelectedIndexChanged(new SelectedIndexChangedEventArgs(m_ListBox.SelectedIndex,s));	
 		}
-		protected virtual void OnListBoxDoubleClick(object? sender, EventArgs e)
-		{
-		}
+
 		protected override void OnPaint(PaintEventArgs pe)
 		{
 			if (m_IsEditMode)

@@ -60,6 +60,7 @@ namespace Hypowered
 			engine.AddHostObject("writeln", (object)writeLine);
 			engine.AddHostObject("clr", (object)writeClear);
 
+
 			engine.AddHostObject("yesnoDialog", (object)yesnoDialog);
 			engine.AddHostTypes(new Type[]
 			{
@@ -90,6 +91,9 @@ namespace Hypowered
 				typeof(ControlType),
 				typeof(AppControlList),
 				typeof(AppFormList),
+				typeof(FootageBase),
+				typeof(FootageFiles),
+
 
 			});
 			if(app!=null) engine.AddHostObject("app",app);

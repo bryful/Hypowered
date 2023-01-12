@@ -95,7 +95,7 @@ namespace BRY
 		/// <param name="path">アイコンイメージ取得対象のファイルのパス</param>
 		/// <param name="isLarge">大きいアイコンを取得するとき true、小さいアイコンを取得するとき false</param>
 		/// <returns>取得されたアイコンのビットマップイメージを返す。</returns>
-		public static Image FileAssociatedImage(string path, bool isLarge)
+		public static Image? FileAssociatedImage(string path, bool isLarge=false)
 		{
 			return FileAssociatedImage(path, isLarge, File.Exists(path));
 		}
@@ -110,7 +110,7 @@ namespace BRY
 		/// ファイルが実在するときだけ動作させるとき true、実在しなくて動作させるとき false
 		/// </param>
 		/// <returns>取得されたアイコンのビットマップイメージを返す。</returns>
-		public static Image FileAssociatedImage(string path, bool isLarge, bool isExist)
+		public static Image? FileAssociatedImage(string path, bool isLarge, bool isExist)
 		{
 			SHFILEINFO fileInfo = new SHFILEINFO();
 			uint flags = SHGFI_ICON;

@@ -714,6 +714,9 @@ true);
 				case ControlType.Html:
 					ctrl = new HyperHtml();
 					break;
+				case ControlType.FootageList:
+					ctrl = new HyperFootageList();
+					break;
 				default:
 					break;
 			}

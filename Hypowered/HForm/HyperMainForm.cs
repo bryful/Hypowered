@@ -168,10 +168,10 @@ namespace Hypowered
 			m_HYPF_Folder = DefaultHypfFolder();
 
 			SetInScript(
-				InScriptBit.Startup| 
+				InScriptBit.Load| 
 				InScriptBit.MouseDoubleClick|
 				InScriptBit.KeyPress|
-				InScriptBit.Shutdown);
+				InScriptBit.Closed);
 			forms.SetMain(this);
 			Script.SetMainForm(this);
 

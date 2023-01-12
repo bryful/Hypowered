@@ -9,20 +9,20 @@ namespace Hypowered
 {
     public enum ScriptKind
     {
-        Startup = 0,
+        Load = 0,
         MouseClick,
         MouseDoubleClick,
         SelectedIndexChanged,
         CurrentDirChanged,
         ValueChanged,
         KeyPress,
-		Shutdown,
+		Closed,
 	}
     [Flags]
     public enum InScriptBit
     {
         None = 0,
-        Startup
+        Load
             = 0b_0000_0000_0001,
         MouseClick
             = 0b_0000_0000_0010,
@@ -36,7 +36,7 @@ namespace Hypowered
             = 0b_0000_0010_0000,
         KeyPress
             = 0b_0000_0100_0000,
-		Shutdown
+		Closed
 			= 0b_0000_1000_0000,
 	}
 	public class HyperScriptCode
@@ -70,10 +70,10 @@ namespace Hypowered
         {
             return m_Codes[(int)sk];
 		}
-        public string Script_Startup
+        public string Script_Load
         {
-            get { return m_Codes[(int)ScriptKind.Startup]; }
-            set { m_Codes[(int)ScriptKind.Startup] = value; }
+            get { return m_Codes[(int)ScriptKind.Load]; }
+            set { m_Codes[(int)ScriptKind.Load] = value; }
         }
         public string Script_KeyPress
         {
@@ -105,10 +105,10 @@ namespace Hypowered
             get { return m_Codes[(int)ScriptKind.ValueChanged]; }
             set { m_Codes[(int)ScriptKind.ValueChanged] = value; }
         }
-		public string Script_Shutdown
+		public string Script_Closed
 		{
-			get { return m_Codes[(int)ScriptKind.Shutdown]; }
-			set { m_Codes[(int)ScriptKind.Shutdown] = value; }
+			get { return m_Codes[(int)ScriptKind.Closed]; }
+			set { m_Codes[(int)ScriptKind.Closed] = value; }
 		}
 		public string GetScriptCode(ScriptKind ist)
         {
