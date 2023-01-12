@@ -28,12 +28,8 @@ namespace Hypowered
 			app = new HyperApp(mf);
 			if(engine!=null) engine.AddHostObject("app", app);
 		}
-		private string startCode =
-	  @"var System = dotnet.System;\r\n"
-	+ @"var System.Core = dotnet.System.Core;"
-	+ @"var System.Drawing = dotnet.System.Drawing;"
-;
 		private V8ScriptEngine? engine = null;
+
         public HyperScript()
         {
 			Init();
@@ -59,9 +55,6 @@ namespace Hypowered
 			engine.AddHostObject("write", (object)write);
 			engine.AddHostObject("writeln", (object)writeLine);
 			engine.AddHostObject("clr", (object)writeClear);
-
-
-			engine.AddHostObject("yesnoDialog", (object)yesnoDialog);
 			engine.AddHostTypes(new Type[]
 			{
 				typeof(Console),
@@ -124,11 +117,7 @@ namespace Hypowered
 		}
 		public void InitControls(HyperMainForm? mf)
 		{
-			/*
-			 *
-			 engine.Script["a"] = new ExpandoObject();
-				engine.Script["a"].b = 1;
-			*/
+
 			if ((engine == null) || (mf == null)) return;
 			if (mf.Controls.Count > 0)
 			{

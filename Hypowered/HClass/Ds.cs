@@ -176,7 +176,7 @@ namespace Hypowered
 		static public void Polygon(Graphics g, Pen p, SolidBrush? sb, int cnt, PointF pos, float length, float rot)
 		{
 			PointF[] pnts = PolygonPolygon(cnt, pos, length, rot);
-			if ((sb != null) && (sb.Color.A > 0)) ;
+			if ((sb != null) && (sb.Color.A > 0))
 			{
 				g.FillPolygon(sb, pnts);
 			}

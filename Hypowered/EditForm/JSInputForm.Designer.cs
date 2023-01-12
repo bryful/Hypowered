@@ -39,6 +39,11 @@
 			this.editPad1 = new Hypowered.EditPad();
 			this.btnExec = new System.Windows.Forms.Button();
 			this.splitContainer1 = new System.Windows.Forms.SplitContainer();
+			this.btnFont = new System.Windows.Forms.Button();
+			this.btnCLS = new System.Windows.Forms.Button();
+			this.cmbWord = new System.Windows.Forms.ComboBox();
+			this.btnAlert = new System.Windows.Forms.Button();
+			this.btnWriteln = new System.Windows.Forms.Button();
 			this.btnUndo = new System.Windows.Forms.Button();
 			this.btnRedo = new System.Windows.Forms.Button();
 			((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
@@ -55,8 +60,8 @@
 			this.controlBrowser1.ForeColor = System.Drawing.Color.Silver;
 			this.controlBrowser1.Location = new System.Drawing.Point(0, 0);
 			this.controlBrowser1.Name = "controlBrowser1";
-			this.controlBrowser1.Size = new System.Drawing.Size(208, 253);
-			this.controlBrowser1.SplitterDistance = 102;
+			this.controlBrowser1.Size = new System.Drawing.Size(262, 316);
+			this.controlBrowser1.SplitterDistance = 129;
 			this.controlBrowser1.TabIndex = 1;
 			this.controlBrowser1.Text = "controlBrowser1";
 			// 
@@ -80,7 +85,7 @@
 			this.editPad1.HorizontalScrollBarVisibility = System.Windows.Controls.ScrollBarVisibility.Auto;
 			solidColorBrush3.Color = System.Windows.Media.Color.FromArgb(((byte)(255)), ((byte)(128)), ((byte)(128)), ((byte)(128)));
 			this.editPad1.LineNumbersForeground = solidColorBrush3;
-			this.editPad1.Location = new System.Drawing.Point(3, 3);
+			this.editPad1.Location = new System.Drawing.Point(3, 34);
 			this.editPad1.Name = "editPad1";
 			this.editPad1.Offset = 0;
 			this.editPad1.Options = ((ICSharpCode.AvalonEdit.TextEditorOptions)(resources.GetObject("editPad1.Options")));
@@ -92,7 +97,7 @@
 			this.editPad1.ShowLineNumbers = true;
 			this.editPad1.ShowSpaces = false;
 			this.editPad1.ShowTabs = true;
-			this.editPad1.Size = new System.Drawing.Size(635, 197);
+			this.editPad1.Size = new System.Drawing.Size(792, 229);
 			this.editPad1.TabIndex = 5;
 			this.editPad1.WordWrap = true;
 			// 
@@ -100,9 +105,9 @@
 			// 
 			this.btnExec.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
 			this.btnExec.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-			this.btnExec.Location = new System.Drawing.Point(488, 206);
+			this.btnExec.Location = new System.Drawing.Point(618, 269);
 			this.btnExec.Name = "btnExec";
-			this.btnExec.Size = new System.Drawing.Size(138, 34);
+			this.btnExec.Size = new System.Drawing.Size(165, 34);
 			this.btnExec.TabIndex = 3;
 			this.btnExec.Text = "execute";
 			this.btnExec.UseVisualStyleBackColor = true;
@@ -118,6 +123,11 @@
 			// 
 			// splitContainer1.Panel1
 			// 
+			this.splitContainer1.Panel1.Controls.Add(this.btnFont);
+			this.splitContainer1.Panel1.Controls.Add(this.btnCLS);
+			this.splitContainer1.Panel1.Controls.Add(this.cmbWord);
+			this.splitContainer1.Panel1.Controls.Add(this.btnAlert);
+			this.splitContainer1.Panel1.Controls.Add(this.btnWriteln);
 			this.splitContainer1.Panel1.Controls.Add(this.btnUndo);
 			this.splitContainer1.Panel1.Controls.Add(this.btnRedo);
 			this.splitContainer1.Panel1.Controls.Add(this.editPad1);
@@ -126,17 +136,94 @@
 			// splitContainer1.Panel2
 			// 
 			this.splitContainer1.Panel2.Controls.Add(this.controlBrowser1);
-			this.splitContainer1.Size = new System.Drawing.Size(853, 253);
-			this.splitContainer1.SplitterDistance = 641;
+			this.splitContainer1.Size = new System.Drawing.Size(1064, 316);
+			this.splitContainer1.SplitterDistance = 798;
 			this.splitContainer1.TabIndex = 6;
+			// 
+			// btnFont
+			// 
+			this.btnFont.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+			this.btnFont.Location = new System.Drawing.Point(11, 5);
+			this.btnFont.Name = "btnFont";
+			this.btnFont.Size = new System.Drawing.Size(62, 25);
+			this.btnFont.TabIndex = 12;
+			this.btnFont.Text = "Font";
+			this.btnFont.UseVisualStyleBackColor = true;
+			this.btnFont.Click += new System.EventHandler(this.BtnFont_Click);
+			// 
+			// btnCLS
+			// 
+			this.btnCLS.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+			this.btnCLS.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+			this.btnCLS.Location = new System.Drawing.Point(3, 269);
+			this.btnCLS.Name = "btnCLS";
+			this.btnCLS.Size = new System.Drawing.Size(53, 34);
+			this.btnCLS.TabIndex = 11;
+			this.btnCLS.Text = "cls";
+			this.btnCLS.UseVisualStyleBackColor = true;
+			// 
+			// cmbWord
+			// 
+			this.cmbWord.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(32)))), ((int)(((byte)(32)))), ((int)(((byte)(32)))));
+			this.cmbWord.DropDownHeight = 200;
+			this.cmbWord.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+			this.cmbWord.DropDownWidth = 300;
+			this.cmbWord.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+			this.cmbWord.ForeColor = System.Drawing.Color.Gainsboro;
+			this.cmbWord.FormattingEnabled = true;
+			this.cmbWord.IntegralHeight = false;
+			this.cmbWord.Items.AddRange(new object[] {
+            "app.exit();",
+            "app.alert(str)",
+            "app.write(str)",
+            "app.writeln(str)",
+            "app.cls();",
+            "app.loadForm(path)",
+            "app.openForm(path)",
+            "app.executablePath",
+            "app.currentPath",
+            "app.hypfFolder",
+            "app.homeHypf",
+            "app.loadHome();",
+            "app.openHome();",
+            "app.yesnoDialog(cap,title)",
+            "app.getenv(str)",
+            "app.setenv(str,str)",
+            "var Directory = dotnet.System.IO.Directory;",
+            "var File = dotnet.System.IO.File;"});
+			this.cmbWord.Location = new System.Drawing.Point(230, 7);
+			this.cmbWord.Name = "cmbWord";
+			this.cmbWord.Size = new System.Drawing.Size(121, 23);
+			this.cmbWord.TabIndex = 10;
+			// 
+			// btnAlert
+			// 
+			this.btnAlert.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+			this.btnAlert.Location = new System.Drawing.Point(154, 5);
+			this.btnAlert.Name = "btnAlert";
+			this.btnAlert.Size = new System.Drawing.Size(70, 25);
+			this.btnAlert.TabIndex = 9;
+			this.btnAlert.Text = "alert";
+			this.btnAlert.UseVisualStyleBackColor = true;
+			// 
+			// btnWriteln
+			// 
+			this.btnWriteln.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+			this.btnWriteln.Location = new System.Drawing.Point(78, 5);
+			this.btnWriteln.Name = "btnWriteln";
+			this.btnWriteln.Size = new System.Drawing.Size(70, 25);
+			this.btnWriteln.TabIndex = 8;
+			this.btnWriteln.Text = "writeln";
+			this.btnWriteln.UseVisualStyleBackColor = true;
+			this.btnWriteln.Click += new System.EventHandler(this.BtnWriteln_Click);
 			// 
 			// btnUndo
 			// 
 			this.btnUndo.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
 			this.btnUndo.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-			this.btnUndo.Location = new System.Drawing.Point(130, 206);
+			this.btnUndo.Location = new System.Drawing.Point(121, 269);
 			this.btnUndo.Name = "btnUndo";
-			this.btnUndo.Size = new System.Drawing.Size(72, 34);
+			this.btnUndo.Size = new System.Drawing.Size(61, 34);
 			this.btnUndo.TabIndex = 7;
 			this.btnUndo.Text = "Undo";
 			this.btnUndo.UseVisualStyleBackColor = true;
@@ -146,9 +233,9 @@
 			// 
 			this.btnRedo.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
 			this.btnRedo.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-			this.btnRedo.Location = new System.Drawing.Point(52, 206);
+			this.btnRedo.Location = new System.Drawing.Point(62, 269);
 			this.btnRedo.Name = "btnRedo";
-			this.btnRedo.Size = new System.Drawing.Size(72, 34);
+			this.btnRedo.Size = new System.Drawing.Size(53, 34);
 			this.btnRedo.TabIndex = 6;
 			this.btnRedo.Text = "Redo";
 			this.btnRedo.UseVisualStyleBackColor = true;
@@ -160,10 +247,10 @@
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
 			this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(32)))), ((int)(((byte)(32)))), ((int)(((byte)(32)))));
 			this.CanResize = true;
-			this.ClientSize = new System.Drawing.Size(877, 296);
+			this.ClientSize = new System.Drawing.Size(1088, 359);
 			this.Controls.Add(this.splitContainer1);
-			this.DoubleBuffered = true;
 			this.ForeColor = System.Drawing.Color.LightGray;
+			this.KeyPreview = true;
 			this.MenuBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(32)))), ((int)(((byte)(32)))), ((int)(((byte)(32)))));
 			this.MenuForeColor = System.Drawing.Color.DarkGray;
 			this.Name = "JSInputForm";
@@ -188,5 +275,10 @@
 		private SplitContainer splitContainer1;
 		private Button btnUndo;
 		private Button btnRedo;
+		private Button btnWriteln;
+		private ComboBox cmbWord;
+		private Button btnAlert;
+		private Button btnCLS;
+		private Button btnFont;
 	}
 }

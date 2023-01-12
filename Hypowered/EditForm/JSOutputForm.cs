@@ -14,6 +14,11 @@ namespace Hypowered
 	public partial class JSOutputForm : EditForm
 	{
 		public HyperMainForm? MainForm { get; set; } = null;
+		public Font OutputFont
+		{
+			get { return textBox1.Font; }
+			set { textBox1.Font = value; }
+		}
 		public JSOutputForm()
 		{
 			InitializeComponent();
@@ -56,6 +61,24 @@ namespace Hypowered
 			textBox1.AppendText(ToS(o));
 		}
 		public void clear()
+		{
+			textBox1.Text = "";
+		}
+
+		private void BtnFont_Click(object sender, EventArgs e)
+		{
+			using (FontDialog dlg = new FontDialog())
+			{
+				dlg.Font = OutputFont;
+				if(dlg.ShowDialog()==DialogResult.OK)
+				{
+					OutputFont = dlg.Font;
+					if(MainForm!=null) MainForm.OutputFormFont = dlg.Font; ;
+				}
+			}
+		}
+
+		private void Button1_Click(object sender, EventArgs e)
 		{
 			textBox1.Text = "";
 		}

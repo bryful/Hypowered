@@ -37,23 +37,12 @@ namespace Hypowered
 					controlBrowser1.SetMainForm(fm);
 				};
 			}
-			/*
-			if ((m_MainForm!=null)&&(m_MainForm.forms.TargetForm!=null))
-			{
-				m_TargetControl = m_MainForm.forms.TargetForm.TargetControl;
-				if (m_TargetControl!=null)
-				{
-					Type t = m_TargetControl.GetType();
-					SetScriptCode( m_TargetControl.ScriptCode);
-					this.Text = m_TargetControl.Name;
-				}
-				else
-				{
-					SetScriptCode(((HyperMainForm)m_MainForm.forms.TargetForm).ScriptCode);
-					this.Text = m_MainForm.forms.TargetForm.Name;
-				}
-			}
-			*/
+
+		}
+		public Font InputFont
+		{
+			get { return editPad1.Font; }
+			set { editPad1.Font = value; }
 		}
 		private List<string> m_back = new List<string>();
 		private int m_backCount = -1;
@@ -65,6 +54,40 @@ namespace Hypowered
 		public JSInputForm()
 		{
 			InitializeComponent();
+
+			btnAlert.Click += (sender, e) => { editPad1.SetText("alert("); };
+			btnWriteln.Click += (sender, e) => { editPad1.SetText("writeln("); };
+			btnCLS.Click += (sender, e) => { editPad1.Text=""; };
+			cmbWord.SelectedIndexChanged += (sender, e) =>
+			{
+				ComboBox? cmb = (ComboBox?)sender;
+				if (cmb == null) return;
+				if(cmb.SelectedIndex>=0)
+				{
+					if (cmb.SelectedItem != null)
+					{
+						editPad1.SetText(cmb.SelectedItem.ToString());
+					}
+				}
+			};
+		}
+		protected override void OnPreviewKeyDown(PreviewKeyDownEventArgs e)
+		{
+			if(e.KeyData == (Keys.Control|Keys.E)) 
+			{
+				exec();
+			}else if (e.KeyData == (Keys.Control | Keys.Z))
+			{
+				Undo();
+			
+			}else if (e.KeyData == (Keys.Control | Keys.W))
+			{
+				this.Visible = false;
+			}
+			else
+			{
+				base.OnPreviewKeyDown(e);
+			}
 		}
 		private void AddBack(string s)
 		{
@@ -84,15 +107,19 @@ namespace Hypowered
 			if (m_back.Count > 100) m_back.RemoveAt(0);
 			m_backCount = m_back.Count-1;
 		}
-		private void Button1_Click(object sender, EventArgs e)
+		public void exec()
 		{
-			if(MainForm != null)
+			if (MainForm != null)
 			{
 				string str = editPad1.Text.Trim();
 				AddBack(str);
 				MainForm.Script.ExecuteCode(str);
 				editPad1.Text = "";
 			}
+		}
+		private void Button1_Click(object sender, EventArgs e)
+		{
+			exec();
 		}
 		public void Undo()
 		{
@@ -121,6 +148,24 @@ namespace Hypowered
 		private void BtnRedo_Click(object sender, EventArgs e)
 		{
 			Redo();
+		}
+
+		private void BtnWriteln_Click(object sender, EventArgs e)
+		{
+
+		}
+
+		private void BtnFont_Click(object sender, EventArgs e)
+		{
+			using (FontDialog dlg = new FontDialog())
+			{
+				dlg.Font = InputFont;
+				if(dlg.ShowDialog()==DialogResult.OK)
+				{
+					InputFont=dlg.Font;
+					if(MainForm!=null) MainForm.Font = dlg.Font;
+				}
+			}
 		}
 	}
 }

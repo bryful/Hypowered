@@ -44,6 +44,7 @@ namespace Hypowered
 			lst.Add(new FuncItem(CopyControl, Keys.Control | Keys.C, "Copy"));
 			lst.Add(new FuncItem(CutControl, Keys.Control | Keys.X, "Cut"));
 			lst.Add(new FuncItem(PasteControl, Keys.Control | Keys.V, "Paste"));
+			lst.Add(new FuncItem(ShowAlignmentForm, Keys.Control | Keys.J, "配置パレット"));
 			Funcs.SetFuncItems(lst.ToArray());
 		}
 		// *************************************************************************
@@ -77,6 +78,7 @@ namespace Hypowered
 		private HyperMenuItem? m_ContentMenu = null;
 		private HyperMenuItem? m_InputMenu = null;
 		private HyperMenuItem? m_OutputMenu = null;
+		private HyperMenuItem? m_AlignMentMenu = null;
 
 		private HyperMenuItem? m_CopyMenu = null;
 		private HyperMenuItem? m_CutMenu = null;
@@ -123,12 +125,14 @@ namespace Hypowered
 			m_ContentMenu = CreateMenuItem(ShowEditContent, true);
 			m_InputMenu = CreateMenuItem(ShowInputForm);
 			m_OutputMenu = CreateMenuItem(ShowOutputForm);
+			m_AlignMentMenu = CreateMenuItem(ShowAlignmentForm,true);
 			if (m_ControlMenu != null)
 			{
 				m_ControlMenu.Add(m_EditModeMenu);
 				m_ControlMenu.Add(m_ShowMenu);
 				m_ControlMenu.Add(null);
 				m_ControlMenu.Add(m_ControlListmMenu);
+				m_ControlMenu.Add(m_AlignMentMenu);
 				m_ControlMenu.Add(m_AddUserPictMenu);
 				m_ControlMenu.Add(m_PictLibMenu);
 				m_ControlMenu.Add(m_OpenScriptEditMenu);
@@ -408,12 +412,50 @@ namespace Hypowered
 			return true;
 		}
 		// *************************************************************************
+		public bool ShowAlignmentForm()
+		{
+			if (m_IsEditMode == false) return false;
+			if (AlignmentForm == null)
+			{
+				EditAlignmentForm AlignmentForm  = new EditAlignmentForm();
+				AlignmentForm.SetMainForm(this);
+				if (AlignmentFormBounds.Left == -1)
+				{
+					AlignmentForm.Location = new Point(
+						this.Right + 5,
+						this.Top);
+				}
+				else
+				{
+					AlignmentForm.Location = AlignmentFormBounds.Location;
+				}
+				AlignmentForm.Show(this);
+			}
+			else
+			{
+				if (AlignmentForm.Visible == false)
+				{
+					AlignmentForm.Visible = true;
+					AlignmentForm.Activate();
+				}
+				else
+				{
+					AlignmentForm.Visible = false;
+				}
+
+			}
+
+
+			return true;
+		}
+		// *************************************************************************
 		public bool ShowOutputForm()
 		{
 			if (OutputForm == null)
 			{
 				OutputForm = new JSOutputForm();
 				OutputForm.MainForm =this;
+				if (OutputForm != null) OutputForm.Font = OutputFormFont;
 				if (OutputFormBounds.Left == -1)
 				{
 					OutputForm.Location = new Point(
@@ -458,6 +500,7 @@ namespace Hypowered
 			{
 				InputForm = new JSInputForm();
 				InputForm.MainForm = this;
+				if(InputFormFont!=null) InputForm.Font= InputFormFont;
 				if (InputFormBounds.Left == -1)
 				{
 					InputForm.Location = new Point(
@@ -525,7 +568,7 @@ namespace Hypowered
 		{
 			if (ScriptEdit == null)
 			{
-				ScriptEdit = new HyperScriptEditor();
+				ScriptEdit = new ScriptEditor();
 				ScriptEdit.SetMainForm(this);
 				if (ScriptEditBounds.Left == -1)
 				{

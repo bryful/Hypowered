@@ -463,6 +463,9 @@ true);
 			jf.SetValue(nameof(ScriptEditBounds), ScriptEditBounds);
 			jf.SetValue(nameof(OutputFormBounds), OutputFormBounds);
 			jf.SetValue(nameof(InputFormBounds), InputFormBounds);
+			jf.SetValue(nameof(AlignmentFormBounds), AlignmentFormBounds);
+			if(InputFormFont!=null)jf.SetValue(nameof(InputFormFont), InputFormFont);
+			if (OutputFormFont != null) jf.SetValue(nameof(OutputFormFont), OutputFormFont);
 			return jf.Save(s);
 		}
 		// ****************************************************************************
@@ -483,6 +486,12 @@ true);
 			if (v != null) InputFormBounds = (Rectangle)v;
 			v = jf.ValueAuto("OutputFormBounds", typeof(Rectangle).Name);
 			if (v != null) OutputFormBounds = (Rectangle)v;
+			v = jf.ValueAuto("AlignmentFormBounds", typeof(Rectangle).Name);
+			if (v != null) AlignmentFormBounds = (Rectangle)v;
+			v = jf.ValueAuto("InputFormFont", typeof(Font).Name);
+			if (v != null) InputFormFont = (Font)v;
+			v = jf.ValueAuto("OutputFormFont", typeof(Font).Name);
+			if (v != null) OutputFormFont = (Font)v;
 
 			if (JsonFile.ScreenIn(this.Bounds) == false)
 			{

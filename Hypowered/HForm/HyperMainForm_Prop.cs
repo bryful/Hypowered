@@ -18,14 +18,18 @@ namespace Hypowered
 		public HyperScriptCode ScriptCode = new HyperScriptCode();
 		// ****************************************************************************
 		public EditControlList? ControlList = null;
-		public HyperScriptEditor? ScriptEdit = null;
+		public ScriptEditor? ScriptEdit = null;
 		public JSOutputForm? OutputForm = null;
 		public JSInputForm? InputForm = null;
+		public EditAlignmentForm? AlignmentForm = null;
 
 		public Rectangle ControlListBounds = new Rectangle(-1, -1, 0,0);
 		public Rectangle ScriptEditBounds = new Rectangle(-1, -1, 0, 0);
 		public Rectangle InputFormBounds = new Rectangle(-1, -1, 0, 0);
 		public Rectangle OutputFormBounds = new Rectangle(-1, -1, 0, 0);
+		public Rectangle AlignmentFormBounds = new Rectangle(-1, -1, 0, 0);
+		public Font? InputFormFont = null;
+		public Font? OutputFormFont = null;
 		// ****************************************************************************
 
 		// ****************************************************************************

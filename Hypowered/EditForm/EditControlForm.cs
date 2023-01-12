@@ -211,9 +211,9 @@ namespace Hypowered
 		}
 
 		#region Mouse
-		protected MDPos m_MDPos = MDPos.None;
-		protected Point m_MDP = new Point(0, 0);
-		protected Point m_MDLoc = new Point(0, 0);
+		//protected MDPos m_MDPos = MDPos.None;
+		//protected Point m_MDP = new Point(0, 0);
+		//protected Point m_MDLoc = new Point(0, 0);
 		protected override void OnMouseDown(MouseEventArgs e)
 		{
 			if ((e.Button & MouseButtons.Left) == MouseButtons.Left)

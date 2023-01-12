@@ -277,6 +277,54 @@
   <data name="conversion_path" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\conversion_path.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
+  <data name="CTRLALI1" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\CTRLALI1.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="CTRLALI2" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\CTRLALI2.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="CTRLALI3" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\CTRLALI3.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="CTRLALI4" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\CTRLALI4.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="CTRLALI5" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\CTRLALI5.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="CTRLALI6" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\CTRLALI6.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="CTRLALI7" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\CTRLALI7.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="CTRLALI8" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\CTRLALI8.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="CTRLALI_push1" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\CTRLALI_push1.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="CTRLALI_push2" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\CTRLALI_push2.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="CTRLALI_push3" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\CTRLALI_push3.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="CTRLALI_push4" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\CTRLALI_push4.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="CTRLALI_push5" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\CTRLALI_push5.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="CTRLALI_push6" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\CTRLALI_push6.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="CTRLALI_push7" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\CTRLALI_push7.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="CTRLALI_push8" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\CTRLALI_push8.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
   <data name="currency_yen" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\currency_yen.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>

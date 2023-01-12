@@ -40,6 +40,7 @@ namespace Hypowered
 				}
 			}
 		}
+		/*
 		private bool m_IsDrawFrame = true;
 		[Category("Hypowered_PictureBox")]
 		public bool IsDrawFrame
@@ -51,6 +52,7 @@ namespace Hypowered
 				this.Invalidate();
 			}
 		}
+		*/
 		protected Color m_BaseColor = Color.Transparent;
 		protected Color m_LineColor = Color.DimGray;
 

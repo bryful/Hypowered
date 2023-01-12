@@ -68,6 +68,7 @@ namespace Hypowered
 			jf.SetValue(nameof(Padding), Padding);//Padding
 			jf.SetValue(nameof(ImeMode), ImeMode);//ImeMode
 			jf.SetValue(nameof(FrameWeight), FrameWeight);
+			jf.SetValue(nameof(Size), Size);//Size
 
 			if (this.Controls.Count > 0)
 			{
@@ -196,7 +197,8 @@ namespace Hypowered
 			if (v != null) ImeMode = (ImeMode)v;
 			v = jf.ValueAuto("FrameWeight", typeof(Padding).Name);
 			if (v != null) FrameWeight = (Padding)v;
-
+			v = jf.ValueAuto("Size", typeof(Size).Name);
+			if (v != null) Size = (Size)v;
 
 			JsonArray? ja = jf.ValueArray("Controls");
 			if((ja!=null)&&(ja.Count>0))

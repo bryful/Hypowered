@@ -14,7 +14,7 @@ using System.Windows.Forms;
 
 namespace Hypowered
 {
-    public partial class HyperScriptEditor : Form
+    public partial class ScriptEditor : Form
 	{
 		private bool EditNow = false;
 		private HyperMainForm? m_MainForm = null;
@@ -127,7 +127,7 @@ namespace Hypowered
 			}
 		}
 
-		public HyperScriptEditor()
+		public ScriptEditor()
 		{
 			this.Name = "HyperScriptEditor";
 			this.SetStyle(
@@ -142,6 +142,18 @@ true);
 			//MakeMenu();
 			InitializeComponent();
 			controlBrowser1.EditPad = editPad1;
+			cmbWord.SelectedIndexChanged += (sender, e) =>
+			{
+				ToolStripComboBox ? cmb = (ToolStripComboBox?)sender;
+				if (cmb == null) return;
+				if (cmb.SelectedIndex >= 0)
+				{
+					if (cmb.SelectedItem != null)
+					{
+						editPad1.SetText(cmb.SelectedItem.ToString());
+					}
+				}
+			};
 
 		}
 
@@ -226,6 +238,11 @@ true);
 		private void ToolStripButton1_Click(object sender, EventArgs e)
 		{
 			this.Text = $"offset:{editPad1.Offset}start:{editPad1.SelectionStart},length{editPad1.SelectionLength},";
+		}
+
+		private void ToolStripComboBox1_Click(object sender, EventArgs e)
+		{
+
 		}
 	}
 }

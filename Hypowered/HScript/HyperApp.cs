@@ -22,6 +22,7 @@ namespace Hypowered
 			get { return (IDictionary<string, dynamic>)m_forms.itemsEO; }
 		}
 		public int numForms { get { return m_forms.length; } }
+		[ScriptUsage(ScriptAccess.None)]
 		public HyperApp(HyperBaseForm? main):base(main)
 		{
 			base.form = main;

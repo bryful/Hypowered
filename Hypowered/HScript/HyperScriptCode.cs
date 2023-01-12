@@ -163,6 +163,7 @@ namespace Hypowered
         }
         public HyperScriptCode()
         {
+
         }
         private void GetValidSprictNames(InScriptBit sc)
         {

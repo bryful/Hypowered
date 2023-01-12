@@ -53,25 +53,24 @@ namespace Hypowered
 				return;
 			}else if(hargs.Option == Option.EnvSet)
 			{
-				Def.SetDirectoryToEnvDialog(Path.GetFileNameWithoutExtension(Application.ExecutablePath) + Def.ENV_HOME_PATH);
+				string ENV = Path.GetFileNameWithoutExtension(Application.ExecutablePath) + Def.ENV_HOME_PATH;
+				Def.SetDirectoryToEnvDialog(ENV);
 				return;
 			}
 			else if (hargs.Option == Option.EnvDelete)
 			{
 				F_W.SettupConsole();
-				string homeENV = Path.GetFileNameWithoutExtension(Application.ExecutablePath) + Def.ENV_HOME_PATH;
-				if ((homeENV==null)||(homeENV=="")||(homeENV== Def.ENV_HOME_PATH))
+				string ENV = Path.GetFileNameWithoutExtension(Application.ExecutablePath) + Def.ENV_HOME_PATH;
+				string? s = Def.GetENV(ENV);
+				if ((s != null)||(s=="")) 
 				{
-					Console.WriteLine("\r\n");
-					Console.WriteLine($"ŠÂ‹«•Ï”{homeENV}‚ªˆÙí‚Å‚·");
-					F_W.EndConsole();
-					return;
+					Console.WriteLine($"ŠÂ‹«•Ï”{ENV}‚ğíœ‚µ‚Ü‚µ‚½");
 				}
-				string? homeP = Def.GetENV(homeENV);
-				if (homeP == null) homeP = "";
-				Def.SetENV(homeENV, homeP);
-				Console.WriteLine("\r\n");
-				Console.WriteLine($"ŠÂ‹«•Ï”{homeENV}‚ğíœ‚µ‚Ü‚µ‚½");
+				else
+				{
+					Def.SetENV(ENV, "");
+					Console.WriteLine($"ŠÂ‹«•Ï”{ENV}‚ğíœ‚µ‚Ü‚µ‚½");
+				}
 				F_W.EndConsole();
 				return;
 			}

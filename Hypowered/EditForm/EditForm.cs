@@ -26,9 +26,8 @@ namespace Hypowered
 			get { return m_CanResize; }
 			set { m_CanResize = value; }
 		}
-		private HyperBaseForm? m_TargetForm = null;
-		private HyperControl? m_TargetControl = null;
 		private EditMenuBar m_MenuBar = new EditMenuBar();
+
 		public new string Text
 		{
 			get { return base.Text; }

@@ -55,7 +55,8 @@ namespace Hypowered.HScript
         {
             return m_items[idx];
         }
-        public HyperAppBase(HyperBaseForm? fm)
+		[ScriptUsage(ScriptAccess.None)]
+		public HyperAppBase(HyperBaseForm? fm)
         {
             form = fm;
             ListupControls();

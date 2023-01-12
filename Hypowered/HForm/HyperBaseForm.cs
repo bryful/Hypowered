@@ -1159,5 +1159,130 @@ true);
 			F_W.SHChangeNotify();
 			return true;
 		}
+		public void AlignmentControl(AStyle ast)
+		{
+			List<HyperControl> selectTable = new List<HyperControl>();
+			if(this.Controls.Count > 1) 
+			{
+				for(int i=1; i<this.Controls.Count; i++)
+				{
+					if (this.Controls[i] is HyperControl)
+					{
+						HyperControl hc = (HyperControl)this.Controls[i];
+						if (hc.Selected)
+						{
+							selectTable.Add(hc);
+						}
+					}
+				}
+			}
+			if (selectTable.Count <= 1) return;
+			switch(ast)
+			{
+				case AStyle.VurLeft:
+					selectTable.Sort((a, b) => (a.Left + a.Width / 2) - (b.Left + b.Width / 2));
+					int x = selectTable[0].Left;
+					
+					foreach(HyperControl hc in selectTable)
+					{
+						if (x > hc.Left) x = hc.Left;
+					}
+					foreach (HyperControl hc in selectTable)
+					{
+						hc.Left= x;
+					}
+					break;
+				case AStyle.VurCenetr:
+					selectTable.Sort((a, b) => (a.Left + a.Width / 2) - (b.Left + b.Width / 2));
+					int cx = 0;
+					foreach (HyperControl hc in selectTable)
+					{
+						cx += hc.Left + hc.Width / 2;
+					}
+					cx /= selectTable.Count;
+					foreach (HyperControl hc in selectTable)
+					{
+
+						hc.Left = cx - hc.Width / 2; ;
+					}
+					break;
+				case AStyle.VurRight:
+					selectTable.Sort((a, b) => (a.Left + a.Width / 2) - (b.Left + b.Width / 2));
+					int rx = selectTable[0].Right;
+					foreach (HyperControl hc in selectTable)
+					{
+						if( rx<hc.Right) rx = hc.Right;
+					}
+					foreach (HyperControl hc in selectTable)
+					{
+
+						hc.Left = rx - hc.Width;
+					}
+					break;
+				case AStyle.HorTop:
+					selectTable.Sort((a, b) => (a.Top + a.Height / 2) - (b.Top + b.Height / 2));
+					int y = selectTable[0].Top;
+					foreach (HyperControl hc in selectTable)
+					{
+						if (y > hc.Top) y = hc.Top;
+					}
+					foreach (HyperControl hc in selectTable)
+					{
+						hc.Top = y;
+					}
+					break;
+				case AStyle.HorCenter:
+					selectTable.Sort((a, b) => (a.Top + a.Height / 2) - (b.Top + b.Height / 2));
+					int cy = 0;
+					foreach (HyperControl hc in selectTable)
+					{
+						cy += hc.Top + hc.Height / 2;
+					}
+					cy /= selectTable.Count;
+					foreach (HyperControl hc in selectTable)
+					{
+
+						hc.Top = cy - hc.Height / 2; ;
+					}
+					break;
+				case AStyle.HorBottom:
+					selectTable.Sort((a, b) => (a.Top + a.Height / 2) - (b.Top + b.Height / 2));
+					int by = selectTable[0].Bottom;
+					foreach (HyperControl hc in selectTable)
+					{
+						if (by < hc.Bottom) by = hc.Bottom;
+					}
+					foreach (HyperControl hc in selectTable)
+					{
+
+						hc.Top = by - hc.Height;
+					}
+					break;
+				case AStyle.VurEqu:
+					selectTable.Sort((a, b) => (a.Left + a.Width / 2) - (b.Left + b.Width / 2));
+					int sp = (selectTable[0].Left + selectTable[0].Width / 2);
+					int lp = (selectTable[selectTable.Count - 1].Left + selectTable[selectTable.Count - 1].Width / 2);
+					int ad = (lp-sp) / (selectTable.Count - 1);
+					int cnt = 0;
+					foreach (HyperControl hc in selectTable)
+					{
+						hc.Left = (ad * cnt + sp) - hc.Width / 2;
+						cnt++;
+					}
+					break;
+				case AStyle.HorEqu:
+					selectTable.Sort((a, b) => (a.Top + a.Height / 2) - (b.Top + b.Height / 2));
+					int sp1 = (selectTable[0].Top + selectTable[0].Height / 2);
+					int lp1 = (selectTable[selectTable.Count - 1].Top + selectTable[selectTable.Count - 1].Height / 2);
+					int ad1 = (lp1 - sp1) / (selectTable.Count - 1);
+					int cnt1 = 0;
+					foreach (HyperControl hc in selectTable)
+					{
+						hc.Top = (ad1 * cnt1 + sp1) - hc.Height / 2;
+						cnt1++;
+					}
+					break;
+			}
+		}
 	}
 }

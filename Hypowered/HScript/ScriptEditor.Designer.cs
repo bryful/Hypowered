@@ -1,6 +1,6 @@
 ﻿namespace Hypowered
 {
-	partial class HyperScriptEditor
+	partial class ScriptEditor
 	{
 		/// <summary>
 		/// Required designer variable.
@@ -28,13 +28,13 @@
 		/// </summary>
 		private void InitializeComponent()
 		{
-			System.Windows.Media.SolidColorBrush solidColorBrush4 = new System.Windows.Media.SolidColorBrush();
-			ICSharpCode.AvalonEdit.Document.TextDocument textDocument2 = new ICSharpCode.AvalonEdit.Document.TextDocument();
-			System.ComponentModel.Design.ServiceContainer serviceContainer2 = new System.ComponentModel.Design.ServiceContainer();
-			ICSharpCode.AvalonEdit.Document.UndoStack undoStack2 = new ICSharpCode.AvalonEdit.Document.UndoStack();
-			System.Windows.Media.SolidColorBrush solidColorBrush5 = new System.Windows.Media.SolidColorBrush();
-			System.Windows.Media.SolidColorBrush solidColorBrush6 = new System.Windows.Media.SolidColorBrush();
-			System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(HyperScriptEditor));
+			System.Windows.Media.SolidColorBrush solidColorBrush1 = new System.Windows.Media.SolidColorBrush();
+			ICSharpCode.AvalonEdit.Document.TextDocument textDocument1 = new ICSharpCode.AvalonEdit.Document.TextDocument();
+			System.ComponentModel.Design.ServiceContainer serviceContainer1 = new System.ComponentModel.Design.ServiceContainer();
+			ICSharpCode.AvalonEdit.Document.UndoStack undoStack1 = new ICSharpCode.AvalonEdit.Document.UndoStack();
+			System.Windows.Media.SolidColorBrush solidColorBrush2 = new System.Windows.Media.SolidColorBrush();
+			System.Windows.Media.SolidColorBrush solidColorBrush3 = new System.Windows.Media.SolidColorBrush();
+			System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(ScriptEditor));
 			this.editPad1 = new Hypowered.EditPad();
 			this.toolStrip = new System.Windows.Forms.ToolStrip();
 			this.btnScriptEdit = new System.Windows.Forms.ToolStripButton();
@@ -42,11 +42,11 @@
 			this.btnExec = new System.Windows.Forms.ToolStripButton();
 			this.toolStripSeparator3 = new System.Windows.Forms.ToolStripSeparator();
 			this.btnEditEnd = new System.Windows.Forms.ToolStripButton();
-			this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
+			this.cmbWord = new System.Windows.Forms.ToolStripComboBox();
 			this.lbControl = new System.Windows.Forms.ToolStripLabel();
+			this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
 			this.cmbScript = new System.Windows.Forms.ToolStripComboBox();
 			this.btnHide = new System.Windows.Forms.ToolStripButton();
-			this.toolStripButton1 = new System.Windows.Forms.ToolStripButton();
 			this.controlBrowser1 = new Hypowered.ControlBrowser();
 			this.splitContainer1 = new System.Windows.Forms.SplitContainer();
 			this.toolStrip.SuspendLayout();
@@ -59,23 +59,23 @@
 			// editPad1
 			// 
 			this.editPad1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
-			solidColorBrush4.Color = System.Windows.Media.Color.FromArgb(((byte)(255)), ((byte)(221)), ((byte)(221)), ((byte)(221)));
-			this.editPad1.Background = solidColorBrush4;
+			solidColorBrush1.Color = System.Windows.Media.Color.FromArgb(((byte)(255)), ((byte)(221)), ((byte)(221)), ((byte)(221)));
+			this.editPad1.Background = solidColorBrush1;
 			this.editPad1.ConvertTabsToSpaces = true;
 			this.editPad1.Dock = System.Windows.Forms.DockStyle.Fill;
-			textDocument2.FileName = null;
-			textDocument2.ServiceProvider = serviceContainer2;
-			textDocument2.Text = "";
-			undoStack2.SizeLimit = 2147483647;
-			textDocument2.UndoStack = undoStack2;
-			this.editPad1.Document = textDocument2;
+			textDocument1.FileName = null;
+			textDocument1.ServiceProvider = serviceContainer1;
+			textDocument1.Text = "";
+			undoStack1.SizeLimit = 2147483647;
+			textDocument1.UndoStack = undoStack1;
+			this.editPad1.Document = textDocument1;
 			this.editPad1.Font = new System.Drawing.Font("源ノ角ゴシック Code JP R", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
 			this.editPad1.ForeColor = System.Drawing.Color.Black;
-			solidColorBrush5.Color = System.Windows.Media.Color.FromArgb(((byte)(255)), ((byte)(0)), ((byte)(0)), ((byte)(0)));
-			this.editPad1.Foreground = solidColorBrush5;
+			solidColorBrush2.Color = System.Windows.Media.Color.FromArgb(((byte)(255)), ((byte)(0)), ((byte)(0)), ((byte)(0)));
+			this.editPad1.Foreground = solidColorBrush2;
 			this.editPad1.HorizontalScrollBarVisibility = System.Windows.Controls.ScrollBarVisibility.Auto;
-			solidColorBrush6.Color = System.Windows.Media.Color.FromArgb(((byte)(255)), ((byte)(0)), ((byte)(0)), ((byte)(0)));
-			this.editPad1.LineNumbersForeground = solidColorBrush6;
+			solidColorBrush3.Color = System.Windows.Media.Color.FromArgb(((byte)(255)), ((byte)(0)), ((byte)(0)), ((byte)(0)));
+			this.editPad1.LineNumbersForeground = solidColorBrush3;
 			this.editPad1.Location = new System.Drawing.Point(0, 0);
 			this.editPad1.Name = "editPad1";
 			this.editPad1.Offset = 0;
@@ -101,11 +101,11 @@
             this.btnExec,
             this.toolStripSeparator3,
             this.btnEditEnd,
-            this.toolStripSeparator1,
+            this.cmbWord,
             this.lbControl,
+            this.toolStripSeparator1,
             this.cmbScript,
-            this.btnHide,
-            this.toolStripButton1});
+            this.btnHide});
 			this.toolStrip.Location = new System.Drawing.Point(0, 0);
 			this.toolStrip.Name = "toolStrip";
 			this.toolStrip.Size = new System.Drawing.Size(727, 25);
@@ -154,16 +154,45 @@
 			this.btnEditEnd.Text = "EditEnd";
 			this.btnEditEnd.Click += new System.EventHandler(this.BtnEditEnd_Click);
 			// 
-			// toolStripSeparator1
+			// cmbWord
 			// 
-			this.toolStripSeparator1.Name = "toolStripSeparator1";
-			this.toolStripSeparator1.Size = new System.Drawing.Size(6, 25);
+			this.cmbWord.DropDownHeight = 200;
+			this.cmbWord.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+			this.cmbWord.DropDownWidth = 300;
+			this.cmbWord.IntegralHeight = false;
+			this.cmbWord.Items.AddRange(new object[] {
+            "app.exit();",
+            "app.alert(str)",
+            "app.write(str)",
+            "app.writeln(str)",
+            "app.cls();",
+            "app.loadForm(path)",
+            "app.openForm(path)",
+            "app.executablePath",
+            "app.currentPath",
+            "app.hypfFolder",
+            "app.homeHypf",
+            "app.loadHome();",
+            "app.openHome();",
+            "app.yesnoDialog(cap,title)",
+            "app.getenv(str)",
+            "app.setenv(str,str)",
+            "var Directory = dotnet.System.IO.Directory;",
+            "var File = dotnet.System.IO.File;"});
+			this.cmbWord.Name = "cmbWord";
+			this.cmbWord.Size = new System.Drawing.Size(121, 25);
+			this.cmbWord.Click += new System.EventHandler(this.ToolStripComboBox1_Click);
 			// 
 			// lbControl
 			// 
 			this.lbControl.Name = "lbControl";
 			this.lbControl.Size = new System.Drawing.Size(46, 22);
 			this.lbControl.Text = "Control";
+			// 
+			// toolStripSeparator1
+			// 
+			this.toolStripSeparator1.Name = "toolStripSeparator1";
+			this.toolStripSeparator1.Size = new System.Drawing.Size(6, 25);
 			// 
 			// cmbScript
 			// 
@@ -181,16 +210,6 @@
 			this.btnHide.Size = new System.Drawing.Size(36, 22);
 			this.btnHide.Text = "Hide";
 			this.btnHide.Click += new System.EventHandler(this.MenuHide_Click);
-			// 
-			// toolStripButton1
-			// 
-			this.toolStripButton1.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-			this.toolStripButton1.Image = ((System.Drawing.Image)(resources.GetObject("toolStripButton1.Image")));
-			this.toolStripButton1.ImageTransparentColor = System.Drawing.Color.Magenta;
-			this.toolStripButton1.Name = "toolStripButton1";
-			this.toolStripButton1.Size = new System.Drawing.Size(23, 22);
-			this.toolStripButton1.Text = "toolStripButton1";
-			this.toolStripButton1.Click += new System.EventHandler(this.ToolStripButton1_Click);
 			// 
 			// controlBrowser1
 			// 
@@ -222,7 +241,7 @@
 			this.splitContainer1.SplitterDistance = 511;
 			this.splitContainer1.TabIndex = 3;
 			// 
-			// HyperScriptEditor
+			// ScriptEditor
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
@@ -232,7 +251,7 @@
 			this.Controls.Add(this.splitContainer1);
 			this.Controls.Add(this.toolStrip);
 			this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.SizableToolWindow;
-			this.Name = "HyperScriptEditor";
+			this.Name = "ScriptEditor";
 			this.StartPosition = System.Windows.Forms.FormStartPosition.Manual;
 			this.Text = "HyperScriptEditor";
 			this.toolStrip.ResumeLayout(false);
@@ -261,6 +280,6 @@
 		private ToolStripLabel lbControl;
 		private ToolStripButton btnScriptEdit;
 		private ToolStripSeparator toolStripSeparator2;
-		private ToolStripButton toolStripButton1;
+		private ToolStripComboBox cmbWord;
 	}
 }

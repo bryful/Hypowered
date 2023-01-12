@@ -29,6 +29,8 @@
 		private void InitializeComponent()
 		{
 			this.textBox1 = new System.Windows.Forms.TextBox();
+			this.button1 = new System.Windows.Forms.Button();
+			this.btnFont = new System.Windows.Forms.Button();
 			this.SuspendLayout();
 			// 
 			// textBox1
@@ -44,23 +46,49 @@
 			this.textBox1.Name = "textBox1";
 			this.textBox1.ReadOnly = true;
 			this.textBox1.ScrollBars = System.Windows.Forms.ScrollBars.Both;
-			this.textBox1.Size = new System.Drawing.Size(876, 197);
+			this.textBox1.Size = new System.Drawing.Size(876, 248);
 			this.textBox1.TabIndex = 1;
+			// 
+			// button1
+			// 
+			this.button1.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+			this.button1.Font = new System.Drawing.Font("Yu Gothic UI", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+			this.button1.Location = new System.Drawing.Point(81, 3);
+			this.button1.Name = "button1";
+			this.button1.Size = new System.Drawing.Size(52, 22);
+			this.button1.TabIndex = 2;
+			this.button1.Text = "CLS";
+			this.button1.UseVisualStyleBackColor = true;
+			this.button1.Click += new System.EventHandler(this.Button1_Click);
+			// 
+			// btnFont
+			// 
+			this.btnFont.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+			this.btnFont.Font = new System.Drawing.Font("Yu Gothic UI", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+			this.btnFont.Location = new System.Drawing.Point(23, 3);
+			this.btnFont.Name = "btnFont";
+			this.btnFont.Size = new System.Drawing.Size(52, 22);
+			this.btnFont.TabIndex = 3;
+			this.btnFont.Text = "FONT";
+			this.btnFont.UseVisualStyleBackColor = true;
+			this.btnFont.Click += new System.EventHandler(this.BtnFont_Click);
 			// 
 			// JSOutputForm
 			// 
-			this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
-			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
 			this.CanResize = true;
-			this.ClientSize = new System.Drawing.Size(900, 240);
+			this.ClientSize = new System.Drawing.Size(900, 291);
+			this.Controls.Add(this.btnFont);
+			this.Controls.Add(this.button1);
 			this.Controls.Add(this.textBox1);
-			this.DoubleBuffered = true;
 			this.Name = "JSOutputForm";
 			this.ShowIcon = false;
 			this.ShowInTaskbar = false;
 			this.StartPosition = System.Windows.Forms.FormStartPosition.Manual;
 			this.Text = "JSOutputForm";
 			this.Controls.SetChildIndex(this.textBox1, 0);
+			this.Controls.SetChildIndex(this.button1, 0);
+			this.Controls.SetChildIndex(this.btnFont, 0);
 			this.ResumeLayout(false);
 			this.PerformLayout();
 
@@ -69,5 +97,7 @@
 		#endregion
 
 		private TextBox textBox1;
+		private Button button1;
+		private Button btnFont;
 	}
 }
