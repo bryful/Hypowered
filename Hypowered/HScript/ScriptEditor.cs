@@ -37,23 +37,6 @@ namespace Hypowered
 					controlBrowser1.SetMainForm(fm);
 				};
 			}
-			/*
-			if ((m_MainForm!=null)&&(m_MainForm.forms.TargetForm!=null))
-			{
-				m_TargetControl = m_MainForm.forms.TargetForm.TargetControl;
-				if (m_TargetControl!=null)
-				{
-					Type t = m_TargetControl.GetType();
-					SetScriptCode( m_TargetControl.ScriptCode);
-					this.Text = m_TargetControl.Name;
-				}
-				else
-				{
-					SetScriptCode(((HyperMainForm)m_MainForm.forms.TargetForm).ScriptCode);
-					this.Text = m_MainForm.forms.TargetForm.Name;
-				}
-			}
-			*/
 		}
 		public void SetTargetControl(HyperBaseForm? tf, HyperControl? tc)
 		{
@@ -235,14 +218,5 @@ true);
 			SetTargetControl(m_MainForm.targetForm, m_MainForm.TargetControl);
 		}
 
-		private void ToolStripButton1_Click(object sender, EventArgs e)
-		{
-			this.Text = $"offset:{editPad1.Offset}start:{editPad1.SelectionStart},length{editPad1.SelectionLength},";
-		}
-
-		private void ToolStripComboBox1_Click(object sender, EventArgs e)
-		{
-
-		}
 	}
 }

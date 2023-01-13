@@ -5,15 +5,18 @@ using System.Drawing.Drawing2D;
 using System.Dynamic;
 using System.Reflection;
 using System.Collections.Specialized;
+using Microsoft.ClearScript;
 
 namespace Hypowered
 {
 	public partial class HyperBaseForm : Form
 	{
 		[Category("Hypowered")]
+		public PropertyBag bag { get; set; } = new PropertyBag();
+		[Category("Hypowered")]
 		public StringCollection strings { get; set; } = new StringCollection();
 		[Category("Hypowered")]
-		public ExpandoObject eo { get; set; } = new ExpandoObject(); 
+		public ExpandoObject eo { get; set; } = new ExpandoObject();
 		public int Index = -1;
 		[Category("Hypowered")]
 		public bool Locked { get; set; } = false;
@@ -1387,5 +1390,18 @@ true);
 					break;
 			}
 		}
+		public HyperMainForm? asMainForm
+		{
+			get
+			{
+				HyperMainForm? ret = null;
+				if (this is HyperMainForm)
+				{
+					ret = (HyperMainForm?)this;
+				}
+				return ret;
+			}
+		}
+
 	}
 }

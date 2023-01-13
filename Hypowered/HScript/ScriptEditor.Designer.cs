@@ -181,7 +181,6 @@
             "var File = dotnet.System.IO.File;"});
 			this.cmbWord.Name = "cmbWord";
 			this.cmbWord.Size = new System.Drawing.Size(121, 25);
-			this.cmbWord.Click += new System.EventHandler(this.ToolStripComboBox1_Click);
 			// 
 			// lbControl
 			// 

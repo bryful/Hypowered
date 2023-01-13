@@ -40,6 +40,10 @@ namespace Hypowered
 				Script.ExecuteCode(code);
 			}
 		}
+		public void ExecuteScript(HyperScriptCode sc, ScriptKind sk)
+		{
+			Script.ExecuteScript(sc,sk);
+		}
 		public void ExecuteStartup()
 		{
 			Script.ExecuteCode(ScriptCode.Code(ScriptKind.Load));

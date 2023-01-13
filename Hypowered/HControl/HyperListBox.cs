@@ -16,6 +16,7 @@ namespace Hypowered
 	{
 		protected ListBox m_ListBox = new ListBox();
 		public delegate void SelectedIndexChangedHandler(object sender, SelectedIndexChangedEventArgs e);
+		
 		public event SelectedIndexChangedHandler? SelectedIndexChanged;
 		protected virtual void OnSelectedIndexChanged(SelectedIndexChangedEventArgs e)
 		{
@@ -29,7 +30,6 @@ namespace Hypowered
 				MainForm.ExecuteCode(GetScriptCode(ScriptKind.SelectedIndexChanged));
 			}
 		}
-
 		public override void SetIsEditMode(bool value)
 		{
 			m_IsEditMode = value;
@@ -190,8 +190,10 @@ namespace Hypowered
 			
 			if(ScriptCode.Script_MouseDoubleClick!="")
 			{
-				if(MainForm!=null)
+				if (MainForm != null)
+				{
 					MainForm.Script.ExecuteCode(ScriptCode.Script_MouseDoubleClick);
+				}
 			}
 		}
 		protected virtual void ListBoxSelectedIndexChanged(object? sender, EventArgs e)

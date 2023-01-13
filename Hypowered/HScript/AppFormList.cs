@@ -1,16 +1,20 @@
-﻿using Microsoft.ClearScript;
-using System;
+﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Dynamic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using Microsoft.ClearScript;
 
 namespace Hypowered.HScript
 {
     public class AppFormList
     {
+		[Category("Hypowered")]
+		public PropertyBag bag { get; set; } = new PropertyBag();
+		
         public dynamic itemsEO = new ExpandoObject();
         private HyperBaseForm[] m_items = new HyperBaseForm[0];
         public HyperBaseForm[] items { get { return m_items; } }

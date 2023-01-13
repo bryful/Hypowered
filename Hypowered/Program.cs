@@ -34,7 +34,6 @@ namespace Hypowered
 			{
 				F_W.SettupConsole();
 				F_W.RelatingFile(Def.DefaultExt, "Hypowered hyfp file");
-				Console.WriteLine("cls\r\n");
 				Console.WriteLine($"Šg’£q{Def.DefaultExt}‚ğ“o˜^‚µ‚Ü‚µ‚½");
 				F_W.EndConsole();
 				return;
@@ -42,7 +41,6 @@ namespace Hypowered
 			{
 				F_W.SettupConsole();
 				F_W.UnRelatingFile(Def.DefaultExt);
-				Console.WriteLine("cls\r\n");
 				Console.WriteLine($"Šg’£q{Def.DefaultExt}‚ğ‰ğœ‚µ‚Ü‚µ‚½");
 				F_W.EndConsole();
 				return;
@@ -64,7 +62,7 @@ namespace Hypowered
 				string? s = Def.GetENV(ENV);
 				if ((s != null)||(s=="")) 
 				{
-					Console.WriteLine($"ŠÂ‹«•Ï”{ENV}‚ğíœ‚µ‚Ü‚µ‚½");
+					Console.WriteLine($"ŠÂ‹«•Ï”{ENV}‚ÍˆÙí‚Å‚·B");
 				}
 				else
 				{
@@ -87,16 +85,12 @@ namespace Hypowered
 			else
 			{
 				///’Êí‹N“®
+				// To customize application configuration such as set high DPI settings or default font,
+				// see https://aka.ms/applicationconfiguration.
 				ApplicationConfiguration.Initialize();
 				HyperMainForm mf = new HyperMainForm();
 				Application.Run(mf);
 			}
-
-			// To customize application configuration such as set high DPI settings or default font,
-			// see https://aka.ms/applicationconfiguration.
-			//ApplicationConfiguration.Initialize();
-			//Application.Run(new HyperMainForm());
-			//Form1 mf = new Form1();
 		}
 	}
 }

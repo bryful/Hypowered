@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.ClearScript.V8;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -49,7 +50,7 @@ namespace Hypowered
 		DirectoryOnly,
 		FileAndDirectory
 	};
-	public class HyperScriptCode
+    public class HyperScriptCode
     {
         protected InScriptBit m_InScript = InScriptBit.None;
         public InScriptBit InScript
@@ -75,17 +76,8 @@ namespace Hypowered
             m_InScript = ist;
             GetValidSprictNames(ist);
         }
-        private string[] m_Codes = new string[] {
-            "",//0
-            "",//1
-            "",//2
-            "",//3
-            "",//4
-            "",//5
-            "",//6
-            "",//7
-            "",//8
-        };
+        private string[] m_Codes = new string[0];
+        private V8Script?[] m_compleZ = new V8Script[9];
         public string Code(ScriptKind sk)
         {
             return m_Codes[(int)sk];
@@ -145,7 +137,17 @@ namespace Hypowered
         {
             m_Codes[(int)ist] = code;
         }
-        public string GetScriptCode(int idx)
+		public V8Script? GetScriptComplieZ(ScriptKind ist)
+		{
+			V8Script? ret = null;
+			ret = m_compleZ[(int)ist];
+			return ret;
+		}
+		public void SetScriptComplieZ(ScriptKind ist, V8Script? cpl)
+		{
+			m_compleZ[(int)ist] = cpl;
+		}
+		public string GetScriptCode(int idx)
         {
             string ret = "";
             if (idx >= 0 && idx < m_ScriptKinds.Length)
@@ -172,25 +174,58 @@ namespace Hypowered
             string ret = "";
             if (idx >= 0 && idx < m_ScriptKinds.Length)
             {
-                m_Codes[(int)m_ScriptKinds[idx]] = tx;
-            }
+                int v = (int)m_ScriptKinds[idx];
+				if (m_Codes[v] != tx)
+				{
+					m_Codes[v] = tx;
+                    if (m_compleZ[v] != null) 
+                    {
+						m_compleZ[v].Dispose();
+                        m_compleZ[v] = null;
+                    }
+				}
+			}
             return ret;
         }
         public void SetScriptCodes(string[] txs)
         {
-            if (m_ScriptKinds.Length == txs.Length)
+            if ((m_ScriptKinds.Length == txs.Length)&&(m_ScriptKinds.Length>0))
             {
                 for (int i = 0; i < txs.Length; i++)
                 {
-                    m_Codes[(int)m_ScriptKinds[i]] = txs[i];
-                }
+                    SetScriptCode(i, txs[i]);
+				}
             }
         }
         public HyperScriptCode()
         {
+            int cnt = Enum.GetNames(typeof(ScriptKind)).Length;
+			m_Codes=new string[cnt];
+			m_compleZ = new V8Script[cnt];
+            for(int i=0; i<cnt; i++)
+            {
+                m_Codes[i] = "";
+                m_compleZ[i] = null;
+			}
 
-        }
-        private void GetValidSprictNames(InScriptBit sc)
+		}
+        public int IndexOfScriptKind(ScriptKind sk)
+        {
+            int ret = -1;
+            if(m_ScriptKinds.Length > 0)
+            {
+				for (int i=0; i< m_ScriptKinds.Length;i++)
+                {
+                    if (m_ScriptKinds[i]==sk)
+                    {
+                        ret = i;
+                        break;
+                    }
+                }
+			}
+            return ret;
+		}
+		private void GetValidSprictNames(InScriptBit sc)
         {
             List<string> list = new List<string>();
             List<ScriptKind> slist = new List<ScriptKind>();

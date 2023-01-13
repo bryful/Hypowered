@@ -10,6 +10,7 @@ using System.Text.Encodings.Web;
 using System.Text.Json;
 using System.Text.Unicode;
 using Hypowered.HScript;
+using System.Runtime.Remoting;
 
 namespace Hypowered
 {
@@ -34,6 +35,60 @@ namespace Hypowered
         {
 			Init();
 		}
+		public void ExecuteScript(HyperScriptCode cd, ScriptKind sk)
+		{
+			if (engine == null) return;
+			
+			if((cd.GetScriptComplieZ(sk)==null))
+			{
+				string s = cd.GetScriptCode(sk);
+				if (s != "") 
+				{
+					try
+					{
+						cd.SetScriptComplieZ(sk, engine.Compile(s));
+					}catch(Exception e)
+					{
+						alert(e);
+						return;
+					}
+				}
+			}
+			try
+			{
+				engine.Execute(cd.GetScriptComplieZ(sk));
+			}
+			catch (Exception e)
+			{
+				alert(e);
+				return;
+			}
+			
+		}
+		public void ExecuteCode(string code)
+		{
+			if (engine == null) return;
+			try
+			{
+				engine.Execute(code);
+			}
+			catch (Exception e)
+			{
+				alert(e);
+			}
+		}
+		public void AddHostObject(string itemName,Object target )
+		{
+			if (engine != null) engine.AddHostObject(itemName, target);
+		}
+		public void AddHostObject(string itemName,HostItemFlags flgs, Object target)
+		{
+			if (engine != null) engine.AddHostObject(itemName, flgs, target);
+		}
+		public void AddHostType(Type types)
+		{
+			if (engine != null) engine.AddHostType(types);
+		}
 		public void Init()
 		{
 			if(engine != null)
@@ -57,13 +112,13 @@ namespace Hypowered
 			engine.AddHostObject("clr", (object)writeClear);
 			engine.AddHostTypes(new Type[]
 			{
-				typeof(Console),
 				typeof(Enumerable),
+				typeof(int),
 				typeof(Int32),
 				typeof(String),
 				typeof(Array),
-				typeof(String[]),
 				typeof(Boolean),
+				typeof(bool),
 				typeof(Point),
 				typeof(Size),
 				typeof(Padding),
@@ -75,17 +130,12 @@ namespace Hypowered
 				typeof(HyperMainForm),
 				typeof(HyperFormList),
 				typeof(List<HyperBaseForm>),
-				typeof(Dictionary<string, HyperControl>),
 				typeof(HyperAppBase),
 				typeof(HyperApp),
-				typeof(HyperIcon),
-				typeof(HyperButton),
 				typeof(HyperControl),
 				typeof(ControlType),
 				typeof(AppControlList),
 				typeof(AppFormList),
-				typeof(FootageBase),
-				typeof(FootageFiles),
 
 
 			});
@@ -180,23 +230,6 @@ namespace Hypowered
 				m_MainForm.OutputClear();
 			}
 		}
-		public void ExecuteCode(string code)
-		{
-			if (engine == null) return;
-			try
-			{
-				engine.Execute(code);
-			}
-			catch (Exception e)
-			{
-				AlertForm dlg= new AlertForm();
-				dlg.SelectedObject = e;
-				dlg.ChkSize();
-				dlg.ShowDialog();
-				dlg.Dispose();
-			}
-		}
-
 		public bool yesnoDialog(string cap,string title)
 		{
 			if (m_MainForm != null)

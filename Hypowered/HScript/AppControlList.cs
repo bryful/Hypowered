@@ -16,8 +16,10 @@ namespace Hypowered.HScript
 		[Category("Hypowered")]
 		public StringCollection strings { get; set; } = new StringCollection();
 		[Category("Hypowered")]
-		public ExpandoObject eo { get; set; } = new ExpandoObject(); 
-        public dynamic itemsEO = new ExpandoObject();
+		public ExpandoObject eo { get; set; } = new ExpandoObject();
+		[Category("Hypowered")]
+		public PropertyBag bag { get; set; } = new PropertyBag();
+		public dynamic itemsEO = new ExpandoObject();
         private HyperControl[] m_items = new HyperControl[0];
         public HyperControl[] items { get { return m_items; } }
         public int length { get { return m_items.Length; } }

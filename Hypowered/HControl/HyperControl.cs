@@ -18,12 +18,15 @@ using System.Windows.Documents;
 using System.Diagnostics;
 using System.Collections.Specialized;
 using System.Dynamic;
+using Microsoft.ClearScript;
 
 namespace Hypowered
 {
 
     public partial class HyperControl : Control
 	{
+		[Category("Hypowered")]
+		public PropertyBag bag { get; set; } = new PropertyBag();
 		[Category("Hypowered")]
 		public StringCollection strings { get; set; } = new StringCollection();
 		[Category("Hypowered")]
