@@ -18,7 +18,7 @@ namespace Hypowered
 		public HyperLabel()
 		{
 			SetControlType(Hypowered.ControlType.Label);
-			SetInScript(InScriptBit.None);
+			SetInScript(InScriptBit.DragDrop);
 			SetName("HyperLabel");
 			this.TabStop= false;
 			this.Size = ControlDef.DefSize;

@@ -253,6 +253,75 @@ namespace Hypowered
 			}
 		}
 		// ***********************************************************************************
+		protected string[] m_DragDropItems = new string[0];
+		[Browsable(false)]
+		public string[] DragDropItems
+		{
+			get { return m_DragDropItems; }
+		}
+		protected DragDropFileType m_DragDropFileType = DragDropFileType.None;
+		[Category("Hypowered")]
+		public DragDropFileType DragDropFileType
+		{
+			get { return m_DragDropFileType; }
+			set
+			{
+				m_DragDropFileType = value;
+				AllowDrop = (m_DragDropFileType != DragDropFileType.None);
+			}
+		}
+		protected override void OnDragEnter(DragEventArgs drgevent)
+		{
+			if ((drgevent.Data != null) && (m_DragDropFileType != DragDropFileType.None))
+			{
+				if (drgevent.Data.GetDataPresent(DataFormats.FileDrop))
+				{
+					drgevent.Effect = DragDropEffects.Copy;
+
+				}
+			}
+			base.OnDragEnter(drgevent);
+		}
+		protected override void OnDragDrop(DragEventArgs drgevent)
+		{
+			if ((drgevent.Data != null) && (m_DragDropFileType != DragDropFileType.None))
+			{
+				m_DragDropItems = new string[0];
+				string[] files = (string[])drgevent.Data.GetData(DataFormats.FileDrop);
+				List<string> list = new List<string>();
+				foreach (string file in files)
+				{
+					if ((m_DragDropFileType == DragDropFileType.FileOnly)
+						&& (m_DragDropFileType == DragDropFileType.FileAndDirectory))
+					{
+						if (File.Exists(file))
+						{
+							list.Add(file);
+						}
+					}
+					else if ((m_DragDropFileType == DragDropFileType.DirectoryOnly)
+						&& (m_DragDropFileType == DragDropFileType.FileAndDirectory))
+					{
+						if (Directory.Exists(file))
+						{
+							list.Add(file);
+						}
+					}
+
+				}
+				m_DragDropItems = list.ToArray();
+				if(this is HyperMainForm)
+				{
+					if (Script_DragDrop != "")
+					{
+						((HyperMainForm)this).Script.ExecuteCode(Script_DragDrop);
+					}
+
+				}
+			}
+			base.OnDragDrop(drgevent);
+		}
+		// ***********************************************************************************
 		[Browsable(false)]
 		public new bool KeyPreview
 		{
@@ -443,7 +512,41 @@ namespace Hypowered
 			set { base.Font = value; }
 		}
 		#endregion
-
+		public HyperScriptCode ScriptCode = new HyperScriptCode();
+		[Category("Hypowered_Script")]
+		[Bindable(false)]
+		public string Script_MouseDoubleClick
+		{
+			get { return ScriptCode.Script_MouseDoubleClick; }
+			set { ScriptCode.Script_MouseDoubleClick = value; }
+		}
+		[Category("Hypowered_Script")]
+		[Bindable(false)]
+		public string Script_load
+		{
+			get { return ScriptCode.Script_Load; }
+			set { ScriptCode.Script_Load = value; }
+		}
+		[Category("Hypowered_Script")]
+		[Bindable(false)]
+		public string Script_KeyPress
+		{
+			get { return ScriptCode.Script_KeyPress; }
+			set { ScriptCode.Script_KeyPress = value; }
+		}
+		[Category("Hypowered_Script")]
+		[Bindable(false)]
+		public string Script_Closed
+		{
+			get { return ScriptCode.Script_Closed; }
+			set { ScriptCode.Script_Closed = value; }
+		}
+		[Browsable(false)]
+		public string Script_DragDrop
+		{
+			get { return ScriptCode.Script_DragDrop; }
+			set { ScriptCode.Script_DragDrop = value; }
+		}
 		public HyperBaseForm()
 		{
 			//SetInScript(InScriptBit.None);

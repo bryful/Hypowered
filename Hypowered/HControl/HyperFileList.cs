@@ -137,7 +137,7 @@ namespace Hypowered
 		public HyperFileList()
 		{
 			SetControlType(Hypowered.ControlType.FileList);
-			SetInScript(InScriptBit.MouseDoubleClick | InScriptBit.SelectedIndexChanged);
+			SetInScript(InScriptBit.MouseDoubleClick | InScriptBit.SelectedIndexChanged | InScriptBit.DragDrop);
 
 			InitializeComponent();
 			this.Controls.Add(m_ListBox);

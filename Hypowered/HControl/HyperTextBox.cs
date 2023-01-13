@@ -111,7 +111,7 @@ namespace Hypowered
 		public HyperTextBox()
 		{
 			SetControlType(Hypowered.ControlType.TextBox);
-			SetInScript(InScriptBit.ValueChanged);
+			SetInScript(InScriptBit.ValueChanged | InScriptBit.DragDrop);
 			m_TextBox.BorderStyle = BorderStyle.FixedSingle;
 			BackColor = ColU.ToColor(HyperColor.Back);
 			ForeColor = ColU.ToColor(HyperColor.Fore);

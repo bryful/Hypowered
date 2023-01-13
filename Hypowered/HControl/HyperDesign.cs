@@ -54,7 +54,7 @@ namespace Hypowered
 		{
 			SetControlType(Hypowered.ControlType.Design);
 			
-			SetInScript(InScriptBit.None);
+			SetInScript(InScriptBit.DragDrop);
 			this.Location = new Point(150, 150);
 			this.Size = new Size(200,200);
 			BackColor= Color.Transparent;

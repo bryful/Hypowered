@@ -169,7 +169,7 @@ namespace Hypowered
 		{
 			Listup();
 			SetControlType(Hypowered.ControlType.DriveIcons);
-			SetInScript(InScriptBit.CurrentDirChanged);
+			SetInScript(InScriptBit.CurrentDirChanged | InScriptBit.DragDrop);
 			//m_ScriptCodes = "//DriveIcons";
 			this.Size = ControlDef.DefSize;
 

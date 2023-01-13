@@ -15,7 +15,6 @@ namespace Hypowered
 		// ****************************************************************************
 		public HyperLib Lib = new HyperLib();
 		public HyperScript Script = new HyperScript();
-		public HyperScriptCode ScriptCode = new HyperScriptCode();
 		// ****************************************************************************
 		public EditControlList? ControlList = null;
 		public ScriptEditor? ScriptEdit = null;
@@ -87,34 +86,7 @@ namespace Hypowered
 		{
 			get { return ScriptCode.ScriptKinds; }
 		}
-		[Category("Hypowered_Script")]
-		[Bindable(false)]
-		public string Script_MouseDoubleClick
-		{
-			get { return ScriptCode.Script_MouseDoubleClick; }
-			set { ScriptCode.Script_MouseDoubleClick = value; }
-		}
-		[Category("Hypowered_Script")]
-		[Bindable(false)]
-		public string Script_Startup
-		{
-			get { return ScriptCode.Script_Load; }
-			set { ScriptCode.Script_Load = value; }
-		}
-		[Category("Hypowered_Script")]
-		[Bindable(false)]
-		public string Script_KeyPress
-		{
-			get { return ScriptCode.Script_KeyPress; }
-			set { ScriptCode.Script_KeyPress = value; }
-		}
-		[Category("Hypowered_Script")]
-		[Bindable(false)]
-		public string Script_Shutdown
-		{
-			get { return ScriptCode.Script_Closed; }
-			set { ScriptCode.Script_Closed = value; }
-		}
+
 		[Category("Hypowered_Form")]
 		public new string Name
 		{
@@ -136,12 +108,6 @@ namespace Hypowered
 			JsonFile jf = new JsonFile(base.ToJson());
 			jf.SetValue(nameof(Name), Name);//String
 			jf.SetValue(nameof(IsShowMenu), IsShowMenu);//Boolean
-
-			jf.SetValue(nameof(Script_MouseDoubleClick), Script_MouseDoubleClick);//string
-			jf.SetValue(nameof(Script_KeyPress), Script_KeyPress);//string
-			jf.SetValue(nameof(Script_Startup), Script_Startup);//string
-			jf.SetValue(nameof(Script_Shutdown), Script_Shutdown);//string
-
 
 			jf.SetValue("Menu", m_menuBar.ToJson());
 
@@ -233,10 +199,10 @@ namespace Hypowered
 			if (v != null) Script_KeyPress = (String)v;
 
 			v = jf.ValueAuto("Script_Startup", typeof(String).Name);
-			if (v != null) Script_Startup = (String)v;
+			if (v != null) Script_load = (String)v;
 
 			v = jf.ValueAuto("Script_Shutdown", typeof(String).Name);
-			if (v != null) Script_Shutdown = (String)v;
+			if (v != null) Script_Closed = (String)v;
 
 			JsonObject? mm = jf.ValueObject("Menu");
 			if (mm != null)

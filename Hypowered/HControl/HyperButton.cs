@@ -145,7 +145,7 @@ namespace Hypowered
 		public HyperButton()
 		{
 			SetControlType(Hypowered.ControlType.Button);
-			SetInScript(InScriptBit.MouseClick);
+			SetInScript(InScriptBit.MouseClick| InScriptBit.DragDrop);
 			this.TextAligiment = StringAlignment.Center;
 			this.TextLineAligiment = StringAlignment.Center;
 

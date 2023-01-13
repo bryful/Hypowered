@@ -113,7 +113,7 @@ namespace Hypowered
 		public HyperDropdownList()
 		{
 			SetControlType(Hypowered.ControlType.DropdownList);
-			SetInScript(InScriptBit.SelectedIndexChanged);
+			SetInScript(InScriptBit.SelectedIndexChanged | InScriptBit.DragDrop);
 			//m_ScriptCodes = "//DropdownList";
 			this.Location = new Point(100, 100);
 			this.Size = ControlDef.DefSize;

@@ -140,7 +140,7 @@ namespace Hypowered
 			
 			AllowDrop= true;
 			SetControlType(Hypowered.ControlType.PictureBox);
-			ScriptCode.SetInScript(InScriptBit.MouseDoubleClick);
+			ScriptCode.SetInScript(InScriptBit.MouseDoubleClick | InScriptBit.DragDrop);
 			BackColor = Color.Transparent;
 			this.Size = new Size(306, 306);
 			InitializeComponent();
@@ -301,10 +301,24 @@ namespace Hypowered
 			}
 			else
 			{
-				//ファイル以外は受け付けない
 				drgevent.Effect = DragDropEffects.None;
 				base.OnDragEnter(drgevent);
 			}
+		}
+		protected override void OnDragDrop(DragEventArgs drgevent)
+		{
+			if ((drgevent == null) || (m_IsEditMode == true)) return;
+			string[] fileName =
+			(string[])drgevent.Data.GetData(DataFormats.FileDrop, false);
+
+			foreach (var s in fileName)
+			{
+				if (OpenFile(s))
+				{
+					break;
+				}
+			}
+			base.OnDragDrop(drgevent);
 		}
 		protected override void OnMouseDown(MouseEventArgs e)
 		{
@@ -370,21 +384,7 @@ namespace Hypowered
 			base.OnMouseUp(e);
 		}
 
-		protected override void OnDragDrop(DragEventArgs drgevent)
-		{
-			if ((drgevent == null)||(m_IsEditMode==true)) return;
-			string[] fileName =
-			(string[])drgevent.Data.GetData(DataFormats.FileDrop, false);
 
-			foreach (var s in fileName)
-			{
-				if (OpenFile(s))
-				{
-					break;
-				}
-			}
-			base.OnDragDrop(drgevent);
-		}
 		protected override void OnDoubleClick(EventArgs e)
 		{
 			if (m_IsEditMode == false)

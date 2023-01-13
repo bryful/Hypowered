@@ -114,7 +114,8 @@ namespace Hypowered
 			
 			SetInScript(
 				InScriptBit.CurrentDirChanged|
-				InScriptBit.SelectedIndexChanged
+				InScriptBit.SelectedIndexChanged|
+				InScriptBit.DragDrop
 				);
 
 			InitializeComponent();

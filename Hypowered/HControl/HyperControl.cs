@@ -208,6 +208,23 @@ namespace Hypowered
 		{
 			m_IsEditMode = value;
 		}
+		protected string[] m_DragDropItems = new string[0];
+		[Browsable(false)]
+		public string[] DragDropItems
+		{
+			get { return m_DragDropItems; }
+		}
+		protected DragDropFileType m_DragDropFileType = DragDropFileType.None;
+		[Category("Hypowered")]
+		public DragDropFileType DragDropFileType
+		{
+			get { return m_DragDropFileType; }
+			set
+			{
+				m_DragDropFileType = value;
+				AllowDrop = (m_DragDropFileType != DragDropFileType.None);
+			}
+		}
 		// **************************************************************************
 		/*
 		 * スクリプト関係
@@ -273,7 +290,61 @@ namespace Hypowered
 			get { return ScriptCode.Script_ValueChanged; }
 			set { ScriptCode.Script_ValueChanged = value; }
 		}
+		[Browsable(false)]
+		public string Script_DragDrop
+		{
+			get { return ScriptCode.Script_DragDrop; }
+			set { ScriptCode.Script_DragDrop = value; }
+		}
+		// **************************************************************************
+		// **************************************************************************
+		protected override void OnDragEnter(DragEventArgs drgevent)
+		{
+			if ((drgevent.Data != null)&&(m_DragDropFileType != DragDropFileType.None))
+			{
+				if (drgevent.Data.GetDataPresent(DataFormats.FileDrop))
+				{
+					drgevent.Effect = DragDropEffects.Copy;
+					
+				}
+			}
+			base.OnDragEnter(drgevent);
+		}
+		protected override void OnDragDrop(DragEventArgs drgevent)
+		{
+			if ((drgevent.Data != null) && (m_DragDropFileType != DragDropFileType.None))
+			{
+				m_DragDropItems = new string[0];
+				string[] files = (string[])drgevent.Data.GetData(DataFormats.FileDrop);
+				List<string> list = new List<string>();
+				foreach (string file in files)
+				{
+					if((m_DragDropFileType== DragDropFileType.FileOnly)
+						&&(m_DragDropFileType == DragDropFileType.FileAndDirectory))
+					{
+						if(File.Exists(file))
+						{
+							list.Add(file);
+						}
+					}
+					else if ((m_DragDropFileType == DragDropFileType.DirectoryOnly)
+						&& (m_DragDropFileType == DragDropFileType.FileAndDirectory))
+					{
+						if (Directory.Exists(file))
+						{
+							list.Add(file);
+						}
+					}
 
+				}
+				m_DragDropItems= list.ToArray();
+				if((MainForm!=null)&&(Script_DragDrop!=""))
+				{
+					MainForm.Script.ExecuteCode(Script_DragDrop);
+				}
+			}
+			base.OnDragDrop(drgevent);
+		}
 		// **************************************************************************
 		// **************************************************************************
 		protected Padding m_FrameWeight = new Padding(1, 1, 1, 1);
@@ -876,6 +947,7 @@ namespace Hypowered
 			jf.SetValue(nameof(Script_SelectedIndexChanged), Script_SelectedIndexChanged);//String
 			jf.SetValue(nameof(Script_CurrentDirChanged), Script_CurrentDirChanged);//String
 			jf.SetValue(nameof(Script_ValueChanged), Script_ValueChanged);//String
+			jf.SetValue(nameof(Script_DragDrop), Script_DragDrop);//String
 			jf.SetValue(nameof(FrameWeight), FrameWeight);
 
 			jf.SetValue(nameof(TextAligiment), TextAligiment);//StringAlignment
@@ -962,6 +1034,8 @@ namespace Hypowered
 			if (v != null) Script_CurrentDirChanged = (String)v;
 			v = jf.ValueAuto("Script_ValueChanged", typeof(String).Name);
 			if (v != null) Script_ValueChanged = (String)v;
+			v = jf.ValueAuto("Script_DragDrop", typeof(String).Name);
+			if (v != null) Script_DragDrop = (String)v;
 
 
 			v = jf.ValueAuto("TextAligiment", typeof(int).Name);

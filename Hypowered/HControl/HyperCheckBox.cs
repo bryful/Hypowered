@@ -54,7 +54,7 @@ namespace Hypowered
 		public HyperCheckBox()
 		{
 			SetControlType(Hypowered.ControlType.CheckBox);
-			SetInScript(InScriptBit.ValueChanged);
+			SetInScript(InScriptBit.ValueChanged | InScriptBit.DragDrop);
 			m_CheckSize = 16;
 			this.Size = ControlDef.DefSize;
 			InitializeComponent();

@@ -70,7 +70,7 @@ namespace Hypowered
 		public HyperHtml()
 		{
 			SetControlType(Hypowered.ControlType.Html);
-			ScriptCode.SetInScript(InScriptBit.None);
+			ScriptCode.SetInScript(InScriptBit.DragDrop);
 			BackColor = Color.Transparent;
 			IsDrawFrame= false;
 			FrameWeight = new Padding(0, 0, 0, 0);

@@ -138,6 +138,7 @@ namespace Hypowered
 			}
 			return list.ToArray();
 		}
+   
 		// ****************************************************************************
 		protected HyperMenuBar m_menuBar = new HyperMenuBar();
 		protected HyperMenuItem? m_FileMenu = null;
@@ -171,6 +172,7 @@ namespace Hypowered
 				InScriptBit.Load| 
 				InScriptBit.MouseDoubleClick|
 				InScriptBit.KeyPress|
+				InScriptBit.DragDrop |
 				InScriptBit.Closed);
 			forms.SetMain(this);
 			Script.SetMainForm(this);
@@ -292,9 +294,9 @@ true);
 		{
 			if (m_FileName != "")
 			{
-				if(Script_Shutdown!="")
+				if(Script_Closed!="")
 				{
-					Script.ExecuteCode(Script_Shutdown);
+					Script.ExecuteCode(Script_Closed);
 				}
 				SaveToHYPF();
 				StopServer();
@@ -559,9 +561,9 @@ true);
 				LoadStatus(StatusFileName());
 				forms.ResetMain(this);
 				InitScript();
-				if (Script_Startup != "")
+				if (Script_load != "")
 				{
-					ExecuteCode(Script_Startup);
+					ExecuteCode(Script_load);
 				}
 			}
 			return ret;

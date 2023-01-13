@@ -166,7 +166,7 @@ namespace Hypowered
 		public HyperListBox()
 		{
 			SetControlType(Hypowered.ControlType.ListBox);
-			SetInScript(InScriptBit.ValueChanged|InScriptBit.SelectedIndexChanged);
+			SetInScript(InScriptBit.ValueChanged|InScriptBit.SelectedIndexChanged | InScriptBit.DragDrop);
 			this.Size = new Size(150, 150);
 			m_ListBox.Location = new Point(2, 2);
 			m_ListBox.Size = new Size(this.Width,this.Height);

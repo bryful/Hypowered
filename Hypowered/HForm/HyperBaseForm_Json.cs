@@ -69,7 +69,11 @@ namespace Hypowered
 			jf.SetValue(nameof(ImeMode), ImeMode);//ImeMode
 			jf.SetValue(nameof(FrameWeight), FrameWeight);
 			jf.SetValue(nameof(Size), Size);//Size
-
+			jf.SetValue(nameof(Script_MouseDoubleClick), Script_MouseDoubleClick);//string
+			jf.SetValue(nameof(Script_KeyPress), Script_KeyPress);//string
+			jf.SetValue(nameof(Script_load), Script_load);//string
+			jf.SetValue(nameof(Script_Closed), Script_Closed);//string
+			jf.SetValue(nameof(Script_DragDrop), Script_DragDrop);//string
 			if (this.Controls.Count > 0)
 			{
 				JsonArray ja = new JsonArray();
@@ -199,6 +203,17 @@ namespace Hypowered
 			if (v != null) FrameWeight = (Padding)v;
 			v = jf.ValueAuto("Size", typeof(Size).Name);
 			if (v != null) Size = (Size)v;
+
+			v = jf.ValueAuto("Script_MouseDoubleClick", typeof(String).Name);
+			if (v != null) Script_MouseDoubleClick = (String)v;
+			v = jf.ValueAuto("Script_KeyPress", typeof(String).Name);
+			if (v != null) Script_KeyPress = (String)v;
+			v = jf.ValueAuto("Script_load", typeof(String).Name);
+			if (v != null) Script_load = (String)v;
+			v = jf.ValueAuto("Script_Closed", typeof(String).Name);
+			if (v != null) Script_Closed = (String)v;
+			v = jf.ValueAuto("Script_DragDrop", typeof(String).Name);
+			if (v != null) Script_DragDrop = (String)v;
 
 			JsonArray? ja = jf.ValueArray("Controls");
 			if((ja!=null)&&(ja.Count>0))

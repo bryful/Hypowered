@@ -17,6 +17,7 @@ namespace Hypowered
         ValueChanged,
         KeyPress,
 		Closed,
+        DragDrop
 	}
     [Flags]
     public enum InScriptBit
@@ -38,7 +39,16 @@ namespace Hypowered
             = 0b_0000_0100_0000,
 		Closed
 			= 0b_0000_1000_0000,
+		DragDrop
+		    = 0b_0001_0000_0000,
 	}
+    public enum DragDropFileType
+    {
+        None = 0,
+        FileOnly,
+		DirectoryOnly,
+		FileAndDirectory
+	};
 	public class HyperScriptCode
     {
         protected InScriptBit m_InScript = InScriptBit.None;
@@ -65,7 +75,17 @@ namespace Hypowered
             m_InScript = ist;
             GetValidSprictNames(ist);
         }
-        private string[] m_Codes = new string[] { "", "", "", "", "", "", "","" };
+        private string[] m_Codes = new string[] {
+            "",//0
+            "",//1
+            "",//2
+            "",//3
+            "",//4
+            "",//5
+            "",//6
+            "",//7
+            "",//8
+        };
         public string Code(ScriptKind sk)
         {
             return m_Codes[(int)sk];
@@ -109,6 +129,11 @@ namespace Hypowered
 		{
 			get { return m_Codes[(int)ScriptKind.Closed]; }
 			set { m_Codes[(int)ScriptKind.Closed] = value; }
+		}
+		public string Script_DragDrop
+		{
+			get { return m_Codes[(int)ScriptKind.DragDrop]; }
+			set { m_Codes[(int)ScriptKind.DragDrop] = value; }
 		}
 		public string GetScriptCode(ScriptKind ist)
         {
