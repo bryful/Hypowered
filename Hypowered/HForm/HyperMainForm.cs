@@ -208,13 +208,16 @@ true);
 			}
 
 
-			if(m_menuBar==null)m_menuBar = new HyperMenuBar();
+			if (m_menuBar == null)
+			{
+				m_menuBar = new HyperMenuBar();
+			}
 			m_menuBar.ParentForm = this;
+			m_menuBar.CloseButtunClick += (sender, e) => { Application.Exit(); };
 			m_FileMenu = new HyperMenuItem(m_menuBar, "File", null);
 			m_EditlMenu = new HyperMenuItem(m_menuBar, "Edit", null);
 			m_ControlMenu = new HyperMenuItem(m_menuBar, "Control", null);
 			m_UserMenu = new HyperMenuItem(m_menuBar, "User", null);
-
 
 
 			m_menuBar.Items.Add(m_FileMenu);

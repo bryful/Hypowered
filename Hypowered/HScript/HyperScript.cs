@@ -11,6 +11,7 @@ using System.Text.Json;
 using System.Text.Unicode;
 using Hypowered.HScript;
 using System.Runtime.Remoting;
+using System.Diagnostics;
 
 namespace Hypowered
 {
@@ -29,7 +30,7 @@ namespace Hypowered
 			app = new HyperApp(mf);
 			if(engine!=null) engine.AddHostObject("app", app);
 		}
-		private V8ScriptEngine? engine = null;
+		public V8ScriptEngine? engine = null;
 
         public HyperScript()
         {
@@ -152,7 +153,8 @@ namespace Hypowered
 				}
 				try
 				{
-					engine.Execute($"{itemName} = {s};");
+					string cmd = $"{itemName} = [{s}];";
+					engine.Execute(cmd);
 				}
 				catch (Exception e)
 				{
@@ -301,9 +303,10 @@ namespace Hypowered
 		{
 			if (isJson) return objectToJson(o);
 
+
 			string ret = "";
-			if (o == null)
-			{
+
+			if (o == null) { 
 				ret = "null";
 			}else if(o is bool)
 			{

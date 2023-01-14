@@ -31,17 +31,19 @@ namespace Hypowered
 		
 		public void writeLine(object? o)
 		{
-			textBox1.Focus();
+
 			textBox1.AppendText(HyperScript.toString(o) + "\r\n");
+			textBox1.Focus();
 		}
 		public void write(object? o)
 		{
-			textBox1.Focus();
 			textBox1.AppendText(HyperScript.toString(o));
+			textBox1.Focus();
 		}
 		public void clear()
 		{
 			textBox1.Text = "";
+			textBox1.Focus();
 		}
 
 		private void BtnFont_Click(object sender, EventArgs e)

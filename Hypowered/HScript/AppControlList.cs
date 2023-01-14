@@ -65,6 +65,7 @@ namespace Hypowered.HScript
             ListupControls(bf);
         }
         // *********************************************************
+        
         public int indexOf(string n, ControlType? ct = null)
         {
             int ret = -1;
@@ -80,21 +81,7 @@ namespace Hypowered.HScript
             }
             return ret;
         }
-        /*
-		public HyperControl? valueOf(int idx, ControlType? ct = null)
-		{
-			HyperControl? ret = null;
-			if ((idx >= 0) && (idx < m_items.Length))
-			{
-				if ((ct == null) || (m_items[idx].MyType == ct))
-				{
-					ret = m_items[idx];
-				}
-			}
-			return ret;
-		}
-		*/
-        public HyperControl? findFromName(string nm, ControlType? ct = null)
+         public HyperControl? findFromName(string nm, ControlType? ct = null)
         {
             HyperControl? ret = null;
             int idx = indexOf(nm, ct);
@@ -104,7 +91,11 @@ namespace Hypowered.HScript
             }
             return ret;
         }
-        public HyperControl[] findType(ControlType ct)
+        public HyperControl? item(string nm)
+        {
+            return findFromName(nm, null);
+		}
+		public HyperControl[] findType(ControlType ct)
         {
             List<HyperControl> list = new List<HyperControl>();
             if (m_items.Length > 0)

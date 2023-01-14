@@ -74,6 +74,8 @@ namespace Hypowered
 			jf.SetValue(nameof(Script_load), Script_load);//string
 			jf.SetValue(nameof(Script_Closed), Script_Closed);//string
 			jf.SetValue(nameof(Script_DragDrop), Script_DragDrop);//string
+			jf.SetValue(nameof(DragDropFileType), (int)DragDropFileType);//string
+
 			if (this.Controls.Count > 0)
 			{
 				JsonArray ja = new JsonArray();
@@ -214,6 +216,9 @@ namespace Hypowered
 			if (v != null) Script_Closed = (String)v;
 			v = jf.ValueAuto("Script_DragDrop", typeof(String).Name);
 			if (v != null) Script_DragDrop = (String)v;
+			v = jf.ValueAuto("DragDropFileType", typeof(int).Name);
+			if (v != null) DragDropFileType = (DragDropFileType)v;
+
 
 			JsonArray? ja = jf.ValueArray("Controls");
 			if((ja!=null)&&(ja.Count>0))

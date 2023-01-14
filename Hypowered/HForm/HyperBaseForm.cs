@@ -308,7 +308,7 @@ namespace Hypowered
 				foreach (string file in files)
 				{
 					if ((m_DragDropFileType == DragDropFileType.FileOnly)
-						&& (m_DragDropFileType == DragDropFileType.FileAndDirectory))
+						|| (m_DragDropFileType == DragDropFileType.FileAndDirectory))
 					{
 						if (File.Exists(file))
 						{
@@ -316,7 +316,7 @@ namespace Hypowered
 						}
 					}
 					else if ((m_DragDropFileType == DragDropFileType.DirectoryOnly)
-						&& (m_DragDropFileType == DragDropFileType.FileAndDirectory))
+						|| (m_DragDropFileType == DragDropFileType.FileAndDirectory))
 					{
 						if (Directory.Exists(file))
 						{
@@ -328,10 +328,7 @@ namespace Hypowered
 				m_DragDropItems = list.ToArray();
 				if(this is HyperMainForm)
 				{
-					if (Script_DragDrop != "")
-					{
-						((HyperMainForm)this).Script.ExecuteCode(Script_DragDrop);
-					}
+					ExecScript(ScriptKind.DragDrop);
 
 				}
 			}

@@ -13,12 +13,12 @@ namespace Hypowered
 {
 	public partial class EditMenuBar : Control
 	{
-		public event EventHandler? ButtunClick;
-		public virtual void OnButtunClick(EventArgs e)
+		public event EventHandler? CloseButtunClick;
+		public virtual void OnCloseButtunClick(EventArgs e)
 		{
-			if (ButtunClick != null)
+			if (CloseButtunClick != null)
 			{
-				ButtunClick(this, e);
+				CloseButtunClick(this, e);
 			}
 		}
 		private Form? m_Parent = null;
@@ -176,7 +176,7 @@ namespace Hypowered
 		{
 			if((e.X>this.Width-30)&&(e.Y<25))
 			{
-				OnButtunClick(new EventArgs());
+				OnCloseButtunClick(new EventArgs());
 				return;
 			}
 

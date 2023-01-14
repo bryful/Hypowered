@@ -341,25 +341,28 @@ namespace Hypowered
 				m_DragDropItems = new string[0];
 				string[] files = (string[])drgevent.Data.GetData(DataFormats.FileDrop);
 				List<string> list = new List<string>();
-				foreach (string file in files)
+				if (files.Length > 0)
 				{
-					if((m_DragDropFileType== DragDropFileType.FileOnly)
-						&&(m_DragDropFileType == DragDropFileType.FileAndDirectory))
+					foreach (string file in files)
 					{
-						if(File.Exists(file))
+						if ((m_DragDropFileType == DragDropFileType.FileOnly)
+							|| (m_DragDropFileType == DragDropFileType.FileAndDirectory))
 						{
-							list.Add(file);
+							if (File.Exists(file))
+							{
+								list.Add(file);
+							}
 						}
-					}
-					else if ((m_DragDropFileType == DragDropFileType.DirectoryOnly)
-						&& (m_DragDropFileType == DragDropFileType.FileAndDirectory))
-					{
-						if (Directory.Exists(file))
+						else if ((m_DragDropFileType == DragDropFileType.DirectoryOnly)
+							|| (m_DragDropFileType == DragDropFileType.FileAndDirectory))
 						{
-							list.Add(file);
+							if (Directory.Exists(file))
+							{
+								list.Add(file);
+							}
 						}
-					}
 
+					}
 				}
 				m_DragDropItems= list.ToArray();
 				ExecScript(ScriptKind.DragDrop);
@@ -1003,6 +1006,8 @@ namespace Hypowered
 			jf.SetValue(nameof(Visible), Visible);//Boolean
 			jf.SetValue(nameof(Padding), Padding);//Padding
 			jf.SetValue(nameof(ImeMode), ImeMode);//ImeMode
+			jf.SetValue(nameof(DragDropFileType), (int)DragDropFileType);//ImeMode
+			jf.SetValue(nameof(AllowDrop), AllowDrop);//ImeMode
 
 			return jf.Obj;
 		}
@@ -1107,7 +1112,10 @@ namespace Hypowered
 			if (v != null) Padding = (Padding)v;
 			v = jf.ValueAuto("ImeMode", typeof(ImeMode).Name);
 			if (v != null) ImeMode = (ImeMode)v;
-
+			v = jf.ValueAuto("AllowDrop", typeof(Boolean).Name);
+			if (v != null) AllowDrop = (bool)v;
+			v = jf.ValueAuto("DragDropFileType", typeof(int).Name);
+			if (v != null) DragDropFileType = (DragDropFileType)v;
 		}
 		[Browsable(false)]
 		public HyperIcon? asIcon

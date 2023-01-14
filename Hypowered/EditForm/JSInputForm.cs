@@ -75,6 +75,7 @@ namespace Hypowered
 					if (cmb.SelectedItem != null)
 					{
 						editPad1.SetText(cmb.SelectedItem.ToString());
+						editPad1.Focus();
 					}
 				}
 			};
@@ -123,6 +124,7 @@ namespace Hypowered
 				AddBack(str);
 				MainForm.Script.ExecuteCode(str);
 				editPad1.Text = "";
+				editPad1.Focus();
 			}
 		}
 		private void Button1_Click(object sender, EventArgs e)
@@ -136,6 +138,8 @@ namespace Hypowered
 				editPad1.Text = m_back[m_backCount];
 				m_backCount--;
 				if (m_backCount < 0) m_backCount = 0;
+				editPad1.Focus();
+
 			}
 		}
 		public void Redo()
@@ -168,6 +172,8 @@ namespace Hypowered
 				{
 					InputFont=dlg.Font;
 					if(MainForm!=null) MainForm.Font = dlg.Font;
+					editPad1.Focus();
+
 				}
 			}
 		}

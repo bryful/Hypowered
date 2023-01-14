@@ -15,6 +15,14 @@ namespace Hypowered
 
 	public partial class HyperMenuBar : HyperControl
 	{
+		public event EventHandler? CloseButtunClick;
+		public virtual void OnCloseButtunClick(EventArgs e)
+		{
+			if (CloseButtunClick != null)
+			{
+				CloseButtunClick(this, e);
+			}
+		}
 		static public readonly int MenuHeight = 25;
 		protected HyperMenuItems m_Items = new HyperMenuItems();
 		[Category("Hypowered_Menu")]
@@ -103,9 +111,9 @@ true);
 					ForeColor.G / 2,
 					ForeColor.B / 2
 					);
-				for(int i=1;i<=3;i++)
+				for (int i = 1; i <= 3; i++)
 				{
-					g.DrawLine(p,10,i*6,this.Width-10,i*6);
+					g.DrawLine(p, 10, i * 6, this.Width - 10, i * 6);
 				}
 
 
@@ -117,8 +125,8 @@ true);
 					int x = HyperMenuItems.Leftmargin;
 					foreach (HyperMenuItem? m in m_Items.Items)
 					{
-						Rectangle rct = new Rectangle(m.Left, 2, m.Width, this.Height-4);
-						if(m_menuDown==m.Index)
+						Rectangle rct = new Rectangle(m.Left, 2, m.Width, this.Height - 4);
+						if (m_menuDown == m.Index)
 						{
 							sb.Color = m_MenuFourcusColor;
 						}
@@ -131,22 +139,28 @@ true);
 						g.DrawString(m.Caption, this.Font, sb, rct, sf);
 					}
 				}
-				if(MainForm!=null)
+				if (MainForm != null)
 				{
-					string s = "[ " + MainForm.Text +" ]";
+					string s = "[ " + MainForm.Text + " ]";
 					int xx = HyperMenuItems.Leftmargin;
-					if(m_Items.Count>0)
+					if (m_Items.Count > 0)
 					{
 						xx = m_Items[m_Items.Count - 1].Right;
 					}
-					SizeF sz = g.MeasureString(s, this.Font, 1000,sf);
-					Rectangle rct2 = new Rectangle(xx, 2, (int)sz.Width+10, this.Height - 4);
+					SizeF sz = g.MeasureString(s, this.Font, 1000, sf);
+					Rectangle rct2 = new Rectangle(xx, 2, (int)sz.Width + 10, this.Height - 4);
 					sb.Color = BackColor;
 					g.FillRectangle(sb, rct2);
 					sb.Color = ForeColor;
 					g.DrawString(s, this.Font, sb, rct2, sf);
 				}
-
+				Rectangle rct3 = new Rectangle(this.Right - 30, 5, 15, 15);
+				sb.Color = Color.FromArgb(
+					BackColor.R+40,
+					BackColor.G + 40,
+					BackColor.B + 40
+					);
+				g.FillRectangle(sb, rct3);
 
 				// 外枠
 				Rectangle rr = new Rectangle(0,0,this.Width-1,this.Height-1);
@@ -236,6 +250,11 @@ true);
 					{
 						//HyperForm.ChkTarget(this);
 					}
+				}
+				if (e.X > this.Right - 30)
+				{
+					OnCloseButtunClick(new EventArgs());
+					return;
 				}
 				int idx = GetMenuDown(e.X);
 				if (idx >= 0)

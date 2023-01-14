@@ -196,17 +196,15 @@ namespace Hypowered
 			set
 			{
 				m_DragDropFileType = value;
-				base.AllowDrop = (m_DragDropFileType != DragDropFileType.None);
-				m_ListBox.AllowDrop = base.AllowDrop;
+				m_ListBox.AllowDrop = (m_DragDropFileType != DragDropFileType.None);
 			}
 		}
 		[Category("Hypowered")]
 		public new bool AllowDrop
 		{
-			get { return base.AllowDrop; }
+			get { return m_ListBox.AllowDrop; }
 			set
 			{
-				base.AllowDrop = value;
 				m_ListBox.AllowDrop = value;
 			}
 		}
@@ -230,8 +228,55 @@ namespace Hypowered
 			this.Controls.Add(m_ListBox);
 			m_ListBox.SelectedIndexChanged += ListBoxSelectedIndexChanged;
 			m_ListBox.MouseDoubleClick += ListBoxMouseDoubleClick;
-			m_ListBox.DragEnter += (sender, e) => { this.OnDragEnter(e); };
-			m_ListBox.DragDrop += (sender, e) => { this.OnDragDrop(e); };
+			m_ListBox.DragEnter += M_ListBox_DragEnter;
+			m_ListBox.DragDrop += M_ListBox_DragDrop;
+		}
+
+		private void M_ListBox_DragDrop(object? sender, DragEventArgs e)
+		{
+			if ((e.Data != null) && (m_DragDropFileType != DragDropFileType.None))
+			{
+				m_DragDropItems = new string[0];
+				string[] files = (string[])e.Data.GetData(DataFormats.FileDrop);
+				List<string> list = new List<string>();
+				if (files.Length > 0)
+				{
+					foreach (string file in files)
+					{
+						if ((m_DragDropFileType == DragDropFileType.FileOnly)
+							|| (m_DragDropFileType == DragDropFileType.FileAndDirectory))
+						{
+							if (File.Exists(file))
+							{
+								list.Add(file);
+							}
+						}
+						else if ((m_DragDropFileType == DragDropFileType.DirectoryOnly)
+							|| (m_DragDropFileType == DragDropFileType.FileAndDirectory))
+						{
+							if (Directory.Exists(file))
+							{
+								list.Add(file);
+							}
+						}
+
+					}
+				}
+				m_DragDropItems = list.ToArray();
+				ExecScript(ScriptKind.DragDrop);
+			}
+		}
+
+		private void M_ListBox_DragEnter(object? sender, DragEventArgs e)
+		{
+			if ((e.Data != null) && (m_DragDropFileType != DragDropFileType.None))
+			{
+				if (e.Data.GetDataPresent(DataFormats.FileDrop))
+				{
+					e.Effect = DragDropEffects.Copy;
+
+				}
+			}
 		}
 
 		protected virtual void ListBoxMouseDoubleClick(object? sender, MouseEventArgs e)
@@ -288,6 +333,8 @@ namespace Hypowered
 			jf.SetValue(nameof(BackColor), BackColor);//Color
 			jf.SetValue(nameof(Font), Font);//Font
 			jf.SetValue(nameof(BorderStyle), (int)BorderStyle);//Font
+			jf.SetValue(nameof(AllowDrop), AllowDrop);
+			jf.SetValue(nameof(DragDropFileType), (int)DragDropFileType);
 
 			return jf.Obj;
 		}
@@ -310,7 +357,10 @@ namespace Hypowered
 			if (v != null) Font = (Font)v;
 			v = jf.ValueAuto("BorderStyle", typeof(int).Name);
 			if (v != null) BorderStyle = (BorderStyle)v;
-
+			v = jf.ValueAuto("AllowDrop", typeof(Boolean).Name);
+			if (v != null) AllowDrop = (bool)v;
+			v = jf.ValueAuto("DragDropFileType", typeof(Int32).Name);
+			if (v != null) DragDropFileType = (DragDropFileType)v;
 		}
 
 	}

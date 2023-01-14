@@ -145,15 +145,22 @@ namespace Hypowered
 			{
 				int ss = Edit.SelectionStart + Edit.SelectionLength;
 				Edit.SelectedText = s;
-				Edit.TextArea.Caret.Offset = ss;
-				Edit.SelectionLength = 0;
+				try
+				{
+					Edit.TextArea.Caret.Offset = ss;
+					Edit.SelectionLength = 0;
+				}
+				catch { }
 				Edit.Focus();
 			}
 			else
 			{
 				int cc = Edit.TextArea.Caret.Offset+s.Length;
 				Edit.Document.Insert(Edit.TextArea.Caret.Offset, s);
-				Edit.TextArea.Caret.Offset = cc;
+				try
+				{
+					Edit.TextArea.Caret.Offset = cc;
+				} catch { }
 				Edit.Focus();
 			}
 		}

@@ -124,10 +124,10 @@ namespace Hypowered
 			MDPos ret = MDPos.None;
 			if ((x < 0) || (y < 0) || (x >= sz.Width) || (y >= sz.Height)) return ret;
 			int ww = 15;
-			if (ww > sz.Width / 6) ww = sz.Width / 6;
+			if (ww > sz.Width / 4) ww = sz.Width / 4;
 			if (ww < 2) ww = 2;
 			int hh = 15;
-			if (hh > sz.Height / 6) hh = sz.Height / 6;
+			if (hh > sz.Height / 4) hh = sz.Height / 4;
 			if (hh < 2) hh = 2;
 
 			int Xadr = 0;

@@ -64,7 +64,7 @@ namespace Hypowered
 			this.UpdateStyles(); Controls.Add(this.m_MenuBar);
 			Controls.SetChildIndex(this.m_MenuBar, 0);
 			m_MenuBar.SetParent();
-			m_MenuBar.ButtunClick += M_MenuBar_ButtunClick;
+			m_MenuBar.CloseButtunClick += M_MenuBar_ButtunClick;
 		}
 
 		private void M_MenuBar_ButtunClick(object? sender, EventArgs e)

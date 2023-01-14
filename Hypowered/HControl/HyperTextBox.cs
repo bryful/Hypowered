@@ -115,17 +115,16 @@ namespace Hypowered
 			set
 			{
 				m_DragDropFileType = value;
-				base.AllowDrop = (m_DragDropFileType != DragDropFileType.None);
-				m_TextBox.AllowDrop= base.AllowDrop;
+				m_TextBox.AllowDrop = (m_DragDropFileType != DragDropFileType.None);
 			}
 		}
 		[Category("Hypowered")]
 		public new bool AllowDrop
 		{
-			get { return base.AllowDrop; }
+			get { return m_TextBox.AllowDrop; }
 			set
 			{
-				base.AllowDrop = value;
+				//base.AllowDrop = value;
 				m_TextBox.AllowDrop = value;
 			}
 		}
@@ -141,10 +140,56 @@ namespace Hypowered
 			InitializeComponent();
 			this.Controls.Add(m_TextBox);
 			this.Controls.SetChildIndex(m_TextBox, 0);
-			//m_TextBox.DragEnter += (sender, e) =>{this.OnDragEnter(e);};
-			//m_TextBox.DragDrop += (sender, e) =>{this.OnDragDrop(e);};
+			m_TextBox.DragEnter += M_TextBox_DragEnter;
+			m_TextBox.DragDrop += M_TextBox_DragDrop;
 		}
 
+		private void M_TextBox_DragEnter(object? sender, DragEventArgs e)
+		{
+			if ((e.Data != null) && (m_DragDropFileType != DragDropFileType.None))
+			{
+				if (e.Data.GetDataPresent(DataFormats.FileDrop))
+				{
+					e.Effect = DragDropEffects.Copy;
+
+				}
+			}
+		}
+
+		private void M_TextBox_DragDrop(object? sender, DragEventArgs e)
+		{
+			if ((e.Data != null) && (m_DragDropFileType != DragDropFileType.None))
+			{
+				m_DragDropItems = new string[0];
+				string[] files = (string[])e.Data.GetData(DataFormats.FileDrop);
+				List<string> list = new List<string>();
+				if (files.Length > 0)
+				{
+					foreach (string file in files)
+					{
+						if ((m_DragDropFileType == DragDropFileType.FileOnly)
+							|| (m_DragDropFileType == DragDropFileType.FileAndDirectory))
+						{
+							if (File.Exists(file))
+							{
+								list.Add(file);
+							}
+						}
+						else if ((m_DragDropFileType == DragDropFileType.DirectoryOnly)
+							|| (m_DragDropFileType == DragDropFileType.FileAndDirectory))
+						{
+							if (Directory.Exists(file))
+							{
+								list.Add(file);
+							}
+						}
+
+					}
+				}
+				m_DragDropItems = list.ToArray();
+				ExecScript(ScriptKind.DragDrop);
+			}
+		}
 
 		protected override void OnPaint(PaintEventArgs pe)
 		{
@@ -186,6 +231,8 @@ namespace Hypowered
 			jf.SetValue(nameof(BackColor), BackColor);
 			jf.SetValue(nameof(BorderStyle), (int)BorderStyle);
 			jf.SetValue(nameof(ScrollBars), (int)ScrollBars);
+			jf.SetValue(nameof(AllowDrop), AllowDrop);
+			jf.SetValue(nameof(DragDropFileType), (int)DragDropFileType);
 			return jf.Obj;
 		}
 		public override void FromJson(JsonObject jo)
@@ -213,6 +260,10 @@ namespace Hypowered
 			if (v != null) ScrollBars = (ScrollBars)v;
 			v = jf.ValueAuto("Size", typeof(Size).Name);
 			if (v != null) Size = (Size)v;
+			v = jf.ValueAuto("AllowDrop", typeof(Boolean).Name);
+			if (v != null) AllowDrop = (bool)v;
+			v = jf.ValueAuto("DragDropFileType", typeof(Int32).Name);
+			if (v != null) DragDropFileType = (DragDropFileType)v;
 		}
 	}
 }
