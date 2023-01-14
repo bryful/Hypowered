@@ -104,6 +104,7 @@ namespace Hypowered.HScript
                         {
                             list.Add(c);
                             dic[c.Name] = c;
+                            bag[c.Name] = c;
                         }
                     }
                 }

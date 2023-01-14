@@ -23,11 +23,13 @@ namespace Hypowered.HScript
         private HyperControl[] m_items = new HyperControl[0];
         public HyperControl[] items { get { return m_items; } }
         public int length { get { return m_items.Length; } }
+		public int numItems { get { return m_items.Length; } }
 		[ScriptUsage(ScriptAccess.None)]
 		public void clear()
         {
             m_items = new HyperControl[0];
             itemsEO = new ExpandoObject();
+            bag = new PropertyBag();
         }
         public HyperControl? this[int idx]
         {
@@ -134,6 +136,7 @@ namespace Hypowered.HScript
                             HyperControl hc = (HyperControl)c;
                             list.Add(hc);
                             dic[hc.Name] = hc;
+                            bag[hc.Name] = hc;
                         }
                     }
                 }

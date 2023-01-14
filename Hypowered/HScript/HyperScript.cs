@@ -77,6 +77,80 @@ namespace Hypowered
 				alert(e);
 			}
 		}
+		public void DeleteScriptObject(string itemName)
+		{
+			if (engine != null)
+			{
+				engine.Execute($"delete {itemName};");
+			}
+		}
+		public void AddScriptObject(string itemName, string item)
+		{
+			if (engine != null)
+			{
+				try
+				{
+					string ss = item.Replace("\\", "\\\\");
+					string s = $"{itemName} = \"{ss}\";";
+					engine.Execute(s);
+				}catch(Exception e)
+				{
+					alert(e);
+				}
+			}
+		}
+		public void AddScriptObject(string itemName, int item)
+		{
+			if (engine != null)
+			{
+				try
+				{
+					engine.Execute($"{itemName} = {item};");
+				}
+				catch (Exception e)
+				{
+					alert(e);
+				}
+			}
+		}
+		public void AddScriptObject(string itemName, string [] items)
+		{
+			if (engine != null)
+			{
+				string s = "";
+				if(items.Length>0)
+				{
+					for(int i=0; i< items.Length;i++)
+					{
+						if (s != "") s += ",";
+						s += "\"" + items[i].Replace("\\","\\\\") + "\"";
+					}
+				}
+				try
+				{
+					engine.Execute($"{itemName} = {s};");
+				}
+				catch (Exception e)
+				{
+					alert(e);
+				}
+			}
+		}
+		public void AddScriptObject(string itemName, bool flg)
+		{
+			if (engine != null)
+			{
+				string s = "";
+				if (flg) s = "true"; else s = "false";
+				try
+				{
+					engine.Execute($"{itemName} = {s};");
+				}catch(Exception e)
+				{
+					alert(e);
+				}
+			}
+		}
 		public void AddHostObject(string itemName,Object target )
 		{
 			if (engine != null) engine.AddHostObject(itemName, target);
@@ -200,6 +274,71 @@ namespace Hypowered
 				app.ListupControls();
 
 			}
+		}
+		static public string toString(object? o,bool isJson = false)
+		{
+			if (isJson) return objectToJson(o);
+
+			string ret = "";
+			if (o == null)
+			{
+				ret = "null";
+			}else if(o is bool)
+			{
+				ret = o.ToString().ToLower();
+			}
+			else if (o is Array)
+			{
+				foreach (object o1 in (Array)o)
+				{
+					if (ret != "") ret += ",";
+					if (o1 == null)
+					{
+						ret += "null";
+					}
+					else
+					{
+						ret += toString(o1); ;
+					}
+				}
+				ret = "[" + ret + "]";
+			}
+			else
+			{
+				try
+				{
+					ret = o.ToString();
+				}catch (Exception ex)
+				{
+					ret = ex.ToString();
+				}
+			}
+			return ret;
+		}
+		static public string objectToJson(Object? Obj)
+		{
+			if (Obj != null)
+			{
+				try
+				{
+					var js = JsonSerializer.Serialize(Obj,
+						new JsonSerializerOptions
+						{
+							WriteIndented = true,
+							Encoder = JavaScriptEncoder.Create(UnicodeRanges.All)
+						});
+					return js;
+				}
+				catch(Exception e)
+				{
+					return e.ToString();
+				}
+			}
+			else
+			{
+				return "null";
+			}
+
 		}
 		public void alert(object? s)
 		{

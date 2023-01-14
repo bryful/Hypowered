@@ -67,6 +67,27 @@ namespace Hypowered
 		public void GoHome() { m_webBrowser.GoHome(); }
 		public void Navigate(System.Uri url) { m_webBrowser.Navigate(url); }
 		public void Navigate(string url) { m_webBrowser.Navigate(url); }
+		[Category("Hypowered")]
+		public new DragDropFileType DragDropFileType
+		{
+			get { return m_DragDropFileType; }
+			set
+			{
+				m_DragDropFileType = value;
+				base.AllowDrop = (m_DragDropFileType != DragDropFileType.None);
+				m_webBrowser.AllowDrop = base.AllowDrop;
+			}
+		}
+		[Category("Hypowered")]
+		public new bool AllowDrop
+		{
+			get { return base.AllowDrop; }
+			set
+			{
+				base.AllowDrop = value;
+				m_webBrowser.AllowDrop = value;
+			}
+		}
 		public HyperHtml()
 		{
 			SetControlType(Hypowered.ControlType.Html);
@@ -78,6 +99,8 @@ namespace Hypowered
 			m_webBrowser.Size = new Size(150, 150);
 			this.Controls.Add(m_webBrowser);
 			InitializeComponent();
+			m_webBrowser.DragEnter += (sender, e) => { this.OnDragEnter(e); };
+			m_webBrowser.DragDrop += (sender, e) => { this.OnDragDrop(e); };
 			this.SetStyle(
 	//ControlStyles.Selectable |
 	//ControlStyles.UserMouse |

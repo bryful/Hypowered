@@ -638,6 +638,7 @@ true);
 						h.SetIndex(idx);
 						h.ParentForm= this;
 						h.IsEditMode = m_IsEditMode;
+						h.LocationBack = h.Location;
 					}
 					idx++;
 				}
@@ -1388,6 +1389,51 @@ true);
 						cnt1++;
 					}
 					break;
+				case AStyle.HeightMax:
+					int h = selectTable[0].Height;
+					foreach (HyperControl hc in selectTable)
+					{
+						if (h < hc.Height) h = hc.Height;
+					}
+					foreach (HyperControl hc in selectTable)
+					{
+						hc.Height = h;
+					}
+					break;
+				case AStyle.HeightMin:
+					int h1 = selectTable[0].Height;
+					foreach (HyperControl hc in selectTable)
+					{
+						if (h1 > hc.Height) h1 = hc.Height;
+					}
+					foreach (HyperControl hc in selectTable)
+					{
+						hc.Height = h1;
+					}
+					break;
+				case AStyle.WidthMax:
+					int w1 = selectTable[0].Width;
+					foreach (HyperControl hc in selectTable)
+					{
+						if (w1 < hc.Width) w1 = hc.Width;
+					}
+					foreach (HyperControl hc in selectTable)
+					{
+						hc.Width = w1;
+					}
+					break;
+				case AStyle.WidthMin:
+					int w2 = selectTable[0].Width;
+					foreach (HyperControl hc in selectTable)
+					{
+						if (w2 > hc.Width) w2 = hc.Width;
+					}
+					foreach (HyperControl hc in selectTable)
+					{
+						hc.Width = w2;
+					}
+					break;
+
 			}
 		}
 		public HyperMainForm? asMainForm

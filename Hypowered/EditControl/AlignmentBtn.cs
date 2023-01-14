@@ -19,12 +19,16 @@ namespace Hypowered
 		HorCenter,
 		HorBottom,
 		VurEqu,
-		HorEqu
+		HorEqu,
+		HeightMax,
+		HeightMin,
+		WidthMax,
+		WidthMin
 	}
 	public partial class AlignmentBtn : Button
 	{
-		private Bitmap[] m_bitmaps = new Bitmap[8];
-		private Bitmap[] m_bitmapsD = new Bitmap[8];
+		private Bitmap[] m_bitmaps = new Bitmap[12];
+		private Bitmap[] m_bitmapsD = new Bitmap[12];
 		private AStyle m_AStyle = AStyle.HorTop;
 		public AStyle AStyle
 		{
@@ -39,22 +43,31 @@ namespace Hypowered
 		}
 		public AlignmentBtn()
 		{
-			m_bitmaps[0] = Properties.Resources.CTRLALI1;
-			m_bitmaps[1] = Properties.Resources.CTRLALI2;
-			m_bitmaps[2] = Properties.Resources.CTRLALI3;
-			m_bitmaps[3] = Properties.Resources.CTRLALI4;
-			m_bitmaps[4] = Properties.Resources.CTRLALI5;
-			m_bitmaps[5] = Properties.Resources.CTRLALI6;
-			m_bitmaps[6] = Properties.Resources.CTRLALI7;
-			m_bitmaps[7] = Properties.Resources.CTRLALI8;
-			m_bitmapsD[0] = Properties.Resources.CTRLALI_push1;
-			m_bitmapsD[1] = Properties.Resources.CTRLALI_push2;
-			m_bitmapsD[2] = Properties.Resources.CTRLALI_push3;
-			m_bitmapsD[3] = Properties.Resources.CTRLALI_push4;
-			m_bitmapsD[4] = Properties.Resources.CTRLALI_push5;
-			m_bitmapsD[5] = Properties.Resources.CTRLALI_push6;
-			m_bitmapsD[6] = Properties.Resources.CTRLALI_push7;
-			m_bitmapsD[7] = Properties.Resources.CTRLALI_push8;
+			m_bitmaps[0] = Properties.Resources.zCtrlAli01;
+			m_bitmaps[1] = Properties.Resources.zCtrlAli02;
+			m_bitmaps[2] = Properties.Resources.zCtrlAli03;
+			m_bitmaps[3] = Properties.Resources.zCtrlAli04;
+			m_bitmaps[4] = Properties.Resources.zCtrlAli05;
+			m_bitmaps[5] = Properties.Resources.zCtrlAli06;
+			m_bitmaps[6] = Properties.Resources.zCtrlAli07;
+			m_bitmaps[7] = Properties.Resources.zCtrlAli08;
+			m_bitmaps[8] = Properties.Resources.zCtrlAli09;
+			m_bitmaps[9] = Properties.Resources.zCtrlAli10;
+			m_bitmaps[10] = Properties.Resources.zCtrlAli11;
+			m_bitmaps[11] = Properties.Resources.zCtrlAli12;
+
+			m_bitmapsD[0] = Properties.Resources.zCtrlAli_push01;
+			m_bitmapsD[1] = Properties.Resources.zCtrlAli_push02;
+			m_bitmapsD[2] = Properties.Resources.zCtrlAli_push03;
+			m_bitmapsD[3] = Properties.Resources.zCtrlAli_push04;
+			m_bitmapsD[4] = Properties.Resources.zCtrlAli_push05;
+			m_bitmapsD[5] = Properties.Resources.zCtrlAli_push06;
+			m_bitmapsD[6] = Properties.Resources.zCtrlAli_push07;
+			m_bitmapsD[7] = Properties.Resources.zCtrlAli_push08;
+			m_bitmapsD[8] = Properties.Resources.zCtrlAli_push09;
+			m_bitmapsD[9] = Properties.Resources.zCtrlAli_push10;
+			m_bitmapsD[10] = Properties.Resources.zCtrlAli_push11;
+			m_bitmapsD[11] = Properties.Resources.zCtrlAli_push12;
 			this.Size= new Size(24,24);
 			this.FlatStyle= FlatStyle.Flat;
 			InitializeComponent();

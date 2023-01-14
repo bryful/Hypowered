@@ -343,7 +343,9 @@ namespace Hypowered
 				m_DragDropItems= list.ToArray();
 				if((MainForm!=null)&&(Script_DragDrop!=""))
 				{
-					MainForm.Script.ExecuteCode(Script_DragDrop);
+					MainForm.Script.AddScriptObject("value", m_DragDropItems);
+					MainForm.Script.ExecuteScript(ScriptCode,ScriptKind.DragDrop);
+					MainForm.Script.DeleteScriptObject("value");
 				}
 			}
 			base.OnDragDrop(drgevent);
@@ -712,6 +714,7 @@ namespace Hypowered
 					if ((p != MDPos.None) && (Locked == false))
 					{
 						if (MainForm != null) MainForm.LocationBackup();
+						LocationBack = this.Location;
 						m_MDPos = p;
 						m_MDP =  MousePos(e);
 						m_MDLoc = this.Location;
@@ -727,6 +730,12 @@ namespace Hypowered
 			}
 			base.OnMouseDown(e);
 		}
+		private Size RimitSize(int x,int y)
+		{
+			if (x < 20) x = 20;
+			if (y < 20) y = 20;
+			return new Size(x,y);
+		}
 		protected override void OnMouseMove(MouseEventArgs e)
 		{
 			if (m_isMDmove == true) return;
@@ -740,12 +749,12 @@ namespace Hypowered
 					switch (m_MDPos)
 					{
 						case MDPos.BottomRight:
-							this.Size = new Size(
+							this.Size = RimitSize(
 								m_MDSize.Width + ax,
 								m_MDSize.Height + ay);
 							break;
 						case MDPos.BottomLeft:
-							this.Size = new Size(
+							this.Size = RimitSize(
 								m_MDSize.Width - ax,
 								m_MDSize.Height + ay);
 							this.Location = new Point(
@@ -754,7 +763,7 @@ namespace Hypowered
 								);
 							break;
 						case MDPos.TopLeft:
-							this.Size = new Size(
+							this.Size = RimitSize(
 								m_MDSize.Width - ax,
 								m_MDSize.Height - ay);
 							this.Location = new Point(
@@ -763,7 +772,7 @@ namespace Hypowered
 								);
 							break;
 						case MDPos.TopRight:
-							this.Size = new Size(
+							this.Size = RimitSize(
 								m_MDSize.Width + ax,
 								m_MDSize.Height - ay);
 							this.Location = new Point(
@@ -772,7 +781,7 @@ namespace Hypowered
 								);
 							break;
 						case MDPos.Left:
-							this.Size = new Size(
+							this.Size = RimitSize(
 								m_MDSize.Width - ax,
 								m_MDSize.Height);
 							this.Location = new Point(
@@ -781,17 +790,17 @@ namespace Hypowered
 								);
 							break;
 						case MDPos.Right:
-							this.Size = new Size(
+							this.Size = RimitSize(
 								m_MDSize.Width + ax,
 								m_MDSize.Height);
 							break;
 						case MDPos.Bottom:
-							this.Size = new Size(
+							this.Size = RimitSize(
 								m_MDSize.Width,
 								m_MDSize.Height+ay);
 							break;
 						case MDPos.Top:
-							this.Size = new Size(
+							this.Size = RimitSize(
 								m_MDSize.Width,
 								m_MDSize.Height - ay);
 							this.Location = new Point(
@@ -801,7 +810,7 @@ namespace Hypowered
 							break;
 						case MDPos.Center:
 						default:
-							if (this.MainForm != null)
+							if (MainForm != null)
 							{
 								MainForm.MoveSelected(new Point(ax,ay));
 							}

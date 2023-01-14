@@ -40,19 +40,6 @@ namespace Hypowered
 				}
 			}
 		}
-		/*
-		private bool m_IsDrawFrame = true;
-		[Category("Hypowered_PictureBox")]
-		public bool IsDrawFrame
-		{
-			get { return m_IsDrawFrame; }
-			set
-			{
-				m_IsDrawFrame = value;
-				this.Invalidate();
-			}
-		}
-		*/
 		protected Color m_BaseColor = Color.Transparent;
 		protected Color m_LineColor = Color.DimGray;
 
@@ -137,8 +124,6 @@ namespace Hypowered
 
 		public HyperPictureBox()
 		{
-			
-			AllowDrop= true;
 			SetControlType(Hypowered.ControlType.PictureBox);
 			ScriptCode.SetInScript(InScriptBit.MouseDoubleClick | InScriptBit.DragDrop);
 			BackColor = Color.Transparent;
@@ -291,34 +276,6 @@ namespace Hypowered
 				if (m_AutoFit) Fit();
 				this.Invalidate();
 			}
-		}
-		protected override void OnDragEnter(DragEventArgs drgevent)
-		{
-			if (drgevent == null) return;
-			if ((drgevent.Data.GetDataPresent(DataFormats.FileDrop))&&(m_IsEditMode==false))
-			{
-				drgevent.Effect = DragDropEffects.Copy;
-			}
-			else
-			{
-				drgevent.Effect = DragDropEffects.None;
-				base.OnDragEnter(drgevent);
-			}
-		}
-		protected override void OnDragDrop(DragEventArgs drgevent)
-		{
-			if ((drgevent == null) || (m_IsEditMode == true)) return;
-			string[] fileName =
-			(string[])drgevent.Data.GetData(DataFormats.FileDrop, false);
-
-			foreach (var s in fileName)
-			{
-				if (OpenFile(s))
-				{
-					break;
-				}
-			}
-			base.OnDragDrop(drgevent);
 		}
 		protected override void OnMouseDown(MouseEventArgs e)
 		{

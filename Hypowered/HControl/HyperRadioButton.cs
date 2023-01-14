@@ -22,9 +22,11 @@ namespace Hypowered
 			{
 				RBValueChanged(this, e);
 			}
-			if ((MainForm != null))
+			if ((MainForm != null)&&(Script_ValueChanged!=""))
 			{
+				MainForm.Script.AddScriptObject("value", e.Index);
 				MainForm.ExecuteCode(Script_ValueChanged);
+				MainForm.Script.DeleteScriptObject("value");
 			}
 		}
 		[Category("Hypowered")]
@@ -435,7 +437,7 @@ namespace Hypowered
 
 			}
 		}
-
+		/*
 		protected override void OnMouseDown(MouseEventArgs e)
 		{
 			if (m_IsEditMode)
@@ -447,6 +449,7 @@ namespace Hypowered
 					MDPos p = CU.GetMDPos(e.X, e.Y, this.Size);
 					if (p != MDPos.None)
 					{
+						if (MainForm != null) MainForm.LocationBackup();
 						m_MDPos = p;
 						m_MDP = MousePos(e);
 						m_MDLoc = this.Location;
@@ -457,6 +460,7 @@ namespace Hypowered
 			}
 			base.OnMouseDown(e);
 		}
+		*/
 		protected override void OnResize(EventArgs e)
 		{
 			base.OnResize(e);

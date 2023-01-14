@@ -19,9 +19,15 @@ namespace Hypowered
 		public event CurrentDirChangedHandler? CurrentDirChanged;
 		protected virtual void OnCurrentDirChanged(CurrentDirChangedEventArgs e)
 		{
-			if ((MainForm != null))
+			if(CurrentDirChanged !=null)
 			{
-				MainForm.ExecuteCode(Script_CurrentDirChanged);
+				CurrentDirChanged(this, e);
+			}
+			if ((MainForm != null)&&(Script_CurrentDirChanged!=""))
+			{
+				MainForm.Script.AddScriptObject("value", e.Path);
+				MainForm.ExecuteScript(ScriptCode, ScriptKind.CurrentDirChanged);
+				MainForm.Script.DeleteScriptObject("value");
 			}
 
 		}
@@ -134,15 +140,6 @@ namespace Hypowered
 					}
 					FootageFiles ff = (FootageFiles)m_ListBox.Items[e.Index];
 					
-					/*
-					Image? Ii = F_W.FileAssociatedImage(ff.FullName);
-					if (Ii != null)
-					{
-						e.Graphics.DrawImage(Ii, e.Bounds.Left, e.Bounds.Top);
-						Ii.Dispose();
-					}
-					*/
-					
 					//文字列の取得
 					string txt = ff.CaptionName;
 					if (ff.IsParent) txt = "..\\";
@@ -156,6 +153,28 @@ namespace Hypowered
 					}
 					e.Graphics.DrawString(txt, e.Font, sb, r2);
 				}
+			}
+		}
+		[Category("Hypowered_ListBox")]
+		public new string SelectedItem
+		{
+			get
+			{
+				string ret = "";
+				int si = m_ListBox.SelectedIndex;
+				if ((si >= 0) && (si < m_ListBox.Items.Count))
+				{
+					FootageFiles? ff = (FootageFiles)m_ListBox.Items[si]; 
+					if (ff == null)
+					{
+						ret = "";
+					}
+					else
+					{
+						ret = ff.FullName;
+					}
+				}
+				return ret;
 			}
 		}
 		protected override void ListBoxMouseDoubleClick(object? sender, MouseEventArgs e)

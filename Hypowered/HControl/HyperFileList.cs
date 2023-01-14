@@ -125,6 +125,11 @@ namespace Hypowered
 					{
 						ret = "";
 					}
+					else if (s == "..\\")
+					{
+						string? ss  = Path.GetDirectoryName(m_CurrentDir);
+						if (ss != null) ret = ss;
+					}
 					else
 					{
 						ret = Path.Combine(m_CurrentDir, s);
@@ -170,6 +175,20 @@ namespace Hypowered
 				}
 			}
 			OnSelectedIndexChanged(new SelectedIndexChangedEventArgs(m_ListBox.SelectedIndex, s));
+		}
+		protected override void OnDoubleClick(EventArgs e)
+		{
+			base.OnDoubleClick(e);
+			string s = SelectedItem;
+			if(s!="")
+			{
+				if ((MainForm != null)&&(Script_MouseDoubleClick!=""))
+				{
+					MainForm.Script.AddScriptObject("value", s);
+					MainForm.ExecuteScript(ScriptCode, ScriptKind.MouseDoubleClick);
+					MainForm.Script.DeleteScriptObject("value");
+				}
+			}
 		}
 		public void Listup()
 		{

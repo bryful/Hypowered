@@ -56,43 +56,12 @@ namespace Hypowered
 				if(h > textBox1.Height ) { this.Height = h+hh;}
 			}
 		}
-		private string ToS(object? o)
-		{
-			string ret = "";
-			if (o == null)
-			{
-				ret = "(null)";
-			}
-			else if (o is Array)
-			{
-				foreach (object o1 in (Array)o)
-				{
-					if (o1 == null) continue;
-					if (ret != "") ret += ",";
-					ret += o1.ToString();
-				}
-				ret = "[" + ret + "]";
-			}
-			else
-			{
-				ret = o.ToString();
-			}
-			return ret;
-		}
 		public Object? SelectedObject
 		{
 			get { return (object)textBox1.Text; }
 			set
 			{
-				string ret = "";
-				if(value == null) 
-				{
-					ret = "null";
-				}else
-				{
-					ret = ToS(value);
-				}
-				textBox1.Text = ret;
+				textBox1.Text = HyperScript.toString(value);
 			}
 		}
 		public void SetSelectedObject(Object? value,bool IsJson=false)
@@ -110,7 +79,7 @@ namespace Hypowered
 				}
 				else
 				{
-					ret = ToS( value);
+					ret = HyperScript.toString( value);
 				}
 			}
 			textBox1.Text = ret;

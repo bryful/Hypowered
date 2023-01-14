@@ -28,37 +28,16 @@ namespace Hypowered
 			base.OnButtunClick(e);
 			this.Hide();
 		}
-		private string ToS(object? o)
-		{
-			string ret = "";
-			if(o ==null)
-			{
-				ret = "(null)";
-			}else if (o is Array)
-			{
-				foreach(object o1 in (Array)o)
-				{
-					if (o1 == null) continue;
-					if (ret != "") ret += ",";
-					ret += o1.ToString();
-				}
-				ret= "[" + ret+"]";
-			}
-			else 
-			{
-				ret = o.ToString();
-			}
-			return ret;
-		}
+		
 		public void writeLine(object? o)
 		{
 			textBox1.Focus();
-			textBox1.AppendText(ToS(o)+"\r\n");
+			textBox1.AppendText(HyperScript.toString(o) + "\r\n");
 		}
 		public void write(object? o)
 		{
 			textBox1.Focus();
-			textBox1.AppendText(ToS(o));
+			textBox1.AppendText(HyperScript.toString(o));
 		}
 		public void clear()
 		{

@@ -337,7 +337,7 @@ namespace Hypowered
 			base.OnResize(e);
 			ChkSize();
 			this.Invalidate();
-		}       
+		}
 		// *********************************************************************
 		protected bool m_MPush = false;
 		// *********************************************************************
@@ -368,8 +368,10 @@ namespace Hypowered
 			base.OnMouseClick(e);
 			if ((MainForm != null) && (m_IsEditMode == false))
 			{
-				//MainForm.ExecuteCode(GetScriptCode(ScriptKind.MouseClick));
-				MainForm.ExecuteScript(ScriptCode,ScriptKind.MouseClick);
+				if (Script_MouseClick != "")
+				{
+					MainForm.ExecuteScript(ScriptCode, ScriptKind.MouseClick);
+				}
 			}
 		}
 		public override JsonObject ToJson()

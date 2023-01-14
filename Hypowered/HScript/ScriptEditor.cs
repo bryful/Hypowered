@@ -21,6 +21,7 @@ namespace Hypowered
 		private HyperBaseForm? m_TargetForm = null;
 		private HyperControl? m_TargetControl = null;
 		private HyperScriptCode? m_HyperScriptCode = null;
+		private ScriptKind m_TargetScriptKind = ScriptKind.MouseClick;
 		private string[] m_texts = new string[0];
 		public void SetMainForm(HyperMainForm? fm)
 		{
@@ -87,6 +88,7 @@ namespace Hypowered
 			{
 				cmbScript.SelectedIndex = 0;
 				editPad1.Text = m_texts[0];
+				m_TargetScriptKind = m_HyperScriptCode.ScriptKinds[cmbScript.SelectedIndex];
 				oldIndex = 0;
 			}
 			cmbScript.SelectedIndexChanged += CmbScript_SelectedIndexChanged;
@@ -103,6 +105,10 @@ namespace Hypowered
 			if(cmbScript.SelectedIndex>=0)
 			{
 				editPad1.Text= m_texts[cmbScript.SelectedIndex];
+				if (m_HyperScriptCode != null)
+				{
+					m_TargetScriptKind = m_HyperScriptCode.ScriptKinds[cmbScript.SelectedIndex];
+				}
 			}
 			else
 			{
@@ -148,7 +154,7 @@ true);
 				if (cmbScript.SelectedIndex >= 0)
 				{
 					WriteCode(); 
-					m_MainForm.ExecuteCode(m_texts[cmbScript.SelectedIndex]);
+					m_MainForm.ExecuteScript(m_HyperScriptCode,m_TargetScriptKind);
 				}
 			}
 		}

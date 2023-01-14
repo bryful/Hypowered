@@ -25,14 +25,16 @@ namespace Hypowered
 		private AlignmentBtn[] m_btns = new AlignmentBtn[Enum.GetNames<AStyle>().Length];
 		public EditAlignmentForm()
 		{
-			this.MinimumSize = new Size(25 * 8, 50);
-			this.MaximumSize = new Size(25 * 8, 50);
-			this.Size = new Size(25 * 8, 50);
+			this.MinimumSize = new Size(25 * 6, 75);
+			this.MaximumSize = new Size(25 * 6, 75);
+			this.Size = new Size(25 * 6, 75);
+			int y = 25;
 			for (int i = 0;i< m_btns.Length; i++)
 			{
+				if (i < 6) y = 25; else y = 50;
 				m_btns[i] = new AlignmentBtn();
 				m_btns[i].AStyle = (AStyle)i;
-				m_btns[i].Location = new Point(i * 25,25);
+				m_btns[i].Location = new Point((i%6) * 25,y);
 				m_btns[i].Click += (sender, e) =>
 				{
 					AlignmentBtn? ab = (AlignmentBtn?)sender;

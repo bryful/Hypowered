@@ -24,10 +24,11 @@ namespace Hypowered
 			{
 				SelectedIndexChanged(this, e);
 			}
-			if (MainForm != null)
+			if ((MainForm != null))
 			{
-
-				MainForm.ExecuteCode(GetScriptCode(ScriptKind.SelectedIndexChanged));
+				MainForm.Script.AddScriptObject("value", SelectedItem);
+				MainForm.ExecuteScript(ScriptCode, ScriptKind.SelectedIndexChanged);
+				MainForm.Script.DeleteScriptObject("value");
 			}
 		}
 		public override void SetIsEditMode(bool value)
@@ -104,6 +105,10 @@ namespace Hypowered
 					{
 						ret = "";
 					}
+					else
+					{
+						ret = s;
+					}
 				}
 				return ret;
 			}
@@ -163,6 +168,27 @@ namespace Hypowered
 				m_ListBox.BackColor = value;
 			}
 		}
+		[Category("Hypowered")]
+		public new DragDropFileType DragDropFileType
+		{
+			get { return m_DragDropFileType; }
+			set
+			{
+				m_DragDropFileType = value;
+				base.AllowDrop = (m_DragDropFileType != DragDropFileType.None);
+				m_ListBox.AllowDrop = base.AllowDrop;
+			}
+		}
+		[Category("Hypowered")]
+		public new bool AllowDrop
+		{
+			get { return base.AllowDrop; }
+			set
+			{
+				base.AllowDrop = value;
+				m_ListBox.AllowDrop = value;
+			}
+		}
 		public HyperListBox()
 		{
 			SetControlType(Hypowered.ControlType.ListBox);
@@ -183,6 +209,8 @@ namespace Hypowered
 			this.Controls.Add(m_ListBox);
 			m_ListBox.SelectedIndexChanged += ListBoxSelectedIndexChanged;
 			m_ListBox.MouseDoubleClick += ListBoxMouseDoubleClick;
+			m_ListBox.DragEnter += (sender, e) => { this.OnDragEnter(e); };
+			m_ListBox.DragDrop += (sender, e) => { this.OnDragDrop(e); };
 		}
 
 		protected virtual void ListBoxMouseDoubleClick(object? sender, MouseEventArgs e)
@@ -190,9 +218,12 @@ namespace Hypowered
 			
 			if(ScriptCode.Script_MouseDoubleClick!="")
 			{
-				if (MainForm != null)
+				string s = SelectedItem;
+				if ((MainForm != null)&&(s!=""))
 				{
-					MainForm.Script.ExecuteCode(ScriptCode.Script_MouseDoubleClick);
+					MainForm.Script.AddScriptObject("value", s);
+					MainForm.ExecuteScript(ScriptCode, ScriptKind.MouseDoubleClick);
+					MainForm.Script.DeleteScriptObject("value");
 				}
 			}
 		}
@@ -204,12 +235,14 @@ namespace Hypowered
 				if (m_ListBox.Items[m_ListBox.SelectedIndex] != null)
 				{
 					string? ss = m_ListBox.Items[m_ListBox.SelectedIndex].ToString();
-					if(ss != null) s = ss;
+					if (ss != null)
+					{
+						s = ss;
+					}
 				}
+				OnSelectedIndexChanged(new SelectedIndexChangedEventArgs(m_ListBox.SelectedIndex, s));
 			}
-			OnSelectedIndexChanged(new SelectedIndexChangedEventArgs(m_ListBox.SelectedIndex,s));	
 		}
-
 		protected override void OnPaint(PaintEventArgs pe)
 		{
 			if (m_IsEditMode)

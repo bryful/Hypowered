@@ -25,9 +25,11 @@ namespace Hypowered
 			{
 				SelectedIndexChanged(this, e);
 			}
-			if ((MainForm != null))
+			if ((MainForm != null)&&(Script_SelectedIndexChanged!=""))
 			{
-				MainForm.ExecuteCode(Script_SelectedIndexChanged);
+				MainForm.Script.AddScriptObject("value", e.Value);
+				MainForm.ExecuteScript(ScriptCode, ScriptKind.SelectedIndexChanged);
+				MainForm.Script.DeleteScriptObject("value");
 			}
 		}
 		public string[] ToArray()

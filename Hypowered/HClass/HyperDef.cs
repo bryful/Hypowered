@@ -230,6 +230,15 @@ namespace Hypowered
 		static public Size DefSize = new Size(120, 25);
 	}
 	// *************************************************************************
+	public class ValueChangedEventArgs : EventArgs
+	{
+		public object Value;
+		public ValueChangedEventArgs(object v)
+		{
+			Value = v;
+		}
+	}
+	public delegate void ValueChangedHandler(object sender, ValueChangedEventArgs e);
 	public class CheckedChangedEventArgs : EventArgs
 	{
 		public bool Checked;

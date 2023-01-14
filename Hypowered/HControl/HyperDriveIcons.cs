@@ -31,9 +31,11 @@ namespace Hypowered
 			{
 				CurrentDirChanged(this, e);
 			}
-			if ((MainForm != null))
+			if ((MainForm != null)&&(Script_CurrentDirChanged!=""))
 			{
-				MainForm.ExecuteCode(Script_CurrentDirChanged);
+				MainForm.Script.AddScriptObject("value", e.Path);
+				MainForm.ExecuteScript(ScriptCode,ScriptKind.CurrentDirChanged);
+				MainForm.Script.DeleteScriptObject("value");
 			}
 		}
 		private int m_SelectedDRIndex = -1;

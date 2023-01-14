@@ -277,54 +277,6 @@
   <data name="conversion_path" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\conversion_path.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="CTRLALI1" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\CTRLALI1.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="CTRLALI2" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\CTRLALI2.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="CTRLALI3" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\CTRLALI3.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="CTRLALI4" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\CTRLALI4.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="CTRLALI5" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\CTRLALI5.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="CTRLALI6" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\CTRLALI6.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="CTRLALI7" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\CTRLALI7.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="CTRLALI8" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\CTRLALI8.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="CTRLALI_push1" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\CTRLALI_push1.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="CTRLALI_push2" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\CTRLALI_push2.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="CTRLALI_push3" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\CTRLALI_push3.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="CTRLALI_push4" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\CTRLALI_push4.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="CTRLALI_push5" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\CTRLALI_push5.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="CTRLALI_push6" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\CTRLALI_push6.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="CTRLALI_push7" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\CTRLALI_push7.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="CTRLALI_push8" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\CTRLALI_push8.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
   <data name="currency_yen" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\currency_yen.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
@@ -1380,5 +1332,77 @@
   </data>
   <data name="yard" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\yard.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="zCtrlAli01" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\zCtrlAli01.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="zCtrlAli02" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\zCtrlAli02.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="zCtrlAli03" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\zCtrlAli03.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="zCtrlAli04" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\zCtrlAli04.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="zCtrlAli05" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\zCtrlAli05.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="zCtrlAli06" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\zCtrlAli06.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="zCtrlAli07" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\zCtrlAli07.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="zCtrlAli08" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\zCtrlAli08.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="zCtrlAli09" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\zCtrlAli09.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="zCtrlAli10" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\zCtrlAli10.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="zCtrlAli11" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\zCtrlAli11.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="zCtrlAli12" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\zCtrlAli12.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="zCtrlAli_push01" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\zCtrlAli_push01.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="zCtrlAli_push02" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\zCtrlAli_push02.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="zCtrlAli_push03" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\zCtrlAli_push03.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="zCtrlAli_push04" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\zCtrlAli_push04.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="zCtrlAli_push05" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\zCtrlAli_push05.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="zCtrlAli_push06" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\zCtrlAli_push06.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="zCtrlAli_push07" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\zCtrlAli_push07.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="zCtrlAli_push08" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\zCtrlAli_push08.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="zCtrlAli_push09" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\zCtrlAli_push09.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="zCtrlAli_push10" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\zCtrlAli_push10.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="zCtrlAli_push11" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\zCtrlAli_push11.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="zCtrlAli_push12" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\zCtrlAli_push12.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
 </root>

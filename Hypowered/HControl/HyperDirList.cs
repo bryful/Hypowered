@@ -39,7 +39,12 @@ namespace Hypowered
 			}
 			if ((MainForm != null))
 			{
-				MainForm.ExecuteCode(Script_CurrentDirChanged);
+				if (Script_CurrentDirChanged != "")
+				{
+					MainForm.Script.AddScriptObject("value", e.Path);
+					MainForm.ExecuteScript(ScriptCode,ScriptKind.CurrentDirChanged);
+					MainForm.Script.DeleteScriptObject("value");
+				}
 			}
 
 		}
@@ -52,9 +57,12 @@ namespace Hypowered
 			{
 				if(m_CurrentDir != value)
 				{
-					m_CurrentDir = value;
-					Listup();
-					OnCurrentDirChanged(new CurrentDirChangedEventArgs(m_CurrentDir));
+					if (Directory.Exists(value))
+					{
+						m_CurrentDir = value;
+						Listup();
+						OnCurrentDirChanged(new CurrentDirChangedEventArgs(m_CurrentDir));
+					}
 				}
 			}
 		}
@@ -142,10 +150,39 @@ namespace Hypowered
 				string? s = m_ListBox.Items[si].ToString();
 				if (s == null) return;
 				DirectoryInfo di = new DirectoryInfo(Path.Combine(m_CurrentDir,s ));
-				m_CurrentDir = di.FullName;
-				Listup();
-				m_ListBox.SelectedIndex = -1;
-				OnCurrentDirChanged(new CurrentDirChangedEventArgs(m_CurrentDir));
+				if (di.Exists)
+				{
+					m_CurrentDir = di.FullName;
+					Listup();
+					m_ListBox.SelectedIndex = -1;
+					OnCurrentDirChanged(new CurrentDirChangedEventArgs(m_CurrentDir));
+				}
+			}
+		}
+		public new string SelectedItem
+		{
+			get
+			{
+				string ret = "";
+				int si = m_ListBox.SelectedIndex;
+				if ((si >= 0) && (si < m_ListBox.Items.Count))
+				{
+					string? s = m_ListBox.Items[si].ToString();
+					if (s == null)
+					{
+						ret = m_CurrentDir;
+					}
+					else if(s=="..\\")
+					{
+						string? oo = Path.GetDirectoryName(m_CurrentDir);
+						if(oo != null) ret = oo;
+					}
+					else
+					{
+						ret = Path.Combine(m_CurrentDir, s);
+					}
+				}
+				return ret;
 			}
 		}
 		public void Listup()

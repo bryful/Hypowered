@@ -108,6 +108,27 @@ namespace Hypowered
 				m_TextBox.BackColor = value;
 			}
 		}
+		[Category("Hypowered")]
+		public new DragDropFileType DragDropFileType
+		{
+			get { return m_DragDropFileType; }
+			set
+			{
+				m_DragDropFileType = value;
+				base.AllowDrop = (m_DragDropFileType != DragDropFileType.None);
+				m_TextBox.AllowDrop= base.AllowDrop;
+			}
+		}
+		[Category("Hypowered")]
+		public new bool AllowDrop
+		{
+			get { return base.AllowDrop; }
+			set
+			{
+				base.AllowDrop = value;
+				m_TextBox.AllowDrop = value;
+			}
+		}
 		public HyperTextBox()
 		{
 			SetControlType(Hypowered.ControlType.TextBox);
@@ -120,7 +141,10 @@ namespace Hypowered
 			InitializeComponent();
 			this.Controls.Add(m_TextBox);
 			this.Controls.SetChildIndex(m_TextBox, 0);
+			m_TextBox.DragEnter += (sender, e) =>{this.OnDragEnter(e);};
+			m_TextBox.DragDrop += (sender, e) =>{this.OnDragDrop(e);};
 		}
+
 
 		protected override void OnPaint(PaintEventArgs pe)
 		{

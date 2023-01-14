@@ -15,6 +15,7 @@ namespace Hypowered
 
     public partial class HyperCheckBox : HyperControl
 	{
+		
 		public delegate void CheckedChangedHandler(object sender, CheckedChangedEventArgs e);
 		public event CheckedChangedHandler? CheckedChanged;
 		protected virtual void OnCheckedChanged(CheckedChangedEventArgs e)
@@ -25,7 +26,12 @@ namespace Hypowered
 			}
 			if((MainForm != null))
 			{
-				MainForm.ExecuteCode(Script_ValueChanged);
+				if (Script_ValueChanged != "")
+				{
+					MainForm.Script.AddScriptObject("value", Checked);
+					MainForm.ExecuteScript(ScriptCode, ScriptKind.ValueChanged);
+					MainForm.Script.DeleteScriptObject("value");
+				}
 			}
 		}
 		private bool m_Checked = true;
