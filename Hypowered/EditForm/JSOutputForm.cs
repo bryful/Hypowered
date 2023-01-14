@@ -52,12 +52,12 @@ namespace Hypowered
 				if(dlg.ShowDialog()==DialogResult.OK)
 				{
 					OutputFont = dlg.Font;
-					if(MainForm!=null) MainForm.OutputFormFont = dlg.Font; ;
+					if(MainForm!=null) MainForm.OutputFormFont = dlg.Font;
 				}
 			}
 		}
 
-		private void Button1_Click(object sender, EventArgs e)
+		private void BtnCLS_Click(object sender, EventArgs e)
 		{
 			textBox1.Text = "";
 		}

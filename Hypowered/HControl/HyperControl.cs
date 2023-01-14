@@ -235,6 +235,27 @@ namespace Hypowered
 		// **************************************************************************
 		public HyperScriptCode ScriptCode = new HyperScriptCode();
 
+		public virtual void ExecScript(ScriptKind sk)
+		{
+			if (MainForm != null)
+			{
+				if (ScriptCode.IsScriptCode(sk))
+				{
+					switch(sk)
+					{
+						case ScriptKind.DragDrop:
+							MainForm.Script.AddScriptObject("value", m_DragDropItems);
+							break;
+						default:
+							MainForm.Script.AddScriptObjectNull("value");
+							break;
+					}
+					MainForm.Script.ExecuteScript(ScriptCode, sk);
+					MainForm.Script.DeleteScriptObject("value");
+				}
+			}
+		}
+
 		public void SetInScript(InScriptBit s)
 		{
 			ScriptCode.SetInScript(s);
@@ -341,12 +362,7 @@ namespace Hypowered
 
 				}
 				m_DragDropItems= list.ToArray();
-				if((MainForm!=null)&&(Script_DragDrop!=""))
-				{
-					MainForm.Script.AddScriptObject("value", m_DragDropItems);
-					MainForm.Script.ExecuteScript(ScriptCode,ScriptKind.DragDrop);
-					MainForm.Script.DeleteScriptObject("value");
-				}
+				ExecScript(ScriptKind.DragDrop);
 			}
 			base.OnDragDrop(drgevent);
 		}

@@ -132,7 +132,7 @@ namespace Hypowered
 		public HyperTextBox()
 		{
 			SetControlType(Hypowered.ControlType.TextBox);
-			SetInScript(InScriptBit.ValueChanged | InScriptBit.DragDrop);
+			SetInScript( InScriptBit.DragDrop);
 			m_TextBox.BorderStyle = BorderStyle.FixedSingle;
 			BackColor = ColU.ToColor(HyperColor.Back);
 			ForeColor = ColU.ToColor(HyperColor.Fore);
@@ -141,8 +141,8 @@ namespace Hypowered
 			InitializeComponent();
 			this.Controls.Add(m_TextBox);
 			this.Controls.SetChildIndex(m_TextBox, 0);
-			m_TextBox.DragEnter += (sender, e) =>{this.OnDragEnter(e);};
-			m_TextBox.DragDrop += (sender, e) =>{this.OnDragDrop(e);};
+			//m_TextBox.DragEnter += (sender, e) =>{this.OnDragEnter(e);};
+			//m_TextBox.DragDrop += (sender, e) =>{this.OnDragDrop(e);};
 		}
 
 

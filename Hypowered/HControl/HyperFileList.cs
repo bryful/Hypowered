@@ -29,6 +29,30 @@ namespace Hypowered
 				}
 			}
 		}
+		public override void ExecScript(ScriptKind sk)
+		{
+			if (MainForm != null)
+			{
+				if (ScriptCode.IsScriptCode(sk))
+				{
+					switch (sk)
+					{
+						case ScriptKind.DragDrop:
+							MainForm.Script.AddScriptObject("value", m_DragDropItems);
+							break;
+						case ScriptKind.SelectedIndexChanged:
+						case ScriptKind.MouseDoubleClick:
+							MainForm.Script.AddScriptObject("value", SelectedItem);
+							break;
+						default:
+							MainForm.Script.AddScriptObjectNull("value");
+							break;
+					}
+					MainForm.Script.ExecuteScript(ScriptCode, sk);
+					MainForm.Script.DeleteScriptObject("value");
+				}
+			}
+		}
 		private HyperDirList? m_HyperDirList = null;
 		[Category("Hypowered_FileList")]
 		public HyperDirList? DirList
@@ -182,12 +206,7 @@ namespace Hypowered
 			string s = SelectedItem;
 			if(s!="")
 			{
-				if ((MainForm != null)&&(Script_MouseDoubleClick!=""))
-				{
-					MainForm.Script.AddScriptObject("value", s);
-					MainForm.ExecuteScript(ScriptCode, ScriptKind.MouseDoubleClick);
-					MainForm.Script.DeleteScriptObject("value");
-				}
+				ExecScript(ScriptKind.MouseDoubleClick);
 			}
 		}
 		public void Listup()

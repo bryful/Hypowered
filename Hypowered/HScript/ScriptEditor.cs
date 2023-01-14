@@ -29,6 +29,11 @@ namespace Hypowered
 			controlBrowser1.SetMainForm(fm);
 			if(m_MainForm!= null)
 			{
+				if (m_MainForm.Script.app != null)
+				{
+					cmbWord.Items.Clear();
+					cmbWord.Items.AddRange(m_MainForm.Script.app.members());
+				}
 				m_MainForm.FormChanged += (sender, e) =>
 				{
 					controlBrowser1.SetMainForm(fm);
@@ -149,12 +154,19 @@ true);
 		private void btnExec_Click(object sender, EventArgs e)
 		{
 			if (EditNow == false) return;
-			if ((m_MainForm!=null) &&(m_HyperScriptCode != null))
+			if ((m_MainForm!=null))
 			{
 				if (cmbScript.SelectedIndex >= 0)
 				{
-					WriteCode(); 
-					m_MainForm.ExecuteScript(m_HyperScriptCode,m_TargetScriptKind);
+					WriteCode();
+					if (m_TargetControl != null)
+					{
+						m_TargetControl.ExecScript(m_TargetScriptKind);
+					}
+					else
+					{
+						m_MainForm.ExecScript(m_TargetScriptKind);
+					}
 				}
 			}
 		}

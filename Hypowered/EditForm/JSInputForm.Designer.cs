@@ -165,9 +165,9 @@
 			// cmbWord
 			// 
 			this.cmbWord.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(32)))), ((int)(((byte)(32)))), ((int)(((byte)(32)))));
-			this.cmbWord.DropDownHeight = 200;
+			this.cmbWord.DropDownHeight = 300;
 			this.cmbWord.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-			this.cmbWord.DropDownWidth = 300;
+			this.cmbWord.DropDownWidth = 350;
 			this.cmbWord.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
 			this.cmbWord.ForeColor = System.Drawing.Color.Gainsboro;
 			this.cmbWord.FormattingEnabled = true;
@@ -184,13 +184,17 @@
             "app.currentPath",
             "app.hypfFolder",
             "app.homeHypf",
+            "app.homeFolder",
+            "app.appPath",
+            "app.appFolder",
             "app.loadHome();",
             "app.openHome();",
             "app.yesnoDialog(cap,title)",
             "app.getenv(str)",
             "app.setenv(str,str)",
             "var Directory = dotnet.System.IO.Directory;",
-            "var File = dotnet.System.IO.File;"});
+            "var File = dotnet.System.IO.File;",
+            "value"});
 			this.cmbWord.Location = new System.Drawing.Point(230, 7);
 			this.cmbWord.Name = "cmbWord";
 			this.cmbWord.Size = new System.Drawing.Size(121, 23);
@@ -215,7 +219,6 @@
 			this.btnWriteln.TabIndex = 8;
 			this.btnWriteln.Text = "writeln";
 			this.btnWriteln.UseVisualStyleBackColor = true;
-			this.btnWriteln.Click += new System.EventHandler(this.BtnWriteln_Click);
 			// 
 			// btnUndo
 			// 

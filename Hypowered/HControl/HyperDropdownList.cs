@@ -25,11 +25,29 @@ namespace Hypowered
 			{
 				SelectedIndexChanged(this, e);
 			}
-			if ((MainForm != null)&&(Script_SelectedIndexChanged!=""))
+			ExecScript(ScriptKind.SelectedIndexChanged);
+		}
+		public override void ExecScript(ScriptKind sk)
+		{
+			if (MainForm != null)
 			{
-				MainForm.Script.AddScriptObject("value", e.Value);
-				MainForm.ExecuteScript(ScriptCode, ScriptKind.SelectedIndexChanged);
-				MainForm.Script.DeleteScriptObject("value");
+				if (ScriptCode.IsScriptCode(sk))
+				{
+					switch (sk)
+					{
+						case ScriptKind.SelectedIndexChanged:
+							MainForm.Script.AddScriptObject("value", SelectedItem);
+							break;
+						case ScriptKind.DragDrop:
+							MainForm.Script.AddScriptObject("value", m_DragDropItems);
+							break;
+						default:
+							MainForm.Script.AddScriptObjectNull("value");
+							break;
+					}
+					MainForm.Script.ExecuteScript(ScriptCode, sk);
+					MainForm.Script.DeleteScriptObject("value");
+				}
 			}
 		}
 		public string[] ToArray()

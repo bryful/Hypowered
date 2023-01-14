@@ -22,11 +22,29 @@ namespace Hypowered
 			{
 				RBValueChanged(this, e);
 			}
-			if ((MainForm != null)&&(Script_ValueChanged!=""))
+			ExecScript(ScriptKind.ValueChanged);
+		}
+		public override void ExecScript(ScriptKind sk)
+		{
+			if (MainForm != null)
 			{
-				MainForm.Script.AddScriptObject("value", e.Index);
-				MainForm.ExecuteCode(Script_ValueChanged);
-				MainForm.Script.DeleteScriptObject("value");
+				if (ScriptCode.IsScriptCode(sk))
+				{
+					switch (sk)
+					{
+						case ScriptKind.ValueChanged:
+							MainForm.Script.AddScriptObject("value", Value);
+							break;
+						case ScriptKind.DragDrop:
+							MainForm.Script.AddScriptObject("value", m_DragDropItems);
+							break;
+						default:
+							MainForm.Script.AddScriptObjectNull("value");
+							break;
+					}
+					MainForm.Script.ExecuteScript(ScriptCode, sk);
+					MainForm.Script.DeleteScriptObject("value");
+				}
 			}
 		}
 		[Category("Hypowered")]
@@ -437,30 +455,7 @@ namespace Hypowered
 
 			}
 		}
-		/*
-		protected override void OnMouseDown(MouseEventArgs e)
-		{
-			if (m_IsEditMode)
-			{
-				if ((e.Button & MouseButtons.Left) == MouseButtons.Left)
-				{
-					ChkTargetSelected();
 
-					MDPos p = CU.GetMDPos(e.X, e.Y, this.Size);
-					if (p != MDPos.None)
-					{
-						if (MainForm != null) MainForm.LocationBackup();
-						m_MDPos = p;
-						m_MDP = MousePos(e);
-						m_MDLoc = this.Location;
-						m_MDSize = this.Size;
-						return;
-					}
-				}
-			}
-			base.OnMouseDown(e);
-		}
-		*/
 		protected override void OnResize(EventArgs e)
 		{
 			base.OnResize(e);

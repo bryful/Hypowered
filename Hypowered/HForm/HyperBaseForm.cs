@@ -21,6 +21,19 @@ namespace Hypowered
 		[Category("Hypowered")]
 		public bool Locked { get; set; } = false;
 
+		public HyperMainForm? MainForm
+		{
+			get
+			{
+				HyperMainForm? ret = null;
+				if(this is HyperMainForm) 
+				{
+					ret = (HyperMainForm)this;
+				}
+				return ret;
+			}
+		}
+
 		#region Event
 
 		// ****************************************************************************
@@ -516,6 +529,29 @@ namespace Hypowered
 		}
 		#endregion
 		public HyperScriptCode ScriptCode = new HyperScriptCode();
+		public virtual void ExecScript(ScriptKind sk)
+		{
+			if (MainForm != null)
+			{
+				if (ScriptCode.IsScriptCode(sk))
+				{
+					switch (sk)
+					{
+						case ScriptKind.DragDrop:
+							MainForm.Script.AddScriptObject("value", m_DragDropItems);
+							break;
+						case ScriptKind.Load:
+						case ScriptKind.MouseDoubleClick:
+						case ScriptKind.Closed:
+						default:
+							MainForm.Script.AddScriptObjectNull("value");
+							break;
+					}
+					MainForm.Script.ExecuteScript(ScriptCode, sk);
+					MainForm.Script.DeleteScriptObject("value");
+				}
+			}
+		}
 		[Category("Hypowered_Script")]
 		[Bindable(false)]
 		public string Script_MouseDoubleClick

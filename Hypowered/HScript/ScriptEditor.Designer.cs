@@ -156,9 +156,9 @@
 			// 
 			// cmbWord
 			// 
-			this.cmbWord.DropDownHeight = 200;
+			this.cmbWord.DropDownHeight = 300;
 			this.cmbWord.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-			this.cmbWord.DropDownWidth = 300;
+			this.cmbWord.DropDownWidth = 350;
 			this.cmbWord.IntegralHeight = false;
 			this.cmbWord.Items.AddRange(new object[] {
             "app.exit();",
@@ -172,13 +172,17 @@
             "app.currentPath",
             "app.hypfFolder",
             "app.homeHypf",
+            "app.homeFolder",
+            "app.appPath",
+            "app.appFolder",
             "app.loadHome();",
             "app.openHome();",
             "app.yesnoDialog(cap,title)",
             "app.getenv(str)",
             "app.setenv(str,str)",
             "var Directory = dotnet.System.IO.Directory;",
-            "var File = dotnet.System.IO.File;"});
+            "var File = dotnet.System.IO.File;",
+            "value"});
 			this.cmbWord.Name = "cmbWord";
 			this.cmbWord.Size = new System.Drawing.Size(121, 25);
 			// 

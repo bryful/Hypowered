@@ -127,6 +127,10 @@ namespace Hypowered
 			get { return m_Codes[(int)ScriptKind.DragDrop]; }
 			set { m_Codes[(int)ScriptKind.DragDrop] = value; }
 		}
+		public bool IsScriptCode(ScriptKind ist)
+		{
+			return (m_Codes[(int)ist]!="");
+		}
 		public string GetScriptCode(ScriptKind ist)
         {
             string ret = "";

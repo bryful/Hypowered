@@ -23,13 +23,35 @@ namespace Hypowered
 			{
 				CurrentDirChanged(this, e);
 			}
-			if ((MainForm != null)&&(Script_CurrentDirChanged!=""))
-			{
-				MainForm.Script.AddScriptObject("value", e.Path);
-				MainForm.ExecuteScript(ScriptCode, ScriptKind.CurrentDirChanged);
-				MainForm.Script.DeleteScriptObject("value");
-			}
+			ExecScript(ScriptKind.CurrentDirChanged);
 
+		}
+		public override void ExecScript(ScriptKind sk)
+		{
+			if (MainForm != null)
+			{
+				if (ScriptCode.IsScriptCode(sk))
+				{
+					switch (sk)
+					{
+						case ScriptKind.CurrentDirChanged:
+							MainForm.Script.AddScriptObject("value", m_CurrentDir);
+							break;
+						case ScriptKind.SelectedIndexChanged:
+						case ScriptKind.MouseDoubleClick:
+							MainForm.Script.AddScriptObject("value", SelectedItem);
+							break;
+						case ScriptKind.DragDrop:
+							MainForm.Script.AddScriptObject("value", m_DragDropItems);
+							break;
+						default:
+							MainForm.Script.AddScriptObjectNull("value");
+							break;
+					}
+					MainForm.Script.ExecuteScript(ScriptCode, sk);
+					MainForm.Script.DeleteScriptObject("value");
+				}
+			}
 		}
 		private string m_CurrentDir = Directory.GetCurrentDirectory();
 		[Category("Hypowered_DirList")]
@@ -197,7 +219,9 @@ namespace Hypowered
 				}
 			}
 			if(b==false)
-				base.ListBoxMouseDoubleClick(sender, e);
+			{
+				ExecScript(ScriptKind.MouseDoubleClick);
+			}
 
 		}
 		public override JsonObject ToJson()

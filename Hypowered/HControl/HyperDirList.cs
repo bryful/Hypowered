@@ -37,16 +37,33 @@ namespace Hypowered
 			{
 				CurrentDirChanged(this, e);
 			}
-			if ((MainForm != null))
+			ExecScript(ScriptKind.CurrentDirChanged);
+
+		}
+		public override void ExecScript(ScriptKind sk)
+		{
+			if (MainForm != null)
 			{
-				if (Script_CurrentDirChanged != "")
+				if (ScriptCode.IsScriptCode(sk))
 				{
-					MainForm.Script.AddScriptObject("value", e.Path);
-					MainForm.ExecuteScript(ScriptCode,ScriptKind.CurrentDirChanged);
+					switch (sk)
+					{
+						case ScriptKind.SelectedIndexChanged:
+						case ScriptKind.CurrentDirChanged:
+						case ScriptKind.MouseDoubleClick:
+							MainForm.Script.AddScriptObject("value", SelectedItem);
+							break;
+						case ScriptKind.DragDrop:
+							MainForm.Script.AddScriptObject("value", m_DragDropItems);
+							break;
+						default:
+							MainForm.Script.AddScriptObjectNull("value");
+							break;
+					}
+					MainForm.Script.ExecuteScript(ScriptCode, sk);
 					MainForm.Script.DeleteScriptObject("value");
 				}
 			}
-
 		}
 		private string m_CurrentDir = Directory.GetCurrentDirectory();
 		[Category("Hypowered_DirList")]

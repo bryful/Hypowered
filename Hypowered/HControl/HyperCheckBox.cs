@@ -24,12 +24,27 @@ namespace Hypowered
 			{
 				CheckedChanged(this, e);
 			}
-			if((MainForm != null))
+			ExecScript(ScriptKind.ValueChanged);
+		}
+		public override void ExecScript(ScriptKind sk)
+		{
+			if (MainForm != null)
 			{
-				if (Script_ValueChanged != "")
+				if (ScriptCode.IsScriptCode(sk))
 				{
-					MainForm.Script.AddScriptObject("value", Checked);
-					MainForm.ExecuteScript(ScriptCode, ScriptKind.ValueChanged);
+					switch(sk)
+					{
+						case ScriptKind.ValueChanged:
+							MainForm.Script.AddScriptObject("value", Checked);
+							break;
+						case ScriptKind.DragDrop:
+							MainForm.Script.AddScriptObject("value", m_DragDropItems);
+							break;
+						default:
+							MainForm.Script.AddScriptObjectNull("value");
+							break;
+					}
+					MainForm.Script.ExecuteScript(ScriptCode,sk);
 					MainForm.Script.DeleteScriptObject("value");
 				}
 			}

@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.Specialized;
 using System.Dynamic;
 using System.Linq;
+using System.Reflection;
 using System.Reflection.Metadata;
 using System.Runtime.Intrinsics.X86;
 using System.Text;
@@ -22,6 +24,8 @@ namespace Hypowered
 			get { return (IDictionary<string, dynamic>)m_forms.itemsEO; }
 		}
 		public int numForms { get { return m_forms.length; } }
+		public StringCollection strings = new StringCollection();
+		public PropertyBag bag = new PropertyBag();
 		[ScriptUsage(ScriptAccess.None)]
 		public HyperApp(HyperBaseForm? main):base(main)
 		{
@@ -135,6 +139,40 @@ namespace Hypowered
 				}
 			} 
 		}
+		public string homeFolder
+		{
+			get
+			{
+				if (main != null)
+				{
+					string? s = Path.GetDirectoryName(main.HOME_HYPF_FILE);
+					if( s != null)
+						return  s;
+					else
+					{
+						return "";
+					}
+				}
+				else
+				{
+					return "";
+				}
+			}
+		}
+		public string appPath
+		{
+			get
+			{
+				return Application.ExecutablePath;
+			}
+		}
+		public string appFolder
+		{
+			get
+			{
+				return Path.GetDirectoryName(Application.ExecutablePath);
+			}
+		}
 		public void loadHome()
 		{
 			if(homeHypf != "") loadForm(homeHypf);
@@ -161,6 +199,57 @@ namespace Hypowered
 		public void getenv(string EnvNane,string value)
 		{
 			Def.SetENV(EnvNane,value);
+		}
+		public string[] members()
+		{
+			var ps = this.GetType().GetMembers();
+			List<string> props = new List<string>();
+			foreach (var p in ps)
+			{
+				string s = p.Name;
+				if ((s.IndexOf("add_") == 0)
+					|| (s.IndexOf("get_") == 0)
+					|| (s.IndexOf("remove_") == 0)
+					|| (s.IndexOf("set_") == 0)
+					|| (s.IndexOf(".") == 0)
+					|| (s == "ListupControls")
+					)
+				{
+					continue;
+				}
+				string ss = "app." + p.Name;
+				string mt = p.MemberType.ToString();
+				if (mt == "Method") ss = ss + "()";
+				props.Add(ss);
+			}
+			var ps1 = typeof(AppControlList).GetMembers();
+			foreach (var p in ps1)
+			{
+				string s = p.Name;
+				if ((s.IndexOf("add_") == 0)
+					|| (s.IndexOf("get_") == 0)
+					|| (s.IndexOf("remove_") == 0)
+					|| (s.IndexOf("set_") == 0)
+					|| (s.IndexOf(".") == 0)
+					|| (s == "ListupControls")
+					)
+				{
+					continue;
+				}
+				string ss = "app.items[idx]." + p.Name;
+				string mt = p.MemberType.ToString();
+				if (mt == "Method") ss = ss + "()";
+				props.Add(ss);
+			}
+			props.Sort();
+			props.Add("File = dotnet.System.IO.File;");
+			props.Add("Direcrory = dotnet.System.IO.Directory;");
+			props.Add("value");
+			return props.ToArray();
+		}
+		public string toString(object? o)
+		{
+			return HyperScript.toString(o);
 		}
 	}
 }

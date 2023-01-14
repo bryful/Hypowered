@@ -172,18 +172,12 @@ namespace Hypowered
 		protected override void OnMouseClick(MouseEventArgs e)
 		{
 			base.OnMouseClick(e);
-			if((MainForm!=null)&&(Script_MouseClick!=""))
-			{
-				MainForm.ExecuteScript(ScriptCode, ScriptKind.MouseClick);
-			}
+			ExecScript(ScriptKind.MouseClick);
 		}
 		protected override void OnMouseDoubleClick(MouseEventArgs e)
 		{
 			base.OnMouseDoubleClick(e);
-			if ((MainForm != null) && (Script_MouseDoubleClick!= ""))
-			{
-				MainForm.ExecuteScript(ScriptCode, ScriptKind.MouseDoubleClick);
-			}
+			ExecScript(ScriptKind.MouseDoubleClick);
 		}
 		public override JsonObject ToJson()
 		{

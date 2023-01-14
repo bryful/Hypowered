@@ -24,11 +24,32 @@ namespace Hypowered
 			{
 				SelectedIndexChanged(this, e);
 			}
-			if ((MainForm != null))
+			ExecScript(ScriptKind.SelectedIndexChanged);
+		}
+		public override void ExecScript(ScriptKind sk)
+		{
+			if (MainForm != null)
 			{
-				MainForm.Script.AddScriptObject("value", SelectedItem);
-				MainForm.ExecuteScript(ScriptCode, ScriptKind.SelectedIndexChanged);
-				MainForm.Script.DeleteScriptObject("value");
+				if (ScriptCode.IsScriptCode(sk))
+				{
+					switch (sk)
+					{
+						case ScriptKind.SelectedIndexChanged:
+							MainForm.Script.AddScriptObject("value", SelectedItem);
+							break;
+						case ScriptKind.MouseDoubleClick:
+							MainForm.Script.AddScriptObject("value", SelectedItem);
+							break;
+						case ScriptKind.DragDrop:
+							MainForm.Script.AddScriptObject("value", m_DragDropItems);
+							break;
+						default:
+							MainForm.Script.AddScriptObjectNull("value");
+							break;
+					}
+					MainForm.Script.ExecuteScript(ScriptCode, sk);
+					MainForm.Script.DeleteScriptObject("value");
+				}
 			}
 		}
 		public override void SetIsEditMode(bool value)
@@ -215,17 +236,7 @@ namespace Hypowered
 
 		protected virtual void ListBoxMouseDoubleClick(object? sender, MouseEventArgs e)
 		{
-			
-			if(ScriptCode.Script_MouseDoubleClick!="")
-			{
-				string s = SelectedItem;
-				if ((MainForm != null)&&(s!=""))
-				{
-					MainForm.Script.AddScriptObject("value", s);
-					MainForm.ExecuteScript(ScriptCode, ScriptKind.MouseDoubleClick);
-					MainForm.Script.DeleteScriptObject("value");
-				}
-			}
+			ExecScript(ScriptKind.MouseDoubleClick);
 		}
 		protected virtual void ListBoxSelectedIndexChanged(object? sender, EventArgs e)
 		{
@@ -272,7 +283,7 @@ namespace Hypowered
 			jf.SetValue(nameof(ControlType), (int?)ControlType);//Nullable`1
 			jf.SetValue(nameof(IntegralHeight), IntegralHeight);//Boolean
 			jf.SetValue(nameof(ItemHeight), ItemHeight);//Int32
-			jf.SetValue(nameof(Items), Items);//ObjectCollection
+			jf.SetValue(nameof(Lines), Lines);//ObjectCollection
 			jf.SetValue(nameof(ForeColor), ForeColor);//Color
 			jf.SetValue(nameof(BackColor), BackColor);//Color
 			jf.SetValue(nameof(Font), Font);//Font
@@ -289,7 +300,7 @@ namespace Hypowered
 			if (v != null) IntegralHeight = (Boolean)v;
 			v = jf.ValueAuto("ItemHeight", typeof(Int32).Name);
 			if (v != null) ItemHeight = (Int32)v;
-			v = jf.ValueAuto("Items", typeof(ListBox.ObjectCollection).Name);
+			v = jf.ValueAuto("Lines", typeof(string[]).Name);
 			if (v != null) Items.AddRange((string[])v);
 			v = jf.ValueAuto("ForeColor", typeof(Color).Name);
 			if (v != null) ForeColor = (Color)v;

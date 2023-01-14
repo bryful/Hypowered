@@ -29,8 +29,8 @@
 		private void InitializeComponent()
 		{
 			this.textBox1 = new System.Windows.Forms.TextBox();
-			this.button1 = new System.Windows.Forms.Button();
-			this.btnFont = new System.Windows.Forms.Button();
+			this.btnFont = new Hypowered.FlatBtn();
+			this.btnCLS = new Hypowered.FlatBtn();
 			this.SuspendLayout();
 			// 
 			// textBox1
@@ -49,37 +49,33 @@
 			this.textBox1.Size = new System.Drawing.Size(876, 248);
 			this.textBox1.TabIndex = 1;
 			// 
-			// button1
-			// 
-			this.button1.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-			this.button1.Font = new System.Drawing.Font("Yu Gothic UI", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-			this.button1.Location = new System.Drawing.Point(81, 3);
-			this.button1.Name = "button1";
-			this.button1.Size = new System.Drawing.Size(52, 22);
-			this.button1.TabIndex = 2;
-			this.button1.Text = "CLS";
-			this.button1.UseVisualStyleBackColor = true;
-			this.button1.Click += new System.EventHandler(this.Button1_Click);
-			// 
 			// btnFont
 			// 
-			this.btnFont.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-			this.btnFont.Font = new System.Drawing.Font("Yu Gothic UI", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-			this.btnFont.Location = new System.Drawing.Point(23, 3);
+			this.btnFont.Font = new System.Drawing.Font("源ノ角ゴシック Code JP R", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+			this.btnFont.Location = new System.Drawing.Point(25, 5);
 			this.btnFont.Name = "btnFont";
-			this.btnFont.Size = new System.Drawing.Size(52, 22);
-			this.btnFont.TabIndex = 3;
+			this.btnFont.Size = new System.Drawing.Size(52, 18);
+			this.btnFont.TabIndex = 4;
 			this.btnFont.Text = "FONT";
-			this.btnFont.UseVisualStyleBackColor = true;
 			this.btnFont.Click += new System.EventHandler(this.BtnFont_Click);
+			// 
+			// btnCLS
+			// 
+			this.btnCLS.Font = new System.Drawing.Font("源ノ角ゴシック Code JP R", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+			this.btnCLS.Location = new System.Drawing.Point(77, 5);
+			this.btnCLS.Name = "btnCLS";
+			this.btnCLS.Size = new System.Drawing.Size(52, 18);
+			this.btnCLS.TabIndex = 5;
+			this.btnCLS.Text = "CLS";
+			this.btnCLS.Click += new System.EventHandler(this.BtnCLS_Click);
 			// 
 			// JSOutputForm
 			// 
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
 			this.CanResize = true;
 			this.ClientSize = new System.Drawing.Size(900, 291);
+			this.Controls.Add(this.btnCLS);
 			this.Controls.Add(this.btnFont);
-			this.Controls.Add(this.button1);
 			this.Controls.Add(this.textBox1);
 			this.Name = "JSOutputForm";
 			this.ShowIcon = false;
@@ -87,8 +83,8 @@
 			this.StartPosition = System.Windows.Forms.FormStartPosition.Manual;
 			this.Text = "JSOutputForm";
 			this.Controls.SetChildIndex(this.textBox1, 0);
-			this.Controls.SetChildIndex(this.button1, 0);
 			this.Controls.SetChildIndex(this.btnFont, 0);
+			this.Controls.SetChildIndex(this.btnCLS, 0);
 			this.ResumeLayout(false);
 			this.PerformLayout();
 
@@ -97,7 +93,7 @@
 		#endregion
 
 		private TextBox textBox1;
-		private Button button1;
-		private Button btnFont;
+		private FlatBtn btnFont;
+		private FlatBtn btnCLS;
 	}
 }

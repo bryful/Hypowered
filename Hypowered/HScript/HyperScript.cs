@@ -17,7 +17,7 @@ namespace Hypowered
 
     public class HyperScript
     {
-		protected HyperApp? app = null;
+		public HyperApp? app = null;
 		protected HyperMainForm? m_MainForm  = null;
 		public HyperMainForm? MainForm
 		{
@@ -46,7 +46,8 @@ namespace Hypowered
 				{
 					try
 					{
-						cd.SetScriptComplieZ(sk, engine.Compile(s));
+						var scp = engine.Compile(s);
+						cd.SetScriptComplieZ(sk,scp );
 					}catch(Exception e)
 					{
 						alert(e);
@@ -56,7 +57,15 @@ namespace Hypowered
 			}
 			try
 			{
-				engine.Execute(cd.GetScriptComplieZ(sk));
+				if (cd.GetScriptComplieZ(sk) == null)
+				{
+					writeLine("err!");
+					engine.Execute(cd.GetScriptCode(sk));
+				}
+				else
+				{
+					engine.Execute(cd.GetScriptComplieZ(sk));
+				}
 			}
 			catch (Exception e)
 			{
@@ -82,6 +91,21 @@ namespace Hypowered
 			if (engine != null)
 			{
 				engine.Execute($"delete {itemName};");
+			}
+		}
+		public void AddScriptObjectNull(string itemName)
+		{
+			if (engine != null)
+			{
+				try
+				{
+					string s = $"{itemName} = null;";
+					engine.Execute(s);
+				}
+				catch (Exception e)
+				{
+					alert(e);
+				}
 			}
 		}
 		public void AddScriptObject(string itemName, string item)
@@ -199,11 +223,9 @@ namespace Hypowered
 				typeof(Rectangle),
 				typeof(Color),
 				typeof(DateTime),
-				typeof(Bitmap),
 				typeof(HyperBaseForm),
 				typeof(HyperMainForm),
 				typeof(HyperFormList),
-				typeof(List<HyperBaseForm>),
 				typeof(HyperAppBase),
 				typeof(HyperApp),
 				typeof(HyperControl),

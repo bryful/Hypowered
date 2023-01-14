@@ -368,10 +368,7 @@ namespace Hypowered
 			base.OnMouseClick(e);
 			if ((MainForm != null) && (m_IsEditMode == false))
 			{
-				if (Script_MouseClick != "")
-				{
-					MainForm.ExecuteScript(ScriptCode, ScriptKind.MouseClick);
-				}
+				ExecScript(ScriptKind.MouseClick);
 			}
 		}
 		public override JsonObject ToJson()

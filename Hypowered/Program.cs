@@ -60,7 +60,7 @@ namespace Hypowered
 				F_W.SettupConsole();
 				string ENV = Path.GetFileNameWithoutExtension(Application.ExecutablePath) + Def.ENV_HOME_PATH;
 				string? s = Def.GetENV(ENV);
-				if ((s != null)||(s=="")) 
+				if ((s == null)||(s=="")) 
 				{
 					Console.WriteLine($"ŠÂ‹«•Ï”{ENV}‚ÍˆÙí‚Å‚·B");
 				}

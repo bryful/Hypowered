@@ -28,10 +28,18 @@ namespace Hypowered
 			controlBrowser1.SetMainForm(fm);
 			if (m_MainForm != null)
 			{
+				if (m_MainForm.Script.app != null)
+				{
+					cmbWord.Items.Clear();
+					cmbWord.Items.AddRange(m_MainForm.Script.app.members());
+				}
+				m_MainForm.FormChanged -= (sender, e) =>{};
 				m_MainForm.FormChanged += (sender, e) =>
 				{
 					controlBrowser1.SetMainForm(fm);
+
 				};
+				m_MainForm.ControlChanged -= (sender, e) => { };
 				m_MainForm.ControlChanged += (sender, e) =>
 				{
 					controlBrowser1.SetMainForm(fm);
@@ -150,10 +158,6 @@ namespace Hypowered
 			Redo();
 		}
 
-		private void BtnWriteln_Click(object sender, EventArgs e)
-		{
-
-		}
 
 		private void BtnFont_Click(object sender, EventArgs e)
 		{

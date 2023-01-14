@@ -99,8 +99,6 @@ namespace Hypowered
 			m_webBrowser.Size = new Size(150, 150);
 			this.Controls.Add(m_webBrowser);
 			InitializeComponent();
-			m_webBrowser.DragEnter += (sender, e) => { this.OnDragEnter(e); };
-			m_webBrowser.DragDrop += (sender, e) => { this.OnDragDrop(e); };
 			this.SetStyle(
 	//ControlStyles.Selectable |
 	//ControlStyles.UserMouse |

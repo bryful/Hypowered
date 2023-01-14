@@ -31,11 +31,29 @@ namespace Hypowered
 			{
 				CurrentDirChanged(this, e);
 			}
-			if ((MainForm != null)&&(Script_CurrentDirChanged!=""))
+			ExecScript(ScriptKind.CurrentDirChanged);
+		}
+		public override void ExecScript(ScriptKind sk)
+		{
+			if (MainForm != null)
 			{
-				MainForm.Script.AddScriptObject("value", e.Path);
-				MainForm.ExecuteScript(ScriptCode,ScriptKind.CurrentDirChanged);
-				MainForm.Script.DeleteScriptObject("value");
+				if (ScriptCode.IsScriptCode(sk))
+				{
+					switch (sk)
+					{
+						case ScriptKind.CurrentDirChanged:
+							MainForm.Script.AddScriptObject("value", CurrentDir);
+							break;
+						case ScriptKind.DragDrop:
+							MainForm.Script.AddScriptObject("value", m_DragDropItems);
+							break;
+						default:
+							MainForm.Script.AddScriptObjectNull("value");
+							break;
+					}
+					MainForm.Script.ExecuteScript(ScriptCode, sk);
+					MainForm.Script.DeleteScriptObject("value");
+				}
 			}
 		}
 		private int m_SelectedDRIndex = -1;

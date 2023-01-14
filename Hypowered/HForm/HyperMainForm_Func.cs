@@ -131,6 +131,11 @@ namespace Hypowered
 				m_ControlMenu.Add(m_EditModeMenu);
 				m_ControlMenu.Add(m_ShowMenu);
 				m_ControlMenu.Add(null);
+				m_ControlMenu.Add(m_InputMenu);
+				m_ControlMenu.Add(m_NewControlMenu);
+				m_ControlMenu.Add(m_ScriptEditMenu);
+				m_ControlMenu.Add(m_DeleteControlMenu);
+				m_ControlMenu.Add(null);
 				m_ControlMenu.Add(m_ControlListmMenu);
 				m_ControlMenu.Add(m_AlignMentMenu);
 				m_ControlMenu.Add(m_AddUserPictMenu);
@@ -139,11 +144,6 @@ namespace Hypowered
 				m_ControlMenu.Add(m_FontMenu);
 				m_ControlMenu.Add(m_ContentMenu);
 				m_ControlMenu.Add(m_OutputMenu);
-				m_ControlMenu.Add(null);
-				m_ControlMenu.Add(m_ScriptEditMenu);
-				m_ControlMenu.Add(m_InputMenu);
-				m_ControlMenu.Add(m_DeleteControlMenu);
-				m_ControlMenu.Add(m_NewControlMenu);
 			}
 		}
 		// *************************************************************************
@@ -455,7 +455,7 @@ namespace Hypowered
 			{
 				OutputForm = new JSOutputForm();
 				OutputForm.MainForm =this;
-				if (OutputForm != null) OutputForm.Font = OutputFormFont;
+				if (OutputFormFont != null) OutputForm.OutputFont = OutputFormFont;
 				if (OutputFormBounds.Left == -1)
 				{
 					OutputForm.Location = new Point(
@@ -499,8 +499,8 @@ namespace Hypowered
 			if (InputForm == null)
 			{
 				InputForm = new JSInputForm();
-				InputForm.MainForm = this;
-				if(InputFormFont!=null) InputForm.Font= InputFormFont;
+				InputForm.SetMainForm(this);
+				if (InputFormFont!=null) InputForm.InputFont= InputFormFont;
 				if (InputFormBounds.Left == -1)
 				{
 					InputForm.Location = new Point(
