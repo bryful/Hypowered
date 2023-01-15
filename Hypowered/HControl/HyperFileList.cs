@@ -39,13 +39,16 @@ namespace Hypowered
 					{
 						case ScriptKind.DragDrop:
 							MainForm.Script.AddScriptObject("value", m_DragDropItems);
+							MainForm.Script.result = m_DragDropItems;
 							break;
 						case ScriptKind.SelectedIndexChanged:
 						case ScriptKind.MouseDoubleClick:
 							MainForm.Script.AddScriptObject("value", SelectedItem);
+							MainForm.Script.result = SelectedItem;
 							break;
 						default:
 							MainForm.Script.AddScriptObjectNull("value");
+							MainForm.Script.result = null;
 							break;
 					}
 					MainForm.Script.ExecuteScript(ScriptCode, sk);

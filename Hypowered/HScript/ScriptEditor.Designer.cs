@@ -88,7 +88,7 @@
 			this.editPad1.ShowLineNumbers = true;
 			this.editPad1.ShowSpaces = false;
 			this.editPad1.ShowTabs = false;
-			this.editPad1.Size = new System.Drawing.Size(511, 419);
+			this.editPad1.Size = new System.Drawing.Size(599, 462);
 			this.editPad1.TabIndex = 0;
 			this.editPad1.WordWrap = false;
 			// 
@@ -108,7 +108,7 @@
             this.btnHide});
 			this.toolStrip.Location = new System.Drawing.Point(0, 0);
 			this.toolStrip.Name = "toolStrip";
-			this.toolStrip.Size = new System.Drawing.Size(727, 25);
+			this.toolStrip.Size = new System.Drawing.Size(853, 25);
 			this.toolStrip.TabIndex = 1;
 			this.toolStrip.Text = "toolStrip1";
 			// 
@@ -220,8 +220,8 @@
 			this.controlBrowser1.EditPad = this.editPad1;
 			this.controlBrowser1.Location = new System.Drawing.Point(0, 0);
 			this.controlBrowser1.Name = "controlBrowser1";
-			this.controlBrowser1.Size = new System.Drawing.Size(212, 419);
-			this.controlBrowser1.SplitterDistance = 104;
+			this.controlBrowser1.Size = new System.Drawing.Size(250, 462);
+			this.controlBrowser1.SplitterDistance = 123;
 			this.controlBrowser1.TabIndex = 2;
 			this.controlBrowser1.Text = "controlBrowser1";
 			// 
@@ -240,8 +240,8 @@
 			// splitContainer1.Panel2
 			// 
 			this.splitContainer1.Panel2.Controls.Add(this.controlBrowser1);
-			this.splitContainer1.Size = new System.Drawing.Size(727, 419);
-			this.splitContainer1.SplitterDistance = 511;
+			this.splitContainer1.Size = new System.Drawing.Size(853, 462);
+			this.splitContainer1.SplitterDistance = 599;
 			this.splitContainer1.TabIndex = 3;
 			// 
 			// ScriptEditor
@@ -249,7 +249,7 @@
 			this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
 			this.BackColor = System.Drawing.Color.Gainsboro;
-			this.ClientSize = new System.Drawing.Size(727, 448);
+			this.ClientSize = new System.Drawing.Size(853, 491);
 			this.ControlBox = false;
 			this.Controls.Add(this.splitContainer1);
 			this.Controls.Add(this.toolStrip);

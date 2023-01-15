@@ -73,15 +73,7 @@ namespace Hypowered
 			}
 		}
 		private Rectangle m_BitmapRect = new Rectangle(0,0,0,0);
-		/*
-		protected bool m_IsDrawFrame = false;
-		[Category("Hypowered")]
-		public bool IsDrawFrame
-		{
-			get { return m_IsDrawFrame; }
-			set { m_IsDrawFrame = value; this.Invalidate(); }
-		}
-		*/
+		
 		public HyperIcon()
 		{
 			SetControlType(Hypowered.ControlType.Icon);

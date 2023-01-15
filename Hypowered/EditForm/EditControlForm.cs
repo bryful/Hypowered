@@ -151,9 +151,9 @@ namespace Hypowered
 			this.StartPosition= FormStartPosition.CenterParent;
 			editControlComb1.ControlTypeChanged += EditControlComb1_ControlTypeChanged;
 		}
-		public override void OnButtunClick(EventArgs e)
+		public override void OnCloseButtunClick(EventArgs e)
 		{
-			base.OnButtunClick(e);
+			base.OnCloseButtunClick(e);
 			DialogResult= DialogResult.Cancel;
 		}
 		private void EditControlComb1_ControlTypeChanged(object sender, ControlTypeEventArgs e)

@@ -45,16 +45,7 @@ namespace Hypowered
 
 				// 外枠
 				Rectangle rr = ReRect(this.ClientRectangle, 2);
-				//p.Color = ForeColor;
-				//g.DrawRectangle(p, rr);
-				/*
-				if (this.Focused)
-				{
-					rr = ReRect(this.ClientRectangle, 1);
-					p.Color = m_ForcusColor;
-					g.DrawRectangle(p, rr);
-				}
-				*/
+				
 				if (this.Text != "")
 				{
 					sb.Color = ForeColor;

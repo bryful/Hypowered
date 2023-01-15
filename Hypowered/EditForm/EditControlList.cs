@@ -27,9 +27,9 @@ namespace Hypowered
 			ForeColor = ColU.ToColor(HyperColor.Fore);
 			InitializeComponent();
 		}
-		public override void OnButtunClick(EventArgs e)
+		public override void OnCloseButtunClick(EventArgs e)
 		{
-			base.OnButtunClick(e);
+			base.OnCloseButtunClick(e);
 			this.Hide();
 		}
 		protected override void OnSizeChanged(EventArgs e)

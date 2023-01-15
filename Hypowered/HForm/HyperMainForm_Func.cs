@@ -538,23 +538,23 @@ namespace Hypowered
 			return true;
 		}
 		// *************************************************************************
-		public void OutputWrite(object? o)
+		public void OutputWrite(object? o, bool a = false)
 		{
 			if (OutputForm == null) ShowOutputForm();
 			if(OutputForm!=null)
 			{
 				if (OutputForm.Visible == false) OutputForm.Visible = true;
-				OutputForm.write(o);
+				OutputForm.write(o,a);
 			}
 		}
 		// *************************************************************************
-		public void OutputWriteLine(object? o)
+		public void OutputWriteLine(object? o, bool a = false)
 		{
 			if (OutputForm == null) ShowOutputForm();
 			if (OutputForm != null)
 			{
 				if (OutputForm.Visible == false) OutputForm.Visible = true;
-				OutputForm.writeLine(o);
+				OutputForm.writeLine(o,a);
 			}
 		}
 		public void OutputClear()
@@ -568,7 +568,7 @@ namespace Hypowered
 		{
 			if (ScriptEdit == null)
 			{
-				ScriptEdit = new ScriptEditor();
+				ScriptEdit = new ScriptEditForm();
 				ScriptEdit.SetMainForm(this);
 				if (ScriptEditBounds.Left == -1)
 				{

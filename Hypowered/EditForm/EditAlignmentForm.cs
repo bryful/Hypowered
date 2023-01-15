@@ -53,10 +53,10 @@ namespace Hypowered
 			CanResize= false;
 			InitializeComponent();
 		}
-		public override void OnButtunClick(EventArgs e)
+		public override void OnCloseButtunClick(EventArgs e)
 		{
 			this.Visible = false;
-			base.OnButtunClick(e);
+			base.OnCloseButtunClick(e);
 		}
 		public void SetMainForm(HyperMainForm? fm)
 		{

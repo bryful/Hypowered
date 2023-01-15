@@ -245,9 +245,11 @@ namespace Hypowered
 					{
 						case ScriptKind.DragDrop:
 							MainForm.Script.AddScriptObject("value", m_DragDropItems);
+							MainForm.Script.result = m_DragDropItems;
 							break;
 						default:
 							MainForm.Script.AddScriptObjectNull("value");
+							MainForm.Script.result = null;
 							break;
 					}
 					MainForm.Script.ExecuteScript(ScriptCode, sk);
@@ -506,6 +508,7 @@ namespace Hypowered
 	ControlStyles.DoubleBuffer |
 	ControlStyles.UserPaint |
 	ControlStyles.AllPaintingInWmPaint |
+	ControlStyles.ResizeRedraw|
 	ControlStyles.SupportsTransparentBackColor,
 	true);
 			this.UpdateStyles();
@@ -871,7 +874,6 @@ namespace Hypowered
 		protected override void OnResize(EventArgs e)
 		{
 			base.OnResize(e);
-			this.Invalidate();
 			if (m_IsEditMode)
 			{
 				if ((this.Parent != null) && (this.Parent is HyperMainForm))
@@ -879,6 +881,8 @@ namespace Hypowered
 					((HyperMainForm)this.Parent).Invalidate();
 				}
 			}
+			this.Invalidate();
+
 
 		}
 		protected override void OnGotFocus(EventArgs e)
@@ -1254,6 +1258,16 @@ namespace Hypowered
 			{
 				HyperFootageList? ret = null;
 				if (this is HyperFootageList) ret = (HyperFootageList)this;
+				return ret;
+			}
+		}
+		[Browsable(false)]
+		public HyperEditor? asEditor
+		{
+			get
+			{
+				HyperEditor? ret = null;
+				if (this is HyperEditor) ret = (HyperEditor)this;
 				return ret;
 			}
 		}

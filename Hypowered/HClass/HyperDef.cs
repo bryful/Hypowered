@@ -61,7 +61,8 @@ namespace Hypowered
 		Icon,
 		Design,
 		Html,
-		FootageList
+		FootageList,
+		Editor
 	}
 	public class ControlTypeInfos
 	{
@@ -82,6 +83,7 @@ namespace Hypowered
 			"Design　色々な形を描画",
 			"Html　Htmlを表示",
 			"FootageList　映像フッテージファイルのリスト",
+			"Editor　テキスト編集",
 
 		};
 		static public string Disp(ControlType ct)

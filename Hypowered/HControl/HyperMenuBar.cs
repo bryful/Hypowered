@@ -154,7 +154,10 @@ true);
 					sb.Color = ForeColor;
 					g.DrawString(s, this.Font, sb, rct2, sf);
 				}
-				Rectangle rct3 = new Rectangle(this.Right - 30, 5, 15, 15);
+				Rectangle rct3 = new Rectangle(this.Right - 33, 3, 20, 20);
+				sb.Color= BackColor;
+				g.FillRectangle(sb, rct3);
+				rct3 = new Rectangle(this.Right - 30, 5, 15, 15);
 				sb.Color = Color.FromArgb(
 					BackColor.R+40,
 					BackColor.G + 40,

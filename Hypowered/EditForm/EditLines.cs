@@ -71,9 +71,9 @@ namespace Hypowered
 		{
 			DialogResult= DialogResult.OK;
 		}
-		public override void OnButtunClick(EventArgs e)
+		public override void OnCloseButtunClick(EventArgs e)
 		{
-			base.OnButtunClick(e);
+			base.OnCloseButtunClick(e);
 			DialogResult = DialogResult.Cancel;
 		}
 	}

@@ -19,6 +19,27 @@ namespace Hypowered
     public class HyperScript
     {
 		public HyperApp? app = null;
+		public Object? result
+		{
+			get 
+			{
+				if (app != null)
+				{
+					return app.result;
+				}
+				else
+				{
+					return null;
+				}
+			}
+			set
+			{
+				if (app != null)
+				{
+					app.SetResult(value);
+				}
+			}
+		}
 		protected HyperMainForm? m_MainForm  = null;
 		public HyperMainForm? MainForm
 		{
@@ -28,7 +49,11 @@ namespace Hypowered
 		{
 			m_MainForm = mf;
 			app = new HyperApp(mf);
-			if(engine!=null) engine.AddHostObject("app", app);
+			if (engine != null)
+			{
+				engine.AddHostObject("app", app);
+			}
+
 		}
 		public V8ScriptEngine? engine = null;
 
@@ -115,7 +140,10 @@ namespace Hypowered
 			{
 				try
 				{
-					string ss = item.Replace("\\", "\\\\");
+					string ss = item.Replace("\"","\\\"");
+					ss = ss.Replace("\r", "\\\r");
+					ss = ss.Replace("\n", "\\\n");
+					ss = ss.Replace("\t", "\\\t");
 					string s = $"{itemName} = \"{ss}\";";
 					engine.Execute(s);
 				}catch(Exception e)
@@ -216,6 +244,7 @@ namespace Hypowered
 				typeof(int),
 				typeof(Int32),
 				typeof(String),
+				typeof(String[]),
 				typeof(Array),
 				typeof(Boolean),
 				typeof(bool),
@@ -265,8 +294,8 @@ namespace Hypowered
 		}
 		public void InitControls(HyperMainForm? mf)
 		{
-
 			if ((engine == null) || (mf == null)) return;
+			if(app!=null) engine.Script["result"] = app.result;
 			if (mf.Controls.Count > 0)
 			{
 				foreach (Control c in mf.Controls)

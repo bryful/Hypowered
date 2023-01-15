@@ -536,12 +536,14 @@ namespace Hypowered
 					{
 						case ScriptKind.DragDrop:
 							MainForm.Script.AddScriptObject("value", m_DragDropItems);
+							MainForm.Script.result = m_DragDropItems; 
 							break;
 						case ScriptKind.Load:
 						case ScriptKind.MouseDoubleClick:
 						case ScriptKind.Closed:
 						default:
 							MainForm.Script.AddScriptObjectNull("value");
+							MainForm.Script.result = null;
 							break;
 					}
 					MainForm.Script.ExecuteScript(ScriptCode, sk);
@@ -596,6 +598,7 @@ namespace Hypowered
 			this.SetStyle(
 //ControlStyles.Selectable |
 //ControlStyles.UserMouse |
+ControlStyles.ResizeRedraw|
 ControlStyles.DoubleBuffer |
 ControlStyles.UserPaint |
 ControlStyles.AllPaintingInWmPaint ,
@@ -856,6 +859,9 @@ true);
 					break;
 				case ControlType.FootageList:
 					ctrl = new HyperFootageList();
+					break;
+				case ControlType.Editor:
+					ctrl = new HyperEditor();
 					break;
 				default:
 					break;

@@ -27,6 +27,13 @@ namespace Hypowered.HScript
                 }
             }
         }
+        private Object? m_Result = null;
+		[Category("Hypowered")]
+		public Object? result 
+        {
+            get { return m_Result; }
+        }
+        public void SetResult(Object? o) { m_Result= o; }
 		[Category("Hypowered")]
 		public StringCollection strings { get; set; } = new StringCollection();
 		[Category("Hypowered")]

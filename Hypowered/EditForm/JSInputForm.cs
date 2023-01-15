@@ -54,9 +54,9 @@ namespace Hypowered
 		}
 		private List<string> m_back = new List<string>();
 		private int m_backCount = -1;
-		public override void OnButtunClick(EventArgs e)
+		public override void OnCloseButtunClick(EventArgs e)
 		{
-			base.OnButtunClick(e);
+			base.OnCloseButtunClick(e);
 			this.Visible=false;
 		}
 		public JSInputForm()

@@ -12,12 +12,12 @@ namespace Hypowered
 {
 	public partial class EditForm : Form
 	{
-		public event EventHandler? ButtunClick;
-		public virtual void OnButtunClick(EventArgs e)
+		public event EventHandler? CloseButtunClick;
+		public virtual void OnCloseButtunClick(EventArgs e)
 		{
-			if (ButtunClick != null)
+			if (CloseButtunClick != null)
 			{
-				ButtunClick(this, e);
+				CloseButtunClick(this, e);
 			}
 		}
 		protected bool m_CanResize = false;
@@ -69,7 +69,7 @@ namespace Hypowered
 
 		private void M_MenuBar_ButtunClick(object? sender, EventArgs e)
 		{
-			OnButtunClick(e);
+			OnCloseButtunClick(e);
 		}
 		#region Mouse
 		protected MDPos m_MDPos = MDPos.None;

@@ -17,7 +17,7 @@ namespace Hypowered
 		public HyperScript Script = new HyperScript();
 		// ****************************************************************************
 		public EditControlList? ControlList = null;
-		public ScriptEditor? ScriptEdit = null;
+		public ScriptEditForm? ScriptEdit = null;
 		public JSOutputForm? OutputForm = null;
 		public JSInputForm? InputForm = null;
 		public EditAlignmentForm? AlignmentForm = null;

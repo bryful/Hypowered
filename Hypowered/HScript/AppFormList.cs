@@ -18,7 +18,23 @@ namespace Hypowered.HScript
         public dynamic itemsEO = new ExpandoObject();
         private HyperBaseForm[] m_items = new HyperBaseForm[0];
         public HyperBaseForm[] items { get { return m_items; } }
-        public int length { get { return m_items.Length; } }
+		public HyperBaseForm ? item(int idx)
+        {
+            HyperBaseForm? ret = null;
+			if ((idx>=0)&&(idx<m_items.Length))
+            {
+                ret = m_items[idx];
+            }
+            return ret;
+        }
+		public HyperBaseForm? item(string name)
+		{
+			HyperBaseForm? ret = null;
+            int idx = indexOfName(name);
+            if(idx>=0) ret = m_items[idx];
+			return ret;
+		}
+		public int length { get { return m_items.Length; } }
 		[ScriptUsage(ScriptAccess.None)]
 		public void clear()
         {

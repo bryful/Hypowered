@@ -57,4 +57,29 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="hyperEditor1.Options" mimetype="application/x-microsoft.net.object.binary.base64">
+    <value>
+        AAEAAAD/////AQAAAAAAAAAMAgAAAEhJQ1NoYXJwQ29kZS5BdmFsb25FZGl0LCBDdWx0dXJlPW5ldXRy
+        YWwsIFB1YmxpY0tleVRva2VuPTljYzM5YmU2NzIzNzAzMTAFAQAAAChJQ1NoYXJwQ29kZS5BdmFsb25F
+        ZGl0LlRleHRFZGl0b3JPcHRpb25zFgAAAApzaG93U3BhY2VzCHNob3dUYWJzDXNob3dFbmRPZkxpbmUb
+        c2hvd0JveEZvckNvbnRyb2xDaGFyYWN0ZXJzEGVuYWJsZUh5cGVybGlua3MVZW5hYmxlRW1haWxIeXBl
+        cmxpbmtzJ3JlcXVpcmVDb250cm9sTW9kaWZpZXJGb3JIeXBlcmxpbmtDbGljaw9pbmRlbnRhdGlvblNp
+        emUTY29udmVydFRhYnNUb1NwYWNlcxBjdXRDb3B5V2hvbGVMaW5lGGFsbG93U2Nyb2xsQmVsb3dEb2N1
+        bWVudBN3b3JkV3JhcEluZGVudGF0aW9uGmluaGVyaXRXb3JkV3JhcEluZGVudGF0aW9uGmVuYWJsZVJl
+        Y3Rhbmd1bGFyU2VsZWN0aW9uEmVuYWJsZVRleHREcmFnRHJvcBJlbmFibGVWaXJ0dWFsU3BhY2UQZW5h
+        YmxlSW1lU3VwcG9ydA9zaG93Q29sdW1uUnVsZXITY29sdW1uUnVsZXJQb3NpdGlvbhRoaWdobGlnaHRD
+        dXJyZW50TGluZRVoaWRlQ3Vyc29yV2hpbGVUeXBpbmcZYWxsb3dUb2dnbGVPdmVyc3RyaWtlTW9kZQAA
+        AAAAAAAAAAAAAAAAAAAAAAAAAAABAQEBAQEBCAEBAQYBAQEBAQEIAQEBAgAAAAABAAEBAQEEAAAAAAEA
+        AAAAAAAAAAABAQEAAQBQAAAAAAEACw==
+</value>
+  </data>
+  <data name="hyperEditor1.strings" mimetype="application/x-microsoft.net.object.binary.base64">
+    <value>
+        AAEAAAD/////AQAAAAAAAAAMAgAAAElTeXN0ZW0sIFZlcnNpb249NC4wLjAuMCwgQ3VsdHVyZT1uZXV0
+        cmFsLCBQdWJsaWNLZXlUb2tlbj1iNzdhNWM1NjE5MzRlMDg5BQEAAAAvU3lzdGVtLkNvbGxlY3Rpb25z
+        LlNwZWNpYWxpemVkLlN0cmluZ0NvbGxlY3Rpb24BAAAABGRhdGEDHFN5c3RlbS5Db2xsZWN0aW9ucy5B
+        cnJheUxpc3QCAAAACQMAAAAEAwAAABxTeXN0ZW0uQ29sbGVjdGlvbnMuQXJyYXlMaXN0AwAAAAZfaXRl
+        bXMFX3NpemUIX3ZlcnNpb24FAAAICAkEAAAAAAAAAAAAAAAQBAAAAAAAAAAL
+</value>
+  </data>
 </root>

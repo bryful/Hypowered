@@ -349,6 +349,11 @@ true);
 				Script.ExecuteCode(Script_MouseDoubleClick);
 			}
 		}
+		protected override void OnResize(EventArgs e)
+		{
+			base.OnResize(e);
+			this.Refresh();
+		}
 		protected override void OnKeyPress(KeyPressEventArgs e)
 		{
 			base.OnKeyPress(e);

@@ -23,21 +23,21 @@ namespace Hypowered
 		{
 			InitializeComponent();
 		}
-		public override void OnButtunClick(EventArgs e)
+		public override void OnCloseButtunClick(EventArgs e)
 		{
-			base.OnButtunClick(e);
+			base.OnCloseButtunClick(e);
 			this.Hide();
 		}
 		
-		public void writeLine(object? o)
+		public void writeLine(object? o,bool a=false)
 		{
 
-			textBox1.AppendText(HyperScript.toString(o) + "\r\n");
+			textBox1.AppendText(HyperScript.toString(o,a) + "\r\n");
 			textBox1.Focus();
 		}
-		public void write(object? o)
+		public void write(object? o, bool a = false)
 		{
-			textBox1.AppendText(HyperScript.toString(o));
+			textBox1.AppendText(HyperScript.toString(o,a));
 			textBox1.Focus();
 		}
 		public void clear()

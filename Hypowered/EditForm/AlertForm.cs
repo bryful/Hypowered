@@ -25,9 +25,9 @@ namespace Hypowered
 			InitializeComponent();
 			this.Text = "alert";
 		}
-		public override void OnButtunClick(EventArgs e)
+		public override void OnCloseButtunClick(EventArgs e)
 		{
-			base.OnButtunClick(e);
+			base.OnCloseButtunClick(e);
 			DialogResult= DialogResult.Cancel;
 		}
 		public void ChkSize()

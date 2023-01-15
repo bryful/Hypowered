@@ -74,17 +74,15 @@ namespace Hypowered
 			set
 			{
 				m_DragDropFileType = value;
-				base.AllowDrop = (m_DragDropFileType != DragDropFileType.None);
-				m_webBrowser.AllowDrop = base.AllowDrop;
+				m_webBrowser.AllowDrop = (m_DragDropFileType != DragDropFileType.None);
 			}
 		}
 		[Category("Hypowered")]
 		public new bool AllowDrop
 		{
-			get { return base.AllowDrop; }
+			get { return m_webBrowser.AllowDrop; }
 			set
 			{
-				base.AllowDrop = value;
 				m_webBrowser.AllowDrop = value;
 			}
 		}
@@ -105,6 +103,7 @@ namespace Hypowered
 	ControlStyles.DoubleBuffer |
 	ControlStyles.UserPaint |
 	ControlStyles.AllPaintingInWmPaint |
+	ControlStyles.ResizeRedraw|
 	ControlStyles.SupportsTransparentBackColor,
 	true);
 			this.UpdateStyles();
@@ -140,6 +139,8 @@ namespace Hypowered
 		{
 			base.OnResize(e);
 			ChkSize();
+			m_webBrowser.Invalidate();
+			this.Invalidate();
 		}
 		static string MdToHtml(string input)
 		{
