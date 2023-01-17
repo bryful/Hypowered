@@ -63,6 +63,7 @@ namespace Hypowered
 				case ControlType.TextBox:
 					btnContent.Enabled = true;
 					btnFont.Enabled = true;
+					btnScript.Enabled = true;
 					break;
 				case ControlType.Button:
 					btnContent.Enabled = true;
@@ -74,6 +75,7 @@ namespace Hypowered
 				case ControlType.RadioButton:
 				case ControlType.ListBox:
 				case ControlType.DropdownList:
+					btnScript.Enabled = true;
 					btnContent.Enabled = true;
 					btnScript.Enabled = true;
 					btnFont.Enabled = true;
@@ -81,15 +83,18 @@ namespace Hypowered
 				case ControlType.DriveIcons:
 				case ControlType.DirList:
 				case ControlType.FileList:
+					btnScript.Enabled = true;
 					btnContent.Enabled = true;
 					btnContent.Enabled = true;
 					btnScript.Enabled = true;
 					btnFont.Enabled = true;
 					break;
 				case ControlType.PictureBox:
+					btnScript.Enabled = true;
 					btnOpenFile.Enabled = true;
 					break;
 				case ControlType.Icon:
+					btnScript.Enabled = true;
 					btnIcon.Enabled = true;
 					break;
 				default:

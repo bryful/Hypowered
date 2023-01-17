@@ -177,5 +177,26 @@ namespace Hypowered
 				}
 			}
 		}
+
+		private void cmbGlobal_Click(object sender, EventArgs e)
+		{
+			if (MainForm == null) return;
+			cmbGlobal.SelectedIndex = -1;
+			cmbGlobal.Items.Clear();
+			cmbGlobal.Items.AddRange(MainForm.Script.getGlobalThis());
+		}
+
+		private void cmbGlobal_SelectedIndexChanged(object sender, EventArgs e)
+		{
+			int si = cmbGlobal.SelectedIndex;
+			if((si >= 0)&&(si<cmbGlobal.Items.Count))
+			{
+				string? s = cmbGlobal.Items[si].ToString();
+				if((s!= null)&&(s!=""))
+				{
+					editPad1.SetText(s);
+				}
+			}
+		}
 	}
 }

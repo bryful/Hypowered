@@ -33,20 +33,20 @@ namespace Hypowered
 					switch (sk)
 					{
 						case ScriptKind.ValueChanged:
-							MainForm.Script.AddScriptObject("value", Value);
+							MainForm.Script.AddScriptObject(Def.ResultName, Value);
 							MainForm.Script.result = Value;
 							break;
 						case ScriptKind.DragDrop:
-							MainForm.Script.AddScriptObject("value", m_DragDropItems);
+							MainForm.Script.AddScriptObject(Def.ResultName, m_DragDropItems);
 							MainForm.Script.result = m_DragDropItems;
 							break;
 						default:
-							MainForm.Script.AddScriptObjectNull("value");
+							MainForm.Script.AddScriptObjectNull(Def.ResultName);
 							MainForm.Script.result = null;
 							break;
 					}
 					MainForm.Script.ExecuteScript(ScriptCode, sk);
-					MainForm.Script.DeleteScriptObject("value");
+					MainForm.Script.DeleteScriptObject(Def.ResultName);
 				}
 			}
 		}
@@ -358,7 +358,7 @@ namespace Hypowered
 			SetControlType(Hypowered.ControlType.RadioButton);
 			SetInScript(InScriptBit.ValueChanged | InScriptBit.DragDrop);
 			//m_ScriptCodes = "//RadioButton";
-			SetControlName("HyperRadioButton");
+			SetName("HyperRadioButton");
 			m_format.Alignment = StringAlignment.Near;
 			m_format.LineAlignment = StringAlignment.Center;
 			m_UnCheckedColor = ColU.ToColor(HyperColor.Dark);

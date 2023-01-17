@@ -51,20 +51,20 @@ namespace Hypowered
 						case ScriptKind.SelectedIndexChanged:
 						case ScriptKind.CurrentDirChanged:
 						case ScriptKind.MouseDoubleClick:
-							MainForm.Script.AddScriptObject("value", SelectedItem);
+							MainForm.Script.AddScriptObject(Def.ResultName, SelectedItem);
 							MainForm.Script.result = SelectedItem;
 							break;
 						case ScriptKind.DragDrop:
-							MainForm.Script.AddScriptObject("value", m_DragDropItems);
+							MainForm.Script.AddScriptObject(Def.ResultName, m_DragDropItems);
 							MainForm.Script.result = m_DragDropItems;
 							break;
 						default:
-							MainForm.Script.AddScriptObjectNull("value");
+							MainForm.Script.AddScriptObjectNull(Def.ResultName);
 							MainForm.Script.result = null;
 							break;
 					}
 					MainForm.Script.ExecuteScript(ScriptCode, sk);
-					MainForm.Script.DeleteScriptObject("value");
+					MainForm.Script.DeleteScriptObject(Def.ResultName);
 				}
 			}
 		}

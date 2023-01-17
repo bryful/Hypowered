@@ -25,6 +25,15 @@ namespace Hypowered
 
     public partial class HyperControl : Control
 	{
+		public delegate void NameChangedHandler(object sender, NameChangedEventArgs e);
+		public event NameChangedHandler? NameChanged;
+		protected virtual void OnNameChanged(NameChangedEventArgs e)
+		{
+			if (NameChanged != null)
+			{
+				NameChanged(this, e);
+			}
+		}
 		[Category("Hypowered")]
 		public PropertyBag bag { get; set; } = new PropertyBag();
 		[Category("Hypowered")]
@@ -49,12 +58,28 @@ namespace Hypowered
 		/// コントロールの名前。変更はSetName()を使用
 		/// </summary>
 		[Category("Hypowered")]
+		[Bindable(true)]
 		public new string Name
 		{
 			get { return base.Name; }
-			set {  }
+			set { SetName(value); }
 		}
-		public void SetName(string n){base.Name = n;}
+		[Category("Hypowered")]
+		[Bindable(true)]
+		public string ControlName
+		{
+			get { return base.Name; }
+			set { SetName(value); }
+		}
+		public void SetName(string n)
+		{
+			string on = base.Name;
+			if(base.Name != n)
+			{
+				base.Name = n;
+				OnNameChanged(new NameChangedEventArgs(MainForm,this, on, n));
+			}
+		}
 		protected bool m_IsDrawFocuse = true;
 		/// <summary>
 		/// フォーカス時の線の描画するかどうか
@@ -96,16 +121,6 @@ namespace Hypowered
 
 			}
 		}
-		/// <summary>
-		/// Nameと同じ
-		/// </summary>
-		[Category("Hypowered")]
-		public string ControlName
-		{
-			get { return base.Name; }
-			
-		}
-		public void SetControlName(string n) { base.Name = n; }
 		[Category("Hypowered")]
 		public new Point Location
 		{
@@ -244,16 +259,16 @@ namespace Hypowered
 					switch(sk)
 					{
 						case ScriptKind.DragDrop:
-							MainForm.Script.AddScriptObject("value", m_DragDropItems);
+							MainForm.Script.AddScriptObject(Def.ResultName, m_DragDropItems);
 							MainForm.Script.result = m_DragDropItems;
 							break;
 						default:
-							MainForm.Script.AddScriptObjectNull("value");
+							MainForm.Script.AddScriptObjectNull(Def.ResultName);
 							MainForm.Script.result = null;
 							break;
 					}
 					MainForm.Script.ExecuteScript(ScriptCode, sk);
-					MainForm.Script.DeleteScriptObject("value");
+					MainForm.Script.DeleteScriptObject(Def.ResultName);
 				}
 			}
 		}

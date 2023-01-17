@@ -380,6 +380,12 @@ true);
 			base.OnDeletedControl(e);
 			Script.InitControls(this);
 		}
+		protected override void OnNameChanged(NameChangedEventArgs e)
+		{
+			base.OnNameChanged(e);
+			Script.Init();
+			Script.InitControls(this);
+		}
 		// ****************************************************************************
 		protected override bool ProcessDialogKey(Keys keyData)
 		{
@@ -563,7 +569,7 @@ true);
 				m_FileName = p;
 				base.Name = IDName;
 				base.Text = IDName;
-
+				
 				try { Directory.SetCurrentDirectory(Path.GetDirectoryName(m_FileName)); } catch { }
 				Lib.SetMainForm(this);//FileNameを設定してる
 				LoadStatus(StatusFileName());

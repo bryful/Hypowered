@@ -9,6 +9,7 @@ namespace Hypowered
 {
 	public class Def
 	{
+		static public readonly string ResultName = "result";
 		static public readonly string DefaultExt = ".hypf";
 		static public readonly string hypfFolder = "hypf";
 		static public readonly string ENV_HOME_PATH = "Home";
@@ -293,5 +294,20 @@ namespace Hypowered
 			Form = bf;
 			Control = c;
 		}
-	}	
+	}
+	public class NameChangedEventArgs : EventArgs
+	{
+		HyperBaseForm? Form = null;
+		HyperControl? Control = null;
+
+		public string OldName;
+		public string NewName;
+		public NameChangedEventArgs(HyperBaseForm? fm,HyperControl? ct, string oldName, string newName)
+		{
+			Form = fm;
+			Control = ct;
+			OldName = oldName;
+			NewName = newName;
+		}
+	}
 }

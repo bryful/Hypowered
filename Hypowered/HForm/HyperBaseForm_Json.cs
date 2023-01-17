@@ -228,25 +228,9 @@ namespace Hypowered
 					JsonObject? obj = (JsonObject?)j;
 					if (obj != null)
 					{
-						if(obj.ContainsKey("ControlType"))
+						if (obj.ContainsKey("ControlType"))
 						{
 							int? mt = obj["ControlType"].GetValue<int?>();
-							if (mt != null)
-							{
-								ControlType ct = (ControlType)mt;
-								HyperControl? hh = (HyperControl?)CreateControl(ct);
-								if(hh!=null)
-								{
-									hh.FromJson(obj);
-									hh.LocationChanged += Hc_LocationChanged;
-									this.Controls.Add(hh);
-
-								}
-							}
-						}else 
-						if (obj.ContainsKey("MyType"))
-						{
-							int? mt = obj["MyType"].GetValue<int?>();
 							if (mt != null)
 							{
 								ControlType ct = (ControlType)mt;
@@ -254,7 +238,8 @@ namespace Hypowered
 								if (hh != null)
 								{
 									hh.FromJson(obj);
-									hh.LocationChanged += Hc_LocationChanged;
+									hh.LocationChanged += (sender, e) => { this.Invalidate(); };
+									hh.NameChanged += (sender, e) => { OnNameChanged(e); };
 									this.Controls.Add(hh);
 
 								}

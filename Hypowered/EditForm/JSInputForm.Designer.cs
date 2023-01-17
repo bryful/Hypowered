@@ -39,6 +39,7 @@
 			this.editPad1 = new Hypowered.EditPad();
 			this.btnExec = new System.Windows.Forms.Button();
 			this.splitContainer1 = new System.Windows.Forms.SplitContainer();
+			this.cmbGlobal = new System.Windows.Forms.ComboBox();
 			this.btnFont = new System.Windows.Forms.Button();
 			this.btnCLS = new System.Windows.Forms.Button();
 			this.cmbWord = new System.Windows.Forms.ComboBox();
@@ -123,6 +124,7 @@
 			// 
 			// splitContainer1.Panel1
 			// 
+			this.splitContainer1.Panel1.Controls.Add(this.cmbGlobal);
 			this.splitContainer1.Panel1.Controls.Add(this.btnFont);
 			this.splitContainer1.Panel1.Controls.Add(this.btnCLS);
 			this.splitContainer1.Panel1.Controls.Add(this.cmbWord);
@@ -139,6 +141,23 @@
 			this.splitContainer1.Size = new System.Drawing.Size(1064, 316);
 			this.splitContainer1.SplitterDistance = 798;
 			this.splitContainer1.TabIndex = 6;
+			// 
+			// cmbGlobal
+			// 
+			this.cmbGlobal.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(32)))), ((int)(((byte)(32)))), ((int)(((byte)(32)))));
+			this.cmbGlobal.DropDownHeight = 300;
+			this.cmbGlobal.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+			this.cmbGlobal.DropDownWidth = 350;
+			this.cmbGlobal.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+			this.cmbGlobal.ForeColor = System.Drawing.Color.Gainsboro;
+			this.cmbGlobal.FormattingEnabled = true;
+			this.cmbGlobal.IntegralHeight = false;
+			this.cmbGlobal.Location = new System.Drawing.Point(357, 7);
+			this.cmbGlobal.Name = "cmbGlobal";
+			this.cmbGlobal.Size = new System.Drawing.Size(121, 23);
+			this.cmbGlobal.TabIndex = 13;
+			this.cmbGlobal.SelectedIndexChanged += new System.EventHandler(this.cmbGlobal_SelectedIndexChanged);
+			this.cmbGlobal.Click += new System.EventHandler(this.cmbGlobal_Click);
 			// 
 			// btnFont
 			// 
@@ -172,29 +191,6 @@
 			this.cmbWord.ForeColor = System.Drawing.Color.Gainsboro;
 			this.cmbWord.FormattingEnabled = true;
 			this.cmbWord.IntegralHeight = false;
-			this.cmbWord.Items.AddRange(new object[] {
-            "app.exit();",
-            "app.alert(str)",
-            "app.write(str)",
-            "app.writeln(str)",
-            "app.cls();",
-            "app.loadForm(path)",
-            "app.openForm(path)",
-            "app.executablePath",
-            "app.currentPath",
-            "app.hypfFolder",
-            "app.homeHypf",
-            "app.homeFolder",
-            "app.appPath",
-            "app.appFolder",
-            "app.loadHome();",
-            "app.openHome();",
-            "app.yesnoDialog(cap,title)",
-            "app.getenv(str)",
-            "app.setenv(str,str)",
-            "var Directory = dotnet.System.IO.Directory;",
-            "var File = dotnet.System.IO.File;",
-            "value"});
 			this.cmbWord.Location = new System.Drawing.Point(230, 7);
 			this.cmbWord.Name = "cmbWord";
 			this.cmbWord.Size = new System.Drawing.Size(121, 23);
@@ -283,5 +279,6 @@
 		private Button btnAlert;
 		private Button btnCLS;
 		private Button btnFont;
+		private ComboBox cmbGlobal;
 	}
 }

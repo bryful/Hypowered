@@ -11,6 +11,17 @@ namespace Hypowered
 {
 	public partial class HyperBaseForm : Form
 	{
+		public delegate void NameChangedHandler(object sender, NameChangedEventArgs e);
+		public event NameChangedHandler? NameChanged;
+		protected virtual void OnNameChanged(NameChangedEventArgs e)
+		{
+	
+			if (NameChanged != null)
+			{
+				NameChanged(this, e);
+			}
+
+		}
 		[Category("Hypowered")]
 		public PropertyBag bag { get; set; } = new PropertyBag();
 		[Category("Hypowered")]
@@ -142,15 +153,29 @@ namespace Hypowered
 				this.Invalidate();
 			}
 		}
-		[Category("Hypowered_Form")]
+		[Category("Hypowered")]
+		[Browsable(true)]
 		public new string Name
 		{
 			get { return base.Name; }
-			set { }
+			set { SetName(value); }
+		}
+		[Category("Hypowered")]
+		[Browsable(true)]
+		public string FormName
+		{
+			get { return base.Name; }
+			set { SetName(value); }
 		}
 		public void SetName(string n)
 		{
-			base.Name = n;
+			string on = base.Name;
+			
+			if (base.Name!=n)
+			{
+				base.Name = n;
+				OnNameChanged(new NameChangedEventArgs(this,null,on, n));
+			}
 		}
 		[Category("Hypowered_Form")]
 		public new bool DoubleBuffered
@@ -877,7 +902,14 @@ true);
 				HyperControl hc = (HyperControl)ctrl;
 				hc.IsEditMode = bf.IsEditMode;
 				hc.ParentForm = bf;
-				hc.LocationChanged += bf.Hc_LocationChanged;
+				hc.LocationChanged += (sender, e) =>
+				{
+					this.Invalidate();
+				};
+				hc.NameChanged += (sender, e) =>
+				{
+					OnNameChanged(e);
+				};
 				int IsMenu = 0;
 				if (bf.Controls.Count > 0)
 				{
@@ -906,10 +938,6 @@ true);
 				}
 			}
 			return ret;
-		}
-		private void Hc_LocationChanged(object? sender, EventArgs e)
-		{
-			this.Invalidate();
 		}
 		// ******************************************************************************
 		public virtual bool DeleteControl(HyperControl c)

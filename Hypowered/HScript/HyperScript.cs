@@ -12,6 +12,7 @@ using System.Text.Unicode;
 using Hypowered.HScript;
 using System.Runtime.Remoting;
 using System.Diagnostics;
+using System.Linq;
 
 namespace Hypowered
 {
@@ -335,9 +336,13 @@ namespace Hypowered
 
 			string ret = "";
 
-			if (o == null) { 
+			if (o == null) {
 				ret = "null";
-			}else if(o is bool)
+			}else if (o is ScriptObject)
+			{
+				ret = ScriptObjectStr((ScriptObject?)o);
+			}
+			else if(o is bool)
 			{
 				ret = o.ToString().ToLower();
 			}
@@ -352,17 +357,19 @@ namespace Hypowered
 					}
 					else
 					{
-						ret += toString(o1); ;
+						ret += toString(o1, isJson); ;
 					}
 				}
 				ret = "[" + ret + "]";
 			}
 			else
 			{
-				try
+				try 
 				{
 					ret = o.ToString();
-				}catch (Exception ex)
+
+				}
+				catch (Exception ex)
 				{
 					ret = ex.ToString();
 				}
@@ -433,6 +440,74 @@ namespace Hypowered
 			{
 				return false;
 			}
+		}
+		public string[] getGlobalThis()
+		{
+			string[] ret = new string[0];
+			if (engine != null)
+			{
+				string ss = "";
+				foreach(var str in engine.Global.GetDynamicMemberNames())
+				{
+					if (ss != "") ss += ",";
+					ss += str;
+				}
+				ret = ss.Split(',');
+				/*
+				alert(ss);
+
+				var s = engine.Evaluate(
+					@"value = '';for (var s in globalThis){if(value!='') value +=','; value += s;}value;"
+					);
+				if (s is string) {
+					ret = ((string)s).Split(',');
+				}
+				*/
+			}
+			return ret;
+		}
+		static public string ScriptObjectStr(Object? so)
+		{
+			string ret = "";
+			if (so == null) return "null";
+			if( so is string)
+			{
+				ret = "\""+(string)so+ "\"";
+			}
+			else if(so is Boolean)
+			{
+				ret = ((Boolean)so).ToString().ToLower();
+			}
+			else if (so is ScriptObject) 
+			{
+				ScriptObject soo = (ScriptObject)so;
+				if (soo.GetType().ToString().IndexOf("Array") >= 0)
+				{
+					foreach (int idx in soo.PropertyIndices)
+					{
+						if (ret != "") ret += ",";
+						ret += ScriptObjectStr(soo.GetProperty(idx));
+					}
+					ret = "[" + ret + "]";
+				}
+				else
+				{
+					foreach (string n in soo.PropertyNames)
+					{
+						if (ret != "") ret += ",";
+						object aa = soo.GetProperty(n);
+						string nm = ScriptObjectStr(aa);
+						ret += $"{n}:{nm}";
+					}
+					ret = "{" + ret + "}";
+
+				}
+			}
+			else
+			{
+				ret = toString(so);
+			}
+			return ret;
 		}
 	}
 }
