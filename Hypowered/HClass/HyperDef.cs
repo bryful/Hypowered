@@ -233,6 +233,8 @@ namespace Hypowered
 		static public Size DefSize = new Size(120, 25);
 	}
 	// *************************************************************************
+	
+	// *************************************************************************
 	public class ValueChangedEventArgs : EventArgs
 	{
 		public object Value;

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.Specialized;
+using System.Diagnostics;
 using System.Dynamic;
 using System.Linq;
 using System.Reflection;
@@ -8,6 +9,7 @@ using System.Reflection.Metadata;
 using System.Runtime.Intrinsics.X86;
 using System.Text;
 using System.Threading.Tasks;
+using BRY;
 using Hypowered.HScript;
 using Microsoft.ClearScript;
 using Microsoft.WindowsAPICodePack.Dialogs;
@@ -351,6 +353,68 @@ namespace Hypowered
 					return null;
 				}
 			}
+		}
+		public bool processStart(string ap, string args)
+		{
+			return F_W.ProcessStart(ap, args);
+		}
+		public bool processStartWait(string ap, string args)
+		{
+			return F_W.ProcessStartWait(ap, args);
+		}
+		public string callSystem(string cmd, string args)
+		{
+			Process p = new Process();
+			p.StartInfo.FileName = cmd; // 実行するファイル
+			p.StartInfo.Arguments= args;
+			p.StartInfo.CreateNoWindow = true; // コンソールを開かない
+			p.StartInfo.UseShellExecute = false; // シェル機能を使用しない
+
+			p.StartInfo.RedirectStandardOutput = true; // 標準出力をリダイレクト
+
+			bool ret = p.Start(); // アプリの実行開始
+			if (ret)
+			{
+				//F_W.SettupConsole();
+				string output = p.StandardOutput.ReadToEnd(); // 標準出力の読み取り
+
+				output = output.Replace("\r\r\n", "\n"); // 改行コードの修正
+				//F_W.EndConsole();
+				return output;
+			}
+			else
+			{
+				return String.Empty;
+			}
+		}
+		public string callSystem(string cmd)
+		{
+			if (cmd.Trim() == "") return "";
+			string[] sa = splitSpace(cmd);
+			string cmd1 = "";
+			if (sa.Length >= 1) cmd1 = "\"" + sa[0] + "\"";
+			string args = "";
+			if (sa.Length > 1)
+			{
+				for(int i=1;i< sa.Length;i++)
+				{
+					if (sa[i] == "") continue;
+					if (args!="") args += " ";
+					if ((sa[i][0]=='/')|| (sa[i][0] == '-'))
+					{
+						args += sa[i];
+					}
+					else
+					{
+						args += "\"" + sa[i]+ "\"";
+					}
+				}
+			}
+			return callSystem(cmd1,args);
+		}
+		public string[] splitSpace(string s)
+		{
+			return HyperScript.SplitSppce(s);
 		}
 	}
 }

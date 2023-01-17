@@ -509,5 +509,58 @@ namespace Hypowered
 			}
 			return ret;
 		}
+		static public string[] SplitSppce(string str)
+		{
+			string[] ret = new string[0];
+			if (str.Length <= 0) return ret;
+			int idx = 0;
+			List<string> list = new List<string>();
+			//list.Add(str);
+			string blc = "";
+			while (idx < str.Length)
+			{
+				string c = str.Substring(idx, 1);
+				if ((c == " ") || (c == "\t"))
+				{
+					list.Add(blc);
+					blc = "";
+					idx++;
+				}
+				else if (c == "\"")
+				{
+					int idx2 = -1;
+					for (int j = idx + 1; j < str.Length; j++)
+					{
+						string c1 = str.Substring(j - 1, 1);
+						string c2 = str.Substring(j, 1);
+						if ((c2 == "\"") && (c1 != "\\"))
+						{
+							idx2 = j;
+							break;
+						}
+					}
+					if (idx2 == -1)
+					{
+						blc += str.Substring(idx);
+						list.Add(blc);
+						blc = "";
+						break;
+					}
+					else
+					{
+						blc += str.Substring(idx, idx2 - idx+1);
+						idx = idx2 + 1;
+					}
+				}
+				else
+				{
+					blc += c;
+					idx++;
+				}
+
+			}
+			if (blc != "") list.Add(blc);
+			return list.ToArray();
+		}
 	}
 }
