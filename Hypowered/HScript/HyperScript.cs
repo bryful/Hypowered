@@ -509,6 +509,7 @@ namespace Hypowered
 			}
 			return ret;
 		}
+
 		static public string[] SplitSppce(string str)
 		{
 			string[] ret = new string[0];
