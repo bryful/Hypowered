@@ -253,6 +253,7 @@ namespace Hypowered
 	//ControlStyles.UserMouse |
 	ControlStyles.DoubleBuffer |
 	ControlStyles.UserPaint |
+	ControlStyles.ResizeRedraw|
 	ControlStyles.AllPaintingInWmPaint |
 	ControlStyles.SupportsTransparentBackColor,
 	true);
@@ -292,8 +293,8 @@ namespace Hypowered
 		{
 			base.OnResize(e);
 			ChkSize();
-			m_Element.Invalidate();
-			this.Invalidate();
+			//m_Element.Invalidate();
+			//this.Invalidate();
 		}
 		public override JsonObject ToJson()
 		{
