@@ -25,7 +25,15 @@ namespace Hpd
 			m_Button.Visible = !b;
 			this.Invalidate();
 		}
-
+		public new string Text
+		{
+			get { return m_Button.Text; }
+			set 
+			{
+				base.Text = value;
+				m_Button.Text = value;
+			}
+		}
 		public HpdButton()
 		{
 			SetHpdType(HpdType.Button);

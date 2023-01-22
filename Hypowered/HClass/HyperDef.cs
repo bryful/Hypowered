@@ -46,52 +46,7 @@ namespace Hypowered
 			return ret;
 		}
 	}
-	public enum ControlType
-	{
-		Button = 0,
-		Label,
-		TextBox,
-		CheckBox,
-		RadioButton,
-		ListBox,
-		DropdownList,
-		DriveIcons,
-		DirList,
-		FileList,
-		PictureBox,
-		Icon,
-		Design,
-		Html,
-		FootageList,
-		Editor
-	}
-	public class ControlTypeInfos
-	{
-		static public readonly string[] Texts = new string[]
-		{
-			"Button 通常のボタン",
-			"Label　テキストの表示",
-			"TextBox　テキストの表示",
-			"CheckBox　チェックボックス",
-			"RadioButton　ラジオボタンパネル",
-			"ListBox　リスト表示",
-			"DropdownList　ドロップダウンリスト表示",
-			"DriveIcons　ドライブ選択アイコン",
-			"DirList　ディレクトリ表示リスト",
-			"FileList　ファイル表示リスト",
-			"PictureBox　外部画像ファイル表示",
-			"Icon　内蔵PictLibの画像表示",
-			"Design　色々な形を描画",
-			"Html　Htmlを表示",
-			"FootageList　映像フッテージファイルのリスト",
-			"Editor　テキスト編集",
 
-		};
-		static public string Disp(ControlType ct)
-		{
-			return Texts[(int)ct];
-		}
-	}
 	/// <summary>
 	/// フォームやコントロールのクリックされた場所
 	/// </summary>

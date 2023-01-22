@@ -28,13 +28,45 @@
 		/// </summary>
 		private void InitializeComponent()
 		{
+			Hpd.HpdScriptCode hpdScriptCode1 = new Hpd.HpdScriptCode();
+			Hpd.HpdScriptCode hpdScriptCode2 = new Hpd.HpdScriptCode();
+			this.button3 = new System.Windows.Forms.Button();
+			this.roslynPadControl1 = new BRY.RoslynPadControl();
+			this.button1 = new System.Windows.Forms.Button();
 			this.hpdButton1 = new Hpd.HpdButton();
+			this.hpdButton2 = new Hpd.HpdButton();
 			this.menuStrip1 = new System.Windows.Forms.MenuStrip();
 			this.fileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.quitToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-			this.button1 = new System.Windows.Forms.Button();
 			this.menuStrip1.SuspendLayout();
 			this.SuspendLayout();
+			// 
+			// button3
+			// 
+			this.button3.Location = new System.Drawing.Point(58, 85);
+			this.button3.Name = "button3";
+			this.button3.Size = new System.Drawing.Size(131, 45);
+			this.button3.TabIndex = 7;
+			this.button3.Text = "button3";
+			this.button3.UseVisualStyleBackColor = true;
+			this.button3.Click += new System.EventHandler(this.button3_Click);
+			// 
+			// roslynPadControl1
+			// 
+			this.roslynPadControl1.Location = new System.Drawing.Point(250, 34);
+			this.roslynPadControl1.Name = "roslynPadControl1";
+			this.roslynPadControl1.Size = new System.Drawing.Size(361, 361);
+			this.roslynPadControl1.TabIndex = 0;
+			// 
+			// button1
+			// 
+			this.button1.Location = new System.Drawing.Point(103, 299);
+			this.button1.Name = "button1";
+			this.button1.Size = new System.Drawing.Size(75, 23);
+			this.button1.TabIndex = 9;
+			this.button1.Text = "button1";
+			this.button1.UseVisualStyleBackColor = true;
+			this.button1.Click += new System.EventHandler(this.button1_Click_1);
 			// 
 			// hpdButton1
 			// 
@@ -48,14 +80,37 @@
 			this.hpdButton1.IsSaveFileName = false;
 			this.hpdButton1.Lines = new string[] {
         "hpdButton1"};
-			this.hpdButton1.Location = new System.Drawing.Point(130, 95);
+			this.hpdButton1.Location = new System.Drawing.Point(58, 136);
 			this.hpdButton1.Name = "hpdButton1";
-			this.hpdButton1.Size = new System.Drawing.Size(135, 47);
-			this.hpdButton1.TabIndex = 0;
+			this.hpdButton1.ScriptCode = hpdScriptCode1;
+			this.hpdButton1.Size = new System.Drawing.Size(131, 48);
+			this.hpdButton1.TabIndex = 10;
 			this.hpdButton1.Text = "hpdButton1";
 			this.hpdButton1.TextAligiment = System.Drawing.StringAlignment.Near;
 			this.hpdButton1.TextLineAligiment = System.Drawing.StringAlignment.Near;
 			this.hpdButton1.UnCheckedColor = System.Drawing.Color.White;
+			// 
+			// hpdButton2
+			// 
+			this.hpdButton2.CanColorCustum = false;
+			this.hpdButton2.ControlName = "hpdButton2";
+			this.hpdButton2.FileName = "";
+			this.hpdButton2.ForcusColor = System.Drawing.Color.White;
+			this.hpdButton2.FrameWeight = new System.Windows.Forms.Padding(1);
+			this.hpdButton2.IsDrawFocuse = true;
+			this.hpdButton2.IsDrawFrame = true;
+			this.hpdButton2.IsSaveFileName = false;
+			this.hpdButton2.Lines = new string[] {
+        "hpdButton2"};
+			this.hpdButton2.Location = new System.Drawing.Point(58, 190);
+			this.hpdButton2.Name = "hpdButton2";
+			this.hpdButton2.ScriptCode = hpdScriptCode2;
+			this.hpdButton2.Size = new System.Drawing.Size(131, 66);
+			this.hpdButton2.TabIndex = 11;
+			this.hpdButton2.Text = "hpdButton2";
+			this.hpdButton2.TextAligiment = System.Drawing.StringAlignment.Near;
+			this.hpdButton2.TextLineAligiment = System.Drawing.StringAlignment.Near;
+			this.hpdButton2.UnCheckedColor = System.Drawing.Color.White;
 			// 
 			// menuStrip1
 			// 
@@ -63,8 +118,8 @@
             this.fileToolStripMenuItem});
 			this.menuStrip1.Location = new System.Drawing.Point(0, 0);
 			this.menuStrip1.Name = "menuStrip1";
-			this.menuStrip1.Size = new System.Drawing.Size(504, 24);
-			this.menuStrip1.TabIndex = 1;
+			this.menuStrip1.Size = new System.Drawing.Size(639, 24);
+			this.menuStrip1.TabIndex = 12;
 			this.menuStrip1.Text = "menuStrip1";
 			// 
 			// fileToolStripMenuItem
@@ -78,31 +133,24 @@
 			// quitToolStripMenuItem
 			// 
 			this.quitToolStripMenuItem.Name = "quitToolStripMenuItem";
-			this.quitToolStripMenuItem.Size = new System.Drawing.Size(97, 22);
+			this.quitToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
 			this.quitToolStripMenuItem.Text = "Quit";
-			// 
-			// button1
-			// 
-			this.button1.Location = new System.Drawing.Point(57, 179);
-			this.button1.Name = "button1";
-			this.button1.Size = new System.Drawing.Size(75, 23);
-			this.button1.TabIndex = 2;
-			this.button1.Text = "button1";
-			this.button1.UseVisualStyleBackColor = true;
-			this.button1.Click += new System.EventHandler(this.button1_Click);
 			// 
 			// Form1
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-			this.ClientSize = new System.Drawing.Size(504, 303);
-			this.Controls.Add(this.button1);
+			this.ClientSize = new System.Drawing.Size(639, 407);
+			this.Controls.Add(this.hpdButton2);
 			this.Controls.Add(this.hpdButton1);
+			this.Controls.Add(this.button1);
+			this.Controls.Add(this.button3);
+			this.Controls.Add(this.roslynPadControl1);
 			this.Controls.Add(this.menuStrip1);
 			this.DoubleBuffered = true;
 			this.MainMenuStrip = this.menuStrip1;
 			this.Name = "Form1";
-			this.Text = "Form2";
+			this.Text = "Form1";
 			this.menuStrip1.ResumeLayout(false);
 			this.menuStrip1.PerformLayout();
 			this.ResumeLayout(false);
@@ -111,11 +159,13 @@
 		}
 
 		#endregion
-
+		public Button button3;
+		public BRY.RoslynPadControl roslynPadControl1;
+		private Button button1;
 		private Hpd.HpdButton hpdButton1;
+		private Hpd.HpdButton hpdButton2;
 		private MenuStrip menuStrip1;
 		private ToolStripMenuItem fileToolStripMenuItem;
 		private ToolStripMenuItem quitToolStripMenuItem;
-		private Button button1;
 	}
 }

@@ -41,9 +41,12 @@ namespace Hpd
 			}
 		}
 		#region Prop
-		protected Control? m_Root = null;
 		[Category("Hypowered")]
-		public Control? Root
+		public HpdScriptCode ScriptCode { get; set; }= new HpdScriptCode();
+
+		protected HpdForm? m_Root = null;
+		[Category("Hypowered")]
+		public HpdForm? Root
 		{
 			get
 			{
@@ -56,9 +59,10 @@ namespace Hpd
 						if (ret is HpdForm) break;
 						ret = ret.Parent;
 					}
+					m_Root = (HpdForm?)ret;
 				}
 
-				return ret;
+				return m_Root;
 			}
 
 		}
@@ -70,17 +74,17 @@ namespace Hpd
 		protected int m_Index = -1;
 		[Category("Hypowered")]
 		public int Index { get { return m_Index; } }
-		public virtual void SetIndex(int idx) { m_Index = idx; }
+		public void SetIndex(int v) { m_Index = v;if (m_Index < 0) m_Index = -1; }
 		protected bool m_Selected = false;
 		[Category("Hypowered")]
 		public bool Selected { get { return m_Selected; } }
-		public virtual void SetSelected(bool b) { m_Selected = b; }
+		public  void SetSelected(bool b) { m_Selected = b; }
 		protected bool m_IsEdit = false;
 		[Category("Hypowered")]
 		public bool IsEdit { get { return m_IsEdit; } }
 		public virtual void SetIsEdit(bool b) { m_IsEdit = b; }
 		[Category("Hypowered")]
-		public bool Locked { get; set; } = false;
+		protected bool Locked { get; set; } = false;
 		[Category("Hypowered")]
 		[Bindable(true)]
 		public new string Name
@@ -301,6 +305,8 @@ namespace Hpd
 		#endregion
 		public HpdControl()
 		{
+			ScriptCode.SetSTypes(ScriptTypeBit.None);
+
 			//base.BackColor = Color.FromArgb(32, 32, 32);
 			//base.ForeColor = Color.FromArgb(220, 220, 220);
 

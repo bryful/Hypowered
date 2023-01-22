@@ -14,7 +14,7 @@ using System.Windows.Forms;
 using System.Windows.Forms.Integration;
 using System.Windows.Media;
 using ICSharpCode.AvalonEdit;
-using Microsoft.CodeAnalysis;
+//using Microsoft.CodeAnalysis;
 using Microsoft.ClearScript.V8;
 using Microsoft.ClearScript.JavaScript;
 using ICSharpCode.AvalonEdit.Highlighting;

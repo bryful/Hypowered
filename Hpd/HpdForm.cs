@@ -4,10 +4,13 @@ using System.ComponentModel;
 using System.Data;
 using System.Drawing;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-
+using Microsoft.CodeAnalysis.CSharp.Scripting;
+using Microsoft.CodeAnalysis.Scripting;
+using BRY;
 namespace Hpd
 {
 	public partial class HpdForm : Form
@@ -21,32 +24,12 @@ namespace Hpd
 				NameChanged(this, e);
 			}
 		}
-		[Category("Hypowered")]
-		public Control? Root
-		{
-			get
-			{
-				Control? ret = (Control?)this.Parent;
-				while ((ret != null) && (ret.Parent != null))
-				{
-					ret = ret.Parent;
-				}
-				return ret;
-			}
 
-		}
-		protected HpdType m_HpdType = HpdType.None;
+		public void ItemsRefresh() { m_Items.Listup(this); }
+		private HpdControlCollection m_Items = new HpdControlCollection();
 		[Category("Hypowered")]
-		public HpdType HpdType { get { return m_HpdType; } }
-		public virtual void SetHpdType(HpdType ht) { m_HpdType = ht; }
+		public HpdControlCollection Items { get { return m_Items; } }
 
-		protected int m_Index = -1;
-		[Category("Hypowered")]
-		public int Index { get { return m_Index; } }
-		public virtual void SetIndex(int idx) { m_Index = idx; }
-		protected bool m_Selected = false;
-		[Category("Hypowered")]
-		public bool Selected { get { return m_Selected; } }
 		protected bool m_IsEdit = false;
 		[Category("Hypowered")]
 		public bool IsEdit { get { return m_IsEdit; } }
@@ -73,7 +56,7 @@ namespace Hpd
 			}
 		}
 		[Category("Hypowered")]
-		public bool Locked { get; set; } = false;
+		public bool CanResize { get; set; } = false;
 		[Category("Hypowered")]
 		[Bindable(true)]
 		public new string Name
@@ -96,23 +79,6 @@ namespace Hpd
 				base.Name = n;
 				OnNameChanged(new EventArgs());
 			}
-		}
-		protected bool m_IsDrawFocuse = true;
-		[Category("Hypowered")]
-		public bool IsDrawFocuse
-		{
-			get { return m_IsDrawFocuse; }
-			set { m_IsDrawFocuse = value; this.Invalidate(); }
-		}
-		protected bool m_IsDrawFrame = true;
-		/// <summary>
-		/// 基本枠を描画するかどうか
-		/// </summary>
-		[Category("Hypowered")]
-		public bool IsDrawFrame
-		{
-			get { return m_IsDrawFrame; }
-			set { m_IsDrawFrame = value; this.Invalidate(); }
 		}
 		protected bool m_IsSaveFileName = false;
 		/// <summary>
@@ -162,16 +128,33 @@ namespace Hpd
 			//base.ForeColor = Color.FromArgb(220, 220, 220);
 
 			this.SetStyle(
-				ControlStyles.Selectable |
-				ControlStyles.UserMouse |
 				ControlStyles.DoubleBuffer |
 				ControlStyles.UserPaint |
 				ControlStyles.AllPaintingInWmPaint |
-				ControlStyles.ResizeRedraw |
-				ControlStyles.SupportsTransparentBackColor,
+				ControlStyles.ResizeRedraw,
 				true);
 			this.UpdateStyles();
 			InitializeComponent();
+			ChkControls();
 		}
+		protected void ChkControls()
+		{
+			/*
+			if(Controls.Count > 0 )
+			{
+				int idx = 0;
+				foreach( Control c in Controls )
+				{
+					if(c is HpdControl)
+					{
+						HpdControl hc = (HpdControl)c;
+						hc.Index = idx;
+					}
+					idx++;
+				}
+			}*/
+			m_Items.Listup(this);
+		}
+
 	}
 }

@@ -1,6 +1,6 @@
 ﻿namespace Hpd
 {
-	partial class HpdForm
+	partial class HpdMainForm
 	{
 		/// <summary>
 		/// Required designer variable.
@@ -28,17 +28,10 @@
 		/// </summary>
 		private void InitializeComponent()
 		{
-			this.SuspendLayout();
-			// 
-			// HpdForm
-			// 
-			this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
+			this.components = new System.ComponentModel.Container();
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-			this.ClientSize = new System.Drawing.Size(833, 465);
-			this.Name = "HpdForm";
-			this.Text = "HpdForm";
-			this.ResumeLayout(false);
-
+			this.ClientSize = new System.Drawing.Size(800, 450);
+			this.Text = "HpdMainForm";
 		}
 
 		#endregion
