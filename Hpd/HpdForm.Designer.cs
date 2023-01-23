@@ -36,6 +36,7 @@
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
 			this.ClientSize = new System.Drawing.Size(833, 465);
 			this.Name = "HpdForm";
+			this.StartPosition = System.Windows.Forms.FormStartPosition.Manual;
 			this.Text = "HpdForm";
 			this.ResumeLayout(false);
 

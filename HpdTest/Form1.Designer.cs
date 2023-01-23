@@ -30,6 +30,7 @@
 		{
 			Hpd.HpdScriptCode hpdScriptCode1 = new Hpd.HpdScriptCode();
 			Hpd.HpdScriptCode hpdScriptCode2 = new Hpd.HpdScriptCode();
+			Hpd.HpdScriptCode hpdScriptCode3 = new Hpd.HpdScriptCode();
 			this.button3 = new System.Windows.Forms.Button();
 			this.roslynPadControl1 = new BRY.RoslynPadControl();
 			this.button1 = new System.Windows.Forms.Button();
@@ -38,12 +39,13 @@
 			this.menuStrip1 = new System.Windows.Forms.MenuStrip();
 			this.fileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.quitToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+			this.hpdControlTree1 = new Hpd.HpdControlTree();
 			this.menuStrip1.SuspendLayout();
 			this.SuspendLayout();
 			// 
 			// button3
 			// 
-			this.button3.Location = new System.Drawing.Point(58, 85);
+			this.button3.Location = new System.Drawing.Point(21, 73);
 			this.button3.Name = "button3";
 			this.button3.Size = new System.Drawing.Size(131, 45);
 			this.button3.TabIndex = 7;
@@ -53,14 +55,14 @@
 			// 
 			// roslynPadControl1
 			// 
-			this.roslynPadControl1.Location = new System.Drawing.Point(250, 34);
+			this.roslynPadControl1.Location = new System.Drawing.Point(176, 26);
 			this.roslynPadControl1.Name = "roslynPadControl1";
-			this.roslynPadControl1.Size = new System.Drawing.Size(361, 361);
+			this.roslynPadControl1.Size = new System.Drawing.Size(223, 306);
 			this.roslynPadControl1.TabIndex = 0;
 			// 
 			// button1
 			// 
-			this.button1.Location = new System.Drawing.Point(103, 299);
+			this.button1.Location = new System.Drawing.Point(66, 287);
 			this.button1.Name = "button1";
 			this.button1.Size = new System.Drawing.Size(75, 23);
 			this.button1.TabIndex = 9;
@@ -80,7 +82,7 @@
 			this.hpdButton1.IsSaveFileName = false;
 			this.hpdButton1.Lines = new string[] {
         "hpdButton1"};
-			this.hpdButton1.Location = new System.Drawing.Point(58, 136);
+			this.hpdButton1.Location = new System.Drawing.Point(21, 124);
 			this.hpdButton1.Name = "hpdButton1";
 			this.hpdButton1.ScriptCode = hpdScriptCode1;
 			this.hpdButton1.Size = new System.Drawing.Size(131, 48);
@@ -102,7 +104,7 @@
 			this.hpdButton2.IsSaveFileName = false;
 			this.hpdButton2.Lines = new string[] {
         "hpdButton2"};
-			this.hpdButton2.Location = new System.Drawing.Point(58, 190);
+			this.hpdButton2.Location = new System.Drawing.Point(21, 178);
 			this.hpdButton2.Name = "hpdButton2";
 			this.hpdButton2.ScriptCode = hpdScriptCode2;
 			this.hpdButton2.Size = new System.Drawing.Size(131, 66);
@@ -118,7 +120,7 @@
             this.fileToolStripMenuItem});
 			this.menuStrip1.Location = new System.Drawing.Point(0, 0);
 			this.menuStrip1.Name = "menuStrip1";
-			this.menuStrip1.Size = new System.Drawing.Size(639, 24);
+			this.menuStrip1.Size = new System.Drawing.Size(716, 24);
 			this.menuStrip1.TabIndex = 12;
 			this.menuStrip1.Text = "menuStrip1";
 			// 
@@ -133,14 +135,40 @@
 			// quitToolStripMenuItem
 			// 
 			this.quitToolStripMenuItem.Name = "quitToolStripMenuItem";
-			this.quitToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+			this.quitToolStripMenuItem.Size = new System.Drawing.Size(97, 22);
 			this.quitToolStripMenuItem.Text = "Quit";
+			// 
+			// hpdControlTree1
+			// 
+			this.hpdControlTree1.CanColorCustum = false;
+			this.hpdControlTree1.ControlName = "hpdControlTree1";
+			this.hpdControlTree1.FileName = "";
+			this.hpdControlTree1.ForcusColor = System.Drawing.Color.White;
+			this.hpdControlTree1.Form = this;
+			this.hpdControlTree1.FrameWeight = new System.Windows.Forms.Padding(1);
+			this.hpdControlTree1.IsDrawFocuse = true;
+			this.hpdControlTree1.IsDrawFrame = true;
+			this.hpdControlTree1.IsSaveFileName = false;
+			this.hpdControlTree1.Lines = new string[] {
+        "hpdControlTree1"};
+			this.hpdControlTree1.Location = new System.Drawing.Point(405, 27);
+			this.hpdControlTree1.Name = "hpdControlTree1";
+			this.hpdControlTree1.ScriptCode = hpdScriptCode3;
+			this.hpdControlTree1.SelectedControl = null;
+			this.hpdControlTree1.SelectedNode = null;
+			this.hpdControlTree1.Size = new System.Drawing.Size(181, 265);
+			this.hpdControlTree1.TabIndex = 13;
+			this.hpdControlTree1.Text = "hpdControlTree1";
+			this.hpdControlTree1.TextAligiment = System.Drawing.StringAlignment.Near;
+			this.hpdControlTree1.TextLineAligiment = System.Drawing.StringAlignment.Near;
+			this.hpdControlTree1.UnCheckedColor = System.Drawing.Color.White;
 			// 
 			// Form1
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-			this.ClientSize = new System.Drawing.Size(639, 407);
+			this.ClientSize = new System.Drawing.Size(716, 388);
+			this.Controls.Add(this.hpdControlTree1);
 			this.Controls.Add(this.hpdButton2);
 			this.Controls.Add(this.hpdButton1);
 			this.Controls.Add(this.button1);
@@ -167,5 +195,6 @@
 		private MenuStrip menuStrip1;
 		private ToolStripMenuItem fileToolStripMenuItem;
 		private ToolStripMenuItem quitToolStripMenuItem;
+		private Hpd.HpdControlTree hpdControlTree1;
 	}
 }

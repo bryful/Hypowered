@@ -136,6 +136,12 @@ namespace HpdTest
 			var result = script.RunAsync(this);
 			Debug.WriteLine(script.Code);
 		}
+		protected override void OnResize(EventArgs e)
+		{
+			base.OnResize(e);
+
+			this.Text = $"w:{this.Width},h:{this.Height},cw:{ClientSize.Width},ch:{ClientSize.Height}";
+		}
 	}
 
 }

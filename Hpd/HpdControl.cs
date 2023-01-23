@@ -15,6 +15,7 @@ namespace Hpd
 	{
 		None = 0,
 		Button,
+		ControlTree,
 	}
 	public enum MDPos
 	{

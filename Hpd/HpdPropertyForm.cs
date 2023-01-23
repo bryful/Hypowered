@@ -10,7 +10,7 @@ using System.Windows.Forms;
 
 namespace Hpd
 {
-	public partial class HpdPropertyForm : Form
+	public partial class HpdPropertyForm : HpdForm
 	{
 		public Form? Form
 		{
