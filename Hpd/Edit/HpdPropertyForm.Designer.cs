@@ -34,10 +34,15 @@ namespace Hpd
 			this.propertyGrid1 = new System.Windows.Forms.PropertyGrid();
 			this.controlTree1 = new Hpd.HpdControlTree();
 			this.splitContainer1 = new System.Windows.Forms.SplitContainer();
+			this.menuStrip1 = new System.Windows.Forms.MenuStrip();
+			this.fileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+			this.closeToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+			this.quitToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
 			this.splitContainer1.Panel1.SuspendLayout();
 			this.splitContainer1.Panel2.SuspendLayout();
 			this.splitContainer1.SuspendLayout();
+			this.menuStrip1.SuspendLayout();
 			this.SuspendLayout();
 			// 
 			// propertyGrid1
@@ -45,7 +50,7 @@ namespace Hpd
 			this.propertyGrid1.Dock = System.Windows.Forms.DockStyle.Fill;
 			this.propertyGrid1.Location = new System.Drawing.Point(0, 0);
 			this.propertyGrid1.Name = "propertyGrid1";
-			this.propertyGrid1.Size = new System.Drawing.Size(270, 526);
+			this.propertyGrid1.Size = new System.Drawing.Size(270, 502);
 			this.propertyGrid1.TabIndex = 0;
 			// 
 			// controlTree1
@@ -69,7 +74,7 @@ namespace Hpd
 			this.controlTree1.ScriptCode = hpdScriptCode1;
 			this.controlTree1.SelectedControl = null;
 			this.controlTree1.SelectedNode = null;
-			this.controlTree1.Size = new System.Drawing.Size(197, 526);
+			this.controlTree1.Size = new System.Drawing.Size(197, 502);
 			this.controlTree1.TabIndex = 3;
 			this.controlTree1.TextAligiment = System.Drawing.StringAlignment.Near;
 			this.controlTree1.TextLineAligiment = System.Drawing.StringAlignment.Near;
@@ -78,7 +83,7 @@ namespace Hpd
 			// splitContainer1
 			// 
 			this.splitContainer1.Dock = System.Windows.Forms.DockStyle.Fill;
-			this.splitContainer1.Location = new System.Drawing.Point(0, 0);
+			this.splitContainer1.Location = new System.Drawing.Point(0, 24);
 			this.splitContainer1.Name = "splitContainer1";
 			// 
 			// splitContainer1.Panel1
@@ -88,9 +93,40 @@ namespace Hpd
 			// splitContainer1.Panel2
 			// 
 			this.splitContainer1.Panel2.Controls.Add(this.propertyGrid1);
-			this.splitContainer1.Size = new System.Drawing.Size(471, 526);
+			this.splitContainer1.Size = new System.Drawing.Size(471, 502);
 			this.splitContainer1.SplitterDistance = 197;
 			this.splitContainer1.TabIndex = 4;
+			// 
+			// menuStrip1
+			// 
+			this.menuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.fileToolStripMenuItem});
+			this.menuStrip1.Location = new System.Drawing.Point(0, 0);
+			this.menuStrip1.Name = "menuStrip1";
+			this.menuStrip1.Size = new System.Drawing.Size(471, 24);
+			this.menuStrip1.TabIndex = 5;
+			this.menuStrip1.Text = "menuStrip1";
+			// 
+			// fileToolStripMenuItem
+			// 
+			this.fileToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.closeToolStripMenuItem,
+            this.quitToolStripMenuItem});
+			this.fileToolStripMenuItem.Name = "fileToolStripMenuItem";
+			this.fileToolStripMenuItem.Size = new System.Drawing.Size(37, 20);
+			this.fileToolStripMenuItem.Text = "File";
+			// 
+			// closeToolStripMenuItem
+			// 
+			this.closeToolStripMenuItem.Name = "closeToolStripMenuItem";
+			this.closeToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+			this.closeToolStripMenuItem.Text = "Close";
+			// 
+			// quitToolStripMenuItem
+			// 
+			this.quitToolStripMenuItem.Name = "quitToolStripMenuItem";
+			this.quitToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+			this.quitToolStripMenuItem.Text = "Quit";
 			// 
 			// HpdPropertyForm
 			// 
@@ -98,13 +134,17 @@ namespace Hpd
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
 			this.ClientSize = new System.Drawing.Size(471, 526);
 			this.Controls.Add(this.splitContainer1);
+			this.Controls.Add(this.menuStrip1);
 			this.Name = "HpdPropertyForm";
 			this.Text = "HpdPropertyForm";
 			this.splitContainer1.Panel1.ResumeLayout(false);
 			this.splitContainer1.Panel2.ResumeLayout(false);
 			((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).EndInit();
 			this.splitContainer1.ResumeLayout(false);
+			this.menuStrip1.ResumeLayout(false);
+			this.menuStrip1.PerformLayout();
 			this.ResumeLayout(false);
+			this.PerformLayout();
 
 		}
 
@@ -112,5 +152,9 @@ namespace Hpd
 		private PropertyGrid propertyGrid1;
 		private HpdControlTree controlTree1;
 		private SplitContainer splitContainer1;
+		private MenuStrip menuStrip1;
+		private ToolStripMenuItem fileToolStripMenuItem;
+		private ToolStripMenuItem closeToolStripMenuItem;
+		private ToolStripMenuItem quitToolStripMenuItem;
 	}
 }

@@ -99,7 +99,7 @@ namespace Hpd
 			m_BtnEdit.Size = sz;
 			m_BtnEdit.Location = new Point(x, y);
 			m_BtnEdit.GotFocus += (sender, e) => { m_TreeView.Focus(); };
-			m_BtnEdit.Click += M_BtnNew_Click;
+			//m_BtnEdit.Click += M_BtnNew_Click;
 			y += sz.Height;
 
 			m_BtnNew.Name = nameof(m_BtnNew);
