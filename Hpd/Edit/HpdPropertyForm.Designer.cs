@@ -1,6 +1,8 @@
-﻿namespace Hpd
+﻿
+
+namespace Hpd
 {
-	partial class HpdPropertyForm
+    partial class HpdPropertyForm
 	{
 		/// <summary>
 		/// Required designer variable.
@@ -43,13 +45,13 @@
 			this.propertyGrid1.Dock = System.Windows.Forms.DockStyle.Fill;
 			this.propertyGrid1.Location = new System.Drawing.Point(0, 0);
 			this.propertyGrid1.Name = "propertyGrid1";
-			this.propertyGrid1.Size = new System.Drawing.Size(244, 530);
+			this.propertyGrid1.Size = new System.Drawing.Size(270, 526);
 			this.propertyGrid1.TabIndex = 0;
 			// 
 			// controlTree1
 			// 
+			this.controlTree1.Algnment = Hpd.HpdAlgnment.Near;
 			this.controlTree1.CanColorCustum = false;
-			this.controlTree1.ControlName = "controlTree1";
 			this.controlTree1.Dock = System.Windows.Forms.DockStyle.Fill;
 			this.controlTree1.FileName = "";
 			this.controlTree1.ForcusColor = System.Drawing.Color.White;
@@ -58,13 +60,16 @@
 			this.controlTree1.IsDrawFocuse = true;
 			this.controlTree1.IsDrawFrame = true;
 			this.controlTree1.IsSaveFileName = false;
+			this.controlTree1.LineAlgnment = Hpd.HpdAlgnment.Center;
 			this.controlTree1.Lines = new string[] {
         ""};
 			this.controlTree1.Location = new System.Drawing.Point(0, 0);
 			this.controlTree1.Name = "controlTree1";
+			this.controlTree1.Orientation = Hpd.HpdOrientation.Row;
 			this.controlTree1.ScriptCode = hpdScriptCode1;
+			this.controlTree1.SelectedControl = null;
 			this.controlTree1.SelectedNode = null;
-			this.controlTree1.Size = new System.Drawing.Size(179, 530);
+			this.controlTree1.Size = new System.Drawing.Size(197, 526);
 			this.controlTree1.TabIndex = 3;
 			this.controlTree1.TextAligiment = System.Drawing.StringAlignment.Near;
 			this.controlTree1.TextLineAligiment = System.Drawing.StringAlignment.Near;
@@ -83,15 +88,15 @@
 			// splitContainer1.Panel2
 			// 
 			this.splitContainer1.Panel2.Controls.Add(this.propertyGrid1);
-			this.splitContainer1.Size = new System.Drawing.Size(427, 530);
-			this.splitContainer1.SplitterDistance = 179;
+			this.splitContainer1.Size = new System.Drawing.Size(471, 526);
+			this.splitContainer1.SplitterDistance = 197;
 			this.splitContainer1.TabIndex = 4;
 			// 
 			// HpdPropertyForm
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-			this.ClientSize = new System.Drawing.Size(427, 530);
+			this.ClientSize = new System.Drawing.Size(471, 526);
 			this.Controls.Add(this.splitContainer1);
 			this.Name = "HpdPropertyForm";
 			this.Text = "HpdPropertyForm";

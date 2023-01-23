@@ -1,6 +1,7 @@
-﻿namespace HpdTest
+﻿using Hpd;
+namespace HpdTest
 {
-	partial class Form1
+    partial class Form1
 	{
 		/// <summary>
 		///  Required designer variable.
@@ -45,7 +46,8 @@
 			// 
 			// button3
 			// 
-			this.button3.Location = new System.Drawing.Point(21, 73);
+			this.button3.Location = new System.Drawing.Point(21, 76);
+			this.button3.Margin = new System.Windows.Forms.Padding(0);
 			this.button3.Name = "button3";
 			this.button3.Size = new System.Drawing.Size(131, 45);
 			this.button3.TabIndex = 7;
@@ -55,7 +57,7 @@
 			// 
 			// roslynPadControl1
 			// 
-			this.roslynPadControl1.Location = new System.Drawing.Point(176, 26);
+			this.roslynPadControl1.Location = new System.Drawing.Point(258, 45);
 			this.roslynPadControl1.Name = "roslynPadControl1";
 			this.roslynPadControl1.Size = new System.Drawing.Size(223, 306);
 			this.roslynPadControl1.TabIndex = 0;
@@ -72,18 +74,21 @@
 			// 
 			// hpdButton1
 			// 
+			this.hpdButton1.Algnment = Hpd.HpdAlgnment.Near;
 			this.hpdButton1.CanColorCustum = false;
-			this.hpdButton1.ControlName = "hpdButton1";
+			this.hpdButton1.DialogResult = System.Windows.Forms.DialogResult.None;
 			this.hpdButton1.FileName = "";
 			this.hpdButton1.ForcusColor = System.Drawing.Color.White;
 			this.hpdButton1.FrameWeight = new System.Windows.Forms.Padding(1);
 			this.hpdButton1.IsDrawFocuse = true;
 			this.hpdButton1.IsDrawFrame = true;
 			this.hpdButton1.IsSaveFileName = false;
+			this.hpdButton1.LineAlgnment = Hpd.HpdAlgnment.Center;
 			this.hpdButton1.Lines = new string[] {
         "hpdButton1"};
 			this.hpdButton1.Location = new System.Drawing.Point(21, 124);
 			this.hpdButton1.Name = "hpdButton1";
+			this.hpdButton1.Orientation = Hpd.HpdOrientation.Row;
 			this.hpdButton1.ScriptCode = hpdScriptCode1;
 			this.hpdButton1.Size = new System.Drawing.Size(131, 48);
 			this.hpdButton1.TabIndex = 10;
@@ -94,18 +99,21 @@
 			// 
 			// hpdButton2
 			// 
+			this.hpdButton2.Algnment = Hpd.HpdAlgnment.Near;
 			this.hpdButton2.CanColorCustum = false;
-			this.hpdButton2.ControlName = "hpdButton2";
+			this.hpdButton2.DialogResult = System.Windows.Forms.DialogResult.None;
 			this.hpdButton2.FileName = "";
 			this.hpdButton2.ForcusColor = System.Drawing.Color.White;
 			this.hpdButton2.FrameWeight = new System.Windows.Forms.Padding(1);
 			this.hpdButton2.IsDrawFocuse = true;
 			this.hpdButton2.IsDrawFrame = true;
 			this.hpdButton2.IsSaveFileName = false;
+			this.hpdButton2.LineAlgnment = Hpd.HpdAlgnment.Center;
 			this.hpdButton2.Lines = new string[] {
         "hpdButton2"};
 			this.hpdButton2.Location = new System.Drawing.Point(21, 178);
 			this.hpdButton2.Name = "hpdButton2";
+			this.hpdButton2.Orientation = Hpd.HpdOrientation.Row;
 			this.hpdButton2.ScriptCode = hpdScriptCode2;
 			this.hpdButton2.Size = new System.Drawing.Size(131, 66);
 			this.hpdButton2.TabIndex = 11;
@@ -113,6 +121,7 @@
 			this.hpdButton2.TextAligiment = System.Drawing.StringAlignment.Near;
 			this.hpdButton2.TextLineAligiment = System.Drawing.StringAlignment.Near;
 			this.hpdButton2.UnCheckedColor = System.Drawing.Color.White;
+			this.hpdButton2.Click += new System.EventHandler(this.hpdButton2_Click);
 			// 
 			// menuStrip1
 			// 
@@ -140,8 +149,8 @@
 			// 
 			// hpdControlTree1
 			// 
+			this.hpdControlTree1.Algnment = Hpd.HpdAlgnment.Near;
 			this.hpdControlTree1.CanColorCustum = false;
-			this.hpdControlTree1.ControlName = "hpdControlTree1";
 			this.hpdControlTree1.FileName = "";
 			this.hpdControlTree1.ForcusColor = System.Drawing.Color.White;
 			this.hpdControlTree1.Form = this;
@@ -149,10 +158,12 @@
 			this.hpdControlTree1.IsDrawFocuse = true;
 			this.hpdControlTree1.IsDrawFrame = true;
 			this.hpdControlTree1.IsSaveFileName = false;
+			this.hpdControlTree1.LineAlgnment = Hpd.HpdAlgnment.Center;
 			this.hpdControlTree1.Lines = new string[] {
         "hpdControlTree1"};
-			this.hpdControlTree1.Location = new System.Drawing.Point(405, 27);
+			this.hpdControlTree1.Location = new System.Drawing.Point(487, 45);
 			this.hpdControlTree1.Name = "hpdControlTree1";
+			this.hpdControlTree1.Orientation = Hpd.HpdOrientation.Row;
 			this.hpdControlTree1.ScriptCode = hpdScriptCode3;
 			this.hpdControlTree1.SelectedControl = null;
 			this.hpdControlTree1.SelectedNode = null;

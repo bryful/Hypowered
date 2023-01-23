@@ -1,3 +1,5 @@
+using Hpd;
+
 namespace HpdTest
 {
 	internal static class Program
@@ -12,6 +14,8 @@ namespace HpdTest
 			// see https://aka.ms/applicationconfiguration.
 			ApplicationConfiguration.Initialize();
 			Application.Run(new Form1());
+			//Application.Run(new NewControlDialog());
+
 		}
 	}
 }

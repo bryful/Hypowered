@@ -18,12 +18,27 @@ namespace Hpd
 		public Button Button
 		{
 			get { return m_Button; }
+			set { m_Button = value; }
 		}
 		public override void SetIsEdit(bool b) 
 		{
 			m_IsEdit = b;
 			m_Button.Visible = !b;
 			this.Invalidate();
+		}
+		[Category("Hypowered"), Browsable(true)]
+		public new string Name
+		{
+			get { return base.Name; }
+			set
+			{
+				if (base.Name != value)
+				{
+					base.Name = value;
+					m_Button.Name= value;
+					OnNameChanged(new EventArgs());
+				}
+			}
 		}
 		public new string Text
 		{
@@ -33,6 +48,11 @@ namespace Hpd
 				base.Text = value;
 				m_Button.Text = value;
 			}
+		}
+		public DialogResult DialogResult
+		{
+			get { return m_Button.DialogResult; }
+			set { m_Button.DialogResult = value; }
 		}
 		public HpdButton()
 		{
@@ -44,6 +64,7 @@ namespace Hpd
 			m_Button.Text= "button";
 			this.Controls.Add(m_Button);
 			InitializeComponent();
+			m_Button.Click += (sender, e) => { OnClick(e); };
 		}
 
 		protected override void OnPaint(PaintEventArgs pe)

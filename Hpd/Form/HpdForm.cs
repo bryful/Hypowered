@@ -24,12 +24,12 @@ namespace Hpd
 				NameChanged(this, e);
 			}
 		}
-
+		/*
 		public void ItemsRefresh() { m_Items.Listup(this); }
 		private HpdControlCollection m_Items = new HpdControlCollection();
 		[Category("Hypowered")]
 		public HpdControlCollection Items { get { return m_Items; } }
-
+		*/
 		protected bool m_IsEdit = false;
 		[Category("Hypowered")]
 		public bool IsEdit { get { return m_IsEdit; } }
@@ -71,7 +71,7 @@ namespace Hpd
 			get { return base.Name; }
 			set { SetName(value); }
 		}
-		public void SetName(string n)
+		public virtual void SetName(string n)
 		{
 			string on = base.Name;
 			if (base.Name != n)
@@ -139,7 +139,6 @@ namespace Hpd
 		}
 		protected void ChkControls()
 		{
-			/*
 			if(Controls.Count > 0 )
 			{
 				int idx = 0;
@@ -148,13 +147,29 @@ namespace Hpd
 					if(c is HpdControl)
 					{
 						HpdControl hc = (HpdControl)c;
-						hc.Index = idx;
+						hc.SetIndex(idx);
 					}
 					idx++;
 				}
-			}*/
-			m_Items.Listup(this);
+			}
 		}
-
+		public void AddControl(string Name,string tx,HpdType ht)
+		{
+			HpdControl? c = HpdA.CreateControl(Name, tx, ht);
+			if(c != null)
+			{
+				Controls.Add(c);
+			}
+		}
+		public void AddControl()
+		{
+			using (NewControlDialog dlg = new NewControlDialog())
+			{
+				if( dlg.ShowDialog()== DialogResult.OK )
+				{
+					AddControl(dlg.HpdName,dlg.HpdText,dlg.HpdType);
+				}
+			}
+		}
 	}
 }

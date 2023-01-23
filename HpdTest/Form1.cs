@@ -142,6 +142,14 @@ namespace HpdTest
 
 			this.Text = $"w:{this.Width},h:{this.Height},cw:{ClientSize.Width},ch:{ClientSize.Height}";
 		}
+
+		private void hpdButton2_Click(object sender, EventArgs e)
+		{
+			NewControlDialog dlg = new NewControlDialog();
+			bool b = (dlg.ShowDialog() == DialogResult.OK);
+			MessageBox.Show(b.ToString());
+			dlg.Dispose();
+		}
 	}
 
 }

@@ -11,10 +11,13 @@ using System.Windows.Forms;
 
 namespace Hpd
 {
-	public enum HpdType
+    public enum HpdType
 	{
 		None = 0,
 		Button,
+		ComboBox,
+		TextBox,
+		Panel,
 		ControlTree,
 	}
 	public enum MDPos
@@ -30,6 +33,7 @@ namespace Hpd
 		Bottom,
 		BottomRight
 	}
+
 	public partial class HpdControl : Control
 	{
 		public delegate void NameChangedHandler(object sender, EventArgs e);
@@ -40,6 +44,27 @@ namespace Hpd
 			{
 				NameChanged(this, e);
 			}
+		}
+		protected HpdOrientation m_Orientation = HpdOrientation.Row;
+		[Category("Hypowered")]
+		public HpdOrientation Orientation
+		{
+			get { return m_Orientation; }
+			set { m_Orientation = value; }
+		}
+		protected HpdAlgnment m_Algnment = HpdAlgnment.Near;
+		[Category("Hypowered")]
+		public HpdAlgnment Algnment
+		{
+			get { return m_Algnment; }
+			set { m_Algnment = value; }
+		}
+		protected HpdAlgnment m_LineAlgnment = HpdAlgnment.Center;
+		[Category("Hypowered")]
+		public HpdAlgnment LineAlgnment
+		{
+			get { return m_LineAlgnment; }
+			set { m_LineAlgnment = value; }
 		}
 		#region Prop
 		[Category("Hypowered")]
@@ -86,29 +111,21 @@ namespace Hpd
 		public virtual void SetIsEdit(bool b) { m_IsEdit = b; }
 		[Category("Hypowered")]
 		protected bool Locked { get; set; } = false;
-		[Category("Hypowered")]
-		[Bindable(true)]
+
+		[Category("Hypowered"), Browsable(true)]
 		public new string Name
 		{
 			get { return base.Name; }
-			set { SetName(value); }
-		}
-		[Category("Hypowered")]
-		[Bindable(true)]
-		public string ControlName
-		{
-			get { return base.Name; }
-			set { SetName(value); }
-		}
-		public void SetName(string n)
-		{
-			string on = base.Name;
-			if (base.Name != n)
+			set 
 			{
-				base.Name = n;
-				OnNameChanged(new EventArgs());
+				if (base.Name != value)
+				{
+					base.Name = value;
+					OnNameChanged(new EventArgs());
+				}
 			}
 		}
+
 		[Category("Hypowered_Text")]
 		public new string Text
 		{
@@ -307,7 +324,7 @@ namespace Hpd
 		public HpdControl()
 		{
 			ScriptCode.SetSTypes(ScriptTypeBit.None);
-
+			//Margin
 			//base.BackColor = Color.FromArgb(32, 32, 32);
 			//base.ForeColor = Color.FromArgb(220, 220, 220);
 

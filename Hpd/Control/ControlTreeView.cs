@@ -50,6 +50,9 @@ namespace Hpd
 			base.InitLayout();
 			RefreshTreeView();
 		}
+		protected void ChkEnabled()
+		{
+		}
 		private TreeNode Listup(Control ctrl)
 		{
 			TreeNode ret = new TreeNode(ctrl.Name);
@@ -69,7 +72,7 @@ namespace Hpd
 			}
 			return ret;
 		}
-		private void RefreshTreeView()
+		public void RefreshTreeView()
 		{
 			this.Nodes.Clear();
 			if (m_form != null)
