@@ -98,7 +98,7 @@ namespace Hpd
 			m_comb.Visible = !b;
 			this.Invalidate();
 		}
-		private int m_CaptionWidth = 80;
+		private int m_CaptionWidth = 0;
 		[Category("Hypowered")]
 		public int CaptionWidth
 		{
@@ -110,12 +110,22 @@ namespace Hpd
 				Invalidate();
 			}
 		}
+		[Category("Hypowered"), Browsable(true)]
+		public new bool TabStop
+		{
+			get { return m_comb.TabStop; }
+			set
+			{
+				base.TabStop = value;
+				m_comb.TabStop = value;
+			}
+		}
 		public HpdComboBox()
 		{
 		
 			SetHpdType(HpdType.ComboBox);
-			this.Size = new Size(180- m_CaptionWidth, 23);
-			m_comb.Size = this.Size;
+			this.Size = new Size(120, 23);
+			m_comb.Size = new Size(this.Width- m_CaptionWidth,this.Height);
 			m_comb.Location=new Point(m_CaptionWidth,0);
 			m_comb.Name = "ComboBox";
 			m_comb.Text = "ComboBox";
@@ -125,6 +135,8 @@ namespace Hpd
 			this.Controls.Add(m_comb);
 			InitializeComponent();
 			ChkSize();
+			m_SizeDef = this.Size;
+			this.GotFocus += (sendet, e) => { m_comb.Focus(); };
 		}
 
 		private void M_comb_DrawItem(object? sender, DrawItemEventArgs e)

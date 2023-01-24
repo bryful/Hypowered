@@ -4,6 +4,7 @@ using System.ComponentModel;
 using System.Data;
 using System.Drawing;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
@@ -13,31 +14,30 @@ namespace Hpd
 {
     public class HpdA
     {
-        static public HpdControl CreateControl(
-            string name,
-            string txt
-            , HpdType ht)
-        {
-            HpdControl ret;
-            switch (ht)
-            {
-				case HpdType.Panel:
-					ret = new HpdPanel();
-					ret.Name = name;
-					ret.Text = txt;
-					ret.Size = new Size(120, 300);
-					ret.Location = new Point(80, 80);
-					break;
-				case HpdType.Button:
-				default:
-					ret = new HpdButton();
-					ret.Name = name;
-					ret.Text = txt;
-					ret.Size = new Size(120, 25);
-					ret.Location = new Point(100, 100);
-					break;
+		static public void PropListToClipboard(Type t,string nm)
+		{
+			string s = "";
+			foreach (MemberInfo mi in t.GetMembers())
+			{
+				if (mi.MemberType == MemberTypes.Event)
+				{
+					s += $"//{nm}.{mi.Name}+=(sender,e)=>{{ On{mi.Name}(e);}};\r\n";
+				}
 			}
-			return ret;
-        }
+			s += "********************************\r\n";
+			foreach (var pi in t.GetProperties())
+			{
+
+				s += $"[Category(\"Hypowered\")]\r\n";
+				s += $"public {pi.PropertyType.FullName} {pi.Name}\r\n";
+				s += $"{{\r\n";
+				s += $"\tget {{ return {nm}.{pi.Name}; }}\r\n";
+				s += $"\tset {{ {nm}.{pi.Name} = value; }}\r\n";
+				s += $"}}\r\n";
+			}
+
+
+			Clipboard.SetText(s);
+		}
     }
 }

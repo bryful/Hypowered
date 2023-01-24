@@ -57,7 +57,7 @@ namespace Hpd
 		{
 			TreeNode ret = new TreeNode(ctrl.Name);
 			ret.Tag= ctrl;
-			if (ctrl is not HpdControl)
+			if ((ctrl is not HpdControl)||(ctrl is HpdPanel))
 			{
 				if (ctrl.Controls.Count > 0)
 				{

@@ -24,12 +24,18 @@ namespace Hpd
 				NameChanged(this, e);
 			}
 		}
-		/*
-		public void ItemsRefresh() { m_Items.Listup(this); }
-		private HpdControlCollection m_Items = new HpdControlCollection();
-		[Category("Hypowered")]
-		public HpdControlCollection Items { get { return m_Items; } }
-		*/
+		protected HpdOrientation m_Orientation = HpdOrientation.Row;
+		[Category("Hypowered_layout")]
+		public HpdOrientation Orientation
+		{
+			get { return m_Orientation; }
+			set 
+			{
+				bool b = (m_Orientation != value);
+				m_Orientation = value; 
+				if(b) AutoLayout(); 
+			}
+		}
 		protected bool m_IsEdit = false;
 		[Category("Hypowered")]
 		public bool IsEdit { get { return m_IsEdit; } }
@@ -56,28 +62,17 @@ namespace Hpd
 			}
 		}
 		[Category("Hypowered")]
-		public bool CanResize { get; set; } = false;
-		[Category("Hypowered")]
-		[Bindable(true)]
+		[Browsable(true)]
 		public new string Name
 		{
 			get { return base.Name; }
-			set { SetName(value); }
-		}
-		[Category("Hypowered")]
-		[Bindable(true)]
-		public string ControlName
-		{
-			get { return base.Name; }
-			set { SetName(value); }
-		}
-		public virtual void SetName(string n)
-		{
-			string on = base.Name;
-			if (base.Name != n)
+			set 
 			{
-				base.Name = n;
-				OnNameChanged(new EventArgs());
+				if (base.Name != value)
+				{
+					base.Name = value;
+					OnNameChanged(new EventArgs());
+				}
 			}
 		}
 		protected bool m_IsSaveFileName = false;
@@ -136,6 +131,7 @@ namespace Hpd
 			this.UpdateStyles();
 			InitializeComponent();
 			ChkControls();
+			AutoLayout();
 		}
 		protected void ChkControls()
 		{
@@ -153,23 +149,66 @@ namespace Hpd
 				}
 			}
 		}
+		
 		public void AddControl(string Name,string tx,HpdType ht)
 		{
-			HpdControl? c = HpdA.CreateControl(Name, tx, ht);
+			HpdControl? c = HpdControl.CreateControl(Name, tx, ht);
 			if(c != null)
 			{
 				Controls.Add(c);
+				AutoLayout();
 			}
 		}
+		public HpdType DefHpdType = HpdType.Button;
 		public void AddControl()
 		{
 			using (NewControlDialog dlg = new NewControlDialog())
 			{
+				dlg.HpdType= DefHpdType;
 				if( dlg.ShowDialog()== DialogResult.OK )
 				{
 					AddControl(dlg.HpdName,dlg.HpdText,dlg.HpdType);
+					DefHpdType = dlg.HpdType;
 				}
 			}
+		}
+		private bool AutoLayoutFlag = false;
+		public void AutoLayout()
+		{
+			if (AutoLayoutFlag) return;
+			AutoLayoutFlag=true;
+			AutoLayout(this);
+			AutoLayoutFlag = false;
+		}
+		public void AutoLayout(Control ctrl,bool isReSize=false)
+		{
+			if (ctrl.Controls.Count > 0)
+			{
+				foreach (Control c in ctrl.Controls)
+				{
+					if (c is HpdPanel)
+					{
+						AutoLayout(c, true);
+					}
+				}
+			}
+			HpdOrientation ori = HpdOrientation.Row;
+			if(ctrl is HpdForm) { ori = ((HpdForm)ctrl).Orientation; }
+			else if (ctrl is HpdPanel) { ori = ((HpdPanel)ctrl).Orientation; }
+			if (ori == HpdOrientation.Row)
+			{
+				HpdLayout.ChkRow(ctrl);
+			}
+			else
+			{
+				HpdLayout.ChkColumn(ctrl);
+			}
+
+		}
+		protected override void OnResize(EventArgs e)
+		{
+			base.OnResize(e);
+			AutoLayout();
 		}
 	}
 }

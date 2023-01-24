@@ -64,8 +64,8 @@ namespace Hpd
 		}
 		public string HpdText
 		{
-			get { return tbName.Text; }
-			set { tbName.Text = value; }
+			get { return tbText.Text; }
+			set { tbText.Text = value; }
 		}
 		public NewControlDialog()
 		{

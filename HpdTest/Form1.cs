@@ -37,7 +37,7 @@ namespace HpdTest
 				typeof(Form1).Assembly,
 				//Assembly.GetExecutingAssembly(),
 			};
-			roslynPadControl1.SetAssemblies(typeof(Form1), roslynPadAssemblies, assemblies);
+			//roslynPadControl1.SetAssemblies(typeof(Form1), roslynPadAssemblies, assemblies);
 			string s = "";
 			foreach(Control c in Controls)
 			{
@@ -130,17 +130,17 @@ namespace HpdTest
 
 		private void button1_Click_1(object sender, EventArgs e)
 		{
-			var scriptOptions = ScriptOptions.Default.WithReferences(roslynPadControl1.Host.DefaultReferences);
+			/*var scriptOptions = ScriptOptions.Default.WithReferences(roslynPadControl1.Host.DefaultReferences);
 			var script = CSharpScript.Create(roslynPadControl1.Editor.Text, scriptOptions,typeof(Form1));
 			script.Compile();
 			var result = script.RunAsync(this);
-			Debug.WriteLine(script.Code);
+			Debug.WriteLine(script.Code);*/
 		}
 		protected override void OnResize(EventArgs e)
 		{
 			base.OnResize(e);
 
-			this.Text = $"w:{this.Width},h:{this.Height},cw:{ClientSize.Width},ch:{ClientSize.Height}";
+			this.Text = $"w:{this.Width},h:{this.Height},c:{ClientRectangle.ToString()} ,w:{HpdLayout.ChkControlSize(this).ToString()} ";
 		}
 
 		private void hpdButton2_Click(object sender, EventArgs e)
@@ -149,6 +149,18 @@ namespace HpdTest
 			bool b = (dlg.ShowDialog() == DialogResult.OK);
 			MessageBox.Show(b.ToString());
 			dlg.Dispose();
+		}
+
+		private void button1_Click_2(object sender, EventArgs e)
+		{
+			
+		}
+
+		private void cCToolStripMenuItem_Click(object sender, EventArgs e)
+		{
+			HpdPropertyForm dlg = new HpdPropertyForm();
+			dlg.Form = this;
+			dlg.Show(this);
 		}
 	}
 

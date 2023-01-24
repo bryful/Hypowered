@@ -30,9 +30,9 @@ namespace Hpd
 		/// </summary>
 		private void InitializeComponent()
 		{
-			Hpd.HpdScriptCode hpdScriptCode1 = new Hpd.HpdScriptCode();
+			HpdScriptCode hpdScriptCode1 = new HpdScriptCode();
 			this.propertyGrid1 = new System.Windows.Forms.PropertyGrid();
-			this.controlTree1 = new Hpd.HpdControlTree();
+			this.controlTree1 = new HpdControlTree();
 			this.splitContainer1 = new System.Windows.Forms.SplitContainer();
 			this.menuStrip1 = new System.Windows.Forms.MenuStrip();
 			this.fileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -55,7 +55,7 @@ namespace Hpd
 			// 
 			// controlTree1
 			// 
-			this.controlTree1.Algnment = Hpd.HpdAlgnment.Near;
+			this.controlTree1.Algnment = HpdAlgnment.Near;
 			this.controlTree1.CanColorCustum = false;
 			this.controlTree1.Dock = System.Windows.Forms.DockStyle.Fill;
 			this.controlTree1.FileName = "";
@@ -65,12 +65,11 @@ namespace Hpd
 			this.controlTree1.IsDrawFocuse = true;
 			this.controlTree1.IsDrawFrame = true;
 			this.controlTree1.IsSaveFileName = false;
-			this.controlTree1.LineAlgnment = Hpd.HpdAlgnment.Center;
+			this.controlTree1.LineAlgnment = HpdAlgnment.Center;
 			this.controlTree1.Lines = new string[] {
         ""};
 			this.controlTree1.Location = new System.Drawing.Point(0, 0);
 			this.controlTree1.Name = "controlTree1";
-			this.controlTree1.Orientation = Hpd.HpdOrientation.Row;
 			this.controlTree1.ScriptCode = hpdScriptCode1;
 			this.controlTree1.SelectedControl = null;
 			this.controlTree1.SelectedNode = null;
@@ -119,13 +118,13 @@ namespace Hpd
 			// closeToolStripMenuItem
 			// 
 			this.closeToolStripMenuItem.Name = "closeToolStripMenuItem";
-			this.closeToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+			this.closeToolStripMenuItem.Size = new System.Drawing.Size(102, 22);
 			this.closeToolStripMenuItem.Text = "Close";
 			// 
 			// quitToolStripMenuItem
 			// 
 			this.quitToolStripMenuItem.Name = "quitToolStripMenuItem";
-			this.quitToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+			this.quitToolStripMenuItem.Size = new System.Drawing.Size(102, 22);
 			this.quitToolStripMenuItem.Text = "Quit";
 			// 
 			// HpdPropertyForm
@@ -136,6 +135,7 @@ namespace Hpd
 			this.Controls.Add(this.splitContainer1);
 			this.Controls.Add(this.menuStrip1);
 			this.Name = "HpdPropertyForm";
+			this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
 			this.Text = "HpdPropertyForm";
 			this.splitContainer1.Panel1.ResumeLayout(false);
 			this.splitContainer1.Panel2.ResumeLayout(false);

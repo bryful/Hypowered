@@ -51,7 +51,7 @@ namespace Hpd
 			m_TextBox.Visible = !b;
 			this.Invalidate();
 		}
-		private int m_CaptionWidth = 80;
+		private int m_CaptionWidth = 0;
 		[Category("Hypowered")]
 		public int CaptionWidth
 		{
@@ -105,6 +105,16 @@ namespace Hpd
 				Invalidate();
 			}
 		}
+		[Category("Hypowered"), Browsable(true)]
+		public new bool TabStop
+		{
+			get { return m_TextBox.TabStop; }
+			set
+			{
+				base.TabStop = value;
+				m_TextBox.TabStop = value;
+			}
+		}
 		public HpdTextBox()
 		{
 			SetHpdType(HpdType.TextBox);
@@ -116,6 +126,8 @@ namespace Hpd
 			this.Controls.Add(m_TextBox);
 			InitializeComponent();
 			ChkSize();
+			m_SizeDef = this.Size;
+			this.GotFocus += (sendet, e) => { m_TextBox.Focus(); };
 		}
 
 		protected override void OnPaint(PaintEventArgs pe)

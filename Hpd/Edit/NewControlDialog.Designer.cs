@@ -30,11 +30,11 @@ namespace Hpd
 		/// </summary>
 		private void InitializeComponent()
 		{
-			Hpd.HpdScriptCode hpdScriptCode6 = new Hpd.HpdScriptCode();
 			Hpd.HpdScriptCode hpdScriptCode1 = new Hpd.HpdScriptCode();
 			Hpd.HpdScriptCode hpdScriptCode2 = new Hpd.HpdScriptCode();
 			Hpd.HpdScriptCode hpdScriptCode3 = new Hpd.HpdScriptCode();
 			Hpd.HpdScriptCode hpdScriptCode4 = new Hpd.HpdScriptCode();
+			Hpd.HpdScriptCode hpdScriptCode5 = new Hpd.HpdScriptCode();
 			this.cmbControl = new Hpd.HpdComboBox();
 			this.hpdButton1 = new Hpd.HpdButton();
 			this.tbName = new Hpd.HpdTextBox();
@@ -61,12 +61,11 @@ namespace Hpd
         "hpdComboBox1"};
 			this.cmbControl.Location = new System.Drawing.Point(40, 26);
 			this.cmbControl.Name = "cmbControl";
-			this.cmbControl.Orientation = Hpd.HpdOrientation.Row;
-			this.cmbControl.ScriptCode = hpdScriptCode6;
+			this.cmbControl.ScriptCode = hpdScriptCode1;
 			this.cmbControl.SelectedIndex = -1;
 			this.cmbControl.SelectedItem = null;
 			this.cmbControl.Size = new System.Drawing.Size(267, 26);
-			this.cmbControl.TabIndex = 4;
+			this.cmbControl.TabIndex = 0;
 			this.cmbControl.Text = "hpdComboBox1";
 			this.cmbControl.TextAligiment = System.Drawing.StringAlignment.Near;
 			this.cmbControl.TextLineAligiment = System.Drawing.StringAlignment.Center;
@@ -88,10 +87,9 @@ namespace Hpd
         "OK"};
 			this.hpdButton1.Location = new System.Drawing.Point(207, 128);
 			this.hpdButton1.Name = "hpdButton1";
-			this.hpdButton1.Orientation = Hpd.HpdOrientation.Row;
-			this.hpdButton1.ScriptCode = hpdScriptCode1;
+			this.hpdButton1.ScriptCode = hpdScriptCode2;
 			this.hpdButton1.Size = new System.Drawing.Size(100, 27);
-			this.hpdButton1.TabIndex = 5;
+			this.hpdButton1.TabIndex = 4;
 			this.hpdButton1.Text = "OK";
 			this.hpdButton1.TextAligiment = System.Drawing.StringAlignment.Near;
 			this.hpdButton1.TextLineAligiment = System.Drawing.StringAlignment.Near;
@@ -116,10 +114,9 @@ namespace Hpd
 			this.tbName.Location = new System.Drawing.Point(40, 57);
 			this.tbName.Multiline = false;
 			this.tbName.Name = "tbName";
-			this.tbName.Orientation = Hpd.HpdOrientation.Row;
-			this.tbName.ScriptCode = hpdScriptCode2;
+			this.tbName.ScriptCode = hpdScriptCode3;
 			this.tbName.Size = new System.Drawing.Size(267, 23);
-			this.tbName.TabIndex = 6;
+			this.tbName.TabIndex = 1;
 			this.tbName.TextAligiment = System.Drawing.StringAlignment.Near;
 			this.tbName.TextLineAligiment = System.Drawing.StringAlignment.Near;
 			this.tbName.UnCheckedColor = System.Drawing.Color.White;
@@ -140,10 +137,9 @@ namespace Hpd
         "Cancel"};
 			this.hpdButton2.Location = new System.Drawing.Point(101, 128);
 			this.hpdButton2.Name = "hpdButton2";
-			this.hpdButton2.Orientation = Hpd.HpdOrientation.Row;
-			this.hpdButton2.ScriptCode = hpdScriptCode3;
+			this.hpdButton2.ScriptCode = hpdScriptCode4;
 			this.hpdButton2.Size = new System.Drawing.Size(100, 27);
-			this.hpdButton2.TabIndex = 7;
+			this.hpdButton2.TabIndex = 3;
 			this.hpdButton2.Text = "Cancel";
 			this.hpdButton2.TextAligiment = System.Drawing.StringAlignment.Near;
 			this.hpdButton2.TextLineAligiment = System.Drawing.StringAlignment.Near;
@@ -168,10 +164,9 @@ namespace Hpd
 			this.tbText.Location = new System.Drawing.Point(40, 86);
 			this.tbText.Multiline = false;
 			this.tbText.Name = "tbText";
-			this.tbText.Orientation = Hpd.HpdOrientation.Row;
-			this.tbText.ScriptCode = hpdScriptCode4;
+			this.tbText.ScriptCode = hpdScriptCode5;
 			this.tbText.Size = new System.Drawing.Size(267, 23);
-			this.tbText.TabIndex = 8;
+			this.tbText.TabIndex = 2;
 			this.tbText.TextAligiment = System.Drawing.StringAlignment.Near;
 			this.tbText.TextLineAligiment = System.Drawing.StringAlignment.Near;
 			this.tbText.UnCheckedColor = System.Drawing.Color.White;
@@ -200,7 +195,7 @@ namespace Hpd
 		}
 
 		#endregion
-		private Hpd.HpdComboBox cmbControl;
+		private global::Hpd.HpdComboBox cmbControl;
 		private HpdButton hpdButton1;
 		private HpdTextBox tbName;
 		private HpdButton hpdButton2;

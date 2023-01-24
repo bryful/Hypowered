@@ -40,6 +40,7 @@ namespace Hpd
 				}
 			}
 		}
+		[Category("Hypowered"), Browsable(true)]
 		public new string Text
 		{
 			get { return m_Button.Text; }
@@ -47,6 +48,16 @@ namespace Hpd
 			{
 				base.Text = value;
 				m_Button.Text = value;
+			}
+		}
+		[Category("Hypowered"), Browsable(true)]
+		public new bool TabStop
+		{
+			get { return m_Button.TabStop; }
+			set
+			{
+				base.TabStop = value;
+				m_Button.TabStop = value;
 			}
 		}
 		public DialogResult DialogResult
@@ -59,13 +70,20 @@ namespace Hpd
 			SetHpdType(HpdType.Button);
 			this.Size = new Size(100, 27);
 			m_Button.Location = new Point(0, 0);
-			m_Button.Size = new Size(this.Width, this.Height);
+			m_Button.Size = this.Size;
+			this.Size = m_Button.Size;
+			m_SizeDef = this.Size;
+			m_SizeDef = m_Button.Size;
 			m_Button.Name = "button";
-			m_Button.Text= "button";
+			m_Button.Text= base.Text;
 			this.Controls.Add(m_Button);
 			InitializeComponent();
 			m_Button.Click += (sender, e) => { OnClick(e); };
+
+			//HpdA.PropListToClipboard(typeof(Button),nameof(m_Button));
+			this.GotFocus += (sendet, e) => { m_Button.Focus(); };
 		}
+
 
 		protected override void OnPaint(PaintEventArgs pe)
 		{
@@ -74,7 +92,7 @@ namespace Hpd
 		protected override void OnResize(EventArgs e)
 		{
 			base.OnResize(e);
-			m_Button.Size = new Size(this.Width, this.Height);
+			m_Button.Size = this.Size;
 		}
 	}
 }

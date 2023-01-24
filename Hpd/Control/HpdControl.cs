@@ -4,6 +4,7 @@ using System.ComponentModel;
 using System.Data;
 using System.Drawing;
 using System.Linq;
+using System.Reflection;
 using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
@@ -36,6 +37,73 @@ namespace Hpd
 
 	public partial class HpdControl : Control
 	{
+		static public void PropListToClipboard(Type t, string nm)
+		{
+			string s = "";
+			foreach (MemberInfo mi in t.GetMembers())
+			{
+				if (mi.MemberType == MemberTypes.Event)
+				{
+					s += $"//{nm}.{mi.Name}+=(sender,e)=>{{ On{mi.Name}(e);}};\r\n";
+				}
+			}
+			s += "********************************\r\n";
+			foreach (var pi in t.GetProperties())
+			{
+
+				s += $"[Category(\"Hypowered\")]\r\n";
+				s += $"public {pi.PropertyType.FullName} {pi.Name}\r\n";
+				s += $"{{\r\n";
+				s += $"\tget {{ return {nm}.{pi.Name}; }}\r\n";
+				s += $"\tset {{ {nm}.{pi.Name} = value; }}\r\n";
+				s += $"}}\r\n";
+			}
+
+
+			Clipboard.SetText(s);
+		}
+		static public HpdControl CreateControl(
+			string name,
+			string txt
+			, HpdType ht)
+		{
+			HpdControl ret;
+			switch (ht)
+			{
+				case HpdType.Panel:
+					HpdPanel hp = new HpdPanel();
+					hp.Name = name;
+					hp.Text = txt;
+					hp.Size = new Size(120, 300);
+					hp.Location = new Point(80, 80);
+					hp.MaximumSize = new Size(0, 0);
+					hp.Size = hp.PreferredSize;
+					ret = (HpdControl)hp;
+					break;
+				case HpdType.TextBox:
+					HpdTextBox htb = new HpdTextBox();
+					htb.Name = name;
+					htb.Text = txt;
+					htb.Size = new Size(120, 23);
+					htb.Location = new Point(80, 100);
+					htb.MaximumSize = new Size(0, 0);
+					htb.Size = htb.PreferredSize;
+					ret = (HpdControl)htb;
+					break;
+				case HpdType.Button:
+				default:
+					HpdButton hb = new HpdButton();
+					hb.Name = name;
+					hb.Text = txt;
+					hb.Size = new Size(120, 23);
+					hb.Location = new Point(100, 100);
+					hb.MaximumSize = new Size(0, 0);
+					hb.Size = hb.PreferredSize;
+					ret = (HpdControl)hb;
+					break;
+			}
+			return ret;
+		}
 		public delegate void NameChangedHandler(object sender, EventArgs e);
 		public event NameChangedHandler? NameChanged;
 		protected virtual void OnNameChanged(EventArgs e)
@@ -45,27 +113,7 @@ namespace Hpd
 				NameChanged(this, e);
 			}
 		}
-		protected HpdOrientation m_Orientation = HpdOrientation.Row;
-		[Category("Hypowered")]
-		public HpdOrientation Orientation
-		{
-			get { return m_Orientation; }
-			set { m_Orientation = value; }
-		}
-		protected HpdAlgnment m_Algnment = HpdAlgnment.Near;
-		[Category("Hypowered")]
-		public HpdAlgnment Algnment
-		{
-			get { return m_Algnment; }
-			set { m_Algnment = value; }
-		}
-		protected HpdAlgnment m_LineAlgnment = HpdAlgnment.Center;
-		[Category("Hypowered")]
-		public HpdAlgnment LineAlgnment
-		{
-			get { return m_LineAlgnment; }
-			set { m_LineAlgnment = value; }
-		}
+		
 		#region Prop
 		[Category("Hypowered")]
 		public HpdScriptCode ScriptCode { get; set; }= new HpdScriptCode();
@@ -126,11 +174,15 @@ namespace Hpd
 			}
 		}
 
-		[Category("Hypowered_Text")]
+		[Category("Hypowered"), Browsable(true)]
 		public new string Text
 		{
 			get { return base.Text; }
-			set { base.Text = value; this.Invalidate(); }
+			set 
+			{
+				base.Text = value; 
+				this.Invalidate(); 
+			}
 		}
 		/// <summary>
 		/// Textを配列として
@@ -183,17 +235,94 @@ namespace Hpd
 
 			}
 		}
-		[Category("Hypowered")]
+		[Category("Hypowered_layout")]
 		public new Point Location
 		{
 			get { return base.Location; }
 			set { base.Location = value; this.Invalidate(); }
 		}
-		[Category("Hypowered")]
+		[Category("Hypowered_layout")]
 		public new Size Size
 		{
 			get { return base.Size; }
-			set { base.Size = value; this.Invalidate(); }
+			set 
+			{ 
+				bool b= (base.Size != value);
+				base.Size = value;
+				int w = this.m_SizeDef.Width;
+				if (m_Algnment!= HpdAlgnment.Fill)
+				{
+					w = value.Width;
+				}
+				int h = this.m_SizeDef.Height;
+				if (m_LineAlgnment != HpdAlgnment.Fill)
+				{
+					h = value.Height;
+				}
+				m_SizeDef= new Size(w, h);
+				if (b) { if (Root != null) Root.AutoLayout(); }
+				this.Invalidate();
+			}
+		}
+		public void SetSize(Size sz) { base.Size= sz; }
+		public void SetWidth(int w) { base.Width = w; }
+		public void SetHeight(int h) { base.Height = h; }
+		public new int Width
+		{
+			get { return base.Width; }
+			set
+			{
+				bool b = (base.Width != value);
+				base.Width = value;
+				if(m_Algnment != HpdAlgnment.Fill) m_SizeDef.Width = value;
+				if (b) { if (Root != null) Root.AutoLayout(); }
+			}
+		}
+		public new int Height
+		{
+			get { return base.Height; }
+			set
+			{
+				bool b = (base.Height != value);
+				base.Height = value;
+				if (m_LineAlgnment != HpdAlgnment.Fill) m_SizeDef.Height = value;
+				if (b) { if (Root != null) Root.AutoLayout(); }
+			}
+		}
+		protected Size m_SizeDef = new Size(0, 0);
+		[Category("Hypowered_layout"), Browsable(false)]
+		public Size SizeDef
+		{
+			get { return m_SizeDef; }
+			set { m_SizeDef = value; }
+		}
+		public void PopSizeDef() { base.Size = m_SizeDef; }
+		protected HpdAlgnment m_Algnment = HpdAlgnment.Near;
+		[Category("Hypowered_layout")]
+		public HpdAlgnment Algnment
+		{
+			get { return m_Algnment; }
+			set
+			{
+				bool b = (m_Algnment != value);
+				if( (b)&&(m_Algnment== HpdAlgnment.Fill)) SetSize(m_SizeDef);
+				m_Algnment = value;
+				if ((b)&&(Root != null)) Root.AutoLayout();
+			}
+		}
+
+		protected HpdAlgnment m_LineAlgnment = HpdAlgnment.Near;
+		[Category("Hypowered_layout")]
+		public HpdAlgnment LineAlgnment
+		{
+			get { return m_LineAlgnment; }
+			set
+			{
+				bool b = (m_LineAlgnment != value);
+				if ((b) && (m_LineAlgnment == HpdAlgnment.Fill)) SetSize(m_SizeDef);
+				m_LineAlgnment = value;
+				if (Root != null) Root.AutoLayout();
+			}
 		}
 		[Category("Hypowered_Text")]
 		public new Font Font
@@ -324,10 +453,12 @@ namespace Hpd
 		public HpdControl()
 		{
 			ScriptCode.SetSTypes(ScriptTypeBit.None);
+			this.Size= new Size(80, 36);
+			this.SizeDef = this.Size;
 			//Margin
 			//base.BackColor = Color.FromArgb(32, 32, 32);
 			//base.ForeColor = Color.FromArgb(220, 220, 220);
-
+			this.Size= new Size(100, 23);
 			this.SetStyle(
 				ControlStyles.Selectable |
 				ControlStyles.UserMouse |
