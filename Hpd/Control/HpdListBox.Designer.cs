@@ -1,6 +1,6 @@
 ﻿namespace Hpd
 {
-	partial class HpdControlTree
+	partial class HpdListBox
 	{
 		/// <summary>
 		/// 必要なデザイナー変数です。

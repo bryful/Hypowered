@@ -12,7 +12,7 @@ namespace Hpd
 {
 	public partial class HpdPanel : HpdControl
 	{
-		protected HpdOrientation m_Orientation = HpdOrientation.Row;
+		protected HpdOrientation m_Orientation = HpdOrientation.Vertical;
 		[Category("Hypowered_layout")]
 		public HpdOrientation Orientation
 		{
@@ -24,20 +24,22 @@ namespace Hpd
 				if ((b)&&(Root != null)) Root.AutoLayout();
 			}
 		}
+
 		public HpdPanel()
 		{
 			SetHpdType(HpdType.Panel);
-			this.Size = new Size(150, 60);
-			m_SizeDef = this.Size;
-			Algnment = HpdAlgnment.Fill;
-			LineAlgnment = HpdAlgnment.Fill;
+			m_SizePolicyHorizon = SizePolicy.Expanding;
+			m_SizePolicyVertual = SizePolicy.Expanding;
+			this.Size = new Size(23*2, 23);
+			SetBaseSize(0, 0);
+
 			InitializeComponent();
 		}
 
 		protected override void OnPaint(PaintEventArgs pe)
 		{
 			base.OnPaint(pe);
-			if((IsDrawFrame)&&(IsEdit==false))
+			if(IsDrawFrame)
 			{
 				using (Pen p = new Pen(ForeColor))
 				{
@@ -46,9 +48,10 @@ namespace Hpd
 				}
 			}
 		}
-		public void AddControl(string Name, string tx, HpdType ht)
+
+		public void AddControl(string Name, HpdType ht)
 		{
-			HpdControl? c = HpdControl.CreateControl(Name, tx, ht);
+			HpdControl? c = HpdForm.CreateControl(Name, ht);
 			if (c != null)
 			{
 				Controls.Add(c);
@@ -62,7 +65,7 @@ namespace Hpd
 				if (Root != null) dlg.HpdType = Root.DefHpdType;
 				if (dlg.ShowDialog() == DialogResult.OK)
 				{
-					AddControl(dlg.HpdName, dlg.HpdText, dlg.HpdType);
+					AddControl(dlg.HpdName, dlg.HpdType);
 					if (Root != null) Root.DefHpdType = dlg.HpdType;
 				}
 			}

@@ -2,7 +2,7 @@
 
 namespace Hpd
 {
-    partial class HpdPropertyForm
+    partial class EditPropertyForm
 	{
 		/// <summary>
 		/// Required designer variable.
@@ -32,7 +32,7 @@ namespace Hpd
 		{
 			HpdScriptCode hpdScriptCode1 = new HpdScriptCode();
 			this.propertyGrid1 = new System.Windows.Forms.PropertyGrid();
-			this.controlTree1 = new HpdControlTree();
+			this.controlTree1 = new EditControlTree();
 			this.splitContainer1 = new System.Windows.Forms.SplitContainer();
 			this.menuStrip1 = new System.Windows.Forms.MenuStrip();
 			this.fileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -55,29 +55,14 @@ namespace Hpd
 			// 
 			// controlTree1
 			// 
-			this.controlTree1.Algnment = HpdAlgnment.Near;
-			this.controlTree1.CanColorCustum = false;
 			this.controlTree1.Dock = System.Windows.Forms.DockStyle.Fill;
-			this.controlTree1.FileName = "";
-			this.controlTree1.ForcusColor = System.Drawing.Color.White;
 			this.controlTree1.Form = null;
-			this.controlTree1.FrameWeight = new System.Windows.Forms.Padding(1);
-			this.controlTree1.IsDrawFocuse = true;
-			this.controlTree1.IsDrawFrame = true;
-			this.controlTree1.IsSaveFileName = false;
-			this.controlTree1.LineAlgnment = HpdAlgnment.Center;
-			this.controlTree1.Lines = new string[] {
-        ""};
 			this.controlTree1.Location = new System.Drawing.Point(0, 0);
 			this.controlTree1.Name = "controlTree1";
-			this.controlTree1.ScriptCode = hpdScriptCode1;
 			this.controlTree1.SelectedControl = null;
 			this.controlTree1.SelectedNode = null;
 			this.controlTree1.Size = new System.Drawing.Size(197, 502);
 			this.controlTree1.TabIndex = 3;
-			this.controlTree1.TextAligiment = System.Drawing.StringAlignment.Near;
-			this.controlTree1.TextLineAligiment = System.Drawing.StringAlignment.Near;
-			this.controlTree1.UnCheckedColor = System.Drawing.Color.White;
 			// 
 			// splitContainer1
 			// 
@@ -150,7 +135,7 @@ namespace Hpd
 
 		#endregion
 		private PropertyGrid propertyGrid1;
-		private HpdControlTree controlTree1;
+		private EditControlTree controlTree1;
 		private SplitContainer splitContainer1;
 		private MenuStrip menuStrip1;
 		private ToolStripMenuItem fileToolStripMenuItem;

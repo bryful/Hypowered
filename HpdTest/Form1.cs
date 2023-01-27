@@ -45,10 +45,6 @@ namespace HpdTest
 			}
 		}
 
-		private void button1_Click(object sender, EventArgs e)
-		{
-			SetIsEdit(this,!this.IsEdit);
-		}
 		public string ExecScript(string source)
 		{
 			return ExecScript(source , typeof(Form1),this);	
@@ -119,28 +115,12 @@ namespace HpdTest
 			return "";
 		}
 
-		private void button3_Click(object sender, EventArgs e)
-		{
-			this.ChkControls();
-			HpdPropertyForm fm = new HpdPropertyForm();
-			fm.Form = this;
-			fm.Show(this);
 
-		}
-
-		private void button1_Click_1(object sender, EventArgs e)
-		{
-			/*var scriptOptions = ScriptOptions.Default.WithReferences(roslynPadControl1.Host.DefaultReferences);
-			var script = CSharpScript.Create(roslynPadControl1.Editor.Text, scriptOptions,typeof(Form1));
-			script.Compile();
-			var result = script.RunAsync(this);
-			Debug.WriteLine(script.Code);*/
-		}
 		protected override void OnResize(EventArgs e)
 		{
 			base.OnResize(e);
 
-			this.Text = $"w:{this.Width},h:{this.Height},c:{ClientRectangle.ToString()} ,w:{HpdLayout.ChkControlSize(this).ToString()} ";
+			this.Text = $"w:{this.Width},h:{this.Height},c:{ClientRectangle.ToString()} ,w:{HpdLayout.GetControlSize(this).ToString()} ";
 		}
 
 		private void hpdButton2_Click(object sender, EventArgs e)
@@ -158,7 +138,7 @@ namespace HpdTest
 
 		private void cCToolStripMenuItem_Click(object sender, EventArgs e)
 		{
-			HpdPropertyForm dlg = new HpdPropertyForm();
+			EditPropertyForm dlg = new EditPropertyForm();
 			dlg.Form = this;
 			dlg.Show(this);
 		}

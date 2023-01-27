@@ -136,7 +136,6 @@ namespace Hpd
                     if (c is HpdControl)
                     {
                         HpdControl hc = (HpdControl)c;
-                        hc.SetIndex(idx);
                         Add(hc);
                     }
                     idx++;

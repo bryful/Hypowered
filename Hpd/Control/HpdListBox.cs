@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Drawing;
-using System.Drawing.Imaging;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -11,13 +10,14 @@ using System.Windows.Forms;
 
 namespace Hpd
 {
-	public partial class HpdButton : HpdControl
+	public partial class HpdListBox : HpdControl
 	{
-		public HpdButton()
+		public HpdListBox()
 		{
-			SetHpdType(HpdType.Button);
+			SetHpdType(HpdType.ListBox);
 			InitializeComponent();
 		}
+
 		protected override void OnPaint(PaintEventArgs pe)
 		{
 			base.OnPaint(pe);

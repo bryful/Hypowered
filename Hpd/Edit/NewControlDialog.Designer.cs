@@ -30,158 +30,88 @@ namespace Hpd
 		/// </summary>
 		private void InitializeComponent()
 		{
-			Hpd.HpdScriptCode hpdScriptCode1 = new Hpd.HpdScriptCode();
-			Hpd.HpdScriptCode hpdScriptCode2 = new Hpd.HpdScriptCode();
-			Hpd.HpdScriptCode hpdScriptCode3 = new Hpd.HpdScriptCode();
-			Hpd.HpdScriptCode hpdScriptCode4 = new Hpd.HpdScriptCode();
-			Hpd.HpdScriptCode hpdScriptCode5 = new Hpd.HpdScriptCode();
-			this.cmbControl = new Hpd.HpdComboBox();
-			this.hpdButton1 = new Hpd.HpdButton();
-			this.tbName = new Hpd.HpdTextBox();
-			this.hpdButton2 = new Hpd.HpdButton();
-			this.tbText = new Hpd.HpdTextBox();
+			this.cmbType = new Hpd.HpdTypeCombo();
+			this.btnOK = new System.Windows.Forms.Button();
+			this.tbName = new System.Windows.Forms.TextBox();
+			this.btnCancel = new System.Windows.Forms.Button();
+			this.label1 = new System.Windows.Forms.Label();
+			this.label2 = new System.Windows.Forms.Label();
 			this.SuspendLayout();
 			// 
-			// cmbControl
+			// cmbType
 			// 
-			this.cmbControl.Algnment = Hpd.HpdAlgnment.Near;
-			this.cmbControl.CanColorCustum = false;
-			this.cmbControl.Caption = "Control";
-			this.cmbControl.CaptionWidth = 65;
-			this.cmbControl.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-			this.cmbControl.FileName = "";
-			this.cmbControl.Font = new System.Drawing.Font("Yu Gothic UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-			this.cmbControl.ForcusColor = System.Drawing.Color.White;
-			this.cmbControl.FrameWeight = new System.Windows.Forms.Padding(1);
-			this.cmbControl.IsDrawFocuse = true;
-			this.cmbControl.IsDrawFrame = true;
-			this.cmbControl.IsSaveFileName = false;
-			this.cmbControl.LineAlgnment = Hpd.HpdAlgnment.Far;
-			this.cmbControl.Lines = new string[] {
-        "hpdComboBox1"};
-			this.cmbControl.Location = new System.Drawing.Point(40, 26);
-			this.cmbControl.Name = "cmbControl";
-			this.cmbControl.ScriptCode = hpdScriptCode1;
-			this.cmbControl.SelectedIndex = -1;
-			this.cmbControl.SelectedItem = null;
-			this.cmbControl.Size = new System.Drawing.Size(267, 26);
-			this.cmbControl.TabIndex = 0;
-			this.cmbControl.Text = "hpdComboBox1";
-			this.cmbControl.TextAligiment = System.Drawing.StringAlignment.Near;
-			this.cmbControl.TextLineAligiment = System.Drawing.StringAlignment.Center;
-			this.cmbControl.UnCheckedColor = System.Drawing.Color.White;
+			this.cmbType.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+			this.cmbType.HpdType = Hpd.HpdType.Button;
+			this.cmbType.Items.AddRange(new object[] {
+            "Button",
+            "TextBox",
+            "ComboBox",
+            "ListBox",
+            "Panel",
+            "Stretch"});
+			this.cmbType.Location = new System.Drawing.Point(70, 20);
+			this.cmbType.Name = "cmbType";
+			this.cmbType.Size = new System.Drawing.Size(148, 23);
+			this.cmbType.TabIndex = 0;
+			this.cmbType.TabStop = false;
 			// 
-			// hpdButton1
+			// btnOK
 			// 
-			this.hpdButton1.Algnment = Hpd.HpdAlgnment.Near;
-			this.hpdButton1.CanColorCustum = false;
-			this.hpdButton1.DialogResult = System.Windows.Forms.DialogResult.OK;
-			this.hpdButton1.FileName = "";
-			this.hpdButton1.ForcusColor = System.Drawing.Color.White;
-			this.hpdButton1.FrameWeight = new System.Windows.Forms.Padding(1);
-			this.hpdButton1.IsDrawFocuse = true;
-			this.hpdButton1.IsDrawFrame = true;
-			this.hpdButton1.IsSaveFileName = false;
-			this.hpdButton1.LineAlgnment = Hpd.HpdAlgnment.Center;
-			this.hpdButton1.Lines = new string[] {
-        "OK"};
-			this.hpdButton1.Location = new System.Drawing.Point(207, 128);
-			this.hpdButton1.Name = "hpdButton1";
-			this.hpdButton1.ScriptCode = hpdScriptCode2;
-			this.hpdButton1.Size = new System.Drawing.Size(100, 27);
-			this.hpdButton1.TabIndex = 4;
-			this.hpdButton1.Text = "OK";
-			this.hpdButton1.TextAligiment = System.Drawing.StringAlignment.Near;
-			this.hpdButton1.TextLineAligiment = System.Drawing.StringAlignment.Near;
-			this.hpdButton1.UnCheckedColor = System.Drawing.Color.White;
-			this.hpdButton1.Click += new System.EventHandler(this.hpdButton1_Click);
+			this.btnOK.DialogResult = System.Windows.Forms.DialogResult.OK;
+			this.btnOK.Location = new System.Drawing.Point(138, 90);
+			this.btnOK.Name = "btnOK";
+			this.btnOK.Size = new System.Drawing.Size(80, 27);
+			this.btnOK.TabIndex = 4;
+			this.btnOK.Text = "OK";
+			this.btnOK.Click += new System.EventHandler(this.hpdButton1_Click);
 			// 
 			// tbName
 			// 
-			this.tbName.Algnment = Hpd.HpdAlgnment.Near;
-			this.tbName.CanColorCustum = false;
-			this.tbName.Caption = "Name";
-			this.tbName.CaptionWidth = 65;
-			this.tbName.FileName = "";
-			this.tbName.ForcusColor = System.Drawing.Color.White;
-			this.tbName.FrameWeight = new System.Windows.Forms.Padding(1);
-			this.tbName.IsDrawFocuse = true;
-			this.tbName.IsDrawFrame = true;
-			this.tbName.IsSaveFileName = false;
-			this.tbName.LineAlgnment = Hpd.HpdAlgnment.Center;
-			this.tbName.Lines = new string[] {
-        "Name"};
-			this.tbName.Location = new System.Drawing.Point(40, 57);
-			this.tbName.Multiline = false;
+			this.tbName.Location = new System.Drawing.Point(70, 49);
 			this.tbName.Name = "tbName";
-			this.tbName.ScriptCode = hpdScriptCode3;
-			this.tbName.Size = new System.Drawing.Size(267, 23);
+			this.tbName.Size = new System.Drawing.Size(148, 23);
 			this.tbName.TabIndex = 1;
-			this.tbName.TextAligiment = System.Drawing.StringAlignment.Near;
-			this.tbName.TextLineAligiment = System.Drawing.StringAlignment.Near;
-			this.tbName.UnCheckedColor = System.Drawing.Color.White;
 			// 
-			// hpdButton2
+			// btnCancel
 			// 
-			this.hpdButton2.Algnment = Hpd.HpdAlgnment.Near;
-			this.hpdButton2.CanColorCustum = false;
-			this.hpdButton2.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-			this.hpdButton2.FileName = "";
-			this.hpdButton2.ForcusColor = System.Drawing.Color.White;
-			this.hpdButton2.FrameWeight = new System.Windows.Forms.Padding(1);
-			this.hpdButton2.IsDrawFocuse = true;
-			this.hpdButton2.IsDrawFrame = true;
-			this.hpdButton2.IsSaveFileName = false;
-			this.hpdButton2.LineAlgnment = Hpd.HpdAlgnment.Center;
-			this.hpdButton2.Lines = new string[] {
-        "Cancel"};
-			this.hpdButton2.Location = new System.Drawing.Point(101, 128);
-			this.hpdButton2.Name = "hpdButton2";
-			this.hpdButton2.ScriptCode = hpdScriptCode4;
-			this.hpdButton2.Size = new System.Drawing.Size(100, 27);
-			this.hpdButton2.TabIndex = 3;
-			this.hpdButton2.Text = "Cancel";
-			this.hpdButton2.TextAligiment = System.Drawing.StringAlignment.Near;
-			this.hpdButton2.TextLineAligiment = System.Drawing.StringAlignment.Near;
-			this.hpdButton2.UnCheckedColor = System.Drawing.Color.White;
-			this.hpdButton2.Click += new System.EventHandler(this.btnCancel_Click);
+			this.btnCancel.DialogResult = System.Windows.Forms.DialogResult.Cancel;
+			this.btnCancel.Location = new System.Drawing.Point(52, 90);
+			this.btnCancel.Name = "btnCancel";
+			this.btnCancel.Size = new System.Drawing.Size(80, 27);
+			this.btnCancel.TabIndex = 3;
+			this.btnCancel.Text = "Cancel";
+			this.btnCancel.Click += new System.EventHandler(this.btnCancel_Click);
 			// 
-			// tbText
+			// label1
 			// 
-			this.tbText.Algnment = Hpd.HpdAlgnment.Near;
-			this.tbText.CanColorCustum = false;
-			this.tbText.Caption = "Text";
-			this.tbText.CaptionWidth = 65;
-			this.tbText.FileName = "";
-			this.tbText.ForcusColor = System.Drawing.Color.White;
-			this.tbText.FrameWeight = new System.Windows.Forms.Padding(1);
-			this.tbText.IsDrawFocuse = true;
-			this.tbText.IsDrawFrame = true;
-			this.tbText.IsSaveFileName = false;
-			this.tbText.LineAlgnment = Hpd.HpdAlgnment.Center;
-			this.tbText.Lines = new string[] {
-        "Text"};
-			this.tbText.Location = new System.Drawing.Point(40, 86);
-			this.tbText.Multiline = false;
-			this.tbText.Name = "tbText";
-			this.tbText.ScriptCode = hpdScriptCode5;
-			this.tbText.Size = new System.Drawing.Size(267, 23);
-			this.tbText.TabIndex = 2;
-			this.tbText.TextAligiment = System.Drawing.StringAlignment.Near;
-			this.tbText.TextLineAligiment = System.Drawing.StringAlignment.Near;
-			this.tbText.UnCheckedColor = System.Drawing.Color.White;
+			this.label1.Location = new System.Drawing.Point(19, 20);
+			this.label1.Name = "label1";
+			this.label1.Size = new System.Drawing.Size(45, 23);
+			this.label1.TabIndex = 5;
+			this.label1.Text = "Type";
+			this.label1.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+			// 
+			// label2
+			// 
+			this.label2.Location = new System.Drawing.Point(19, 49);
+			this.label2.Name = "label2";
+			this.label2.Size = new System.Drawing.Size(45, 23);
+			this.label2.TabIndex = 6;
+			this.label2.Text = "Name";
+			this.label2.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			// 
 			// NewControlDialog
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-			this.ClientSize = new System.Drawing.Size(349, 183);
+			this.ClientSize = new System.Drawing.Size(238, 130);
 			this.ControlBox = false;
-			this.Controls.Add(this.tbText);
-			this.Controls.Add(this.hpdButton2);
+			this.Controls.Add(this.label2);
+			this.Controls.Add(this.label1);
+			this.Controls.Add(this.btnCancel);
 			this.Controls.Add(this.tbName);
-			this.Controls.Add(this.hpdButton1);
-			this.Controls.Add(this.cmbControl);
+			this.Controls.Add(this.btnOK);
+			this.Controls.Add(this.cmbType);
 			this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedToolWindow;
 			this.MaximizeBox = false;
 			this.Name = "NewControlDialog";
@@ -191,14 +121,16 @@ namespace Hpd
 			this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
 			this.Text = "New Control";
 			this.ResumeLayout(false);
+			this.PerformLayout();
 
 		}
 
 		#endregion
-		private global::Hpd.HpdComboBox cmbControl;
-		private HpdButton hpdButton1;
-		private HpdTextBox tbName;
-		private HpdButton hpdButton2;
-		private HpdTextBox tbText;
+		private HpdTypeCombo cmbType;
+		private Button btnOK;
+		private TextBox tbName;
+		private Button btnCancel;
+		private Label label1;
+		private Label label2;
 	}
 }

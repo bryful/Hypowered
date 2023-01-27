@@ -14,27 +14,14 @@ namespace Hpd
 {
     public enum HpdType
 	{
-		None = 0,
+		None = -1,
 		Button,
-		ComboBox,
 		TextBox,
+		ComboBox,
+		ListBox,
 		Panel,
-		ControlTree,
+		Stretch
 	}
-	public enum MDPos
-	{
-		None =-1,
-		TopLeft=0,
-		Top,
-		TopRight,
-		Left,
-		Center,
-		Right,
-		BottomLeft,
-		Bottom,
-		BottomRight
-	}
-
 	public partial class HpdControl : Control
 	{
 		static public void PropListToClipboard(Type t, string nm)
@@ -62,62 +49,57 @@ namespace Hpd
 
 			Clipboard.SetText(s);
 		}
-		static public HpdControl CreateControl(
-			string name,
-			string txt
-			, HpdType ht)
-		{
-			HpdControl ret;
-			switch (ht)
-			{
-				case HpdType.Panel:
-					HpdPanel hp = new HpdPanel();
-					hp.Name = name;
-					hp.Text = txt;
-					hp.Size = new Size(120, 300);
-					hp.Location = new Point(80, 80);
-					hp.MaximumSize = new Size(0, 0);
-					hp.Size = hp.PreferredSize;
-					ret = (HpdControl)hp;
-					break;
-				case HpdType.TextBox:
-					HpdTextBox htb = new HpdTextBox();
-					htb.Name = name;
-					htb.Text = txt;
-					htb.Size = new Size(120, 23);
-					htb.Location = new Point(80, 100);
-					htb.MaximumSize = new Size(0, 0);
-					htb.Size = htb.PreferredSize;
-					ret = (HpdControl)htb;
-					break;
-				case HpdType.Button:
-				default:
-					HpdButton hb = new HpdButton();
-					hb.Name = name;
-					hb.Text = txt;
-					hb.Size = new Size(120, 23);
-					hb.Location = new Point(100, 100);
-					hb.MaximumSize = new Size(0, 0);
-					hb.Size = hb.PreferredSize;
-					ret = (HpdControl)hb;
-					break;
-			}
-			return ret;
-		}
-		public delegate void NameChangedHandler(object sender, EventArgs e);
-		public event NameChangedHandler? NameChanged;
-		protected virtual void OnNameChanged(EventArgs e)
-		{
-			if (NameChanged != null)
-			{
-				NameChanged(this, e);
-			}
-		}
-		
-		#region Prop
-		[Category("Hypowered")]
-		public HpdScriptCode ScriptCode { get; set; }= new HpdScriptCode();
 
+
+		#region Hypowered
+		[Category("Hypowered")]
+		protected HpdScriptCode ScriptCode { get; set; }= new HpdScriptCode();
+
+		protected Control? m_Item = null;
+		[Category("Hypowered")]
+		public Button? AsButton
+		{
+			get
+			{
+				Button? ret = null;
+				if (m_Item is Button) ret = (Button?)m_Item;
+				return ret;
+			}
+			set{if ((value!=null)&&(m_Item is Button)) m_Item = value;}
+		}
+		[Category("Hypowered")]
+		public TextBox? AsTextBox
+		{
+			get
+			{
+				TextBox? ret = null;
+				if (m_Item is TextBox) ret = (TextBox?)m_Item;
+				return ret;
+			}
+			set { if ((value != null) && (m_Item is TextBox)) m_Item = value; }
+		}
+		[Category("Hypowered")]
+		public ComboBox? AsComboBox
+		{
+			get
+			{
+				ComboBox? ret = null;
+				if (m_Item is ComboBox) ret = (ComboBox?)m_Item;
+				return ret;
+			}
+			set { if ((value != null) && (m_Item is ComboBox)) m_Item = value; }
+		}
+		[Category("Hypowered")]
+		public ListBox? AsListBox
+		{
+			get
+			{
+				ListBox? ret = null;
+				if (m_Item is ListBox) ret = (ListBox?)m_Item;
+				return ret;
+			}
+			set { if ((value != null) && (m_Item is ListBox)) m_Item = value; }
+		}
 		protected HpdForm? m_Root = null;
 		[Category("Hypowered")]
 		public HpdForm? Root
@@ -143,22 +125,6 @@ namespace Hpd
 		protected HpdType m_HpdType = HpdType.None;
 		[Category("Hypowered")]
 		public HpdType HpdType { get { return m_HpdType; } }
-		public virtual void SetHpdType(HpdType ht) { m_HpdType = ht; }
-
-		protected int m_Index = -1;
-		[Category("Hypowered")]
-		public int Index { get { return m_Index; } }
-		public void SetIndex(int v) { m_Index = v;if (m_Index < 0) m_Index = -1; }
-		protected bool m_Selected = false;
-		[Category("Hypowered")]
-		public bool Selected { get { return m_Selected; } }
-		public  void SetSelected(bool b) { m_Selected = b; }
-		protected bool m_IsEdit = false;
-		[Category("Hypowered")]
-		public bool IsEdit { get { return m_IsEdit; } }
-		public virtual void SetIsEdit(bool b) { m_IsEdit = b; }
-		[Category("Hypowered")]
-		protected bool Locked { get; set; } = false;
 
 		[Category("Hypowered"), Browsable(true)]
 		public new string Name
@@ -168,19 +134,53 @@ namespace Hpd
 			{
 				if (base.Name != value)
 				{
+					if(m_Item!=null) m_Item.Name = value;
 					base.Name = value;
 					OnNameChanged(new EventArgs());
 				}
 			}
 		}
-
-		[Category("Hypowered"), Browsable(true)]
-		public new string Text
+		public DialogResult DialogResult
 		{
-			get { return base.Text; }
+			get {
+				if((m_Item!= null)&&(m_Item is Button))
+				{
+					return ((Button)m_Item).DialogResult;
+				}
+				else
+				{
+					return DialogResult.Cancel;
+				}
+			}
 			set 
 			{
-				base.Text = value; 
+				if ((m_Item != null) && (m_Item is Button))
+				{
+					((Button)m_Item).DialogResult = value;
+				}
+			}
+		}
+		[Category("Hypowered_Text"), Browsable(true)]
+		public new string Text
+		{
+			get
+			{
+				if (m_Item != null)
+				{
+					return m_Item.Text;
+				}
+				else
+				{
+					return base.Text;
+				}
+			}
+			set
+			{
+				if (m_Item != null)
+				{
+					m_Item.Text = value;
+				}
+				base.Text = value;
 				this.Invalidate(); 
 			}
 		}
@@ -190,21 +190,28 @@ namespace Hpd
 		[Category("Hypowered_Text")]
 		public string[] Lines
 		{
-			get { return base.Text.Split("\r\n"); }
+			get 
+			{
+				if(m_Item!=null)
+				{
+					return m_Item.Text.Split("\r\n");
+				}
+				else
+				{
+					return base.Text.Split("\r\n");
+				}
+			}
 			set
 			{
+				if (m_Item != null)
+				{
+					m_Item.Text = string.Join("\r\n", value);
+				}
 				base.Text = string.Join("\r\n", value);
 				this.Invalidate();
 			}
 		}
-		protected bool m_IsDrawFocuse = true;
-		[Category("Hypowered")]
-		public bool IsDrawFocuse
-		{
-			get { return m_IsDrawFocuse; }
-			set { m_IsDrawFocuse = value; this.Invalidate(); }
-		}
-		protected bool m_IsDrawFrame = true;
+		protected bool m_IsDrawFrame = false;
 		/// <summary>
 		/// 基本枠を描画するかどうか
 		/// </summary>
@@ -235,6 +242,21 @@ namespace Hpd
 
 			}
 		}
+		[Category("Hypowered_layoyt"), Browsable(true)]
+		public new Size PreferredSize
+		{
+			get
+			{
+				if (m_Item != null)
+				{
+					return m_Item.PreferredSize;
+				}
+				else
+				{
+					return base.PreferredSize;
+				}
+			}
+		}
 		[Category("Hypowered_layout")]
 		public new Point Location
 		{
@@ -249,24 +271,16 @@ namespace Hpd
 			{ 
 				bool b= (base.Size != value);
 				base.Size = value;
-				int w = this.m_SizeDef.Width;
-				if (m_Algnment!= HpdAlgnment.Fill)
-				{
-					w = value.Width;
-				}
-				int h = this.m_SizeDef.Height;
-				if (m_LineAlgnment != HpdAlgnment.Fill)
-				{
-					h = value.Height;
-				}
-				m_SizeDef= new Size(w, h);
 				if (b) { if (Root != null) Root.AutoLayout(); }
 				this.Invalidate();
 			}
 		}
 		public void SetSize(Size sz) { base.Size= sz; }
+		public void SetSize(int w, int h) { base.Size = new Size(w,h); }
+
 		public void SetWidth(int w) { base.Width = w; }
 		public void SetHeight(int h) { base.Height = h; }
+		[Category("Hypowered_layout"), Browsable(false)]
 		public new int Width
 		{
 			get { return base.Width; }
@@ -274,10 +288,10 @@ namespace Hpd
 			{
 				bool b = (base.Width != value);
 				base.Width = value;
-				if(m_Algnment != HpdAlgnment.Fill) m_SizeDef.Width = value;
 				if (b) { if (Root != null) Root.AutoLayout(); }
 			}
 		}
+		[Category("Hypowered_layout"), Browsable(false)]
 		public new int Height
 		{
 			get { return base.Height; }
@@ -285,97 +299,163 @@ namespace Hpd
 			{
 				bool b = (base.Height != value);
 				base.Height = value;
-				if (m_LineAlgnment != HpdAlgnment.Fill) m_SizeDef.Height = value;
 				if (b) { if (Root != null) Root.AutoLayout(); }
 			}
 		}
-		protected Size m_SizeDef = new Size(0, 0);
-		[Category("Hypowered_layout"), Browsable(false)]
-		public Size SizeDef
+		protected Size m_BaseSize = new Size(80, 23);
+		[Category("Hypowered_layout"), Browsable(true)]
+		public Size BaseSize
 		{
-			get { return m_SizeDef; }
-			set { m_SizeDef = value; }
-		}
-		public void PopSizeDef() { base.Size = m_SizeDef; }
-		protected HpdAlgnment m_Algnment = HpdAlgnment.Near;
-		[Category("Hypowered_layout")]
-		public HpdAlgnment Algnment
-		{
-			get { return m_Algnment; }
-			set
+			get { return m_BaseSize; }
+			set 
 			{
-				bool b = (m_Algnment != value);
-				if( (b)&&(m_Algnment== HpdAlgnment.Fill)) SetSize(m_SizeDef);
-				m_Algnment = value;
-				if ((b)&&(Root != null)) Root.AutoLayout();
+				bool b = (m_BaseSize != value);
+				m_BaseSize = value;
+				if (b) { if (Root != null) Root.AutoLayout(); }
 			}
 		}
+		public void SetBaseSize(int? w =null,int? h = null)
+		{
+			int ww=0;
+			int hh = 0;
+			if (w != null) ww = (int)w;  else ww = m_BaseSize.Width;
+			if (h != null) hh = (int)h; else hh = m_BaseSize.Height;
+			m_BaseSize = new Size(ww, hh);
+		}
+		protected SizePolicy m_SizePolicyHorizon = SizePolicy.Expanding;
+		[Category("Hypowered_layout")]
+		public SizePolicy SizePolicyHorizon
+		{
+			get { return m_SizePolicyHorizon; }
+			set
+			{
+				bool b = (m_SizePolicyHorizon != value);
+				m_SizePolicyHorizon = value;
+				if ((b) && (Root != null)) Root.AutoLayout();
+			}
+		}
+		protected SizePolicy m_SizePolicyVertual = SizePolicy.Fixed;
+		[Category("Hypowered_layout")]
+		public SizePolicy SizePolicyVertual
+		{
+			get
+			{
+				if((m_Item is ComboBox)|| (Multiline == false))
+				{
+					m_SizePolicyVertual = SizePolicy.Fixed;
+					return SizePolicy.Fixed;
+				}
+				else
+				{
+					return m_SizePolicyVertual;
+				}
+			}
+			set
+			{
+				if ((m_Item is ComboBox) || (Multiline == false))
+				{
+					value = SizePolicy.Fixed;
+				}
+				bool b = (m_SizePolicyVertual != value);
+				m_SizePolicyVertual = value;
+				if ((b) && (Root != null)) Root.AutoLayout();
+			}
+		}
+		[Category("Hypowered_layout")]
+		public new Padding Margin
+		{
+			get { return base.Margin; }
+			set
+			{
+				bool b = (base.Margin != value);
+				base.Margin = value;
+				if ((b) && (Root != null)) Root.AutoLayout();
+			}
+		}
+		[Category("Hypowered_layout")]
+		public new Padding Padding
+		{
+			get { return base.Padding; }
+			set
+			{
+				bool b = (base.Padding != value);
+				base.Padding = value;
+				if ((b) && (Root != null)) Root.AutoLayout();
+			}
+		}
+		protected string m_Caption = "caption";
+		[Category("Hypowered")]
+		public string Caption
+		{
+			get { return m_Caption; }
+			set
+			{
+				m_Caption = value;
+				Invalidate();
+			}
+		}
+		protected int m_CaptionWidth = 0;
+		[Category("Hypowered")]
+		public int CaptionWidth
+		{
+			get { return m_CaptionWidth; }
+			set
+			{
+				int w = m_BaseSize.Width - m_CaptionWidth;
 
-		protected HpdAlgnment m_LineAlgnment = HpdAlgnment.Near;
-		[Category("Hypowered_layout")]
-		public HpdAlgnment LineAlgnment
-		{
-			get { return m_LineAlgnment; }
-			set
-			{
-				bool b = (m_LineAlgnment != value);
-				if ((b) && (m_LineAlgnment == HpdAlgnment.Fill)) SetSize(m_SizeDef);
-				m_LineAlgnment = value;
-				if (Root != null) Root.AutoLayout();
+				m_CaptionWidth = value;
+				m_BaseSize.Width = w + m_CaptionWidth;
+				ChkSize();
+				Invalidate();
 			}
 		}
-		[Category("Hypowered_Text")]
+		public virtual void ChkSize()
+		{
+			if(m_Item!=null)
+			{
+				m_Item.Location = new Point(m_CaptionWidth, 0);
+				m_Item.Size = new Size(this.Width - m_CaptionWidth, this.Height);
+				if (this.Height != m_Item.Height)
+				{
+					this.Height = m_Item.Height;
+					m_BaseSize.Height = m_Item.Height;
+				}
+			}
+		}
+		[Category("Hypowered")]
 		public new Font Font
 		{
 			get { return base.Font; }
 			set
 			{
 				base.Font = value;
+				if(m_Item!=null)
+				{
+					m_Item.Font = value;
+					base.Size = new Size(m_Item.Width + m_CaptionWidth, m_Item.Height);
+					if ((m_Item is HpdComboBox)||(Multiline==false))
+					{
+						m_BaseSize.Height = m_Item.Height;
+					}
+				}
 			}
 		}
-		protected Padding m_FrameWeight = new Padding(1, 1, 1, 1);
-		/// <summary>
-		/// フレームの太さ
-		/// </summary>
-		[Category("Hypowered")]
-		public Padding FrameWeight
+		[Category("Hypowered_layout")]
+		public new bool Visible
 		{
-			get { return m_FrameWeight; }
-			set { m_FrameWeight = value; this.Invalidate(); }
+			get { return base.Visible; }
+			set
+			{
+				base.Visible = value;
+				if (m_Item != null)
+				{
+					m_Item.Visible = value;
+				}
+				if (Root != null) Root.AutoLayout();
+				this.Invalidate();
+			}
 		}
-		protected bool m_CanColorCustum = false;
-		[Category("Hypowered_Color")]
-		public bool CanColorCustum
-		{
-			get { return m_CanColorCustum; }
-			set { m_CanColorCustum = value; }
-		}
-		protected Color m_ForcusColor = Color.White;
-		[Category("Hypowered_Color")]
-		public Color ForcusColor
-		{
-			get { return m_ForcusColor; }
-			set { m_ForcusColor = value; this.Invalidate(); }
-		}
-		[Category("Hypowered_Color")]
-		public new Color ForeColor
-		{
-			get { return base.ForeColor; }
-			set { base.ForeColor = value; this.Invalidate(); }
-		}
-		[Category("Hypowered_Color")]
-		public new Color BackColor
-		{
-			get { return base.BackColor; }
-			set { base.BackColor = value; this.Invalidate(); }
-		}
-		protected Color m_UnCheckedColor = Color.White;
-		[Category("Hypowered_Color")]
-		public Color UnCheckedColor
-		{
-			get { return m_UnCheckedColor; }
-			set { m_UnCheckedColor = value; this.Invalidate(); }
-		}
+
 		protected StringFormat m_format = new StringFormat();
 		[Category("Hypowered_Text")]
 		public StringAlignment TextAligiment
@@ -390,75 +470,183 @@ namespace Hpd
 			set { m_format.LineAlignment = value; this.Invalidate(); }
 		}
 
-		[Browsable(false)]
-		public new System.Windows.Forms.ControlBindingsCollection DataBindings
+
+		#endregion
+		[Category("Hypowered")]
+		public ListBox.ObjectCollection? ListBoxItems
 		{
-			get { return base.DataBindings; }
-		}
-		[Browsable(false)]
-		public new System.Drawing.Image? BackgroundImage
-		{
-			get { return base.BackgroundImage; }
-			set { base.BackgroundImage = value; }
-		}
-		[Browsable(false)]
-		public new ImageLayout BackgroundImageLayout
-		{
-			get { return base.BackgroundImageLayout; }
-			set { base.BackgroundImageLayout = value; }
-		}
-		[Browsable(false)]
-		public new ContextMenuStrip ContextMenuStrip
-		{
-			get { return base.ContextMenuStrip; }
-			set { base.ContextMenuStrip = value; }
+			get
+			{
+				ListBox.ObjectCollection? ret = null;
+				if ((m_Item!=null)&&(m_Item is ListBox))
+				{
+					ret = ((ListBox)m_Item).Items;
+				}
+				return ret;
+			}
 		}
 		[Category("Hypowered")]
-		public new Object? Tag
+		public ComboBox.ObjectCollection? ComboBoxItems
 		{
-			get { return base.Tag; }
-			set { base.Tag = value; }
+			get
+			{
+				ComboBox.ObjectCollection? ret = null;
+				if ((m_Item != null) && (m_Item is ComboBox))
+				{
+					ret = ((ComboBox)m_Item).Items;
+				}
+				return ret;
+			}
 		}
-		[Browsable(false)]
-		public new Cursor Cursor
+		[Category("Hypowered")]
+		public int SelectedIndex
 		{
-			get { return base.Cursor; }
-			set { base.Cursor = value; }
+			get
+			{
+				int ret = -1;
+				if(m_Item!=null)
+				{
+					if(m_Item is ListBox) { ret = ((ListBox)m_Item).SelectedIndex; }
+					else if (m_Item is ComboBox) { ret = ((ComboBox)m_Item).SelectedIndex; }
+				}
+				return ret;
+			}
+			set 
+			{
+				if (m_Item != null)
+				{
+					if (m_Item is ListBox) { ((ListBox)m_Item).SelectedIndex = value; }
+					else if (m_Item is ComboBox) { ((ComboBox)m_Item).SelectedIndex=value; }
+				}
+			}
 		}
-		[Browsable(false)]
-		public new bool CausesValidation
+		[Category("Hypowered_Text")]
+		public bool Multiline
 		{
-			get { return base.CausesValidation; }
-			set { base.CausesValidation = value; }
+			get 
+			{
+				TextBox? tb = AsTextBox; 
+				if(tb!=null)
+				{
+					return tb.Multiline;
+				}
+				return true; 
+			}
+			set
+			{
+				TextBox? tb = AsTextBox;
+				if (tb !=null)
+				{
+					tb.Multiline = value;
+					if (tb.Multiline)
+					{
+						m_SizePolicyVertual = SizePolicy.Expanding;
+					}
+					else
+					{
+						m_SizePolicyVertual = SizePolicy.Fixed;
+					}
+					ChkSize();
+					if (Root != null) Root.AutoLayout();
+				}
+				Invalidate();
+			}
 		}
-		[Browsable(false)]
-		public new string AccessibleDescription
+		public virtual void SetHpdType(HpdType ht) 
 		{
-			get { return base.AccessibleDescription; }
-			set { base.AccessibleDescription = value; }
+			m_HpdType = ht;
+
+			switch(m_HpdType)
+			{
+				case HpdType.None:
+					m_Item = null;
+					this.Size = new Size(0, 0);
+					m_BaseSize = new Size(0, 0);
+					m_SizePolicyVertual = SizePolicy.Expanding;
+					m_SizePolicyHorizon = SizePolicy.Expanding;
+					break;
+				case HpdType.Button:
+					Button btn = new Button();
+					m_Item = btn;
+					break;
+				case HpdType.TextBox:
+					TextBox tb = new TextBox();
+					m_SizePolicyVertual = SizePolicy.Fixed;
+					m_Item = tb;
+					break;
+				case HpdType.ListBox:
+					ListBox lb  = new ListBox();
+					lb.IntegralHeight = false;
+					m_Item = lb;
+					break;
+				case HpdType.ComboBox:
+					ComboBox cb = new ComboBox();
+					cb.DropDownStyle = ComboBoxStyle.DropDownList;
+					cb.SelectedIndexChanged += (sender, e) => { OnSelectIndexChanged(e); };
+					m_SizePolicyVertual = SizePolicy.Fixed;
+					m_Item = cb;
+					break;
+				case HpdType.Panel:
+				case HpdType.Stretch:
+					m_SizePolicyHorizon = SizePolicy.Expanding;
+					m_SizePolicyVertual = SizePolicy.Expanding;
+					m_Item = null;
+					break;
+			}
+
+			if (m_Item != null)
+			{
+				m_Item.Font = base.Font;
+				m_Item.Name = base.Name;
+				m_Item.Text = base.Text;
+				Size ps = ChkPreferredSize();
+				this.Size = ps;
+				m_BaseSize = ps;
+				m_Item.Location = new Point(m_CaptionWidth, 0);
+				this.Controls.Add(m_Item);
+				m_Item.Click += (sender, e) => { OnClick(e); };
+				m_Item.DoubleClick += (sender, e) => { OnDoubleClick(e); };
+			}
 		}
-		[Browsable(false)]
-		public new string AccessibleName
+		public Size ChkPreferredSize()
 		{
-			get { return base.AccessibleName; }
-			set { base.AccessibleName = value; }
+			Size ret;
+			Size bak;
+			if (m_Item != null)
+			{
+				string tx = m_Item.Text;
+				m_Item.Text = "HpdControl";
+				bak = m_Item.Size;
+				m_Item.Size = new Size(0, 0);
+				ret = m_Item.PreferredSize;
+				if (ret.Width < 25 * 3) ret.Width = 25 * 3;
+				if (ret.Height < 25) ret.Height = 25;
+				ret.Width = ret.Width + m_CaptionWidth;
+				m_Item.Size = bak;
+				m_Item.Text = tx;
+			}
+			else
+			{
+				string tx = base.Text;
+				base.Text = "HpdControl";
+				bak = base.Size;
+				base.Size = new Size(0, 0);
+				ret = base.PreferredSize;
+				if (ret.Width <25*3) ret.Width = 25 * 3;
+				if (ret.Height < 25) ret.Height = 25;
+				base.Size = bak;
+				base.Text = tx;
+			}
+			return ret;
 		}
-		[Browsable(false)]
-		public new AccessibleRole AccessibleRole
+		protected override void OnGotFocus(EventArgs e)
 		{
-			get { return base.AccessibleRole; }
-			set { base.AccessibleRole = value; }
+			base.OnGotFocus(e);
+			if(m_Item!=null) m_Item.Focus();
 		}
-		#endregion
 		public HpdControl()
 		{
 			ScriptCode.SetSTypes(ScriptTypeBit.None);
-			this.Size= new Size(80, 36);
-			this.SizeDef = this.Size;
-			//Margin
-			//base.BackColor = Color.FromArgb(32, 32, 32);
-			//base.ForeColor = Color.FromArgb(220, 220, 220);
-			this.Size= new Size(100, 23);
 			this.SetStyle(
 				ControlStyles.Selectable |
 				ControlStyles.UserMouse |
@@ -470,147 +658,27 @@ namespace Hpd
 				true);
 			this.UpdateStyles();
 			InitializeComponent();
+			ChkSize();
 		}
 
 		protected override void OnPaint(PaintEventArgs pe)
 		{
-			if (m_IsEdit)
+			if (m_IsDrawFrame)
 			{
 				using (Pen p = new Pen(ForeColor))
 				using (SolidBrush sb = new SolidBrush(BackColor))
 				{
 					Graphics g = pe.Graphics;
 					g.FillRectangle(sb, this.ClientRectangle);
-
-
-					string? n = Enum.GetName<HpdType>(m_HpdType);
-					if(n != null)
-					{
-						StringFormat sf = new StringFormat();
-						sf.Alignment= StringAlignment.Near;
-						sf.LineAlignment= StringAlignment.Near;
-						sb.Color = ForeColor;
-						g.DrawString(n, this.Font, sb, this.ClientRectangle, sf);
-					}
 					Rectangle r = new Rectangle(0, 0, this.Width - 1, this.Height - 1);
 					g.DrawRectangle(p,r);
 				}
 			}
 		}
-		protected MDPos m_mdpos = MDPos.None;
-		protected Point m_mdlocg = new Point(0,0);
-		protected Point m_mdloc = new Point(0, 0);
-		protected Size m_mdsize = new Size(0, 0);
-
-		private MDPos GetPos(MouseEventArgs e)
+		protected override void OnResize(EventArgs e)
 		{
-			MDPos ret = MDPos.None;
-			int w = 10;
-			int h = 10;
-
-			if(e.Y<h)
-			{
-				if (e.Y < w)
-				{
-					ret = MDPos.TopLeft;
-				}else if(e.Y>this.Width-w)
-				{
-					ret = MDPos.TopRight;
-				}
-				else
-				{
-					ret = MDPos.Top;
-				}
-			}else if (e.Y> this.Height - h) 
-			{
-				if (e.Y < w)
-				{
-					ret = MDPos.BottomLeft;
-				}
-				else if (e.Y > this.Width - w)
-				{
-					ret = MDPos.BottomRight;
-				}
-				else
-				{
-					ret = MDPos.BottomRight;
-				}
-			}
-			else
-			{
-				if (e.Y < w)
-				{
-					ret = MDPos.Left;
-				}
-				else if (e.Y > this.Width - w)
-				{
-					ret = MDPos.Right;
-				}
-				else
-				{
-					ret = MDPos.Center;
-				}
-			}
-			return ret;
-		}
-		protected override void OnMouseDown(MouseEventArgs e)
-		{
-			if(m_IsEdit)
-			{
-				if ((e.Button & MouseButtons.Left) == MouseButtons.Left)
-				{
-					m_mdpos = GetPos(e);
-					if (m_mdpos != MDPos.None)
-					{
-						m_mdlocg = new Point(e.X + this.Left, e.Y + this.Top);
-						m_mdloc = this.Location;
-						m_mdsize = this.Size;
-					}
-				}
-				else if ((e.Button & MouseButtons.Right) == MouseButtons.Right)
-				{
-
-				}
-			}
-			else
-			{
-				base.OnMouseDown(e);
-			}
-		}
-		protected override void OnMouseMove(MouseEventArgs e)
-		{
-			if(m_mdpos!= MDPos.None)
-			{
-				int ax = (e.X + this.Left) -m_mdlocg.X;
-				int ay = (e.Y + this.Top) - m_mdlocg.Y;
-				switch (m_mdpos)
-				{
-					case MDPos.BottomRight:
-						this.Size = new Size(
-							m_mdsize.Width + ax,
-							m_mdsize.Height + ay
-							);
-						break;
-					case MDPos.Center:
-						this.Location = new Point( m_mdloc.X + ax, m_mdloc.Y + ay );
-						break;
-				}
-				this.Invalidate();
-			}
-			else
-			{
-				base.OnMouseMove(e);
-			}
-		}
-		protected override void OnMouseUp(MouseEventArgs e)
-		{
-			if (m_mdpos != MDPos.None)
-			{
-				m_mdpos = MDPos.None;
-				this.Invalidate();
-			}
-
-			base.OnMouseUp(e);
+			base.OnResize(e);
+			ChkSize();
 		}
 	}
 }

@@ -12,89 +12,38 @@ namespace Hpd
 {
 	public partial class NewControlDialog : HpdForm
 	{
+		private HpdForm? m_MainForm = null;
+		public void SetMainForm(HpdForm? mf)
+		{
+			m_MainForm = mf;
+		}
 		public HpdType HpdType
 		{
-			get
-			{
-				HpdType ret = HpdType.None;
-				object? obj = cmbControl.SelectedItem;
-				if(obj != null)
-				{
-					if(obj is CombItem)
-					{
-						CombItem ci = (CombItem)obj;
-						if (ci.obj != null)
-							ret = (HpdType)ci.obj;
-					}
-				}
-				return ret;
-			}
-			set
-			{
-				int idx = FindHpdType(value);
-				if(idx >= 0) { cmbControl.SelectedIndex = idx; }
-			}
-		}
-		private int FindHpdType(HpdType ht)
-		{
-			int ret = -1;
-			int idx = 0;
-			foreach(object? c in cmbControl.Items)
-			{
-				if((c!=null)&&(c is CombItem))
-				{
-					object? o2 = ((CombItem)c).obj;
-					if(o2!=null)
-					{
-						if ((HpdType)o2 == ht)
-						{
-							ret = idx;
-							break;
-						}
-					}
-				}
-				idx++;
-			}
-			return ret;
+			get{return cmbType.HpdType;}
+			set{cmbType.HpdType=value;NameSet(); }
 		}
 		public string HpdName
 		{
 			get { return tbName.Text; }
 			set { tbName.Text = value; }
 		}
-		public string HpdText
-		{
-			get { return tbText.Text; }
-			set { tbText.Text = value; }
-		}
 		public NewControlDialog()
 		{
 			InitializeComponent();
-			SetupComb();
-		}
-		protected override void InitLayout()
-		{
-			base.InitLayout();
-			SetupComb();
-		}
-		private void SetupComb()
-		{
-
-			cmbControl.Items.Clear();
-			string[] itms = Enum.GetNames(typeof(HpdType));
-			int idx = 0;
-			List<CombItem> items = new List<CombItem>();
-			foreach (string itm in itms)
+			cmbType.SelectedIndexChanged += (sender, e) =>
 			{
-				CombItem ii = new CombItem(itm, idx);
-				if(ii.Name!="None")
+				NameSet();
+			};
+			NameSet();
+		}
+		private void NameSet()
+		{
+				string s = cmbType.DefName;
+				if (m_MainForm != null)
 				{
-					items.Add(ii);
+					s = m_MainForm.NewName(s);
 				}
-				idx++;
-			}
-			cmbControl.Items.AddRange(items.ToArray());
-			
+				tbName.Text = s;
 		}
 
 		private void btnCancel_Click(object sender, EventArgs e)
@@ -104,7 +53,18 @@ namespace Hpd
 
 		private void hpdButton1_Click(object sender, EventArgs e)
 		{
-			DialogResult = DialogResult.OK;
+			if(m_MainForm!= null)
+			{
+				string nm = tbName.Text;
+				HpdControl[] sa = m_MainForm.FindControl(nm);
+				if (sa.Length > 0)
+				{
+					tbName.Text = m_MainForm.NewName(nm);
+					return;
+				}
+				DialogResult = DialogResult.OK;
+			}
+
 		}
 	}
 }

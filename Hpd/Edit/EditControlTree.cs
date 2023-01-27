@@ -11,7 +11,7 @@ using System.Windows.Forms;
 
 namespace Hpd
 {
-	public partial class HpdControlTree : HpdControl
+	public partial class EditControlTree : Control
 	{
 		public delegate void TreeViewHandler(object sender, TreeViewEventArgs e);
 		public event TreeViewHandler? AfterSelect;
@@ -72,12 +72,6 @@ namespace Hpd
 			get { return m_TreeView.Form; }
 			set { m_TreeView.Form = value; }
 		}
-		public override void SetIsEdit(bool b)
-		{
-			m_IsEdit = b;
-			m_TreeView.Visible = !b;
-			this.Invalidate();
-		}
 		public new string Text
 		{
 			get { return m_TreeView.Text; }
@@ -87,9 +81,8 @@ namespace Hpd
 				m_TreeView.Text = value;
 			}
 		}
-		public HpdControlTree()
+		public EditControlTree()
 		{
-			SetHpdType(HpdType.ControlTree);
 
 			Size sz = new Size(50, 23);
 			int x = 0;

@@ -10,14 +10,14 @@ using System.Windows.Forms;
 
 namespace Hpd
 {
-	public partial class HpdPropertyForm : HpdForm
+	public partial class EditPropertyForm : Form
 	{
 		public Form? Form
 		{
 			get { return controlTree1.Form; }
 			set { controlTree1.Form = value; }
 		}
-		public HpdPropertyForm()
+		public EditPropertyForm()
 		{
 			InitializeComponent();
 			controlTree1.AfterSelect += (sender, e) =>

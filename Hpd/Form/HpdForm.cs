@@ -24,7 +24,7 @@ namespace Hpd
 				NameChanged(this, e);
 			}
 		}
-		protected HpdOrientation m_Orientation = HpdOrientation.Row;
+		protected HpdOrientation m_Orientation = HpdOrientation.Vertical;
 		[Category("Hypowered_layout")]
 		public HpdOrientation Orientation
 		{
@@ -36,29 +36,25 @@ namespace Hpd
 				if(b) AutoLayout(); 
 			}
 		}
-		protected bool m_IsEdit = false;
-		[Category("Hypowered")]
-		public bool IsEdit { get { return m_IsEdit; } }
-		public void SetIsEdit(bool b){m_IsEdit = b;}
-		public void SetIsEdit(Control m,bool b)
+		protected Size m_BaseSize = new Size(0,0);
+		[Category("Hypowered_layout")]
+		public Size BaseSize
 		{
-			if(m is HpdControl)
+			get { return m_BaseSize; }
+			set
 			{
-				((HpdControl)m).SetIsEdit(b);
-			}else if (m is HpdForm)
-			{
-				((HpdForm)m).SetIsEdit(b);
+				m_BaseSize = value;
 			}
-
-			if (m.Controls.Count>0)
+		}
+		[Category("Hypowered_layout")]
+		public new Padding Padding
+		{
+			get { return base.Padding; }
+			set
 			{
-				foreach(var c in m.Controls)
-				{
-					if(c is HpdControl)
-					{
-						((HpdControl)c).SetIsEdit(b);
-					}
-				}
+				bool b = (base.Padding != value);
+				base.Padding = value;
+				if (b) AutoLayout();
 			}
 		}
 		[Category("Hypowered")]
@@ -108,6 +104,16 @@ namespace Hpd
 			get { return base.Size; }
 			set { base.Size = value; this.Invalidate(); }
 		}
+		[Category("Hypowered"),Browsable(false)]
+		public new Size MinimumSize
+		{
+			get { return base.MinimumSize; }
+			set { }
+		}
+		public void SetMinimumSize(Size sz)
+		{
+			base.MinimumSize = sz;
+		}
 		[Category("Hypowered_Text")]
 		public new Font Font
 		{
@@ -121,7 +127,7 @@ namespace Hpd
 		{
 			//base.BackColor = Color.FromArgb(32, 32, 32);
 			//base.ForeColor = Color.FromArgb(220, 220, 220);
-
+			base.AutoScaleMode = AutoScaleMode.None;
 			this.SetStyle(
 				ControlStyles.DoubleBuffer |
 				ControlStyles.UserPaint |
@@ -130,29 +136,136 @@ namespace Hpd
 				true);
 			this.UpdateStyles();
 			InitializeComponent();
-			ChkControls();
+			ControlAdded += (sender, e) => { AutoLayout(); };
+			ControlRemoved += (sender, e) => { AutoLayout(); };
+
 			AutoLayout();
 		}
-		protected void ChkControls()
+		public HpdControl[] FindControl(string name)
 		{
-			if(Controls.Count > 0 )
+			Control[] controls = this.Controls.Find(name, true);
+
+			List<HpdControl> result = new List<HpdControl>();
+			foreach(Control c in controls)
 			{
-				int idx = 0;
-				foreach( Control c in Controls )
+				if( c is HpdControl)
 				{
-					if(c is HpdControl)
-					{
-						HpdControl hc = (HpdControl)c;
-						hc.SetIndex(idx);
-					}
-					idx++;
+					result.Add((HpdControl)c);
 				}
 			}
+
+			return result.ToArray();
 		}
-		
-		public void AddControl(string Name,string tx,HpdType ht)
+		private int LastNumber(string name)
 		{
-			HpdControl? c = HpdControl.CreateControl(Name, tx, ht);
+			int ret = -2;
+			if (name.Length > 0)
+			{
+				for (int i = name.Length - 1; i >= 0; i--)
+				{
+					if ((name[i] < '0') || (name[i] > '9'))
+					{
+						ret = i;
+						break;
+					}
+				}
+				if (ret == name.Length - 1)
+				{
+					ret = -1;
+				}
+				else if (ret == -2)
+				{
+					ret = 0;
+				}
+				else
+				{
+					ret += 1;
+				}
+			}
+			return ret;
+		}
+		public string NewName(string name)
+		{
+			if (name == "") return "";
+			int idx = LastNumber(name);
+			string node="";
+			int num = 0;
+			string numStr = "";
+			if (idx <0)
+			{
+				node = name;
+			}
+			else
+			{
+				node = name.Substring(0, idx);
+				string ns = name.Substring(idx);
+				if(int.TryParse(ns, out num)==false)
+				{
+					num = 1;
+				}
+				numStr = $"{num}";
+
+			}
+
+			while(FindControl(node+numStr).Length>0)
+			{
+				num++;
+				numStr = $"{num}";
+			}
+			return node + numStr;
+		}
+		static public HpdControl CreateControl(string name, HpdType ht)
+		{
+			HpdControl ret;
+			switch (ht)
+			{
+
+
+				case HpdType.TextBox:
+					HpdTextBox htb = new HpdTextBox();
+					htb.Name = name;
+					htb.Text = name;
+					ret = (HpdControl)htb;
+					break;
+				case HpdType.ComboBox:
+					HpdComboBox comb = new HpdComboBox();
+					comb.Name = name;
+					comb.Text = name;
+					ret = (HpdControl)comb;
+					break;
+				case HpdType.ListBox:
+					HpdListBox lb = new HpdListBox();
+					lb.Name = name;
+					lb.Text = name;
+					ret = (HpdControl)lb;
+					break;
+				case HpdType.Panel:
+					HpdPanel hp = new HpdPanel();
+					hp.SetBaseSize(0, 0);
+					hp.Name = name;
+					hp.Text = name;
+					ret = (HpdControl)hp;
+					break;
+				case HpdType.Stretch:
+					HpdStretch stretch = new HpdStretch();
+					stretch.SetBaseSize(0, 0);
+					stretch.Name = name;
+					stretch.Text = name;
+					ret = (HpdControl)stretch;
+					break;
+				case HpdType.Button:
+				default:
+					HpdButton hb = new HpdButton();
+					hb.Name = name;
+					hb.Text = name;
+					ret = (HpdControl)hb;
+					break;
+			}
+			return ret;
+		}
+		public void AddControl(string Name,HpdType ht)
+		{
+			HpdControl? c = CreateControl(Name, ht);
 			if(c != null)
 			{
 				Controls.Add(c);
@@ -167,7 +280,7 @@ namespace Hpd
 				dlg.HpdType= DefHpdType;
 				if( dlg.ShowDialog()== DialogResult.OK )
 				{
-					AddControl(dlg.HpdName,dlg.HpdText,dlg.HpdType);
+					AddControl(dlg.HpdName,dlg.HpdType);
 					DefHpdType = dlg.HpdType;
 				}
 			}
@@ -175,35 +288,14 @@ namespace Hpd
 		private bool AutoLayoutFlag = false;
 		public void AutoLayout()
 		{
+			if ((this.Width <= this.MinimumSize.Width) && (this.Height <= this.MinimumSize.Height)) return;
 			if (AutoLayoutFlag) return;
-			AutoLayoutFlag=true;
-			AutoLayout(this);
+			AutoLayoutFlag = true;
+			this.SuspendLayout();
+			HpdLayout.ChkPanelLayout(this);
+			HpdLayout.ChkLayout(this);
+			this.ResumeLayout(false);
 			AutoLayoutFlag = false;
-		}
-		public void AutoLayout(Control ctrl,bool isReSize=false)
-		{
-			if (ctrl.Controls.Count > 0)
-			{
-				foreach (Control c in ctrl.Controls)
-				{
-					if (c is HpdPanel)
-					{
-						AutoLayout(c, true);
-					}
-				}
-			}
-			HpdOrientation ori = HpdOrientation.Row;
-			if(ctrl is HpdForm) { ori = ((HpdForm)ctrl).Orientation; }
-			else if (ctrl is HpdPanel) { ori = ((HpdPanel)ctrl).Orientation; }
-			if (ori == HpdOrientation.Row)
-			{
-				HpdLayout.ChkRow(ctrl);
-			}
-			else
-			{
-				HpdLayout.ChkColumn(ctrl);
-			}
-
 		}
 		protected override void OnResize(EventArgs e)
 		{
