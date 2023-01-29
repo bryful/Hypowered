@@ -220,22 +220,7 @@ namespace Hpd
 			ListupControls();
 		}
 		// *******************************************************************************
-		[ScriptUsage(ScriptAccess.None)]   
-		public HpdControl[] FindControl(string name)
-		{
-			Control[] controls = this.Controls.Find(name, true);
-
-			List<HpdControl> result = new List<HpdControl>();
-			foreach(Control c in controls)
-			{
-				if( c is HpdControl)
-				{
-					result.Add((HpdControl)c);
-				}
-			}
-
-			return result.ToArray();
-		}
+		
 		// *******************************************************************************
 		private int LastNumber(string name)
 		{
@@ -374,6 +359,7 @@ namespace Hpd
 			using (NewControlDialog dlg = new NewControlDialog())
 			{
 				dlg.HpdType= DefHpdType;
+				dlg.SetMainForm(this);
 				if( dlg.ShowDialog()== DialogResult.OK )
 				{
 					AddControl(dlg.HpdName,dlg.HpdType);
