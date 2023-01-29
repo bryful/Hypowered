@@ -1647,10 +1647,10 @@
   <ItemGroup>
     <PackageReference Include="AvalonEdit" Version="6.2.0.78" />
     <PackageReference Include="Markdig" Version="0.30.4" />
-    <PackageReference Include="Microsoft.ClearScript" Version="7.3.6" />
-    <PackageReference Include="Microsoft.ClearScript.V8" Version="7.3.6" />
-    <PackageReference Include="Microsoft.ClearScript.V8.Native.win-x64" Version="7.3.6" />
-    <PackageReference Include="Microsoft.ClearScript.V8.Native.win-x86" Version="7.3.6" />
+    <PackageReference Include="Microsoft.ClearScript" Version="7.3.7" />
+    <PackageReference Include="Microsoft.ClearScript.V8" Version="7.3.7" />
+    <PackageReference Include="Microsoft.ClearScript.V8.Native.win-x64" Version="7.3.7" />
+    <PackageReference Include="Microsoft.ClearScript.V8.Native.win-x86" Version="7.3.7" />
     <PackageReference Include="Microsoft.WindowsAPICodePack-Shell" Version="1.1.0" />
     <PackageReference Include="RoslynPad.Editor.Windows" Version="4.4.0" />
     <PackageReference Include="RoslynPad.Roslyn.Windows" Version="4.4.0" />
