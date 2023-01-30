@@ -10,7 +10,7 @@ using System.Windows.Forms;
 
 namespace Hpd
 {
-	public partial class NewControlDialog : HpdForm
+	public partial class NewControlDialog : Form
 	{
 		private HpdForm? m_MainForm = null;
 		public void SetMainForm(HpdForm? mf)

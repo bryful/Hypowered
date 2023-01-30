@@ -7,6 +7,7 @@
     <ImplicitUsings>enable</ImplicitUsings>
     <OutputType>WinExe</OutputType>
     <UseWPF>True</UseWPF>
+    <RootNamespace>Hpd</RootNamespace>
   </PropertyGroup>
 
   <ItemGroup>
@@ -16,6 +17,7 @@
     <PackageReference Include="Microsoft.ClearScript.V8.Native.win-x86" Version="7.3.7" />
     <PackageReference Include="Microsoft.CodeAnalysis.CSharp" Version="4.4.0" />
     <PackageReference Include="Microsoft.CodeAnalysis.CSharp.Scripting" Version="4.4.0" />
+    <PackageReference Include="Microsoft.WindowsAPICodePack-Shell" Version="1.1.0" />
     <PackageReference Include="RoslynPad.Editor.Windows" Version="4.4.0" />
     <PackageReference Include="RoslynPad.Roslyn.Windows" Version="4.4.0" />
   </ItemGroup>

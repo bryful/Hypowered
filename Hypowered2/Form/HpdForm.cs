@@ -314,6 +314,12 @@ namespace Hpd
 					cb.Text = name;
 					ret = (HpdCheckBox)cb;
 					break;
+				case HpdType.RadioButton:
+					HpdRadioButton rb = new HpdRadioButton();
+					rb.Name = name;
+					rb.Text = name;
+					ret = (HpdRadioButton)rb;
+					break;
 				case HpdType.Panel:
 					HpdPanel hp = new HpdPanel();
 					hp.SetBaseSize(0, 0);

@@ -202,7 +202,7 @@ namespace Hpd
 			}
 			else if (c is HpdControl)
 			{
-				HpdForm? fm =  ((HpdControl)c).Root;
+				HpdForm? fm =  ((HpdControl)c).MainForm;
 				if (fm != null)
 				{
 					fm.AddControl();

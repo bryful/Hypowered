@@ -21,7 +21,7 @@ namespace Hpd
 			{
 				bool b = (m_Orientation != value);
 				m_Orientation = value;
-				if ((b)&&(Root != null)) Root.AutoLayout();
+				if ((b)&&(MainForm != null)) MainForm.AutoLayout();
 			}
 		}
 
@@ -48,24 +48,28 @@ namespace Hpd
 			{
 				c.NameChanged += (sender, e) =>
 				{
-					if (Root != null)
+					if (MainForm != null)
 					{
 						OnNameChanged(e);
 					}
 				};
 				Controls.Add(c);
-				if(Root!=null) Root.AutoLayout();
+				if(MainForm!=null) MainForm.AutoLayout();
 			}
 		}
 		public void AddControl()
 		{
 			using (NewControlDialog dlg = new NewControlDialog())
 			{
-				if (Root != null) dlg.HpdType = Root.DefHpdType;
-				if (dlg.ShowDialog() == DialogResult.OK)
+				if (MainForm != null)
 				{
-					AddControl(dlg.HpdName, dlg.HpdType);
-					if (Root != null) Root.DefHpdType = dlg.HpdType;
+					dlg.HpdType = MainForm.DefHpdType;
+					dlg.SetMainForm(MainForm);
+					if (dlg.ShowDialog() == DialogResult.OK)
+					{
+						AddControl(dlg.HpdName, dlg.HpdType);
+						MainForm.DefHpdType = dlg.HpdType;
+					}
 				}
 			}
 		}

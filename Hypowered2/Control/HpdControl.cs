@@ -20,6 +20,7 @@ namespace Hpd
 		ComboBox,
 		ListBox,
 		CheckBox,
+		RadioButton,
 		Panel,
 		Stretch
 	}
@@ -58,79 +59,84 @@ namespace Hpd
 
 		protected Control? m_Item = null;
 		[Category("Hypowered"), Browsable(false)]
-		public Button? AsButton
+		public HpdButton? AsHpdButton
 		{
 			get
 			{
-				Button? ret = null;
-				if (m_Item is Button) ret = (Button?)m_Item;
+				HpdButton? ret = null;
+				if (m_Item is not null and Button) ret = (HpdButton?)this;
 				return ret;
 			}
-			set{if ((value!=null)&&(m_Item is Button)) m_Item = value;}
 		}
 		[Category("Hypowered"), Browsable(false)]
-		public TextBox? AsTextBox
+		public HpdTextBox? AsHpdTextBox
 		{
 			get
 			{
-				TextBox? ret = null;
-				if (m_Item is TextBox) ret = (TextBox?)m_Item;
+				HpdTextBox? ret = null;
+				if (m_Item is not null and TextBox) ret = (HpdTextBox?)this;
 				return ret;
 			}
-			set { if ((value != null) && (m_Item is TextBox)) m_Item = value; }
 		}
 		[Category("Hypowered"), Browsable(false)]
-		public ComboBox? AsComboBox
+		public HpdComboBox? AsHpdComboBox
 		{
 			get
 			{
-				ComboBox? ret = null;
-				if (m_Item is ComboBox) ret = (ComboBox?)m_Item;
+				HpdComboBox? ret = null;
+				if (m_Item is not null and ComboBoxHpd) ret = (HpdComboBox?)this;
 				return ret;
 			}
-			set { if ((value != null) && (m_Item is ComboBox)) m_Item = value; }
 		}
 		[Category("Hypowered"), Browsable(false)]
-		public ListBox? AsListBox
+		public HpdListBox? AsHpdListBox
 		{
 			get
 			{
-				ListBox? ret = null;
-				if (m_Item is ListBox) ret = (ListBox?)m_Item;
+				HpdListBox? ret = null;
+				if (m_Item is not null and ListBox) ret = (HpdListBox?)this;
 				return ret;
 			}
-			set { if ((value != null) && (m_Item is ListBox)) m_Item = value; }
 		}
 		[Category("Hypowered"), Browsable(false)]
-		public CheckBox? AsCheckBox
+		public HpdCheckBox? AsHpdCheckBox
 		{
 			get
 			{
-				CheckBox? ret = null;
-				if (m_Item is CheckBox) ret = (CheckBox?)m_Item;
+				HpdCheckBox? ret = null;
+				if (m_Item is not null and CheckBox) ret = (HpdCheckBox?)this;
 				return ret;
 			}
-			set { if ((value != null) && (m_Item is CheckBox)) m_Item = value; }
 		}
-		protected HpdForm? m_Root = null;
 		[Category("Hypowered"), Browsable(false)]
-		public HpdForm? Root
+		public HpdRadioButton? AsHpdRadioButton
 		{
 			get
 			{
-				Control? ret = m_Root;
-				if (m_Root == null)
+				HpdRadioButton? ret = null;
+				if (m_Item is not null and RadioButton) ret = (HpdRadioButton?)this;
+				return ret;
+			}
+		}
+		protected HpdMainForm? m_MainForm = null;
+		[Category("Hypowered"), Browsable(false)]
+		public HpdMainForm? MainForm
+		{
+			get
+			{
+				Control? ret = m_MainForm;
+				if (m_MainForm == null)
 				{
 					ret  = (Control?)this.Parent;
 					while ((ret != null) && (ret.Parent != null))
 					{
-						if (ret is HpdForm) break;
+						if (ret is HpdMainForm) break;
 						ret = ret.Parent;
 					}
-					m_Root = (HpdForm?)ret;
+					m_MainForm = (HpdMainForm?)ret;
 				}
 
-				return m_Root;
+				return m_MainForm;
 			}
 
 		}
@@ -284,7 +290,7 @@ namespace Hpd
 			{ 
 				bool b= (base.Size != value);
 				base.Size = value;
-				if (b) { if (Root != null) Root.AutoLayout(); }
+				if (b) { if (MainForm != null) MainForm.AutoLayout(); }
 				this.Invalidate();
 			}
 		}
@@ -301,7 +307,7 @@ namespace Hpd
 			{
 				bool b = (base.Width != value);
 				base.Width = value;
-				if (b) { if (Root != null) Root.AutoLayout(); }
+				if (b) { if (MainForm != null) MainForm.AutoLayout(); }
 			}
 		}
 		[Category("Hypowered_layout"), Browsable(false)]
@@ -312,7 +318,7 @@ namespace Hpd
 			{
 				bool b = (base.Height != value);
 				base.Height = value;
-				if (b) { if (Root != null) Root.AutoLayout(); }
+				if (b) { if (MainForm != null) MainForm.AutoLayout(); }
 			}
 		}
 		protected Size m_BaseSize = new Size(80, 23);
@@ -324,7 +330,7 @@ namespace Hpd
 			{
 				bool b = (m_BaseSize != value);
 				m_BaseSize = value;
-				if (b) { if (Root != null) Root.AutoLayout(); }
+				if (b) { if (MainForm != null) MainForm.AutoLayout(); }
 			}
 		}
 		public void SetBaseSize(int? w =null,int? h = null)
@@ -344,7 +350,7 @@ namespace Hpd
 			{
 				bool b = (m_SizePolicyHorizon != value);
 				m_SizePolicyHorizon = value;
-				if ((b) && (Root != null)) Root.AutoLayout();
+				if ((b) && (MainForm != null)) MainForm.AutoLayout();
 			}
 		}
 		protected SizePolicy m_SizePolicyVertual = SizePolicy.Fixed;
@@ -353,7 +359,11 @@ namespace Hpd
 		{
 			get
 			{
-				if((m_Item is ComboBox)|| (Multiline == false))
+				if(
+					(m_Item is ComboBox)||
+					(m_Item is CheckBox) ||
+					(m_Item is RadioButton) ||
+					(Multiline == false))
 				{
 					m_SizePolicyVertual = SizePolicy.Fixed;
 					return SizePolicy.Fixed;
@@ -365,13 +375,17 @@ namespace Hpd
 			}
 			set
 			{
-				if ((m_Item is ComboBox) || (Multiline == false))
+				if (
+					(m_Item is ComboBox) ||
+					(m_Item is CheckBox) ||
+					(m_Item is RadioButton) ||
+					(Multiline == false))
 				{
 					value = SizePolicy.Fixed;
 				}
 				bool b = (m_SizePolicyVertual != value);
 				m_SizePolicyVertual = value;
-				if ((b) && (Root != null)) Root.AutoLayout();
+				if ((b) && (MainForm != null)) MainForm.AutoLayout();
 			}
 		}
 		[Category("Hypowered_layout")]
@@ -382,7 +396,7 @@ namespace Hpd
 			{
 				bool b = (base.Margin != value);
 				base.Margin = value;
-				if ((b) && (Root != null)) Root.AutoLayout();
+				if ((b) && (MainForm != null)) MainForm.AutoLayout();
 			}
 		}
 		[Category("Hypowered_layout")]
@@ -393,7 +407,7 @@ namespace Hpd
 			{
 				bool b = (base.Padding != value);
 				base.Padding = value;
-				if ((b) && (Root != null)) Root.AutoLayout();
+				if ((b) && (MainForm != null)) MainForm.AutoLayout();
 			}
 		}
 		protected string m_Caption = "caption";
@@ -464,7 +478,7 @@ namespace Hpd
 				{
 					m_Item.Visible = value;
 				}
-				if (Root != null) Root.AutoLayout();
+				if (MainForm != null) MainForm.AutoLayout();
 				this.Invalidate();
 			}
 		}
@@ -538,7 +552,7 @@ namespace Hpd
 		{
 			get 
 			{
-				TextBox? tb = AsTextBox; 
+				TextBox? tb = m_Item as TextBox; 
 				if(tb!=null)
 				{
 					return tb.Multiline;
@@ -547,7 +561,7 @@ namespace Hpd
 			}
 			set
 			{
-				TextBox? tb = AsTextBox;
+				TextBox? tb = m_Item as TextBox;
 				if (tb !=null)
 				{
 					tb.Multiline = value;
@@ -560,7 +574,7 @@ namespace Hpd
 						m_SizePolicyVertual = SizePolicy.Fixed;
 					}
 					ChkSize();
-					if (Root != null) Root.AutoLayout();
+					if (MainForm != null) MainForm.AutoLayout();
 				}
 				Invalidate();
 			}
@@ -593,8 +607,7 @@ namespace Hpd
 					m_Item = lb;
 					break;
 				case HpdType.ComboBox:
-					ComboBox cb = new ComboBox();
-					cb.DropDownStyle = ComboBoxStyle.DropDownList;
+					ComboBoxHpd cb = new ComboBoxHpd();
 					cb.SelectedIndexChanged += (sender, e) => { OnSelectIndexChanged(e); };
 					m_SizePolicyVertual = SizePolicy.Fixed;
 					m_Item = cb;
@@ -602,8 +615,14 @@ namespace Hpd
 				case HpdType.CheckBox:
 					CheckBox cbx = new CheckBox();
 					m_SizePolicyVertual = SizePolicy.Fixed;
-					cbx.CheckedChanged += (sender,e)=> { OnCheckedChangedd(e); };
+					cbx.CheckedChanged += (sender,e)=> { OnCheckedChanged(e); };
 					m_Item = cbx;
+					break;
+				case HpdType.RadioButton:
+					RadioButton rb = new RadioButton();
+					m_SizePolicyVertual = SizePolicy.Fixed;
+					rb.CheckedChanged += (sender, e) => { OnCheckedChanged(e); };
+					m_Item = rb;
 					break;
 				case HpdType.Panel:
 					m_SizePolicyHorizon = SizePolicy.Expanding;
@@ -634,7 +653,17 @@ namespace Hpd
 				ChkSize();
 			}
 		}
-
+		protected void SetChecked(bool b)
+		{
+			if(m_Item==null) return;
+			if(m_Item is CheckBox)
+			{
+				((CheckBox)m_Item).Checked = b;
+			}else if (m_Item is RadioButton)
+			{
+				((RadioButton)m_Item).Checked = b;
+			}
+		}
 
 		public Size ChkPreferredSize()
 		{
@@ -719,6 +748,22 @@ namespace Hpd
 			else if (this.Parent is Control) cl = ((Control)this.Parent).Controls;
 			return cl;
 		}
+		protected HpdRadioButton[] GetHpdRadioButtons()
+		{
+			List<HpdRadioButton> list = new List<HpdRadioButton>();
+			Control.ControlCollection? cl = ParentControls();
+			if ((cl!=null)&&(cl.Count>0))
+			{
+				foreach(Control c in cl)
+				{
+					if(c is HpdRadioButton)
+					{
+						list.Add((HpdRadioButton)c);
+					}
+				}
+			}
+			return list.ToArray();
+		}
 		public bool ListMoveUp()
 		{
 			bool ret = false;
@@ -729,7 +774,7 @@ namespace Hpd
 			if (idx > 0)
 			{
 				cl.SetChildIndex(this, idx - 1);
-				if (Root != null) Root.AutoLayout();
+				if (MainForm != null) MainForm.AutoLayout();
 				ret = true;
 			}
 			return ret;
@@ -744,7 +789,7 @@ namespace Hpd
 			if (idx < cl.Count-1)
 			{
 				cl.SetChildIndex(this, idx + 1);
-				if (Root != null) Root.AutoLayout();
+				if (MainForm != null) MainForm.AutoLayout();
 				ret = true;
 			}
 			return ret;

@@ -14,22 +14,35 @@ namespace Hpd
 		{
 			get
 			{
-				if((m_Item!=null)&&(m_Item is CheckBox))
+				bool ret = false;
+				if(m_Item!=null)
 				{
-					return ((CheckBox)m_Item).Checked;
+					if (m_Item is CheckBox)
+					{
+						return ((CheckBox)m_Item).Checked;
+					}else if (m_Item is RadioButton)
+					{
+						return ((RadioButton)m_Item).Checked;
+					}
 				}
-				else
-				{
-					return false;
-				}
+				return ret;
 			}
 			set
 			{
-				if ((m_Item != null) && (m_Item is CheckBox))
+				if (m_Item != null)
 				{
-					if(((CheckBox)m_Item).Checked !=value)
+					if (m_Item is CheckBox)
 					{
-						((CheckBox)m_Item).Checked = value;
+						if (((CheckBox)m_Item).Checked != value)
+						{
+							((CheckBox)m_Item).Checked = value;
+						}
+					}else if (m_Item is RadioButton)
+					{
+						if (((RadioButton)m_Item).Checked != value)
+						{
+							((RadioButton)m_Item).Checked = value;
+						}
 					}
 				}
 			}
@@ -94,14 +107,17 @@ namespace Hpd
 			get { return base.Anchor; }
 			set
 			{
-				base.Anchor = AnchorStyles.None;
+				//base.Anchor = AnchorStyles.None;
 			}
 		}
 		[Browsable(false)]
 		public new DockStyle Dock
 		{
 			get { return base.Dock; }
-			set { base.Dock = DockStyle.None; }
+			set
+			{
+				//base.Dock = DockStyle.None;
+			}
 		}
 		[Browsable(false)]
 		public new System.Windows.Forms.ControlBindingsCollection DataBindings

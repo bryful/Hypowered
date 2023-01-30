@@ -4,20 +4,19 @@ using System.ComponentModel;
 using System.Data;
 using System.Drawing;
 using System.Linq;
-using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace Hpd
 {
-	public partial class HpdComboBox : HpdControl
+	public partial class HpdRadioButton : HpdControl
 	{
-		public HpdComboBox()
+		public HpdRadioButton()
 		{
-			SetHpdType(HpdType.ComboBox);
+			SetHpdType(HpdType.RadioButton);
 			InitializeComponent();
 		}
-		
+
 	}
 }
