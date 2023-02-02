@@ -1,5 +1,4 @@
 ﻿
-using Hypowered2;
 using Microsoft.ClearScript;
 using System.Reflection;
 
@@ -147,48 +146,38 @@ namespace Hpd
 			if(ret == null ) { ret= "null"; }
 			return ret;
 		}
-		public void Alert(object? obj,string cap="")
+		
+		public bool ControlMoveUp(HpdControl hc)
 		{
-			AlertMes(obj, cap);
-		}
-		[ScriptUsage(ScriptAccess.None)]
-		static public void AlertMes(object? obj, string cap = "")
-		{
-			using (AlertForm dlg = new AlertForm())
+			bool ret = false;
+			int idx = Controls.GetChildIndex(hc);
+			if (idx > 0)
 			{
-				dlg.Text = ToStr(obj);
-				if (cap != "") dlg.Title = cap;
-				if (dlg.ShowDialog() == DialogResult.OK)
-				{
-
-				}
+				Controls.SetChildIndex(hc, idx - 1);
+				ret = true;
 			}
-		}
+			return ret;
 
-		public bool Exit()
-		{
-			Application.Exit();
-			return true;	
 		}
-		public int YesNoDialog(string str,string tx="")
+		public bool ControlMoveDown(HpdControl hc)
 		{
-			using(YesNoForm dlg = new YesNoForm())
+			bool ret = false;
+
+			int idx = Controls.GetChildIndex(hc);
+			if ((idx >= 0)&&(idx<Controls.Count))
 			{
-				dlg.ShowCancel = false;
-				dlg.Text = str;
-				if(tx!="") dlg.Title = tx;
-				switch(dlg.ShowDialog())
-				{
-					case DialogResult.Cancel:
-						return -1;
-					case DialogResult.Yes:
-					case DialogResult.OK:
-						return 1;
-					case DialogResult.No:
-					default:
-						return 0;
-				}
+				Controls.SetChildIndex(hc, idx + 1);
+				ret = true;
 			}
+			return ret;
+
+		}
+		public bool ControlRemove(HpdControl hc)
+		{
+
+			Controls.Remove(hc);
+			return true;
+
 		}
 	}
 }

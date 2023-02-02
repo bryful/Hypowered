@@ -41,7 +41,7 @@ namespace Hpd
 			base.OnPaint(pe);
 		}
 
-		public void AddControl(string Name, HpdType ht)
+		public HpdControl? AddControl(string Name, HpdType ht)
 		{
 			HpdControl? c = HpdForm.CreateControl(Name, ht);
 			if (c != null)
@@ -56,6 +56,7 @@ namespace Hpd
 				Controls.Add(c);
 				if(MainForm!=null) MainForm.AutoLayout();
 			}
+			return c;
 		}
 		public void AddControl()
 		{
@@ -72,6 +73,38 @@ namespace Hpd
 					}
 				}
 			}
+		}
+		public bool ControlMoveUp(HpdControl hc)
+		{
+			bool ret = false;
+			int idx = Controls.GetChildIndex(hc);
+			if (idx > 0)
+			{
+				Controls.SetChildIndex(hc, idx - 1);
+				ret = true;
+			}
+			return ret;
+
+		}
+		public bool ControlMoveDown(HpdControl hc)
+		{
+			bool ret = false;
+
+			int idx = Controls.GetChildIndex(hc);
+			if ((idx >= 0) && (idx < Controls.Count))
+			{
+				Controls.SetChildIndex(hc, idx + 1);
+				ret = true;
+			}
+			return ret;
+
+		}
+		public bool ControlRemove(HpdControl hc)
+		{
+
+			Controls.Remove(hc);
+			return true;
+
 		}
 	}
 }

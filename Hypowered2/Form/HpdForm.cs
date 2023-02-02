@@ -8,7 +8,6 @@ using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-using Hypowered2;
 using Microsoft.ClearScript;
 using Microsoft.CodeAnalysis.CSharp.Scripting;
 using Microsoft.CodeAnalysis.Scripting;
@@ -16,12 +15,15 @@ namespace Hpd
 {
 	public partial class HpdForm : Form
 	{
+
 		/// <summary>
 		/// メインメニュー
 		/// </summary>
+		[Category("Hypowered")]
 		public HpdMenu MainMenu { get; set; } = new HpdMenu();
 		public HpdScriptCode ScriptCode = new HpdScriptCode();
 		protected HpdControlCollection m_Items = new HpdControlCollection();
+		[Browsable(false)]
 		public HpdControlCollection Items { get { return m_Items; } }
 		public HpdControl? Item(int idx)
 		{
@@ -171,7 +173,12 @@ namespace Hpd
 		public new Size Size
 		{
 			get { return base.Size; }
-			set { base.Size = value; this.Invalidate(); }
+			set 
+			{ 
+				base.Size = value; 
+				AutoLayout();
+				this.Invalidate(); 
+			}
 		}
 		[Category("Hypowered_layout"),Browsable(true), ScriptUsage(ScriptAccess.None)]
 		public new Size MinimumSize
@@ -192,8 +199,6 @@ namespace Hpd
 		// *******************************************************************************
 		public HpdForm()
 		{
-			//MainMenu.Name = "MainManu";
-			//MainMenu.Text = "MainManu";
 			base.AutoScaleMode = AutoScaleMode.None;
 			this.SetStyle(
 				ControlStyles.DoubleBuffer |
@@ -218,6 +223,18 @@ namespace Hpd
 			};
 			AutoLayout();
 			ListupControls();
+			m_Items.TargetControlChanged += (sender, e) =>
+			{
+				if (e.ctrl != null)
+				{
+					this.Text = e.ctrl.Text;
+				}
+				else
+				{
+					this.Text = "None Target";
+				}
+			};
+
 		}
 		// *******************************************************************************
 		
@@ -296,6 +313,12 @@ namespace Hpd
 					htb.Text = name;
 					ret = (HpdControl)htb;
 					break;
+				case HpdType.Label:
+					HpdLabel lbl = new HpdLabel();
+					lbl.Name = name;
+					lbl.Text = name;
+					ret = (HpdControl)lbl;
+					break;
 				case HpdType.ComboBox:
 					HpdComboBox comb = new HpdComboBox();
 					comb.Name = name;
@@ -346,7 +369,7 @@ namespace Hpd
 		}
 		// *******************************************************************************
 		[ScriptUsage(ScriptAccess.None)]
-		public void AddControl(string Name,HpdType ht)
+		public HpdControl? AddControl(string Name,HpdType ht)
 		{
 			HpdControl? c = CreateControl(Name, ht);
 			if(c != null)
@@ -356,6 +379,7 @@ namespace Hpd
 				//AutoLayout();
 				//ListupControls();
 			}
+			return c;
 		}
 		// *******************************************************************************
 		public HpdType DefHpdType = HpdType.Button;
@@ -378,8 +402,6 @@ namespace Hpd
 		[ScriptUsage(ScriptAccess.None)]
 		public void AutoLayout()
 		{
-			if ((this.Width <= this.MinimumSize.Width) 
-				&& (this.Height <= this.MinimumSize.Height)) return;
 			if (AutoLayoutFlag) return;
 			AutoLayoutFlag = true;
 			this.SuspendLayout();
@@ -395,5 +417,81 @@ namespace Hpd
 			AutoLayout();
 		}
 		// *******************************************************************************
+		[Category("Hypowered_layout")]
+		public Padding WakuPadding
+		{
+			get
+			{
+				Rectangle ret = this.ClientRectangle;
+
+				int l = 0;
+				int t = 0;
+				int r = 0;
+				int b = 0;
+				if ( Controls.Count > 0 )
+				{
+					foreach ( Control c in Controls)
+					{
+						if((c is MenuStrip)
+							|| (c is HpdMenu)
+							||(c is StatusStrip)
+							|| (c is ToolStrip)
+							)
+						{
+							if (c.Visible == false) continue;
+							switch (c.Dock)
+							{
+								case DockStyle.Top:
+									t += c.Height + c.Margin.Top + c.Margin.Bottom;
+									break;
+								case DockStyle.Bottom:
+									b += c.Height + c.Margin.Top + c.Margin.Bottom;
+									break;
+								case DockStyle.Left:
+									l += c.Width + c.Margin.Left + c.Margin.Right;
+									break;
+								case DockStyle.Right:
+									r += c.Width + c.Margin.Left + c.Margin.Right;
+									break;
+							}
+
+						}
+					}
+				}
+				return new Padding(l, t, r, b);
+			}
+		}
+		[Category("Hypowered_layout")]
+		public Size WakuSize
+		{
+			get
+			{
+				return new Size(this.Width - this.ClientSize.Width,
+					this.Height - this.ClientSize.Height);
+			}
+		}
+		// *******************************************************************************
+		public Rectangle ClientRectangleEx
+		{
+			get
+			{
+				Rectangle r = ClientRectangle;
+				Padding d = WakuPadding;
+				return new Rectangle(
+					r.Left + d.Left,
+					r.Top + d.Top,
+					r.Width - d.Left - d.Right,
+					r.Height - d.Top - d.Bottom);
+			}
+			set
+			{
+
+			}
+		}
+		public void SetClientMinimumSize(Size sz)
+		{
+			Size h = WakuSize;
+			this.Size = new Size(sz.Width+h.Width, sz.Height+h.Height);
+		}
 	}
 }

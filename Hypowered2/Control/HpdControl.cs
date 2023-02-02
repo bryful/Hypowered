@@ -17,6 +17,7 @@ namespace Hpd
 		None = -1,
 		Button,
 		TextBox,
+		Label,
 		ComboBox,
 		ListBox,
 		CheckBox,
@@ -54,10 +55,15 @@ namespace Hpd
 
 
 		#region Hypowered
+		/// <summary>
+		/// その名の通りスクリプトコード
+		/// </summary>
 		[Category("Hypowered"),Browsable(false)]
-		protected HpdScriptCode ScriptCode { get; set; }= new HpdScriptCode();
+		public HpdScriptCode ScriptCode { get; set; }= new HpdScriptCode();
 
 		protected Control? m_Item = null;
+		// **************************************************************
+		// **************************************************************
 		[Category("Hypowered"), Browsable(false)]
 		public HpdButton? AsHpdButton
 		{
@@ -94,7 +100,7 @@ namespace Hpd
 			get
 			{
 				HpdListBox? ret = null;
-				if (m_Item is not null and ListBox) ret = (HpdListBox?)this;
+				if (m_Item is not null and ListBoxHpd) ret = (HpdListBox?)this;
 				return ret;
 			}
 		}
@@ -158,27 +164,7 @@ namespace Hpd
 				}
 			}
 		}
-		[Category("Hypowered"), Browsable(true)]
-		public DialogResult DialogResult
-		{
-			get {
-				if((m_Item!= null)&&(m_Item is Button))
-				{
-					return ((Button)m_Item).DialogResult;
-				}
-				else
-				{
-					return DialogResult.Cancel;
-				}
-			}
-			set 
-			{
-				if ((m_Item != null) && (m_Item is Button))
-				{
-					((Button)m_Item).DialogResult = value;
-				}
-			}
-		}
+
 		[Category("Hypowered_Text"), Browsable(true)]
 		public new string Text
 		{
@@ -206,30 +192,7 @@ namespace Hpd
 		/// <summary>
 		/// Textを配列として
 		/// </summary>
-		[Category("Hypowered_Text")]
-		public string[] Lines
-		{
-			get 
-			{
-				if(m_Item!=null)
-				{
-					return m_Item.Text.Split("\r\n");
-				}
-				else
-				{
-					return base.Text.Split("\r\n");
-				}
-			}
-			set
-			{
-				if (m_Item != null)
-				{
-					m_Item.Text = string.Join("\r\n", value);
-				}
-				base.Text = string.Join("\r\n", value);
-				this.Invalidate();
-			}
-		}
+
 		protected bool m_IsDrawFrame = false;
 		/// <summary>
 		/// 基本枠を描画するかどうか
@@ -261,6 +224,7 @@ namespace Hpd
 
 			}
 		}
+		protected Size m_PreferredSize = new Size(0, 0);
 		[Category("Hypowered_layout"), Browsable(true)]
 		public new Size PreferredSize
 		{
@@ -272,7 +236,15 @@ namespace Hpd
 				}
 				else
 				{
-					return base.PreferredSize;
+					if ((m_PreferredSize.Width > 0)&&(m_PreferredSize.Height > 0))
+					{
+
+						return m_PreferredSize;
+					}
+					else
+					{
+						return base.PreferredSize;
+					}
 				}
 			}
 		}
@@ -360,10 +332,10 @@ namespace Hpd
 			get
 			{
 				if(
-					(m_Item is ComboBox)||
+					(m_Item is ComboBoxHpd)||
 					(m_Item is CheckBox) ||
 					(m_Item is RadioButton) ||
-					(Multiline == false))
+					((m_Item is TextBox)&&(((TextBox)m_Item).Multiline == false)))
 				{
 					m_SizePolicyVertual = SizePolicy.Fixed;
 					return SizePolicy.Fixed;
@@ -376,10 +348,10 @@ namespace Hpd
 			set
 			{
 				if (
-					(m_Item is ComboBox) ||
+					(m_Item is ComboBoxHpd) ||
 					(m_Item is CheckBox) ||
 					(m_Item is RadioButton) ||
-					(Multiline == false))
+					((m_Item is TextBox) && (((TextBox)m_Item).Multiline == false)))
 				{
 					value = SizePolicy.Fixed;
 				}
@@ -446,6 +418,7 @@ namespace Hpd
 				{
 					this.Height = m_Item.Height;
 					m_BaseSize.Height = m_Item.Height;
+					if(MainForm!=null) MainForm.AutoLayout();
 				}
 			}
 		}
@@ -460,9 +433,14 @@ namespace Hpd
 				{
 					m_Item.Font = value;
 					base.Size = new Size(m_Item.Width + m_CaptionWidth, m_Item.Height);
-					if ((m_Item is HpdComboBox)||(Multiline==false))
+					if ((m_Item is ComboBoxHpd)
+						||((m_Item is TextBox)&&( ((TextBox)m_Item).Multiline==false)))
 					{
-						m_BaseSize.Height = m_Item.Height;
+						if (m_BaseSize.Height == m_Item.Height)
+						{
+							m_BaseSize.Height = m_Item.Height;
+							if (MainForm != null) MainForm.AutoLayout();
+						}
 					}
 				}
 			}
@@ -477,108 +455,28 @@ namespace Hpd
 				if (m_Item != null)
 				{
 					m_Item.Visible = value;
+					if (MainForm != null) MainForm.AutoLayout();
 				}
-				if (MainForm != null) MainForm.AutoLayout();
 				this.Invalidate();
 			}
 		}
 
-		protected StringFormat m_format = new StringFormat();
+		protected StringFormat m_StringFormat = new StringFormat();
 		[Category("Hypowered_Text")]
 		public StringAlignment TextAligiment
 		{
-			get { return m_format.Alignment; }
-			set { m_format.Alignment = value; this.Invalidate(); }
+			get { return m_StringFormat.Alignment; }
+			set { m_StringFormat.Alignment = value; this.Invalidate(); }
 		}
 		[Category("Hypowered_Text")]
 		public StringAlignment TextLineAligiment
 		{
-			get { return m_format.LineAlignment; }
-			set { m_format.LineAlignment = value; this.Invalidate(); }
+			get { return m_StringFormat.LineAlignment; }
+			set { m_StringFormat.LineAlignment = value; this.Invalidate(); }
 		}
 
 
 		#endregion
-		[Category("Hypowered")]
-		public ListBox.ObjectCollection? ListBoxItems
-		{
-			get
-			{
-				ListBox.ObjectCollection? ret = null;
-				if ((m_Item!=null)&&(m_Item is ListBox))
-				{
-					ret = ((ListBox)m_Item).Items;
-				}
-				return ret;
-			}
-		}
-		[Category("Hypowered")]
-		public ComboBox.ObjectCollection? ComboBoxItems
-		{
-			get
-			{
-				ComboBox.ObjectCollection? ret = null;
-				if ((m_Item != null) && (m_Item is ComboBox))
-				{
-					ret = ((ComboBox)m_Item).Items;
-				}
-				return ret;
-			}
-		}
-		[Category("Hypowered")]
-		public int SelectedIndex
-		{
-			get
-			{
-				int ret = -1;
-				if(m_Item!=null)
-				{
-					if(m_Item is ListBox) { ret = ((ListBox)m_Item).SelectedIndex; }
-					else if (m_Item is ComboBox) { ret = ((ComboBox)m_Item).SelectedIndex; }
-				}
-				return ret;
-			}
-			set 
-			{
-				if (m_Item != null)
-				{
-					if (m_Item is ListBox) { ((ListBox)m_Item).SelectedIndex = value; }
-					else if (m_Item is ComboBox) { ((ComboBox)m_Item).SelectedIndex=value; }
-				}
-			}
-		}
-		[Category("Hypowered_Text")]
-		public bool Multiline
-		{
-			get 
-			{
-				TextBox? tb = m_Item as TextBox; 
-				if(tb!=null)
-				{
-					return tb.Multiline;
-				}
-				return true; 
-			}
-			set
-			{
-				TextBox? tb = m_Item as TextBox;
-				if (tb !=null)
-				{
-					tb.Multiline = value;
-					if (tb.Multiline)
-					{
-						m_SizePolicyVertual = SizePolicy.Expanding;
-					}
-					else
-					{
-						m_SizePolicyVertual = SizePolicy.Fixed;
-					}
-					ChkSize();
-					if (MainForm != null) MainForm.AutoLayout();
-				}
-				Invalidate();
-			}
-		}
 		public virtual void SetHpdType(HpdType ht) 
 		{
 			m_HpdType = ht;
@@ -601,27 +499,45 @@ namespace Hpd
 					m_SizePolicyVertual = SizePolicy.Fixed;
 					m_Item = tb;
 					break;
+				case HpdType.Label:
+					this.Size = new Size(80, 23);
+					m_SizePolicyVertual = SizePolicy.Fixed;
+					m_Item = null;
+					break;
 				case HpdType.ListBox:
-					ListBox lb  = new ListBox();
+					ListBoxHpd lb  = new ListBoxHpd();
 					lb.IntegralHeight = false;
+					lb.SelectedIndexChanged += (sender, e) =>
+					{
+						OnValueChanged(new ValueChangedEventArgs(lb.SelectedIndex));
+					};
 					m_Item = lb;
 					break;
 				case HpdType.ComboBox:
 					ComboBoxHpd cb = new ComboBoxHpd();
-					cb.SelectedIndexChanged += (sender, e) => { OnSelectIndexChanged(e); };
+					cb.SelectedIndexChanged += (sender, e) =>
+					{
+						OnValueChanged(new ValueChangedEventArgs(cb.SelectedIndex));
+					};
 					m_SizePolicyVertual = SizePolicy.Fixed;
 					m_Item = cb;
 					break;
 				case HpdType.CheckBox:
 					CheckBox cbx = new CheckBox();
 					m_SizePolicyVertual = SizePolicy.Fixed;
-					cbx.CheckedChanged += (sender,e)=> { OnCheckedChanged(e); };
+					cbx.CheckedChanged += (sender,e)=> 
+					{
+						OnValueChanged(new ValueChangedEventArgs((object)cbx.Checked)); 
+					};
 					m_Item = cbx;
 					break;
 				case HpdType.RadioButton:
 					RadioButton rb = new RadioButton();
 					m_SizePolicyVertual = SizePolicy.Fixed;
-					rb.CheckedChanged += (sender, e) => { OnCheckedChanged(e); };
+					rb.CheckedChanged += (sender, e) =>
+					{
+						OnValueChanged(new ValueChangedEventArgs((object)rb.Checked));
+					}; 
 					m_Item = rb;
 					break;
 				case HpdType.Panel:
@@ -653,17 +569,7 @@ namespace Hpd
 				ChkSize();
 			}
 		}
-		protected void SetChecked(bool b)
-		{
-			if(m_Item==null) return;
-			if(m_Item is CheckBox)
-			{
-				((CheckBox)m_Item).Checked = b;
-			}else if (m_Item is RadioButton)
-			{
-				((RadioButton)m_Item).Checked = b;
-			}
-		}
+
 
 		public Size ChkPreferredSize()
 		{
@@ -691,6 +597,11 @@ namespace Hpd
 				ret = base.PreferredSize;
 				if (ret.Width <25*3) ret.Width = 25 * 3;
 				if (ret.Height < 25) ret.Height = 25;
+				if(m_HpdType== HpdType.Label)
+				{
+					if (ret.Width < 50) ret.Width = 50;
+					if (ret.Height < 23) ret.Height = 23;
+				}
 				base.Size = bak;
 				base.Text = tx;
 			}
@@ -703,6 +614,7 @@ namespace Hpd
 		}
 		public HpdControl()
 		{
+			m_StringFormat.LineAlignment= StringAlignment.Center;
 			ScriptCode.SetSTypes(ScriptTypeBit.None);
 			this.SetStyle(
 				ControlStyles.Selectable |
@@ -718,22 +630,7 @@ namespace Hpd
 			ChkSize();
 		}
 
-		protected override void OnPaint(PaintEventArgs pe)
-		{
-			using (SolidBrush sb = new SolidBrush(BackColor))
-			{
-				Graphics g = pe.Graphics;
-				g.FillRectangle(sb, this.ClientRectangle);
-				if (m_IsDrawFrame)
-				{
-					using (Pen p = new Pen(ForeColor))
-					{
-						Rectangle r = new Rectangle(0, 0, this.Width - 1, this.Height - 1);
-						g.DrawRectangle(p, r);
-					}
-				}
-			}
-		}
+
 		protected override void OnResize(EventArgs e)
 		{
 			base.OnResize(e);
@@ -764,43 +661,51 @@ namespace Hpd
 			}
 			return list.ToArray();
 		}
-		public bool ListMoveUp()
+		public bool ControlMoveUp()
 		{
-			bool ret = false;
-			Control.ControlCollection? cl = ParentControls();
-			if (cl == null) return ret;
 
-			int idx = cl.GetChildIndex(this);
-			if (idx > 0)
+			if (this.Parent is HpdForm)
 			{
-				cl.SetChildIndex(this, idx - 1);
-				if (MainForm != null) MainForm.AutoLayout();
-				ret = true;
+				return ((HpdForm)this.Parent).ControlMoveUp(this);
+			}else if (this.Parent is HpdPanel)
+			{
+				return ((HpdPanel)this.Parent).ControlMoveUp(this);
 			}
-			return ret;
+			else
+			{
+				return false;
+			}
 		}
-		public bool ListMoveDown()
+		public bool ControlMoveDown()
 		{
-			bool ret = false;
-			Control.ControlCollection? cl = ParentControls();
-			if (cl == null) return ret;
-
-			int idx = cl.GetChildIndex(this);
-			if (idx < cl.Count-1)
+			if (this.Parent is HpdForm)
 			{
-				cl.SetChildIndex(this, idx + 1);
-				if (MainForm != null) MainForm.AutoLayout();
-				ret = true;
+				return ((HpdForm)this.Parent).ControlMoveDown(this);
 			}
-			return ret;
+			else if (this.Parent is HpdPanel)
+			{
+				return ((HpdPanel)this.Parent).ControlMoveDown(this);
+			}
+			else
+			{
+				return false;
+			}
 		}
 		public bool RemoveMe()
 		{
-			bool ret = false;
-			Control.ControlCollection? cl = ParentControls();
-			if (cl == null) return ret;
-			cl.Remove(this);
-			return ret;
+			if (this.Parent is HpdForm)
+			{
+				return ((HpdForm)this.Parent).ControlRemove(this);
+			}
+			else if (this.Parent is HpdPanel)
+			{
+				return ((HpdPanel)this.Parent).ControlRemove(this);
+			}
+			else
+			{
+				return false;
+			}
 		}
+
 	}
 }

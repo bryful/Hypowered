@@ -1,4 +1,4 @@
-﻿namespace Hypowered2
+﻿namespace Hpd
 {
 	partial class HpdMenu
 	{

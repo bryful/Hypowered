@@ -1,4 +1,5 @@
 ﻿using System;
+using System.CodeDom;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -75,7 +76,7 @@ namespace Hpd
 					{
 						b += c.Height + c.Margin.Top + c.Margin.Bottom;
 					}
-					else if ( ((c is MenuStrip) || (c is ToolStrip))&&(c.Visible == true))
+					else if ( ((c is HpdMenu)||(c is MenuStrip) || (c is ToolStrip))&&(c.Visible == true))
 					{
 						t += c.Height + c.Margin.Top + c.Margin.Bottom;
 					}

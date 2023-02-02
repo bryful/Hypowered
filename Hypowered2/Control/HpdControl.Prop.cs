@@ -9,45 +9,6 @@ namespace Hpd
 {
 	partial class HpdControl
 	{
-		[Category("Hypowered")]
-		public  bool Checked
-		{
-			get
-			{
-				bool ret = false;
-				if(m_Item!=null)
-				{
-					if (m_Item is CheckBox)
-					{
-						return ((CheckBox)m_Item).Checked;
-					}else if (m_Item is RadioButton)
-					{
-						return ((RadioButton)m_Item).Checked;
-					}
-				}
-				return ret;
-			}
-			set
-			{
-				if (m_Item != null)
-				{
-					if (m_Item is CheckBox)
-					{
-						if (((CheckBox)m_Item).Checked != value)
-						{
-							((CheckBox)m_Item).Checked = value;
-						}
-					}else if (m_Item is RadioButton)
-					{
-						if (((RadioButton)m_Item).Checked != value)
-						{
-							((RadioButton)m_Item).Checked = value;
-						}
-					}
-				}
-			}
-		}
-
 		[Category("Hypowered_Color")]
 		public new Color ForeColor
 		{

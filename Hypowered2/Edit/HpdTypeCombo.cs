@@ -30,7 +30,6 @@ namespace Hpd
 		}
 		public HpdTypeCombo()
 		{
-			this.DropDownStyle= ComboBoxStyle.DropDownList;
 			Init();
 			InitializeComponent();
 		}

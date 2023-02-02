@@ -23,7 +23,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Hypowered\Hypowered.csproj" />
+    <ProjectReference Include="..\ZipFileLib\HpdFiles.csproj" />
   </ItemGroup>
 
 </Project>

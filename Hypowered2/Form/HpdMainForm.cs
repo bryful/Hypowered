@@ -1,5 +1,4 @@
-﻿using Hypowered2;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -8,6 +7,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using Microsoft.ClearScript;
+using Microsoft.CodeAnalysis.CSharp.Scripting;
+using Microsoft.CodeAnalysis.Scripting;
 
 
 namespace Hpd
@@ -27,7 +29,7 @@ namespace Hpd
 			InitializeComponent();
 			Editor = new ScriptEditor();
 			Editor.SetMainForm(this);
-
+			m_seShow = false;
 			CreateMainMenu();
 		}
 		public void CreateMainMenu()
@@ -49,7 +51,7 @@ namespace Hpd
 		}
 		public bool GetHpdRoot()
 		{
-			PropertySetToClipboard(typeof(HpdMenu));
+			PropertySetToClipboard(typeof(ComboBox));
 			return true;
 		}
 		public bool GetGlobalThis()
@@ -111,6 +113,49 @@ namespace Hpd
 			return true;
 		}
 
+		public void Alert(object? obj, string cap = "")
+		{
+			AlertMes(obj, cap);
+		}
+		[ScriptUsage(ScriptAccess.None)]
+		static public void AlertMes(object? obj, string cap = "")
+		{
+			using (AlertForm dlg = new AlertForm())
+			{
+				dlg.Text = ToStr(obj);
+				if (cap != "") dlg.Title = cap;
+				if (dlg.ShowDialog() == DialogResult.OK)
+				{
+
+				}
+			}
+		}
+
+		public bool Exit()
+		{
+			Application.Exit();
+			return true;
+		}
+		public int YesNoDialog(string str, string tx = "")
+		{
+			using (YesNoForm dlg = new YesNoForm())
+			{
+				dlg.ShowCancel = false;
+				dlg.Text = str;
+				if (tx != "") dlg.Title = tx;
+				switch (dlg.ShowDialog())
+				{
+					case DialogResult.Cancel:
+						return -1;
+					case DialogResult.Yes:
+					case DialogResult.OK:
+						return 1;
+					case DialogResult.No:
+					default:
+						return 0;
+				}
+			}
+		}
 		public void ConsoleWriteLine(object? o)
 		{
 			ShowConsoleForm();
@@ -126,5 +171,8 @@ namespace Hpd
 			ShowConsoleForm();
 			if (ConsoleForm != null) ConsoleForm.Clear();
 		}
+
+
+		
 	}
 }

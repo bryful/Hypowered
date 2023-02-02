@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Drawing;
+using System.Drawing.Imaging;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -20,7 +21,7 @@ namespace Hpd
 		public HpdType HpdType
 		{
 			get{return cmbType.HpdType;}
-			set{cmbType.HpdType=value;NameSet(); }
+			set{ cmbType.HpdType=value;NameSet(); }
 		}
 		public string HpdName
 		{
@@ -34,6 +35,21 @@ namespace Hpd
 			{
 				NameSet();
 			};
+			btnCancel.Click += (sender, e) => { DialogResult = DialogResult.Cancel; };
+			btnOK.Click += (sender, e) =>
+			{
+				if (m_MainForm != null)
+				{
+					string nm = tbName.Text;
+					HpdControl? sa = m_MainForm.Items.Find(nm);
+					if (sa != null)
+					{
+						tbName.Text = m_MainForm.NewName(nm);
+						return;
+					}
+					DialogResult = DialogResult.OK;
+				}
+			};
 			NameSet();
 		}
 		private void NameSet()
@@ -44,27 +60,6 @@ namespace Hpd
 					s = m_MainForm.NewName(s);
 				}
 				tbName.Text = s;
-		}
-
-		private void btnCancel_Click(object sender, EventArgs e)
-		{
-			DialogResult= DialogResult.Cancel;
-		}
-
-		private void hpdButton1_Click(object sender, EventArgs e)
-		{
-			if(m_MainForm!= null)
-			{
-				string nm = tbName.Text;
-				HpdControl? sa = m_MainForm.Items.Find(nm);
-				if (sa !=null)
-				{
-					tbName.Text = m_MainForm.NewName(nm);
-					return;
-				}
-				DialogResult = DialogResult.OK;
-			}
-
 		}
 	}
 }

@@ -10,7 +10,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
-namespace Hypowered2
+namespace Hpd
 {
 	public partial class HpdMenuItem : ToolStripMenuItem
 	{

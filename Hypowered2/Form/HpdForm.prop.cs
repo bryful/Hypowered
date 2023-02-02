@@ -16,7 +16,23 @@ namespace Hpd
 	partial class HpdForm
 	{
 
-		[Browsable(false)]
+		[Category("Hypowered"), Browsable(true)]
+		public bool MenuVisible
+		{
+			get { return MainMenu.Visible; }
+			set 
+			{ 
+				MainMenu.Visible = value; 
+				AutoLayout();
+			}
+		}
+		public void SetMenuVisible(bool b) { MenuVisible = b; }
+		public bool SetMenuVisible() 
+		{
+			MenuVisible = !MenuVisible; 
+			return true;
+		}
+		[Category("Hypowered_Form")]
 		public new System.Windows.Forms.IButtonControl AcceptButton
 		{
 			get { return base.AcceptButton; }
@@ -79,9 +95,9 @@ namespace Hpd
 			set { base.FormBorderStyle = value; }
 		}
 		*/
-		[Browsable(false)]
+		[Category("Hypowered_Form")]
 		public new System.Windows.Forms.IButtonControl CancelButton
-		{
+		{ 
 			get { return base.CancelButton; }
 			set { base.CancelButton = value; }
 		}
@@ -89,7 +105,11 @@ namespace Hpd
 		public new System.Drawing.Size ClientSize
 		{
 			get { return base.ClientSize; }
-			set { base.ClientSize = value; }
+			set 
+			{
+				base.ClientSize = value;
+				AutoLayout();
+			}
 		}
 		[Browsable(false)]
 		public new System.Boolean ControlBox
@@ -169,7 +189,11 @@ public System.Drawing.Point DesktopLocation
 		public new System.Windows.Forms.Padding Margin
 		{
 			get { return base.Margin; }
-			set { base.Margin = value; }
+			set 
+			{ 
+				base.Margin = value;
+				AutoLayout();
+			}
 		}
 		[Browsable(false)]
 		public new System.Boolean MaximizeBox
@@ -306,7 +330,7 @@ public System.Boolean TabStop
 			get { return base.AutoScaleDimensions; }
 			set { base.AutoScaleDimensions = value; }
 		}
-		[Category("Hypowered_layout")]
+		[Category("Hypowered"),Browsable(false)]
 		public new System.Windows.Forms.AutoScaleMode AutoScaleMode
 		{
 			get { return base.AutoScaleMode; }

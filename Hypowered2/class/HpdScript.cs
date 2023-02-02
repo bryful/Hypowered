@@ -141,7 +141,7 @@ namespace Hpd
 			}
 			catch (Exception e)
 			{
-				HpdForm.AlertMes(e.ToString(), "Exception");
+				HpdMainForm.AlertMes(e.ToString(), "Exception");
 			}
 		}
 		public void GetGlobalThis()

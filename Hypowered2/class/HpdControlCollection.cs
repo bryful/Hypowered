@@ -16,10 +16,74 @@ namespace Hpd
 {
     public class HpdControlCollection : ICollection
     {
-        /// <summary>
-        /// 管理対象のオブジェクト
-        /// </summary>
-        private List<HpdControl> m_Items = new List<HpdControl>();
+		public class TargetControlChangedEventArgs : EventArgs
+		{
+			public HpdControl? ctrl;
+			public TargetControlChangedEventArgs(HpdControl? v)
+			{
+				ctrl = v;
+			}
+		}
+		public delegate void TargetControlChangedHandler(object sender, TargetControlChangedEventArgs e);
+		public event TargetControlChangedHandler? TargetControlChanged;
+		protected virtual void OnTargetControlChanged(TargetControlChangedEventArgs e)
+		{
+			if (TargetControlChanged != null)
+			{
+				TargetControlChanged(this, e);
+			}
+		}
+
+		private int m_TargetIndex = -1;
+        [Category("Hypowered"),Browsable(true)]
+        public int TargetIndex
+		{
+			get { return m_TargetIndex; }
+			set 
+            {
+                if (m_TargetIndex != value)
+                {
+                    m_TargetIndex = value;
+                    HpdControl? tc = TargetControl;
+                    OnTargetControlChanged(new TargetControlChangedEventArgs(tc));
+                }
+            }
+		}
+		[Category("Hypowered"), Browsable(true)]
+		public HpdControl? TargetControl
+		{
+            get
+            {
+                HpdControl? ret = null;
+                if((m_TargetIndex>=0)&&(m_TargetIndex<m_Items.Count))
+                {
+                    ret = m_Items[m_TargetIndex];
+                }
+                return ret;
+			}
+            set
+            {
+                if (value == null)
+                {
+                    m_TargetIndex = -1;
+                }
+                else
+                {
+                    int idx = IndexOf(value.Name);
+                    if (idx >= 0)
+                    {
+                        m_TargetIndex = idx;
+                    }
+                }
+                HpdControl? tc = TargetControl;
+                OnTargetControlChanged(new TargetControlChangedEventArgs(tc));
+            }
+		}
+
+		/// <summary>
+		/// 管理対象のオブジェクト
+		/// </summary>
+		private List<HpdControl> m_Items = new List<HpdControl>();
         public HpdControl? this[int idx]
         {
             get

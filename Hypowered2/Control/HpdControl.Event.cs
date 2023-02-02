@@ -18,26 +18,26 @@ namespace Hpd
 				NameChanged(this, e);
 			}
 		}
-
-		public EventHandler? SelectedIndexChanged;
-		protected virtual void OnSelectIndexChanged(EventArgs e)
+		public class ValueChangedEventArgs : EventArgs
 		{
-			if (SelectedIndexChanged != null)
+			public object? Value;
+			public ValueChangedEventArgs(object? v)
 			{
-				SelectedIndexChanged(this, e);
+				Value = v;
 			}
 		}
+		public delegate void ValueChangedHandler(object sender, ValueChangedEventArgs e);
 		/// <summary>
 		/// trueにするとイベントが発生しない。
 		/// </summary>
-		protected bool CheckedChangedFlag=false;
-		public EventHandler? CheckedChanged;
-		protected virtual void OnCheckedChanged(EventArgs e)
+		protected bool ValueChangedFlag=false;
+		public ValueChangedHandler? ValueChanged;
+		protected virtual void OnValueChanged(ValueChangedEventArgs e)
 		{
-			if (CheckedChangedFlag == true) return;
-			if (CheckedChanged != null)
+			if (ValueChangedFlag == true) return;
+			if (ValueChanged != null)
 			{
-				CheckedChanged(this, e);
+				ValueChanged(this, e);
 			}
 			//他のラジオボタンをオフにする処理
 			if((m_Item!=null)&&(m_Item is RadioButton))
@@ -51,9 +51,9 @@ namespace Hpd
 						if (this.Equals(r)) continue;
 						if (r.Checked)
 						{
-							r.CheckedChangedFlag = true;
+							r.ValueChangedFlag = true;
 							r.Checked = false;
-							r.CheckedChangedFlag = false;
+							r.ValueChangedFlag = false;
 						}
 					}
 				}
