@@ -56,11 +56,12 @@ namespace Hpd
 		}
 		protected ControlTreeView m_TreeView = new ControlTreeView();
 
-		protected Button m_BtnScript = new Button();
-		protected Button m_BtnNew = new Button();
-		protected Button m_BtnUp = new Button();
-		protected Button m_BtnDown = new Button();
-		protected Button m_BtnDel = new Button();
+		protected ToolStrip m_Menu = new ToolStrip();
+		protected ToolStripButton m_BtnScript = new ToolStripButton();
+		protected ToolStripButton m_BtnNew = new ToolStripButton();
+		protected ToolStripButton m_BtnUp = new ToolStripButton();
+		protected ToolStripButton m_BtnDown = new ToolStripButton();
+		protected ToolStripButton m_BtnDel = new ToolStripButton();
 		[Category("Hypowered")]
 		public ControlTreeView TreeView
 		{
@@ -90,62 +91,49 @@ namespace Hpd
 		}
 		public EditControlTree()
 		{
+			m_Menu.Dock = DockStyle.Left;
+			m_Menu.GripStyle = ToolStripGripStyle.Hidden;
+			m_Menu.AutoSize = true;
 
-			Size sz = new Size(50, 23);
-			int x = 0;
-			int y = 0;
 			m_BtnScript.Name = nameof(m_BtnScript);
 			m_BtnScript.Text = "Script";
-			m_BtnScript.Size = sz;
-			m_BtnScript.Location = new Point(x, y);
-			m_BtnScript.GotFocus += (sender, e) => { m_TreeView.Focus(); };
-			//m_BtnEdit.Click += M_BtnNew_Click;
-			y += sz.Height;
+			m_BtnScript.TextAlign = ContentAlignment.MiddleLeft;
 
 			m_BtnNew.Name = nameof(m_BtnNew);
 			m_BtnNew.Text = "New";
-			m_BtnNew.Size = sz;
-			m_BtnNew.Location = new Point(x, y);
-			m_BtnNew.GotFocus += (sender, e) => { m_TreeView.Focus(); };
 			m_BtnNew.Click += M_BtnNew_Click;
-			y += sz.Height;
+			m_BtnNew.TextAlign = ContentAlignment.MiddleLeft;
 
 			m_BtnUp.Name = nameof(m_BtnUp);
 			m_BtnUp.Text = "Up";
-			m_BtnUp.Size = sz;
-			m_BtnUp.Location = new Point(x, y);
-			m_BtnUp.GotFocus += (sender, e) => { m_TreeView.Focus(); };
 			m_BtnUp.Click += M_BtnUp_Click;
-			y += sz.Height;
+			m_BtnUp.TextAlign = ContentAlignment.MiddleLeft;
+
 			m_BtnDown.Name = nameof(m_BtnDown);
-			m_BtnDown.Text = "Downn";
-			m_BtnDown.Size = sz;
-			m_BtnDown.Location = new Point(x, y);
-			m_BtnDown.GotFocus += (sender, e) => { m_TreeView.Focus(); };
+			m_BtnDown.Text = "Down";
 			m_BtnDown.Click += M_BtnDown_Click;
-			y += sz.Height;
+			m_BtnDown.TextAlign = ContentAlignment.MiddleLeft;
 
 			m_BtnDel.Name = nameof(m_BtnDel);
-			m_BtnDel.Text = "del";
-			m_BtnDel.Size = sz;
-			m_BtnDel.Location = new Point(x, y);
-			m_BtnDel.GotFocus += (sender, e) => { m_TreeView.Focus(); };
+			m_BtnDel.Text = "Del";
 			m_BtnDel.Click += M_BtnDel_Click;
-			y += sz.Height;
+			m_BtnDel.TextAlign = ContentAlignment.MiddleLeft;
 
+
+			m_Menu.Items.Add(m_BtnScript);
+			m_Menu.Items.Add(m_BtnNew);
+			m_Menu.Items.Add(m_BtnUp);
+			m_Menu.Items.Add(m_BtnDown);
+			m_Menu.Items.Add(m_BtnDel);
 
 			this.Size = new Size(100,250);
-			m_TreeView.Location = new Point(sz.Width, 0);
-			m_TreeView.Size = new Size(this.Width, this.Height-sz.Height);
+			m_TreeView.Location = new Point(m_Menu.Width, 0);
+			m_TreeView.Size = new Size(this.Width- m_Menu.Width, this.Height);
 			m_TreeView.Name = "TreeView";
 			m_TreeView.Text = "TreeView";
 
-			this.Controls.Add(m_BtnScript);
-			this.Controls.Add(m_BtnNew);
-			this.Controls.Add(m_BtnUp);
-			this.Controls.Add(m_BtnDown);
-			this.Controls.Add(m_BtnDel);
 
+			this.Controls.Add(m_Menu);
 			this.Controls.Add(m_TreeView);
 
 			InitializeComponent();
@@ -263,7 +251,8 @@ namespace Hpd
 		protected override void OnResize(EventArgs e)
 		{
 			base.OnResize(e);
-			m_TreeView.Size = new Size(this.Width - 50, this.Height);
+			m_TreeView.Size = new Size(this.Width - m_Menu.Width, this.Height);
+			m_TreeView.Location = new Point(m_Menu.Width, 0);
 		}
 	}
 }

@@ -15,7 +15,6 @@ namespace Hpd
 {
 	public partial class HpdForm : Form
 	{
-
 		/// <summary>
 		/// メインメニュー
 		/// </summary>

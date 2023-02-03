@@ -37,9 +37,10 @@
 			// Main
 			// 
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
+			this.BackColor = System.Drawing.SystemColors.Control;
 			this.BaseSize = new System.Drawing.Size(97, 92);
-			this.ClientRectangleEx = new System.Drawing.Rectangle(0, 24, 354, 234);
-			this.ClientSize = new System.Drawing.Size(354, 258);
+			this.ClientRectangleEx = new System.Drawing.Rectangle(0, 24, 480, 227);
+			this.ClientSize = new System.Drawing.Size(480, 251);
 			this.Cursor = System.Windows.Forms.Cursors.IBeam;
 			this.DoubleBuffered = true;
 			this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;

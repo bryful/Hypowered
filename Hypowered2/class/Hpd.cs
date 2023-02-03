@@ -5,6 +5,7 @@ using System.Data;
 using System.Drawing;
 using System.Linq;
 using System.Reflection;
+using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
@@ -14,6 +15,9 @@ namespace Hpd
 {
     public class HpdA
     {
+		[DllImport("user32.dll")]
+		static extern bool SetSysColors(int cElements, int[] lpaElements, uint[] lpaRgbValues);
+	
 		static public void PropListToClipboard(Type t,string nm)
 		{
 			string s = "";

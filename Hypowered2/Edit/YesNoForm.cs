@@ -29,8 +29,8 @@ namespace Hpd
 		}
 		public YesNoForm()
 		{
-			btnCancel.Visible = false;
 			InitializeComponent();
+			btnCancel.Visible = false;
 		}
 	}
 }
