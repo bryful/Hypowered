@@ -4,6 +4,8 @@ using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Text.Json;
+using System.Text.Json.Nodes;
 
 namespace Hpd
 {
@@ -34,6 +36,8 @@ namespace Hpd
 				this.Invalidate();
 			}
 		}
+
+
 		[Category("Hypowered"), Browsable(true)]
 		public new bool TabStop
 		{
@@ -143,11 +147,25 @@ namespace Hpd
 		public new Size MinimumSize
 		{
 			get { return base.MinimumSize; }
-			set {  }
+			set { }
 		}
 		public void SetMinimumSize(Size sz)
 		{
 			base.MinimumSize = sz;
+		}
+
+		public virtual JsonObject ToJson()
+		{
+			JsonFile jf = new JsonFile();
+			jf.SetValue(nameof(HpdType), (int)HpdType);
+			return jf.Obj;
+		}
+		public virtual void FromJson(JsonObject jo)
+		{
+			JsonFile jf = new JsonFile(jo);
+			object? v = null;
+			v = jf.ValueAuto("Name", typeof(String).Name);
+			if (v != null) base.Name = (String)v;
 		}
 	}
 }

@@ -34,24 +34,29 @@ namespace Hpd
 		}
 		public void CreateMainMenu()
 		{
-			var mi = MainMenu.FileMenu.AddMenuItem("Quit", "Quit");
+			var mi = MainMenu.FileMenu.Add("Quit", "Quit");
 			mi.Func = Exit;
-			var mi2 = MainMenu.EditMenu.AddMenuItem("ShowPropertyForm", "ShowPropertyForm");
+			var mi2 = MainMenu.EditMenu.Add("ShowPropertyForm", "ShowPropertyForm");
 			mi2.Func = ShowPropertyForm;
-			var mi3 = MainMenu.EditMenu.AddMenuItem("ShowScriptEditor", "ShowScriptEditor");
+			var mi3 = MainMenu.EditMenu.Add("ShowScriptEditor", "ShowScriptEditor");
 			mi3.Func = ShowScriptEditor;
-			var mi4 = MainMenu.EditMenu.AddMenuItem("ShowConsoleForm", "ShowConsoleForm");
+			var mi4 = MainMenu.EditMenu.Add("ShowConsoleForm", "ShowConsoleForm");
 			mi4.Func = ShowConsoleForm;
 
-			var mi5 = MainMenu.FileMenu.AddMenuItem("DebugX", "DebugX");
-			mi5.Func = GetHpdRoot;
+			var mi5 = MainMenu.FileMenu.Add("DebugX", "DebugX");
+			mi5.Func = ToJsonCodeToClipboard;
 			//var mi6 = MainMenu.FileMenu.AddMenuItem("getGlobalThis", "getGlobalThis");
 			//mi5.Func = GetGlobalThis;
-
+			//ToJsonCodeToClipboard
+		}
+		public bool ToJsonCodeToClipboard()
+		{
+			HpdA.ToJsonCodeToClipboard(typeof(HpdMainForm));
+			return true;
 		}
 		public bool GetHpdRoot()
 		{
-			PropertySetToClipboard(typeof(ComboBox));
+			PropertySetToClipboard(typeof(HpdControl));
 			return true;
 		}
 		public bool GetGlobalThis()

@@ -62,6 +62,8 @@ namespace Hpd
 		protected ToolStripButton m_BtnUp = new ToolStripButton();
 		protected ToolStripButton m_BtnDown = new ToolStripButton();
 		protected ToolStripButton m_BtnDel = new ToolStripButton();
+		protected ToolStripButton m_BtnCut = new ToolStripButton();
+		protected ToolStripButton m_BtnPaste = new ToolStripButton();
 		[Category("Hypowered")]
 		public ControlTreeView TreeView
 		{
@@ -119,11 +121,23 @@ namespace Hpd
 			m_BtnDel.Click += M_BtnDel_Click;
 			m_BtnDel.TextAlign = ContentAlignment.MiddleLeft;
 
+			m_BtnCut.Name = nameof(m_BtnCut);
+			m_BtnCut.Text = "Cut";
+			m_BtnCut.Click += M_BtnCut_Click;
+			m_BtnCut.TextAlign = ContentAlignment.MiddleLeft;
+
+			m_BtnPaste.Name = nameof(m_BtnPaste);
+			m_BtnPaste.Text = "Paste";
+			m_BtnPaste.Click += M_BtnPaste_Click;
+			m_BtnPaste.TextAlign = ContentAlignment.MiddleLeft;
 
 			m_Menu.Items.Add(m_BtnScript);
 			m_Menu.Items.Add(m_BtnNew);
 			m_Menu.Items.Add(m_BtnUp);
 			m_Menu.Items.Add(m_BtnDown);
+			m_Menu.Items.Add(m_BtnCut);
+			m_Menu.Items.Add(m_BtnPaste);
+			m_Menu.Items.Add(new ToolStripSeparator());
 			m_Menu.Items.Add(m_BtnDel);
 
 			this.Size = new Size(100,250);
@@ -144,6 +158,29 @@ namespace Hpd
 			ChkEnabled();
 		}
 
+		private void M_BtnPaste_Click(object? sender, EventArgs e)
+		{
+			if ((m_TreeView.Form != null) && (m_TreeView.Form is HpdMainForm))
+			{
+				HpdControl? n = ((HpdMainForm)m_TreeView.Form).PasteCtrl();
+				if ( n != null)
+				{
+					m_TreeView.RefreshTreeView();
+					SelectedControl = n;
+				}
+			}
+		}
+
+		private void M_BtnCut_Click(object? sender, EventArgs e)
+		{
+			if ((m_TreeView.Form !=null)&&(m_TreeView.Form is HpdMainForm))
+			{
+				if (((HpdMainForm)m_TreeView.Form).CutCtrl() !=null)
+				{
+					m_TreeView.RefreshTreeView();
+				}
+			}
+		}
 		private void M_BtnDel_Click(object? sender, EventArgs e)
 		{
 			Control? c = SelectedControl;

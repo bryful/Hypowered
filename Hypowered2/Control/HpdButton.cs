@@ -35,6 +35,25 @@ namespace Hpd
 				}
 			}
 		}
+		[Category("Hypowered"), Browsable(true)]
+		public FlatStyle FlatStyle
+		{
+			get
+			{
+				if ((m_Item != null) && (m_Item is Button))
+				{
+					return ((Button)m_Item).FlatStyle;
+				}
+				else { return FlatStyle.Standard; }
+			}
+			set
+			{
+				if ((m_Item != null) && (m_Item is Button))
+				{
+					((Button)m_Item).FlatStyle = value;
+				}
+			}
+		}
 		public HpdButton()
 		{
 			SetHpdType(HpdType.Button);

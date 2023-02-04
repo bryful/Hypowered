@@ -21,7 +21,7 @@ namespace Hpd
 			{
 				bool b = (m_Orientation != value);
 				m_Orientation = value;
-				if ((b)&&(MainForm != null)) MainForm.AutoLayout();
+				if ((b) && (MainForm != null)) MainForm.AutoLayout();
 			}
 		}
 
@@ -30,7 +30,7 @@ namespace Hpd
 			SetHpdType(HpdType.Panel);
 			m_SizePolicyHorizon = SizePolicy.Expanding;
 			m_SizePolicyVertual = SizePolicy.Expanding;
-			this.Size = new Size(23*2, 23);
+			this.Size = new Size(23 * 2, 23);
 			SetBaseSize(0, 0);
 
 			InitializeComponent();
@@ -43,68 +43,52 @@ namespace Hpd
 
 		public HpdControl? AddControl(string Name, HpdType ht)
 		{
-			HpdControl? c = HpdForm.CreateControl(Name, ht);
-			if (c != null)
+			if (MainForm != null)
 			{
-				c.NameChanged += (sender, e) =>
-				{
-					if (MainForm != null)
-					{
-						OnNameChanged(e);
-					}
-				};
-				Controls.Add(c);
-				if(MainForm!=null) MainForm.AutoLayout();
+				return HU.AddControl(MainForm, this, Name, ht);
 			}
-			return c;
+			else
+			{
+				return null;
+			}
 		}
-		public void AddControl()
+		public HpdControl? AddControl()
 		{
-			using (NewControlDialog dlg = new NewControlDialog())
+			HpdControl? ret = null;
+			if (MainForm != null)
 			{
-				if (MainForm != null)
-				{
-					dlg.HpdType = MainForm.DefHpdType;
-					dlg.SetMainForm(MainForm);
-					if (dlg.ShowDialog() == DialogResult.OK)
-					{
-						AddControl(dlg.HpdName, dlg.HpdType);
-						MainForm.DefHpdType = dlg.HpdType;
-					}
-				}
+				ret = HU.AddControl(MainForm, this);
 			}
+			return ret;
 		}
 		public bool ControlMoveUp(HpdControl hc)
 		{
-			bool ret = false;
-			int idx = Controls.GetChildIndex(hc);
-			if (idx > 0)
-			{
-				Controls.SetChildIndex(hc, idx - 1);
-				ret = true;
-			}
-			return ret;
+			return HU.ControlMoveUp(hc);
 
 		}
 		public bool ControlMoveDown(HpdControl hc)
 		{
-			bool ret = false;
-
-			int idx = Controls.GetChildIndex(hc);
-			if ((idx >= 0) && (idx < Controls.Count))
-			{
-				Controls.SetChildIndex(hc, idx + 1);
-				ret = true;
-			}
-			return ret;
-
+			return HU.ControlMoveDown(hc);
 		}
-		public bool ControlRemove(HpdControl hc)
+		public HpdControl? ControlRemove(HpdControl hc)
 		{
-
-			Controls.Remove(hc);
-			return true;
-
+			return HU.ControlRemove(hc);
+		}
+		public HpdControl? CutCtrl()
+		{
+			if (MainForm != null)
+			{
+				return HU.CutCtrl(MainForm);
+			}
+			else { return null; }
+		}
+		public HpdControl? PasteCtrl()
+		{
+			if (MainForm != null)
+			{
+				return HU.PasteCtrl(MainForm);
+			}
+			else { return null; }
 		}
 	}
 }

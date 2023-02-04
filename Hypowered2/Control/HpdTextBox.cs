@@ -91,7 +91,24 @@ namespace Hpd
 				Invalidate();
 			}
 		}
-
+		[Category("Hypowered"), Browsable(true)]
+		public BorderStyle BorderStyle
+		{
+			get
+			{
+				if ((m_Item != null)&&(m_Item is TextBox))
+				{
+					return ((TextBox)m_Item).BorderStyle;
+				}else { return BorderStyle.None; }
+			}
+			set
+			{
+				if ((m_Item != null) && (m_Item is TextBox))
+				{
+					((TextBox)m_Item).BorderStyle = value;
+				}
+			}
+		}
 		public HpdTextBox()
 		{
 			SetHpdType(HpdType.TextBox);

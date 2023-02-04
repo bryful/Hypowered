@@ -47,11 +47,16 @@ namespace Hpd
 				if (Func != null) { Func(); }
 			};
 		}
-		public HpdMenuItem AddMenuItem(string name,string tx)
+		public HpdMenuItem Add(string name,string tx)
 		{
 			HpdMenuItem mi = new HpdMenuItem();
 			mi.Name = name;
 			mi.Text = tx;
+			this.DropDownItems.Add(mi);
+			return mi;
+		}
+		public HpdMenuItem Add(HpdMenuItem mi)
+		{
 			this.DropDownItems.Add(mi);
 			return mi;
 		}

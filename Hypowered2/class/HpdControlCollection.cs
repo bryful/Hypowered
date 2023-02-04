@@ -18,10 +18,12 @@ namespace Hpd
     {
 		public class TargetControlChangedEventArgs : EventArgs
 		{
-			public HpdControl? ctrl;
-			public TargetControlChangedEventArgs(HpdControl? v)
+			public HpdControl? Ctrl;
+            public int Index = -1;
+			public TargetControlChangedEventArgs(HpdControl? v, int index)
 			{
-				ctrl = v;
+				Ctrl = v;
+				this.Index = index;
 			}
 		}
 		public delegate void TargetControlChangedHandler(object sender, TargetControlChangedEventArgs e);
@@ -35,7 +37,14 @@ namespace Hpd
 		}
 
 		private int m_TargetIndex = -1;
-        [Category("Hypowered"),Browsable(true)]
+        public void SetTargetIndexNoEvent(int idx)
+        {
+            if((idx>=0)&&(idx<Count))
+            {
+                m_TargetIndex = idx;
+			}
+        }
+		[Category("Hypowered"),Browsable(true)]
         public int TargetIndex
 		{
 			get { return m_TargetIndex; }
@@ -45,7 +54,7 @@ namespace Hpd
                 {
                     m_TargetIndex = value;
                     HpdControl? tc = TargetControl;
-                    OnTargetControlChanged(new TargetControlChangedEventArgs(tc));
+                    OnTargetControlChanged(new TargetControlChangedEventArgs(tc,TargetIndex));
                 }
             }
 		}
@@ -76,7 +85,7 @@ namespace Hpd
                     }
                 }
                 HpdControl? tc = TargetControl;
-                OnTargetControlChanged(new TargetControlChangedEventArgs(tc));
+                OnTargetControlChanged(new TargetControlChangedEventArgs(tc,TargetIndex));
             }
 		}
 
@@ -220,6 +229,7 @@ namespace Hpd
                     {
                         HpdControl hc = (HpdControl)c;
                         Add(hc);
+
                     }
                     idx++;
                 }
@@ -273,8 +283,10 @@ namespace Hpd
                 return ss.ToArray();
             }
         }
-    }
-    public class HCEnumerator : IEnumerator
+
+
+	}
+	public class HCEnumerator : IEnumerator
     {
         /// <summary>
         /// 走査対象になるリスト

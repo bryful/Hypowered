@@ -1,6 +1,6 @@
 ﻿namespace Hpd
 {
-	partial class HpdMenu
+	partial class HpdMainMenu
 	{
 		/// <summary>
 		/// 必要なデザイナー変数です。

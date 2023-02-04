@@ -6,6 +6,8 @@ namespace Hpd
 {
 	partial class HpdForm
 	{
+		
+
 		static public void PropListToClipboard(Type t, string nm)
 		{
 			string s = "";
@@ -149,35 +151,30 @@ namespace Hpd
 		
 		public bool ControlMoveUp(HpdControl hc)
 		{
-			bool ret = false;
-			int idx = Controls.GetChildIndex(hc);
-			if (idx > 0)
-			{
-				Controls.SetChildIndex(hc, idx - 1);
-				ret = true;
-			}
-			return ret;
-
+			return HU.ControlMoveUp(hc);
 		}
 		public bool ControlMoveDown(HpdControl hc)
 		{
-			bool ret = false;
-
-			int idx = Controls.GetChildIndex(hc);
-			if ((idx >= 0)&&(idx<Controls.Count))
-			{
-				Controls.SetChildIndex(hc, idx + 1);
-				ret = true;
-			}
-			return ret;
-
+			return HU.ControlMoveDown(hc);
 		}
-		public bool ControlRemove(HpdControl hc)
+		public HpdControl? ControlRemove(HpdControl hc)
 		{
-
-			Controls.Remove(hc);
-			return true;
-
+			return HU.ControlRemove(hc);
+		}
+		public HpdControl? CutCtrl()
+		{
+			if(this is HpdMainForm)
+			{
+				return HU.CutCtrl((HpdMainForm)this);
+			}else { return null; }
+		}
+		public HpdControl? PasteCtrl()
+		{
+			if (this is HpdMainForm)
+			{
+				return HU.PasteCtrl((HpdMainForm)this);
+			}
+			else { return null; }
 		}
 	}
 }

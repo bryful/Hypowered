@@ -15,20 +15,6 @@ namespace Hpd
 	{
 		private HpdScriptCode? m_ScriptCode = null;
 		private Control? m_Target = null;
-		public Control? Target
-		{
-			get { return m_Target; }
-			set
-			{ 
-				if( value != null )
-				{
-					if((value is HpdControl)||(value is HpdForm))
-					{
-						m_Target = value;
-					}
-				}
-			}
-		}
 		public bool SetEdit(bool b)
 		{
 			if (m_Target == null) return false;
@@ -65,15 +51,60 @@ namespace Hpd
 		public void SetMainForm(HpdMainForm mf)
 		{
 			this.MainForm = mf;
-			if(this.MainForm!=null)
+			GetControlList();
+			if (this.MainForm!=null)
 			{
+				this.MainForm.ItemChanged += (sender, e) =>
+				{
+					GetControlList();
+				};
 				this.MainForm.Items.TargetControlChanged += (sender, e) =>
 				{
-					Target= e.ctrl;
+					if (cmbTarget.SelectedIndex >= 2)
+					{
+						if (e.Index >= 0)
+						{
+							cmbTarget.SelectedIndex = e.Index + 2;
+						}
+					}
 				};
+
 			}
 		}
+		public void GetControlList()
+		{
 
+			string n = "";
+			int oidx = cmbTarget.SelectedIndex;
+			if (oidx>=2)
+			{
+				n = cmbTarget.Text;
+			}
+			cmbTarget.Items.Clear();
+			cmbTarget.Items.Add("Global");
+			if (this.MainForm == null) return;
+			cmbTarget.Items.Add(this.MainForm.Name);
+			if(this.MainForm.Items.Count>0)
+			{
+				cmbTarget.Items.AddRange(this.MainForm.Items.Names);
+			}
+			if (oidx < 2) 
+			{
+				cmbTarget.SelectedIndex = oidx;
+			}
+			else if(n!="")
+			{
+				int idx = this.MainForm.Items.IndexOf(n);
+				if(idx>=0)
+				{
+					cmbTarget.SelectedIndex = idx+2;
+				}
+			}
+			else
+			{
+				cmbTarget.SelectedIndex = 0;
+			}
+		}
 		public ScriptEditor()
 		{
 			InitializeComponent();

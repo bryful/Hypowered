@@ -13,6 +13,24 @@ namespace Hpd
 {
 	public partial class HpdComboBox : HpdControl
 	{
+		[Category("Hypowered"), Browsable(true)]
+		public FlatStyle FlatStyle
+		{
+			get
+			{
+				if ((m_Item!=null)&&(m_Item is ComboBox))
+				{
+					return ((ComboBox)m_Item).FlatStyle;
+				}else { return FlatStyle.Standard; }
+			}
+			set
+			{
+				if ((m_Item != null) && (m_Item is ComboBox))
+				{
+					((ComboBox)m_Item).FlatStyle = value;
+				}
+			}
+		}
 		[Category("Hypowered_ComboBox")]
 		public int IntegralHeight
 		{

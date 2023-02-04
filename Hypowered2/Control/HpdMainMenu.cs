@@ -12,7 +12,7 @@ using System.Windows.Forms;
 
 namespace Hpd
 {
-	public partial class HpdMenu : MenuStrip
+	public partial class HpdMainMenu : MenuStrip
 	{
 		private HpdMenuItem[] Menus = new HpdMenuItem[]
 		{
@@ -49,7 +49,7 @@ namespace Hpd
 			}
 
 		}
-		public HpdMenu()
+		public HpdMainMenu()
 		{
 			this.Name = "MainMenu";
 			FileMenu.Name = "FileMenu";

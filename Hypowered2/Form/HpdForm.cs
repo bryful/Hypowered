@@ -10,16 +10,26 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using Microsoft.ClearScript;
 using Microsoft.CodeAnalysis.CSharp.Scripting;
+using Microsoft.CodeAnalysis.CSharp.Syntax;
 using Microsoft.CodeAnalysis.Scripting;
 namespace Hpd
 {
 	public partial class HpdForm : Form
 	{
+		public delegate void ItemChangedChangedHandler(object sender, EventArgs e);
+		public event ItemChangedChangedHandler? ItemChanged;
+		protected virtual void OnItemChanged(EventArgs e)
+		{
+			if (ItemChanged != null)
+			{
+				ItemChanged(this, e);
+			}
+		}       
 		/// <summary>
 		/// メインメニュー
 		/// </summary>
 		[Category("Hypowered")]
-		public HpdMenu MainMenu { get; set; } = new HpdMenu();
+		public HpdMainMenu MainMenu { get; set; } = new HpdMainMenu();
 		public HpdScriptCode ScriptCode = new HpdScriptCode();
 		protected HpdControlCollection m_Items = new HpdControlCollection();
 		[Browsable(false)]
@@ -67,6 +77,11 @@ namespace Hpd
 		[ScriptUsage(ScriptAccess.None)]
 		protected void ListupControls()
 		{
+			string n = "";
+			if (Items.TargetControl!=null)
+			{
+				n = Items.TargetControl.Name;
+			}
 			m_Items.Clear();
 			foreach (Control c in Controls)
 			{
@@ -76,11 +91,17 @@ namespace Hpd
 				}
 			}
 			ListupControls(this);
+			if(n!="")
+			{
+				int idx = Items.IndexOf(n);
+				if(idx >= 0 ) { Items.SetTargetIndexNoEvent(idx); } 
+			}
+			OnItemChanged(new EventArgs());
 		}
 		// *************************************************************
 		public delegate void NameChangedHandler(object sender, EventArgs e);
 		public event NameChangedHandler? NameChanged;
-		protected virtual void OnNameChanged(EventArgs e)
+		public virtual void OnNameChanged(EventArgs e)
 		{
 			if (NameChanged != null)
 			{
@@ -224,9 +245,9 @@ namespace Hpd
 			ListupControls();
 			m_Items.TargetControlChanged += (sender, e) =>
 			{
-				if (e.ctrl != null)
+				if (e.Ctrl != null)
 				{
-					this.Text = e.ctrl.Text;
+					this.Text = e.Ctrl.Text;
 				}
 				else
 				{
@@ -370,31 +391,15 @@ namespace Hpd
 		[ScriptUsage(ScriptAccess.None)]
 		public HpdControl? AddControl(string Name,HpdType ht)
 		{
-			HpdControl? c = CreateControl(Name, ht);
-			if(c != null)
-			{
-				c.NameChanged += (sender, e) => { OnNameChanged(e); };
-				Controls.Add(c);
-				//AutoLayout();
-				//ListupControls();
-			}
-			return c;
+
+			return HU.AddControl(this,this,Name,ht);
 		}
 		// *******************************************************************************
 		public HpdType DefHpdType = HpdType.Button;
 		// *******************************************************************************
-		public void AddControl()
+		public HpdControl? AddControl()
 		{
-			using (NewControlDialog dlg = new NewControlDialog())
-			{
-				dlg.HpdType= DefHpdType;
-				dlg.SetMainForm(this);
-				if( dlg.ShowDialog()== DialogResult.OK )
-				{
-					AddControl(dlg.HpdName,dlg.HpdType);
-					DefHpdType = dlg.HpdType;
-				}
-			}
+			return HU.AddControl(this, this);
 		}
 		// *******************************************************************************
 		private bool AutoLayoutFlag = false;
@@ -432,7 +437,7 @@ namespace Hpd
 					foreach ( Control c in Controls)
 					{
 						if((c is MenuStrip)
-							|| (c is HpdMenu)
+							|| (c is HpdMainMenu)
 							||(c is StatusStrip)
 							|| (c is ToolStrip)
 							)

@@ -15,7 +15,64 @@ namespace Hpd
 {
 	partial class HpdForm
 	{
-
+		[Category("Hypowered"), Browsable(true)]
+		public new Color BackColor
+		{
+			get { return base.BackColor; }
+			set
+			{
+				base.BackColor = value;
+			}
+		}
+		[Category("Hypowered"), Browsable(true)]
+		public Color BackColorAll
+		{
+			get { return this.BackColor; }
+			set
+			{
+				SetBackColor(this,value);
+			}
+		}
+		public void SetBackColor(Control c , Color col)
+		{
+			c.BackColor = col;
+			if (c.Controls.Count>0)
+			{
+				foreach( Control cc in c.Controls)
+				{
+					SetBackColor(cc, col);
+				}
+			}
+		}
+		[Category("Hypowered"), Browsable(true)]
+		public new Color ForeColor
+		{
+			get { return base.ForeColor; }
+			set
+			{
+				base.ForeColor = value;
+			}
+		}
+		[Category("Hypowered"), Browsable(true)]
+		public Color ForeColorAll
+		{
+			get { return this.ForeColor; }
+			set
+			{
+				SetForeColor(this, value);
+			}
+		}
+		public void SetForeColor(Control c, Color col)
+		{
+			c.ForeColor = col;
+			if (c.Controls.Count > 0)
+			{
+				foreach (Control cc in c.Controls)
+				{
+					SetForeColor(cc, col);
+				}
+			}
+		}
 		[Category("Hypowered"), Browsable(true)]
 		public bool MenuVisible
 		{

@@ -695,11 +695,11 @@ namespace Hpd
 		{
 			if (this.Parent is HpdForm)
 			{
-				return ((HpdForm)this.Parent).ControlRemove(this);
+				return (((HpdForm)this.Parent).ControlRemove(this) !=null);
 			}
 			else if (this.Parent is HpdPanel)
 			{
-				return ((HpdPanel)this.Parent).ControlRemove(this);
+				return (((HpdPanel)this.Parent).ControlRemove(this) != null);
 			}
 			else
 			{

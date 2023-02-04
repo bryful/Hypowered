@@ -35,7 +35,7 @@ namespace Hpd
 					{
 						((HpdForm)m_form).Items.TargetControlChanged += (sender, e) =>
 						{
-							HpdControl? hc = e.ctrl;
+							HpdControl? hc = e.Ctrl;
 							if (hc != null)
 							{
 								this.SelectedNode = Find(hc);

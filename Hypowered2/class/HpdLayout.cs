@@ -30,7 +30,7 @@ namespace Hpd
     }
 	public enum SizePolicy
 	{
-		Fixed,
+		Fixed = 0,
 		Expanding
 	}
 
@@ -76,7 +76,7 @@ namespace Hpd
 					{
 						b += c.Height + c.Margin.Top + c.Margin.Bottom;
 					}
-					else if ( ((c is HpdMenu)||(c is MenuStrip) || (c is ToolStrip))&&(c.Visible == true))
+					else if ( ((c is HpdMainMenu)||(c is MenuStrip) || (c is ToolStrip))&&(c.Visible == true))
 					{
 						t += c.Height + c.Margin.Top + c.Margin.Bottom;
 					}

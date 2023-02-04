@@ -40,6 +40,7 @@
 			this.btnFont = new System.Windows.Forms.ToolStripButton();
 			this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
 			this.btnV8Execute = new System.Windows.Forms.ToolStripButton();
+			this.cmbTarget = new System.Windows.Forms.ToolStripComboBox();
 			this.toolStrip1.SuspendLayout();
 			this.SuspendLayout();
 			// 
@@ -57,6 +58,7 @@
 			// toolStrip1
 			// 
 			this.toolStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.cmbTarget,
             this.btnEditStart,
             this.lbName,
             this.cmbScriptType,
@@ -154,6 +156,11 @@
 			this.btnV8Execute.Text = "Execute";
 			this.btnV8Execute.Click += new System.EventHandler(this.btnV8Execute_Click);
 			// 
+			// cmbTarget
+			// 
+			this.cmbTarget.Name = "cmbTarget";
+			this.cmbTarget.Size = new System.Drawing.Size(121, 25);
+			// 
 			// ScriptEditor
 			// 
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
@@ -188,5 +195,6 @@
 		private ToolStripButton btnV8Execute;
 		private ToolStripButton btnHide;
 		private ToolStripSeparator toolStripSeparator2;
+		private ToolStripComboBox cmbTarget;
 	}
 }
