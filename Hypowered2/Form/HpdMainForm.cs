@@ -51,7 +51,7 @@ namespace Hpd
 		}
 		public bool ToJsonCodeToClipboard()
 		{
-			HpdA.ToJsonCodeToClipboard(typeof(HpdMainForm));
+			HpdA.ToJsonCodeToClipboard(typeof(HpdForm));
 			return true;
 		}
 		public bool GetHpdRoot()

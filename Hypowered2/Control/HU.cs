@@ -121,8 +121,15 @@ namespace Hpd
 				bool b = false;
 				if (mf.Items.TargetControl !=null)
 				{
-					c = mf.Items.TargetControl.Parent;
-					b= true;
+					if(mf.Items.TargetControl is HpdPanel)
+					{
+						c = mf.Items.TargetControl;
+					}
+					else
+					{
+						c = mf.Items.TargetControl.Parent;
+						b = true;
+					}
 				}
 
 				if (c != null)

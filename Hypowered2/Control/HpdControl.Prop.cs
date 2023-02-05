@@ -154,18 +154,6 @@ namespace Hpd
 			base.MinimumSize = sz;
 		}
 
-		public virtual JsonObject ToJson()
-		{
-			JsonFile jf = new JsonFile();
-			jf.SetValue(nameof(HpdType), (int)HpdType);
-			return jf.Obj;
-		}
-		public virtual void FromJson(JsonObject jo)
-		{
-			JsonFile jf = new JsonFile(jo);
-			object? v = null;
-			v = jf.ValueAuto("Name", typeof(String).Name);
-			if (v != null) base.Name = (String)v;
-		}
+
 	}
 }

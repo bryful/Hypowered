@@ -1,12 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
-using System.Data;
-using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using System.Windows.Forms;
+using System.Text.Json;
+using System.Text.Json.Nodes;
 
 namespace Hpd
 {
@@ -89,6 +88,28 @@ namespace Hpd
 				return HU.PasteCtrl(MainForm);
 			}
 			else { return null; }
+		}
+		public override JsonObject? ToJson()
+		{
+			JsonFile jf = new JsonFile();
+			jf.SetValue(nameof(HpdType), (int)HpdType);
+			jf.SetValue(nameof(Name), (String)Name);//System.String
+			jf.SetValue(nameof(Visible), (Boolean)Visible);//System.Boolean
+			jf.SetValue(nameof(Orientation), (Int32)Orientation);
+
+			JsonArray? arr = new JsonArray();
+			if(this.Controls.Count>0)
+			{
+				foreach(Control c in this.Controls)
+				{
+					if(c is HpdControl)
+					{
+
+					}
+				}
+			}
+
+			return jf.Obj;
 		}
 	}
 }

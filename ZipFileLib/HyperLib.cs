@@ -12,12 +12,12 @@ using System.Text.Json.Nodes;
 using System.Windows;
 using static System.Windows.Forms.VisualStyles.VisualStyleElement.TextBox;
 
-namespace Hypowered
+namespace Hpd
 {
 	public class HyperLib
 	{
 		private string m_FileName = "";
-		private HyperMainForm? m_form = null;
+		//private HyperMainForm? m_form = null;
 		public void SetMainForm(HyperMainForm? mf)
 		{
 			m_form= mf;
