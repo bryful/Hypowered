@@ -23,6 +23,7 @@ namespace Hpd
 		CheckBox,
 		RadioButton,
 		Panel,
+		Layout,
 		Stretch
 	}
 	public partial class HpdControl : Control

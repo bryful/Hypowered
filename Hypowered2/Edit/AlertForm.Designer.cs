@@ -37,15 +37,15 @@
 			this.textBox1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-			this.textBox1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(32)))), ((int)(((byte)(32)))), ((int)(((byte)(32)))));
+			this.textBox1.BackColor = System.Drawing.SystemColors.ControlLightLight;
 			this.textBox1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-			this.textBox1.ForeColor = System.Drawing.Color.Gainsboro;
+			this.textBox1.ForeColor = System.Drawing.SystemColors.ControlText;
 			this.textBox1.Location = new System.Drawing.Point(12, 12);
 			this.textBox1.Multiline = true;
 			this.textBox1.Name = "textBox1";
 			this.textBox1.ReadOnly = true;
 			this.textBox1.ScrollBars = System.Windows.Forms.ScrollBars.Both;
-			this.textBox1.Size = new System.Drawing.Size(788, 181);
+			this.textBox1.Size = new System.Drawing.Size(712, 328);
 			this.textBox1.TabIndex = 0;
 			// 
 			// btnOK
@@ -53,8 +53,8 @@
 			this.btnOK.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
 			this.btnOK.DialogResult = System.Windows.Forms.DialogResult.OK;
 			this.btnOK.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-			this.btnOK.ForeColor = System.Drawing.Color.Gainsboro;
-			this.btnOK.Location = new System.Drawing.Point(709, 199);
+			this.btnOK.ForeColor = System.Drawing.SystemColors.ControlText;
+			this.btnOK.Location = new System.Drawing.Point(633, 346);
 			this.btnOK.Name = "btnOK";
 			this.btnOK.Size = new System.Drawing.Size(75, 23);
 			this.btnOK.TabIndex = 1;
@@ -64,21 +64,20 @@
 			// AlertForm
 			// 
 			this.AcceptButton = this.btnOK;
-			this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
-			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-			this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(32)))), ((int)(((byte)(32)))), ((int)(((byte)(32)))));
-			this.ClientSize = new System.Drawing.Size(812, 228);
-			this.ControlBox = false;
+			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
+			this.BackColor = System.Drawing.SystemColors.Control;
+			this.ClientSize = new System.Drawing.Size(736, 375);
 			this.Controls.Add(this.btnOK);
 			this.Controls.Add(this.textBox1);
+			this.ForeColor = System.Drawing.SystemColors.ControlText;
+			this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.SizableToolWindow;
 			this.MaximizeBox = false;
 			this.MdiChildrenMinimizedAnchorBottom = false;
 			this.MinimizeBox = false;
 			this.Name = "AlertForm";
 			this.ShowIcon = false;
 			this.ShowInTaskbar = false;
-			this.StartPosition = System.Windows.Forms.FormStartPosition.Manual;
-			this.Text = "EditAlert";
+			this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
 			this.TopMost = true;
 			this.ResumeLayout(false);
 			this.PerformLayout();

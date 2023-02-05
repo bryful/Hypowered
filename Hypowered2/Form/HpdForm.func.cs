@@ -151,11 +151,15 @@ namespace Hpd
 		
 		public bool ControlMoveUp(HpdControl hc)
 		{
-			return HU.ControlMoveUp(hc);
+			bool b = HU.ControlMoveUp(hc);
+			if (b) { ListupControls();AutoLayout(); }
+			return b;
 		}
 		public bool ControlMoveDown(HpdControl hc)
 		{
-			return HU.ControlMoveDown(hc);
+			bool b = HU.ControlMoveDown(hc);
+			if (b) { ListupControls(); AutoLayout(); }
+			return b;
 		}
 		public HpdControl? ControlRemove(HpdControl hc)
 		{

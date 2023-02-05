@@ -24,7 +24,7 @@ namespace Hpd
 		{
 			base.OnResize(e);
 
-			this.Text = $"w:{this.Width},h:{this.Height},c:{ClientRectangle.ToString()} ,w:{HpdLayout.GetControlSize(this).ToString()} ";
+			this.Text = $"w:{this.Width},h:{this.Height},c:{ClientRectangle.ToString()} ,w:{HL.GetControlSize(this).ToString()} ";
 		}
 	}
 

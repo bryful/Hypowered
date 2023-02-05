@@ -60,11 +60,11 @@ namespace Hpd
 			engine.AddHostObject("dotnet", typeCollection);
 			if (Mainform != null)
 			{
-				engine.AddHostObject("Alert", (object)Mainform.Alert);
-				engine.AddHostObject("Write", (object)Mainform.ConsoleWrite);
-				engine.AddHostObject("WriteLine", (object)Mainform.ConsoleWriteLine);
-				engine.AddHostObject("cls", (object)Mainform.ConsoleClear);
-				engine.AddHostObject("YesNoDialog", (object)Mainform.YesNoDialog);
+				//engine.AddHostObject("Alert", (object)Mainform.Alert);
+				//engine.AddHostObject("Write", (object)Mainform.ConsoleWrite);
+				//engine.AddHostObject("WriteLine", (object)Mainform.ConsoleWriteLine);
+				//engine.AddHostObject("cls", (object)Mainform.ConsoleClear);
+				//engine.AddHostObject("YesNoDialog", (object)Mainform.YesNoDialog);
 			}
 			engine.AddHostTypes(new Type[]
 			{

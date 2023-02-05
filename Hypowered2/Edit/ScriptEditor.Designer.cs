@@ -31,6 +31,7 @@
 			System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(ScriptEditor));
 			this.roslynEdit1 = new Hpd.RoslynEdit();
 			this.toolStrip1 = new System.Windows.Forms.ToolStrip();
+			this.cmbTarget = new System.Windows.Forms.ToolStripComboBox();
 			this.btnEditStart = new System.Windows.Forms.ToolStripButton();
 			this.lbName = new System.Windows.Forms.ToolStripLabel();
 			this.cmbScriptType = new System.Windows.Forms.ToolStripComboBox();
@@ -40,7 +41,6 @@
 			this.btnFont = new System.Windows.Forms.ToolStripButton();
 			this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
 			this.btnV8Execute = new System.Windows.Forms.ToolStripButton();
-			this.cmbTarget = new System.Windows.Forms.ToolStripComboBox();
 			this.toolStrip1.SuspendLayout();
 			this.SuspendLayout();
 			// 
@@ -74,6 +74,14 @@
 			this.toolStrip1.TabIndex = 2;
 			this.toolStrip1.Text = "toolStrip1";
 			// 
+			// cmbTarget
+			// 
+			this.cmbTarget.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+			this.cmbTarget.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+			this.cmbTarget.MaxDropDownItems = 20;
+			this.cmbTarget.Name = "cmbTarget";
+			this.cmbTarget.Size = new System.Drawing.Size(121, 25);
+			// 
 			// btnEditStart
 			// 
 			this.btnEditStart.AutoSize = false;
@@ -96,6 +104,7 @@
 			// cmbScriptType
 			// 
 			this.cmbScriptType.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+			this.cmbScriptType.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
 			this.cmbScriptType.Name = "cmbScriptType";
 			this.cmbScriptType.Size = new System.Drawing.Size(121, 25);
 			// 
@@ -155,11 +164,6 @@
 			this.btnV8Execute.Size = new System.Drawing.Size(100, 22);
 			this.btnV8Execute.Text = "Execute";
 			this.btnV8Execute.Click += new System.EventHandler(this.btnV8Execute_Click);
-			// 
-			// cmbTarget
-			// 
-			this.cmbTarget.Name = "cmbTarget";
-			this.cmbTarget.Size = new System.Drawing.Size(121, 25);
 			// 
 			// ScriptEditor
 			// 

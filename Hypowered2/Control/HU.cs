@@ -17,7 +17,7 @@ namespace Hpd
 	{
 		static public HpdControl? AddControl(HpdForm mf,Control ctrl,string Name, HpdType ht)
 		{
-			HpdControl? c = HpdForm.CreateControl(Name, ht);
+			HpdControl? c = mf.CreateControl(Name, ht);
 			if (c != null)
 			{
 				c.NameChanged += (sender, e) =>
@@ -28,6 +28,7 @@ namespace Hpd
 					}
 				};
 				ctrl.Controls.Add(c);
+				mf.ListupControls();
 				mf.AutoLayout();
 			}
 			return c;
@@ -96,7 +97,7 @@ namespace Hpd
 			}
 
 		}
-		static public HpdControl? m_bufCtrl = null;
+		static public HpdControl? BufCtrl = null;
 		static public HpdControl? CutCtrl(HpdForm mf)
 		{
 			HpdControl? ret = null;
@@ -104,8 +105,8 @@ namespace Hpd
 			{
 				if (mf.Items.TargetControl != null)
 				{
-					m_bufCtrl = (HpdControl)mf.Items.TargetControl;
-					ret = ControlRemove(m_bufCtrl);
+					BufCtrl = (HpdControl)mf.Items.TargetControl;
+					ret = ControlRemove(BufCtrl);
 					mf.AutoLayout();
 				}
 			}
@@ -114,7 +115,7 @@ namespace Hpd
 		static public HpdControl? PasteCtrl(HpdMainForm mf)
 		{
 			HpdControl? ret = null;
-			if ((m_bufCtrl != null))
+			if ((BufCtrl != null))
 			{
 				Control? c = mf;
 				bool b = false;
@@ -128,13 +129,13 @@ namespace Hpd
 				{
 					int idx = -1;
 					if (b) idx = c.Controls.GetChildIndex(mf.Items.TargetControl);
-					c.Controls.Add(m_bufCtrl);
+					c.Controls.Add(BufCtrl);
 					if (idx != -1)
 					{
-						c.Controls.SetChildIndex(m_bufCtrl, idx);
+						c.Controls.SetChildIndex(BufCtrl, idx);
 					}
-					ret = m_bufCtrl;
-					m_bufCtrl = null;
+					ret = BufCtrl;
+					BufCtrl = null;
 					mf.AutoLayout();
 				}
 			}

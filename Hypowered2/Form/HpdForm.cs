@@ -75,7 +75,7 @@ namespace Hpd
 		/// </summary>
 		/// <param name="ctrl"></param>
 		[ScriptUsage(ScriptAccess.None)]
-		protected void ListupControls()
+		public void ListupControls()
 		{
 			string n = "";
 			if (Items.TargetControl!=null)
@@ -322,9 +322,12 @@ namespace Hpd
 		}
 		// *******************************************************************************
 		[ScriptUsage(ScriptAccess.None)]
-		static public HpdControl CreateControl(string name, HpdType ht)
+		public HpdControl CreateControl(string name, HpdType ht)
 		{
 			HpdControl ret;
+
+			name = NewName(name);
+
 			switch (ht)
 			{
 				case HpdType.TextBox:
@@ -409,8 +412,8 @@ namespace Hpd
 			if (AutoLayoutFlag) return;
 			AutoLayoutFlag = true;
 			this.SuspendLayout();
-			HpdLayout.ChkPanelLayout(this);
-			HpdLayout.ChkLayout(this);
+			HL.ChkPanelLayout(this);
+			HL.ChkLayout(this);
 			this.ResumeLayout(false);
 			AutoLayoutFlag = false;
 		}

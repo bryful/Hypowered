@@ -34,7 +34,7 @@ namespace Hpd
 		Expanding
 	}
 
-	public class HpdLayout
+	public class HL
     {
 		static private Size PreferredSize(HpdControl c)
 		{
@@ -62,37 +62,57 @@ namespace Hpd
 			}
 
 		}
-		static public Rectangle GetControlSize(Control ctrl)
+		static public Padding GetControlSide(Control ctrl)
 		{
-			Rectangle ret = ctrl.ClientRectangle;
-			if (ctrl is Form) // フォームかどうか
+			Padding ret = new Padding(0,0,0,0);
+			if((ctrl is Form)&&(ctrl.Controls.Count > 0))
 			{
+				int l = 0;
 				int t = 0;
+				int r = 0;
 				int b = 0;
 				foreach (Control c in ctrl.Controls)
 				{
 
-					if ((c is StatusStrip)&&(c.Visible==true))
+					if (((c is StatusStrip) || (c is HpdMainMenu) || (c is MenuStrip) || (c is ToolStrip)) && (c.Visible == true))
 					{
-						b += c.Height + c.Margin.Top + c.Margin.Bottom;
-					}
-					else if ( ((c is HpdMainMenu)||(c is MenuStrip) || (c is ToolStrip))&&(c.Visible == true))
-					{
-						t += c.Height + c.Margin.Top + c.Margin.Bottom;
+						switch (c.Dock)
+						{
+							case DockStyle.Top:
+								t += c.Height + c.Margin.Top + c.Margin.Bottom;
+								break;
+							case DockStyle.Bottom:
+								b += c.Height + c.Margin.Top + c.Margin.Bottom;
+								break;
+							case DockStyle.Left:
+								l += c.Width + c.Margin.Left + c.Margin.Right;
+								break;
+							case DockStyle.Right:
+								r += c.Width + c.Margin.Left + c.Margin.Right;
+								break;
+						}
 					}
 				}
-				ret = new Rectangle(ret.Left, ret.Top + t, ret.Width, ret.Height - b - t);
+				ret = new Padding(l, t, r, b);
+			}
+			return ret;
+
+		}
+		static public Rectangle GetControlSize(Control ctrl)
+		{
+			Rectangle ret = ctrl.ClientRectangle;
+			if ((ctrl is Form) && (ctrl.Controls.Count > 0)) // フォームかどうか
+			{
+				Padding p = GetControlSide(ctrl);
+				ret = new Rectangle(
+					ret.Left + p.Left, 
+					ret.Top + p.Top, 
+					ret.Width - p.Left - p.Right, 
+					ret.Height - p.Top - p.Bottom);
 			}
 			return ret;
 		}
-		
-
-        /// <summary>
-        /// ターゲットになるコントロールを返す。
-        /// </summary>
-        /// <param name="cc"></param>
-        /// <returns></returns>
-        static private List<HpdControl> GetHpdControls(Control cc)
+		static private List<HpdControl> GetHpdControls(Control cc)
         {
             List<HpdControl> list = new List<HpdControl>();
             if(cc.Controls.Count>0)
@@ -334,10 +354,7 @@ namespace Hpd
 				((HpdForm)cc).SetMinimumSize(new Size(w + dw, h + dh));
 			}
 		}
-		/// <summary>
-		/// 横方向の自動レイアウト
-		/// </summary>
-		/// <param name="cc"></param>
+
 		static public void ChkVirtual(Control cc)
         {
 			List<HpdControl> list = GetHpdControls(cc);

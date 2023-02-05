@@ -120,7 +120,15 @@ namespace Hpd
 
 		public void Alert(object? obj, string cap = "")
 		{
-			AlertMes(obj, cap);
+			using (AlertForm dlg = new AlertForm())
+			{
+				dlg.Text = ToStr(obj);
+				if (cap != "") dlg.Title = cap;
+				if (dlg.ShowDialog() == DialogResult.OK)
+				{
+
+				}
+			}
 		}
 		[ScriptUsage(ScriptAccess.None)]
 		static public void AlertMes(object? obj, string cap = "")
