@@ -13,6 +13,30 @@ namespace Hpd
 {
 	public partial class HpdComboBox : HpdControl
 	{
+		[Category("Hypowered_TextBox")]
+		public string[] Lines
+		{
+			get
+			{
+				if (m_Item != null)
+				{
+					return m_Item.Text.Split("\r\n");
+				}
+				else
+				{
+					return base.Text.Split("\r\n");
+				}
+			}
+			set
+			{
+				if (m_Item != null)
+				{
+					m_Item.Text = string.Join("\r\n", value);
+				}
+				base.Text = string.Join("\r\n", value);
+				this.Invalidate();
+			}
+		}
 		[Category("Hypowered"), Browsable(true)]
 		public FlatStyle FlatStyle
 		{
@@ -32,16 +56,16 @@ namespace Hpd
 			}
 		}
 		[Category("Hypowered_ComboBox")]
-		public int IntegralHeight
+		public bool IntegralHeight
 		{
 			get
 			{
-				int ret = 0;
+				bool ret = false;
 				if (m_Item != null)
 				{
 					if (m_Item is ComboBoxHpd)
 					{
-						ret = ((ComboBoxHpd)m_Item).ItemHeight;
+						ret = ((ComboBoxHpd)m_Item).IntegralHeight;
 					}
 				}
 				return ret;
@@ -52,7 +76,7 @@ namespace Hpd
 				{
 					if (m_Item is ComboBoxHpd)
 					{
-						((ComboBoxHpd)m_Item).ItemHeight = value;
+						((ComboBoxHpd)m_Item).IntegralHeight = value;
 					}
 				}
 			}

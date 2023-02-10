@@ -14,16 +14,16 @@ namespace Hpd
 	public partial class HpdListBox : HpdControl
 	{
 		[Category("Hypowered_ListBox")]
-		public int IntegralHeight
+		public bool IntegralHeight
 		{
 			get
 			{
-				int ret = 0;
+				bool ret = false;
 				if (m_Item != null)
 				{
 					if (m_Item is ListBoxHpd)
 					{
-						ret = ((ListBoxHpd)m_Item).ItemHeight;
+						ret = ((ListBoxHpd)m_Item).IntegralHeight;
 					}
 				}
 				return ret;
@@ -34,7 +34,7 @@ namespace Hpd
 				{
 					if (m_Item is ListBoxHpd)
 					{
-						((ListBoxHpd)m_Item).ItemHeight = value;
+						((ListBoxHpd)m_Item).IntegralHeight = value;
 					}
 				}
 			}

@@ -4,18 +4,13 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.IO.Compression;
-using System.Windows.Media.Imaging;
 using System.Text.RegularExpressions;
 using System.Windows;
 
 namespace Hpd
 {
-    public class ZipUtil
-    {
-        public ZipUtil()
-        {
-
-        }
+	public class HpdZip
+	{
         /// <summary>
         /// Zipにファイルを追加する
         /// </summary>
@@ -164,6 +159,14 @@ namespace Hpd
 			}
 			return ret;
 		}
+
+		static public bool SetEntryFromStr(string zipName, string entryName, string s)
+		{
+			if ((zipName == "") || (entryName == "")) return false;
+			byte[] data = System.Text.Encoding.UTF8.GetBytes(s);
+			return SetEntryFromByte(zipName, entryName, data);
+
+		}
 		static public string? GetEntryToStr(string zipName, string entryName)
         {
             //  string str = Encoding.GetEncoding("Shift_JIS").GetString(byte2str_arr);
@@ -178,12 +181,28 @@ namespace Hpd
 			return ret;
 
 		}
-		static public bool SetEntryFromStr(string zipName, string entryName, string s)
-        {
-			if ((zipName == "") || (entryName == "")) return false;
-			byte[] data = System.Text.Encoding.UTF8.GetBytes(s);
-            return SetEntryFromByte(zipName, entryName, data);
+		static public Bitmap? GetEntryBitmap(string zipName, string entryName)
+		{
+			Bitmap? ret = null;
+			if ((zipName == "") || (entryName == "")) return ret;
+			using (ZipArchive a = ZipFile.OpenRead(zipName))
+			{
+				ZipArchiveEntry? e = a.GetEntry(entryName);
+				if (e != null)
+				{
+					using (Stream stream = e.Open())
+					{
+						using (MemoryStream memoryStream = new MemoryStream())
+						{
+							stream.CopyTo(memoryStream);
+							memoryStream.Position = 0;
+							ret = new Bitmap(memoryStream);
 
+						}
+					}
+				}
+			}
+			return ret;
 		}
 		static public byte[]? GetEntryToByte(string zipName, string entryName)
 		{
@@ -208,11 +227,11 @@ namespace Hpd
 			return ret;
 		}
         /// <summary>
-				/// 書庫内のファイルを削除
-				/// </summary>
-				/// <param name="zipName"></param>
-				/// <param name="entryName"></param>
-				/// <returns></returns>
+		/// 書庫内のファイルを削除
+		/// </summary>
+		/// <param name="zipName"></param>
+		/// <param name="entryName"></param>
+		/// <returns></returns>
 		static public bool DeleteEntry(string zipName, string entryName)
 		{
             bool ret = false;
@@ -257,29 +276,6 @@ namespace Hpd
 			}
 			return ret;
 		}
-		static public Bitmap? GetEntryBitmap(string zipName, string entryName)
-        {
-            Bitmap? ret = null;
-			if ((zipName == "") || (entryName == "")) return ret;
-			using (ZipArchive a = ZipFile.OpenRead(zipName))
-            {
-                ZipArchiveEntry? e = a.GetEntry(entryName);
-                if (e != null)
-                {
-                    using (Stream stream = e.Open())
-                    {
-                        using (MemoryStream memoryStream = new MemoryStream())
-                        {
-                            stream.CopyTo(memoryStream);
-                            memoryStream.Position = 0;
-                            ret = new Bitmap(memoryStream);
-
-                        }
-                    }
-                }
-            }
-            return ret;
-        }
 
 		static public bool BackupEntry(string zipName, string entryName,string backupName)
 		{
