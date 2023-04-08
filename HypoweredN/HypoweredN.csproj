@@ -1,0 +1,18 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>WinExe</OutputType>
+    <TargetFramework>net6.0-windows</TargetFramework>
+    <Nullable>enable</Nullable>
+    <UseWindowsForms>true</UseWindowsForms>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Title>Hypowered</Title>
+    <Authors>bry-ful</Authors>
+    <Company>bry-ful</Company>
+    <RootNamespace>Hypowered</RootNamespace>
+    <PackageId>Hypowered</PackageId>
+    <Product>Hypowered</Product>
+    <AssemblyName>HypoweredN</AssemblyName>
+  </PropertyGroup>
+
+</Project>
