@@ -23,12 +23,36 @@ namespace Hpd
 				jf.SetValue(nameof(DialogResult), (Int32)button.DialogResult);
 				jf.SetValue(nameof(FlatStyle), (Int32)button.FlatStyle);
 			}
+			HpdTextBox? textBox = AsHpdTextBox;
+			if (textBox != null)
+			{
+				jf.SetValue(nameof(HpdTextBox.Multiline), (Boolean)textBox.Multiline);
+				jf.SetValue(nameof(HpdTextBox.ScrollBars), (Int32)textBox.ScrollBars);
+				jf.SetValue(nameof(HpdTextBox.BorderStyle), (Int32)textBox.BorderStyle);
+			}
 			HpdCheckBox? checkBox = AsHpdCheckBox;
 			if (checkBox!=null)
 			{
-				jf.SetValue(nameof(DialogResult), (Boolean)checkBox.Checked);
+				jf.SetValue(nameof(HpdCheckBox.Checked), (Boolean)checkBox.Checked);
 			}
-
+			HpdComboBox? comboBox = AsHpdComboBox;
+			if (comboBox != null)
+			{
+				jf.SetValue(nameof(FlatStyle), (int)comboBox.FlatStyle);
+				jf.SetValue(nameof(HpdComboBox.IntegralHeight), (Boolean)comboBox.IntegralHeight);
+				jf.SetValue(nameof(HpdComboBox.DropDownWidth), (int)comboBox.DropDownWidth);
+				jf.SetValue(nameof(HpdComboBox.DropDownHeight), (int)comboBox.DropDownHeight);
+			}
+			HpdListBox? listBox = AsHpdListBox;
+			if (listBox != null)
+			{
+				jf.SetValue(nameof(HpdComboBox.IntegralHeight), (Boolean)listBox.IntegralHeight);
+			}
+			HpdRadioButton? radioButton = AsHpdRadioButton;
+			if (radioButton != null)
+			{
+				jf.SetValue(nameof(HpdRadioButton.Checked), (Boolean)radioButton.Checked);
+			}
 			jf.SetValue(nameof(Name), (String)Name);//System.String
 			jf.SetValue(nameof(Text), (String)Text);//System.String
 			jf.SetValue(nameof(IsDrawFrame), (Boolean)IsDrawFrame);//System.Boolean
@@ -96,6 +120,32 @@ namespace Hpd
 				v = jf.ValueAuto("Checked", typeof(Boolean).Name);
 				if (v != null) checkBox.Checked = (Boolean)v;
 			}
+			HpdComboBox? comboBox = AsHpdComboBox;
+			if (comboBox != null)
+			{
+				v = jf.ValueAuto("FlatStyle", typeof(Int32).Name);
+				if (v != null) comboBox.FlatStyle = (FlatStyle)v;
+
+				v = jf.ValueAuto("DropDownWidth", typeof(Boolean).Name);
+				if (v != null) comboBox.IntegralHeight = (Boolean)v;
+				v = jf.ValueAuto("DropDownWidth", typeof(Int32).Name);
+				if (v != null) comboBox.DropDownWidth = (Int32)v;
+				v = jf.ValueAuto("DropDownHeight", typeof(Int32).Name);
+				if (v != null) comboBox.DropDownHeight = (Int32)v;
+			}
+			HpdListBox? listBox = AsHpdListBox;
+			if (listBox != null)
+			{
+				if (v != null) listBox.IntegralHeight = (Boolean)v;
+				v = jf.ValueAuto("IntegralHeight", typeof(Int32).Name);
+			}
+			HpdRadioButton? radioButton = AsHpdRadioButton;
+			if (radioButton != null)
+			{
+				v = jf.ValueAuto("Checked", typeof(Boolean).Name);
+				if (v != null) radioButton.Checked = (Boolean)v;
+			}
+
 			v = jf.ValueAuto("Text", typeof(String).Name);
 			if (v != null) Text = (String)v;
 			v = jf.ValueAuto("IsDrawFrame", typeof(Boolean).Name);

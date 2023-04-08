@@ -39,12 +39,11 @@
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
 			this.BackColor = System.Drawing.SystemColors.Control;
 			this.BaseSize = new System.Drawing.Size(22, 69);
-			this.ClientRectangleEx = new System.Drawing.Rectangle(0, 24, 617, 290);
-			this.ClientSize = new System.Drawing.Size(617, 314);
+			this.ClientRectangleEx = new System.Drawing.Rectangle(0, 24, 545, 190);
+			this.ClientSize = new System.Drawing.Size(545, 214);
 			this.Cursor = System.Windows.Forms.Cursors.IBeam;
 			this.DoubleBuffered = true;
 			this.MenuVisible = true;
-			this.MinimumSize = new System.Drawing.Size(22, 69);
 			this.Name = "Main";
 			this.Orientation = Hpd.HpdOrientation.Horizontal;
 			this.Text = "Main";

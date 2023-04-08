@@ -44,10 +44,21 @@ namespace Hpd
 			mi4.Func = ShowConsoleForm;
 
 			var mi5 = MainMenu.FileMenu.Add("DebugX", "DebugX");
-			mi5.Func = ToJsonCodeToClipboard;
+			mi5.Func = ResList;
 			//var mi6 = MainMenu.FileMenu.AddMenuItem("getGlobalThis", "getGlobalThis");
 			//mi5.Func = GetGlobalThis;
 			//ToJsonCodeToClipboard
+		}
+		public bool ResList()
+		{
+			string[] ret = HpdFiles.GetBitmapNamesFromRes();
+			string s = "";
+			foreach (string s2 in ret)
+			{
+				s += s2+"\r\n";
+			}
+			Clipboard.SetText(s);
+			return true;
 		}
 		public bool ToJsonCodeToClipboard()
 		{

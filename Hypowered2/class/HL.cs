@@ -14,15 +14,7 @@ using System.Windows.Forms;
 
 namespace Hpd
 {
-	/*
-    public enum HpdAlgnment
-    {
-        Near,
-        Center,
-        Far,
-        Fill
-    }
-	*/
+
     public enum HpdOrientation
     {
         Horizontal,
