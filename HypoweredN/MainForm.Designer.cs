@@ -33,6 +33,8 @@
 			listBox2 = new ListBox();
 			menuStrip1 = new MenuStrip();
 			fileToolStripMenuItem = new ToolStripMenuItem();
+			editToolStripMenuItem = new ToolStripMenuItem();
+			formToolStripMenuItem = new ToolStripMenuItem();
 			menuStrip1.SuspendLayout();
 			SuspendLayout();
 			// 
@@ -63,7 +65,7 @@
 			// 
 			// menuStrip1
 			// 
-			menuStrip1.Items.AddRange(new ToolStripItem[] { fileToolStripMenuItem });
+			menuStrip1.Items.AddRange(new ToolStripItem[] { fileToolStripMenuItem, editToolStripMenuItem, formToolStripMenuItem });
 			menuStrip1.Location = new Point(0, 0);
 			menuStrip1.Name = "menuStrip1";
 			menuStrip1.Size = new Size(519, 24);
@@ -75,6 +77,18 @@
 			fileToolStripMenuItem.Name = "fileToolStripMenuItem";
 			fileToolStripMenuItem.Size = new Size(37, 20);
 			fileToolStripMenuItem.Text = "File";
+			// 
+			// editToolStripMenuItem
+			// 
+			editToolStripMenuItem.Name = "editToolStripMenuItem";
+			editToolStripMenuItem.Size = new Size(39, 20);
+			editToolStripMenuItem.Text = "Edit";
+			// 
+			// formToolStripMenuItem
+			// 
+			formToolStripMenuItem.Name = "formToolStripMenuItem";
+			formToolStripMenuItem.Size = new Size(46, 20);
+			formToolStripMenuItem.Text = "Form";
 			// 
 			// MainForm
 			// 
@@ -105,5 +119,7 @@
 		private ListBox listBox2;
 		private MenuStrip menuStrip1;
 		private ToolStripMenuItem fileToolStripMenuItem;
+		private ToolStripMenuItem editToolStripMenuItem;
+		private ToolStripMenuItem formToolStripMenuItem;
 	}
 }

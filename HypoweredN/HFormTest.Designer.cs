@@ -34,7 +34,7 @@
 			// 
 			AutoScaleMode = AutoScaleMode.None;
 			BarBackColor = Color.Gray;
-			ClientSize = new Size(450, 258);
+			ClientSize = new Size(549, 291);
 			MainMenuVisible = true;
 			Name = "HFormTest";
 			Text = "BFormTest";
