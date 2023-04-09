@@ -1,6 +1,6 @@
 ﻿namespace Hypowered
 {
-	partial class HFormTest
+	partial class BaseForm
 	{
 		/// <summary>
 		/// Required designer variable.
@@ -30,14 +30,15 @@
 		{
 			SuspendLayout();
 			// 
-			// HFormTest
+			// BaseForm
 			// 
-			AutoScaleMode = AutoScaleMode.None;
-			BarBackColor = Color.Gray;
-			ClientSize = new Size(549, 291);
-			MainMenuVisible = true;
-			Name = "HFormTest";
-			Text = "BFormTest";
+			AutoScaleDimensions = new SizeF(7F, 15F);
+			AutoScaleMode = AutoScaleMode.Font;
+			BackColor = Color.FromArgb(64, 64, 64);
+			ClientSize = new Size(573, 300);
+			FormBorderStyle = FormBorderStyle.None;
+			Name = "BaseForm";
+			Text = "BaseForm";
 			ResumeLayout(false);
 		}
 

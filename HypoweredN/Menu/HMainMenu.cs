@@ -12,6 +12,14 @@ namespace Hypowered
 {
 	public class HMainMenu : MenuStrip
 	{
+		[Category("Hypowered"), Browsable(true)]
+		public new System.String Name
+		{
+			get { return base.Name; }
+			set { base.Name = value; }
+		}
+		[Category("_Hypowered")]
+		public int Index { get; set; } = -1;
 		public HMainMenu()
 		{
 			//HUtils.PropListToClipboard(typeof(MenuStrip),"base")

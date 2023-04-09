@@ -10,14 +10,38 @@ using System.Windows.Forms;
 
 namespace Hypowered
 {
-	public partial class HForm : Form
+	public enum CloseAction
+	{
+		None = 0,
+		Hide,
+		Close,
+		DROK,
+		DRCancel,
+
+	}
+	public partial class BaseForm : Form
 	{
 		#region Props
+		[Category("Hypowered"), Browsable(true)]
+		public new System.String Text
+		{
+			get { return base.Text; }
+			set { base.Text = value; this.Invalidate(); }
+		}
+		[Category("Hypowered_Draw")]
+		public StringFormat SFormat { get; set; } = new StringFormat();
 		[Category("Hypowered")]
 		public new System.String Name
 		{
 			get { return base.Name; }
 			set { base.Name = value; }
+		}
+		protected CloseAction m_CloseAction = CloseAction.Close;
+		[Category("Hypowered")]
+		public CloseAction CloseAction
+		{
+			get { return m_CloseAction; }
+			set { m_CloseAction = value; }
 		}
 		[Category("Hypowered_Draw")]
 		public new System.Int32 DeviceDpi
@@ -48,6 +72,13 @@ namespace Hypowered
 		{
 			get { return base.Visible; }
 			set { base.Visible = value; }
+		}
+		protected bool m_CanResize = true;
+		[Category("Hypowered_Size")]
+		public bool CanResize
+		{
+			get { return m_CanResize; }
+			set { m_CanResize = value; }
 		}
 		[Category("Hypowered_Size")]
 		public new Point Location
@@ -96,9 +127,10 @@ namespace Hypowered
 				int w = m_BarHeight - 8;
 				m_TopMostRect = new Rectangle(10, 4, w, w);
 				CalcCloseRect();
+				Invalidate();
 			}
 		}
-		private Color m_BarBackColor = Color.FromArgb(80, 80, 80);
+		protected Color m_BarBackColor = Color.FromArgb(80, 80, 80);
 		[Category("Hypowered_Color"),Browsable(true)]
 		public Color BarBackColor
 		{
@@ -118,20 +150,6 @@ namespace Hypowered
 			set { base.BackColor = value; }
 		}
 
-		[Category("Hypowered_Menu")]
-		public HMainMenu MainMenu { get;  set; } = new HMainMenu();
-		[Category("Hypowered_Menu")]
-		public ToolStripMenuItem FileMenu { get; set; } = new ToolStripMenuItem();
-		[Category("Hypowered_Menu")]
-		public ToolStripMenuItem EditMenu { get; set; } = new ToolStripMenuItem();
-		[Category("Hypowered_Menu")]
-		public ToolStripMenuItem ToolMenu { get; set; } = new ToolStripMenuItem();
-		[Category("Hypowered_Menu")]
-		public bool MainMenuVisible
-		{
-			get { return MainMenu.Visible; }
-			set { MainMenu.Visible = value; }
-		}
 		[Category("Hypowered_Draw")]
 		public new double Opacity
 		{
@@ -147,18 +165,20 @@ namespace Hypowered
 
 		#endregion
 
-		private int m_BarHeight = 20;
-		private Rectangle m_TopMostRect = new Rectangle(10, 4, 12, 12);
-		private Rectangle m_CloseRect = new Rectangle(10, 4, 12, 12);
-		private void CalcCloseRect()
+		protected int m_BarHeight = 20;
+		protected Rectangle m_TopMostRect = new Rectangle(10, 4, 12, 12);
+		protected Rectangle m_CloseRect = new Rectangle(10, 4, 12, 12);
+		protected void CalcCloseRect()
 		{
 			int w = m_BarHeight - 8;
 			m_CloseRect = new Rectangle(this.Width - w -10, 4, w, w);
 
 		}
 		// ************************************************************
-		public HForm()
+		public BaseForm()
 		{
+			SFormat.Alignment = StringAlignment.Near;
+			SFormat.LineAlignment = StringAlignment.Center;
 			InitializeComponent();
 			base.BackColor = Color.FromArgb(64, 64, 64);
 			base.ForeColor = Color.FromArgb(230, 230, 230);
@@ -172,38 +192,14 @@ namespace Hypowered
 				true);
 			this.UpdateStyles();
 
-			InitMenuStrip();
 
 
-			//HUtils.PropListToClipboard(typeof(HForm),"HForm");
+			//HUtils.PropListToClipboard(typeof(BaseForm),"BaseForm");
 		}
 		// ************************************************************
-		private void InitMenuStrip()
-		{
-			MainMenu.AutoSize = false;
-			MainMenu.Dock = DockStyle.None;
-			MainMenu.Anchor = AnchorStyles.None;
-			MainMenu.Location = new Point(0, m_BarHeight);
-			MainMenu.Size = new Size(this.Width, MainMenu.Height);
-
-			FileMenu.Name = "FileMenu";
-			FileMenu.Text = "File";
-			EditMenu.Name = "EditMenu";
-			EditMenu.Text = "Edit";
-			ToolMenu.Name = "ToolMenu";
-			ToolMenu.Text = "Tool";
-
-			MainMenu.Items.Add(FileMenu);
-			MainMenu.Items.Add(EditMenu);
-			MainMenu.Items.Add(ToolMenu);
-
-			this.Controls.Add(MainMenu);
-		}
 		// ************************************************************
 		protected override void OnResize(EventArgs e)
 		{
-			MainMenu.Location = new Point(0, m_BarHeight);
-			MainMenu.Size = new Size(this.Width, MainMenu.Height);
 			CalcCloseRect();
 			base.OnResize(e);
 		}
@@ -230,17 +226,116 @@ namespace Hypowered
 					p.Color = ForeColor;
 					g.DrawRectangle(p, m_TopMostRect);
 				}
+				// TopBar Title
+				rct = new Rectangle(m_TopMostRect.Right+2,0,
+					this.Width-m_TopMostRect.Right,m_BarHeight);
+				sb.Color = ForeColor;
+				g.DrawString(this.Text, this.Font, sb, rct, SFormat);
 				// TopBar Close
 				p.Color = ForeColor;
 				g.DrawRectangle(p, m_CloseRect);
 				g.DrawLine(p, m_CloseRect.Left, m_CloseRect.Top, m_CloseRect.Right, m_CloseRect.Bottom);
 				g.DrawLine(p, m_CloseRect.Left, m_CloseRect.Bottom, m_CloseRect.Right, m_CloseRect.Top);
 
-
+				// 外枠
+				rct = new Rectangle(0,0,this.Width-1,this.Height-1);
+				p.Color = m_BarBackColor;
+				g.DrawRectangle (p, rct);
 
 			}
 
 			base.OnPaint(e);
 		}
+		// ************************************************************
+		private bool m_MD = false;
+		private Point m_MDPoint = new Point(0,0);
+		private Point m_MDLocation = new Point(0, 0);
+		private bool m_MDResize = false;
+		private Size m_MDSize = new Size(0, 0);
+
+		// ************************************************************
+		private bool InRect(int x, int y, Rectangle r)
+		{
+			return ((x >= r.Left) && (x < r.Right) && (y >= r.Top) && (y < r.Bottom));
+		}
+		// ************************************************************
+		protected override void OnMouseDown(MouseEventArgs e)
+		{
+			if ((e.Button & MouseButtons.Left) == MouseButtons.Left)
+			{
+				if (InRect(e.X, e.Y, m_TopMostRect))
+				{
+					TopMost = !TopMost;
+				} else if (InRect(e.X, e.Y, m_CloseRect))
+				{
+					switch (m_CloseAction)
+					{
+						case CloseAction.Hide:
+							this.Hide();
+							break;
+						case CloseAction.Close:
+							this.Close();
+							break;
+						case CloseAction.DROK:
+							this.DialogResult = DialogResult.OK;
+							break;
+						case CloseAction.DRCancel:
+							this.DialogResult = DialogResult.Cancel;
+							break;
+					}
+				}
+				else if (e.Y < m_BarHeight)
+				{
+					m_MD = true;
+					m_MDPoint = new Point(e.X, e.Y);
+					m_MDLocation = new Point(this.Location.X, this.Location.Y);
+				} else if ((m_CanResize == true) 
+					&& (e.X > this.Width - 20)
+					&& (e.Y > this.Height - 20)
+					)
+				{
+					m_MDResize = true;
+					m_MDPoint = new Point(e.X, e.Y);
+					m_MDSize = this.Size;
+				}
+			}
+			else{
+				base.OnMouseDown(e);
+			}
+		}
+		// ************************************************************
+		protected override void OnMouseMove(MouseEventArgs e)
+		{
+			if (m_MD)
+			{
+				int dx = e.X - m_MDPoint.X;
+				int dy = e.Y - m_MDPoint.Y;
+				this. Location =new Point(this.Location.X + dx, this.Location.Y + dy);
+			}else if(m_MDResize)
+			{
+				int dx = e.X - m_MDPoint.X;
+				int dy = e.Y - m_MDPoint.Y;
+				this.Size = new Size(m_MDSize.Width + dx, m_MDSize.Height + dy);
+			}
+			else
+			{
+				base.OnMouseMove(e);
+			}
+		}
+		// ************************************************************
+		protected override void OnMouseUp(MouseEventArgs e)
+		{
+			if ((m_MD)||(m_MDResize))
+			{
+				m_MD=false;
+				m_MDResize=false;
+			}
+			else
+			{
+				base.OnMouseUp(e);
+			}
+		}
+		// ************************************************************
+
 	}
 }

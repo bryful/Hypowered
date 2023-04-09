@@ -10,9 +10,9 @@ using System.Windows.Forms;
 
 namespace Hypowered
 {
-	public partial class HFormTest : HForm
+	public partial class Form1 : Form
 	{
-		public HFormTest()
+		public Form1()
 		{
 			InitializeComponent();
 		}

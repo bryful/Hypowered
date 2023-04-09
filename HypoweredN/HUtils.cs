@@ -9,6 +9,7 @@ namespace Hypowered
 {
 	internal class HUtils
 	{
+		/*
 		static public void PropListToClipboard(Type t, string nm)
 		{
 			string s = "";
@@ -31,6 +32,23 @@ namespace Hypowered
 				s += $"}}\r\n";
 			}
 
+
+			Clipboard.SetText(s);
+		}
+		*/
+		static public void PropToClipboard(Type t)
+		{
+			string s = "";
+			foreach (var pi in t.GetProperties())
+			{
+
+				s += $"[Category(\"Hypowered\"), Browsable(false)]\r\n";
+				s += $"public new {pi.PropertyType.FullName} {pi.Name}\r\n";
+				s += $"{{\r\n";
+				s += $"\tget {{ return base.{pi.Name}; }}\r\n";
+				s += $"\tset {{ base.{pi.Name} = value; }}\r\n";
+				s += $"}}\r\n";
+			}
 
 			Clipboard.SetText(s);
 		}

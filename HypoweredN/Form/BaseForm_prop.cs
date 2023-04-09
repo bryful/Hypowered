@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 using System.ComponentModel;
 namespace Hypowered
 {
-	partial class HForm
+	partial class BaseForm
 	{
 		[Category("Hypowered"), Browsable(false)]
 		public new System.Windows.Forms.IButtonControl AcceptButton
@@ -230,12 +230,6 @@ namespace Hypowered
 		{
 			get { return base.TabStop; }
 			set { base.TabStop = value; }
-		}
-		[Category("Hypowered"), Browsable(false)]
-		public new System.String Text
-		{
-			get { return base.Text; }
-			set { base.Text = value; }
 		}
 		[Category("Hypowered"), Browsable(false)]
 		public new bool TopLevel
