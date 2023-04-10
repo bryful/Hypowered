@@ -183,6 +183,7 @@ namespace Hypowered
 			StartSettings();
 			ControlLayout();
 			Command(Environment.GetCommandLineArgs().Skip(1).ToArray(), PIPECALL.StartupExec);
+			HUtils.PropToClipboard(typeof(TextBox));
 		}
 		// **********************************************************
 		private void StartSettings()
@@ -228,7 +229,7 @@ namespace Hypowered
 			}
 			if (splitContainer1 != null)
 			{
-				splitContainer1.Location = new Point(0,y);
+				splitContainer1.Location = new Point(0, y);
 				splitContainer1.Size = new Size(this.Width, this.Height - y - 20);
 			}
 		}

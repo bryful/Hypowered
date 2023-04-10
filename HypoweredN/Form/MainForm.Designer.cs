@@ -58,7 +58,7 @@
 			propertyGrid1.Name = "propertyGrid1";
 			propertyGrid1.SelectedItemWithFocusBackColor = SystemColors.ActiveBorder;
 			propertyGrid1.SelectedObject = this;
-			propertyGrid1.Size = new Size(355, 484);
+			propertyGrid1.Size = new Size(341, 484);
 			propertyGrid1.TabIndex = 1;
 			propertyGrid1.ViewBackColor = Color.FromArgb(32, 32, 32);
 			propertyGrid1.ViewBorderColor = Color.FromArgb(150, 150, 150);
@@ -117,14 +117,14 @@
 			editControl1.Location = new Point(0, 0);
 			editControl1.Name = "editControl1";
 			editControl1.PropertyGrid = propertyGrid1;
-			editControl1.Size = new Size(188, 484);
+			editControl1.Size = new Size(202, 484);
 			editControl1.TabIndex = 6;
 			editControl1.Text = "editControl1";
 			editControl1.Click += editControl1_Click;
 			// 
 			// splitContainer1
 			// 
-			splitContainer1.Location = new Point(12, 47);
+			splitContainer1.Location = new Point(8, 47);
 			splitContainer1.Name = "splitContainer1";
 			// 
 			// splitContainer1.Panel1
@@ -135,7 +135,7 @@
 			// 
 			splitContainer1.Panel2.Controls.Add(propertyGrid1);
 			splitContainer1.Size = new Size(547, 484);
-			splitContainer1.SplitterDistance = 188;
+			splitContainer1.SplitterDistance = 202;
 			splitContainer1.TabIndex = 7;
 			// 
 			// MainForm
@@ -144,7 +144,7 @@
 			AutoScaleDimensions = new SizeF(7F, 15F);
 			AutoScaleMode = AutoScaleMode.Font;
 			BackColor = Color.FromArgb(64, 64, 64);
-			ClientSize = new Size(567, 536);
+			ClientSize = new Size(558, 535);
 			CloseAction = CloseAction.Hide;
 			Controls.Add(splitContainer1);
 			Controls.Add(menuStrip1);

@@ -32,19 +32,17 @@ namespace Hypowered
 			m_TargetForm = hf;
 			if (m_TargetForm != null)
 			{
-				m_TargetForm.ControlAdded -= (sender, e) => { MakeCtrlListBox(); };
-				m_TargetForm.ControlAdded += (sender, e) => { MakeCtrlListBox(); };
-				m_TargetForm.ControlRemoved -= (sender, e) => { MakeCtrlListBox(); };
-				m_TargetForm.ControlRemoved += (sender, e) => { MakeCtrlListBox(); };
-				MakeCtrlListBox();
+				m_TargetForm.ControlChanged -= (sender, e) => { MakeCtrlListBox(); };
+				m_TargetForm.ControlChanged += (sender, e) => { MakeCtrlListBox(); };
 			}
+			MakeCtrlListBox();
 
 		}
 		public void MakeCtrlListBox()
 		{
+			CtrlListBox.Items.Clear();
 			if (m_TargetForm != null)
 			{
-				CtrlListBox.Items.Clear();
 				CtrlListBox.Items.AddRange(m_TargetForm.ControlList());
 				m_Controls = m_TargetForm.ControlArray();
 			}
@@ -55,17 +53,22 @@ namespace Hypowered
 		}
 		public PropertyGrid? PropertyGrid { get; set; } = null;
 		[Category("Hypowered_Ctrl")]
-		public ListBox FormListBox { get; set; } = new ListBox();
+		public EditListBox FormListBox { get; set; } = new EditListBox();
 		[Category("Hypowered_Ctrl")]
-		public ListBox CtrlListBox { get; set; } = new ListBox();
+		public EditListBox CtrlListBox { get; set; } = new EditListBox();
 		[Category("Hypowered_Ctrl")]
-		public Button BtnAdd { get; set; } = new Button();
+		public SizeMoveModePanel SizeMoveModePanel { get; set; } = new SizeMoveModePanel();
 		[Category("Hypowered_Ctrl")]
-		public Button BtnUp { get; set; } = new Button();
+		public ArrowPanel ArrowPanel { get; set; } = new ArrowPanel();
 		[Category("Hypowered_Ctrl")]
-		public Button BtnDown { get; set; } = new Button();
+		public ActionPanel ActionPanel { get; set; } = new ActionPanel();
 		[Category("Hypowered_Ctrl")]
-		public Button BtnDel { get; set; } = new Button();
+		public AlignPanel AlignPanel { get; set; } = new AlignPanel();
+		[Category("Hypowered_Ctrl")]
+		public ArrangPanel ArrangPanel { get; set; } = new ArrangPanel();
+		[Category("Hypowered_Ctrl")]
+		public NumericUpDown MoveScale { get; set; } = new NumericUpDown();
+
 		[Category("Hypowered_Ctrl")]
 		public int FormListHeight
 		{
@@ -86,6 +89,7 @@ namespace Hypowered
 				base.BackColor = value;
 				CtrlListBox.BackColor = value;
 				FormListBox.BackColor = value;
+				SizeMoveModePanel.BackColor = value;
 			}
 		}
 		[Category("Hypowered_Color")]
@@ -97,6 +101,7 @@ namespace Hypowered
 				base.ForeColor = value;
 				CtrlListBox.ForeColor = value;
 				FormListBox.ForeColor = value;
+				SizeMoveModePanel.ForeColor = value;
 			}
 		}
 		public EditControl()
@@ -107,10 +112,12 @@ namespace Hypowered
 			initControl();
 			LayoutControl();
 			this.Controls.Add(this.FormListBox);
-			this.Controls.Add(this.BtnAdd);
-			this.Controls.Add(this.BtnUp);
-			this.Controls.Add(this.BtnDown);
-			this.Controls.Add(this.BtnDel);
+			this.Controls.Add(this.ActionPanel);
+			this.Controls.Add(this.AlignPanel);
+			this.Controls.Add(this.ArrangPanel);
+			this.Controls.Add(this.SizeMoveModePanel);
+			this.Controls.Add(this.ArrowPanel);
+			this.Controls.Add(this.MoveScale);
 			this.Controls.Add(this.CtrlListBox);
 		}
 		private void DispFormListBox()
@@ -136,39 +143,13 @@ namespace Hypowered
 		}
 		public void initControl()
 		{
-			BtnAdd.FlatStyle = FlatStyle.Flat;
-			BtnAdd.Image = Resources.CAdd;
-			BtnUp.FlatStyle = FlatStyle.Flat;
-			BtnUp.Image = Resources.CUp;
-			BtnDown.FlatStyle = FlatStyle.Flat;
-			BtnDown.Image = Resources.CDown;
-			BtnDel.FlatStyle = FlatStyle.Flat;
-			BtnDel.Image = Resources.CDel;
-
-			BtnAdd.Click += (sender, e) =>
-			{
-				if(m_TargetForm !=null)
-				{
-					m_TargetForm.AddControl();
-				}
-			};
 
 			CtrlListBox.SelectedIndexChanged += (sender, e) =>
 			{
 				if (MainForm == null) return;
 				if(m_TargetForm == null) return;
 				if(PropertyGrid == null) return;
-				int[] sels = new int[0];
-				if(CtrlListBox.SelectedIndices.Count>0)
-				{
-					sels = new int[CtrlListBox.SelectedIndices.Count];
-					int i = 0;
-					foreach(int c in CtrlListBox.SelectedIndices)
-					{
-						sels[i] = c;
-						i++;
-					}
-				}
+				int[] sels = CtrlListBox.SelectedIndexArray;
 
 				if(sels.Length>=1) 
 				{
@@ -223,30 +204,118 @@ namespace Hypowered
 			FormListBox.Location = new Point(0, 0);
 			FormListBox.Size = new Size(this.Width, 100);
 			
+			MoveScale.BackColor = this.BackColor;
+			MoveScale.ForeColor = this.ForeColor;
+			MoveScale.Value = 1;
+			MoveScale.Minimum = 1;
+			MoveScale.Maximum = 100;
+			MoveScale.BorderStyle = BorderStyle.FixedSingle;
+			MoveScale.Size = new Size(48, 25);
+
+			ActionPanel.ActionClick += (sender, e) =>
+			{
+				if ((MainForm != null) && (MainForm.TargetForm != null))
+				{
+					switch (e.Mode)
+					{
+						case ActionMode.Add:
+							{
+								MainForm.TargetForm.AddControl();
+								CtrlListBox.SelectedIndex = 1;
+							}
+							break;
+						case ActionMode.Up:
+							CtrlListBox.PushSelection();
+							if (CtrlListBox.SelectBak.Length > 0)
+							{
+								MainForm.TargetForm.ControlUp(CtrlListBox.SelectBak);
+								CtrlListBox.SelectBakUp();
+								CtrlListBox.PopSelection();
+							}
+							break;
+						case ActionMode.Down:
+							CtrlListBox.PushSelection();
+							if (CtrlListBox.SelectBak.Length > 0)
+							{
+								MainForm.TargetForm.ControlDown(CtrlListBox.SelectBak);
+								CtrlListBox.SelectBakDown();
+								CtrlListBox.PopSelection();
+							}
+							break;
+						case ActionMode.Top:
+							CtrlListBox.PushSelection();
+							if (CtrlListBox.SelectBak.Length > 0)
+							{
+								MainForm.TargetForm.ControlTop(CtrlListBox.SelectBak);
+								CtrlListBox.SelectBakTop();
+								CtrlListBox.PopSelection();
+							}
+							break;
+						case ActionMode.Bottom:
+							CtrlListBox.PushSelection();
+							if (CtrlListBox.SelectBak.Length > 0)
+							{
+								MainForm.TargetForm.ControlBottom(CtrlListBox.SelectBak);
+								CtrlListBox.SelectBakBottom();
+								CtrlListBox.PopSelection();
+							}
+							break;
+					}
+				}
+			};
+			ArrowPanel.ArrowChanged += (sender, e) =>
+			{
+				if ((MainForm != null) && (MainForm.TargetForm != null))
+				{
+					switch(SizeMoveModePanel.SizeMoveMode)
+					{
+						case SizeMoveMode.Move:
+							MainForm.TargetForm.ControlMove(
+								CtrlListBox.SelectedIndexArray,
+								e.Arrow,
+								(int)this.MoveScale.Value
+								);
+							break;
+						case SizeMoveMode.ResizeLeftTop:
+							MainForm.TargetForm.ControlResizeLeftTop(
+								CtrlListBox.SelectedIndexArray,
+								e.Arrow,
+								(int)this.MoveScale.Value
+								);
+							break;
+						case SizeMoveMode.ResizeRightBottom:
+							MainForm.TargetForm.ControlResizeRightBottom(
+								CtrlListBox.SelectedIndexArray,
+								e.Arrow,
+								(int)this.MoveScale.Value
+								);
+							break;
+					}
+				}
+			};
+
 		}
 		public void LayoutControl()
 		{
-			int w = 20;
-			int h = 20;
 			int x = 0; int y = 0;
 			FormListBox.Location = new Point(x, y);
 			FormListBox.Size = new Size(this.Width, FormListBox.Height);
 			y += FormListBox.Height + 4;
 
-			BtnAdd.Size = new Size(w, h);
-			BtnAdd.Location = new Point(x, y);
-			x += BtnAdd.Width + 2;
-			BtnUp.Size = new Size(w, h);
-			BtnUp.Location = new Point(x, y);
-			x += BtnUp.Width + 2;
-			BtnDown.Size = new Size(w, h);
-			BtnDown.Location = new Point(x, y);
-			x += BtnDown.Width + 2;
-			BtnDel.Size = new Size(w, h);
-			BtnDel.Location = new Point(x, y);
-			x += BtnDel.Width + 2;
-			y += h + 2;
+			ActionPanel.Location = new Point(x, y);
+			y += ActionPanel.Height + 2;
+			AlignPanel.Location = new Point(x, y);
+			y += AlignPanel.Height + 2;
+			ArrangPanel.Location = new Point(x, y);
+			y += ArrangPanel.Height + 2;
 
+			SizeMoveModePanel.Location = new Point(x, y);
+			x += SizeMoveModePanel.Width + 2;
+			ArrowPanel.Location = new Point(x, y);
+			x += ArrowPanel.Width + 5;
+			MoveScale.Location = new Point(x, y);
+			x = 0;
+			y += SizeMoveModePanel.Height + 2;
 
 			CtrlListBox.Location = new Point(0, y);
 			CtrlListBox.Size = new Size(this.Width, this.Height - y);

@@ -34,6 +34,8 @@
 			textBox1 = new TextBox();
 			btnOK = new Button();
 			btnCancel = new Button();
+			textBox2 = new TextBox();
+			label3 = new Label();
 			SuspendLayout();
 			// 
 			// hTypeCombo1
@@ -81,7 +83,7 @@
 			btnOK.Enabled = false;
 			btnOK.FlatStyle = FlatStyle.Flat;
 			btnOK.Font = new Font("Yu Gothic UI", 12F, FontStyle.Regular, GraphicsUnit.Point);
-			btnOK.Location = new Point(192, 109);
+			btnOK.Location = new Point(192, 151);
 			btnOK.Name = "btnOK";
 			btnOK.Size = new Size(75, 30);
 			btnOK.TabIndex = 4;
@@ -93,19 +95,39 @@
 			btnCancel.DialogResult = DialogResult.Cancel;
 			btnCancel.FlatStyle = FlatStyle.Flat;
 			btnCancel.Font = new Font("Yu Gothic UI", 12F, FontStyle.Regular, GraphicsUnit.Point);
-			btnCancel.Location = new Point(98, 109);
+			btnCancel.Location = new Point(98, 151);
 			btnCancel.Name = "btnCancel";
 			btnCancel.Size = new Size(75, 30);
 			btnCancel.TabIndex = 5;
 			btnCancel.Text = "Cancel";
 			btnCancel.UseVisualStyleBackColor = true;
 			// 
+			// textBox2
+			// 
+			textBox2.Font = new Font("Yu Gothic UI", 12F, FontStyle.Regular, GraphicsUnit.Point);
+			textBox2.Location = new Point(75, 109);
+			textBox2.Name = "textBox2";
+			textBox2.Size = new Size(192, 29);
+			textBox2.TabIndex = 7;
+			// 
+			// label3
+			// 
+			label3.AutoSize = true;
+			label3.Font = new Font("Yu Gothic UI", 12F, FontStyle.Regular, GraphicsUnit.Point);
+			label3.Location = new Point(33, 112);
+			label3.Name = "label3";
+			label3.Size = new Size(36, 21);
+			label3.TabIndex = 6;
+			label3.Text = "Text";
+			// 
 			// AddControlDialog
 			// 
 			AutoScaleDimensions = new SizeF(7F, 15F);
 			AutoScaleMode = AutoScaleMode.Font;
-			ClientSize = new Size(292, 155);
+			ClientSize = new Size(292, 190);
 			CloseAction = CloseAction.DRCancel;
+			Controls.Add(textBox2);
+			Controls.Add(label3);
 			Controls.Add(btnCancel);
 			Controls.Add(btnOK);
 			Controls.Add(textBox1);
@@ -126,5 +148,7 @@
 		private TextBox textBox1;
 		private Button btnOK;
 		private Button btnCancel;
+		private TextBox textBox2;
+		private Label label3;
 	}
 }

@@ -9,6 +9,7 @@ namespace Hypowered
 {
 	public class HButton : HControl
 	{
+		#region Prop
 		protected Color m_DownColor = Color.FromArgb(180, 180, 180);
 		[Category("Hypowered_Color")]
 		public Color DownColor
@@ -30,11 +31,12 @@ namespace Hypowered
 			get { return m_Checked; }
 			set { m_Checked = value; this.Invalidate(); }
 		}
-
+		#endregion
 
 		public HButton()
 		{
 			m_HType = HType.Button;
+			TextAlign = StringAlignment.Center;
 		}
 		protected override void OnPaint(PaintEventArgs pe)
 		{
@@ -57,27 +59,19 @@ namespace Hypowered
 				{
 					sb.Color = BackColor;
 				}
-				Rectangle r = new Rectangle(2, 2, this.Width - 4, this.Height - 4);
+				Rectangle r = RectInc(this.ClientRectangle, 2);
 				g.FillRectangle(sb, r);
-				p.Color = ForeColor;
-				r = new Rectangle(2, 2, this.Width - 4 - 1, this.Height - 4 - 1);
-				g.DrawRectangle(p, r);
 				//文字
 				if(this.Text!="")
 				{
 					sb.Color= ForeColor;
-					StringFormat.Alignment = StringAlignment.Center;
 					g.DrawString(this.Text, this.Font, sb, r, StringFormat);
 				}
+				p.Color = ForeColor;
+				DrawFrame(g, p, r);
 
 				// IsEdit
-				if (m_IsEdit)
-				{
-					r = new Rectangle(0, 0, this.Width - 1, this.Height - 1);
-					p.Color = m_IsEditColor;
-					p.DashStyle = System.Drawing.Drawing2D.DashStyle.Dot;
-					g.DrawRectangle(p, r);
-				}
+				DrawIsEdit(g, p);
 			}
 		}
 		protected bool m_MDPush = false;

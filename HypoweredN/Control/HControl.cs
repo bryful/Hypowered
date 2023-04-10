@@ -27,7 +27,7 @@ namespace Hypowered
 			get { return m_IsEdit; }
 			set { SetIsEdit(value); }
 		}
-		public void SetIsEdit(bool b)
+		public virtual void SetIsEdit(bool b)
 		{
 			m_IsEdit = b;
 			this.Invalidate();
@@ -50,7 +50,7 @@ namespace Hypowered
 		public new System.String Name
 		{
 			get { return base.Name; }
-			set { base.Name = value; }
+			set { base.Name = value; this.Invalidate(); }
 		}
 
 		[Category("Hypowered"), Browsable(false)]
@@ -65,19 +65,13 @@ namespace Hypowered
 			get { return base.BackColor; }
 			set { base.BackColor = value; this.Invalidate(); }
 		}
-		[Category("Hypowered_Draw"), Browsable(true)]
-		public new System.Drawing.Font Font
-		{
-			get { return base.Font; }
-			set { base.Font = value; this.Invalidate(); }
-		}
 		[Category("Hypowered_Color"), Browsable(true)]
 		public new System.Drawing.Color ForeColor
 		{
 			get { return base.ForeColor; }
 			set { base.ForeColor = value; this.Invalidate(); }
 		}
-		protected Color m_IsEditColor = Color.Red;
+		protected Color m_IsEditColor = Color.Yellow;
 		[Category("Hypowered_Color"), Browsable(true)]
 		public System.Drawing.Color IsEditColor
 		{
@@ -97,7 +91,7 @@ namespace Hypowered
 				ChkGridSize();
 			}
 		}
-		private void ChkGridSize()
+		protected void ChkGridSize()
 		{
 			if(m_GridSize <= 1) return;
 			base.Location = new Point(
@@ -112,6 +106,24 @@ namespace Hypowered
 		{
 			get { return base.Location; }
 			set { base.Location = value; ChkGridSize(); }
+		}
+		[Category("Hypowered_Size"), Browsable(true)]
+		public double CenterWidth
+		{
+			get { return (double)base.Left + (double)base.Width/2; }
+			set
+			{
+				base.Left =  (int)(value - (double)base.Width/2);
+			}
+		}
+		[Category("Hypowered_Size"), Browsable(true)]
+		public double CenterHeight
+		{
+			get { return (double)base.Top + (double)base.Height / 2; }
+			set
+			{
+				base.Top = (int)(value - (double)base.Height / 2);
+			}
 		}
 		[Category("Hypowered_Size"), Browsable(true)]
 		public new System.Windows.Forms.Padding Margin
@@ -149,20 +161,47 @@ namespace Hypowered
 			get { return base.Tag; }
 			set { base.Tag = value; }
 		}
-		[Category("Hypowered"), Browsable(true)]
+		[Category("Hypowered_Text"), Browsable(true)]
 		public new System.String Text
 		{
 			get { return base.Text; }
-			set { base.Text = value; }
+			set { base.Text = value; this.Invalidate(); }
 		}
 		[Category("Hypowered"), Browsable(true)]
 		public new System.Boolean Visible
 		{
 			get { return base.Visible; }
-			set { base.Visible = value; }
+			set { base.Visible = value; this.Invalidate(); }
 		}
+		[Category("Hypowered_Text"), Browsable(true)]
+		public new System.Drawing.Font Font
+		{
+			get { return base.Font; }
+			set { base.Font = value; this.Invalidate(); }
+		}
+		public StringFormat StringFormat = new StringFormat();
+		[Category("Hypowered_Text"), Browsable(true)]
+		public StringAlignment TextAlign
+		{
+			get { return StringFormat.Alignment; }
+			set 
+			{ 
+				StringFormat.Alignment = value;
+				this.Invalidate();
+			}
+		}
+		[Category("Hypowered_Text"), Browsable(true)]
+		public StringAlignment TextLineAlign
+		{
+			get { return StringFormat.LineAlignment; }
+			set
+			{
+				StringFormat.LineAlignment = value;
+				this.Invalidate();
+			}
+		}
+		public Control? Ctrl { get;set; }= null;
 		#endregion
-		protected StringFormat StringFormat { get; set; } = new StringFormat();  
 		// ************************************************************
 		public HControl()
 		{
@@ -198,21 +237,12 @@ namespace Hypowered
 				g.FillRectangle(sb, this.ClientRectangle);
 
 				sb.Color = BackColor;
-				Rectangle r = new Rectangle(2, 2, this.Width - 4, this.Height - 4);
+				Rectangle r = RectInc(this.ClientRectangle, 2);
 				g.FillRectangle(sb, r);
 				p.Color = ForeColor;
-				r = new Rectangle(2, 2, this.Width - 4-1, this.Height - 4-1);
-				g.DrawRectangle(p, r);
-
-
+				DrawFrame(g,p,r,1);
 				// IsEdit
-				if(m_IsEdit)
-				{
-					r = new Rectangle(0, 0, this.Width  - 1, this.Height - 1);
-					p.Color = m_IsEditColor;
-					p.DashStyle = System.Drawing.Drawing2D.DashStyle.Dot;
-					g.DrawRectangle(p, r);
-				}
+				DrawIsEdit(g, p);
 			}
 		}
 		// ************************************************************
@@ -255,6 +285,171 @@ namespace Hypowered
 				m_MD = false;
 			}
 			base.OnMouseUp(e);
+		}
+		// ************************************************************
+		public void Move(ArrowDown ad,int MoveScale)
+		{
+			int v = m_GridSize * MoveScale;
+			switch(ad)
+			{
+				case ArrowDown.Top:
+					this.Top -= v;
+					break;
+				case ArrowDown.Left:
+					this.Left -= v;
+					break;
+				case ArrowDown.Bottom:
+					this.Top += v;
+					break;
+				case ArrowDown.Right:
+					this.Left += v;
+					break;
+			}
+		}
+		public void ResizeLeftTop(ArrowDown ad, int MoveScale)
+		{
+			int v = m_GridSize * MoveScale;
+			switch (ad)
+			{
+				case ArrowDown.Top:
+					this.Top -= v;
+					this.Height += v;
+					break;
+				case ArrowDown.Left:
+					this.Left -= v;
+					this.Width += v;
+					break;
+				case ArrowDown.Bottom:
+					if (this.Height > 10)
+					{
+						this.Top += v;
+						this.Height -= v;
+					}
+					break;
+				case ArrowDown.Right:
+					if (this.Width > 10)
+					{
+						this.Left += v;
+						this.Width -= v;
+					}
+					break;
+			}
+		}
+		public void ResizeRightBottom(ArrowDown ad, int MoveScale)
+		{
+			int v = m_GridSize * MoveScale;
+			switch (ad)
+			{
+				case ArrowDown.Top:
+					if (this.Height > 10)
+					{
+						this.Height -= v;
+					}
+					break;
+				case ArrowDown.Left:
+					if (this.Width > 10)
+					{
+						this.Width -= v;
+					}
+					break;
+				case ArrowDown.Bottom:
+					this.Height += v;
+					break;
+				case ArrowDown.Right:
+					this.Width += v;
+					break;
+			}
+		}
+		// ************************************************************
+		public Rectangle RectInc(Rectangle r, int a)
+		{
+			return new Rectangle(
+				r.Left + a,
+				r.Top + a,
+				r.Width - a*2,
+				r.Height - a*2
+				);
+		}
+		public void DrawFrame( Graphics g ,Pen p, Rectangle r,int w=1)
+		{
+			p.Width = 1;
+			Rectangle r2 = new Rectangle(r.Left, r.Top, r.Width - 1, r.Height - 1);
+			for (int i=0; i<w;i++)
+			{
+				g.DrawRectangle(p,r2);
+				r2 = new Rectangle(r2.Left,r2.Top,r2.Width-1 , r2.Height-1 );
+			}
+		}
+		public enum DotStyle
+		{
+			None,
+			Square,
+			Circle,
+			TriangleTop,
+			TriangleRight,
+			TriangleBottom,
+			Triangleleft,
+			Rhombus
+		}
+		public void DrawDot(Graphics g, DotStyle ds,SolidBrush sb, Rectangle r)
+		{
+			switch(ds)
+			{
+				case DotStyle.None:
+					return;
+				case DotStyle.Square:
+					g.FillRectangle(sb, r); 
+					break;
+				case DotStyle.Circle:
+					g.FillEllipse(sb, r);
+					break;
+				case DotStyle.TriangleTop:
+					PointF[] pnts0 = new PointF[3];
+					pnts0[0] = new PointF((float)r.Left + (float)r.Width / 2, (float)r.Top);
+					pnts0[1] = new PointF((float)r.Right, (float)r.Bottom);
+					pnts0[2] = new PointF((float)r.Left, (float)r.Bottom);
+					g.FillPolygon(sb, pnts0);
+					break;
+				case DotStyle.TriangleRight:
+					PointF[] pnts1 = new PointF[3];
+					pnts1[0] = new PointF((float)r.Left , (float)r.Top);
+					pnts1[1] = new PointF((float)r.Right, (float)r.Top+(float)r.Height/2);
+					pnts1[2] = new PointF((float)r.Left, (float)r.Bottom);
+					g.FillPolygon(sb, pnts1);
+					break;
+				case DotStyle.TriangleBottom:
+					PointF[] pnts2 = new PointF[3];
+					pnts2[0] = new PointF((float)r.Left, (float)r.Top);
+					pnts2[1] = new PointF((float)r.Right, (float)r.Top );
+					pnts2[2] = new PointF((float)r.Left +(float)r.Width/2, (float)r.Bottom);
+					g.FillPolygon(sb, pnts2);
+					break;
+				case DotStyle.Triangleleft:
+					PointF[] pnts3 = new PointF[3];
+					pnts3[0] = new PointF((float)r.Left, (float)r.Top+(float)r.Height/2);
+					pnts3[1] = new PointF((float)r.Right, (float)r.Top);
+					pnts3[2] = new PointF((float)r.Right, (float)r.Bottom);
+					g.FillPolygon(sb, pnts3);
+					break;
+				case DotStyle.Rhombus:
+					PointF[] pnts = new PointF[4];
+					pnts[0] = new PointF((float)r.Left + (float)r.Width / 2, (float)r.Top);
+					pnts[1] = new PointF((float)r.Right, (float)r.Top + (float)r.Height/2);
+					pnts[2] = new PointF(pnts[0].X,r.Bottom);
+					pnts[3] = new PointF((float)r.Left, pnts[1].Y);
+					g.FillPolygon(sb, pnts);
+					break;
+			}
+		}
+		public void DrawIsEdit(Graphics g, Pen p)
+		{
+			if (m_IsEdit)
+			{
+				Rectangle r = new Rectangle(0, 0, this.Width - 1, this.Height - 1);
+				p.Color = m_IsEditColor;
+				p.DashStyle = System.Drawing.Drawing2D.DashStyle.Dot;
+				g.DrawRectangle(p, r);
+			}
 		}
 	}
 }

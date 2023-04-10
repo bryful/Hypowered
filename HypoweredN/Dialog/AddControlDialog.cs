@@ -12,7 +12,19 @@ namespace Hypowered
 {
 	public partial class AddControlDialog : BaseForm
 	{
-		public HForm? HForm = null;
+		private HForm? m_HForm = null;
+		public HForm? HForm
+		{
+			get { return m_HForm; }
+			set 
+			{
+				m_HForm=value;
+				if(m_HForm != null)
+				{
+					textBox1.Text = m_HForm.ControlNewName(hTypeCombo1.HType);
+				}
+			}
+		}
 		public HType HType
 		{
 			get { return hTypeCombo1.HType; }
@@ -23,10 +35,28 @@ namespace Hypowered
 			get { return textBox1.Text; }
 			set { textBox1.Text = value; }
 		}
+		public string CText
+		{
+			get { return textBox2.Text; }
+			set { textBox2.Text = value; }
+		}
+		public string Caption
+		{
+			get { return this.Text; }
+			set { this.Text = value; }
+		}
 		public AddControlDialog()
 		{
 			this.StartPosition = FormStartPosition.CenterParent;
 			InitializeComponent();
+			hTypeCombo1.SelectedIndexChanged += (sender, e) =>
+			{
+				if(m_HForm != null)
+				{
+					textBox1.Text = m_HForm.ControlNewName(hTypeCombo1.HType);
+				}
+			};
+
 			textBox1.TextChanged += (sender, e) =>
 			{
 				btnOK.Enabled = (textBox1.Text != "");
