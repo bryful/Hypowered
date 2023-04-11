@@ -15,7 +15,8 @@ namespace Hypowered
 		None,
 		Button,
 		Label,
-		TextBox
+		TextBox,
+		PictureBox
 	}
 	public partial class HControl : Control
 	{
@@ -64,6 +65,13 @@ namespace Hypowered
 		{
 			get { return base.BackColor; }
 			set { base.BackColor = value; this.Invalidate(); }
+		}
+		protected Color m_ForcusColor = Color.Blue;
+		[Category("Hypowered_Color"), Browsable(true)]
+		public System.Drawing.Color ForcusColor
+		{
+			get { return m_ForcusColor; }
+			set { m_ForcusColor = value; this.Invalidate(); }
 		}
 		[Category("Hypowered_Color"), Browsable(true)]
 		public new System.Drawing.Color ForeColor
@@ -215,6 +223,8 @@ namespace Hypowered
 			base.ForeColor = Color.FromArgb(230, 230, 230);
 			this.DoubleBuffered = true;
 			this.SetStyle(
+				ControlStyles.Selectable|
+				ControlStyles.UserMouse|
 				ControlStyles.DoubleBuffer |
 				ControlStyles.UserPaint |
 				ControlStyles.AllPaintingInWmPaint |
@@ -242,6 +252,12 @@ namespace Hypowered
 				p.Color = ForeColor;
 				DrawFrame(g,p,r,1);
 				// IsEdit
+				bool b = ((Ctrl != null) && (Ctrl.Focused));
+				if((Focused)||(b))
+				{
+					p.Color = m_ForcusColor;
+					DrawFrame(g, p, this.ClientRectangle, 2);
+				}
 				DrawIsEdit(g, p);
 			}
 		}
@@ -287,7 +303,18 @@ namespace Hypowered
 			base.OnMouseUp(e);
 		}
 		// ************************************************************
-		public void Move(ArrowDown ad,int MoveScale)
+		protected override void OnGotFocus(EventArgs e)
+		{
+			base.OnGotFocus(e);
+			this.Invalidate();
+		}
+		protected override void OnLostFocus(EventArgs e)
+		{
+			base.OnLostFocus(e);
+			this.Invalidate();
+		}
+		// ************************************************************
+		public void MovePos(ArrowDown ad,int MoveScale)
 		{
 			int v = m_GridSize * MoveScale;
 			switch(ad)
@@ -450,6 +477,12 @@ namespace Hypowered
 				p.DashStyle = System.Drawing.Drawing2D.DashStyle.Dot;
 				g.DrawRectangle(p, r);
 			}
+		}
+		protected override void OnResize(EventArgs e)
+		{
+			ChkGridSize();
+			base.OnResize(e);
+			this.Invalidate();
 		}
 	}
 }

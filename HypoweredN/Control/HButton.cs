@@ -69,7 +69,11 @@ namespace Hypowered
 				}
 				p.Color = ForeColor;
 				DrawFrame(g, p, r);
-
+				if (Focused)
+				{
+					p.Color = m_ForcusColor;
+					DrawFrame(g, p, this.ClientRectangle, 2);
+				}
 				// IsEdit
 				DrawIsEdit(g, p);
 			}

@@ -1,5 +1,5 @@
 using System.ComponentModel;
-
+using HypoweredLib;
 namespace Hypowered
 {
 	public partial class MainForm : BaseForm
@@ -183,7 +183,10 @@ namespace Hypowered
 			StartSettings();
 			ControlLayout();
 			Command(Environment.GetCommandLineArgs().Skip(1).ToArray(), PIPECALL.StartupExec);
-			HUtils.PropToClipboard(typeof(TextBox));
+			
+			
+			//ItemsLib il = new ItemsLib();
+			//Clipboard.SetText(il.ItemNamesStr);
 		}
 		// **********************************************************
 		private void StartSettings()

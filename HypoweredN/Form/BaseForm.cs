@@ -201,6 +201,7 @@ namespace Hypowered
 		protected override void OnResize(EventArgs e)
 		{
 			CalcCloseRect();
+
 			base.OnResize(e);
 		}
 		// ************************************************************

@@ -13,6 +13,7 @@ namespace Hypowered
 {
 	public class HTextBox : HControl
 	{
+		public EditTextBox EditTextBox { get; set; }= new EditTextBox();
 		public override void SetIsEdit(bool b)
 		{
 			m_IsEdit = b;
@@ -25,23 +26,11 @@ namespace Hypowered
 		[Category("Hypowered_Text"), Browsable(true)]
 		public new System.String Text
 		{
-			get {
-				if (Ctrl != null)
-				{
-					return Ctrl.Text;
-				}
-				else
-				{
-					return base.Text;
-				}
-			}
+			get {return EditTextBox.Text;}
 			set 
 			{
 				base.Text = value;
-				if (Ctrl!=null)
-				{
-					Ctrl.Text = value;
-				}
+				EditTextBox.Text = value;
 			}
 		}
 		[Category("Hypowered_Size"), Browsable(true)]
@@ -72,6 +61,7 @@ namespace Hypowered
 			set 
 			{
 				base.Font = value;
+				EditTextBox.Font = value;
 				ChkGridSize();
 				ChkSize();
 			}
@@ -83,7 +73,7 @@ namespace Hypowered
 			set 
 			{
 				base.BackColor = value; 
-				if(Ctrl!=null) { Ctrl.BackColor = value; }
+				EditTextBox.BackColor = value;
 				this.Invalidate(); 
 			}
 		}
@@ -94,7 +84,7 @@ namespace Hypowered
 			set
 			{
 				base.ForeColor = value;
-				if (Ctrl != null) { Ctrl.ForeColor = value; }
+				EditTextBox.ForeColor = value;
 				this.Invalidate();
 			}
 		}
@@ -110,42 +100,52 @@ namespace Hypowered
 					switch(value)
 					{
 						case StringAlignment.Near:
-							((EditTextBox)Ctrl).TextAlign = HorizontalAlignment.Left;
+							EditTextBox.TextAlign = HorizontalAlignment.Left;
 							break;
 						case StringAlignment.Center:
-							((EditTextBox)Ctrl).TextAlign = HorizontalAlignment.Center;
+							EditTextBox.TextAlign = HorizontalAlignment.Center;
 							break;
 						case StringAlignment.Far:
-							((EditTextBox)Ctrl).TextAlign = HorizontalAlignment.Right;
+							EditTextBox.TextAlign = HorizontalAlignment.Right;
 							break;
 					}
 				}
 				this.Invalidate();
 			}
 		}
+		[Category("Hypowered_Text"), Browsable(true)]
+		public bool Multiline
+		{
+			get { return EditTextBox.Multiline; }
+			set
+			{
+				EditTextBox.Multiline = value;
+				ChkGridSize();
+				ChkSize();
+			}
+		}
 		public HTextBox()
 		{
 			m_HType = HType.TextBox;
-			Ctrl = new EditTextBox();
-			Ctrl.BackColor = base.BackColor;
-			Ctrl.ForeColor = base.ForeColor;
-			((EditTextBox)Ctrl).BorderStyle = BorderStyle.FixedSingle;
-			Ctrl.Name = "EditTextBox";
-			Ctrl.Location = new Point(2, 2);
-			Ctrl.Size = new Size(base.Width-4, base.Height-4);
+			Ctrl = EditTextBox;
+			EditTextBox.BackColor = base.BackColor;
+			EditTextBox.ForeColor = base.ForeColor;
+			EditTextBox.BorderStyle = BorderStyle.FixedSingle;
+			EditTextBox.Name = "EditTextBox";
+			EditTextBox.Location = new Point(2, 2);
+			EditTextBox.Size = new Size(base.Width-4, base.Height-4);
 			TextAlign = StringAlignment.Near;
-			this.Controls.Add(Ctrl);
+			EditTextBox.GotFocus += (sender, e) => { this.Invalidate(); };
+			EditTextBox.LostFocus += (sender, e) => { this.Invalidate(); };
+			this.Controls.Add(EditTextBox);
 		}
 		public void ChkSize()
 		{
-			if (Ctrl != null)
+			EditTextBox.Location = new Point(2, 2);
+			EditTextBox.Size = new Size(base.Width - 4, base.Height - 4);
+			if (EditTextBox.Height != base.Height-4)
 			{
-				Ctrl.Location = new Point(2, 2);
-				Ctrl.Size = new Size(base.Width - 4, base.Height - 4);
-				if (Ctrl.Height != base.Height-4)
-				{
-					base.Height = Ctrl.Height + 4;
-				}
+				base.Height = EditTextBox.Height + 4;
 			}
 		}
 		protected override void OnPaint(PaintEventArgs pe)
@@ -158,13 +158,19 @@ namespace Hypowered
 				sb.Color = Color.Transparent;
 				g.FillRectangle(sb, this.ClientRectangle);
 				// IsEdit
-				if((m_IsEdit)&&(Ctrl != null))
+				if(m_IsEdit)
 				{
 					Rectangle r = RectInc(this.ClientRectangle, 2);
 					sb.Color = BackColor;
 					g.FillRectangle(sb, r);
 					sb.Color = ForeColor;
-					g.DrawString(Ctrl.Text, Ctrl.Font, sb, r,StringFormat);
+					g.DrawString(EditTextBox.Text, EditTextBox.Font, sb, r,StringFormat);
+				}
+
+				if ((Focused) || (EditTextBox.Focused))
+				{
+					p.Color = m_ForcusColor;
+					DrawFrame(g, p, this.ClientRectangle, 2);
 				}
 				DrawIsEdit(g, p);
 			}
@@ -173,6 +179,11 @@ namespace Hypowered
 		{
 			ChkSize();
 			base.OnResize(e);
+		}
+		protected override void OnGotFocus(EventArgs e)
+		{
+			base.OnGotFocus(e);
+			EditTextBox.Focus();
 		}
 	}
 }

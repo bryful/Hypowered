@@ -178,6 +178,13 @@ namespace Hypowered
 			this.Controls.Add(MainMenu);
 		}
 		// ************************************************************
+		protected override void OnResize(EventArgs e)
+		{
+			base.OnResize(e);
+			MainMenu.Location = new Point(0, m_BarHeight);
+			MainMenu.Size = new Size(this.Width, MainMenu.Height);
+		}
+		// ************************************************************
 		public int IndexOfControl(string key)
 		{
 			return this.Controls.IndexOfKey(key);
@@ -223,6 +230,14 @@ namespace Hypowered
 					hc = new HTextBox();
 					hc.Location = pDef;
 					hc.Size = new Size(75, 25);
+					hc.Name = nm;
+					if (tx == "") tx = nm;
+					hc.Text = tx;
+					break;
+				case HType.PictureBox:
+					hc = new HPictureBox();
+					hc.Location = pDef;
+					hc.Size = new Size(200, 200);
 					hc.Name = nm;
 					if (tx == "") tx = nm;
 					hc.Text = tx;
@@ -384,7 +399,7 @@ namespace Hypowered
 				{
 					if (this.Controls[(int)sel] is HControl)
 					{
-						((HControl)this.Controls[(int)sel]).Move(ad, MoveScale);
+						((HControl)this.Controls[(int)sel]).MovePos(ad, MoveScale);
 					}
 				}
 			}

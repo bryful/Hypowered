@@ -30,6 +30,20 @@ namespace Hypowered
 		{
 			m_HType = HType.Label;
 			TextAlign = StringAlignment.Near;
+			StringFormat.Alignment = StringAlignment.Center;
+			StringFormat.LineAlignment = StringAlignment.Center;
+
+			this.DoubleBuffered = true;
+			this.SetStyle(
+				//ControlStyles.Selectable |
+				//ControlStyles.UserMouse |
+				ControlStyles.DoubleBuffer |
+				ControlStyles.UserPaint |
+				ControlStyles.AllPaintingInWmPaint |
+				ControlStyles.ResizeRedraw |
+				ControlStyles.SupportsTransparentBackColor,
+				true);
+			this.UpdateStyles();
 		}
 
 		protected override void OnPaint(PaintEventArgs pe)
