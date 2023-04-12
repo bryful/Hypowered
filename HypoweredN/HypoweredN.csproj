@@ -16,15 +16,35 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Dialog\EditPictLibDialog.cs" />
+    <Compile Remove="Dialog\EditPictLibDialog.Designer.cs" />
+    <Compile Remove="Dialog\PictLibBox.cs" />
+    <Compile Remove="Dialog\PictLibBox.Designer.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Remove="Dialog\EditPictLibDialog.resx" />
+    <EmbeddedResource Remove="Dialog\PictLibBox.resx" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="Dialog\EditPictLibDialog.cs" />
+    <None Include="Dialog\EditPictLibDialog.Designer.cs" />
+    <None Include="Dialog\EditPictLibDialog.resx" />
+    <None Include="Dialog\PictLibBox.resx" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="Dialog\PictLibBox.cs" />
+    <None Include="Dialog\PictLibBox.Designer.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="Magick.NET-Q8-x64" Version="13.0.1" />
     <PackageReference Include="Magick.NET.Core" Version="13.0.1" />
     <PackageReference Include="Magick.NET.SystemDrawing" Version="7.0.1" />
     <PackageReference Include="Magick.NET.SystemWindowsMedia" Version="7.0.1" />
     <PackageReference Include="Svg" Version="3.4.4" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <ProjectReference Include="..\HypoweredLib\HypoweredLib.csproj" />
   </ItemGroup>
 
   <ItemGroup>

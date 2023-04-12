@@ -1,9 +1,10 @@
 using System.ComponentModel;
-using HypoweredLib;
 namespace Hypowered
 {
 	public partial class MainForm : BaseForm
 	{
+		public ItemsLib ItemsLib { get; set; } = new ItemsLib();
+		// ********************************************************************
 		#region Event
 		// ********************************************************************
 		public delegate void TargetFormChangedHandler(object sender, EventArgs e);
@@ -25,6 +26,7 @@ namespace Hypowered
 			}
 		}
 		#endregion
+		// ********************************************************************
 		#region Prop
 		// ********************************************************************
 		private EditControl? m_EditControl = null;
@@ -78,6 +80,8 @@ namespace Hypowered
 		}
 		#endregion
 		// ********************************************************************
+		#region Server
+		// ********************************************************************
 		private F_Pipe m_Server = new F_Pipe();
 		public void StartServer(string pipename)
 		{
@@ -97,6 +101,7 @@ namespace Hypowered
 		{
 			m_Server.StopServer();
 		}
+		#endregion
 		// ********************************************************************
 		public List<HForm> HForms = new List<HForm>();
 		public void RescanForms()
@@ -161,8 +166,10 @@ namespace Hypowered
 		// ********************************************************************
 		public MainForm()
 		{
+			string? d = Path.GetDirectoryName(Application.ExecutablePath);
+			string? n = Path.GetFileNameWithoutExtension(Application.ExecutablePath);
 
-
+			ItemsLib.Setup(Path.Combine(d, n));
 			this.AllowDrop = true;
 			InitializeComponent();
 			base.BackColor = Color.FromArgb(64, 64, 64);
@@ -185,7 +192,9 @@ namespace Hypowered
 			Command(Environment.GetCommandLineArgs().Skip(1).ToArray(), PIPECALL.StartupExec);
 			
 			
-			//ItemsLib il = new ItemsLib();
+			ItemsLib.Beep();
+			
+
 			//Clipboard.SetText(il.ItemNamesStr);
 		}
 		// **********************************************************

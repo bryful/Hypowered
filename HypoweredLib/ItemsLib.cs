@@ -12,240 +12,166 @@ using System.Text.Json.Nodes;
 using System.Windows;
 namespace HypoweredLib
 {
+	public enum LibTarget
+	{
+		Def,
+		Dir,
+		Zip,
+	}
 	public class ItemsLib
 	{
-		private string[] m_Names = new string[0];
-		private int m_BitmapStart = -1;
-		private int m_BitmapLength = 0;
-		private int m_SvgStart = -1;
-		private int m_SvgpLength = 0;
-		private int m_IconStart = -1;
-		private int m_IconLength = -0;
-		private int m_StrStart =   -1;
-		private int m_StrLength = 0;
-		private int m_WaveStart = -1;
-		private int m_WaveLength = 0;
-		public int Count { get {  return m_Names.Length; } }
-
-		public string[] Names { get { return m_Names; } }
-
-		public string StrNames { get { return ToStringA(m_Names); } }
-
-		public int IndexOf(string n,int start=0,int count=-1)
-		{
-			int ret = -1;
-			if((n=="")||(start>= m_Names.Length)||(start<0)||(count==0)) return ret;
-			int cnt = m_Names.Length;
-			if (count > 0)
-			{
-				cnt = count + start;
-				if(cnt> m_Names.Length) cnt = m_Names.Length;
-			}
-			for(int i=start; i<cnt;i++)
-			{
-				if(n.Equals(m_Names[i], StringComparison.OrdinalIgnoreCase))
-				{
-					ret =i;
-					break;
-				}
-			}
-			return ret;
-		}
-		public int IndexOf(string n,int start=0) { return IndexOf(n, start, -1); }
-		public int IndexOfBitmap(string n){return IndexOf(n, m_BitmapStart, m_BitmapLength);}
-		public int IndexOfSVG(string n) { return IndexOf(n, m_SvgStart, m_SvgpLength); }
-		public int IndexOfIcon(string n) { return IndexOf(n, m_IconStart, m_IconLength); }
-		public int IndexOfString(string n) { return IndexOf(n, m_StrStart, m_StrLength); }
-		public int IndexOfWave(string n) { return IndexOf(n, m_WaveStart, m_WaveLength); }
 		// **********************************************************
-		public ItemsLib() 
+		private System.Media.SoundPlayer soundPlayer = null;
+		// **********************************************************
+		private string m_TargetPath = "";
+		private string m_LibDefExt = ".lib";
+		private LibTarget m_LibTarget =  LibTarget.Def;
+		private bool m_Enabled = false;
+		public bool Enabled { get { return m_Enabled; } }
+		// **************************************************************
+		
+		// **************************************************************
+		public ItemsLib(string libName, LibTarget lt = LibTarget.Def)
 		{
-			GetResNames();
-		}
-		public byte[]? SVG(string name)
-		{
-			byte[]? ret = null;
-			var prop = typeof(Properties.Resources).GetProperty(name);
-				if (prop != null)
+			m_TargetPath = "";
+			m_Enabled = false;
+			if (lt == LibTarget.Zip)
+			{
+				if (SetupZip(libName) == false)
 				{
-					try
+					return;
+				}
+				m_LibTarget = LibTarget.Zip;
+			}
+			else if (lt == LibTarget.Dir)
+			{
+				if (SetupDir(libName) == false)
+				{
+					return;
+				}
+				m_LibTarget = LibTarget.Dir;
+			}
+			else
+			{
+				if (SetupZip(libName) == true)
+				{
+					m_LibTarget = LibTarget.Zip;
+				}
+				else
+				{
+					if (SetupDir(libName) == true)
 					{
-						if (prop.PropertyType == typeof(Byte[]))
-						{
-							ret = (Byte[]?)prop.GetValue(typeof(Properties.Resources));
-						}
+						m_LibTarget = LibTarget.Dir;
 					}
-					catch
+					else
 					{
-						ret = null;
+						return;
 					}
 				}
-
-			return ret;
+			}
+			//GetResNames();
+			//Beep();
+			//MessageBox.Show(Application.ExecutablePath);
 		}
-		public Bitmap? Bitmap(string name)
+		// **************************************************************
+		private bool SetupDir(string path)
 		{
-			Bitmap? ret = null;
-			var prop = typeof(Properties.Resources).GetProperty(name);
-			if (prop != null)
+			m_TargetPath = "";
+			m_Enabled = false;
+			string? p = Path.GetDirectoryName(path);
+			string? n = Path.GetFileNameWithoutExtension(path);
+			if(n==null) return	false;
+			string? e = Path.GetExtension(path);
+			string target = n;
+			if (p == null)
+			{
+				p = Directory.GetCurrentDirectory();
+			}
+			target = Path.Combine(p, target);
+			if(Directory.Exists(target) ==false)
 			{
 				try
 				{
-					if (prop.PropertyType == typeof(Bitmap))
-					{
-						ret = (Bitmap?)prop.GetValue(typeof(Properties.Resources));
-					}
+					Directory.CreateDirectory(target);
 				}
 				catch
 				{
-					ret = null;
+					return false;
 				}
 			}
-
-			return ret;
+			m_TargetPath = target;
+			return true;
 		}
-		public Icon? Icon(string name)
+		private bool SetupZip(string path)
 		{
-			Icon? ret = null;
-			var prop = typeof(Properties.Resources).GetProperty(name);
-			if (prop != null)
+			m_TargetPath = "";
+			m_Enabled = false;
+			string? p = Path.GetDirectoryName(path);
+			if (p == null) p = Directory.GetCurrentDirectory();
+			string? n = Path.GetFileNameWithoutExtension(path);
+			if(n==null) return false;
+			string? e = Path.GetExtension(path);
+			if (e == null) e = m_LibDefExt;
+			string target = n;
+			target = Path.Combine(p, target+e);
+			if (File.Exists(target) == false)
 			{
-				try
-				{
-					if (prop.PropertyType == typeof(Icon))
-					{
-						ret = (Icon?)prop.GetValue(typeof(Properties.Resources));
-					}
-				}
-				catch
-				{
-					ret = null;
-				}
+				return false;
 			}
-
-			return ret;
+			m_TargetPath = target;
+			return true;
 		}
-		public String? String(string name)
+		// **************************************************************
+		// **********************************************************
+		// **********************************************************
+		// **********************************************************
+		public void PlaySound(string waveFile)
 		{
-			String? ret = null;
-			var prop = typeof(Properties.Resources).GetProperty(name);
-			if (prop != null)
-			{
-				try
-				{
-					if (prop.PropertyType == typeof(String))
-					{
-						ret = (String?)prop.GetValue(typeof(Properties.Resources));
-					}
-				}
-				catch
-				{
-					ret = null;
-				}
-			}
+			//再生されているときは止める
+			if (soundPlayer != null)StopSound();
 
-			return ret;
-		}
-		public UnmanagedMemoryStream? Wave(string name)
-		{
-			UnmanagedMemoryStream? ret = null;
-			var prop = typeof(Properties.Resources).GetProperty(name);
-			if (prop != null)
-			{
-				try
-				{
-					if (prop.PropertyType == typeof(UnmanagedMemoryStream))
-					{
-						ret = (UnmanagedMemoryStream?)prop.GetValue(typeof(Properties.Resources));
-					}
-				}
-				catch
-				{
-					ret = null;
-				}
-			}
-
-			return ret;
+			//読み込む
+			soundPlayer = new System.Media.SoundPlayer(waveFile);
+			//非同期再生する
+			soundPlayer.Play();
 		}
 		// **********************************************************
-		public void GetResNames()
+		public void Beep()
 		{
-			PropertyInfo[] pi = typeof(Properties.Resources).GetProperties();
-			if (pi.Length == 0) return;
-			List<string> svglist = new List<string>();
-			List<string> bmplist1 = new List<string>();
-			List<string> bmplist2 = new List<string>();
-			List<string> strlist = new List<string>();
-			List<string> icnlist = new List<string>();
-			List<string> wavlist = new List<string>();
-			foreach (PropertyInfo p in pi)
-			{
-				switch(p.PropertyType.Name)
-				{
-					case "Byte[]":
-						svglist.Add(p.Name);
-						break;
-					case "Bitmap":
-						if (p.Name.IndexOf("ICON_") == 0)
-						{
-							bmplist1.Add(p.Name);
-						}
-						else
-						{
-							bmplist2.Add(p.Name);
-						}
-						break;
-					case "String":
-						strlist.Add(p.Name);
-						break;
-					case "Icon":
-						icnlist.Add(p.Name);
-						break;
-					case "UnmanagedMemoryStream":
-						wavlist.Add(p.Name);
-						break;
-				}
-			}
-			List<string> list = new List<string>();
-
-			m_BitmapStart = -1;
-			m_SvgStart = -1;
-			m_IconStart = -1;
-			m_StrStart = -1;
-			m_WaveStart = -1;
-			if ((bmplist1.Count > 0)||(bmplist2.Count > 0)) m_BitmapStart = 0;
-			m_BitmapLength = bmplist1.Count + bmplist2.Count;
-			list.AddRange(bmplist1);
-			list.AddRange(bmplist2);
-
-			if(svglist.Count>0) m_SvgStart = list.Count;
-			m_StrLength = svglist.Count;
-			list.AddRange(svglist);
-
-			if (icnlist.Count > 0) m_IconStart = list.Count;
-			m_IconLength = icnlist.Count;
-			list.AddRange(icnlist);
-			if (strlist.Count > 0) m_StrStart = list.Count;
-			m_StrLength = strlist.Count;
-			list.AddRange(strlist);
-			if (wavlist.Count > 0) m_WaveStart = list.Count;
-			m_WaveLength = wavlist.Count;
-			list.AddRange(wavlist);
-
-			m_Names = list.ToArray();
-		}
-
-		// **********************************************************
-		private string ToStringA(string[] sa)
-		{
-			string ret = "";
-			foreach (string s in sa)
-			{
-				ret += s+"\r\n";
-			}
-			return ret;
+			//PlaySound(Wave("se_saa08"));
 		}
 		// **********************************************************
+		public void PlaySound(UnmanagedMemoryStream? wave)
+		{
+			//再生されているときは止める
+			if (soundPlayer != null) StopSound();
 
+			//読み込む
+			soundPlayer = new System.Media.SoundPlayer(wave);
+			//非同期再生する
+			soundPlayer.Play();
+		}
+		// **********************************************************
+		public void StopSound()
+		{
+			if (soundPlayer != null)
+			{
+				soundPlayer.Stop();
+				soundPlayer.Dispose();
+				soundPlayer = null;
+			}
+		}
+
+		//Button1のClickイベントハンドラ
+		private void Button1_Click(object sender, EventArgs e)
+		{
+			PlaySound("C:\\music.wav");
+		}
+
+		//Button2のClickイベントハンドラ
+		private void Button2_Click(object sender, EventArgs e)
+		{
+			StopSound();
+		}
 	}
 }
