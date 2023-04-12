@@ -65,6 +65,11 @@ namespace Hypowered
 
 				g.DrawImage(m_OffScr, 2, 2);
 
+
+				p.Color = ForeColor;
+				Rectangle rr = RectInc(this.ClientRectangle, 2);
+				DrawFrame(g, p, rr, 1);
+
 				if (Focused) 
 				{
 					p.Color = m_ForcusColor;

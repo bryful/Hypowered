@@ -213,12 +213,7 @@ namespace Hypowered
 			get { return base.SizeGripStyle; }
 			set { base.SizeGripStyle = value; }
 		}
-		[Category("Hypowered"), Browsable(false)]
-		public new System.Windows.Forms.FormStartPosition StartPosition
-		{
-			get { return base.StartPosition; }
-			set { base.StartPosition = value; }
-		}
+
 		[Category("Hypowered"), Browsable(false)]
 		public new System.Int32 TabIndex
 		{

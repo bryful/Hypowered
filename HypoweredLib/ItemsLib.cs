@@ -14,30 +14,158 @@ namespace HypoweredLib
 {
 	public class ItemsLib
 	{
-		private string[] m_SVGNames = new string[0];
-		private string[] m_BitmapNames = new string[0];
-		private string[] m_StringNames = new string[0];
-		private string[] m_IconNames = new string[0];
-		private string[] m_WaveNames = new string[0];
-		public string[] SVGNames { get { return m_SVGNames; } }
-		public string[] BitmapNames { get { return m_BitmapNames; } }
-		public string[] StringNames { get { return m_StringNames; } }
-		public string[] IconNames { get { return m_IconNames; } }
-		public string[] WaveNames { get { return m_WaveNames; } }
+		private string[] m_Names = new string[0];
+		private int m_BitmapStart = -1;
+		private int m_BitmapLength = 0;
+		private int m_SvgStart = -1;
+		private int m_SvgpLength = 0;
+		private int m_IconStart = -1;
+		private int m_IconLength = -0;
+		private int m_StrStart =   -1;
+		private int m_StrLength = 0;
+		private int m_WaveStart = -1;
+		private int m_WaveLength = 0;
+		public int Count { get {  return m_Names.Length; } }
 
-		public string StrSVGNames { get { return ToStringA(m_SVGNames); } }
-		public string StrBitmapNames { get { return ToStringA(m_BitmapNames); } }
-		public string StrStringNames { get { return ToStringA(m_StringNames); } }
-		public string StrIconNames { get { return ToStringA(m_IconNames); } }
-		public string StrWaveNames { get { return ToStringA(m_WaveNames); } }
+		public string[] Names { get { return m_Names; } }
 
+		public string StrNames { get { return ToStringA(m_Names); } }
 
+		public int IndexOf(string n,int start=0,int count=-1)
+		{
+			int ret = -1;
+			if((n=="")||(start>= m_Names.Length)||(start<0)||(count==0)) return ret;
+			int cnt = m_Names.Length;
+			if (count > 0)
+			{
+				cnt = count + start;
+				if(cnt> m_Names.Length) cnt = m_Names.Length;
+			}
+			for(int i=start; i<cnt;i++)
+			{
+				if(n.Equals(m_Names[i], StringComparison.OrdinalIgnoreCase))
+				{
+					ret =i;
+					break;
+				}
+			}
+			return ret;
+		}
+		public int IndexOf(string n,int start=0) { return IndexOf(n, start, -1); }
+		public int IndexOfBitmap(string n){return IndexOf(n, m_BitmapStart, m_BitmapLength);}
+		public int IndexOfSVG(string n) { return IndexOf(n, m_SvgStart, m_SvgpLength); }
+		public int IndexOfIcon(string n) { return IndexOf(n, m_IconStart, m_IconLength); }
+		public int IndexOfString(string n) { return IndexOf(n, m_StrStart, m_StrLength); }
+		public int IndexOfWave(string n) { return IndexOf(n, m_WaveStart, m_WaveLength); }
+		// **********************************************************
 		public ItemsLib() 
 		{
 			GetResNames();
-			//Properties.Resources.alarm_black_48dp;
-			//System.Media.SoundPlayer player = new System.Media.SoundPlayer(Properties.Resources.se_saa08);
-			//player.Play();
+		}
+		public byte[]? SVG(string name)
+		{
+			byte[]? ret = null;
+			var prop = typeof(Properties.Resources).GetProperty(name);
+				if (prop != null)
+				{
+					try
+					{
+						if (prop.PropertyType == typeof(Byte[]))
+						{
+							ret = (Byte[]?)prop.GetValue(typeof(Properties.Resources));
+						}
+					}
+					catch
+					{
+						ret = null;
+					}
+				}
+
+			return ret;
+		}
+		public Bitmap? Bitmap(string name)
+		{
+			Bitmap? ret = null;
+			var prop = typeof(Properties.Resources).GetProperty(name);
+			if (prop != null)
+			{
+				try
+				{
+					if (prop.PropertyType == typeof(Bitmap))
+					{
+						ret = (Bitmap?)prop.GetValue(typeof(Properties.Resources));
+					}
+				}
+				catch
+				{
+					ret = null;
+				}
+			}
+
+			return ret;
+		}
+		public Icon? Icon(string name)
+		{
+			Icon? ret = null;
+			var prop = typeof(Properties.Resources).GetProperty(name);
+			if (prop != null)
+			{
+				try
+				{
+					if (prop.PropertyType == typeof(Icon))
+					{
+						ret = (Icon?)prop.GetValue(typeof(Properties.Resources));
+					}
+				}
+				catch
+				{
+					ret = null;
+				}
+			}
+
+			return ret;
+		}
+		public String? String(string name)
+		{
+			String? ret = null;
+			var prop = typeof(Properties.Resources).GetProperty(name);
+			if (prop != null)
+			{
+				try
+				{
+					if (prop.PropertyType == typeof(String))
+					{
+						ret = (String?)prop.GetValue(typeof(Properties.Resources));
+					}
+				}
+				catch
+				{
+					ret = null;
+				}
+			}
+
+			return ret;
+		}
+		public UnmanagedMemoryStream? Wave(string name)
+		{
+			UnmanagedMemoryStream? ret = null;
+			var prop = typeof(Properties.Resources).GetProperty(name);
+			if (prop != null)
+			{
+				try
+				{
+					if (prop.PropertyType == typeof(UnmanagedMemoryStream))
+					{
+						ret = (UnmanagedMemoryStream?)prop.GetValue(typeof(Properties.Resources));
+					}
+				}
+				catch
+				{
+					ret = null;
+				}
+			}
+
+			return ret;
 		}
 		// **********************************************************
 		public void GetResNames()
@@ -45,7 +173,8 @@ namespace HypoweredLib
 			PropertyInfo[] pi = typeof(Properties.Resources).GetProperties();
 			if (pi.Length == 0) return;
 			List<string> svglist = new List<string>();
-			List<string> bmplist = new List<string>();
+			List<string> bmplist1 = new List<string>();
+			List<string> bmplist2 = new List<string>();
 			List<string> strlist = new List<string>();
 			List<string> icnlist = new List<string>();
 			List<string> wavlist = new List<string>();
@@ -57,7 +186,14 @@ namespace HypoweredLib
 						svglist.Add(p.Name);
 						break;
 					case "Bitmap":
-						svglist.Add(p.Name);
+						if (p.Name.IndexOf("ICON_") == 0)
+						{
+							bmplist1.Add(p.Name);
+						}
+						else
+						{
+							bmplist2.Add(p.Name);
+						}
 						break;
 					case "String":
 						strlist.Add(p.Name);
@@ -70,12 +206,35 @@ namespace HypoweredLib
 						break;
 				}
 			}
-			m_SVGNames = svglist.ToArray();
-			m_BitmapNames = svglist.ToArray();
-			m_StringNames = strlist.ToArray();
-			m_IconNames = icnlist.ToArray();
-			m_WaveNames = wavlist.ToArray();
+			List<string> list = new List<string>();
+
+			m_BitmapStart = -1;
+			m_SvgStart = -1;
+			m_IconStart = -1;
+			m_StrStart = -1;
+			m_WaveStart = -1;
+			if ((bmplist1.Count > 0)||(bmplist2.Count > 0)) m_BitmapStart = 0;
+			m_BitmapLength = bmplist1.Count + bmplist2.Count;
+			list.AddRange(bmplist1);
+			list.AddRange(bmplist2);
+
+			if(svglist.Count>0) m_SvgStart = list.Count;
+			m_StrLength = svglist.Count;
+			list.AddRange(svglist);
+
+			if (icnlist.Count > 0) m_IconStart = list.Count;
+			m_IconLength = icnlist.Count;
+			list.AddRange(icnlist);
+			if (strlist.Count > 0) m_StrStart = list.Count;
+			m_StrLength = strlist.Count;
+			list.AddRange(strlist);
+			if (wavlist.Count > 0) m_WaveStart = list.Count;
+			m_WaveLength = wavlist.Count;
+			list.AddRange(wavlist);
+
+			m_Names = list.ToArray();
 		}
+
 		// **********************************************************
 		private string ToStringA(string[] sa)
 		{

@@ -73,6 +73,12 @@ namespace Hypowered
 			get { return base.Visible; }
 			set { base.Visible = value; }
 		}
+		[Category("Hypowered_Size"), Browsable(true)]
+		public new System.Windows.Forms.FormStartPosition StartPosition
+		{
+			get { return base.StartPosition; }
+			set { base.StartPosition = value; }
+		}
 		protected bool m_CanResize = true;
 		[Category("Hypowered_Size")]
 		public bool CanResize
@@ -191,7 +197,7 @@ namespace Hypowered
 				ControlStyles.ResizeRedraw,
 				true);
 			this.UpdateStyles();
-
+			base.StartPosition = FormStartPosition.CenterScreen;
 
 
 			//HUtils.PropListToClipboard(typeof(BaseForm),"BaseForm");

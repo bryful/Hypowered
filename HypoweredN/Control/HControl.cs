@@ -263,8 +263,10 @@ namespace Hypowered
 		}
 		// ************************************************************
 		protected bool m_MD = false;
+		protected bool m_MDResize = false;
 		protected Point m_MDP = new Point(0,0);
 		protected Point m_MDLoc = new Point(0, 0);
+		protected Size m_MDSize = new Size(0, 0);
 		// ************************************************************
 		protected override void OnMouseDown(MouseEventArgs e)
 		{
@@ -274,7 +276,9 @@ namespace Hypowered
 				{
 					m_MD = true;
 					m_MDLoc = this.Location;
+					m_MDSize = this.Size;
 					m_MDP = this.PointToScreen(new Point(e.X,e.Y));
+					m_MDResize = ((e.X > this.Width - 10) && (e.Y > this.Height - 10));
 					return;
 				}
 
@@ -289,7 +293,14 @@ namespace Hypowered
 				Point p = this.PointToScreen(new Point(e.X, e.Y));
 				int dx = p.X - m_MDP.X;
 				int dy = p.Y - m_MDP.Y;
-				this.Location = new Point(m_MDLoc.X +dx, m_MDLoc.Y + dy);
+				if (m_MDResize)
+				{
+					this.Size = new Size(m_MDSize.Width + dx, m_MDSize.Height + dy);
+				}
+				else
+				{
+					this.Location = new Point(m_MDLoc.X + dx, m_MDLoc.Y + dy);
+				}
 			}
 			base.OnMouseMove(e);
 		}
