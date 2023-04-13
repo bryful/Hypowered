@@ -9,9 +9,12 @@ using System.Xml.Linq;
 using Microsoft.VisualBasic;
 using System.Windows.Input;
 using System.Text.Json.Nodes;
-using System.Windows;
 using Svg;
 using ImageMagick;
+using System.Runtime.InteropServices;
+using System.Drawing.Imaging;
+
+
 
 namespace Hypowered
 {
@@ -105,28 +108,23 @@ namespace Hypowered
 			}
 			return ret;
 		}
-		public Bitmap? GetBitmap(string name, string entry="")
+		public Bitmap? GetBitmap(string name)
 		{
 			Bitmap? ret = null;
 
 			if(m_IsZip==false)
 			{
-				string p = m_TargetPath;
-				if(entry!="") p = Path.Combine(p, entry);
-				p = Path.Combine(p, name);
+				string p = Path.Combine(m_TargetPath,name.Replace("/","\\"));
 				if (File.Exists(p) == false) return ret;
 				ret = LoadBitmap(p);
 			}
 			else
 			{
-				string p2 = name;
-				if (entry != "") p2 = entry + "/" + p2;
-				string e = Path.GetExtension(name).ToLower();
-				using (MemoryStream? ms = HZip.GetEntryToStream(m_TargetPath, p2))
+				using (MemoryStream? ms = HZip.GetEntryToStream(m_TargetPath, name))
 				{
 					if (ms != null)
 					{
-						ret = LoadBitmapFromStream(ms,e);
+						ret = LoadBitmapFromStream(ms, Path.GetExtension(name).ToLower());
 					}
 				}
 			}
@@ -141,23 +139,26 @@ namespace Hypowered
 			switch(e)
 			{
 				//BMP、GIF、EXIF、JPG、PNG、TIFF 
-				case "bmp":
-				case "gif":
-				case "exif":
-				case "jpg":
-				case "jpeg":
-				case "png":
-				case "tif":
+				case ".bmp":
+				case ".gif":
+				case ".exif":
+				case ".jpg":
+				case ".jpeg":
+				case ".png":
+				case ".tif":
 					try { ret = new Bitmap(name); }catch { ret =null; }
 					break;
-				case "svg":
+				case ".svg":
 					try
 					{
 						SvgDocument svgDoc = SvgDocument.Open(name);
 						ret = svgDoc.Draw();
-					}catch { ret = null; }
+						//ColorAt(ret, Color.FromArgb(200, 200, 200));
+
+					}
+					catch { ret = null; }
 					break;
-				case "psd":
+				case ".psd":
 				default:
 					try
 					{
@@ -169,6 +170,11 @@ namespace Hypowered
 					catch { ret = null; }
 					break;
 			}
+			if (ret != null)
+			{
+				ret.SetResolution(96, 96);
+			}
+
 			return ret;
 		}
 		static public Bitmap? LoadBitmapFromStream(MemoryStream ms,string e)
@@ -177,24 +183,25 @@ namespace Hypowered
 			switch (e)
 			{
 				//BMP、GIF、EXIF、JPG、PNG、TIFF 
-				case "bmp":
-				case "gif":
-				case "exif":
-				case "jpg":
-				case "jpeg":
-				case "png":
-				case "tif":
+				case ".bmp":
+				case ".gif":
+				case ".exif":
+				case ".jpg":
+				case ".jpeg":
+				case ".png":
+				case ".tif":
 					try { ret = new Bitmap(ms); } catch { ret = null; }
 					break;
-				case "svg":
+				case ".svg":
 					try
 					{
 						SvgDocument svgDoc = SvgDocument.Open<SvgDocument>(ms);
 						ret = svgDoc.Draw();
+						//ColorAt(ret, Color.FromArgb(200, 200, 200));
 					}
 					catch { ret = null; }
 					break;
-				case "psd":
+				case ".psd":
 				default:
 					try
 					{
@@ -206,38 +213,47 @@ namespace Hypowered
 					catch { ret = null; }
 					break;
 			}
+			if(ret != null)
+			{
+				ret.SetResolution(96, 96);
+			}
 			return ret;
 		}
-		public bool PlayWave(string name, string entry = "")
+		public bool PlayWave(string name)
 		{
 			bool ret = false;
 			if (soundPlayer != null) StopWave();
 
 			if (m_IsZip == false)
 			{
-				string p = m_TargetPath;
-				if (entry != "") p = Path.Combine(p, entry);
-				p = Path.Combine(p, name);
+				string p = Path.Combine( m_TargetPath,name.Replace("/","\\"));
 				if (File.Exists(p) == false) return ret;
-				soundPlayer = new System.Media.SoundPlayer(p);
+				try
+				{
+					soundPlayer = new System.Media.SoundPlayer(p);
+					soundPlayer.Play();
+					ret = true;
+				}
+				catch
+				{
+					ret = false;
+				}
 			}
 			else
 			{
-				string p2 = name;
-				if (entry != "") p2 = entry + "/" + p2;
-				string e = Path.GetExtension(name).ToLower();
-				using (MemoryStream? ms = HZip.GetEntryToStream(m_TargetPath, p2))
+				try
 				{
-					if (ms != null)
+					using (MemoryStream? ms = HZip.GetEntryToStream(m_TargetPath, name))
 					{
-						soundPlayer = new System.Media.SoundPlayer(ms);
+						if (ms != null)
+						{
+							soundPlayer = new System.Media.SoundPlayer(ms);
+							soundPlayer.Play();
+							ret = true;
+						}
 					}
 				}
-			}
-			if (soundPlayer != null)
-			{
-				soundPlayer.Play();
-				ret = true;
+				catch { ret = false; }
 			}
 			return ret;
 		}
@@ -289,7 +305,7 @@ namespace Hypowered
 			string? n = Path.GetFileNameWithoutExtension(path);
 			if(n==null) return false;
 			string? e = Path.GetExtension(path);
-			if (e == null) e = LibDefExt;
+			if (e == "") e = LibDefExt;
 			string target = n;
 			target = Path.Combine(p, target+e);
 			if (File.Exists(target) == false)
@@ -301,16 +317,182 @@ namespace Hypowered
 			return true;
 		}
 		// **************************************************************
+		public string[] GetItemNames(string entry="")
+		{
+			List<string> ret = new List<string>();
+			if((m_TargetPath == "")||(m_Enabled==false)) return ret.ToArray();
+			string p = m_TargetPath;
+			if(m_IsZip == false)
+			{
+				if (entry!="") p = Path.Combine(p, entry);
+				IEnumerable<string> files =Directory.EnumerateFiles(
+					p, "*", SearchOption.AllDirectories);
+				int idx = m_TargetPath.Length+1;
+				foreach (string f in files)
+				{
+					string f2 = f.Substring(idx).Replace("\\","/");
+					ret.Add(f2);
+				}
+				
+			}
+			else
+			{
+				string[] sa = HZip.EntryList(m_TargetPath, entry);
+				foreach (string s in sa)
+				{
+					if (s[s.Length-1] != '/') 
+					{
+						string sss = s;
+						if (entry != "") sss = entry + "/" + sss;
+						ret.Add(sss);
+					}
+				}
+			}
+
+			return ret.ToArray();
+		}
+		public string GetItemNamesS(string entry = "")
+		{
+			string ret = "";
+			string[] a = GetItemNames(entry);
+			if(a.Length <= 0) return ret;
+			foreach(string s in a)
+			{
+				ret += s + "\r\n";
+			}
+			return ret;
+		}
 		// **********************************************************
+		public string[] GetItemNamesAtPict(string entry = "")
+		{
+			string[] ret = GetItemNames(entry);
+			if(ret.Length > 0)
+			{
+				List<string> list = new List<string>();
+				foreach (string s in ret) 
+				{
+					string e = Path.GetExtension(s).ToLower();
+					if((e==".jpg")
+						|| (e == ".jpeg")
+						|| (e == ".png")
+						|| (e == ".gif")
+						|| (e == ".svg")
+						|| (e == ".tif")
+						|| (e == ".png")
+						|| (e == ".exif")
+						|| (e == ".bmp"))
+					{
+						list.Add(s);
+					}
+				}
+				ret = list.ToArray();
+			}
+			return ret;
+		}
 		// **********************************************************
 		// **********************************************************
 
 		// **********************************************************
 		public void Beep()
 		{
-			PlayWave("maou_se_system41.wav", "wav");
+			PlayWave("wav/maou_se_system41.wav");
 		}
 		// **********************************************************
+		static public void ColorAt(Bitmap bitmap, Color col)
+		{
+			BitmapData data = bitmap.LockBits(
+				new Rectangle(0, 0, bitmap.Width, bitmap.Height),
+				ImageLockMode.ReadWrite,
+				PixelFormat.Format32bppArgb);
+			int bytes = bitmap.Width * bitmap.Height * 4;
+			Int32 a = ((Int32)col.B) << 16 | ((Int32)col.G) << 8 | ((Int32)col.R);
+			for (int i = 0; i < bytes; i += 4)
+			{
+				Int32 value = Marshal.ReadInt32(data.Scan0, i);
 
+				Color c = Color.FromArgb(value);
+				c = Color.FromArgb(c.A, col.R, col.G, col.B);
+				Marshal.WriteInt32(data.Scan0, i, c.ToArgb());
+			}
+			bitmap.UnlockBits(data);
+		}
+
+	}
+	public class ItemName
+	{
+		public string Name { get; set; }="";
+		public string Entry { get; set; } = "";
+		public string Ext { get; set; } = "";
+		public ItemName()
+		{
+		}
+		public ItemName(string name, string entry)
+		{
+			SetEntry(entry);
+			SetName(name);
+		}
+		public ItemName(string[] names)
+		{
+			if(names.Length>=2)
+			{
+				SetEntry(names[0]);
+				SetName(names[1]);
+			}
+		}
+		public void SetEntry(string s)
+		{
+			if(s!="")
+			{
+				if (s[s.Length - 1] == '/') s = s.Substring(0,s.Length - 1);
+			}
+			Entry = s;
+		}
+		public void SetName(string s)
+		{
+			if (s != "")
+			{
+				Ext = Path.GetExtension(s).ToLower();
+			}
+			Name = s;
+		}
+
+		public void SetZipEntry(string s)
+		{
+			string[] sa = SplitEntry(s);
+			Entry = sa[0];
+			Name = sa[1];
+		}
+		public string Info
+		{
+			get { return $"Entry:{Entry}  Name:{Name}"; }
+		}
+		static public string SplitBase(string baseP, string p)
+		{
+			string ret = "";
+			if(p=="") return ret;
+			p = p.Substring(baseP.Length+1).Replace("\\", "/");
+			return p;
+		}
+		static public string[] SplitEntry(string p)
+		{
+			string [] ret = new string[] { "", "" };
+			if (p == "") return ret;
+			if (p == "") return ret;
+			int idx = p.LastIndexOf('/');
+			if(idx==-1)
+			{
+				ret[1] = p;
+			}else if(idx==0)
+			{
+				ret[1] = p.Substring(1);
+			}
+			else
+			{
+				ret[0] = p.Substring(0,idx);
+				ret[1] = p.Substring(idx + 1);
+
+			}
+			return ret;
+		}
 	}
 }

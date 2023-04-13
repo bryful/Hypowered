@@ -35,8 +35,7 @@
 			AutoScaleDimensions = new SizeF(7F, 15F);
 			AutoScaleMode = AutoScaleMode.Font;
 			BackColor = Color.FromArgb(64, 64, 64);
-			ClientSize = new Size(573, 300);
-			FormBorderStyle = FormBorderStyle.None;
+			ClientSize = new Size(548, 301);
 			Name = "HForm";
 			Text = "HForm";
 			ResumeLayout(false);

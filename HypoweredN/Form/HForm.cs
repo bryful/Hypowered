@@ -53,6 +53,8 @@ namespace Hypowered
 		public HMenuItem CloseMenu { get; set; } = new HMenuItem();
 		[Category("Hypowered_Menu")]
 		public HMenuItem MainFormMenu { get; set; } = new HMenuItem();
+		[Category("Hypowered_Menu")]
+		public HMenuItem PictItemDialogMenu { get; set; } = new HMenuItem();
 
 
 
@@ -89,15 +91,15 @@ namespace Hypowered
 		}
 		public void SetIsEdits(int[] b)
 		{
-			if(this.Controls.Count<=0) return;
-			bool [] bb = new bool[this.Controls.Count];
+			if (this.Controls.Count <= 0) return;
+			bool[] bb = new bool[this.Controls.Count];
 			for (int i = 0; i < this.Controls.Count; i++) bb[i] = false;
-			if(b.Length>0)
+			if (b.Length > 0)
 			{
 				for (int i = 0; i < b.Length; i++)
 				{
 					int ii = b[i];
-					if ((ii>=0) && (ii< this.Controls.Count))
+					if ((ii >= 0) && (ii < this.Controls.Count))
 					{
 						bb[ii] = true;
 					}
@@ -165,11 +167,21 @@ namespace Hypowered
 					m_MainForm.Activate();
 				}
 			};
+			PictItemDialogMenu.Name = "PictDialogMenu";
+			PictItemDialogMenu.Text = "PictDialog";
+			PictItemDialogMenu.Click += (sender, e) =>
+			{
+				if (m_MainForm != null)
+				{
+					ItemName? itmn = m_MainForm.ShowPictItemDialog(null);
+				}
+			};
 
 			FileMenu.DropDownItems.Add(OpenMenu);
 			FileMenu.DropDownItems.Add(CloseMenu);
 
 			ToolMenu.DropDownItems.Add(MainFormMenu);
+			ToolMenu.DropDownItems.Add(PictItemDialogMenu);
 
 			MainMenu.Items.Add(FileMenu);
 			MainMenu.Items.Add(EditMenu);
@@ -200,12 +212,12 @@ namespace Hypowered
 			{
 				s = $"{nm}{idx}";
 				idx++;
-			}  ;
+			};
 			return s;
 		}
-		private Point pDef=new Point(100,100);
+		private Point pDef = new Point(100, 100);
 		// ************************************************************
-		public void AddControl(HType ht, string nm,string tx)
+		public void AddControl(HType ht, string nm, string tx)
 		{
 			HControl hc;
 			switch (ht)
@@ -249,7 +261,7 @@ namespace Hypowered
 			this.Controls.SetChildIndex(hc, 1);
 			ChkControl();
 			OnControlChanged(new EventArgs());
-			pDef.X += 10; 
+			pDef.X += 10;
 			if (pDef.X > 250) pDef.X = 100;
 			pDef.Y += 10;
 			if (pDef.Y > 250) pDef.Y = 100;
@@ -265,7 +277,7 @@ namespace Hypowered
 				dlg.HType = m_HTypeDef;
 				if (dlg.ShowDialog() == DialogResult.OK)
 				{
-					AddControl(dlg.HType, dlg.CName,dlg.CText);
+					AddControl(dlg.HType, dlg.CName, dlg.CText);
 					m_HTypeDef = dlg.HType;
 				}
 			}
@@ -273,7 +285,7 @@ namespace Hypowered
 		}
 		public void ChkControl()
 		{
-			if(this.Controls.Count > 0)
+			if (this.Controls.Count > 0)
 			{
 				foreach (Control c in this.Controls)
 				{
@@ -286,12 +298,13 @@ namespace Hypowered
 					}
 				}
 				int idx = 0;
-				foreach(Control c in this.Controls)
+				foreach (Control c in this.Controls)
 				{
-					if(c is HMainMenu)
+					if (c is HMainMenu)
 					{
 						((HMainMenu)c).Index = idx;
-					}else if(c is HControl)
+					}
+					else if (c is HControl)
 					{
 						((HControl)c).Index = idx;
 					}
@@ -302,11 +315,11 @@ namespace Hypowered
 		public string[] ControlList()
 		{
 			List<string> list = new List<string>();
-			if(this.Controls.Count > 0)
+			if (this.Controls.Count > 0)
 			{
-				foreach(Control c in this.Controls)
+				foreach (Control c in this.Controls)
 				{
-					if ((c is HMainMenu)|| (c is HControl))
+					if ((c is HMainMenu) || (c is HControl))
 					{
 						list.Add(c.Name);
 					}
@@ -332,10 +345,10 @@ namespace Hypowered
 
 		public void ControlUp(int[] sels)
 		{
-			if(sels.Length<=0) return;
+			if (sels.Length <= 0) return;
 			if (sels[0] == 1) return;
 			int idx = sels[0] - 1;
-			for (int i = 0;i< sels.Length; i++)
+			for (int i = 0; i < sels.Length; i++)
 			{
 				this.Controls.SetChildIndex(
 					this.Controls[sels[i]],
@@ -363,9 +376,9 @@ namespace Hypowered
 		public void ControlDown(int[] sels)
 		{
 			if (sels.Length <= 0) return;
-			if (sels[sels.Length-1] == this.Controls.Count-1) return;
+			if (sels[sels.Length - 1] == this.Controls.Count - 1) return;
 			int idx = sels[sels.Length - 1] + 1;
-			for (int i = sels.Length-1; i >=0; i--)
+			for (int i = sels.Length - 1; i >= 0; i--)
 			{
 				this.Controls.SetChildIndex(
 					this.Controls[sels[i]],
@@ -373,7 +386,7 @@ namespace Hypowered
 					);
 				idx--;
 			}
-			OnControlChanged( EventArgs.Empty );
+			OnControlChanged(EventArgs.Empty);
 		}
 		public void ControlBottom(int[] sels)
 		{
@@ -390,10 +403,10 @@ namespace Hypowered
 			}
 			OnControlChanged(EventArgs.Empty);
 		}
-		public void ControlMove(int[] sels,ArrowDown ad, int MoveScale)
+		public void ControlMove(int[] sels, ArrowDown ad, int MoveScale)
 		{
-			if(sels.Length <= 0) return;
-			foreach(int sel in sels)
+			if (sels.Length <= 0) return;
+			foreach (int sel in sels)
 			{
 				if ((sel > 0) && (sel < this.Controls.Count))
 				{

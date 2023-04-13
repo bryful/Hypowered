@@ -1,6 +1,6 @@
 ﻿namespace Hypowered
 {
-	partial class PictLibBox
+	partial class PictItemList
 	{
 		/// <summary>
 		/// 必要なデザイナー変数です。

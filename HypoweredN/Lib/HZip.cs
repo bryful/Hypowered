@@ -148,13 +148,10 @@ namespace Hypowered
                     {
 						try
 						{
-							using (MemoryStream memoryStream = new MemoryStream())
-							{
+							MemoryStream memoryStream = new MemoryStream();
 								stream.CopyTo(memoryStream);
 								memoryStream.Position = 0;
 								ret = memoryStream;
-
-							}
 						}
 						catch
 						{

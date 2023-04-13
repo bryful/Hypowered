@@ -193,9 +193,8 @@ namespace Hypowered
 			
 			
 			ItemsLib.Beep();
-			
-
-			//Clipboard.SetText(il.ItemNamesStr);
+			string s = ItemsLib.GetItemNamesS();
+			Clipboard.SetText(Clipboard.GetText()+"***********\r\n"+ s);
 		}
 		// **********************************************************
 		private void StartSettings()
@@ -367,6 +366,22 @@ namespace Hypowered
 
 		}
 		// **********************************************************
+		public ItemName? ShowPictItemDialog(ItemsLib? il)
+		{
+			ItemName? ret = null;
+			if (m_TargetForm == null) return ret;
+			using (PictItemDialog dlg = new PictItemDialog())
+			{
+				dlg.SetMainForm(this);
+				if (il == null) il = ItemsLib;
+				dlg.SetItemsLib(il);
+				if(dlg.ShowDialog() == DialogResult.OK)
+				{
+					ret = null;
+				}
+			}
+			return ret;
+		}
 		// ************************************************************
 
 	}

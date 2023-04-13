@@ -152,8 +152,7 @@ namespace Hypowered
 			{
 				string e = Path.GetExtension(filename).ToLower();
 				m_Buffer = null;
-				bool IsSvg = (e == ".svg");
-				if (IsSvg)
+				if (e == ".svg")
 				{
 					SvgDocument svgDoc = SvgDocument.Open(filename);
 					m_Buffer = svgDoc.Draw();
@@ -163,7 +162,6 @@ namespace Hypowered
 				{
 					using (var myMagick = new ImageMagick.MagickImage(filename))
 					{
-						if (IsSvg) myMagick.Transparent(MagickColors.White);
 						m_Buffer = myMagick.ToBitmap(); //Bitmapへ変換
 					
 					}
