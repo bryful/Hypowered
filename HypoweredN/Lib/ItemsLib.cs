@@ -13,8 +13,7 @@ using Svg;
 using ImageMagick;
 using System.Runtime.InteropServices;
 using System.Drawing.Imaging;
-
-
+using System.ComponentModel;
 
 namespace Hypowered
 {
@@ -37,6 +36,23 @@ namespace Hypowered
 		public bool Enabled { get { return m_Enabled; } }
 		public bool IsZip { get { return m_IsZip; } }
 		public string TargetPath { get { return m_TargetPath; } }
+		private string[] m_ItemNames = new string[0];
+		public int IndexOf(string? name)
+		{
+			int ret = -1;
+			if ((name == null)||(name=="")||(m_ItemNames.Length<=0)) return -1;
+			int idx = 0;
+			foreach(string item in m_ItemNames)
+			{
+				if (name.Equals(item, StringComparison.OrdinalIgnoreCase) ==true)
+				{
+					ret = idx;
+					break;
+				}
+				idx++;
+			}
+			return ret;
+		}
 		// **************************************************************
 		public ItemsLib()
 		{
@@ -50,6 +66,7 @@ namespace Hypowered
 		public bool Setup(string libName, LibTarget lt = LibTarget.Def)
 		{
 			m_TargetPath = "";
+			m_ItemNames = new string[0];
 			m_Enabled = false;
 			if (lt == LibTarget.Zip)
 			{
@@ -85,6 +102,7 @@ namespace Hypowered
 					}
 				}
 			}
+			m_ItemNames = GetItemNames();
 			m_Enabled = true;
 			return true;
 		}
