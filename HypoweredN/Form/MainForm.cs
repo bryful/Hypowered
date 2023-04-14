@@ -172,8 +172,8 @@ namespace Hypowered
 			ItemsLib.Setup(Path.Combine(d, n));
 			this.AllowDrop = true;
 			InitializeComponent();
-			base.BackColor = Color.FromArgb(64, 64, 64);
-			base.ForeColor = Color.FromArgb(230, 230, 230);
+			BackColor = Color.FromArgb(64, 64, 64);
+			ForeColor = Color.FromArgb(230, 230, 230);
 			this.DoubleBuffered = true;
 			base.AutoScaleMode = AutoScaleMode.None;
 			this.SetStyle(
@@ -190,11 +190,11 @@ namespace Hypowered
 			StartSettings();
 			ControlLayout();
 			Command(Environment.GetCommandLineArgs().Skip(1).ToArray(), PIPECALL.StartupExec);
-			
-			
+
+
 			ItemsLib.Beep();
 			string s = ItemsLib.GetItemNamesS();
-			Clipboard.SetText(Clipboard.GetText()+"***********\r\n"+ s);
+			Clipboard.SetText(Clipboard.GetText() + "***********\r\n" + s);
 		}
 		// **********************************************************
 		private void StartSettings()
@@ -375,7 +375,7 @@ namespace Hypowered
 				dlg.SetMainForm(this);
 				if (il == null) il = ItemsLib;
 				dlg.SetItemsLib(il);
-				if(dlg.ShowDialog() == DialogResult.OK)
+				if (dlg.ShowDialog() == DialogResult.OK)
 				{
 					ret = null;
 				}

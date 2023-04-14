@@ -254,6 +254,13 @@ namespace Hypowered
 					if (tx == "") tx = nm;
 					hc.Text = tx;
 					break;
+				case HType.IconButton:
+					hc = new HIconButton();
+					hc.Location = pDef;
+					hc.Name = nm;
+					if (tx == "") tx = nm;
+					hc.Text = tx;
+					break;
 				default:
 					return;
 			}

@@ -16,7 +16,8 @@ namespace Hypowered
 		Button,
 		Label,
 		TextBox,
-		PictureBox
+		PictureBox,
+		IconButton
 	}
 	public partial class HControl : Control
 	{

@@ -61,13 +61,15 @@ namespace Hypowered
 		[Category("Hypowered_Ctrl")]
 		public ArrowPanel ArrowPanel { get; set; } = new ArrowPanel();
 		[Category("Hypowered_Ctrl")]
-		public ActionPanel ActionPanel { get; set; } = new ActionPanel();
+		public ControlActionPanel ControlActionPanel { get; set; } = new ControlActionPanel();
 		[Category("Hypowered_Ctrl")]
 		public AlignPanel AlignPanel { get; set; } = new AlignPanel();
 		[Category("Hypowered_Ctrl")]
 		public ArrangPanel ArrangPanel { get; set; } = new ArrangPanel();
 		[Category("Hypowered_Ctrl")]
 		public NumericUpDown MoveScale { get; set; } = new NumericUpDown();
+		[Category("Hypowered_Ctrl")]
+		public FormActionPanel FormActionPanel { get; set; } = new FormActionPanel();
 
 		[Category("Hypowered_Ctrl")]
 		public int FormListHeight
@@ -90,6 +92,7 @@ namespace Hypowered
 				CtrlListBox.BackColor = value;
 				FormListBox.BackColor = value;
 				SizeMoveModePanel.BackColor = value;
+				FormActionPanel.BackColor = value;
 			}
 		}
 		[Category("Hypowered_Color")]
@@ -102,17 +105,19 @@ namespace Hypowered
 				CtrlListBox.ForeColor = value;
 				FormListBox.ForeColor = value;
 				SizeMoveModePanel.ForeColor = value;
+				FormActionPanel.ForeColor = value;
 			}
 		}
 		public EditControl()
 		{
+			InitializeComponent();
 			ForeColor = Color.FromArgb(220, 220, 220);
 			BackColor = Color.FromArgb(64, 64, 64);
-			InitializeComponent();
 			initControl();
 			LayoutControl();
+			this.Controls.Add(this.FormActionPanel);
 			this.Controls.Add(this.FormListBox);
-			this.Controls.Add(this.ActionPanel);
+			this.Controls.Add(this.ControlActionPanel);
 			this.Controls.Add(this.AlignPanel);
 			this.Controls.Add(this.ArrangPanel);
 			this.Controls.Add(this.SizeMoveModePanel);
@@ -143,6 +148,8 @@ namespace Hypowered
 		}
 		public void initControl()
 		{
+			ForeColor = Color.FromArgb(220, 220, 220);
+			BackColor = Color.FromArgb(64, 64, 64);
 
 			CtrlListBox.SelectedIndexChanged += (sender, e) =>
 			{
@@ -212,19 +219,19 @@ namespace Hypowered
 			MoveScale.BorderStyle = BorderStyle.FixedSingle;
 			MoveScale.Size = new Size(48, 25);
 
-			ActionPanel.ActionClick += (sender, e) =>
+			ControlActionPanel.ControlActionClick += (sender, e) =>
 			{
 				if ((MainForm != null) && (MainForm.TargetForm != null))
 				{
 					switch (e.Mode)
 					{
-						case ActionMode.Add:
+						case ControlAction.Add:
 							{
 								MainForm.TargetForm.AddControl();
 								CtrlListBox.SelectedIndex = 1;
 							}
 							break;
-						case ActionMode.Up:
+						case ControlAction.Up:
 							CtrlListBox.PushSelection();
 							if (CtrlListBox.SelectBak.Length > 0)
 							{
@@ -233,7 +240,7 @@ namespace Hypowered
 								CtrlListBox.PopSelection();
 							}
 							break;
-						case ActionMode.Down:
+						case ControlAction.Down:
 							CtrlListBox.PushSelection();
 							if (CtrlListBox.SelectBak.Length > 0)
 							{
@@ -242,7 +249,7 @@ namespace Hypowered
 								CtrlListBox.PopSelection();
 							}
 							break;
-						case ActionMode.Top:
+						case ControlAction.Top:
 							CtrlListBox.PushSelection();
 							if (CtrlListBox.SelectBak.Length > 0)
 							{
@@ -251,7 +258,7 @@ namespace Hypowered
 								CtrlListBox.PopSelection();
 							}
 							break;
-						case ActionMode.Bottom:
+						case ControlAction.Bottom:
 							CtrlListBox.PushSelection();
 							if (CtrlListBox.SelectBak.Length > 0)
 							{
@@ -298,12 +305,16 @@ namespace Hypowered
 		public void LayoutControl()
 		{
 			int x = 0; int y = 0;
+
+			FormActionPanel.Location = new Point(x, y);
+			y += ControlActionPanel.Height + 2;
+
 			FormListBox.Location = new Point(x, y);
 			FormListBox.Size = new Size(this.Width, FormListBox.Height);
 			y += FormListBox.Height + 4;
 
-			ActionPanel.Location = new Point(x, y);
-			y += ActionPanel.Height + 2;
+			ControlActionPanel.Location = new Point(x, y);
+			y += ControlActionPanel.Height + 2;
 			AlignPanel.Location = new Point(x, y);
 			y += AlignPanel.Height + 2;
 			ArrangPanel.Location = new Point(x, y);

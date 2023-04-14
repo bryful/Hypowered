@@ -214,6 +214,24 @@
   <data name="CUp" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\CUp.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
+  <data name="FAction0" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\FAction0.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="FAction1" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\FAction1.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="FAction2" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\FAction2.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="FAction3" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\FAction3.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="FAction4" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\FAction4.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="FAction5" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\FAction5.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
   <data name="MS_Mode0" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\MS_Mode0.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>

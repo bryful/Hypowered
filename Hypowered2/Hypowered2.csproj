@@ -21,8 +21,4 @@
     <PackageReference Include="RoslynPad.Roslyn.Windows" Version="4.4.0" />
   </ItemGroup>
 
-  <ItemGroup>
-    <ProjectReference Include="..\ZipFileLib\HpdFiles.csproj" />
-  </ItemGroup>
-
 </Project>
