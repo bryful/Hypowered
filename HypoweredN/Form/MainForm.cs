@@ -3,6 +3,55 @@ namespace Hypowered
 {
 	public partial class MainForm : BaseForm
 	{
+		public readonly string HOME_ENV = "HypoweredHome";
+		public readonly string HOME_NAME = "Home";
+		public readonly string DataEXT = ".hypf";
+		// ********************************************************************
+		private string m_HomeFolder = string.Empty;
+		public string HomeFolder { get { return m_HomeFolder; } }
+		public void GetHomeFolder()
+		{
+			string? p = Environment.GetEnvironmentVariable(HOME_ENV,
+							  EnvironmentVariableTarget.User);
+			if((p!=null)&&(Directory.Exists(p)))
+			{
+				m_HomeFolder = p;
+			}
+			else
+			{
+				string p2 = $"{Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments)}\\Hypowered";
+				lock (typeof(Application))
+				{
+					if (!Directory.Exists(p2))
+					{
+						Directory.CreateDirectory(p2);
+					}
+				}
+				m_HomeFolder = p2;
+				Environment.SetEnvironmentVariable(
+					HOME_ENV, 
+					m_HomeFolder, 
+					EnvironmentVariableTarget.User);
+			}
+		}
+		static public string GetFileSystemPath(Environment.SpecialFolder folder)
+		{
+			// パスを取得
+			string path = $"{Environment.GetFolderPath(folder)}\\"
+				+ $"{Application.CompanyName}\\"
+				+ $"{Application.ProductName}";
+
+			// パスのフォルダを作成
+			lock (typeof(Application))
+			{
+				if (!Directory.Exists(path))
+				{
+					Directory.CreateDirectory(path);
+				}
+			}
+			return path;
+		}
+		// ********************************************************************
 		public ItemsLib ItemsLib { get; set; } = new ItemsLib();
 		// ********************************************************************
 		#region Event
@@ -166,10 +215,13 @@ namespace Hypowered
 		// ********************************************************************
 		public MainForm()
 		{
-			string? d = Path.GetDirectoryName(Application.ExecutablePath);
-			string? n = Path.GetFileNameWithoutExtension(Application.ExecutablePath);
+			GetHomeFolder();
 
-			ItemsLib.Setup(Path.Combine(d, n));
+			// ItemsLibの読み込み
+
+			ItemsLib.Setup(Path.ChangeExtension(Application.ExecutablePath, DataEXT));
+			//ItemsLib.Aarchive();
+
 			this.AllowDrop = true;
 			InitializeComponent();
 			BackColor = Color.FromArgb(64, 64, 64);
@@ -366,18 +418,19 @@ namespace Hypowered
 
 		}
 		// **********************************************************
-		public ItemName? ShowPictItemDialog(ItemsLib? il)
+		public string ShowPictItemDialog(ItemsLib? il,string pn="")
 		{
-			ItemName? ret = null;
+			string ret = "";
 			if (m_TargetForm == null) return ret;
 			using (PictItemDialog dlg = new PictItemDialog())
 			{
 				dlg.SetMainForm(this);
 				if (il == null) il = ItemsLib;
+				if(pn!="") dlg.PictName = pn;
 				dlg.SetItemsLib(il);
 				if (dlg.ShowDialog() == DialogResult.OK)
 				{
-					ret = null;
+					ret = dlg.PictName;
 				}
 			}
 			return ret;

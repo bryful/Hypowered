@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Drawing;
+using System.Drawing.Imaging;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -10,8 +12,17 @@ namespace Hypowered
 	public class HIconButton :HControl
 	{
 		protected Bitmap? m_Bitmap = null;
-		protected string m_FileName = "";
-
+		protected string m_PictName = "";
+		public string PictName
+		{
+			get { return m_PictName; }
+			set 
+			{ 
+				m_PictName = value;
+				LoadBmp();
+				this.Invalidate();
+			}
+		}
 
 		#region Prop
 		protected int m_IconLeft = 0;
@@ -140,6 +151,21 @@ namespace Hypowered
 			ChkSize();
 		}
 		// *********************************************************
+		public void LoadBmp()
+		{
+			if(m_PictName=="")
+			{
+				m_Bitmap = null;
+				return;
+			}
+			if(HForm==null) { return; }
+			Bitmap? bmp = HForm.GetBitmapFromLib(m_PictName);
+			if(bmp != null) { m_Bitmap = null; return; }
+			m_Bitmap = new Bitmap(m_IconWidth, m_IconHeight,PixelFormat.Format32bppArgb);
+			ItemsLib.ResizaDraw(bmp, m_Bitmap);
+		}
+		// *********************************************************
+		private int TryCount = 0;
 		protected override void OnPaint(PaintEventArgs pe)
 		{
 			using (SolidBrush sb = new SolidBrush(base.BackColor))
@@ -150,7 +176,19 @@ namespace Hypowered
 				sb.Color = Color.Transparent;
 				g.FillRectangle(sb, this.ClientRectangle);
 
-
+				if((m_Bitmap != null)&&(m_PictName!=""))
+				{
+					if (TryCount > 100)
+					{
+						m_PictName = "";
+						TryCount = 0;
+					}
+					else
+					{
+						LoadBmp();
+						TryCount++;
+					}
+				}
 				if(m_Bitmap!=null)
 				{
 					g.DrawImage(m_Bitmap, m_IconLeft, 2);
@@ -206,6 +244,20 @@ namespace Hypowered
 				this.Invalidate();
 			}
 
+		}
+		protected override void OnMouseDoubleClick(MouseEventArgs e)
+		{
+			if (m_IsEdit)
+			{
+				if((this.HForm!=null)&&(this.HForm.MainForm!=null))
+				{
+					this.HForm.MainForm.ShowPictItemDialog(this.HForm.MainForm.ItemsLib);
+				}
+			}
+			else
+			{
+				base.OnMouseDoubleClick(e);
+			}
 		}
 	}
 }

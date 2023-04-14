@@ -12,6 +12,11 @@ namespace Hypowered
 {
 	public partial class PictItemDialog : BaseForm
 	{
+		public string PictName
+		{
+			get { return pictItemList1.TargetPictName; }
+			set { pictItemList1.TargetPictName = value; }
+		}
 		public void SetMainForm(MainForm? mf)
 		{
 			pictItemList1.SetMainForm(mf);

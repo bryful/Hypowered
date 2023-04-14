@@ -21,6 +21,31 @@ namespace Hypowered
 	}
 	public partial class HControl : Control
 	{
+		protected HForm? m_HForm = null;
+		public HForm? HForm 
+		{ 
+			get 
+			{
+				if (m_HForm == null) GetHForm();
+				return m_HForm; 
+			} 
+		}
+		public void GetHForm()
+		{
+			m_HForm = null;
+			object? obj = this.Parent;
+			if (obj == null) return;
+			while ( obj!=null )
+			{ 
+				if (obj is HForm)
+				{
+					m_HForm = (HForm)obj;
+					break;
+				}
+				if(obj is Control) obj= ((Control)obj).Parent;
+				if (obj is Form) break;
+			}
+		}
 		#region Prop
 		protected bool m_IsEdit = false;
 		[Category("_Hypowered")]

@@ -17,26 +17,24 @@ using System.ComponentModel;
 
 namespace Hypowered
 {
-	public enum LibTarget
-	{
-		Def,
-		Dir,
-		Zip,
-	}
+
 	public class ItemsLib
 	{
 		// **********************************************************
 		private System.Media.SoundPlayer soundPlayer = null;
 		// **********************************************************
 		private string m_TargetPath = "";
-		public readonly string LibDefExt = ".lib";
-		private LibTarget m_LibTarget =  LibTarget.Def;
+		//private LibTarget m_LibTarget =  LibTarget.Def;
 		private bool m_IsZip = false;
 		private bool m_Enabled = false;
 		public bool Enabled { get { return m_Enabled; } }
 		public bool IsZip { get { return m_IsZip; } }
 		public string TargetPath { get { return m_TargetPath; } }
 		private string[] m_ItemNames = new string[0];
+		public int ItemNamesCount
+		{
+			get { return m_ItemNames.Length; }
+		}
 		public int IndexOf(string? name)
 		{
 			int ret = -1;
@@ -59,73 +57,100 @@ namespace Hypowered
 
 		}
 		// **************************************************************
-		public ItemsLib(string libName, LibTarget lt = LibTarget.Def)
+		public ItemsLib(string libName)
 		{
-			Setup(libName, lt);
+			Setup(libName);
 		}
-		public bool Setup(string libName, LibTarget lt = LibTarget.Def)
+		public bool Setup(string libName)
 		{
 			m_TargetPath = "";
 			m_ItemNames = new string[0];
 			m_Enabled = false;
-			if (lt == LibTarget.Zip)
+			FileInfo fi = new FileInfo(libName);
+
+			if (fi.Exists == true)
 			{
-				if (SetupZip(libName) == false)
-				{
-					return false;
-				}
-				m_LibTarget = LibTarget.Zip;
+				m_TargetPath = fi.FullName;
+				m_IsZip = true;
 			}
-			else if (lt == LibTarget.Dir)
+			else 
 			{
-				if (SetupDir(libName) == false)
+				DirectoryInfo dir = new DirectoryInfo(libName);
+				if(dir.Exists == true)
 				{
-					return false;
-				}
-				m_LibTarget = LibTarget.Dir;
-			}
-			else
-			{
-				if (SetupZip(libName) == true)
-				{
-					m_LibTarget = LibTarget.Zip;
+					m_TargetPath = dir.FullName;
+					m_IsZip = false;
 				}
 				else
 				{
-					if (SetupDir(libName) == true)
-					{
-						m_LibTarget = LibTarget.Dir;
-					}
-					else
-					{
-						return false;
-					}
+					return false;
 				}
+
 			}
 			m_ItemNames = GetItemNames();
 			m_Enabled = true;
 			return true;
 		}
 		// **************************************************************
-		public bool Aarchive(string defExt = ".lib")
+		public bool Aarchive()
 		{
 			bool ret = false; 
 			if((IsZip==true)||(m_TargetPath=="")||(m_Enabled==false)) return ret;
 
-			string zipFile = m_TargetPath + defExt;
-
+			string zipFile = m_TargetPath+"tmp";
+			if(File.Exists(zipFile)) File.Delete(zipFile);
 			ret = HZip.CreateFromDirectory(m_TargetPath, zipFile);
 			if(ret == true )
 			{
+				string nd = $"{m_TargetPath}_{DateTime.Now.ToBinary():X}";
+				Directory.Move(m_TargetPath, nd);
+				File.Move(zipFile, m_TargetPath);
 				string mm = m_TargetPath;
-				ret = Setup(zipFile, LibTarget.Zip);
+				ret = Setup(m_TargetPath);
 				if (ret==false)
 				{
-					ret  = Setup(mm, LibTarget.Dir);
+					//失敗したら元に戻す
+					if(File.Exists(m_TargetPath)) File.Delete(m_TargetPath);
+					Directory.Move(nd,mm);
+					Setup(mm);
 				}
 			}
 			return ret;
 		}
+		// **************************************************************
+		static public void ResizaDraw(Bitmap? src,Bitmap? dst)
+		{
+			if((src == null)||(dst==null)) return;
+			Graphics g = Graphics.FromImage(dst);
+			using(SolidBrush sb = new SolidBrush(Color.Transparent))
+			{
+				g.FillRectangle(sb,new Rectangle(0,0,dst.Width,dst.Height));
+			}
+			if ((dst.Width>=src.Width)&&(dst.Height>=src.Height))
+			{
+				int x = (dst.Width - src.Width) / 2;
+				int y = (dst.Height - src.Height) / 2;
+				g.DrawImage(src, x, y);
+			}
+			else
+			{
+				double d = (double)dst.Width / (double)src.Width;
+				int w = dst.Width;
+				int h = (int)((double)src.Height * d);
+				if(h>dst.Height)
+				{
+					d = (double)dst.Height / (double)src.Height;
+					w = (int)((double)dst.Width * d);
+					h = dst.Height;
+				}
+				int x = (dst.Width-w)/2;
+				int y = (dst.Height - h) / 2;
+				g.DrawImage(src,new Rectangle(x,y,w,h));
+			}
+
+		}
+		// **************************************************************
+
 		public Bitmap? GetBitmap(string name)
 		{
 			Bitmap? ret = null;
@@ -285,64 +310,14 @@ namespace Hypowered
 			}
 		}
 		// **************************************************************
-		private bool SetupDir(string path)
-		{
-			m_TargetPath = "";
-			m_Enabled = false;
-			string? p = Path.GetDirectoryName(path);
-			string? n = Path.GetFileNameWithoutExtension(path);
-			if(n==null) return	false;
-			string? e = Path.GetExtension(path);
-			string target = n;
-			if (p == null)
-			{
-				p = Directory.GetCurrentDirectory();
-			}
-			target = Path.Combine(p, target);
-			if(Directory.Exists(target) ==false)
-			{
-				try
-				{
-					Directory.CreateDirectory(target);
-				}
-				catch
-				{
-					return false;
-				}
-			}
-			m_TargetPath = target;
-			m_IsZip = false;
-			return true;
-		}
-		private bool SetupZip(string path)
-		{
-			m_TargetPath = "";
-			m_Enabled = false;
-			string? p = Path.GetDirectoryName(path);
-			if (p == null) p = Directory.GetCurrentDirectory();
-			string? n = Path.GetFileNameWithoutExtension(path);
-			if(n==null) return false;
-			string? e = Path.GetExtension(path);
-			if (e == "") e = LibDefExt;
-			string target = n;
-			target = Path.Combine(p, target+e);
-			if (File.Exists(target) == false)
-			{
-				return false;
-			}
-			m_TargetPath = target;
-			m_IsZip = true;
-			return true;
-		}
 		// **************************************************************
-		public string[] GetItemNames(string entry="")
+		public string[] GetItemNames()
 		{
 			List<string> ret = new List<string>();
 			if((m_TargetPath == "")||(m_Enabled==false)) return ret.ToArray();
 			string p = m_TargetPath;
 			if(m_IsZip == false)
 			{
-				if (entry!="") p = Path.Combine(p, entry);
 				IEnumerable<string> files =Directory.EnumerateFiles(
 					p, "*", SearchOption.AllDirectories);
 				int idx = m_TargetPath.Length+1;
@@ -351,17 +326,15 @@ namespace Hypowered
 					string f2 = f.Substring(idx).Replace("\\","/");
 					ret.Add(f2);
 				}
-				
 			}
 			else
 			{
-				string[] sa = HZip.EntryList(m_TargetPath, entry);
+				string[] sa = HZip.EntryList(m_TargetPath);
 				foreach (string s in sa)
 				{
 					if (s[s.Length-1] != '/') 
 					{
 						string sss = s;
-						if (entry != "") sss = entry + "/" + sss;
 						ret.Add(sss);
 					}
 				}
@@ -369,10 +342,10 @@ namespace Hypowered
 
 			return ret.ToArray();
 		}
-		public string GetItemNamesS(string entry = "")
+		public string GetItemNamesS()
 		{
 			string ret = "";
-			string[] a = GetItemNames(entry);
+			string[] a = GetItemNames();
 			if(a.Length <= 0) return ret;
 			foreach(string s in a)
 			{
@@ -381,9 +354,9 @@ namespace Hypowered
 			return ret;
 		}
 		// **********************************************************
-		public string[] GetItemNamesAtPict(string entry = "")
+		public string[] GetItemNamesAtPict()
 		{
-			string[] ret = GetItemNames(entry);
+			string[] ret = GetItemNames();
 			if(ret.Length > 0)
 			{
 				List<string> list = new List<string>();
@@ -395,9 +368,11 @@ namespace Hypowered
 						|| (e == ".png")
 						|| (e == ".gif")
 						|| (e == ".svg")
+						|| (e == ".ico")
 						|| (e == ".tif")
 						|| (e == ".png")
 						|| (e == ".exif")
+						|| (e == ".psd")
 						|| (e == ".bmp"))
 					{
 						list.Add(s);

@@ -24,6 +24,25 @@ namespace Hypowered
 		}
 		#endregion
 		#region Props
+		// ******************
+		private string m_FileName = string.Empty;
+
+		public ItemsLib ItemsLib { get; set; } = new ItemsLib();
+
+		public Bitmap? GetBitmapFromLib(string nm)
+		{
+			Bitmap? ret = null;
+			if((ItemsLib.Enabled)&&(ItemsLib.ItemNamesCount>0))
+			{
+				ret = ItemsLib.GetBitmap(nm);
+			}
+			if((ret== null)&&(MainForm!=null))
+			{
+				ret = MainForm.ItemsLib.GetBitmap(nm);
+			}
+			return ret;
+		}
+		// ******************
 		private MainForm? m_MainForm = null;
 		[Category("Hypowered"), Browsable(false)]
 		public MainForm? MainForm
@@ -131,6 +150,7 @@ namespace Hypowered
 			this.UpdateStyles();
 
 			InitMenuStrip();
+			PUtil.ToJsonCodeToClipboard(typeof(HForm));
 		}
 		// ************************************************************
 		private void InitMenuStrip()
@@ -173,7 +193,7 @@ namespace Hypowered
 			{
 				if (m_MainForm != null)
 				{
-					ItemName? itmn = m_MainForm.ShowPictItemDialog(null);
+					string name = m_MainForm.ShowPictItemDialog(null);
 				}
 			};
 

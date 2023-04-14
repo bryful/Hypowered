@@ -49,9 +49,9 @@ namespace Hypowered
 		{
 			get { return m_ItemsLib; }
 		}
-		public void SetItemsLib(ItemsLib? itemsLib)
+		public void SetItemsLib(ItemsLib? m)
 		{
-			m_ItemsLib = itemsLib;
+			m_ItemsLib = m;
 			if (m_ItemsLib != null)
 			{
 				GetBitmaps(m_ItemsLib);
@@ -96,6 +96,40 @@ namespace Hypowered
 				return null;
 			}
 		}
+
+		// ***************************************************************
+		public string TargetPictName
+		{
+			get 
+			{
+				string ret = "";
+				if((m_Index>=0)&&(m_Index<m_PictIems.Count))
+				{
+					ret = m_PictIems[m_Index].Name;
+				}
+				return ret;
+			}
+			set
+			{
+				m_Index = IndexOf(value);
+				this.Invalidate();
+			}
+		}
+		// ***************************************************************
+		public int IndexOf(string n)
+		{
+			int ret = -1;
+			for(int i=0;i<m_PictIems.Count;i++)
+			{
+				if (n.Equals(m_PictIems[i].Name,StringComparison.OrdinalIgnoreCase)==true)
+				{
+					ret = i; 
+					break;
+				}
+			}
+			return ret;
+		}
+		// ***************************************************************
 		private int m_Index = -1;
 		private int m_PageIndex = 0;
 		private int m_PageMax = 0;
@@ -140,48 +174,21 @@ namespace Hypowered
 			string[] itns = il.GetItemNamesAtPict();
 			if (itns.Length > 0)
 			{
-				using (SolidBrush sb = new SolidBrush(Color.Transparent))
+				foreach (string itn in itns)
 				{
-					foreach (string itn in itns)
+					Bitmap? bmp = il.GetBitmap(itn);
+					if (bmp != null)
 					{
-						Bitmap? bmp = il.GetBitmap(itn);
-						if (bmp != null)
-						{
-							PictItem pictItem = new PictItem();
-							pictItem.OrgSize = bmp.Size;
-							pictItem.Name = itn;
-							pictItem.Bitmap = new Bitmap(
-								ThumWidth,
-								ThumHeight,
-								PixelFormat.Format32bppArgb);
-							Graphics g = Graphics.FromImage(pictItem.Bitmap);
-							g.FillRectangle(sb,new Rectangle(0,0,ThumWidth,ThumHeight));
-							if ((bmp.Width < ThumWidth) && (bmp.Height < ThumHeight))
-							{
-								g.DrawImage(bmp,
-									(ThumWidth - bmp.Width) / 2,
-									(ThumHeight - bmp.Height) / 2
-									);
-							}
-							else
-							{
-								double d = (double)ThumWidth / (double)bmp.Width;
-								int w = (int)((double)bmp.Width * d);
-								int h = (int)((double)bmp.Height * d);
-								if (h > ThumHeight)
-								{
-									d = (double)ThumHeight / (double)bmp.Height;
-									w = (int)((double)bmp.Width * d);
-									h = (int)((double)bmp.Height * d);
-								}
-								Rectangle rr = new Rectangle
-									((ThumWidth - w) / 2,
-									(ThumHeight - h) / 2,
-									w, h);
-								g.DrawImage(bmp, rr);
-							}
-							m_PictIems.Add(pictItem);
-						}
+						PictItem pictItem = new PictItem();
+						pictItem.OrgSize = bmp.Size;
+						pictItem.Name = itn;
+						pictItem.Bitmap = new Bitmap(
+							ThumWidth,
+							ThumHeight,
+							PixelFormat.Format32bppArgb);
+
+						ItemsLib.ResizaDraw(bmp, pictItem.Bitmap);
+						m_PictIems.Add(pictItem);
 					}
 				}
 			}
