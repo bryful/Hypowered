@@ -3,11 +3,11 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.4.33205.214
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Hypowered1", "Hypowered\Hypowered1.csproj", "{E1303610-C228-4C04-BAFD-DAD421E234B5}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Hypowered1", "Hypowered1\Hypowered1.csproj", "{E1303610-C228-4C04-BAFD-DAD421E234B5}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Hypowered2", "Hypowered2\Hypowered2.csproj", "{894ECA4A-1125-4D54-878E-37015B60347E}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "HypoweredN", "HypoweredN\HypoweredN.csproj", "{63886B80-8307-43A0-835A-8F6B61330534}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Hypowered", "Hypowered\Hypowered.csproj", "{63886B80-8307-43A0-835A-8F6B61330534}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

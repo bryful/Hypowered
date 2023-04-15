@@ -1,0 +1,43 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>WinExe</OutputType>
+    <TargetFramework>net6.0-windows</TargetFramework>
+    <Nullable>enable</Nullable>
+    <UseWindowsForms>true</UseWindowsForms>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Title>Hypowered</Title>
+    <Authors>bry-ful</Authors>
+    <Company>bry-ful</Company>
+    <RootNamespace>Hypowered</RootNamespace>
+    <PackageId>Hypowered</PackageId>
+    <Product>Hypowered</Product>
+    <AssemblyName>Hypowered</AssemblyName>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Magick.NET-Q8-x64" Version="13.0.1" />
+    <PackageReference Include="Magick.NET.Core" Version="13.0.1" />
+    <PackageReference Include="Magick.NET.SystemDrawing" Version="7.0.1" />
+    <PackageReference Include="Magick.NET.SystemWindowsMedia" Version="7.0.1" />
+    <PackageReference Include="Svg" Version="3.4.4" />
+    <PackageReference Include="WindowsAPICodePack" Version="7.0.4" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Update="Properties\Resources.Designer.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Update="Properties\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+  </ItemGroup>
+
+</Project>
