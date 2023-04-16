@@ -19,32 +19,91 @@ namespace Hypowered
 		PictureBox,
 		IconButton
 	}
+	public class CHType
+	{
+
+		private string [] m_Names = new string[0];
+		public string[] Names { get { return m_Names; } }
+		public HType Value { get; set; } = HType.None;
+		public string ValueStr
+		{ 
+			get { return GetName(Value); } 
+			set { Value = SetName(value); }
+		}	
+		public string GetName(HType idx)
+		{
+			return m_Names[(int)idx];
+		}
+		public HType SetName(string s)
+		{
+			int ret = -1;
+			for(int i=0; i< m_Names.Length;i++)
+			{
+				if (m_Names[i] == s)
+				{
+					ret = i;
+					break;
+				}
+			}
+			Value = (HType)ret;
+			return Value;
+		}
+		public CHType()
+		{
+			m_Names = Enum.GetNames(typeof(HType));
+		}
+		public CHType(HType v)
+		{
+			m_Names = Enum.GetNames(typeof(HType));
+			Value = v;
+		}
+
+		public string[] NamesNone { get { return m_Names.Skip(1).ToArray(); } }
+		int ValueNone
+		{
+			get { return (int)Value - 1; }
+			set
+			{
+				int v = value + 1;
+				if (v <= 0) v = 0;
+				if(v >= m_Names.Length ) { v = 0; }
+				Value = (HType)v;
+			}
+		}
+	}
 	public partial class HControl : Control
 	{
+		public class IsEditChangedEventArgs : EventArgs
+		{
+			public bool IsEdit;
+			public int Index;
+			public IsEditChangedEventArgs(bool n, int index)
+			{
+				IsEdit = n;
+				Index = index;
+			}
+		}
+		public delegate void IsEditChangeHandler(object sender, IsEditChangedEventArgs e);
+		public event IsEditChangeHandler? IsEditChanged;
+		protected virtual void OnIsEditChanged(IsEditChangedEventArgs e)
+		{
+			if (IsEditChanged != null)
+			{
+				IsEditChanged(this, e);
+			}
+		}
 		protected HForm? m_HForm = null;
+		[Category("Hypowered"),Browsable(false)]
 		public HForm? HForm 
 		{ 
 			get 
 			{
-				if (m_HForm == null) GetHForm();
 				return m_HForm; 
 			} 
 		}
-		public void GetHForm()
+		public void SetHForm(HForm  hf)
 		{
-			m_HForm = null;
-			object? obj = this.Parent;
-			if (obj == null) return;
-			while ( obj!=null )
-			{ 
-				if (obj is HForm)
-				{
-					m_HForm = (HForm)obj;
-					break;
-				}
-				if(obj is Control) obj= ((Control)obj).Parent;
-				if (obj is Form) break;
-			}
+			m_HForm = hf;
 		}
 		#region Prop
 		protected bool m_IsEdit = false;
@@ -54,9 +113,14 @@ namespace Hypowered
 			get { return m_IsEdit; }
 			set { SetIsEdit(value); }
 		}
-		public virtual void SetIsEdit(bool b)
+		public virtual void SetIsEdit(bool b,bool IsEvent=true)
 		{
-			m_IsEdit = b;
+			if(m_IsEdit != b)
+			{
+				m_IsEdit = b;
+				if(IsEvent)
+					OnIsEditChanged(new IsEditChangedEventArgs(m_IsEdit, Index));
+			}
 			this.Invalidate();
 		}
 		protected HType m_HType = HType.None;
@@ -99,13 +163,20 @@ namespace Hypowered
 			get { return m_ForcusColor; }
 			set { m_ForcusColor = value; this.Invalidate(); }
 		}
+		protected Color m_TargetColor = Color.Yellow;
+		[Category("Hypowered_Color"), Browsable(true)]
+		public System.Drawing.Color TargetColor
+		{
+			get { return m_TargetColor; }
+			set { m_TargetColor = value; this.Invalidate(); }
+		}
 		[Category("Hypowered_Color"), Browsable(true)]
 		public new System.Drawing.Color ForeColor
 		{
 			get { return base.ForeColor; }
 			set { base.ForeColor = value; this.Invalidate(); }
 		}
-		protected Color m_IsEditColor = Color.Yellow;
+		protected Color m_IsEditColor = Color.Red;
 		[Category("Hypowered_Color"), Browsable(true)]
 		public System.Drawing.Color IsEditColor
 		{
@@ -127,13 +198,20 @@ namespace Hypowered
 		}
 		protected void ChkGridSize()
 		{
+
 			if(m_GridSize <= 1) return;
-			base.Location = new Point(
+			if (_RefFlag) return;
+			_RefFlag = true;
+
+			Point np = new Point(
 				(base.Location.X/ m_GridSize)* m_GridSize,
 				(base.Location.Y / m_GridSize) * m_GridSize);
-			base.Size = new Size(
+			if (base.Location != np) base.Location = np;
+			Size ns = new Size(
 				(base.Size.Width / m_GridSize) * m_GridSize,
 				(base.Size.Height / m_GridSize) * m_GridSize);
+			if (base.Size != ns) base.Size = ns;
+			_RefFlag = false;
 		}
 		[Category("Hypowered_Size"), Browsable(true)]
 		public new System.Drawing.Point Location
@@ -234,7 +312,6 @@ namespace Hypowered
 				this.Invalidate();
 			}
 		}
-		public Control? Ctrl { get;set; }= null;
 		#endregion
 		// ************************************************************
 		public HControl()
@@ -278,12 +355,7 @@ namespace Hypowered
 				p.Color = ForeColor;
 				DrawFrame(g,p,r,1);
 				// IsEdit
-				bool b = ((Ctrl != null) && (Ctrl.Focused));
-				if((Focused)||(b))
-				{
-					p.Color = m_ForcusColor;
-					DrawFrame(g, p, this.ClientRectangle, 2);
-				}
+				
 				DrawIsEdit(g, p);
 			}
 		}
@@ -296,15 +368,25 @@ namespace Hypowered
 		// ************************************************************
 		protected override void OnMouseDown(MouseEventArgs e)
 		{
-			if(m_IsEdit==true)
+			if ((Control.ModifierKeys & Keys.Shift) == Keys.Shift)
+			{
+				SetIsEdit(!m_IsEdit);
+				this.Invalidate();
+				return;
+			}
+			if (m_IsEdit==true)
 			{
 				if ((e.Button & MouseButtons.Left) == MouseButtons.Left)
 				{
+
+				
 					m_MD = true;
 					m_MDLoc = this.Location;
 					m_MDSize = this.Size;
 					m_MDP = this.PointToScreen(new Point(e.X,e.Y));
 					m_MDResize = ((e.X > this.Width - 10) && (e.Y > this.Height - 10));
+
+
 					return;
 				}
 
@@ -507,6 +589,12 @@ namespace Hypowered
 		}
 		public void DrawIsEdit(Graphics g, Pen p)
 		{
+			if (Focused)
+			{
+				p.Color = m_ForcusColor;
+				DrawFrame(g, p, this.ClientRectangle, 2);
+			}
+			//if(Index == m_Ta)
 			if (m_IsEdit)
 			{
 				Rectangle r = new Rectangle(0, 0, this.Width - 1, this.Height - 1);
@@ -515,8 +603,10 @@ namespace Hypowered
 				g.DrawRectangle(p, r);
 			}
 		}
+		protected bool _RefFlag = false; 
 		protected override void OnResize(EventArgs e)
 		{
+			if (_RefFlag) return;
 			ChkGridSize();
 			base.OnResize(e);
 			this.Invalidate();

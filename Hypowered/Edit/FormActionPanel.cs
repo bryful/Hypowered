@@ -14,9 +14,8 @@ namespace Hypowered
 	{
 		None,
 		New,
-		Load,
-		Save,
-		SaveAs,
+		Opne,
+		Dup,
 		Close
 
 	}
@@ -46,16 +45,15 @@ namespace Hypowered
 			base.BackColor = Color.FromArgb(64, 64, 64);
 			base.ForeColor = Color.FromArgb(230, 230, 230);
 			this.Location = new Point(0, 0);
-			this.Size = new Size(100, 20);
-			this.MinimumSize = new Size(100, 20);
-			this.MaximumSize = new Size(100, 20); 
+			this.Size = new Size(120, 20);
+			this.MinimumSize = new Size(120, 20);
+			this.MaximumSize = new Size(120, 20); 
 			InitializeComponent();
 			Action[0] = Properties.Resources.FAction0;
 			Action[1] = Properties.Resources.FAction1;
 			Action[2] = Properties.Resources.FAction2;
 			Action[3] = Properties.Resources.FAction3;
 			Action[4] = Properties.Resources.FAction4;
-			Action[5] = Properties.Resources.FAction5;
 			BackColor = Color.FromArgb(64, 64, 64);
 			ForeColor = Color.FromArgb(230, 230, 230);
 			this.DoubleBuffered = true;
@@ -71,8 +69,8 @@ namespace Hypowered
 		private int GetPos(MouseEventArgs e)
 		{
 			int ret = -1;
-			int x = e.X / 20;
-			if ((x >= 0) && (x <= 5))
+			int x = e.X / 30;
+			if ((x >= 0) && (x <= 3))
 			{
 				ret = x + 1;
 			}

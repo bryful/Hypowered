@@ -14,6 +14,7 @@ using ImageMagick;
 using System.Runtime.InteropServices;
 using System.Drawing.Imaging;
 using System.ComponentModel;
+using System.Reflection.Metadata.Ecma335;
 
 namespace Hypowered
 {
@@ -29,6 +30,8 @@ namespace Hypowered
 		public bool Enabled { get { return m_Enabled; } }
 		public bool IsZip { get { return m_IsZip; } }
 		public string FileName { get { return m_FileName; } }
+		public string Name { get { return Path.GetFileNameWithoutExtension(m_FileName); } }
+
 		private string[] m_ItemNames = new string[0];
 		public int ItemNamesCount
 		{
@@ -60,6 +63,7 @@ namespace Hypowered
 		{
 			Setup(libName);
 		}
+		// **************************************************************
 		public bool Setup(string libName)
 		{
 			m_FileName = "";
@@ -95,7 +99,7 @@ namespace Hypowered
 		{
 			bool ret = false; 
 			if((IsZip==true)||(m_FileName=="")||(m_Enabled==false)) return ret;
-
+			if(Directory.Exists(m_FileName)==false) return ret;
 			string zipFile = m_FileName+"tmp";
 			if(File.Exists(zipFile)) File.Delete(zipFile);
 			ret = HZip.CreateFromDirectory(m_FileName, zipFile);
@@ -113,6 +117,71 @@ namespace Hypowered
 					Directory.Move(nd,mm);
 					Setup(mm);
 				}
+			}
+			return ret;
+		}
+		// **************************************************************
+		public bool UnAarchive()
+		{
+			bool ret = false;
+			if ((IsZip == false) || (m_FileName == "") || (m_Enabled == false)) return ret;
+			if(File.Exists(m_FileName)==false) return ret;
+
+			string dirFile = m_FileName + $"_{DateTime.Now.ToBinary():X}";
+
+			ret = HZip.ExtractToDirectory(m_FileName, dirFile);
+			if (ret == true)
+			{
+				string nd = $"{m_FileName}_{DateTime.Now.ToBinary():X}";
+				File.Move(m_FileName, nd);
+				Directory.Move(dirFile, m_FileName);
+				string mm = m_FileName;
+				ret = Setup(m_FileName);
+				if (ret == false)
+				{
+					//失敗したら元に戻す
+					if (Directory.Exists(m_FileName)) Directory.Delete(m_FileName);
+					File.Move(dirFile, mm);
+					Setup(mm);
+				}
+			}
+			return ret;
+		}
+		// **************************************************************
+		public bool Rename(string nm)
+		{
+			bool ret = false;
+			if((m_FileName=="")||(Name==nm))return ret;
+			string? p = Path.GetDirectoryName(m_FileName);
+			if(p == null) p="";
+			string n = Path.GetFileNameWithoutExtension(m_FileName);
+			string e = Path.GetExtension(m_FileName);
+			string nm2 = Path.Combine(p, nm + e);
+			if (m_FileName == nm2) return ret;
+			if ((File.Exists(nm2)) || (Directory.Exists(nm2))) return ret;
+
+			if (m_IsZip == false)
+			{
+				try
+				{
+					Directory.Move(m_FileName, nm2);
+				}
+				catch
+				{
+					return ret;
+				}
+				Setup(nm2);
+			}
+			else{
+				try
+				{
+					File.Move(m_FileName, nm2);
+				}
+				catch
+				{
+					return ret;
+				}
+				Setup(nm2);
 			}
 			return ret;
 		}
@@ -149,7 +218,59 @@ namespace Hypowered
 
 		}
 		// **************************************************************
+		public bool SetText(string name,string code)
+		{
+			bool ret = false;
 
+			if (m_IsZip == false)
+			{
+				string p = Path.Combine(m_FileName, name.Replace("/", "\\"));
+				try
+				{
+					if (File.Exists(p) == true) File.Delete(p);
+					File.WriteAllText(p, code);
+					ret = true;
+				}
+				catch
+				{
+					ret = false;
+				}
+			}
+			else
+			{
+				ret = HZip.SetEntryFromStr(m_FileName,name,code);
+			}
+
+			return ret;
+		}
+		// **************************************************************
+		public string? GetText(string name)
+		{
+			string? ret = null;
+
+			if (m_IsZip == false)
+			{
+				string p = Path.Combine(m_FileName, name.Replace("/", "\\"));
+				try
+				{
+					if (File.Exists(p) == true)
+					{
+						ret = File.ReadAllText(p);
+					}
+				}
+				catch
+				{
+					ret = null;
+				}
+			}
+			else
+			{
+				ret = HZip.GetEntryToStr(m_FileName, name);
+			}
+
+			return ret;
+		}
+		// **************************************************************
 		public Bitmap? GetBitmap(string name)
 		{
 			Bitmap? ret = null;
@@ -307,10 +428,6 @@ namespace Hypowered
 				soundPlayer.Dispose();
 				soundPlayer = null;
 			}
-		}
-		// **************************************************************
-		public void CreateZip(string p)
-		{
 		}
 		// **************************************************************
 		public void AddFile(string path, string entry)

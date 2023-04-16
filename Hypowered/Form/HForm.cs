@@ -5,6 +5,7 @@ using System.Data;
 using System.Drawing;
 using System.Linq;
 using System.Text;
+using System.Text.Json.Nodes;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
@@ -12,6 +13,42 @@ namespace Hypowered
 {
 	public partial class HForm : BaseForm
 	{
+		public class NameChangeEventArgs : EventArgs
+		{
+			public String Name;
+			public int Index;
+			public NameChangeEventArgs(string n, int  index)
+			{
+				Name = n;
+				Index = index;
+			}
+		}
+		public delegate void NameChangeHandler(object sender, NameChangeEventArgs e);
+		public event NameChangeHandler? NameChange;
+		protected virtual void OnNameChange(NameChangeEventArgs e)
+		{
+			if (NameChange != null)
+			{
+				NameChange(this, e);
+			}
+		}
+		public class IsEditsChangedEventArgs : EventArgs
+		{
+			public bool [] IsEdits = new bool[0];
+			public IsEditsChangedEventArgs(bool[] n)
+			{
+				IsEdits = n;
+			}
+		}
+		public delegate void IsEditsChangeHandler(object sender, IsEditsChangedEventArgs e);
+		public event IsEditsChangeHandler? IsEditsChanged;
+		protected virtual void OnIsEditsChanged(IsEditsChangedEventArgs e)
+		{
+			if (IsEditsChanged != null)
+			{
+				IsEditsChanged(this, e);
+			}
+		}
 		#region Event
 		public delegate void ControlChangedHandler(object sender, EventArgs e);
 		public event ControlChangedHandler? ControlChanged;
@@ -53,6 +90,48 @@ namespace Hypowered
 		{
 			m_MainForm = mf;
 		}
+		// ******************
+		private HControl? m_TargetControl = null;
+		private int TargetIndex = -1;
+
+		[Category("Hypowered"),Browsable(false)]
+		public bool[] IsEditArray
+		{
+			get
+			{
+				bool[] ret = new bool[this.Controls.Count];
+				ret[0] = false;
+				for(int i=1; i<this.Controls.Count; i++)
+				{
+					if(this.Controls[i] is HControl)
+					{
+						HControl hc = (HControl)this.Controls[i];
+						ret[i] = hc.IsEdit;
+					}
+					else
+					{
+						ret[i] = false;
+					}
+				}
+				return ret;
+			}
+			set
+			{
+				if ((value.Length == this.Controls.Count) && (value.Length > 1))
+				{
+					for (int i = 1; i < this.Controls.Count; i++)
+					{
+						if (this.Controls[i] is HControl)
+						{
+							HControl hc = (HControl)this.Controls[i];
+							hc.SetIsEdit(value[i]);
+						}
+					}
+				}
+			}
+		}
+
+		// ******************
 		[Category("Hypowered")]
 		public int Index { get; set; } = -1;
 
@@ -95,7 +174,28 @@ namespace Hypowered
 			get { return base.DoubleBuffered; }
 			set { base.DoubleBuffered = value; }
 		}
-
+		public new string Name
+		{
+			get { return base.Name; }
+			set
+			{
+				if(base.Name != value)
+				{
+					string on = base.Name;
+					if (ItemsLib.Rename(value))
+					{
+						base.Name = value;
+						OnNameChange(new NameChangeEventArgs(value,this.Index));
+					}
+				}
+			}
+		}
+		protected Color m_TargetColor = Color.Yellow;
+		public Color TargetColor
+		{
+			get { return m_TargetColor; }
+			set { m_TargetColor = value; this.Invalidate(); }
+		}
 		#endregion
 		public void ClearIsEdits()
 		{
@@ -137,6 +237,7 @@ namespace Hypowered
 		public HForm() : base()
 		{
 			InitializeComponent();
+			this.StartPosition = FormStartPosition.Manual;
 			base.BackColor = Color.FromArgb(64, 64, 64);
 			base.ForeColor = Color.FromArgb(230, 230, 230);
 			this.DoubleBuffered = true;
@@ -154,7 +255,7 @@ namespace Hypowered
 			StartSettings();
 		}
 		// **********************************************************
-		private void StartSettings()
+		public void StartSettings()
 		{
 			if(ItemsLib.FileName!="")
 			{
@@ -168,9 +269,10 @@ namespace Hypowered
 		{
 			if (ItemsLib.FileName != "")
 			{
-				PrefFile pf = new PrefFile(this, Application.ExecutablePath);
+				PrefFile pf = new PrefFile(this, ItemsLib.FileName);
 				pf.SetLocation();
 				pf.Save();
+				ExportToHypf();
 			}
 		}
 		// ************************************************************
@@ -237,6 +339,26 @@ namespace Hypowered
 			MainMenu.Location = new Point(0, m_BarHeight);
 			MainMenu.Size = new Size(this.Width, MainMenu.Height);
 		}
+		protected override void OnMouseDown(MouseEventArgs e)
+		{
+			if ((Control.ModifierKeys & Keys.Shift) == Keys.Shift)
+			{
+				if(this.Controls.Count > 1) 
+				{
+					foreach(Control c in this.Controls)
+					{
+						if(c is HControl)
+						{
+							((HControl)c).SetIsEdit(false, false);
+						}
+					}
+					OnIsEditsChanged(new IsEditsChangedEventArgs(IsEditArray));
+					this.Invalidate();
+				}
+			}
+			this.Focus();
+			base.OnMouseDown(e);
+		}
 		// ************************************************************
 		public int IndexOfControl(string key)
 		{
@@ -258,61 +380,60 @@ namespace Hypowered
 		}
 		private Point pDef = new Point(100, 100);
 		// ************************************************************
-		public void AddControl(HType ht, string nm, string tx)
+		public HControl CreateControl(HType ht)
 		{
 			HControl hc;
 			switch (ht)
 			{
-				case HType.Button:
-					hc = new HButton();
-					hc.Location = pDef;
-					hc.Size = new Size(75, 25);
-					hc.Name = nm;
-					if (tx == "") tx = nm;
-					hc.Text = tx;
-					break;
+
 				case HType.Label:
 					hc = new HLabel();
 					hc.Location = pDef;
 					hc.Size = new Size(75, 25);
-					hc.Name = nm;
-					if (tx == "") tx = nm;
-					hc.Text = tx;
 					break;
 				case HType.TextBox:
 					hc = new HTextBox();
 					hc.Location = pDef;
 					hc.Size = new Size(75, 25);
-					hc.Name = nm;
-					if (tx == "") tx = nm;
-					hc.Text = tx;
 					break;
 				case HType.PictureBox:
 					hc = new HPictureBox();
 					hc.Location = pDef;
 					hc.Size = new Size(200, 200);
-					hc.Name = nm;
-					if (tx == "") tx = nm;
-					hc.Text = tx;
 					break;
 				case HType.IconButton:
 					hc = new HIconButton();
 					hc.Location = pDef;
-					hc.Name = nm;
-					if (tx == "") tx = nm;
-					hc.Text = tx;
 					break;
+				case HType.Button:
 				default:
-					return;
+					hc = new HButton();
+					hc.Location = pDef;
+					hc.Size = new Size(75, 25);
+					break;
 			}
-			this.Controls.Add(hc);
-			this.Controls.SetChildIndex(hc, 1);
+			hc.SetHForm(this);
+
+
+			hc.IsEditChanged += (sender, e) => { OnIsEditsChanged(new IsEditsChangedEventArgs(IsEditArray)); };
+			return hc;
+		}
+		public void AddControl(HType ht, string nm, string tx)
+		{
+			HControl hControl = CreateControl(ht);
+			hControl.Name = nm;
+			if (tx != "") tx = nm;
+			hControl.Text = tx;
+			this.Controls.Add(hControl);
+			this.Controls.SetChildIndex(hControl, 1);
 			ChkControl();
-			OnControlChanged(new EventArgs());
 			pDef.X += 10;
 			if (pDef.X > 250) pDef.X = 100;
 			pDef.Y += 10;
 			if (pDef.Y > 250) pDef.Y = 100;
+
+			OnControlChanged(new EventArgs());
+			ExportToHypf();
 		}
 		private HType m_HTypeDef = HType.Button;
 		public void AddControl()
@@ -492,6 +613,60 @@ namespace Hypowered
 					}
 				}
 			}
+		}
+		// ********************************************************************
+		protected override void OnPaint(PaintEventArgs e)
+		{
+			base.OnPaint(e);
+			if ((this.Controls.Count > 1)&&(m_TargetControl != null))
+			{
+				{
+					using (Pen p = new Pen(m_TargetColor))
+					{
+						p.Width = 3;
+						Rectangle r = new Rectangle(
+							m_TargetControl.Left - 2,
+							m_TargetControl.Top - 2,
+							m_TargetControl.Width + 4,
+							m_TargetControl.Height + 4
+							);
+						e.Graphics.DrawRectangle(p, r );
+					}
+				}
+			}
+		}
+		// ********************************************************************
+		public bool ExportToHypf()
+		{
+			if(ItemsLib.FileName=="")
+			{
+				if(MainForm!=null) MainForm.NewForm();
+				if (ItemsLib.FileName == "") return false;
+			}
+			string js = ToJsonCode();
+			return ItemsLib.SetText(MainForm.HYPF_JSON, js);
+		}
+		// ********************************************************************
+		public bool ImportFromHypf()
+		{
+			bool ret = false;
+			if (ItemsLib.FileName == "")
+			{
+				return ret;
+			}
+			string? js = ItemsLib.GetText(MainForm.HYPF_JSON);
+			if((js==null)||(js=="")) return ret;
+			var doc = JsonNode.Parse(js);
+			if (doc != null)
+			{
+				JsonObject? jo = (JsonObject?)doc;
+				if (jo != null)
+				{
+					FromJson(jo);
+					ret = true;
+				}
+			}
+			return ret;
 		}
 	}
 }

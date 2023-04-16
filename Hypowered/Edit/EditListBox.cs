@@ -612,6 +612,20 @@ namespace Hypowered
 		{
 
 		}
+		public void SetSelectArray(bool[] bb)
+		{
+			if (this.Items.Count > 1) {
+				if (this.Items.Count == bb.Length)
+				{
+					_EvenFlag = true;
+					for (int i = 1; i < this.Items.Count; i++)
+					{
+						this.SetSelected(i, bb[i]);
+					}
+					_EvenFlag = false;
+				}
+			}
+		}
 		public void PushSelection()
 		{
 			SelectBak = SelectedIndexArray;

@@ -5,33 +5,23 @@ using System.Data;
 using System.Drawing;
 using System.Linq;
 using System.Text;
+using System.Text.Json.Nodes;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-
+using ImageMagick;
 
 namespace Hypowered
 {
 	public class HTextBox : HControl
 	{
-		public EditTextBox EditTextBox { get; set; }= new EditTextBox();
-		public override void SetIsEdit(bool b)
+		private EditTextBox Edit { get; set; }= new EditTextBox();
+		public override void SetIsEdit(bool b, bool IsEven = true)
 		{
-			m_IsEdit = b;
-			if(Ctrl!=null)
+			if(m_IsEdit)
 			{
-				Ctrl.Visible = !b;
+				EndEdit();
 			}
-			this.Invalidate();
-		}
-		[Category("Hypowered_Text"), Browsable(true)]
-		public new System.String Text
-		{
-			get {return EditTextBox.Text;}
-			set 
-			{
-				base.Text = value;
-				EditTextBox.Text = value;
-			}
+			base.SetIsEdit(b, IsEven);
 		}
 		[Category("Hypowered_Size"), Browsable(true)]
 		public new System.Drawing.Size Size
@@ -61,7 +51,7 @@ namespace Hypowered
 			set 
 			{
 				base.Font = value;
-				EditTextBox.Font = value;
+				Edit.Font = value;
 				ChkGridSize();
 				ChkSize();
 			}
@@ -73,7 +63,7 @@ namespace Hypowered
 			set 
 			{
 				base.BackColor = value; 
-				EditTextBox.BackColor = value;
+				Edit.BackColor = value;
 				this.Invalidate(); 
 			}
 		}
@@ -84,69 +74,48 @@ namespace Hypowered
 			set
 			{
 				base.ForeColor = value;
-				EditTextBox.ForeColor = value;
+				Edit.ForeColor = value;
 				this.Invalidate();
-			}
-		}
-		[Category("Hypowered_Text"), Browsable(true)]
-		public new StringAlignment TextAlign
-		{
-			get { return StringFormat.Alignment; }
-			set
-			{
-				StringFormat.Alignment = value;
-				if(Ctrl!=null)
-				{
-					switch(value)
-					{
-						case StringAlignment.Near:
-							EditTextBox.TextAlign = HorizontalAlignment.Left;
-							break;
-						case StringAlignment.Center:
-							EditTextBox.TextAlign = HorizontalAlignment.Center;
-							break;
-						case StringAlignment.Far:
-							EditTextBox.TextAlign = HorizontalAlignment.Right;
-							break;
-					}
-				}
-				this.Invalidate();
-			}
-		}
-		[Category("Hypowered_Text"), Browsable(true)]
-		public bool Multiline
-		{
-			get { return EditTextBox.Multiline; }
-			set
-			{
-				EditTextBox.Multiline = value;
-				ChkGridSize();
-				ChkSize();
 			}
 		}
 		public HTextBox()
 		{
 			m_HType = HType.TextBox;
-			Ctrl = EditTextBox;
-			EditTextBox.BackColor = base.BackColor;
-			EditTextBox.ForeColor = base.ForeColor;
-			EditTextBox.BorderStyle = BorderStyle.FixedSingle;
-			EditTextBox.Name = "EditTextBox";
-			EditTextBox.Location = new Point(2, 2);
-			EditTextBox.Size = new Size(base.Width-4, base.Height-4);
+			Edit.Visible = false;
+			Edit.BackColor = base.BackColor;
+			Edit.ForeColor = base.ForeColor;
+			Edit.BorderStyle = BorderStyle.FixedSingle;
+			Edit.Name = "EditTextBox";
+			ChkSize();
 			TextAlign = StringAlignment.Near;
-			EditTextBox.GotFocus += (sender, e) => { this.Invalidate(); };
-			EditTextBox.LostFocus += (sender, e) => { this.Invalidate(); };
-			this.Controls.Add(EditTextBox);
+			Edit.LostFocus += (sender, e) => { EndEdit(); };
+			Edit.PreviewKeyDown += (sender, e) =>
+			{
+				if (e.KeyData == Keys.Enter) { EndEdit(true); }
+				else if (e.KeyData == Keys.Escape) { EndEdit(false); }
+			};
+			this.Controls.Add(Edit);
 		}
 		public void ChkSize()
 		{
-			EditTextBox.Location = new Point(2, 2);
-			EditTextBox.Size = new Size(base.Width - 4, base.Height - 4);
-			if (EditTextBox.Height != base.Height-4)
+			bool b = _RefFlag;
+			_RefFlag = true;
+			Point np = new Point(
+				(base.Location.X / m_GridSize) * m_GridSize,
+				(base.Location.Y / m_GridSize) * m_GridSize);
+			if (base.Location != np) base.Location = np;
+			Size ns = new Size(
+				(base.Size.Width / m_GridSize) * m_GridSize,
+				(base.Size.Height / m_GridSize) * m_GridSize);
+			if (base.Size != ns) base.Size = ns;
+
+			Edit.Location = new Point(2, 2);
+			Edit.Size = new Size(base.Width - 4, base.Height - 4);
+			if (Edit.Height != base.Height-4)
 			{
-				base.Height = EditTextBox.Height + 4;
+				base.Height = Edit.Height + 4;
 			}
+			_RefFlag = b;
 		}
 		protected override void OnPaint(PaintEventArgs pe)
 		{
@@ -158,32 +127,89 @@ namespace Hypowered
 				sb.Color = Color.Transparent;
 				g.FillRectangle(sb, this.ClientRectangle);
 				// IsEdit
-				if(m_IsEdit)
-				{
-					Rectangle r = RectInc(this.ClientRectangle, 2);
-					sb.Color = BackColor;
-					g.FillRectangle(sb, r);
-					sb.Color = ForeColor;
-					g.DrawString(EditTextBox.Text, EditTextBox.Font, sb, r,StringFormat);
-				}
+				Rectangle r = RectInc(this.ClientRectangle, 2);
+				sb.Color = BackColor;
+				g.FillRectangle(sb, r);
+				sb.Color = ForeColor;
+				g.DrawString(base.Text, base.Font, sb, r,StringFormat);
 
-				if ((Focused) || (EditTextBox.Focused))
-				{
-					p.Color = m_ForcusColor;
-					DrawFrame(g, p, this.ClientRectangle, 2);
-				}
+				p.Color = ForeColor;
+				DrawFrame(g,p, r, 1);
+
 				DrawIsEdit(g, p);
 			}
 		}
 		protected override void OnResize(EventArgs e)
 		{
+			if (_RefFlag) return;
 			ChkSize();
 			base.OnResize(e);
+		}
+		private void SetEdit()
+		{
+			if (m_IsEdit) return;
+			Edit.Text = base.Text;
+			Edit.Visible = true;
+			Edit.Focus();
+		}
+		private void EndEdit(bool rev=true)
+		{
+			if (m_IsEdit) return;
+			if (rev==true)
+			{
+				base.Text = Edit.Text;
+			}
+			Edit.Visible = false;
+			this.Focus();
+		}
+		protected override void OnMouseDown(MouseEventArgs e)
+		{
+			if ((Control.ModifierKeys & Keys.Shift) == Keys.Shift)
+			{
+				SetIsEdit(!m_IsEdit);
+				this.Invalidate();
+				return;
+			}
+			if ((e.Button & MouseButtons.Left)== MouseButtons.Left)
+			{
+				if(m_IsEdit==false)
+				{
+					SetEdit();
+					return;
+				}
+			}
+			base.OnMouseDown(e);
+		}
+		protected override void OnPreviewKeyDown(PreviewKeyDownEventArgs e)
+		{
+			if((IsEdit==false)&&(e.KeyData== Keys.Enter))
+			{
+				SetEdit();
+				return;
+			}
+			base.OnPreviewKeyDown(e);
 		}
 		protected override void OnGotFocus(EventArgs e)
 		{
 			base.OnGotFocus(e);
-			EditTextBox.Focus();
+			this.Invalidate();
+		}
+		protected override void OnLostFocus(EventArgs e)
+		{
+			base.OnLostFocus(e);
+			this.Invalidate();
+		}
+		public override JsonObject? ToJson()
+		{
+			JsonFile? jf = new JsonFile(base.ToJson());
+
+			return jf.Obj;
+		}
+		public override void FromJson(JsonObject jo)
+		{
+			base.FromJson(jo);
+			JsonFile jf = new JsonFile(jo);
+			object? v = null;
 		}
 	}
 }

@@ -6,6 +6,7 @@ using System.Drawing;
 using System.Drawing.Imaging;
 using System.Linq;
 using System.Text;
+using System.Text.Json.Nodes;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.IO;
@@ -114,11 +115,6 @@ namespace Hypowered
 				Rectangle rr = RectInc(this.ClientRectangle, 2);
 				DrawFrame(g, p, rr, 1);
 
-				if (Focused) 
-				{
-					p.Color = m_ForcusColor;
-					DrawFrame(g, p, this.ClientRectangle, 2);
-				}
 				DrawIsEdit(g, p);
 			}
 		}
@@ -127,6 +123,7 @@ namespace Hypowered
 		// *****************************************************************************
 		protected override void OnResize(EventArgs e)
 		{
+			if (_RefFlag) return;
 			ChkGridSize();
 			InitOffScr();
 			this.Invalidate();
@@ -170,5 +167,27 @@ namespace Hypowered
 		}
 
 		// *****************************************************************************
+		// ***************************************************************
+		public override JsonObject? ToJson()
+		{
+			JsonFile? jf = new JsonFile(base.ToJson());
+			if(m_PictName !="")
+				jf.SetValue(nameof(PictName), (String)PictName);//System.String
+			if (m_FileName != "")
+				jf.SetValue(nameof(FileName), (String)FileName);//System.String
+
+			return jf.Obj;
+		}
+		public override void FromJson(JsonObject jo)
+		{
+			base.FromJson(jo);
+			JsonFile jf = new JsonFile(jo);
+			object? v = null;
+			v = jf.ValueAuto("PictName", typeof(String).Name);
+			if (v != null) m_PictName = (String)v;
+			v = jf.ValueAuto("FileName", typeof(String).Name);
+			if (v != null) m_FileName = (String)v;
+
+		}
 	}
 }

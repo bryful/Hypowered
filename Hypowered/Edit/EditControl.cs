@@ -34,6 +34,10 @@ namespace Hypowered
 			{
 				m_TargetForm.ControlChanged -= (sender, e) => { MakeCtrlListBox(); };
 				m_TargetForm.ControlChanged += (sender, e) => { MakeCtrlListBox(); };
+				m_TargetForm.NameChange -= (sender, e) => { FormNameChanged(e); };
+				m_TargetForm.NameChange += (sender, e) => { FormNameChanged(e); };
+				m_TargetForm.IsEditsChanged -= (sender, e) => { CtrlListBox.SetSelectArray(e.IsEdits); };
+				m_TargetForm.IsEditsChanged += (sender, e) => { CtrlListBox.SetSelectArray(e.IsEdits); };
 			}
 			MakeCtrlListBox();
 
@@ -49,6 +53,21 @@ namespace Hypowered
 			else
 			{
 				m_Controls = null;
+			}
+		}
+		public void FormNameChanged(HForm.NameChangeEventArgs e)
+		{
+			if (CtrlListBox.Items.Count <=0) return;
+			if((e.Index>=0)&&(e.Index<CtrlListBox.Items.Count))
+			{
+				CtrlListBox.Items[e.Index] = e.Name;
+				if (m_Controls != null)
+				{
+					if (m_Controls[e.Index].Name != e.Name)
+					{
+						m_Controls[e.Index].Name = e.Name;
+					}
+				}
 			}
 		}
 		public PropertyGrid? PropertyGrid { get; set; } = null;

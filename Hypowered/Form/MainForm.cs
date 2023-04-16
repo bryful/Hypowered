@@ -1,4 +1,6 @@
 using System.ComponentModel;
+using System.Diagnostics;
+
 namespace Hypowered
 {
 	public partial class MainForm : BaseForm
@@ -6,6 +8,7 @@ namespace Hypowered
 		static public readonly string HOME_ENV = "HypoweredHome";
 		static public readonly string HOME_NAME = "Home";
 		static public readonly string DefEXT = ".hypf";
+		static public readonly string HYPF_JSON = "hypf.json";
 		// ********************************************************************
 		private string m_HomeFolder = string.Empty;
 		public string HomeFolder { get { return m_HomeFolder; } }
@@ -164,34 +167,97 @@ namespace Hypowered
 			}
 		}
 		// ********************************************************************
-		private int m_AddFromCount = 0;
-		public void NewFrom()
+		public void OpenForm()
 		{
-			using (CreateFormDialog dlg = new CreateFormDialog())
+			using (OpenFileDialog dlg = new OpenFileDialog())
 			{
-				dlg.FullFormName = $"{m_HomeFolder}\\Form{m_AddFromCount}{DefEXT}";
+				dlg.Title = "Open Form";
+				dlg.Filter = "*.hypf|*.hypf|*.*|*.*";
+				dlg.InitialDirectory = m_HomeFolder;
 				if (dlg.ShowDialog() == DialogResult.OK)
 				{
-					m_AddFromCount++;
-					CreateFroms(dlg.FullFormName, dlg.FormSize);
+					if(File.Exists(dlg.FileName))
+					{
+						OpenForm(dlg.FileName);	
+					}
 				}
 			}
-
 		}
+		// ********************************************************************
+		public HForm? IndexOfHForm(string p)
+		{
+			HForm? ret = null;
+			if(HForms.Count>0)
+			{
+				foreach(HForm hf in HForms)
+				{
+					if (hf.ItemsLib.FileName==p)
+					{
+						ret = hf; 
+						break; 
+					}
+				}
+			}
+			return ret;
+		}
+		// ********************************************************************
+		public bool OpenForm(string p)
+		{
+			bool ret = false;
+			if (File.Exists(p))
+			{
+				HForm? hf0 = IndexOfHForm(p);
+				if (hf0 != null)
+				{
+					SetTargetForm(hf0);
+				}
+				else
+				{
+					HForm hf = CreateForm(p);
+					hf.ImportFromHypf();
+					SetTargetForm(hf);
+					hf.StartSettings();
+
+				}
+				OnFormChanged(new EventArgs());
+				ret = true;
+			}
+
+			return ret;
+		}
+		// ********************************************************************
 		private void OutputDefHypf(string p)
 		{
 			File.WriteAllBytes(p, Properties.Resources.hypfdef);
 		}
-		public void CreateFroms(string path, Size sz)
+		private int m_AddFormCount = 0;
+		// ********************************************************************
+		public void NewForm()
 		{
-			OutputDefHypf(path);
+			using (CreateFormDialog dlg = new CreateFormDialog())
+			{
+				dlg.FullFormName = $"{m_HomeFolder}\\Form{m_AddFormCount}{DefEXT}";
+				if (dlg.ShowDialog() == DialogResult.OK)
+				{
+					m_AddFormCount++;
+					OutputDefHypf(dlg.FullFormName);
+					HForm hf = CreateForm(dlg.FullFormName, dlg.FormSize);
+					SetTargetForm(hf);
+					OnFormChanged(new EventArgs());
+				}
+			}
+
+		}
+		// ********************************************************************
+		public HForm CreateForm(string path, Size? sz = null)
+		{
 			HForm form = new HForm();
 			form.SetMainForm(this);
 			form.Index = HForms.Count;
-			form.Name = Path.GetFileNameWithoutExtension(path);
-			form.Text = form.Name;
-			form.Size = sz;
+			if (sz != null) form.Size = (Size)sz;
 			form.ItemsLib.Setup(path);
+			form.Name = form.ItemsLib.Name;
+			form.Text = form.Name;
 			form.FormClosed += (sender, e) =>
 			{
 				if (sender is HForm)
@@ -220,10 +286,13 @@ namespace Hypowered
 					SetTargetForm(mf);
 				}
 			};
+			form.NameChange += (sender, e) =>
+			{
+				HForm mf = ((HForm)sender);
+			};
 			form.Show(this);
 			HForms.Add(form);
-			SetTargetForm(form);
-			OnFormChanged(new EventArgs());
+			return form;
 		}
 		// ********************************************************************
 		public void AddControl()
@@ -237,7 +306,6 @@ namespace Hypowered
 			GetHomeFolder();
 
 			// ItemsLib‚Ì“Ç‚Ýž‚Ý
-
 			ItemsLib.Setup(Path.ChangeExtension(Application.ExecutablePath, DefEXT));
 			//ItemsLib.Aarchive();
 
@@ -260,8 +328,16 @@ namespace Hypowered
 			this.FormClosed += (sender, e) => { LastSettings(); };
 			StartSettings();
 			ControlLayout();
+			newFormMenu.Click += (sender, e) => { NewForm(); };
+			openFormMenu.Click += (sender, e) => { OpenForm(); };
+			quitMenu.Click += (sender, e) => { Application.Exit(); };
 			Command(Environment.GetCommandLineArgs().Skip(1).ToArray(), PIPECALL.StartupExec);
 
+
+
+			//PUtil.ToJsonCodeToClipboard(typeof(HTextBox));
+			//PUtil.PropListToClipboard(typeof(EditTextBox),"Edit");
+			ItemsLib.Beep();
 		}
 		// **********************************************************
 		private void StartSettings()
@@ -272,6 +348,9 @@ namespace Hypowered
 			object? obj = null;
 			obj = pf.JsonFile.ValueInt("SplitterDistance");
 			if (obj != null) splitContainer1.SplitterDistance = (int)obj;
+			obj = pf.JsonFile.ValueInt("AddFormCount");
+			if (obj != null) m_AddFormCount = (int)obj;
+			if (m_AddFormCount > 100) m_AddFormCount = 0;
 		}
 		// **********************************************************
 		private void LastSettings()
@@ -279,6 +358,7 @@ namespace Hypowered
 			PrefFile pf = new PrefFile(this, Application.ExecutablePath);
 			pf.SetBounds();
 			pf.JsonFile.SetValue("SplitterDistance", splitContainer1.SplitterDistance);
+			pf.JsonFile.SetValue("AddFormCount", m_AddFormCount);
 			pf.Save();
 		}
 		// **********************************************************
@@ -417,25 +497,13 @@ namespace Hypowered
 				if (HForms.Count <= 0) { Application.Exit(); }
 			}
 		}
-		private void newFormToolStripMenuItem_Click(object sender, EventArgs e)
-		{
-			NewFrom();
-		}
 
-		private void button1_Click(object sender, EventArgs e)
-		{
-			AddControl();
-		}
 
-		private void quitToolStripMenuItem_Click(object sender, EventArgs e)
+		private void quitMenu_Click(object sender, EventArgs e)
 		{
 			Application.Exit();
 		}
 
-		private void editControl1_Click(object sender, EventArgs e)
-		{
-
-		}
 		// **********************************************************
 		public string ShowPictItemDialog(ItemsLib? il, string pn = "")
 		{

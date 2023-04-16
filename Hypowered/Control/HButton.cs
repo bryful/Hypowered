@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
 using System.Text;
+using System.Text.Json.Nodes;
 using System.Threading.Tasks;
 
 namespace Hypowered
@@ -31,6 +32,14 @@ namespace Hypowered
 			get { return m_Checked; }
 			set { m_Checked = value; this.Invalidate(); }
 		}
+		protected bool m_IsCheckMode = false;
+		[Category("Hypowered_Button")]
+		public bool IsCheckMode
+		{
+			get { return m_IsCheckMode; }
+			set { m_IsCheckMode = value; this.Invalidate(); }
+		}
+
 		#endregion
 
 		public HButton()
@@ -69,12 +78,7 @@ namespace Hypowered
 				}
 				p.Color = ForeColor;
 				DrawFrame(g, p, r);
-				if (Focused)
-				{
-					p.Color = m_ForcusColor;
-					DrawFrame(g, p, this.ClientRectangle, 2);
-				}
-				// IsEdit
+
 				DrawIsEdit(g, p);
 			}
 		}
@@ -87,7 +91,19 @@ namespace Hypowered
 			}
 			else
 			{
-				m_MDPush = true;
+				if ((Control.ModifierKeys & Keys.Shift) == Keys.Shift)
+				{
+					SetIsEdit(!m_IsEdit);
+					return;
+				}
+				else
+				{
+					m_MDPush = true;
+					if (m_IsCheckMode)
+					{
+						m_Checked = !m_Checked;
+					}
+				}
 				this.Invalidate();
 			}
 		}
@@ -103,6 +119,31 @@ namespace Hypowered
 				this.Invalidate();
 			}
 
+		}
+		// ***************************************************************
+		public override JsonObject? ToJson()
+		{
+			JsonFile? jf = new JsonFile(base.ToJson());
+
+			jf.SetValue(nameof(DownColor), (Color)DownColor);//System.Drawing.Color
+			jf.SetValue(nameof(CheckedColor), (Color)CheckedColor);//System.Drawing.Color
+			jf.SetValue(nameof(Checked), (Boolean)Checked);//System.Boolean
+			jf.SetValue(nameof(IsCheckMode), (Boolean)IsCheckMode);//System.Boolean
+			return jf.Obj;
+		}
+		public override void FromJson(JsonObject jo)
+		{
+			base.FromJson(jo);
+			JsonFile jf = new JsonFile(jo);
+			object? v = null;
+			v = jf.ValueAuto("DownColor", typeof(Color).Name);
+			if (v != null) DownColor = (Color)v;
+			v = jf.ValueAuto("CheckedColor", typeof(Color).Name);
+			if (v != null) CheckedColor = (Color)v;
+			v = jf.ValueAuto("Checked", typeof(Boolean).Name);
+			if (v != null) Checked = (Boolean)v;
+			v = jf.ValueAuto("IsCheckMode", typeof(Boolean).Name);
+			if (v != null) IsCheckMode = (Boolean)v;
 		}
 	}
 }

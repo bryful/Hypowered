@@ -55,10 +55,10 @@ namespace Hypowered
 			jf.SetValue(nameof(AutoScrollMargin), (Size)AutoScrollMargin);//System.Drawing.Size
 			jf.SetValue(nameof(AutoScrollPosition), (Point)AutoScrollPosition);//System.Drawing.Point
 			jf.SetValue(nameof(AutoScrollMinSize), (Size)AutoScrollMinSize);//System.Drawing.Size
-			jf.SetValue(nameof(AccessibleDefaultActionDescription), (String)AccessibleDefaultActionDescription);//System.String
-			jf.SetValue(nameof(AccessibleDescription), (String)AccessibleDescription);//System.String
-			jf.SetValue(nameof(AccessibleName), (String)AccessibleName);//System.String
-			jf.SetValue(nameof(AccessibleRole), (int)AccessibleRole);//System.Windows.Forms.AccessibleRole
+			//jf.SetValue(nameof(AccessibleDefaultActionDescription), (String)AccessibleDefaultActionDescription);//System.String
+			//jf.SetValue(nameof(AccessibleDescription), (String)AccessibleDescription);//System.String
+			//jf.SetValue(nameof(AccessibleName), (String)AccessibleName);//System.String
+			//jf.SetValue(nameof(AccessibleRole), (int)AccessibleRole);//System.Windows.Forms.AccessibleRole
 			jf.SetValue(nameof(AutoScrollOffset), (Point)AutoScrollOffset);//System.Drawing.Point
 			jf.SetValue(nameof(Capture), (Boolean)Capture);//System.Boolean
 			jf.SetValue(nameof(CausesValidation), (Boolean)CausesValidation);//System.Boolean
@@ -75,6 +75,8 @@ namespace Hypowered
 		{
 			JsonFile jf = new JsonFile(jo);
 			object? v = null;
+			v = jf.ValueAuto("Size", typeof(Size).Name);
+			if (v != null) Size = (Size)v;
 			v = jf.ValueAuto("Text", typeof(String).Name);
 			if (v != null) Text = (String)v;
 			v = jf.ValueAuto("Name", typeof(String).Name);
@@ -153,6 +155,7 @@ namespace Hypowered
 			if (v != null) AutoScrollPosition = (Point)v;
 			v = jf.ValueAuto("AutoScrollMinSize", typeof(Size).Name);
 			if (v != null) AutoScrollMinSize = (Size)v;
+			/*
 			v = jf.ValueAuto("AccessibleDefaultActionDescription", typeof(String).Name);
 			if (v != null) AccessibleDefaultActionDescription = (String)v;
 			v = jf.ValueAuto("AccessibleDescription", typeof(String).Name);
@@ -161,6 +164,7 @@ namespace Hypowered
 			if (v != null) AccessibleName = (String)v;
 			v = jf.ValueAuto("AccessibleRole", typeof(int).Name);
 			if (v != null) AccessibleRole = (AccessibleRole)v;
+			*/
 			v = jf.ValueAuto("AllowDrop", typeof(Boolean).Name);
 			if (v != null) AllowDrop = (Boolean)v;
 			v = jf.ValueAuto("Anchor", typeof(int).Name);

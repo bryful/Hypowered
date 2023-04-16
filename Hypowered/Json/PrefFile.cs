@@ -65,6 +65,7 @@ namespace Hypowered
 		{
 			Point? ret = null;
 			if (m_form == null) return ret;
+			ret = JsonFile.ValuePoint("Location");
 			if (ret != null)
 			{
 				Point p = (Point)ret;

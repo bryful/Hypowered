@@ -12,6 +12,7 @@ namespace Hypowered
 {
 	public class HTypeCombo : ComboBox
 	{
+		public CHType CHType = new CHType();
 		public HType HType
 		{
 			get 
@@ -30,8 +31,12 @@ namespace Hypowered
 		}
 		public HTypeCombo()
 		{
+			_Refflag = true;
 			this.DropDownStyle = ComboBoxStyle.DropDownList;
-			InitList();
+			this.Items.Clear();
+			this.Items.AddRange(this.CHType.NamesNone);
+			this.SelectedIndex = 0;
+			_Refflag = false;
 		}
 		protected override void InitLayout()
 		{
@@ -40,19 +45,27 @@ namespace Hypowered
 		}
 		public void InitList()
 		{
-			string[] sa = Enum.GetNames(typeof(HType));
-			int si = this.SelectedIndex;
-			if(this.Items.Count != sa.Length-1) 
+			if(this.Items.Count != this.CHType.Names.Length)
 			{
+				_Refflag = true;
+				int idx = this.SelectedIndex;
 				this.Items.Clear();
-				string[] sa2 = new string[sa.Length-1];
-				for(int i=1; i<sa.Length; i++)
+				this.Items.AddRange(this.CHType.NamesNone);
+				if((idx>=-1)&&(idx<this.Items.Count))
 				{
-					sa2[i-1] = sa[i];
+
+
+					if(this.SelectedIndex != idx)
+						this.SelectedIndex=idx;
 				}
-				this.Items.AddRange(sa2);
-				this.SelectedIndex = si;
+				_Refflag = false;
 			}
+		}
+		private bool _Refflag = false;
+		protected override void OnSelectedIndexChanged(EventArgs e)
+		{
+			if (_Refflag) return;
+			base.OnSelectedIndexChanged(e);
 		}
 	}
 }

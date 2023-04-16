@@ -30,13 +30,14 @@
 		{
 			propertyGrid1 = new PropertyGrid();
 			menuStrip1 = new MenuStrip();
-			fileToolStripMenuItem = new ToolStripMenuItem();
-			newFormToolStripMenuItem = new ToolStripMenuItem();
-			quitToolStripMenuItem = new ToolStripMenuItem();
-			editToolStripMenuItem = new ToolStripMenuItem();
-			formToolStripMenuItem = new ToolStripMenuItem();
+			fileMenu = new ToolStripMenuItem();
+			newFormMenu = new ToolStripMenuItem();
+			quitMenu = new ToolStripMenuItem();
+			editMenu = new ToolStripMenuItem();
+			formMenu = new ToolStripMenuItem();
 			editControl1 = new EditControl();
 			splitContainer1 = new SplitContainer();
+			openFormMenu = new ToolStripMenuItem();
 			menuStrip1.SuspendLayout();
 			((System.ComponentModel.ISupportInitialize)splitContainer1).BeginInit();
 			splitContainer1.Panel1.SuspendLayout();
@@ -68,45 +69,44 @@
 			// 
 			menuStrip1.AutoSize = false;
 			menuStrip1.Dock = DockStyle.None;
-			menuStrip1.Items.AddRange(new ToolStripItem[] { fileToolStripMenuItem, editToolStripMenuItem, formToolStripMenuItem });
+			menuStrip1.Items.AddRange(new ToolStripItem[] { fileMenu, editMenu, formMenu });
 			menuStrip1.Location = new Point(-2, 20);
 			menuStrip1.Name = "menuStrip1";
 			menuStrip1.Size = new Size(561, 24);
 			menuStrip1.TabIndex = 4;
 			menuStrip1.Text = "menuStrip1";
 			// 
-			// fileToolStripMenuItem
+			// fileMenu
 			// 
-			fileToolStripMenuItem.DropDownItems.AddRange(new ToolStripItem[] { newFormToolStripMenuItem, quitToolStripMenuItem });
-			fileToolStripMenuItem.Name = "fileToolStripMenuItem";
-			fileToolStripMenuItem.Size = new Size(37, 20);
-			fileToolStripMenuItem.Text = "File";
+			fileMenu.DropDownItems.AddRange(new ToolStripItem[] { openFormMenu, newFormMenu, quitMenu });
+			fileMenu.Name = "fileMenu";
+			fileMenu.Size = new Size(37, 20);
+			fileMenu.Text = "File";
 			// 
-			// newFormToolStripMenuItem
+			// newFormMenu
 			// 
-			newFormToolStripMenuItem.Name = "newFormToolStripMenuItem";
-			newFormToolStripMenuItem.Size = new Size(125, 22);
-			newFormToolStripMenuItem.Text = "NewForm";
-			newFormToolStripMenuItem.Click += newFormToolStripMenuItem_Click;
+			newFormMenu.Name = "newFormMenu";
+			newFormMenu.Size = new Size(130, 22);
+			newFormMenu.Text = "NewForm";
+		// 
+			// quitMenu
 			// 
-			// quitToolStripMenuItem
+			quitMenu.Name = "quitMenu";
+			quitMenu.Size = new Size(130, 22);
+			quitMenu.Text = "Quit";
+			quitMenu.Click += quitMenu_Click;
 			// 
-			quitToolStripMenuItem.Name = "quitToolStripMenuItem";
-			quitToolStripMenuItem.Size = new Size(125, 22);
-			quitToolStripMenuItem.Text = "Quit";
-			quitToolStripMenuItem.Click += quitToolStripMenuItem_Click;
+			// editMenu
 			// 
-			// editToolStripMenuItem
+			editMenu.Name = "editMenu";
+			editMenu.Size = new Size(39, 20);
+			editMenu.Text = "Edit";
 			// 
-			editToolStripMenuItem.Name = "editToolStripMenuItem";
-			editToolStripMenuItem.Size = new Size(39, 20);
-			editToolStripMenuItem.Text = "Edit";
+			// formMenu
 			// 
-			// formToolStripMenuItem
-			// 
-			formToolStripMenuItem.Name = "formToolStripMenuItem";
-			formToolStripMenuItem.Size = new Size(46, 20);
-			formToolStripMenuItem.Text = "Form";
+			formMenu.Name = "formMenu";
+			formMenu.Size = new Size(46, 20);
+			formMenu.Text = "Form";
 			// 
 			// editControl1
 			// 
@@ -120,7 +120,6 @@
 			editControl1.Size = new Size(200, 484);
 			editControl1.TabIndex = 6;
 			editControl1.Text = "editControl1";
-			editControl1.Click += editControl1_Click;
 			// 
 			// splitContainer1
 			// 
@@ -137,6 +136,12 @@
 			splitContainer1.Size = new Size(547, 484);
 			splitContainer1.SplitterDistance = 200;
 			splitContainer1.TabIndex = 7;
+			// 
+			// openFormMenu
+			// 
+			openFormMenu.Name = "openFormMenu";
+			openFormMenu.Size = new Size(130, 22);
+			openFormMenu.Text = "OpenForm";
 			// 
 			// MainForm
 			// 
@@ -165,12 +170,13 @@
 
 		private PropertyGrid propertyGrid1;
 		private MenuStrip menuStrip1;
-		private ToolStripMenuItem fileToolStripMenuItem;
-		private ToolStripMenuItem editToolStripMenuItem;
-		private ToolStripMenuItem formToolStripMenuItem;
-		private ToolStripMenuItem newFormToolStripMenuItem;
-		private ToolStripMenuItem quitToolStripMenuItem;
+		private ToolStripMenuItem fileMenu;
+		private ToolStripMenuItem editMenu;
+		private ToolStripMenuItem formMenu;
+		private ToolStripMenuItem newFormMenu;
+		private ToolStripMenuItem quitMenu;
 		private EditControl editControl1;
 		private SplitContainer splitContainer1;
+		private ToolStripMenuItem openFormMenu;
 	}
 }

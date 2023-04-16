@@ -5,6 +5,7 @@ using System.Drawing;
 using System.Drawing.Imaging;
 using System.Linq;
 using System.Text;
+using System.Text.Json.Nodes;
 using System.Threading.Tasks;
 
 namespace Hypowered
@@ -210,11 +211,6 @@ namespace Hypowered
 					sb.Color = ForeColor;
 					g.DrawString(this.Text, this.Font, sb, r2, StringFormat);
 				}
-				if (Focused)
-				{
-					p.Color = m_ForcusColor;
-					DrawFrame(g, p, this.ClientRectangle, 2);
-				}
 				// IsEdit
 				DrawIsEdit(g, p);
 			}
@@ -222,6 +218,12 @@ namespace Hypowered
 		protected bool m_MDPush = false;
 		protected override void OnMouseDown(MouseEventArgs e)
 		{
+			if ((Control.ModifierKeys & Keys.Shift) == Keys.Shift)
+			{
+				SetIsEdit(!m_IsEdit);
+				this.Invalidate();
+				return;
+			}
 			if (m_IsEdit)
 			{
 				base.OnMouseDown(e);
@@ -262,6 +264,43 @@ namespace Hypowered
 			{
 				base.OnMouseDoubleClick(e);
 			}
+		}
+		// ************************************************************
+		// ***************************************************************
+		public override JsonObject? ToJson()
+		{
+			JsonFile? jf = new JsonFile(base.ToJson());
+
+
+			jf.SetValue(nameof(PictName), (String)PictName);//System.String
+			jf.SetValue(nameof(IconWidth), (Int32)IconWidth);//System.Int32
+			jf.SetValue(nameof(IconHeight), (Int32)IconHeight);//System.Int32
+			jf.SetValue(nameof(TextWidth), (Int32)TextWidth);//System.Int32
+			jf.SetValue(nameof(TextHeight), (Int32)TextHeight);//System.Int32
+			jf.SetValue(nameof(DownColor), (Color)DownColor);//System.Drawing.Color
+			jf.SetValue(nameof(TextBackColor), (Color)TextBackColor);//System.Drawing.Color
+
+			return jf.Obj;
+		}
+		public override void FromJson(JsonObject jo)
+		{
+			base.FromJson(jo);
+			JsonFile jf = new JsonFile(jo);
+			object? v = null;
+			v = jf.ValueAuto("PictName", typeof(String).Name);
+			if (v != null) PictName = (String)v;
+			v = jf.ValueAuto("IconWidth", typeof(Int32).Name);
+			if (v != null) IconWidth = (Int32)v;
+			v = jf.ValueAuto("IconHeight", typeof(Int32).Name);
+			if (v != null) IconHeight = (Int32)v;
+			v = jf.ValueAuto("TextWidth", typeof(Int32).Name);
+			if (v != null) TextWidth = (Int32)v;
+			v = jf.ValueAuto("TextHeight", typeof(Int32).Name);
+			if (v != null) TextHeight = (Int32)v;
+			v = jf.ValueAuto("DownColor", typeof(Color).Name);
+			if (v != null) DownColor = (Color)v;
+			v = jf.ValueAuto("TextBackColor", typeof(Color).Name);
+			if (v != null) TextBackColor = (Color)v;
 		}
 	}
 }

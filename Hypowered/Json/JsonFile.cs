@@ -297,6 +297,20 @@ namespace Hypowered
 				}
 			}
 		}
+		public void SetValue(string key, HType value)
+		{
+			if (Obj != null)
+			{
+				if (Obj.ContainsKey(key))
+				{
+					Obj[key] = (int)value;
+				}
+				else
+				{
+					Obj.Add(key, (int)value);
+				}
+			}
+		}
 		public void SetValue(string key, JsonArray? value)
 		{
 			if (Obj != null)
@@ -848,6 +862,18 @@ namespace Hypowered
 			}
 			return ret;
 		}
+		public HType? ValueHtype(string key)
+		{
+			HType? ret = null;
+			if (Obj != null)
+			{
+				if (Obj.ContainsKey(key))
+				{
+					ret = (HType?)Obj[key].GetValue<int?>();
+				}
+			}
+			return ret;
+		}
 		public double? ValueDouble(string key)
 		{
 			double? ret = null;
@@ -930,6 +956,7 @@ namespace Hypowered
 			}
 			return ret;
 		}
+	
 		public Color[]? GetValueColorArray(string key)
 		{
 			Color[]? ret = null;

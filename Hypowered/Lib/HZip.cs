@@ -29,6 +29,21 @@ namespace Hypowered
 				return false;
 			}
 		}
+		static public bool ExtractToDirectory(string zipFile, string dir)
+		{
+			try
+			{
+				ZipFile.ExtractToDirectory(
+					zipFile,
+					dir
+					);
+				return true;
+			}
+			catch
+			{
+				return false;
+			}
+		}
 		/// <summary>
 		/// Zipにファイルを追加する
 		/// </summary>
