@@ -41,6 +41,7 @@
 			quitMenu = new ToolStripMenuItem();
 			controlMenu = new ToolStripMenuItem();
 			newControlToolStripMenuItem = new ToolStripMenuItem();
+			deleteControlMenu = new ToolStripMenuItem();
 			toolStripMenuItem2 = new ToolStripSeparator();
 			controlUpMenu = new ToolStripMenuItem();
 			downControlMenu = new ToolStripMenuItem();
@@ -54,7 +55,8 @@
 			consoleMenu = new ToolStripMenuItem();
 			editControl1 = new EditControl();
 			splitContainer1 = new SplitContainer();
-			deleteControlMenu = new ToolStripMenuItem();
+			toolStripMenuItem4 = new ToolStripSeparator();
+			toolStripMenuItem5 = new ToolStripSeparator();
 			menuStrip1.SuspendLayout();
 			((System.ComponentModel.ISupportInitialize)splitContainer1).BeginInit();
 			splitContainer1.Panel1.SuspendLayout();
@@ -89,13 +91,13 @@
 			menuStrip1.Items.AddRange(new ToolStripItem[] { formMenu, controlMenu, windowToolStripMenuItem });
 			menuStrip1.Location = new Point(-2, 20);
 			menuStrip1.Name = "menuStrip1";
-			menuStrip1.Size = new Size(561, 24);
+			menuStrip1.Size = new Size(487, 24);
 			menuStrip1.TabIndex = 4;
 			menuStrip1.Text = "menuStrip1";
 			// 
 			// formMenu
 			// 
-			formMenu.DropDownItems.AddRange(new ToolStripItem[] { openFormMenu, newFormMenu, renameFormMenu, dupulicateFormToolStripMenuItem, scriptFormToolStripMenuItem, closeFormMenu, toolStripMenuItem1, quitMenu });
+			formMenu.DropDownItems.AddRange(new ToolStripItem[] { openFormMenu, newFormMenu, toolStripMenuItem4, renameFormMenu, dupulicateFormToolStripMenuItem, closeFormMenu, toolStripMenuItem1, scriptFormToolStripMenuItem, quitMenu, toolStripMenuItem5 });
 			formMenu.Name = "formMenu";
 			formMenu.Size = new Size(46, 20);
 			formMenu.Text = "Form";
@@ -157,53 +159,59 @@
 			// newControlToolStripMenuItem
 			// 
 			newControlToolStripMenuItem.Name = "newControlToolStripMenuItem";
-			newControlToolStripMenuItem.Size = new Size(152, 22);
+			newControlToolStripMenuItem.Size = new Size(180, 22);
 			newControlToolStripMenuItem.Text = "NewControl";
+			// 
+			// deleteControlMenu
+			// 
+			deleteControlMenu.Name = "deleteControlMenu";
+			deleteControlMenu.Size = new Size(180, 22);
+			deleteControlMenu.Text = "DeleteControl";
 			// 
 			// toolStripMenuItem2
 			// 
 			toolStripMenuItem2.Name = "toolStripMenuItem2";
-			toolStripMenuItem2.Size = new Size(149, 6);
+			toolStripMenuItem2.Size = new Size(177, 6);
 			// 
 			// controlUpMenu
 			// 
 			controlUpMenu.Name = "controlUpMenu";
-			controlUpMenu.Size = new Size(152, 22);
+			controlUpMenu.Size = new Size(180, 22);
 			controlUpMenu.Text = "UpControl";
 			// 
 			// downControlMenu
 			// 
 			downControlMenu.Name = "downControlMenu";
-			downControlMenu.Size = new Size(152, 22);
+			downControlMenu.Size = new Size(180, 22);
 			downControlMenu.Text = "DownControl";
 			// 
 			// topControlMenu
 			// 
 			topControlMenu.Name = "topControlMenu";
-			topControlMenu.Size = new Size(152, 22);
+			topControlMenu.Size = new Size(180, 22);
 			topControlMenu.Text = "TopControl";
 			// 
 			// bottomControlMenu
 			// 
 			bottomControlMenu.Name = "bottomControlMenu";
-			bottomControlMenu.Size = new Size(152, 22);
+			bottomControlMenu.Size = new Size(180, 22);
 			bottomControlMenu.Text = "BottomControl";
 			// 
 			// toolStripMenuItem3
 			// 
 			toolStripMenuItem3.Name = "toolStripMenuItem3";
-			toolStripMenuItem3.Size = new Size(149, 6);
+			toolStripMenuItem3.Size = new Size(177, 6);
 			// 
 			// editControlMenu
 			// 
 			editControlMenu.Name = "editControlMenu";
-			editControlMenu.Size = new Size(152, 22);
+			editControlMenu.Size = new Size(180, 22);
 			editControlMenu.Text = "EditControl";
 			// 
 			// scriptControlMenu
 			// 
 			scriptControlMenu.Name = "scriptControlMenu";
-			scriptControlMenu.Size = new Size(152, 22);
+			scriptControlMenu.Size = new Size(180, 22);
 			scriptControlMenu.Text = "ScriptControl";
 			// 
 			// windowToolStripMenuItem
@@ -216,13 +224,13 @@
 			// scriptEditorMenu
 			// 
 			scriptEditorMenu.Name = "scriptEditorMenu";
-			scriptEditorMenu.Size = new Size(135, 22);
+			scriptEditorMenu.Size = new Size(180, 22);
 			scriptEditorMenu.Text = "ScriptEditor";
 			// 
 			// consoleMenu
 			// 
 			consoleMenu.Name = "consoleMenu";
-			consoleMenu.Size = new Size(135, 22);
+			consoleMenu.Size = new Size(180, 22);
 			consoleMenu.Text = "Console";
 			// 
 			// editControl1
@@ -254,11 +262,15 @@
 			splitContainer1.SplitterDistance = 188;
 			splitContainer1.TabIndex = 7;
 			// 
-			// deleteControlMenu
+			// toolStripMenuItem4
 			// 
-			deleteControlMenu.Name = "deleteControlMenu";
-			deleteControlMenu.Size = new Size(152, 22);
-			deleteControlMenu.Text = "DeleteControl";
+			toolStripMenuItem4.Name = "toolStripMenuItem4";
+			toolStripMenuItem4.Size = new Size(155, 6);
+			// 
+			// toolStripMenuItem5
+			// 
+			toolStripMenuItem5.Name = "toolStripMenuItem5";
+			toolStripMenuItem5.Size = new Size(155, 6);
 			// 
 			// MainForm
 			// 
@@ -312,5 +324,7 @@
 		private ToolStripMenuItem scriptEditorMenu;
 		private ToolStripMenuItem consoleMenu;
 		private ToolStripMenuItem deleteControlMenu;
+		private ToolStripSeparator toolStripMenuItem4;
+		private ToolStripSeparator toolStripMenuItem5;
 	}
 }
