@@ -18,8 +18,9 @@ namespace Hypowered
 		{
 			JsonFile? jf = new JsonFile(base.ToJson());
 			jf.SetValue(nameof(MainMenuVisible), (Boolean)MainMenuVisible);//System.Boolean
+			jf.SetValue(nameof(IsShowEdit), (Boolean)IsShowEdit);//System.Boolean
 
-			if(this.Controls.Count > 1)
+			if (this.Controls.Count > 1)
 			{
 				JsonArray ja = new JsonArray();
 				for(int i=1; i<this.Controls.Count; i++)
@@ -64,6 +65,8 @@ namespace Hypowered
 			object? v = null;
 			v = jf.ValueAuto("MainMenuVisible", typeof(Boolean).Name);
 			if (v != null) MainMenuVisible = (Boolean)v;
+			v = jf.ValueAuto("IsShowEdit", typeof(Boolean).Name);
+			if (v != null) IsShowEdit = (Boolean)v;
 
 			JsonArray? ja = jf.ValueArray("Controls");
 			if ((ja != null)&&(ja.Count>0))

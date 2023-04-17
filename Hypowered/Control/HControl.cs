@@ -17,7 +17,8 @@ namespace Hypowered
 		Label,
 		TextBox,
 		PictureBox,
-		IconButton
+		IconButton,
+		ListBox
 	}
 	public class CHType
 	{
@@ -106,6 +107,14 @@ namespace Hypowered
 			m_HForm = hf;
 		}
 		#region Prop
+		protected bool m_IsShowForcus = true;
+		[Category("_Hypowered")]
+		public bool IsShowForcus
+		{
+			get { return m_IsShowForcus; }
+			set { m_IsShowForcus=value; this.Invalidate();  }
+		}
+
 		protected bool m_IsEdit = false;
 		[Category("_Hypowered")]
 		public bool IsEdit
@@ -163,12 +172,19 @@ namespace Hypowered
 			get { return m_ForcusColor; }
 			set { m_ForcusColor = value; this.Invalidate(); }
 		}
-		protected Color m_TargetColor = Color.Yellow;
+		protected Color m_TargetColor = Color.FromArgb(150,100,100);
 		[Category("Hypowered_Color"), Browsable(true)]
 		public System.Drawing.Color TargetColor
 		{
 			get { return m_TargetColor; }
 			set { m_TargetColor = value; this.Invalidate(); }
+		}
+		protected Color m_SelectedColor = Color.FromArgb(100, 100, 100);
+		[Category("Hypowered_Color"), Browsable(true)]
+		public System.Drawing.Color SelectedColor
+		{
+			get { return m_SelectedColor; }
+			set { m_SelectedColor = value; this.Invalidate(); }
 		}
 		[Category("Hypowered_Color"), Browsable(true)]
 		public new System.Drawing.Color ForeColor
@@ -370,8 +386,13 @@ namespace Hypowered
 		{
 			if ((Control.ModifierKeys & Keys.Shift) == Keys.Shift)
 			{
-				SetIsEdit(!m_IsEdit);
+				SetIsEdit(true);
 				this.Invalidate();
+				if (HForm != null)
+				{
+					HForm.TargetIndex = this.Index;
+					HForm.Invalidate();
+				}
 				return;
 			}
 			if (m_IsEdit==true)
@@ -409,6 +430,7 @@ namespace Hypowered
 				{
 					this.Location = new Point(m_MDLoc.X + dx, m_MDLoc.Y + dy);
 				}
+				this.HForm.Invalidate();
 			}
 			base.OnMouseMove(e);
 		}
@@ -589,7 +611,7 @@ namespace Hypowered
 		}
 		public void DrawIsEdit(Graphics g, Pen p)
 		{
-			if (Focused)
+			if ((Focused)&&(m_IsShowForcus))
 			{
 				p.Color = m_ForcusColor;
 				DrawFrame(g, p, this.ClientRectangle, 2);

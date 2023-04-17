@@ -220,8 +220,13 @@ namespace Hypowered
 		{
 			if ((Control.ModifierKeys & Keys.Shift) == Keys.Shift)
 			{
-				SetIsEdit(!m_IsEdit);
+				SetIsEdit(true);
 				this.Invalidate();
+				if (HForm != null)
+				{
+					HForm.TargetIndex = this.Index;
+					HForm.Invalidate();
+				}
 				return;
 			}
 			if (m_IsEdit)

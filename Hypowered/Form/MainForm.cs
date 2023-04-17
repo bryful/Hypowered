@@ -176,10 +176,24 @@ namespace Hypowered
 				dlg.InitialDirectory = m_HomeFolder;
 				if (dlg.ShowDialog() == DialogResult.OK)
 				{
-					if(File.Exists(dlg.FileName))
+					if (File.Exists(dlg.FileName))
 					{
-						OpenForm(dlg.FileName);	
+						OpenForm(dlg.FileName);
 					}
+				}
+			}
+		}
+		// ********************************************************************
+		public void RenameForm()
+		{
+			if (TargetForm == null) return;
+			using (RenameFormDialog dlg = new RenameFormDialog())
+			{
+				dlg.FormName = TargetForm.ItemsLib.Name;
+				if (dlg.ShowDialog() == DialogResult.OK)
+				{
+					TargetForm.ItemsLib.Rename(dlg.FormName);
+					OnFormChanged(new EventArgs());
 				}
 			}
 		}
@@ -187,14 +201,14 @@ namespace Hypowered
 		public HForm? IndexOfHForm(string p)
 		{
 			HForm? ret = null;
-			if(HForms.Count>0)
+			if (HForms.Count > 0)
 			{
-				foreach(HForm hf in HForms)
+				foreach (HForm hf in HForms)
 				{
-					if (hf.ItemsLib.FileName==p)
+					if (hf.ItemsLib.FileName == p)
 					{
-						ret = hf; 
-						break; 
+						ret = hf;
+						break;
 					}
 				}
 			}
@@ -295,10 +309,36 @@ namespace Hypowered
 			return form;
 		}
 		// ********************************************************************
+		public void DeleteForm(HForm hf)
+		{
+			hf.Close();
+		}
+		public void CloseForm()
+		{
+			if (m_TargetForm != null)
+			{
+				m_TargetForm.Close();
+				OnFormChanged(new EventArgs());
+			}
+		}
+		// ********************************************************************
 		public void AddControl()
 		{
 			if (m_TargetForm == null) return;
 			m_TargetForm.AddControl();
+		}
+		// ********************************************************************
+		public bool DeleteControl()
+		{
+			bool ret = false;
+			if (m_TargetForm != null)
+			{
+				if (m_TargetForm.TargetControl != null)
+				{
+					ret = m_TargetForm.RemoveControl();
+				}
+			}
+			return ret;
 		}
 		// ********************************************************************
 		public MainForm()
@@ -328,13 +368,14 @@ namespace Hypowered
 			this.FormClosed += (sender, e) => { LastSettings(); };
 			StartSettings();
 			ControlLayout();
-			newFormMenu.Click += (sender, e) => { NewForm(); };
 			openFormMenu.Click += (sender, e) => { OpenForm(); };
+			newFormMenu.Click += (sender, e) => { NewForm(); };
+			closeFormMenu.Click += (sender, e) => { CloseForm(); };
+			deleteControlMenu.Click += (sender, e) => { DeleteControl(); };
 			quitMenu.Click += (sender, e) => { Application.Exit(); };
+
+
 			Command(Environment.GetCommandLineArgs().Skip(1).ToArray(), PIPECALL.StartupExec);
-
-
-
 			//PUtil.ToJsonCodeToClipboard(typeof(HTextBox));
 			//PUtil.PropListToClipboard(typeof(EditTextBox),"Edit");
 			ItemsLib.Beep();
@@ -496,12 +537,6 @@ namespace Hypowered
 			{
 				if (HForms.Count <= 0) { Application.Exit(); }
 			}
-		}
-
-
-		private void quitMenu_Click(object sender, EventArgs e)
-		{
-			Application.Exit();
 		}
 
 		// **********************************************************

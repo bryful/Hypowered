@@ -12,7 +12,7 @@ namespace Hypowered
 		public virtual JsonObject? ToJson()
 		{
 			JsonFile jf = new JsonFile();
-			jf.SetValue(nameof(Name), (String)Name);//System.String
+			//jf.SetValue(nameof(Name), (String)Name);//System.String
 			jf.SetValue(nameof(Text), (String)Text);//System.String
 			jf.SetValue(nameof(CloseAction), (int)CloseAction);//Hypowered.CloseAction
 			jf.SetValue(nameof(Font), (Font)Font);//System.Drawing.Font
@@ -79,8 +79,8 @@ namespace Hypowered
 			if (v != null) Size = (Size)v;
 			v = jf.ValueAuto("Text", typeof(String).Name);
 			if (v != null) Text = (String)v;
-			v = jf.ValueAuto("Name", typeof(String).Name);
-			if (v != null) Name = (String)v;
+			//v = jf.ValueAuto("Name", typeof(String).Name);
+			//if (v != null) Name = (String)v;
 			v = jf.ValueAuto("CloseAction", typeof(Int32).Name);
 			if (v != null) CloseAction = (CloseAction)v;
 			v = jf.ValueAuto("Font", typeof(Font).Name);

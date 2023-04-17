@@ -14,8 +14,10 @@ namespace Hypowered
 	{
 		None,
 		New,
-		Opne,
+		Open,
+		Rename,
 		Dup,
+		Script,
 		Close
 
 	}
@@ -38,22 +40,24 @@ namespace Hypowered
 				FormActionClick(this, e);
 			}
 		}
-		protected Bitmap[] Action = new Bitmap[6];
+		protected Bitmap[] Action = new Bitmap[7];
 		protected FormAction m_ActionMode = FormAction.None;
 		public FormActionPanel()
 		{
 			base.BackColor = Color.FromArgb(64, 64, 64);
 			base.ForeColor = Color.FromArgb(230, 230, 230);
 			this.Location = new Point(0, 0);
-			this.Size = new Size(120, 20);
-			this.MinimumSize = new Size(120, 20);
-			this.MaximumSize = new Size(120, 20); 
+			this.Size = new Size(180, 20);
+			this.MinimumSize = new Size(180, 20);
+			this.MaximumSize = new Size(180, 20); 
 			InitializeComponent();
 			Action[0] = Properties.Resources.FAction0;
 			Action[1] = Properties.Resources.FAction1;
 			Action[2] = Properties.Resources.FAction2;
 			Action[3] = Properties.Resources.FAction3;
 			Action[4] = Properties.Resources.FAction4;
+			Action[5] = Properties.Resources.FAction5;
+			Action[6] = Properties.Resources.FAction6;
 			BackColor = Color.FromArgb(64, 64, 64);
 			ForeColor = Color.FromArgb(230, 230, 230);
 			this.DoubleBuffered = true;
@@ -70,7 +74,7 @@ namespace Hypowered
 		{
 			int ret = -1;
 			int x = e.X / 30;
-			if ((x >= 0) && (x <= 3))
+			if ((x >= 0) && (x <= 5))
 			{
 				ret = x + 1;
 			}
@@ -91,7 +95,7 @@ namespace Hypowered
 			if ((e.Button & MouseButtons.Left) == MouseButtons.Left)
 			{
 				int pos = GetPos(e);
-				if (pos >= 0)
+				if (pos >= 1)
 				{
 					m_ActionMode = (FormAction)pos;
 					this.Invalidate();

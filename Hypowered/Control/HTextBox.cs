@@ -166,8 +166,13 @@ namespace Hypowered
 		{
 			if ((Control.ModifierKeys & Keys.Shift) == Keys.Shift)
 			{
-				SetIsEdit(!m_IsEdit);
+				SetIsEdit(true);
 				this.Invalidate();
+				if (HForm != null)
+				{
+					HForm.TargetIndex = this.Index;
+					HForm.Invalidate();
+				}
 				return;
 			}
 			if ((e.Button & MouseButtons.Left)== MouseButtons.Left)
@@ -188,16 +193,6 @@ namespace Hypowered
 				return;
 			}
 			base.OnPreviewKeyDown(e);
-		}
-		protected override void OnGotFocus(EventArgs e)
-		{
-			base.OnGotFocus(e);
-			this.Invalidate();
-		}
-		protected override void OnLostFocus(EventArgs e)
-		{
-			base.OnLostFocus(e);
-			this.Invalidate();
 		}
 		public override JsonObject? ToJson()
 		{

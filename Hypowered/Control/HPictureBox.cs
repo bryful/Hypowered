@@ -65,8 +65,10 @@ namespace Hypowered
 			if ((m_OffScr.Width!=w)|| (m_OffScr.Height != w))
 			{
 				m_OffScr = new Bitmap(w, h, PixelFormat.Format32bppArgb);
-				Graphics g = Graphics.FromImage(m_OffScr);
-				g.Clear(Color.Transparent);
+				using (Graphics g = Graphics.FromImage(m_OffScr))
+				{
+					g.Clear(Color.Transparent);
+				}
 			}
 			ChkBitmap();
 			if (m_Bitmap!=null)

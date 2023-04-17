@@ -7,6 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using System.Windows.Markup.Localizer;
 using Hypowered.Properties;
 
 namespace Hypowered
@@ -194,10 +195,14 @@ namespace Hypowered
 				}
 				if(sels.Length==0)
 				{
-					m_TargetForm.ClearIsEdits();
+					m_TargetForm.SetIsEditsAll();
 				}
 				else
 				{
+					if(sels.Length==1)
+					{
+						m_TargetForm.TargetIndex = sels[0];
+					}
 					m_TargetForm.SetIsEdits(sels);
 				}
 			};
@@ -286,6 +291,33 @@ namespace Hypowered
 								CtrlListBox.PopSelection();
 							}
 							break;
+						case ControlAction.Delete:
+							MainForm.TargetForm.RemoveControl();
+							break;
+					}
+				}
+			};
+			FormActionPanel.FormActionClick += (sender, e) =>
+			{
+				if (MainForm != null)
+				{
+					switch (e.Mode)
+					{
+						case FormAction.New:
+							MainForm.NewForm();
+							break;
+						case FormAction.Open:
+							MainForm.OpenForm();
+							break;
+						case FormAction.Rename:
+							MainForm.RenameForm();
+							break;
+						case FormAction.Dup:
+							break;
+						case FormAction.Close:
+							MainForm.CloseForm();
+							break;
+
 					}
 				}
 			};

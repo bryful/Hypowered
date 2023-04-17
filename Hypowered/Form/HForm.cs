@@ -13,11 +13,12 @@ namespace Hypowered
 {
 	public partial class HForm : BaseForm
 	{
+		#region Event
 		public class NameChangeEventArgs : EventArgs
 		{
 			public String Name;
 			public int Index;
-			public NameChangeEventArgs(string n, int  index)
+			public NameChangeEventArgs(string n, int index)
 			{
 				Name = n;
 				Index = index;
@@ -34,7 +35,7 @@ namespace Hypowered
 		}
 		public class IsEditsChangedEventArgs : EventArgs
 		{
-			public bool [] IsEdits = new bool[0];
+			public bool[] IsEdits = new bool[0];
 			public IsEditsChangedEventArgs(bool[] n)
 			{
 				IsEdits = n;
@@ -49,7 +50,6 @@ namespace Hypowered
 				IsEditsChanged(this, e);
 			}
 		}
-		#region Event
 		public delegate void ControlChangedHandler(object sender, EventArgs e);
 		public event ControlChangedHandler? ControlChanged;
 		protected virtual void OnControlChanged(EventArgs e)
@@ -92,7 +92,36 @@ namespace Hypowered
 		}
 		// ******************
 		private HControl? m_TargetControl = null;
-		private int TargetIndex = -1;
+		public HControl? TargetControl { get { return m_TargetControl; } }
+		private int m_TargetIndex = -1;
+		public int TargetIndex
+		{
+			get { return (int)m_TargetIndex; }
+			set
+			{
+				if((value<=0)||(value>=this.Controls.Count))
+				{
+					value = -1;
+				}
+				if(value>0)
+				{
+					if (this.Controls[value] is not HControl)
+						value = -1;
+				}
+				bool b=(m_TargetIndex !=value);
+
+				m_TargetIndex = value;
+				if (m_TargetIndex < 0)
+				{
+					m_TargetControl = null;
+				}
+				else
+				{
+					m_TargetControl = (HControl)this.Controls[m_TargetIndex];
+				}
+				this.Invalidate();
+			}
+		}
 
 		[Category("Hypowered"),Browsable(false)]
 		public bool[] IsEditArray
@@ -135,6 +164,17 @@ namespace Hypowered
 		[Category("Hypowered")]
 		public int Index { get; set; } = -1;
 
+		private bool m_IsShowEdit =true;
+		[Category("_Hypowered")]
+		public bool IsShowEdit 
+		{
+			get { return m_IsShowEdit; }
+			set
+			{
+				m_IsShowEdit = value;
+				this.Invalidate();
+			}
+		}
 
 		[Category("Hypowered_Menu")]
 		public HMainMenu MainMenu { get; set; } = new HMainMenu();
@@ -174,6 +214,7 @@ namespace Hypowered
 			get { return base.DoubleBuffered; }
 			set { base.DoubleBuffered = value; }
 		}
+		[Category("Hypowered_Draw"),Browsable(true)]
 		public new string Name
 		{
 			get { return base.Name; }
@@ -197,17 +238,47 @@ namespace Hypowered
 			set { m_TargetColor = value; this.Invalidate(); }
 		}
 		#endregion
-		public void ClearIsEdits()
+		/// <summary>
+		/// IsEdit状態の一括設定
+		/// </summary>
+		/// <param name="b"></param>
+		public void SetIsEditsAll(bool b = false)
 		{
 			if (this.Controls.Count <= 0) return;
 			for (int i = 0; i < this.Controls.Count; i++)
 			{
 				if (this.Controls[i] is HControl)
 				{
-					((HControl)this.Controls[i]).IsEdit = false;
+					((HControl)this.Controls[i]).IsEdit = b;
 				}
 			}
 		}
+		public bool IsEditTrue
+		{
+			get
+			{
+				bool ret = false;
+				if (this.Controls.Count <= 0) return ret;
+				for (int i = 0; i < this.Controls.Count; i++)
+				{
+					if (this.Controls[i] is HControl)
+					{
+						if (((HControl)this.Controls[i]).IsEdit ==true)
+						{
+							ret = true;
+							break;
+						}
+					}
+				}
+				return ret;
+			}
+
+		}
+		// 
+		/// <summary>
+		/// ListboxのSelectedIndeiesに対応
+		/// </summary>
+		/// <param name="b"></param>
 		public void SetIsEdits(int[] b)
 		{
 			if (this.Controls.Count <= 0) return;
@@ -345,12 +416,13 @@ namespace Hypowered
 			{
 				if(this.Controls.Count > 1) 
 				{
-					foreach(Control c in this.Controls)
+					if(IsEditTrue)
 					{
-						if(c is HControl)
-						{
-							((HControl)c).SetIsEdit(false, false);
-						}
+						SetIsEditsAll(false);
+					}
+					else
+					{
+						SetIsEditsAll(true);
 					}
 					OnIsEditsChanged(new IsEditsChangedEventArgs(IsEditArray));
 					this.Invalidate();
@@ -404,6 +476,11 @@ namespace Hypowered
 				case HType.IconButton:
 					hc = new HIconButton();
 					hc.Location = pDef;
+					break;
+				case HType.ListBox:
+					hc = new HListBox();
+					hc.Location = pDef;
+					hc.Size = new Size(250, 200);
 					break;
 				case HType.Button:
 				default:
@@ -618,19 +695,22 @@ namespace Hypowered
 		protected override void OnPaint(PaintEventArgs e)
 		{
 			base.OnPaint(e);
-			if ((this.Controls.Count > 1)&&(m_TargetControl != null))
+			if (m_IsShowEdit)
 			{
+				if ((this.Controls.Count > 1) && (m_TargetControl != null))
 				{
-					using (Pen p = new Pen(m_TargetColor))
 					{
-						p.Width = 3;
-						Rectangle r = new Rectangle(
-							m_TargetControl.Left - 2,
-							m_TargetControl.Top - 2,
-							m_TargetControl.Width + 4,
-							m_TargetControl.Height + 4
-							);
-						e.Graphics.DrawRectangle(p, r );
+						using (Pen p = new Pen(m_TargetColor))
+						{
+							p.Width = 1;
+							Rectangle r = new Rectangle(
+								m_TargetControl.Left - 1,
+								m_TargetControl.Top - 1,
+								m_TargetControl.Width + 2,
+								m_TargetControl.Height + 2
+								);
+							e.Graphics.DrawRectangle(p, r);
+						}
 					}
 				}
 			}
@@ -643,6 +723,9 @@ namespace Hypowered
 				if(MainForm!=null) MainForm.NewForm();
 				if (ItemsLib.FileName == "") return false;
 			}
+
+			base.Name = ItemsLib.Name;
+			base.Text = base.Name;
 			string js = ToJsonCode();
 			return ItemsLib.SetText(MainForm.HYPF_JSON, js);
 		}
@@ -666,7 +749,35 @@ namespace Hypowered
 					ret = true;
 				}
 			}
+			base.Name = ItemsLib.Name;
+			base.Text = base.Name;
 			return ret;
 		}
+		// ********************************************************************
+		public bool RemoveControl(Control? c)
+		{
+			try
+			{
+				this.Controls.Remove(c);
+				OnControlChanged(new EventArgs());
+				return true;
+			}
+			catch
+			{
+				return false;
+			}
+		}
+		public bool RemoveControl()
+		{
+			if(m_TargetControl!=null)
+			{
+				return RemoveControl(m_TargetControl);
+			}
+			else
+			{
+				return false;
+			}
+		}
+
 	}
 }

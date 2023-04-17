@@ -152,6 +152,7 @@ namespace Hypowered
 		{
 			bool ret = false;
 			if((m_FileName=="")||(Name==nm))return ret;
+			nm = Path.GetFileNameWithoutExtension(nm);
 			string? p = Path.GetDirectoryName(m_FileName);
 			if(p == null) p="";
 			string n = Path.GetFileNameWithoutExtension(m_FileName);
@@ -189,31 +190,32 @@ namespace Hypowered
 		static public void ResizaDraw(Bitmap? src,Bitmap? dst)
 		{
 			if((src == null)||(dst==null)) return;
-			Graphics g = Graphics.FromImage(dst);
-			using(SolidBrush sb = new SolidBrush(Color.Transparent))
+			using (SolidBrush sb = new SolidBrush(Color.Transparent))
+			using (Graphics g = Graphics.FromImage(dst))
 			{
-				g.FillRectangle(sb,new Rectangle(0,0,dst.Width,dst.Height));
-			}
-			if ((dst.Width>=src.Width)&&(dst.Height>=src.Height))
-			{
-				int x = (dst.Width - src.Width) / 2;
-				int y = (dst.Height - src.Height) / 2;
-				g.DrawImage(src, x, y);
-			}
-			else
-			{
-				double d = (double)dst.Width / (double)src.Width;
-				int w = (int)((double)src.Width * d);
-				int h = (int)((double)src.Height * d);
-				if(h>dst.Height)
+
+				g.FillRectangle(sb, new Rectangle(0, 0, dst.Width, dst.Height));
+				if ((dst.Width >= src.Width) && (dst.Height >= src.Height))
 				{
-					d = (double)dst.Height / (double)src.Height;
-					w = (int)((double)src.Width * d);
-					h = (int)((double)src.Height * d);
+					int x = (dst.Width - src.Width) / 2;
+					int y = (dst.Height - src.Height) / 2;
+					g.DrawImage(src, x, y);
 				}
-				int x = (dst.Width-w)/2;
-				int y = (dst.Height - h) / 2;
-				g.DrawImage(src,new Rectangle(x,y,w,h));
+				else
+				{
+					double d = (double)dst.Width / (double)src.Width;
+					int w = (int)((double)src.Width * d);
+					int h = (int)((double)src.Height * d);
+					if (h > dst.Height)
+					{
+						d = (double)dst.Height / (double)src.Height;
+						w = (int)((double)src.Width * d);
+						h = (int)((double)src.Height * d);
+					}
+					int x = (dst.Width - w) / 2;
+					int y = (dst.Height - h) / 2;
+					g.DrawImage(src, new Rectangle(x, y, w, h));
+				}
 			}
 
 		}

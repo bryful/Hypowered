@@ -85,24 +85,27 @@ namespace Hypowered
 		protected bool m_MDPush = false;
 		protected override void OnMouseDown(MouseEventArgs e)
 		{
-			if(m_IsEdit)
+			if ((Control.ModifierKeys & Keys.Shift) == Keys.Shift)
+			{
+				SetIsEdit(true);
+				if (HForm != null)
+				{
+					HForm.TargetIndex = this.Index;
+					HForm.Invalidate();
+				}
+				return;
+			}
+			if (m_IsEdit)
 			{
 				base.OnMouseDown(e);
 			}
 			else
 			{
-				if ((Control.ModifierKeys & Keys.Shift) == Keys.Shift)
+				
+				m_MDPush = true;
+				if (m_IsCheckMode)
 				{
-					SetIsEdit(!m_IsEdit);
-					return;
-				}
-				else
-				{
-					m_MDPush = true;
-					if (m_IsCheckMode)
-					{
-						m_Checked = !m_Checked;
-					}
+					m_Checked = !m_Checked;
 				}
 				this.Invalidate();
 			}
