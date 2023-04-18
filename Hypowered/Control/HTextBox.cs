@@ -14,12 +14,13 @@ namespace Hypowered
 {
 	public class HTextBox : HControl
 	{
-		private EditTextBox Edit { get; set; }= new EditTextBox();
+		#region Prop
+		private EditTextBox TextBox { get; set; }= new EditTextBox();
 		public override void SetIsEdit(bool b, bool IsEven = true)
 		{
 			if(m_IsEdit)
 			{
-				EndEdit();
+				EndTextBox();
 			}
 			base.SetIsEdit(b, IsEven);
 		}
@@ -51,7 +52,7 @@ namespace Hypowered
 			set 
 			{
 				base.Font = value;
-				Edit.Font = value;
+				TextBox.Font = value;
 				ChkGridSize();
 				ChkSize();
 			}
@@ -63,7 +64,7 @@ namespace Hypowered
 			set 
 			{
 				base.BackColor = value; 
-				Edit.BackColor = value;
+				TextBox.BackColor = value;
 				this.Invalidate(); 
 			}
 		}
@@ -74,27 +75,28 @@ namespace Hypowered
 			set
 			{
 				base.ForeColor = value;
-				Edit.ForeColor = value;
+				TextBox.ForeColor = value;
 				this.Invalidate();
 			}
 		}
+		#endregion
 		public HTextBox()
 		{
 			m_HType = HType.TextBox;
-			Edit.Visible = false;
-			Edit.BackColor = base.BackColor;
-			Edit.ForeColor = base.ForeColor;
-			Edit.BorderStyle = BorderStyle.FixedSingle;
-			Edit.Name = "EditTextBox";
+			TextBox.Visible = false;
+			TextBox.BackColor = base.BackColor;
+			TextBox.ForeColor = base.ForeColor;
+			TextBox.BorderStyle = BorderStyle.FixedSingle;
+			TextBox.Name = "EditTextBox";
 			ChkSize();
 			TextAlign = StringAlignment.Near;
-			Edit.LostFocus += (sender, e) => { EndEdit(); };
-			Edit.PreviewKeyDown += (sender, e) =>
+			TextBox.LostFocus += (sender, e) => { EndTextBox(); };
+			TextBox.PreviewKeyDown += (sender, e) =>
 			{
-				if (e.KeyData == Keys.Enter) { EndEdit(true); }
-				else if (e.KeyData == Keys.Escape) { EndEdit(false); }
+				if (e.KeyData == Keys.Enter) { EndTextBox(true); }
+				else if (e.KeyData == Keys.Escape) { EndTextBox(false); }
 			};
-			this.Controls.Add(Edit);
+			this.Controls.Add(TextBox);
 		}
 		public void ChkSize()
 		{
@@ -109,11 +111,11 @@ namespace Hypowered
 				(base.Size.Height / m_GridSize) * m_GridSize);
 			if (base.Size != ns) base.Size = ns;
 
-			Edit.Location = new Point(2, 2);
-			Edit.Size = new Size(base.Width - 4, base.Height - 4);
-			if (Edit.Height != base.Height-4)
+			TextBox.Location = new Point(2, 2);
+			TextBox.Size = new Size(base.Width - 4, base.Height - 4);
+			if (TextBox.Height != base.Height-4)
 			{
-				base.Height = Edit.Height + 4;
+				base.Height = TextBox.Height + 4;
 			}
 			_RefFlag = b;
 		}
@@ -145,26 +147,38 @@ namespace Hypowered
 			ChkSize();
 			base.OnResize(e);
 		}
-		private void SetEdit()
+		private void SetTextBox()
 		{
 			if (m_IsEdit) return;
-			Edit.Text = base.Text;
-			Edit.Visible = true;
-			Edit.Focus();
+			switch(TextAlign)
+			{
+				case StringAlignment.Center:
+					TextBox.TextAlign = HorizontalAlignment.Center; 
+					break;
+				case StringAlignment.Near:
+					TextBox.TextAlign = HorizontalAlignment.Left;
+					break;
+				case StringAlignment.Far:
+					TextBox.TextAlign = HorizontalAlignment.Right;
+					break;
+			}
+			TextBox.Text = base.Text;
+			TextBox.Visible = true;
+			TextBox.Focus();
 		}
-		private void EndEdit(bool rev=true)
+		private void EndTextBox(bool rev=true)
 		{
 			if (m_IsEdit) return;
 			if (rev==true)
 			{
-				base.Text = Edit.Text;
+				base.Text = TextBox.Text;
 			}
-			Edit.Visible = false;
+			TextBox.Visible = false;
 			this.Focus();
 		}
 		protected override void OnMouseDown(MouseEventArgs e)
 		{
-			if ((Control.ModifierKeys & Keys.Shift) == Keys.Shift)
+			if (IsAltKey)
 			{
 				SetIsEdit(true);
 				this.Invalidate();
@@ -179,7 +193,7 @@ namespace Hypowered
 			{
 				if(m_IsEdit==false)
 				{
-					SetEdit();
+					SetTextBox();
 					return;
 				}
 			}
@@ -189,7 +203,7 @@ namespace Hypowered
 		{
 			if((IsEdit==false)&&(e.KeyData== Keys.Enter))
 			{
-				SetEdit();
+				SetTextBox();
 				return;
 			}
 			base.OnPreviewKeyDown(e);

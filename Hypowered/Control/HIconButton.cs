@@ -12,8 +12,10 @@ namespace Hypowered
 {
 	public class HIconButton :HControl
 	{
+		#region Prop
 		protected Bitmap? m_Bitmap = null;
 		protected string m_PictName = "";
+		[Category("Hypowered")]
 		public string PictName
 		{
 			get { return m_PictName; }
@@ -25,7 +27,6 @@ namespace Hypowered
 			}
 		}
 
-		#region Prop
 		protected int m_IconLeft = 0;
 		protected int m_TextLeft = 0;
 		protected int m_IconWidth = 32;
@@ -218,7 +219,7 @@ namespace Hypowered
 		protected bool m_MDPush = false;
 		protected override void OnMouseDown(MouseEventArgs e)
 		{
-			if ((Control.ModifierKeys & Keys.Shift) == Keys.Shift)
+			if (IsAltKey)
 			{
 				SetIsEdit(true);
 				this.Invalidate();
@@ -258,7 +259,7 @@ namespace Hypowered
 			{
 				if((this.HForm!=null)&&(this.HForm.MainForm!=null))
 				{
-					string s =this.HForm.MainForm.ShowPictItemDialog(this.HForm.ItemsLib);
+					string s =this.HForm.MainForm.ShowPictItemDialog(PictName);
 					if(s != "") 
 					{
 						PictName = s;

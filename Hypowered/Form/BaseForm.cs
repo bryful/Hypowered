@@ -43,6 +43,13 @@ namespace Hypowered
 			get { return m_CloseAction; }
 			set { m_CloseAction = value; }
 		}
+		protected bool m_IsShowTopMost = true;
+		[Category("_Hypowered")]
+		public bool IsShowTopMost
+		{
+			get { return m_IsShowTopMost; }
+			set { m_IsShowTopMost = value;this.Invalidate(); }
+		}
 		[Category("Hypowered_Draw")]
 		public new System.Int32 DeviceDpi
 		{
@@ -223,15 +230,18 @@ namespace Hypowered
 				sb.Color = m_BarBackColor;
 				g.FillRectangle(sb, rct);
 				// TopBar TopMost
-				if (this.TopMost)
+				if (IsShowTopMost)
 				{
-					sb.Color = ForeColor;
-					g.FillRectangle(sb, m_TopMostRect);
-				}
-				else
-				{
-					p.Color = ForeColor;
-					g.DrawRectangle(p, m_TopMostRect);
+					if (this.TopMost)
+					{
+						sb.Color = ForeColor;
+						g.FillRectangle(sb, m_TopMostRect);
+					}
+					else
+					{
+						p.Color = ForeColor;
+						g.DrawRectangle(p, m_TopMostRect);
+					}
 				}
 				// TopBar Title
 				rct = new Rectangle(m_TopMostRect.Right+2,0,
@@ -270,7 +280,7 @@ namespace Hypowered
 		{
 			if ((e.Button & MouseButtons.Left) == MouseButtons.Left)
 			{
-				if (InRect(e.X, e.Y, m_TopMostRect))
+				if ((InRect(e.X, e.Y, m_TopMostRect))&&(m_IsShowTopMost))
 				{
 					TopMost = !TopMost;
 				} else if (InRect(e.X, e.Y, m_CloseRect))

@@ -34,18 +34,17 @@
 			// hListBox1
 			// 
 			hListBox1.BackColor = Color.FromArgb(64, 64, 64);
-			hListBox1.CenterHeight = 213D;
-			hListBox1.CenterWidth = 313D;
+			hListBox1.CenterY = 213D;
+			hListBox1.CenterX = 313D;
 			hListBox1.ForcusColor = Color.Blue;
 			hListBox1.ForeColor = Color.FromArgb(230, 230, 230);
 			hListBox1.GridSize = 2;
 			hListBox1.Index = -1;
 			hListBox1.IsEdit = false;
-			hListBox1.IsEditColor = Color.Red;
 			hListBox1.Items = (new string[] { "aaa", "bbb", "ccc" });
 			hListBox1.Location = new Point(190, 118);
 			hListBox1.Name = "hListBox1";
-			hListBox1.SelectedColor = Color.FromArgb(100, 100, 100);
+			hListBox1.IsEditColor = Color.FromArgb(100, 100, 100);
 			hListBox1.Size = new Size(246, 190);
 			hListBox1.TabIndex = 0;
 			hListBox1.TargetColor = Color.FromArgb(150, 100, 100);

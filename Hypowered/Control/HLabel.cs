@@ -14,6 +14,7 @@ namespace Hypowered
 {
 	public class HLabel : HControl
 	{
+		#region Prop
 		protected Size m_LeftDotSize = new Size(12, 12);
 		[Category("Hypowered_Label")]
 		public Size LeftDotSize
@@ -53,12 +54,14 @@ namespace Hypowered
 			get { return m_RightDot; }
 			set { m_RightDot = value; this.Invalidate(); }
 		}
+		#endregion
 		public HLabel()
 		{
 			m_HType = HType.Label;
 			TextAlign = StringAlignment.Near;
 			StringFormat.Alignment = StringAlignment.Center;
 			StringFormat.LineAlignment = StringAlignment.Center;
+			m_IsShowForcus = false;
 			this.Size = new Size(100, 20);
 			this.DoubleBuffered = true;
 			this.SetStyle(

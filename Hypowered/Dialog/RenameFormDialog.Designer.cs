@@ -113,6 +113,7 @@
 			Controls.Add(label1);
 			Controls.Add(tbOrg);
 			Name = "RenameFormDialog";
+			StartPosition = FormStartPosition.CenterParent;
 			Text = "RenameFormDialog";
 			ResumeLayout(false);
 			PerformLayout();

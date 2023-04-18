@@ -17,12 +17,14 @@ namespace Hypowered
 {
 	public class HPictureBox : HControl
 	{
+		#region Prop
 		// *****************************************************************************
 		protected Bitmap m_OffScr = new Bitmap(100,100,PixelFormat.Format32bppArgb);
 		protected Bitmap? m_Bitmap = null;
 		// *****************************************************************************
 		private string m_PictName = "";
 		private string m_FileName = "";
+		[Category("Hypowered"), Browsable(true)]
 		public string PictName
 		{
 			get { return m_PictName; }
@@ -42,6 +44,7 @@ namespace Hypowered
 				}
 			}
 		}
+		[Category("Hypowered"), Browsable(true)]
 		public string FileName
 		{
 			get { return m_FileName; }
@@ -58,6 +61,7 @@ namespace Hypowered
 				}
 			}
 		}
+		#endregion
 		private void InitOffScr()
 		{
 			int w = this.Width - 6;

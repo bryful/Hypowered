@@ -13,6 +13,7 @@ namespace Hypowered
 		{
 			JsonFile jf = new JsonFile();
 			//jf.SetValue(nameof(Name), (String)Name);//System.String
+			jf.SetValue(nameof(IsShowTopMost), (bool)IsShowTopMost);//System.String
 			jf.SetValue(nameof(Text), (String)Text);//System.String
 			jf.SetValue(nameof(CloseAction), (int)CloseAction);//Hypowered.CloseAction
 			jf.SetValue(nameof(Font), (Font)Font);//System.Drawing.Font
@@ -75,6 +76,9 @@ namespace Hypowered
 		{
 			JsonFile jf = new JsonFile(jo);
 			object? v = null;
+			v = jf.ValueAuto("IsShowTopMost", typeof(bool).Name);
+			if (v != null) IsShowTopMost = (bool)v;
+
 			v = jf.ValueAuto("Size", typeof(Size).Name);
 			if (v != null) Size = (Size)v;
 			v = jf.ValueAuto("Text", typeof(String).Name);

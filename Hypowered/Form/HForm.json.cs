@@ -19,6 +19,8 @@ namespace Hypowered
 			JsonFile? jf = new JsonFile(base.ToJson());
 			jf.SetValue(nameof(MainMenuVisible), (Boolean)MainMenuVisible);//System.Boolean
 			jf.SetValue(nameof(IsShowEdit), (Boolean)IsShowEdit);//System.Boolean
+			jf.SetValue(nameof(CanEdit), (Boolean)CanEdit);//System.Boolean
+			jf.SetValue(nameof(CanEdit), (Boolean)CanPropertyGrid);//System.Boolean
 
 			if (this.Controls.Count > 1)
 			{
@@ -63,10 +65,6 @@ namespace Hypowered
 			base.FromJson(jo);
 			JsonFile jf = new JsonFile(jo);
 			object? v = null;
-			v = jf.ValueAuto("MainMenuVisible", typeof(Boolean).Name);
-			if (v != null) MainMenuVisible = (Boolean)v;
-			v = jf.ValueAuto("IsShowEdit", typeof(Boolean).Name);
-			if (v != null) IsShowEdit = (Boolean)v;
 
 			JsonArray? ja = jf.ValueArray("Controls");
 			if ((ja != null)&&(ja.Count>0))
@@ -93,6 +91,12 @@ namespace Hypowered
 				ChkControl();
 
 			}
+			v = jf.ValueAuto("MainMenuVisible", typeof(Boolean).Name);
+			if (v != null) MainMenuVisible = (Boolean)v;
+			v = jf.ValueAuto("IsShowEdit", typeof(Boolean).Name);
+			if (v != null) IsShowEdit = (Boolean)v;
+			v = jf.ValueAuto("CanEdit", typeof(Boolean).Name);
+			if (v != null) CanEdit = (Boolean)v;
 		}
 		// ****************************************************
 		public virtual string ToJsonCode()

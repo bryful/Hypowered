@@ -62,6 +62,21 @@ namespace Hypowered
 		#endregion
 		#region Props
 		// ******************
+		private bool m_CanPropertyGrid = true;
+		[Category("Hypowered"), Browsable(false)]
+		public bool CanPropertyGrid
+		{
+			get { return m_CanPropertyGrid; }
+			set 
+			{ 
+				m_CanPropertyGrid = value; 
+				if(m_CanPropertyGrid==false)
+				{
+					CanEdit=false;
+				}
+			}
+		}
+
 		private string m_FileName = string.Empty;
 
 		public ItemsLib ItemsLib { get; set; } = new ItemsLib();
@@ -94,12 +109,13 @@ namespace Hypowered
 		private HControl? m_TargetControl = null;
 		public HControl? TargetControl { get { return m_TargetControl; } }
 		private int m_TargetIndex = -1;
+		[Category("_Hypowered"), Browsable(true)]
 		public int TargetIndex
 		{
 			get { return (int)m_TargetIndex; }
 			set
 			{
-				if((value<=0)||(value>=this.Controls.Count))
+				if((m_CanEdit==false)||(value<=0)||(value>=this.Controls.Count))
 				{
 					value = -1;
 				}
@@ -161,6 +177,35 @@ namespace Hypowered
 		}
 
 		// ******************
+		protected bool m_CanEdit = true;
+		[Category("_Hypowered")]
+		public bool CanEdit
+		{
+			get { return m_CanEdit; }
+			set
+			{
+				m_CanEdit = value;
+				if(this.Controls.Count>1)
+				{
+					for(int i=1; i< this.Controls.Count; i++)
+					{
+						if (this.Controls[i] is HControl)
+						{
+							((HControl)this.Controls[i]).SetCanEdit(value);
+						}
+					}
+				}
+				if(m_CanEdit==false) 
+				{
+					m_TargetIndex = -1;
+					m_TargetControl = null;
+				}
+				OnIsEditsChanged(new IsEditsChangedEventArgs(IsEditArray));
+				this.Invalidate();
+			}
+		}
+
+		// ******************
 		[Category("Hypowered")]
 		public int Index { get; set; } = -1;
 
@@ -191,8 +236,6 @@ namespace Hypowered
 		public HMenuItem CloseMenu { get; set; } = new HMenuItem();
 		[Category("Hypowered_Menu")]
 		public HMenuItem MainFormMenu { get; set; } = new HMenuItem();
-		[Category("Hypowered_Menu")]
-		public HMenuItem PictItemDialogMenu { get; set; } = new HMenuItem();
 
 
 
@@ -232,6 +275,7 @@ namespace Hypowered
 			}
 		}
 		protected Color m_TargetColor = Color.Yellow;
+		[Category("Hypowered_Color"), Browsable(true)]
 		public Color TargetColor
 		{
 			get { return m_TargetColor; }
@@ -381,21 +425,11 @@ namespace Hypowered
 					m_MainForm.Activate();
 				}
 			};
-			PictItemDialogMenu.Name = "PictDialogMenu";
-			PictItemDialogMenu.Text = "PictDialog";
-			PictItemDialogMenu.Click += (sender, e) =>
-			{
-				if (m_MainForm != null)
-				{
-					string name = m_MainForm.ShowPictItemDialog(null);
-				}
-			};
 
 			FileMenu.DropDownItems.Add(OpenMenu);
 			FileMenu.DropDownItems.Add(CloseMenu);
 
 			ToolMenu.DropDownItems.Add(MainFormMenu);
-			ToolMenu.DropDownItems.Add(PictItemDialogMenu);
 
 			MainMenu.Items.Add(FileMenu);
 			MainMenu.Items.Add(EditMenu);
@@ -412,7 +446,7 @@ namespace Hypowered
 		}
 		protected override void OnMouseDown(MouseEventArgs e)
 		{
-			if ((Control.ModifierKeys & Keys.Shift) == Keys.Shift)
+			if ((Control.ModifierKeys & Keys.Alt) == Keys.Alt)
 			{
 				if(this.Controls.Count > 1) 
 				{
@@ -695,7 +729,7 @@ namespace Hypowered
 		protected override void OnPaint(PaintEventArgs e)
 		{
 			base.OnPaint(e);
-			if (m_IsShowEdit)
+			if ((m_IsShowEdit)&&(m_CanEdit))
 			{
 				if ((this.Controls.Count > 1) && (m_TargetControl != null))
 				{

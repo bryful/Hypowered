@@ -85,7 +85,7 @@ namespace Hypowered
 		protected bool m_MDPush = false;
 		protected override void OnMouseDown(MouseEventArgs e)
 		{
-			if ((Control.ModifierKeys & Keys.Shift) == Keys.Shift)
+			if (IsAltKey)
 			{
 				SetIsEdit(true);
 				if (HForm != null)

@@ -11,6 +11,17 @@ namespace Hypowered
 {
 	public class HListBox : HControl
 	{
+		#region Prop
+		private bool m_IsSaveItems = true;
+		[Category("Hypowered"), Browsable(true)]
+		private bool IsSaveItems
+		{
+			get { return m_IsSaveItems; }
+			set
+			{
+				m_IsSaveItems = value;
+			}
+		}
 		private int m_ListHeight = 18;
 		[Category("Hypowered"), Browsable(true)]
 		private int ListHeight
@@ -24,6 +35,7 @@ namespace Hypowered
 			}
 		}
 		private int m_DispY = 0;
+		[Category("Hypowered"), Browsable(false)]
 		public int DispY
 		{
 			get { return m_DispY; }
@@ -60,21 +72,60 @@ namespace Hypowered
 			}
 		}
 		// ********************************************************
-		private List<bool> m_ItemsSelect = new List<bool>();
-		private List<string> m_Items = new List<string>();
+		private List<HListBoxItem> m_Items = new List<HListBoxItem>();
 		[Category("Hypowered"),Browsable(true)]
 		public string[] Items
 		{
-			get { return m_Items.ToArray(); }
+			get { return ToArray(); }
 			set
 			{
-				Clear();
-				AddRange(value,false);
+				FromArray(value);
 				ChkSize();
 				this.Invalidate();
 			}
 		}
+		public string[] ToArray()
+		{
+			string []ret = new string[m_Items.Count];
+			for(int i=0; i< m_Items.Count; i++)
+			{
+				ret[i] = m_Items[i].Text;
+			}
+			return ret;
+		}
+		public void FromArray(string[] sa)
+		{
+			m_Items.Clear();
+			if(sa.Length > 0)
+			{
+				foreach(string s in sa)
+				{
+					this.m_Items.Add(new HListBoxItem(s));
+				}
+			}
+		}
+		private Color m_SelectedColor = Color.FromArgb(100, 100, 100);
+		[Category("Hypowered_Color"), Browsable(true)]
+		public Color SelectedColor
+		{
+			get { return m_SelectedColor; }
+			set
+			{
+				m_SelectedColor = value; this.Invalidate();
+			}
+		}
+		/// <summary>
+		/// ターゲットになった時の色。ListBoxで使用
+		/// </summary>
+		[Category("Hypowered_Color"), Browsable(true)]
+		public System.Drawing.Color TargetColor
+		{
+			get { return m_TargetColor; }
+			set { m_TargetColor = value; this.Invalidate(); }
+		}
+		[Category("Hypowered"), Browsable(false)]
 		private VScrol VScrol { get; set; } = new VScrol();
+		#endregion
 		// ***********************************************
 		public HListBox()
 		{
@@ -92,27 +143,27 @@ namespace Hypowered
 				}
 			};
 			ChkSize();
+			ChkGridSize();
 			this.Controls.Add(VScrol);
 		}
 		// ***********************************************
 		public void Add(string s, bool IsSel=false)
 		{
-			m_Items.Add(s);
-			m_ItemsSelect.Add(IsSel);
+			m_Items.Add(new HListBoxItem(s,IsSel));
 		}
 		// ***********************************************
 		public void AddRange(string [] sa, bool IsSel = false)
 		{
 			if (sa.Length>0)
 			{
-				m_Items.AddRange(sa);
-				for(int i=0; i<sa.Length; i++)
+				if (sa.Length > 0)
 				{
-					m_ItemsSelect.Add(IsSel);
+					foreach (string s in sa)
+					{
+						this.m_Items.Add(new HListBoxItem(s,IsSel));
+					}
 				}
-
 			}
-
 		}
 		// ***********************************************
 		public void RemoveAt(int idx)
@@ -120,7 +171,6 @@ namespace Hypowered
 			if((idx>=0)&&(idx<m_Items.Count))
 			{
 				m_Items.RemoveAt(idx);
-				m_ItemsSelect.RemoveAt(idx);
 			}
 		}
 
@@ -131,19 +181,15 @@ namespace Hypowered
 				&& (idx0 >= 0) && (idx0 < m_Items.Count)
 				&& (idx1 >= 0) && (idx1 < m_Items.Count))
 			{
-				string s = m_Items[idx0];
-				bool b = m_ItemsSelect[idx0];
-				m_Items[idx0] = m_Items[idx1];
-				m_ItemsSelect[idx0] = m_ItemsSelect[idx1];
+				HListBoxItem s = new HListBoxItem(m_Items[idx0]);
+				m_Items[idx0] = new HListBoxItem(m_Items[idx1]);
 				m_Items[idx1] = s;
-				m_ItemsSelect[idx1] = b;
 			}
 		}
 		// ***********************************************
 		public void Clear()
 		{
 			m_Items.Clear();
-			m_ItemsSelect.Clear();
 		}
 		// ***********************************************
 		private void DrawItem(Graphics g,SolidBrush sb, Pen p, int idx,Rectangle r)
@@ -152,7 +198,7 @@ namespace Hypowered
 			if (idx==m_SelectedIndex)
 			{
 				sb.Color = m_TargetColor;
-			}else if (m_ItemsSelect[idx]==true)
+			}else if (m_Items[idx].Selected==true)
 			{
 				sb.Color = m_SelectedColor;
 			}
@@ -161,11 +207,11 @@ namespace Hypowered
 				sb.Color = BackColor;
 			}
 			g.FillRectangle(sb, r);
-			if (m_Items[idx]!="") 
+			if (m_Items[idx].Text!="") 
 			{
 				sb.Color = ForeColor;
 				Rectangle r2 = new Rectangle(r.Left+20, r.Top, r.Width - 20, r.Height);
-				g.DrawString(m_Items[idx], this.Font, sb, r2, StringFormat);
+				g.DrawString(m_Items[idx].Text, this.Font, sb, r2, StringFormat);
 			}
 
 		}
@@ -226,7 +272,7 @@ namespace Hypowered
 		// ****************************************************************************
 		protected override void OnMouseDown(MouseEventArgs e)
 		{
-			if ((Control.ModifierKeys & Keys.Shift) == Keys.Shift)
+			if (IsAltKey)
 			{
 				SetIsEdit(true);
 				this.Invalidate();
@@ -262,12 +308,12 @@ namespace Hypowered
 					m_SelectedIndex = idx;
 					if ((Control.ModifierKeys & Keys.Control) != Keys.Control)
 					{
-						for(int i = 0;i<m_ItemsSelect.Count;i++)
+						for(int i = 0;i<m_Items.Count;i++)
 						{
-							m_ItemsSelect[i] = false;
+							m_Items[i].Selected = false;
 						}
 					}
-					m_ItemsSelect[idx] = true;
+					m_Items[idx].Selected = true;
 
 				}
 				this.Invalidate();
@@ -285,8 +331,10 @@ namespace Hypowered
 		{
 			JsonFile? jf = new JsonFile(base.ToJson());
 
-			jf.SetValue("Items", Items);
+			if(m_IsSaveItems) jf.SetValue("Items", ToArray());
 			jf.SetValue("ListHeight", ListHeight);
+			jf.SetValue("SelectedColor", SelectedColor);
+			jf.SetValue("TargetColor", TargetColor);
 
 			return jf.Obj;
 		}
@@ -295,12 +343,46 @@ namespace Hypowered
 			base.FromJson(jo);
 			JsonFile jf = new JsonFile(jo);
 			object? v = null;
-			v = jf.ValueAuto("Items", typeof(String[]).Name);
-			if (v != null) Items = (String[])v;
+			if (m_IsSaveItems)
+			{
+				v = jf.ValueAuto("Items", typeof(String[]).Name);
+				if (v != null) FromArray((String[])v);
+			}
 			v = jf.ValueAuto("ListHeight", typeof(Int32).Name);
 			if (v != null) ListHeight = (Int32)v;
+			v = jf.ValueAuto("SelectedColor", typeof(Color).Name);
+			if (v != null) SelectedColor = (Color)v;
+			v = jf.ValueAuto("TargetColor", typeof(Color).Name);
+			if (v != null) TargetColor = (Color)v;
 
 			ChkSize();
 		}
+	}
+	public class HListBoxItem
+	{
+		public string Text { get; set; } = "";
+		public bool Selected { get; set; } = false;
+		public Object? Tag { get; set; } = null;
+		public string Comment { get; set; } = "";
+		public HListBoxItem() 
+		{
+		}
+		public HListBoxItem(string s)
+		{
+			Text = s;
+		}
+		public HListBoxItem(string s,bool sel)
+		{
+			Text = s;
+			Selected = sel;
+		}
+		public HListBoxItem(HListBoxItem v)
+		{
+			Text = v.Text;
+			Selected = v.Selected;
+			Tag = v.Tag;
+			Comment = v.Comment;
+		}
+
 	}
 }

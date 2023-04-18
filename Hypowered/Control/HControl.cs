@@ -22,7 +22,6 @@ namespace Hypowered
 	}
 	public class CHType
 	{
-
 		private string [] m_Names = new string[0];
 		public string[] Names { get { return m_Names; } }
 		public HType Value { get; set; } = HType.None;
@@ -74,6 +73,7 @@ namespace Hypowered
 	}
 	public partial class HControl : Control
 	{
+		#region Event
 		public class IsEditChangedEventArgs : EventArgs
 		{
 			public bool IsEdit;
@@ -93,7 +93,10 @@ namespace Hypowered
 				IsEditChanged(this, e);
 			}
 		}
+		#endregion
+		#region Prop
 		protected HForm? m_HForm = null;
+
 		[Category("Hypowered"),Browsable(false)]
 		public HForm? HForm 
 		{ 
@@ -106,16 +109,38 @@ namespace Hypowered
 		{
 			m_HForm = hf;
 		}
-		#region Prop
 		protected bool m_IsShowForcus = true;
-		[Category("_Hypowered")]
+		/// <summary>
+		/// フォーカスの枠描画をするかしないかのフラグ
+		/// </summary>
+		[Category("_Hypowered"),Browsable(true)]
 		public bool IsShowForcus
 		{
 			get { return m_IsShowForcus; }
 			set { m_IsShowForcus=value; this.Invalidate();  }
 		}
-
+		private bool m_CanEdit = true;
+		/// <summary>
+		/// 編集可能かどうかのフラグ　Formで指定する
+		/// </summary>
+		[Category("_Hypowered"), Browsable(true)]
+		public bool CanEdit
+		{
+			get { return m_CanEdit; }
+		}
+		public void SetCanEdit(bool b) 
+		{ 
+			m_CanEdit=b; 
+			if(m_CanEdit==false)
+			{
+				m_IsEdit = false;
+			}
+			this.Invalidate();
+		}
 		protected bool m_IsEdit = false;
+		/// <summary>
+		/// このコントロールが編集状態ならtrue
+		/// </summary>
 		[Category("_Hypowered")]
 		public bool IsEdit
 		{
@@ -124,15 +149,22 @@ namespace Hypowered
 		}
 		public virtual void SetIsEdit(bool b,bool IsEvent=true)
 		{
-			if(m_IsEdit != b)
+			if (m_CanEdit == false)
+			{
+				b = false;
+			}
+			if (m_IsEdit != b)
 			{
 				m_IsEdit = b;
-				if(IsEvent)
+				if (IsEvent)
 					OnIsEditChanged(new IsEditChangedEventArgs(m_IsEdit, Index));
 			}
 			this.Invalidate();
 		}
 		protected HType m_HType = HType.None;
+		/// <summary>
+		/// このコントロールの種類
+		/// </summary>
 		[Category("_Hypowered")]
 		public HType HType
 		{
@@ -140,7 +172,7 @@ namespace Hypowered
 		}
 		[Category("_Hypowered")]
 		public int Index { get; set; } = -1;
-		[Category("Hypowered"), Browsable(true)]
+		[Category("Hypowered"), Browsable(false)]
 		public new System.Boolean AllowDrop
 		{
 			get { return base.AllowDrop; }
@@ -152,13 +184,6 @@ namespace Hypowered
 			get { return base.Name; }
 			set { base.Name = value; this.Invalidate(); }
 		}
-
-		[Category("Hypowered"), Browsable(false)]
-		public new System.Windows.Forms.AnchorStyles Anchor
-		{
-			get { return base.Anchor; }
-			set { base.Anchor = value; }
-		}
 		[Category("Hypowered_Color"), Browsable(true)]
 		public new System.Drawing.Color BackColor
 		{
@@ -166,6 +191,9 @@ namespace Hypowered
 			set { base.BackColor = value; this.Invalidate(); }
 		}
 		protected Color m_ForcusColor = Color.Blue;
+		/// <summary>
+		/// フォーカスした時の枠の色
+		/// </summary>
 		[Category("Hypowered_Color"), Browsable(true)]
 		public System.Drawing.Color ForcusColor
 		{
@@ -173,18 +201,17 @@ namespace Hypowered
 			set { m_ForcusColor = value; this.Invalidate(); }
 		}
 		protected Color m_TargetColor = Color.FromArgb(150,100,100);
+
+
+		protected Color m_IsEditColor = Color.FromArgb(150, 100, 100);
+		/// <summary>
+		/// 選択(IsEdit がtrue)の時の枠の色
+		/// </summary>
 		[Category("Hypowered_Color"), Browsable(true)]
-		public System.Drawing.Color TargetColor
+		public System.Drawing.Color IsEditColor
 		{
-			get { return m_TargetColor; }
-			set { m_TargetColor = value; this.Invalidate(); }
-		}
-		protected Color m_SelectedColor = Color.FromArgb(100, 100, 100);
-		[Category("Hypowered_Color"), Browsable(true)]
-		public System.Drawing.Color SelectedColor
-		{
-			get { return m_SelectedColor; }
-			set { m_SelectedColor = value; this.Invalidate(); }
+			get { return m_IsEditColor; }
+			set { m_IsEditColor = value; this.Invalidate(); }
 		}
 		[Category("Hypowered_Color"), Browsable(true)]
 		public new System.Drawing.Color ForeColor
@@ -192,6 +219,7 @@ namespace Hypowered
 			get { return base.ForeColor; }
 			set { base.ForeColor = value; this.Invalidate(); }
 		}
+		/*
 		protected Color m_IsEditColor = Color.Red;
 		[Category("Hypowered_Color"), Browsable(true)]
 		public System.Drawing.Color IsEditColor
@@ -199,8 +227,11 @@ namespace Hypowered
 			get { return m_IsEditColor; }
 			set { m_IsEditColor = value; this.Invalidate(); }
 		}
-
+		*/
 		public int m_GridSize = 2;
+		/// <summary>
+		/// Location Sizeの最小単位
+		/// </summary>
 		[Category("Hypowered_Size"), Browsable(true)]
 		public  int GridSize
 		{
@@ -236,7 +267,7 @@ namespace Hypowered
 			set { base.Location = value; ChkGridSize(); }
 		}
 		[Category("Hypowered_Size"), Browsable(true)]
-		public double CenterWidth
+		public double CenterX
 		{
 			get { return (double)base.Left + (double)base.Width/2; }
 			set
@@ -245,7 +276,7 @@ namespace Hypowered
 			}
 		}
 		[Category("Hypowered_Size"), Browsable(true)]
-		public double CenterHeight
+		public double CenterY
 		{
 			get { return (double)base.Top + (double)base.Height / 2; }
 			set
@@ -281,7 +312,7 @@ namespace Hypowered
 		public new System.Drawing.Size Size
 		{
 			get { return base.Size; }
-			set { base.Size = value;ChkGridSize(); }
+			set { base.Size = value;ChkGridSize(); this.Invalidate(); }
 		}
 		[Category("Hypowered"), Browsable(true)]
 		public new System.Object Tag
@@ -305,7 +336,7 @@ namespace Hypowered
 		public new System.Drawing.Font Font
 		{
 			get { return base.Font; }
-			set { base.Font = value; this.Invalidate(); }
+			set { base.Font = value; this.Invalidate(); this.Invalidate(); }
 		}
 		public StringFormat StringFormat = new StringFormat();
 		[Category("Hypowered_Text"), Browsable(true)]
@@ -370,7 +401,6 @@ namespace Hypowered
 				g.FillRectangle(sb, r);
 				p.Color = ForeColor;
 				DrawFrame(g,p,r,1);
-				// IsEdit
 				
 				DrawIsEdit(g, p);
 			}
@@ -381,33 +411,45 @@ namespace Hypowered
 		protected Point m_MDP = new Point(0,0);
 		protected Point m_MDLoc = new Point(0, 0);
 		protected Size m_MDSize = new Size(0, 0);
+		protected bool IsAltKey
+		{
+			get { return ((Control.ModifierKeys & Keys.Alt) == Keys.Alt); }
+		}
+		protected bool IsShiftKey 
+		{
+			get { return ((Control.ModifierKeys & Keys.Shift) == Keys.Shift); }
+		}
+		protected bool IsConrolKey
+		{
+			get { return ((Control.ModifierKeys & Keys.Control) == Keys.Control); }
+		}
+
 		// ************************************************************
 		protected override void OnMouseDown(MouseEventArgs e)
 		{
-			if ((Control.ModifierKeys & Keys.Shift) == Keys.Shift)
+			if (IsAltKey)
 			{
-				SetIsEdit(true);
-				this.Invalidate();
-				if (HForm != null)
+				if (m_CanEdit)
 				{
-					HForm.TargetIndex = this.Index;
-					HForm.Invalidate();
+					SetIsEdit(true);
+					this.Invalidate();
+					if (HForm != null)
+					{
+						HForm.TargetIndex = this.Index;
+						HForm.Invalidate();
+					}
+					return;
 				}
-				return;
 			}
-			if (m_IsEdit==true)
+			if ((m_IsEdit==true)&&(m_CanEdit))
 			{
 				if ((e.Button & MouseButtons.Left) == MouseButtons.Left)
 				{
-
-				
 					m_MD = true;
 					m_MDLoc = this.Location;
 					m_MDSize = this.Size;
 					m_MDP = this.PointToScreen(new Point(e.X,e.Y));
 					m_MDResize = ((e.X > this.Width - 10) && (e.Y > this.Height - 10));
-
-
 					return;
 				}
 
@@ -430,9 +472,12 @@ namespace Hypowered
 				{
 					this.Location = new Point(m_MDLoc.X + dx, m_MDLoc.Y + dy);
 				}
-				this.HForm.Invalidate();
+				if(HForm!=null) this.HForm.Invalidate();
 			}
-			base.OnMouseMove(e);
+			else
+			{
+				base.OnMouseMove(e);
+			}
 		}
 		// ************************************************************
 		protected override void OnMouseUp(MouseEventArgs e)
@@ -457,6 +502,7 @@ namespace Hypowered
 		// ************************************************************
 		public void MovePos(ArrowDown ad,int MoveScale)
 		{
+			if(m_CanEdit==false) return;
 			int v = m_GridSize * MoveScale;
 			switch(ad)
 			{
@@ -473,9 +519,11 @@ namespace Hypowered
 					this.Left += v;
 					break;
 			}
+			if (HForm != null) HForm.Invalidate(); 
 		}
 		public void ResizeLeftTop(ArrowDown ad, int MoveScale)
 		{
+			if (m_CanEdit == false) return;
 			int v = m_GridSize * MoveScale;
 			switch (ad)
 			{
@@ -502,9 +550,11 @@ namespace Hypowered
 					}
 					break;
 			}
+			if (HForm != null) HForm.Invalidate();
 		}
 		public void ResizeRightBottom(ArrowDown ad, int MoveScale)
 		{
+			if (m_CanEdit == false) return;
 			int v = m_GridSize * MoveScale;
 			switch (ad)
 			{
@@ -527,6 +577,7 @@ namespace Hypowered
 					this.Width += v;
 					break;
 			}
+			if (HForm != null) HForm.Invalidate();
 		}
 		// ************************************************************
 		public Rectangle RectInc(Rectangle r, int a)
@@ -617,12 +668,14 @@ namespace Hypowered
 				DrawFrame(g, p, this.ClientRectangle, 2);
 			}
 			//if(Index == m_Ta)
-			if (m_IsEdit)
+			if ((m_IsEdit)&&(m_CanEdit))
 			{
-				Rectangle r = new Rectangle(0, 0, this.Width - 1, this.Height - 1);
+				Rectangle r = new Rectangle(1, 1, this.Width - 2, this.Height - 2);
 				p.Color = m_IsEditColor;
+				p.Width = 2;
 				p.DashStyle = System.Drawing.Drawing2D.DashStyle.Dot;
 				g.DrawRectangle(p, r);
+				p.Width = 1;
 			}
 		}
 		protected bool _RefFlag = false; 

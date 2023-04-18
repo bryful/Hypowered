@@ -348,6 +348,11 @@ namespace Hypowered
 		{
 			get { return base.Container; }
 		}
-
+		[Category("Hypowered"), Browsable(false)]
+		public new System.Windows.Forms.AnchorStyles Anchor
+		{
+			get { return base.Anchor; }
+			set { base.Anchor = value; }
+		}
 	}
 }

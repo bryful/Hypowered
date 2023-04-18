@@ -43,21 +43,21 @@ namespace Hypowered
 			{
 				if (tbNew.Text == tbOrg.Text) return;
 				if (tbNew.Text == "") return;
-				if(HForm != null)
+				if (HForm != null)
 				{
 					string fn = HForm.ItemsLib.FileName;
 					string? d = Path.GetDirectoryName(fn);
 					if (d == null) d = "";
 					string n = Path.GetFileNameWithoutExtension(fn);
 					string ext = Path.GetExtension(fn);
-					string nn = Path.Combine(d, tbNew.Text+ ext);
+					string nn = Path.Combine(d, tbNew.Text + ext);
 
-					if( (File.Exists(nn))||(Directory.Exists(nn))) 
+					if ((File.Exists(nn)) || (Directory.Exists(nn)))
 					{
 						MessageBox.Show("A file with the same name already exists.");
 						return;
 					}
-					if (HForm.ItemsLib.Rename(tbNew.Text)==false)
+					if (HForm.ItemsLib.Rename(tbNew.Text) == false)
 					{
 
 					}

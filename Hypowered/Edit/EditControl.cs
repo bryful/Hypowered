@@ -30,6 +30,11 @@ namespace Hypowered
 		}
 		public void SetTargetForm(HForm? hf)
 		{
+			if((hf!=null)&&(hf.CanPropertyGrid==false))
+			{
+				m_TargetForm = null;
+				return;
+			}
 			m_TargetForm = hf;
 			if (m_TargetForm != null)
 			{
@@ -220,8 +225,15 @@ namespace Hypowered
 				int idx = FormListBox.SelectedIndex;
 				if((idx>=0) && (idx< MainForm.HForms.Count))
 				{
-					SetTargetForm(MainForm.HForms[idx]);
-					MainForm.SetTargetForm(MainForm.HForms[idx]);
+					if (MainForm.HForms[idx].CanPropertyGrid)
+					{
+						SetTargetForm(MainForm.HForms[idx]);
+						MainForm.SetTargetForm(MainForm.HForms[idx]);
+					}
+					else
+					{
+						m_TargetForm = null;
+					}
 					if (PropertyGrid != null)
 					{
 						PropertyGrid.SelectedObject = m_TargetForm;

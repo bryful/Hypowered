@@ -101,6 +101,11 @@ namespace Hypowered
 		public HForm? TargetForm { get { return m_TargetForm; } }
 		public void SetTargetForm(HForm? fm)
 		{
+			if((fm!=null)&&(fm.CanPropertyGrid==false))
+			{
+				fm = null;
+			}
+
 			bool b = (m_TargetForm != fm);
 
 			m_TargetForm = fm;
@@ -189,6 +194,7 @@ namespace Hypowered
 			if (TargetForm == null) return;
 			using (RenameFormDialog dlg = new RenameFormDialog())
 			{
+				dlg.TopMost = this.TopMost;
 				dlg.FormName = TargetForm.ItemsLib.Name;
 				if (dlg.ShowDialog() == DialogResult.OK)
 				{
@@ -250,6 +256,7 @@ namespace Hypowered
 		{
 			using (CreateFormDialog dlg = new CreateFormDialog())
 			{
+				dlg.TopMost = this.TopMost;
 				dlg.FullFormName = $"{m_HomeFolder}\\Form{m_AddFormCount}{DefEXT}";
 				if (dlg.ShowDialog() == DialogResult.OK)
 				{
@@ -540,17 +547,19 @@ namespace Hypowered
 		}
 
 		// **********************************************************
-		public string ShowPictItemDialog(ItemsLib? il, string pn = "")
+		public string ShowPictItemDialog(string pn = "")
 		{
 			string ret = "";
 			if (m_TargetForm == null) return ret;
+
 			using (PictItemDialog dlg = new PictItemDialog())
 			{
+
 				dlg.SetMainForm(this);
 				dlg.SetMainItemsLib(this.ItemsLib);
-				dlg.SetFormItemsLib(il);
+				dlg.SetFormItemsLib(m_TargetForm.ItemsLib);
 				if (pn != "") dlg.PictName = pn;
-
+				dlg.TopMost = m_TargetForm.TopMost;
 				if (dlg.ShowDialog() == DialogResult.OK)
 				{
 					ret = dlg.PictName;
