@@ -259,7 +259,7 @@ namespace Hypowered
 			{
 				if((this.HForm!=null)&&(this.HForm.MainForm!=null))
 				{
-					string s =this.HForm.MainForm.ShowPictItemDialog(PictName);
+					string s =this.HForm.MainForm.ShowPictItemDialog(this.HForm,PictName);
 					if(s != "") 
 					{
 						PictName = s;

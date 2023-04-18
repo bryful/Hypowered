@@ -55,7 +55,8 @@ namespace Hypowered
 			return path;
 		}
 		// ********************************************************************
-		public ItemsLib ItemsLib { get; set; } = new ItemsLib();
+		public ItemsLib ItemsLib  = new ItemsLib();
+		public ConsoleForm? ConsoleForm = null;
 		// ********************************************************************
 		#region Event
 		// ********************************************************************
@@ -196,9 +197,11 @@ namespace Hypowered
 			{
 				dlg.TopMost = this.TopMost;
 				dlg.FormName = TargetForm.ItemsLib.Name;
+				dlg.SetHForm(TargetForm);
 				if (dlg.ShowDialog() == DialogResult.OK)
 				{
 					TargetForm.ItemsLib.Rename(dlg.FormName);
+					base.Name = TargetForm.ItemsLib.Name;
 					OnFormChanged(new EventArgs());
 				}
 			}
@@ -307,7 +310,7 @@ namespace Hypowered
 					SetTargetForm(mf);
 				}
 			};
-			form.NameChange += (sender, e) =>
+			form.FormNameChanged += (sender, e) =>
 			{
 				HForm mf = ((HForm)sender);
 			};
@@ -380,7 +383,7 @@ namespace Hypowered
 			closeFormMenu.Click += (sender, e) => { CloseForm(); };
 			deleteControlMenu.Click += (sender, e) => { DeleteControl(); };
 			quitMenu.Click += (sender, e) => { Application.Exit(); };
-
+			consoleMenu.Click += (sender, e) => { ShowConsole(); };
 
 			Command(Environment.GetCommandLineArgs().Skip(1).ToArray(), PIPECALL.StartupExec);
 			//PUtil.ToJsonCodeToClipboard(typeof(HTextBox));
@@ -547,7 +550,7 @@ namespace Hypowered
 		}
 
 		// **********************************************************
-		public string ShowPictItemDialog(string pn = "")
+		public string ShowPictItemDialog(HForm hf, string pn = "")
 		{
 			string ret = "";
 			if (m_TargetForm == null) return ret;
@@ -560,7 +563,7 @@ namespace Hypowered
 				dlg.SetFormItemsLib(m_TargetForm.ItemsLib);
 				if (pn != "") dlg.PictName = pn;
 				dlg.TopMost = m_TargetForm.TopMost;
-				if (dlg.ShowDialog() == DialogResult.OK)
+				if (dlg.ShowDialog(hf) == DialogResult.OK)
 				{
 					ret = dlg.PictName;
 				}
@@ -568,6 +571,35 @@ namespace Hypowered
 			return ret;
 		}
 		// ************************************************************
+		public void Alert(HForm hf, object? obj, string cap="")
+		{
+			if (m_TargetForm == null) return;
 
+			using (AlertForm dlg = new AlertForm())
+			{
+				if (cap != "") dlg.Title = cap;
+				dlg.Text = HUtils.ToStr(obj);
+				dlg.TopMost = hf.TopMost;
+				if (dlg.ShowDialog(hf) == DialogResult.OK)
+				{
+				}
+			}
+		}
+		// ************************************************************
+		public void ShowConsole()
+		{
+			if(ConsoleForm == null)
+			{
+				ConsoleForm = new ConsoleForm();
+				ConsoleForm.SetMainForm(this);
+				ConsoleForm.Show(this);
+			}
+
+			if (ConsoleForm.Visible == false)
+			{
+				ConsoleForm.Visible = true;
+			}
+			ConsoleForm.Activate();
+		}
 	}
 }

@@ -8,13 +8,13 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using Microsoft.ClearScript;
-
-namespace Hpd
+using System.Reflection;
+namespace Hypowered
 {
-	public partial class ConsoleForm : Form
+	public partial class ConsoleForm : BaseForm
 	{
-		public HpdMainForm? MainForm = null;
-		public void SetMainForm(HpdMainForm mf)
+		public MainForm? MainForm = null;
+		public void SetMainForm(MainForm mf)
 		{
 			this.MainForm = mf;
 		}
@@ -22,23 +22,26 @@ namespace Hpd
 		{
 			InitializeComponent();
 			Clear();
+			btnClear.Click += (sender, e) => { Clear(); };
+			btnFont.Click += (sender, e) => { FontDialog(); };
 		}
 		public void WriteLine(object? o)
 		{
 
-			string s = HpdForm.ToStr(o) + "\r\n";
+			string s = HUtils.ToStr(o) + "\r\n";
 			try
 			{
 				tbOutput.AppendText(s);
 				tbOutput.Focus();
-			}catch
+			}
+			catch
 			{
 
 			}
 		}
 		public void Write(object? o)
 		{
-			string s = HpdForm.ToStr(o);
+			string s = HUtils.ToStr(o);
 			try
 			{
 				tbOutput.AppendText(s);
@@ -51,15 +54,16 @@ namespace Hpd
 			tbOutput.Text = "";
 			tbOutput.Focus();
 		}
-
-		private void btnClear_Click(object sender, EventArgs e)
+		public void FontDialog()
 		{
-			Clear();
-		}
-
-		private void btnHide_Click(object sender, EventArgs e)
-		{
-			this.Hide();
+			using (FontDialog dlg = new FontDialog())
+			{
+				dlg.Font = tbOutput.Font;
+				if (dlg.ShowDialog(this) == DialogResult.OK)
+				{
+					tbOutput.Font = dlg.Font;
+				}
+			}
 		}
 	}
 }

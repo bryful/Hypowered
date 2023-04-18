@@ -182,7 +182,7 @@ namespace Hypowered
 				{
 					return ret;
 				}
-				Setup(nm2);
+				ret = Setup(nm2);
 			}
 			return ret;
 		}

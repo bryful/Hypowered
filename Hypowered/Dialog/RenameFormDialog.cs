@@ -57,12 +57,16 @@ namespace Hypowered
 						MessageBox.Show("A file with the same name already exists.");
 						return;
 					}
-					if (HForm.ItemsLib.Rename(tbNew.Text) == false)
+					if (HForm.RenameForm(tbNew.Text) == true)
 					{
-
+						this.DialogResult = DialogResult.OK;
 					}
 
 				}
+			};
+			tbNew.TextChanged += (sender, e) =>
+			{
+				btnOK.Enabled = ((tbNew.Text != "") && (tbNew.Text != tbOrg.Text));
 			};
 		}
 	}

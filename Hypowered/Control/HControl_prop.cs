@@ -7,23 +7,24 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using Microsoft.ClearScript;
 
 namespace Hypowered
 {
 	partial class HControl
 	{
-		[Category("Hypowered"), Browsable(false)]
+		[Category("Hypowered"), Browsable(false),ScriptUsage(ScriptAccess.None)]
 		public new System.Windows.Forms.AccessibleObject AccessibilityObject
 		{
 			get { return base.AccessibilityObject; }
 		}
-		[Category("Hypowered"), Browsable(false)]
+		[Category("Hypowered"), Browsable(false), ScriptUsage(ScriptAccess.None)]
 		public new System.String AccessibleDefaultActionDescription
 		{
 			get { return base.AccessibleDefaultActionDescription; }
 			set { base.AccessibleDefaultActionDescription = value; }
 		}
-		[Category("Hypowered"), Browsable(false)]
+		[Category("Hypowered"), Browsable(false), ScriptUsage(ScriptAccess.None)]
 		public new System.String AccessibleDescription
 		{
 			get { return base.AccessibleDescription; }
@@ -35,7 +36,7 @@ namespace Hypowered
 			get { return base.AccessibleName; }
 			set { base.AccessibleName = value; }
 		}
-		[Category("Hypowered"), Browsable(false)]
+		[Category("Hypowered"), Browsable(false), ScriptUsage(ScriptAccess.None)]
 		public new System.Windows.Forms.AccessibleRole AccessibleRole
 		{
 			get { return base.AccessibleRole; }
@@ -55,25 +56,25 @@ namespace Hypowered
 			get { return base.AutoScrollOffset; }
 			set { base.AutoScrollOffset = value; }
 		}
-		[Category("Hypowered"), Browsable(false)]
+		[Category("Hypowered"), Browsable(false), ScriptUsage(ScriptAccess.None)]
 		public new System.Windows.Forms.Layout.LayoutEngine LayoutEngine
 		{
 			get { return base.LayoutEngine; }
 		}
 
-		[Category("Hypowered"), Browsable(false)]
+		[Category("Hypowered"), Browsable(false), ScriptUsage(ScriptAccess.None)]
 		public new System.Drawing.Image BackgroundImage
 		{
 			get { return base.BackgroundImage; }
 			set { base.BackgroundImage = value; }
 		}
-		[Category("Hypowered"), Browsable(false)]
+		[Category("Hypowered"), Browsable(false), ScriptUsage(ScriptAccess.None)]
 		public new System.Windows.Forms.ImageLayout BackgroundImageLayout
 		{
 			get { return base.BackgroundImageLayout; }
 			set { base.BackgroundImageLayout = value; }
 		}
-		[Category("Hypowered"), Browsable(false)]
+		[Category("Hypowered"), Browsable(false), ScriptUsage(ScriptAccess.None)]
 		public new System.Windows.Forms.BindingContext BindingContext
 		{
 			get { return base.BindingContext; }
@@ -106,7 +107,7 @@ namespace Hypowered
 			get { return base.Capture; }
 			set { base.Capture = value; }
 		}
-		[Category("Hypowered"), Browsable(false)]
+		[Category("Hypowered"), Browsable(false), ScriptUsage(ScriptAccess.None)]
 		public new System.Boolean CausesValidation
 		{
 			get { return base.CausesValidation; }
@@ -133,7 +134,7 @@ namespace Hypowered
 		{
 			get { return base.ContainsFocus; }
 		}
-		[Category("Hypowered"), Browsable(false)]
+		[Category("Hypowered"), Browsable(false), ScriptUsage(ScriptAccess.None)]
 		public new System.Windows.Forms.ContextMenuStrip ContextMenuStrip
 		{
 			get { return base.ContextMenuStrip; }
@@ -144,18 +145,18 @@ namespace Hypowered
 		{
 			get { return base.Controls; }
 		}
-		[Category("Hypowered"), Browsable(false)]
+		[Category("Hypowered"), Browsable(false), ScriptUsage(ScriptAccess.None)]
 		public new System.Boolean Created
 		{
 			get { return base.Created; }
 		}
-		[Category("Hypowered"), Browsable(false)]
+		[Category("Hypowered"), Browsable(false), ScriptUsage(ScriptAccess.None)]
 		public new System.Windows.Forms.Cursor Cursor
 		{
 			get { return base.Cursor; }
 			set { base.Cursor = value; }
 		}
-		[Category("Hypowered"), Browsable(false)]
+		[Category("Hypowered"), Browsable(false), ScriptUsage(ScriptAccess.None)]
 		public new System.Windows.Forms.ControlBindingsCollection DataBindings
 		{
 			get { return base.DataBindings; }
@@ -202,7 +203,7 @@ namespace Hypowered
 		{
 			get { return base.Handle; }
 		}
-		[Category("Hypowered"), Browsable(false)]
+		[Category("Hypowered"), Browsable(false), ScriptUsage(ScriptAccess.None)]
 		public new System.Boolean HasChildren
 		{
 			get { return base.HasChildren; }
@@ -234,7 +235,7 @@ namespace Hypowered
 		{
 			get { return base.IsAncestorSiteInDesignMode; }
 		}
-		[Category("Hypowered"), Browsable(false)]
+		[Category("Hypowered"), Browsable(false), ScriptUsage(ScriptAccess.None)]
 		public new System.Boolean IsMirrored
 		{
 			get { return base.IsMirrored; }
@@ -326,7 +327,7 @@ namespace Hypowered
 			get { return base.Width; }
 			set { base.Width = value; }
 		}
-		[Category("Hypowered"), Browsable(false)]
+		[Category("Hypowered"), Browsable(false), ScriptUsage(ScriptAccess.None)]
 		public new System.Windows.Forms.IWindowTarget WindowTarget
 		{
 			get { return base.WindowTarget; }
@@ -343,12 +344,12 @@ namespace Hypowered
 			get { return base.ImeMode; }
 			set { base.ImeMode = value; }
 		}
-		[Category("Hypowered"), Browsable(false)]
+		[Category("Hypowered"), Browsable(false), ScriptUsage(ScriptAccess.None)]
 		public new System.ComponentModel.IContainer? Container
 		{
 			get { return base.Container; }
 		}
-		[Category("Hypowered"), Browsable(false)]
+		[Category("Hypowered_Size"), Browsable(true)]
 		public new System.Windows.Forms.AnchorStyles Anchor
 		{
 			get { return base.Anchor; }

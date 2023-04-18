@@ -17,10 +17,24 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Script\HpdScriptCode.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="Script\HpdScriptCode.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="Magick.NET-Q8-x64" Version="13.0.1" />
     <PackageReference Include="Magick.NET.Core" Version="13.0.1" />
     <PackageReference Include="Magick.NET.SystemDrawing" Version="7.0.1" />
     <PackageReference Include="Magick.NET.SystemWindowsMedia" Version="7.0.1" />
+    <PackageReference Include="Microsoft.ClearScript" Version="7.3.7" />
+    <PackageReference Include="Microsoft.ClearScript.V8" Version="7.3.7" />
+    <PackageReference Include="Microsoft.ClearScript.V8.Native.win-x64" Version="7.3.7" />
+    <PackageReference Include="Microsoft.ClearScript.V8.Native.win-x86" Version="7.3.7" />
+    <PackageReference Include="Microsoft.CodeAnalysis.CSharp" Version="4.4.0" />
+    <PackageReference Include="Microsoft.CodeAnalysis.CSharp.Scripting" Version="4.4.0" />
     <PackageReference Include="Svg" Version="3.4.4" />
     <PackageReference Include="WindowsAPICodePack" Version="7.0.4" />
   </ItemGroup>

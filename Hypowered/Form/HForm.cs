@@ -14,25 +14,49 @@ namespace Hypowered
 	public partial class HForm : BaseForm
 	{
 		#region Event
-		public class NameChangeEventArgs : EventArgs
+		// ****************
+		public class FormNameChangedEventArgs : EventArgs
 		{
 			public String Name;
 			public int Index;
-			public NameChangeEventArgs(string n, int index)
+			public FormNameChangedEventArgs(string n, int index)
 			{
 				Name = n;
 				Index = index;
 			}
 		}
-		public delegate void NameChangeHandler(object sender, NameChangeEventArgs e);
-		public event NameChangeHandler? NameChange;
-		protected virtual void OnNameChange(NameChangeEventArgs e)
+		public delegate void FormNameChangedHandler(object sender, FormNameChangedEventArgs e);
+		public event FormNameChangedHandler? FormNameChanged;
+		protected virtual void OnFormNameChange(FormNameChangedEventArgs e)
 		{
-			if (NameChange != null)
+			if (FormNameChanged != null)
 			{
-				NameChange(this, e);
+				FormNameChanged(this, e);
 			}
 		}
+		// ****************************************
+		public class ControlNameChangedEventArgs : EventArgs
+		{
+			public string Name;
+			public int FIndex;
+			public int CIndex;
+			public ControlNameChangedEventArgs(string n, int findex, int cindex)
+			{
+				Name = n;
+				CIndex = cindex;
+				FIndex = findex;
+			}
+		}
+		public delegate void ControlNameChangedHandler(object sender, ControlNameChangedEventArgs e);
+		public event ControlNameChangedHandler? ControlNameChanged;
+		protected virtual void OnControlNameChanged(ControlNameChangedEventArgs e)
+		{
+			if (ControlNameChanged != null)
+			{
+				ControlNameChanged(this, e);
+			}
+		}
+		// ****************
 		public class IsEditsChangedEventArgs : EventArgs
 		{
 			public bool[] IsEdits = new bool[0];
@@ -61,6 +85,7 @@ namespace Hypowered
 		}
 		#endregion
 		#region Props
+		public HScript Script { get; set; } = new HScript();
 		// ******************
 		private bool m_CanPropertyGrid = true;
 		[Category("Hypowered"), Browsable(false)]
@@ -104,6 +129,7 @@ namespace Hypowered
 		public void SetMainForm(MainForm mf)
 		{
 			m_MainForm = mf;
+			Script.SetMainForm(mf, this);
 		}
 		// ******************
 		private HControl? m_TargetControl = null;
@@ -265,11 +291,10 @@ namespace Hypowered
 			{
 				if(base.Name != value)
 				{
-					string on = base.Name;
 					if (ItemsLib.Rename(value))
 					{
 						base.Name = value;
-						OnNameChange(new NameChangeEventArgs(value,this.Index));
+						OnFormNameChange(new FormNameChangedEventArgs(value,this.Index));
 					}
 				}
 			}
@@ -351,6 +376,7 @@ namespace Hypowered
 		// ************************************************************
 		public HForm() : base()
 		{
+			Script.SetMainForm(null, this);
 			InitializeComponent();
 			this.StartPosition = FormStartPosition.Manual;
 			base.BackColor = Color.FromArgb(64, 64, 64);
@@ -443,6 +469,7 @@ namespace Hypowered
 			base.OnResize(e);
 			MainMenu.Location = new Point(0, m_BarHeight);
 			MainMenu.Size = new Size(this.Width, MainMenu.Height);
+			this.Refresh();
 		}
 		protected override void OnMouseDown(MouseEventArgs e)
 		{
@@ -524,9 +551,17 @@ namespace Hypowered
 					break;
 			}
 			hc.SetHForm(this);
-
-
 			hc.IsEditChanged += (sender, e) => { OnIsEditsChanged(new IsEditsChangedEventArgs(IsEditArray)); };
+
+			hc.ControlNameChanged += (semder, e) =>
+			{
+				OnControlNameChanged(new ControlNameChangedEventArgs(
+					e.Name,
+					Index,
+					e.Index
+					));
+			};
+			
 			return hc;
 		}
 		public void AddControl(HType ht, string nm, string tx)
@@ -812,6 +847,14 @@ namespace Hypowered
 				return false;
 			}
 		}
-
+		public bool RenameForm(string nm)
+		{
+			bool ret = ItemsLib.Rename(nm);
+			if (ret)
+			{
+				base.Name = ItemsLib.Name;
+			}
+			return ret;
+		}
 	}
 }

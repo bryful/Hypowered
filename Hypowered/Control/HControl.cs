@@ -93,6 +93,28 @@ namespace Hypowered
 				IsEditChanged(this, e);
 			}
 		}
+
+		public class ControlNameChangedEventArgs : EventArgs
+		{
+			public string Name;
+			public int Index;
+			public ControlNameChangedEventArgs(string n, int index)
+			{
+				Name = n;
+				Index = index;
+			}
+		}
+		public delegate void ControlNameChangedHandler(object sender, ControlNameChangedEventArgs e);
+		public event ControlNameChangedHandler? ControlNameChanged;
+		protected virtual void OnControlNameChanged(ControlNameChangedEventArgs e)
+		{
+			if (ControlNameChanged != null)
+			{
+				ControlNameChanged(this, e);
+			}
+		}
+
+
 		#endregion
 		#region Prop
 		protected HForm? m_HForm = null;
@@ -182,7 +204,13 @@ namespace Hypowered
 		public new System.String Name
 		{
 			get { return base.Name; }
-			set { base.Name = value; this.Invalidate(); }
+			set 
+			{
+				bool b = (base.Name != value);
+				base.Name = value; 
+				this.Invalidate();
+				if (b) OnControlNameChanged(new ControlNameChangedEventArgs(base.Name, Index));
+			}
 		}
 		[Category("Hypowered_Color"), Browsable(true)]
 		public new System.Drawing.Color BackColor
