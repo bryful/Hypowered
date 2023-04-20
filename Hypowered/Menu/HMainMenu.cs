@@ -12,37 +12,64 @@ namespace Hypowered
 {
 	public class HMainMenu : MenuStrip
 	{
-		[Category("Hypowered"), Browsable(true)]
+		[Category("Hypowered_Menu")]
+		public HRootMenu[] RootMenus { get;  } = new HRootMenu[6];
+
+
+		public HMainMenu()
+		{
+			this.Name = "MainManu";
+			this.Text = "MainMenu";
+			this.AutoSize = false;
+			this.Dock = DockStyle.None;
+			this.Anchor = AnchorStyles.None;
+			this.DoubleBuffered = true;
+			InitRootMenu();
+		}
+		private void InitRootMenu()
+		{
+			for(int i = 0;i<RootMenus.Length;i++)
+			{
+				RootMenus[i] = new HRootMenu();
+				RootMenus[i].Name = $"Menu{i}";
+				RootMenus[i].Text = $"Menu{i}";
+				RootMenus[i].Visible = false;
+				this.Items.Add(RootMenus[i]);
+			}
+			RootMenus[0].Visible = true;
+			RootMenus[0].Text = "Form";
+			RootMenus[0].SubMenu[9].Visible = true;
+			RootMenus[0].SubMenu[9].Text = "Quit";
+
+		}
+		#region Prop
+		[Category("Hypowered"), Browsable(false)]
 		public new System.String Name
 		{
 			get { return base.Name; }
 			set { base.Name = value; }
 		}
 		[Category("_Hypowered")]
-		public int Index { get; set; } = -1;
-		public HMainMenu()
-		{
-			//HUtils.PropListToClipboard(typeof(MenuStrip),"base")
-		}
+		public int Index { get; set; } = 0;
 		[Category("Hypowered"), Browsable(false)]
 		public new System.Boolean CanOverflow
 		{
 			get { return base.CanOverflow; }
 			set { base.CanOverflow = value; }
 		}
-		[Category("Hypowered"), Browsable(true)]
+		[Category("Hypowered"), Browsable(false)]
 		public new System.Windows.Forms.ToolStripGripStyle GripStyle
 		{
 			get { return base.GripStyle; }
 			set { base.GripStyle = value; }
 		}
-		[Category("Hypowered"), Browsable(true)]
+		[Category("Hypowered"), Browsable(false)]
 		public new System.Boolean ShowItemToolTips
 		{
 			get { return base.ShowItemToolTips; }
 			set { base.ShowItemToolTips = value; }
 		}
-		[Category("Hypowered"), Browsable(true)]
+		[Category("Hypowered"), Browsable(false)]
 		public new System.Boolean Stretch
 		{
 			get { return base.Stretch; }
@@ -143,7 +170,7 @@ namespace Hypowered
 			get { return base.Font; }
 			set { base.Font = value; }
 		}
-		[Category("Hypowered"), Browsable(true)]
+		[Category("Hypowered"), Browsable(false)]
 		public new System.Windows.Forms.ToolStripDropDownDirection DefaultDropDownDirection
 		{
 			get { return base.DefaultDropDownDirection; }
@@ -214,7 +241,7 @@ namespace Hypowered
 		{
 			get { return base.Items; }
 		}
-		[Category("Hypowered"), Browsable(true)]
+		[Category("Hypowered"), Browsable(false)]
 		public new System.Boolean IsDropDown
 		{
 			get { return base.IsDropDown; }
@@ -258,13 +285,13 @@ namespace Hypowered
 			get { return base.RenderMode; }
 			set { base.RenderMode = value; }
 		}
-		[Category("Hypowered"), Browsable(true)]
+		[Category("Hypowered"), Browsable(false)]
 		public new System.Boolean TabStop
 		{
 			get { return base.TabStop; }
 			set { base.TabStop = value; }
 		}
-		[Category("Hypowered"), Browsable(true)]
+		[Category("Hypowered"), Browsable(false)]
 		public new System.Windows.Forms.ToolStripTextDirection TextDirection
 		{
 			get { return base.TextDirection; }
@@ -391,7 +418,7 @@ namespace Hypowered
 		{
 			get { return base.DataBindings; }
 		}
-		[Category("Hypowered"), Browsable(true)]
+		[Category("Hypowered"), Browsable(false)]
 		public new System.Int32 DeviceDpi
 		{
 			get { return base.DeviceDpi; }
@@ -460,25 +487,25 @@ namespace Hypowered
 			get { return base.Left; }
 			set { base.Left = value; }
 		}
-		[Category("Hypowered"), Browsable(true)]
+		[Category("Hypowered"), Browsable(false)]
 		public new System.Drawing.Point Location
 		{
 			get { return base.Location; }
 			set { base.Location = value; }
 		}
-		[Category("Hypowered"), Browsable(true)]
+		[Category("Hypowered"), Browsable(false)]
 		public new System.Windows.Forms.Padding Margin
 		{
 			get { return base.Margin; }
 			set { base.Margin = value; }
 		}
-		[Category("Hypowered"), Browsable(true)]
+		[Category("Hypowered"), Browsable(false)]
 		public new System.Drawing.Size MaximumSize
 		{
 			get { return base.MaximumSize; }
 			set { base.MaximumSize = value; }
 		}
-		[Category("Hypowered"), Browsable(true)]
+		[Category("Hypowered"), Browsable(false)]
 		public new System.Drawing.Size MinimumSize
 		{
 			get { return base.MinimumSize; }
@@ -536,19 +563,19 @@ namespace Hypowered
 			get { return base.Site; }
 			set { base.Site = value; }
 		}
-		[Category("Hypowered"), Browsable(true)]
+		[Category("Hypowered"), Browsable(false)]
 		public new System.Drawing.Size Size
 		{
 			get { return base.Size; }
 			set { base.Size = value; }
 		}
-		[Category("Hypowered"), Browsable(true)]
+		[Category("Hypowered"), Browsable(false)]
 		public new System.Int32 TabIndex
 		{
 			get { return base.TabIndex; }
 			set { base.TabIndex = value; }
 		}
-		[Category("Hypowered"), Browsable(true)]
+		[Category("Hypowered"), Browsable(false)]
 		public new System.Object Tag
 		{
 			get { return base.Tag; }
@@ -600,7 +627,7 @@ namespace Hypowered
 		{
 			get { return base.PreferredSize; }
 		}
-		[Category("Hypowered"), Browsable(true)]
+		[Category("Hypowered"), Browsable(false)]
 		public new System.Windows.Forms.Padding Padding
 		{
 			get { return base.Padding; }
@@ -617,5 +644,6 @@ namespace Hypowered
 		{
 			get { return base.Container; }
 		}
+		#endregion
 	}
 }

@@ -8,7 +8,14 @@ using Microsoft.ClearScript;
 
 namespace Hypowered
 {
-	internal class HUtils
+
+	/// <summary>
+	/// 関数ポインタ代わりのデリゲート
+	/// </summary>
+	/// <returns></returns>
+	public delegate void FuncType();
+
+	public class HUtils
 	{
 		/*
 		static public void PropListToClipboard(Type t, string nm)

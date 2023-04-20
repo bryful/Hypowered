@@ -33,12 +33,14 @@
 			formMenu = new ToolStripMenuItem();
 			openFormMenu = new ToolStripMenuItem();
 			newFormMenu = new ToolStripMenuItem();
+			toolStripMenuItem4 = new ToolStripSeparator();
 			renameFormMenu = new ToolStripMenuItem();
 			dupulicateFormToolStripMenuItem = new ToolStripMenuItem();
-			scriptFormToolStripMenuItem = new ToolStripMenuItem();
 			closeFormMenu = new ToolStripMenuItem();
 			toolStripMenuItem1 = new ToolStripSeparator();
+			scriptFormToolStripMenuItem = new ToolStripMenuItem();
 			quitMenu = new ToolStripMenuItem();
+			toolStripMenuItem5 = new ToolStripSeparator();
 			controlMenu = new ToolStripMenuItem();
 			newControlToolStripMenuItem = new ToolStripMenuItem();
 			deleteControlMenu = new ToolStripMenuItem();
@@ -55,8 +57,6 @@
 			consoleMenu = new ToolStripMenuItem();
 			editControl1 = new EditControl();
 			splitContainer1 = new SplitContainer();
-			toolStripMenuItem4 = new ToolStripSeparator();
-			toolStripMenuItem5 = new ToolStripSeparator();
 			menuStrip1.SuspendLayout();
 			((System.ComponentModel.ISupportInitialize)splitContainer1).BeginInit();
 			splitContainer1.Panel1.SuspendLayout();
@@ -114,6 +114,11 @@
 			newFormMenu.Size = new Size(158, 22);
 			newFormMenu.Text = "NewForm";
 			// 
+			// toolStripMenuItem4
+			// 
+			toolStripMenuItem4.Name = "toolStripMenuItem4";
+			toolStripMenuItem4.Size = new Size(155, 6);
+			// 
 			// renameFormMenu
 			// 
 			renameFormMenu.Name = "renameFormMenu";
@@ -126,12 +131,6 @@
 			dupulicateFormToolStripMenuItem.Size = new Size(158, 22);
 			dupulicateFormToolStripMenuItem.Text = "DupulicateForm";
 			// 
-			// scriptFormToolStripMenuItem
-			// 
-			scriptFormToolStripMenuItem.Name = "scriptFormToolStripMenuItem";
-			scriptFormToolStripMenuItem.Size = new Size(158, 22);
-			scriptFormToolStripMenuItem.Text = "ScriptForm";
-			// 
 			// closeFormMenu
 			// 
 			closeFormMenu.Name = "closeFormMenu";
@@ -143,11 +142,22 @@
 			toolStripMenuItem1.Name = "toolStripMenuItem1";
 			toolStripMenuItem1.Size = new Size(155, 6);
 			// 
+			// scriptFormToolStripMenuItem
+			// 
+			scriptFormToolStripMenuItem.Name = "scriptFormToolStripMenuItem";
+			scriptFormToolStripMenuItem.Size = new Size(158, 22);
+			scriptFormToolStripMenuItem.Text = "ScriptForm";
+			// 
 			// quitMenu
 			// 
 			quitMenu.Name = "quitMenu";
 			quitMenu.Size = new Size(158, 22);
 			quitMenu.Text = "Quit";
+			// 
+			// toolStripMenuItem5
+			// 
+			toolStripMenuItem5.Name = "toolStripMenuItem5";
+			toolStripMenuItem5.Size = new Size(155, 6);
 			// 
 			// controlMenu
 			// 
@@ -261,16 +271,6 @@
 			splitContainer1.Size = new Size(474, 768);
 			splitContainer1.SplitterDistance = 188;
 			splitContainer1.TabIndex = 7;
-			// 
-			// toolStripMenuItem4
-			// 
-			toolStripMenuItem4.Name = "toolStripMenuItem4";
-			toolStripMenuItem4.Size = new Size(155, 6);
-			// 
-			// toolStripMenuItem5
-			// 
-			toolStripMenuItem5.Name = "toolStripMenuItem5";
-			toolStripMenuItem5.Size = new Size(155, 6);
 			// 
 			// MainForm
 			// 

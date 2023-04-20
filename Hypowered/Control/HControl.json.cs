@@ -35,7 +35,6 @@ namespace Hypowered
 			jf.SetValue(nameof(BackColor), (Color)BackColor);//System.Drawing.Color
 			jf.SetValue(nameof(ForcusColor), (Color)ForcusColor);//System.Drawing.Color
 			jf.SetValue(nameof(ForeColor), (Color)ForeColor);//System.Drawing.Color
-			jf.SetValue(nameof(IsEditColor), (Color)IsEditColor);//System.Drawing.Color
 			jf.SetValue(nameof(GridSize), (Int32)GridSize);//System.Int32
 			jf.SetValue(nameof(Visible), (Boolean)Visible);//System.Boolean
 			jf.SetValue(nameof(Font), (Font)Font);//System.Drawing.Font
@@ -97,8 +96,6 @@ namespace Hypowered
 			if (v != null) ForcusColor = (Color)v;
 			v = jf.ValueAuto("ForeColor", typeof(Color).Name);
 			if (v != null) ForeColor = (Color)v;
-			v = jf.ValueAuto("IsEditColor", typeof(Color).Name);
-			if (v != null) IsEditColor = (Color)v;
 			v = jf.ValueAuto("GridSize", typeof(Int32).Name);
 			if (v != null) GridSize = (Int32)v;
 			v = jf.ValueAuto("Text", typeof(String).Name);
@@ -111,16 +108,6 @@ namespace Hypowered
 			if (v != null) TextAlign = (StringAlignment)v;
 			v = jf.ValueAuto("TextLineAlign", typeof(int).Name);
 			if (v != null) TextLineAlign = (StringAlignment)v;
-			/*
-			v = jf.ValueAuto("AccessibleDefaultActionDescription", typeof(String).Name);
-			if (v != null) AccessibleDefaultActionDescription = (String)v;
-			v = jf.ValueAuto("AccessibleDescription", typeof(String).Name);
-			if (v != null) AccessibleDescription = (String)v;
-			v = jf.ValueAuto("AccessibleName", typeof(String).Name);
-			if (v != null) AccessibleName = (String)v;
-			v = jf.ValueAuto("AccessibleRole", typeof(int).Name);
-			if (v != null) AccessibleRole = (AccessibleRole)v;
-			*/
 			v = jf.ValueAuto("AutoSize", typeof(Boolean).Name);
 			if (v != null) AutoSize = (Boolean)v;
 			v = jf.ValueAuto("AutoScrollOffset", typeof(Point).Name);

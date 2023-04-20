@@ -74,23 +74,23 @@ namespace Hypowered
 	public partial class HControl : Control
 	{
 		#region Event
-		public class IsEditChangedEventArgs : EventArgs
+		public class SelectedChangedEventArgs : EventArgs
 		{
-			public bool IsEdit;
+			public bool Selected;
 			public int Index;
-			public IsEditChangedEventArgs(bool n, int index)
+			public SelectedChangedEventArgs(bool n, int index)
 			{
-				IsEdit = n;
+				Selected = n;
 				Index = index;
 			}
 		}
-		public delegate void IsEditChangeHandler(object sender, IsEditChangedEventArgs e);
-		public event IsEditChangeHandler? IsEditChanged;
-		protected virtual void OnIsEditChanged(IsEditChangedEventArgs e)
+		public delegate void SelectedChangeHandler(object sender, SelectedChangedEventArgs e);
+		public event SelectedChangeHandler? SelectedChanged;
+		protected virtual void OnSelectedChanged(SelectedChangedEventArgs e)
 		{
-			if (IsEditChanged != null)
+			if (SelectedChanged != null)
 			{
-				IsEditChanged(this, e);
+				SelectedChanged(this, e);
 			}
 		}
 
@@ -131,6 +131,9 @@ namespace Hypowered
 		{
 			m_HForm = hf;
 		}
+
+		public HScriptCode ScriptCode { get; set; } = new HScriptCode();
+
 		protected bool m_IsShowForcus = true;
 		/// <summary>
 		/// フォーカスの枠描画をするかしないかのフラグ
@@ -141,45 +144,46 @@ namespace Hypowered
 			get { return m_IsShowForcus; }
 			set { m_IsShowForcus=value; this.Invalidate();  }
 		}
-		private bool m_CanEdit = true;
+		protected bool m_IsEdit = false;
 		/// <summary>
 		/// 編集可能かどうかのフラグ　Formで指定する
 		/// </summary>
-		[Category("_Hypowered"), Browsable(true)]
-		public bool CanEdit
-		{
-			get { return m_CanEdit; }
-		}
-		public void SetCanEdit(bool b) 
-		{ 
-			m_CanEdit=b; 
-			if(m_CanEdit==false)
-			{
-				m_IsEdit = false;
-			}
-			this.Invalidate();
-		}
-		protected bool m_IsEdit = false;
-		/// <summary>
-		/// このコントロールが編集状態ならtrue
-		/// </summary>
-		[Category("_Hypowered")]
+		[Category("_Hypowered"), Browsable(false)]
 		public bool IsEdit
 		{
 			get { return m_IsEdit; }
-			set { SetIsEdit(value); }
 		}
-		public virtual void SetIsEdit(bool b,bool IsEvent=true)
+		public void SetIsEdit(bool b) 
 		{
-			if (m_CanEdit == false)
+			m_IsEdit = b; 
+			if(m_IsEdit == false)
 			{
-				b = false;
+				m_Selected = false;
 			}
-			if (m_IsEdit != b)
+			this.Invalidate();
+		}
+		protected bool m_Selected = false;
+		/// <summary>
+		/// このコントロールが選択状態ならtrue
+		/// </summary>
+		[Category("_Hypowered")]
+		public bool Selected
+		{
+			get { return m_Selected; }
+			set { SetSelected(value); }
+		}
+		public virtual void SetSelected(bool b,bool IsEvent=true)
+		{
+			if (m_IsEdit == false)
 			{
-				m_IsEdit = b;
+				m_Selected = false;
+				return;
+			}
+			if (m_Selected != b)
+			{
+				m_Selected = b;
 				if (IsEvent)
-					OnIsEditChanged(new IsEditChangedEventArgs(m_IsEdit, Index));
+					OnSelectedChanged(new SelectedChangedEventArgs(m_Selected, Index));
 			}
 			this.Invalidate();
 		}
@@ -228,18 +232,15 @@ namespace Hypowered
 			get { return m_ForcusColor; }
 			set { m_ForcusColor = value; this.Invalidate(); }
 		}
-		protected Color m_TargetColor = Color.FromArgb(150,100,100);
-
-
-		protected Color m_IsEditColor = Color.FromArgb(150, 100, 100);
+		protected Color m_SelectedColor = Color.FromArgb(150, 100, 100);
 		/// <summary>
 		/// 選択(IsEdit がtrue)の時の枠の色
 		/// </summary>
-		[Category("Hypowered_Color"), Browsable(true)]
-		public System.Drawing.Color IsEditColor
+		[Category("Hypowered_Color"), Browsable(false)]
+		public System.Drawing.Color SelectedColor
 		{
-			get { return m_IsEditColor; }
-			set { m_IsEditColor = value; this.Invalidate(); }
+			get { return m_SelectedColor; }
+			set { m_SelectedColor = value; this.Invalidate(); }
 		}
 		[Category("Hypowered_Color"), Browsable(true)]
 		public new System.Drawing.Color ForeColor
@@ -247,15 +248,6 @@ namespace Hypowered
 			get { return base.ForeColor; }
 			set { base.ForeColor = value; this.Invalidate(); }
 		}
-		/*
-		protected Color m_IsEditColor = Color.Red;
-		[Category("Hypowered_Color"), Browsable(true)]
-		public System.Drawing.Color IsEditColor
-		{
-			get { return m_IsEditColor; }
-			set { m_IsEditColor = value; this.Invalidate(); }
-		}
-		*/
 		public int m_GridSize = 2;
 		/// <summary>
 		/// Location Sizeの最小単位
@@ -430,7 +422,7 @@ namespace Hypowered
 				p.Color = ForeColor;
 				DrawFrame(g,p,r,1);
 				
-				DrawIsEdit(g, p);
+				DrawCtrlRect(g, p);
 			}
 		}
 		// ************************************************************
@@ -455,39 +447,38 @@ namespace Hypowered
 		// ************************************************************
 		protected override void OnMouseDown(MouseEventArgs e)
 		{
-			if (IsAltKey)
+			if((m_IsEdit)&&(HForm!=null))
 			{
-				if (m_CanEdit)
+				if (IsShiftKey == false)
 				{
-					SetIsEdit(true);
-					this.Invalidate();
-					if (HForm != null)
-					{
-						HForm.TargetIndex = this.Index;
-						HForm.Invalidate();
-					}
-					return;
+					HForm.SetSelectedAll(false);
 				}
-			}
-			if ((m_IsEdit==true)&&(m_CanEdit))
-			{
+				if (HForm.TargetIndex == this.Index)
+				{
+					SetSelected(true);
+				}
+				else
+				{
+					SetSelected(! m_Selected);
+					HForm.TargetIndex = this.Index;
+					if (HForm != null) this.HForm.Invalidate();
+				}
 				if ((e.Button & MouseButtons.Left) == MouseButtons.Left)
 				{
 					m_MD = true;
 					m_MDLoc = this.Location;
 					m_MDSize = this.Size;
-					m_MDP = this.PointToScreen(new Point(e.X,e.Y));
+					m_MDP = this.PointToScreen(new Point(e.X, e.Y));
 					m_MDResize = ((e.X > this.Width - 10) && (e.Y > this.Height - 10));
 					return;
 				}
-
 			}
 			base.OnMouseDown(e);
 		}
 		// ************************************************************
 		protected override void OnMouseMove(MouseEventArgs e)
 		{
-			if((m_IsEdit==true)&&(m_MD))
+			if((m_IsEdit==true) &&(m_Selected==true)&&(m_MD))
 			{
 				Point p = this.PointToScreen(new Point(e.X, e.Y));
 				int dx = p.X - m_MDP.X;
@@ -513,6 +504,7 @@ namespace Hypowered
 			if(m_MD)
 			{
 				m_MD = false;
+				m_MDResize=false;
 			}
 			base.OnMouseUp(e);
 		}
@@ -530,7 +522,7 @@ namespace Hypowered
 		// ************************************************************
 		public void MovePos(ArrowDown ad,int MoveScale)
 		{
-			if(m_CanEdit==false) return;
+			if(m_IsEdit==false) return;
 			int v = m_GridSize * MoveScale;
 			switch(ad)
 			{
@@ -551,7 +543,7 @@ namespace Hypowered
 		}
 		public void ResizeLeftTop(ArrowDown ad, int MoveScale)
 		{
-			if (m_CanEdit == false) return;
+			if (m_IsEdit == false) return;
 			int v = m_GridSize * MoveScale;
 			switch (ad)
 			{
@@ -582,7 +574,7 @@ namespace Hypowered
 		}
 		public void ResizeRightBottom(ArrowDown ad, int MoveScale)
 		{
-			if (m_CanEdit == false) return;
+			if (m_IsEdit == false) return;
 			int v = m_GridSize * MoveScale;
 			switch (ad)
 			{
@@ -688,7 +680,7 @@ namespace Hypowered
 					break;
 			}
 		}
-		public void DrawIsEdit(Graphics g, Pen p)
+		public void DrawCtrlRect(Graphics g, Pen p)
 		{
 			if ((Focused)&&(m_IsShowForcus))
 			{
@@ -696,10 +688,10 @@ namespace Hypowered
 				DrawFrame(g, p, this.ClientRectangle, 2);
 			}
 			//if(Index == m_Ta)
-			if ((m_IsEdit)&&(m_CanEdit))
+			if ((m_Selected)&&(m_IsEdit))
 			{
 				Rectangle r = new Rectangle(1, 1, this.Width - 2, this.Height - 2);
-				p.Color = m_IsEditColor;
+				p.Color = m_SelectedColor;
 				p.Width = 2;
 				p.DashStyle = System.Drawing.Drawing2D.DashStyle.Dot;
 				g.DrawRectangle(p, r);

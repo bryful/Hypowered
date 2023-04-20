@@ -45,6 +45,7 @@ namespace Hypowered
 		public HButton()
 		{
 			m_HType = HType.Button;
+			ScriptCode.Setup(HScriptType.Click);
 			TextAlign = StringAlignment.Center;
 		}
 		protected override void OnPaint(PaintEventArgs pe)
@@ -79,36 +80,26 @@ namespace Hypowered
 				p.Color = ForeColor;
 				DrawFrame(g, p, r);
 
-				DrawIsEdit(g, p);
+				DrawCtrlRect(g, p);
 			}
 		}
 		protected bool m_MDPush = false;
 		protected override void OnMouseDown(MouseEventArgs e)
 		{
-			if (IsAltKey)
-			{
-				SetIsEdit(true);
-				if (HForm != null)
-				{
-					HForm.TargetIndex = this.Index;
-					HForm.Invalidate();
-				}
-				return;
-			}
-			if (m_IsEdit)
+			if(m_IsEdit)
 			{
 				base.OnMouseDown(e);
 			}
 			else
 			{
-				
 				m_MDPush = true;
-				if (m_IsCheckMode)
+				if(m_IsCheckMode)
 				{
 					m_Checked = !m_Checked;
 				}
 				this.Invalidate();
 			}
+
 		}
 		protected override void OnMouseUp(MouseEventArgs e)
 		{
@@ -121,7 +112,6 @@ namespace Hypowered
 				m_MDPush = false;
 				this.Invalidate();
 			}
-
 		}
 		// ***************************************************************
 		public override JsonObject? ToJson()

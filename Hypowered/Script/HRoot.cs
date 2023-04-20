@@ -21,6 +21,10 @@ namespace Hypowered
 			mainForm = mf;
 			thisForm = hf;
 		}
+		public void SetHForm(HForm? hf)
+		{
+			thisForm = hf;
+		}
 		public HRoot()
 		{
 		}
@@ -64,6 +68,10 @@ namespace Hypowered
 			{
 				mainForm.Alert(thisForm, o);
 			}
+		}
+		public void exit()
+		{
+			Application.Exit();
 		}
 		/*
 		public void WriteLine(object? o)

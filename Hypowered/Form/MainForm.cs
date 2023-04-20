@@ -55,8 +55,9 @@ namespace Hypowered
 			return path;
 		}
 		// ********************************************************************
-		public ItemsLib ItemsLib  = new ItemsLib();
+		public ItemsLib ItemsLib = new ItemsLib();
 		public ConsoleForm? ConsoleForm = null;
+		public ScriptEditor? ScriptForm = null;
 		// ********************************************************************
 		#region Event
 		// ********************************************************************
@@ -100,9 +101,22 @@ namespace Hypowered
 		// ********************************************************************
 		private HForm? m_TargetForm = null;
 		public HForm? TargetForm { get { return m_TargetForm; } }
+		public int TargetFormIndex
+		{
+			get
+			{
+				int ret = -1;
+				if (m_TargetForm != null) ret = m_TargetForm.Index;
+				return ret;
+			}
+			set
+			{
+				SetTargetForm(value);
+			}
+		}
 		public void SetTargetForm(HForm? fm)
 		{
-			if((fm!=null)&&(fm.CanPropertyGrid==false))
+			if ((fm != null) && (fm.CanPropertyGrid == false))
 			{
 				fm = null;
 			}
@@ -112,11 +126,13 @@ namespace Hypowered
 			m_TargetForm = fm;
 			if (m_TargetForm != null)
 			{
+				m_TargetControl = m_TargetForm.TargetControl;
 				this.Text = $"Hypowered [{m_TargetForm.Name}]";
 				m_TargetForm.Activate();
 			}
 			else
 			{
+				m_TargetControl = null;
 				this.Text = $"Hypowered MainForm";
 			}
 			if (b) OnTargetFormChanged(new EventArgs());
@@ -136,6 +152,9 @@ namespace Hypowered
 				SetTargetForm(null);
 			}
 		}
+
+		private HControl? m_TargetControl = null;
+		public HControl? TargetControl { get { return m_TargetControl; } }
 		#endregion
 		// ********************************************************************
 		#region Server
@@ -316,18 +335,16 @@ namespace Hypowered
 			};
 			form.Show(this);
 			HForms.Add(form);
+			RescanForms();
 			return form;
 		}
 		// ********************************************************************
-		public void DeleteForm(HForm hf)
-		{
-			hf.Close();
-		}
 		public void CloseForm()
 		{
 			if (m_TargetForm != null)
 			{
 				m_TargetForm.Close();
+				RescanForms();
 				OnFormChanged(new EventArgs());
 			}
 		}
@@ -384,7 +401,7 @@ namespace Hypowered
 			deleteControlMenu.Click += (sender, e) => { DeleteControl(); };
 			quitMenu.Click += (sender, e) => { Application.Exit(); };
 			consoleMenu.Click += (sender, e) => { ShowConsole(); };
-
+			scriptEditorMenu.Click += (sender, e) => { ShowScript(); };
 			Command(Environment.GetCommandLineArgs().Skip(1).ToArray(), PIPECALL.StartupExec);
 			//PUtil.ToJsonCodeToClipboard(typeof(HTextBox));
 			//PUtil.PropListToClipboard(typeof(EditTextBox),"Edit");
@@ -571,7 +588,7 @@ namespace Hypowered
 			return ret;
 		}
 		// ************************************************************
-		public void Alert(HForm hf, object? obj, string cap="")
+		public void Alert(HForm hf, object? obj, string cap = "")
 		{
 			if (m_TargetForm == null) return;
 
@@ -588,7 +605,7 @@ namespace Hypowered
 		// ************************************************************
 		public void ShowConsole()
 		{
-			if(ConsoleForm == null)
+			if (ConsoleForm == null)
 			{
 				ConsoleForm = new ConsoleForm();
 				ConsoleForm.SetMainForm(this);
@@ -600,6 +617,22 @@ namespace Hypowered
 				ConsoleForm.Visible = true;
 			}
 			ConsoleForm.Activate();
+		}
+		// ************************************************************
+		public void ShowScript()
+		{
+			if (ScriptForm == null)
+			{
+				ScriptForm = new ScriptEditor();
+				ScriptForm.SetMainForm(this);
+				ScriptForm.Show(this);
+			}
+
+			if (ScriptForm.Visible == false)
+			{
+				ScriptForm.Visible = true;
+			}
+			ScriptForm.Activate();
 		}
 	}
 }

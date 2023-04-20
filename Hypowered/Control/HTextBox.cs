@@ -16,13 +16,13 @@ namespace Hypowered
 	{
 		#region Prop
 		private EditTextBox TextBox { get; set; }= new EditTextBox();
-		public override void SetIsEdit(bool b, bool IsEven = true)
+		public override void SetSelected(bool b, bool IsEven = true)
 		{
-			if(m_IsEdit)
+			if(m_Selected)
 			{
 				EndTextBox();
 			}
-			base.SetIsEdit(b, IsEven);
+			base.SetSelected(b, IsEven);
 		}
 		[Category("Hypowered_Size"), Browsable(true)]
 		public new System.Drawing.Size Size
@@ -83,6 +83,7 @@ namespace Hypowered
 		public HTextBox()
 		{
 			m_HType = HType.TextBox;
+			ScriptCode.Setup(HScriptType.ValueChanged);
 			TextBox.Visible = false;
 			TextBox.BackColor = base.BackColor;
 			TextBox.ForeColor = base.ForeColor;
@@ -138,7 +139,7 @@ namespace Hypowered
 				p.Color = ForeColor;
 				DrawFrame(g,p, r, 1);
 
-				DrawIsEdit(g, p);
+				DrawCtrlRect(g, p);
 			}
 		}
 		protected override void OnResize(EventArgs e)
@@ -149,7 +150,7 @@ namespace Hypowered
 		}
 		private void SetTextBox()
 		{
-			if (m_IsEdit) return;
+			if (m_Selected) return;
 			switch(TextAlign)
 			{
 				case StringAlignment.Center:
@@ -168,7 +169,7 @@ namespace Hypowered
 		}
 		private void EndTextBox(bool rev=true)
 		{
-			if (m_IsEdit) return;
+			if (m_Selected) return;
 			if (rev==true)
 			{
 				base.Text = TextBox.Text;
@@ -178,33 +179,28 @@ namespace Hypowered
 		}
 		protected override void OnMouseDown(MouseEventArgs e)
 		{
-			if (IsAltKey)
+			if (m_IsEdit)
 			{
-				SetIsEdit(true);
-				this.Invalidate();
-				if (HForm != null)
-				{
-					HForm.TargetIndex = this.Index;
-					HForm.Invalidate();
-				}
-				return;
+				base.OnMouseDown(e);
 			}
-			if ((e.Button & MouseButtons.Left)== MouseButtons.Left)
+			else
 			{
-				if(m_IsEdit==false)
+				if ((e.Button & MouseButtons.Left) == MouseButtons.Left)
+				{
+					SetTextBox();
+				}
+
+			}
+		}
+		protected override void OnPreviewKeyDown(PreviewKeyDownEventArgs e)
+		{
+			if (m_IsEdit==false)
+			{
+				if (e.KeyData == Keys.Enter)
 				{
 					SetTextBox();
 					return;
 				}
-			}
-			base.OnMouseDown(e);
-		}
-		protected override void OnPreviewKeyDown(PreviewKeyDownEventArgs e)
-		{
-			if((IsEdit==false)&&(e.KeyData== Keys.Enter))
-			{
-				SetTextBox();
-				return;
 			}
 			base.OnPreviewKeyDown(e);
 		}

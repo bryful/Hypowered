@@ -149,6 +149,7 @@ namespace Hypowered
 		public HIconButton()
 		{
 			m_HType = HType.IconButton;
+			ScriptCode.Setup(HScriptType.Click);
 			TextAlign = StringAlignment.Center;
 			ChkSize();
 		}
@@ -213,23 +214,12 @@ namespace Hypowered
 					g.DrawString(this.Text, this.Font, sb, r2, StringFormat);
 				}
 				// IsEdit
-				DrawIsEdit(g, p);
+				DrawCtrlRect(g, p);
 			}
 		}
 		protected bool m_MDPush = false;
 		protected override void OnMouseDown(MouseEventArgs e)
 		{
-			if (IsAltKey)
-			{
-				SetIsEdit(true);
-				this.Invalidate();
-				if (HForm != null)
-				{
-					HForm.TargetIndex = this.Index;
-					HForm.Invalidate();
-				}
-				return;
-			}
 			if (m_IsEdit)
 			{
 				base.OnMouseDown(e);
@@ -251,11 +241,10 @@ namespace Hypowered
 				m_MDPush = false;
 				this.Invalidate();
 			}
-
 		}
 		protected override void OnMouseDoubleClick(MouseEventArgs e)
 		{
-			if (m_IsEdit)
+			if (m_Selected)
 			{
 				if((this.HForm!=null)&&(this.HForm.MainForm!=null))
 				{

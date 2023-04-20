@@ -12,9 +12,13 @@ namespace Hypowered
 {
 	public class HMenuItem : ToolStripMenuItem
 	{
-		public HMenuItem()
+		public HForm? HForm = null;
+		public void SetHForm(HForm? hf)
 		{
+			HForm = hf;
 		}
+		// ********************************************************************
+		#region Porp
 		[Category("Hypowered"), Browsable(true)]
 		public new System.Boolean Enabled
 		{
@@ -354,7 +358,7 @@ namespace Hypowered
 			get { return base.Size; }
 			set { base.Size = value; }
 		}
-		[Category("Hypowered"), Browsable(true)]
+		[Category("Hypowered"), Browsable(false)]
 		public new System.Object Tag
 		{
 			get { return base.Tag; }
@@ -390,11 +394,23 @@ namespace Hypowered
 			get { return base.ToolTipText; }
 			set { base.ToolTipText = value; }
 		}
-		[Category("Hypowered"), Browsable(true)]
+		[Category("Hypowered"), Browsable(false)]
 		public new System.Boolean Visible
 		{
 			get { return base.Visible; }
-			set { base.Visible = value; }
+			set { base.Visible = value; this.Invalidate(); }
+		}
+		private bool m_IsVisible = false;
+		[Category("Hypowered"), Browsable(true)]
+		public System.Boolean IsVisible
+		{
+			get { return m_IsVisible; }
+			set 
+			{
+				m_IsVisible = value;
+				base.Visible = m_IsVisible; 
+				this.Invalidate(); 
+			}
 		}
 		[Category("Hypowered"), Browsable(false)]
 		public new System.Int32 Width
@@ -413,6 +429,26 @@ namespace Hypowered
 		{
 			get { return base.Container; }
 		}
+		#endregion
+		// ********************************************************************
+		public HScriptCode ScriptCode = new HScriptCode();
+		public FuncType? FuncType =null;
+		public HMenuItem()
+		{
 
+			ScriptCode.Setup(HScriptType.Click);
+			this.Click += (sender, e) =>
+			{
+				if (HForm == null) return;
+				if (ScriptCode.Codes[0].Code!="")
+				{
+					HForm.Script.ExecuteCode(ref ScriptCode.Codes[0]);
+				}else if (FuncType!=null)
+				{
+					FuncType();
+				}
+			};
+			m_IsVisible = base.Visible;
+		}
 	}
 }

@@ -10,7 +10,7 @@ using System.Windows.Forms;
 
 namespace Hypowered
 {
-	public partial class Form1 : BaseForm
+	public partial class Form1 : HForm
 	{
 		public Form1()
 		{

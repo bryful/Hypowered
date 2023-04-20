@@ -11,23 +11,14 @@ using System.Windows.Forms;
 
 namespace Hypowered
 {
+	
 	public partial class HForm : BaseForm
 	{
 		#region Event
 		// ****************
-		public class FormNameChangedEventArgs : EventArgs
-		{
-			public String Name;
-			public int Index;
-			public FormNameChangedEventArgs(string n, int index)
-			{
-				Name = n;
-				Index = index;
-			}
-		}
-		public delegate void FormNameChangedHandler(object sender, FormNameChangedEventArgs e);
+		public delegate void FormNameChangedHandler(object sender, FormChangedEventArgs e);
 		public event FormNameChangedHandler? FormNameChanged;
-		protected virtual void OnFormNameChange(FormNameChangedEventArgs e)
+		protected virtual void OnFormNameChange(FormChangedEventArgs e)
 		{
 			if (FormNameChanged != null)
 			{
@@ -35,21 +26,9 @@ namespace Hypowered
 			}
 		}
 		// ****************************************
-		public class ControlNameChangedEventArgs : EventArgs
-		{
-			public string Name;
-			public int FIndex;
-			public int CIndex;
-			public ControlNameChangedEventArgs(string n, int findex, int cindex)
-			{
-				Name = n;
-				CIndex = cindex;
-				FIndex = findex;
-			}
-		}
-		public delegate void ControlNameChangedHandler(object sender, ControlNameChangedEventArgs e);
+		public delegate void ControlNameChangedHandler(object sender, ControlChangedEventArgs e);
 		public event ControlNameChangedHandler? ControlNameChanged;
-		protected virtual void OnControlNameChanged(ControlNameChangedEventArgs e)
+		protected virtual void OnControlNameChanged(ControlChangedEventArgs e)
 		{
 			if (ControlNameChanged != null)
 			{
@@ -57,23 +36,16 @@ namespace Hypowered
 			}
 		}
 		// ****************
-		public class IsEditsChangedEventArgs : EventArgs
+		public delegate void SelectedChangeHandler(object sender, SelectedChangedEventArgs e);
+		public event SelectedChangeHandler? SelectedChanged;
+		protected virtual void OnSelectedChanged(SelectedChangedEventArgs e)
 		{
-			public bool[] IsEdits = new bool[0];
-			public IsEditsChangedEventArgs(bool[] n)
+			if (SelectedChanged != null)
 			{
-				IsEdits = n;
+				SelectedChanged(this, e);
 			}
 		}
-		public delegate void IsEditsChangeHandler(object sender, IsEditsChangedEventArgs e);
-		public event IsEditsChangeHandler? IsEditsChanged;
-		protected virtual void OnIsEditsChanged(IsEditsChangedEventArgs e)
-		{
-			if (IsEditsChanged != null)
-			{
-				IsEditsChanged(this, e);
-			}
-		}
+		// ****************
 		public delegate void ControlChangedHandler(object sender, EventArgs e);
 		public event ControlChangedHandler? ControlChanged;
 		protected virtual void OnControlChanged(EventArgs e)
@@ -83,9 +55,20 @@ namespace Hypowered
 				ControlChanged(this, e);
 			}
 		}
+		// ****************
+		public delegate void TargetControlChangedHandler(object sender, TargetControlChangedEventArgs e);
+		public event TargetControlChangedHandler? TargetControlChanged;
+		protected virtual void OnTargetControlChanged(TargetControlChangedEventArgs e)
+		{
+			if (TargetControlChanged != null)
+			{
+				TargetControlChanged(this, e);
+			}
+		}
 		#endregion
 		#region Props
 		public HScript Script { get; set; } = new HScript();
+		public HScriptCode ScriptCode { get; set; } = new HScriptCode();
 		// ******************
 		private bool m_CanPropertyGrid = true;
 		[Category("Hypowered"), Browsable(false)]
@@ -97,7 +80,7 @@ namespace Hypowered
 				m_CanPropertyGrid = value; 
 				if(m_CanPropertyGrid==false)
 				{
-					CanEdit=false;
+					IsEdit=false;
 				}
 			}
 		}
@@ -132,6 +115,27 @@ namespace Hypowered
 			Script.SetMainForm(mf, this);
 		}
 		// ******************
+		protected bool m_IsEdit = false;
+		[Category("_Hypowered"), Browsable(true)]
+		public bool IsEdit
+		{
+			get { return m_IsEdit; }
+			set 
+			{ 
+				m_IsEdit = value; 
+				if(this.Controls.Count>1)
+				{
+					for(int i=1; i< this.Controls.Count;i++)
+					{
+						if(this.Controls[i] is HControl)
+						{
+							((HControl)this.Controls[i]).SetIsEdit(value);
+						}
+					}
+				}
+			}
+		}
+		// ******************
 		private HControl? m_TargetControl = null;
 		public HControl? TargetControl { get { return m_TargetControl; } }
 		private int m_TargetIndex = -1;
@@ -141,7 +145,7 @@ namespace Hypowered
 			get { return (int)m_TargetIndex; }
 			set
 			{
-				if((m_CanEdit==false)||(value<=0)||(value>=this.Controls.Count))
+				if((m_IsEdit==false)||(value<=0)||(value>=this.Controls.Count))
 				{
 					value = -1;
 				}
@@ -162,11 +166,12 @@ namespace Hypowered
 					m_TargetControl = (HControl)this.Controls[m_TargetIndex];
 				}
 				this.Invalidate();
+				if (b) OnTargetControlChanged(new TargetControlChangedEventArgs(m_TargetIndex));
 			}
 		}
 
 		[Category("Hypowered"),Browsable(false)]
-		public bool[] IsEditArray
+		public bool[] SelectedArray
 		{
 			get
 			{
@@ -177,7 +182,7 @@ namespace Hypowered
 					if(this.Controls[i] is HControl)
 					{
 						HControl hc = (HControl)this.Controls[i];
-						ret[i] = hc.IsEdit;
+						ret[i] = hc.Selected;
 					}
 					else
 					{
@@ -195,73 +200,30 @@ namespace Hypowered
 						if (this.Controls[i] is HControl)
 						{
 							HControl hc = (HControl)this.Controls[i];
-							hc.SetIsEdit(value[i]);
+							hc.SetSelected(value[i]);
 						}
 					}
 				}
 			}
 		}
-
-		// ******************
-		protected bool m_CanEdit = true;
-		[Category("_Hypowered")]
-		public bool CanEdit
-		{
-			get { return m_CanEdit; }
-			set
-			{
-				m_CanEdit = value;
-				if(this.Controls.Count>1)
-				{
-					for(int i=1; i< this.Controls.Count; i++)
-					{
-						if (this.Controls[i] is HControl)
-						{
-							((HControl)this.Controls[i]).SetCanEdit(value);
-						}
-					}
-				}
-				if(m_CanEdit==false) 
-				{
-					m_TargetIndex = -1;
-					m_TargetControl = null;
-				}
-				OnIsEditsChanged(new IsEditsChangedEventArgs(IsEditArray));
-				this.Invalidate();
-			}
-		}
-
 		// ******************
 		[Category("Hypowered")]
 		public int Index { get; set; } = -1;
 
-		private bool m_IsShowEdit =true;
+		private bool m_IsShowSelected =true;
 		[Category("_Hypowered")]
-		public bool IsShowEdit 
+		public bool IsShowSelected 
 		{
-			get { return m_IsShowEdit; }
+			get { return m_IsShowSelected; }
 			set
 			{
-				m_IsShowEdit = value;
+				m_IsShowSelected = value;
 				this.Invalidate();
 			}
 		}
 
 		[Category("Hypowered_Menu")]
 		public HMainMenu MainMenu { get; set; } = new HMainMenu();
-		[Category("Hypowered_Menu")]
-		public HMenuItem FileMenu { get; set; } = new HMenuItem();
-		[Category("Hypowered_Menu")]
-		public HMenuItem EditMenu { get; set; } = new HMenuItem();
-		[Category("Hypowered_Menu")]
-		public HMenuItem ToolMenu { get; set; } = new HMenuItem();
-
-		[Category("Hypowered_Menu")]
-		public HMenuItem OpenMenu { get; set; } = new HMenuItem();
-		[Category("Hypowered_Menu")]
-		public HMenuItem CloseMenu { get; set; } = new HMenuItem();
-		[Category("Hypowered_Menu")]
-		public HMenuItem MainFormMenu { get; set; } = new HMenuItem();
 
 
 
@@ -294,7 +256,7 @@ namespace Hypowered
 					if (ItemsLib.Rename(value))
 					{
 						base.Name = value;
-						OnFormNameChange(new FormNameChangedEventArgs(value,this.Index));
+						OnFormNameChange(new FormChangedEventArgs(base.Name, this.Index));
 					}
 				}
 			}
@@ -306,23 +268,44 @@ namespace Hypowered
 			get { return m_TargetColor; }
 			set { m_TargetColor = value; this.Invalidate(); }
 		}
+		protected Color m_SelectedColor = Color.Red;
+		[Category("Hypowered_Color"), Browsable(true)]
+		public Color SelectedColor
+		{
+			get { return m_SelectedColor; }
+			set 
+			{ 
+				m_SelectedColor = value;
+				if(this.Controls.Count > 1)
+				{
+					for (int i = 1; i < this.Controls.Count; i++)
+					{
+						if (this.Controls[i] is HControl)
+						{
+							((HControl)this.Controls[i]).SelectedColor = m_SelectedColor;
+						}
+					}
+				}
+				this.Invalidate(); 
+			}
+		}
 		#endregion
 		/// <summary>
-		/// IsEdit状態の一括設定
+		/// 選択状態の一括設定
 		/// </summary>
 		/// <param name="b"></param>
-		public void SetIsEditsAll(bool b = false)
+		public void SetSelectedAll(bool b = false)
 		{
 			if (this.Controls.Count <= 0) return;
 			for (int i = 0; i < this.Controls.Count; i++)
 			{
 				if (this.Controls[i] is HControl)
 				{
-					((HControl)this.Controls[i]).IsEdit = b;
+					((HControl)this.Controls[i]).Selected = b;
 				}
 			}
 		}
-		public bool IsEditTrue
+		public bool IsSelectedTrue
 		{
 			get
 			{
@@ -332,7 +315,7 @@ namespace Hypowered
 				{
 					if (this.Controls[i] is HControl)
 					{
-						if (((HControl)this.Controls[i]).IsEdit ==true)
+						if (((HControl)this.Controls[i]).Selected ==true)
 						{
 							ret = true;
 							break;
@@ -348,7 +331,7 @@ namespace Hypowered
 		/// ListboxのSelectedIndeiesに対応
 		/// </summary>
 		/// <param name="b"></param>
-		public void SetIsEdits(int[] b)
+		public void SetSelecteds(int[] b)
 		{
 			if (this.Controls.Count <= 0) return;
 			bool[] bb = new bool[this.Controls.Count];
@@ -368,7 +351,7 @@ namespace Hypowered
 			{
 				if (this.Controls[i] is HControl)
 				{
-					((HControl)this.Controls[i]).IsEdit = bb[i];
+					((HControl)this.Controls[i]).Selected = bb[i];
 				}
 			}
 
@@ -377,6 +360,7 @@ namespace Hypowered
 		public HForm() : base()
 		{
 			Script.SetMainForm(null, this);
+			ScriptCode.Setup(HScriptType.FormLoad,HScriptType.FormClosed);
 			InitializeComponent();
 			this.StartPosition = FormStartPosition.Manual;
 			base.BackColor = Color.FromArgb(64, 64, 64);
@@ -391,7 +375,11 @@ namespace Hypowered
 				true);
 			this.UpdateStyles();
 
-			InitMenuStrip();
+			MainMenu.Location = new Point(0, m_BarHeight);
+			MainMenu.Size = new Size(this.Width, MainMenu.Height);
+			this.Controls.Add(MainMenu);
+			ChkControl();
+			//InitMenuStrip();
 			this.FormClosed += (sender, e) => { LastSettings(); };
 			StartSettings();
 		}
@@ -427,6 +415,7 @@ namespace Hypowered
 			MainMenu.Location = new Point(0, m_BarHeight);
 			MainMenu.Size = new Size(this.Width, MainMenu.Height);
 
+			/*
 			FileMenu.Name = "FileMenu";
 			FileMenu.Text = "File";
 			EditMenu.Name = "EditMenu";
@@ -436,14 +425,14 @@ namespace Hypowered
 
 			OpenMenu.Name = "OpenMenu";
 			OpenMenu.Text = "Open";
+			*/
+			//MainMenu.CloseMenu.Click += (sender, e) => { this.Close(); };
+			//MainMenu.FileMenu.Click += (sender, e) => { this.Close(); };
 
-			CloseMenu.Name = "CloseMenu";
-			CloseMenu.Text = "Close";
-			CloseMenu.Click += (sender, e) => { this.Close(); };
-
-			MainFormMenu.Name = "MainFormMenu";
-			MainFormMenu.Text = "Main";
-			MainFormMenu.Click += (sender, e) =>
+			/*
+			MainMenu.Name = "MainFormMenu";
+			MainMenu.Text = "Main";
+			MainMenu.Click += (sender, e) =>
 			{
 				if (m_MainForm != null)
 				{
@@ -455,13 +444,14 @@ namespace Hypowered
 			FileMenu.DropDownItems.Add(OpenMenu);
 			FileMenu.DropDownItems.Add(CloseMenu);
 
-			ToolMenu.DropDownItems.Add(MainFormMenu);
+			ToolMenu.DropDownItems.Add(MainMenu);
 
 			MainMenu.Items.Add(FileMenu);
 			MainMenu.Items.Add(EditMenu);
 			MainMenu.Items.Add(ToolMenu);
 
 			this.Controls.Add(MainMenu);
+			*/
 		}
 		// ************************************************************
 		protected override void OnResize(EventArgs e)
@@ -473,22 +463,26 @@ namespace Hypowered
 		}
 		protected override void OnMouseDown(MouseEventArgs e)
 		{
-			if ((Control.ModifierKeys & Keys.Alt) == Keys.Alt)
+			if(m_IsEdit)
 			{
-				if(this.Controls.Count > 1) 
+				if (this.Controls.Count > 1)
 				{
-					if(IsEditTrue)
+					if ((Control.ModifierKeys & Keys.Shift) == Keys.Shift)
 					{
-						SetIsEditsAll(false);
+						if (IsSelectedTrue)
+						{
+							SetSelectedAll(false);
+						}
+						else
+						{
+							SetSelectedAll(true);
+						}
+						OnSelectedChanged(new SelectedChangedEventArgs(SelectedArray));
+						this.Invalidate();
 					}
-					else
-					{
-						SetIsEditsAll(true);
-					}
-					OnIsEditsChanged(new IsEditsChangedEventArgs(IsEditArray));
-					this.Invalidate();
 				}
 			}
+
 			this.Focus();
 			base.OnMouseDown(e);
 		}
@@ -551,11 +545,11 @@ namespace Hypowered
 					break;
 			}
 			hc.SetHForm(this);
-			hc.IsEditChanged += (sender, e) => { OnIsEditsChanged(new IsEditsChangedEventArgs(IsEditArray)); };
+			hc.SelectedChanged += (sender, e) => { OnSelectedChanged(new SelectedChangedEventArgs(SelectedArray)); };
 
 			hc.ControlNameChanged += (semder, e) =>
 			{
-				OnControlNameChanged(new ControlNameChangedEventArgs(
+				OnControlNameChanged(new ControlChangedEventArgs(
 					e.Name,
 					Index,
 					e.Index
@@ -764,7 +758,7 @@ namespace Hypowered
 		protected override void OnPaint(PaintEventArgs e)
 		{
 			base.OnPaint(e);
-			if ((m_IsShowEdit)&&(m_CanEdit))
+			if ((m_IsShowSelected)&&(m_IsEdit))
 			{
 				if ((this.Controls.Count > 1) && (m_TargetControl != null))
 				{
@@ -828,6 +822,7 @@ namespace Hypowered
 			try
 			{
 				this.Controls.Remove(c);
+				ChkControl();
 				OnControlChanged(new EventArgs());
 				return true;
 			}
@@ -853,8 +848,48 @@ namespace Hypowered
 			if (ret)
 			{
 				base.Name = ItemsLib.Name;
+				OnFormNameChange(new FormChangedEventArgs(base.Name, Index));
 			}
 			return ret;
+		}
+	}
+	public class FormChangedEventArgs : EventArgs
+	{
+		public String Name;
+		public int Index;
+		public FormChangedEventArgs(string n, int index)
+		{
+			Name = n;
+			Index = index;
+		}
+	}
+	public class ControlChangedEventArgs : EventArgs
+	{
+		public string Name;
+		public int FormIndex;
+		public int CtrlIndex;
+		public ControlChangedEventArgs(string n, int findex, int cindex)
+		{
+			Name = n;
+			CtrlIndex = cindex;
+			FormIndex = findex;
+		}
+	}
+
+	public class SelectedChangedEventArgs : EventArgs
+	{
+		public bool[] Selecteds = new bool[0];
+		public SelectedChangedEventArgs(bool[] n)
+		{
+			Selecteds = n;
+		}
+	}
+	public class TargetControlChangedEventArgs : EventArgs
+	{
+		public int Index;
+		public TargetControlChangedEventArgs(int idx)
+		{
+			Index = idx;
 		}
 	}
 }

@@ -16,16 +16,16 @@ namespace Hypowered
 	{
 		protected MainForm? MainForm { get; set; } = null;
 		private HForm? m_TargetForm = null;
-		private Control[]? m_Controls = null;
+		private HControl? m_TargetControl = null;
+
 		public void SetMainForm(MainForm mf)
 		{
 			MainForm = mf;
 			if(MainForm != null)
 			{
-				DispFormListBox();
-				MainForm.FormChanged += (sender, e) => { DispFormListBox(); };
+				FormListBox.SetMainForm(MainForm);
 				SetTargetForm( MainForm.TargetForm);
-				MainForm.TargetFormChanged += (sender, e) =>{SetTargetForm(MainForm.TargetForm);};
+				MainMenuTreeView.SetMainForm(MainForm);
 			}
 		}
 		public void SetTargetForm(HForm? hf)
@@ -33,62 +33,17 @@ namespace Hypowered
 			if((hf!=null)&&(hf.CanPropertyGrid==false))
 			{
 				m_TargetForm = null;
-				return;
 			}
 			m_TargetForm = hf;
-			if (m_TargetForm != null)
-			{
-				m_TargetForm.ControlChanged -= (sender, e) => { MakeCtrlListBox(); };
-				m_TargetForm.ControlChanged += (sender, e) => { MakeCtrlListBox(); };
-				m_TargetForm.FormNameChanged -= (sender, e) => { FormNameChanged(e); };
-				m_TargetForm.FormNameChanged += (sender, e) => { FormNameChanged(e); };
-				m_TargetForm.IsEditsChanged -= (sender, e) => { CtrlListBox.SetSelectArray(e.IsEdits); };
-				m_TargetForm.IsEditsChanged += (sender, e) => { CtrlListBox.SetSelectArray(e.IsEdits); };
+			CtrlListBox.SetHForm(m_TargetForm);
+			MainMenuTreeView.SetHForrm(m_TargetForm);
 
-				m_TargetForm.ControlNameChanged += (sender, e) => { ControlNameChanged(e); };
-
-			}
-			MakeCtrlListBox();
-
-		}
-		public void MakeCtrlListBox()
-		{
-			CtrlListBox.Items.Clear();
-			if (m_TargetForm != null)
-			{
-				CtrlListBox.Items.AddRange(m_TargetForm.ControlList());
-				m_Controls = m_TargetForm.ControlArray();
-			}
-			else
-			{
-				m_Controls = null;
-			}
-		}
-		public void ControlNameChanged(HForm.ControlNameChangedEventArgs e)
-		{
-			if(FormListBox.SelectedIndex ==e.FIndex)
-			{
-				if ((e.CIndex >= 0) && (e.CIndex < CtrlListBox.Items.Count))
-				{
-					CtrlListBox.Items[e.CIndex] = e.Name;
-					
-				}
-			}
-		}
-		public void FormNameChanged(HForm.FormNameChangedEventArgs e)
-		{
-			if (FormListBox.Items.Count <=0) return;
-			if((e.Index>=0)&&(e.Index<CtrlListBox.Items.Count))
-			{
-				FormListBox.Items[e.Index] = e.Name;
-				
-			}
 		}
 		public PropertyGrid? PropertyGrid { get; set; } = null;
 		[Category("Hypowered_Ctrl")]
-		public EditListBox FormListBox { get; set; } = new EditListBox();
+		public FormListBox FormListBox { get; set; } = new FormListBox();
 		[Category("Hypowered_Ctrl")]
-		public EditListBox CtrlListBox { get; set; } = new EditListBox();
+		public ControlListBox CtrlListBox { get; set; } = new ControlListBox();
 		[Category("Hypowered_Ctrl")]
 		public SizeMoveModePanel SizeMoveModePanel { get; set; } = new SizeMoveModePanel();
 		[Category("Hypowered_Ctrl")]
@@ -103,6 +58,8 @@ namespace Hypowered
 		public NumericUpDown MoveScale { get; set; } = new NumericUpDown();
 		[Category("Hypowered_Ctrl")]
 		public FormActionPanel FormActionPanel { get; set; } = new FormActionPanel();
+		[Category("Hypowered_Ctrl")]
+		public MainMenuTreeView MainMenuTreeView { get; set; } = new MainMenuTreeView();
 
 		[Category("Hypowered_Ctrl")]
 		public int FormListHeight
@@ -124,8 +81,10 @@ namespace Hypowered
 				base.BackColor = value;
 				CtrlListBox.BackColor = value;
 				FormListBox.BackColor = value;
+				MainMenuTreeView.BackColor = value;
 				SizeMoveModePanel.BackColor = value;
 				FormActionPanel.BackColor = value;
+
 			}
 		}
 		[Category("Hypowered_Color")]
@@ -137,6 +96,7 @@ namespace Hypowered
 				base.ForeColor = value;
 				CtrlListBox.ForeColor = value;
 				FormListBox.ForeColor = value;
+				MainMenuTreeView.ForeColor = value;
 				SizeMoveModePanel.ForeColor = value;
 				FormActionPanel.ForeColor = value;
 			}
@@ -157,6 +117,7 @@ namespace Hypowered
 			this.Controls.Add(this.ArrowPanel);
 			this.Controls.Add(this.MoveScale);
 			this.Controls.Add(this.CtrlListBox);
+			this.Controls.Add(this.MainMenuTreeView);
 		}
 		private void DispFormListBox()
 		{
@@ -208,7 +169,7 @@ namespace Hypowered
 				}
 				if(sels.Length==0)
 				{
-					m_TargetForm.SetIsEditsAll();
+					m_TargetForm.SetSelectedAll();
 				}
 				else
 				{
@@ -216,7 +177,7 @@ namespace Hypowered
 					{
 						m_TargetForm.TargetIndex = sels[0];
 					}
-					m_TargetForm.SetIsEdits(sels);
+					m_TargetForm.SetSelecteds(sels);
 				}
 			};
 			CtrlListBox.BorderStyle = BorderStyle.FixedSingle;
@@ -252,9 +213,18 @@ namespace Hypowered
 			FormListBox.BackColor = this.BackColor;
 			FormListBox.ForeColor = this.ForeColor;
 			FormListBox.ScrollAlwaysVisible = true;
-			FormListBox.Location = new Point(0, 0);
-			FormListBox.Size = new Size(this.Width, 100);
-			
+
+			MainMenuTreeView.PropertyGrid = this.PropertyGrid;
+			MainMenuTreeView.SetMainForm(MainForm);
+			MainMenuTreeView.BackColor = this.BackColor;
+			MainMenuTreeView.ForeColor = this.ForeColor;
+			MainMenuTreeView.AfterSelect += (sender, e) =>
+			{
+				if (PropertyGrid == null) return;
+				if (e.Node == null) return;
+				PropertyGrid.SelectedObject = e.Node.Tag;
+			};
+
 			MoveScale.BackColor = this.BackColor;
 			MoveScale.ForeColor = this.ForeColor;
 			MoveScale.Value = 1;
@@ -400,7 +370,10 @@ namespace Hypowered
 			y += SizeMoveModePanel.Height + 2;
 
 			CtrlListBox.Location = new Point(0, y);
-			CtrlListBox.Size = new Size(this.Width, this.Height - y);
+			CtrlListBox.Size = new Size(this.Width, (this.Height - y)/2);
+			y += CtrlListBox.Height + 2;
+			MainMenuTreeView.Location = new Point(0, y);
+			MainMenuTreeView.Size = new Size(this.Width, (this.Height - y));
 		}
 		protected override void OnPaint(PaintEventArgs pe)
 		{

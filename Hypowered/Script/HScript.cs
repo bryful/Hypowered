@@ -20,7 +20,7 @@ namespace Hypowered
 {
     public class HScript
     {
-        public MainForm? Mainform = null;
+        public MainForm? MainForm = null;
 		public HForm? HForm = null;
 
 		public V8ScriptEngine? engine = null;
@@ -32,9 +32,15 @@ namespace Hypowered
         }
         public void SetMainForm(MainForm? mf,HForm? hf)
         {
-            Mainform = mf;
+            MainForm = mf;
 			HForm = hf;
 			Root.SetMainForm(mf, hf);
+			Init();
+		}
+		public void SetHForm(HForm? hf)
+		{
+			HForm = hf;
+			Root.SetHForm(hf);
 			Init();
 		}
 		public void Init()
@@ -126,7 +132,29 @@ namespace Hypowered
 			}
 			catch (Exception e)
 			{
-				//HpdMainForm.AlertMes(e.ToString(), "Exception");
+				if((MainForm!=null)&&(HForm!=null))
+				{
+					MainForm.Alert(HForm,e.ToString(), "Exception");
+				}
+			}
+		}
+		public void ExecuteCode(ref ScriptItem si)
+		{
+			if (engine == null) return;
+			try
+			{
+				if(si.Script==null)
+				{
+					si.Script =  engine.Compile(si.Code);
+				}
+				engine.Execute(si.Script);
+			}
+			catch (Exception e)
+			{
+				if ((MainForm != null) && (HForm != null))
+				{
+					MainForm.Alert(HForm, e.ToString(), "Exception");
+				}
 			}
 		}
 		public void GetGlobalThis()

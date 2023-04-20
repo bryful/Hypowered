@@ -84,6 +84,7 @@ namespace Hypowered
 		public HPictureBox()
 		{
 			m_HType = HType.PictureBox;
+			ScriptCode.Setup(HScriptType.ValueChanged);
 			this.AllowDrop = true;
 			ChkGridSize();
 			InitOffScr();
@@ -121,7 +122,7 @@ namespace Hypowered
 				Rectangle rr = RectInc(this.ClientRectangle, 2);
 				DrawFrame(g, p, rr, 1);
 
-				DrawIsEdit(g, p);
+				DrawCtrlRect(g, p);
 			}
 		}
 		// *****************************************************************************

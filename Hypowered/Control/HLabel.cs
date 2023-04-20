@@ -126,7 +126,7 @@ namespace Hypowered
 					//g.DrawRectangle(p, r);
 				}
 				// IsEdit
-				DrawIsEdit(g, p);
+				DrawCtrlRect(g, p);
 			}
 		}
 		// ********************************************************

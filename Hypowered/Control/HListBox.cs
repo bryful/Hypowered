@@ -104,24 +104,25 @@ namespace Hypowered
 				}
 			}
 		}
-		private Color m_SelectedColor = Color.FromArgb(100, 100, 100);
+		private Color m_SelectedLineColor = Color.FromArgb(100, 100, 100);
 		[Category("Hypowered_Color"), Browsable(true)]
-		public Color SelectedColor
+		public Color SelectedLineColor
 		{
-			get { return m_SelectedColor; }
+			get { return m_SelectedLineColor; }
 			set
 			{
-				m_SelectedColor = value; this.Invalidate();
+				m_SelectedLineColor = value; this.Invalidate();
 			}
 		}
+		private Color m_TargetLineColor = Color.FromArgb(150, 100, 100);
 		/// <summary>
 		/// ターゲットになった時の色。ListBoxで使用
 		/// </summary>
 		[Category("Hypowered_Color"), Browsable(true)]
-		public System.Drawing.Color TargetColor
+		public System.Drawing.Color TargetLineColor
 		{
-			get { return m_TargetColor; }
-			set { m_TargetColor = value; this.Invalidate(); }
+			get { return m_TargetLineColor; }
+			set { m_TargetLineColor = value; this.Invalidate(); }
 		}
 		[Category("Hypowered"), Browsable(false)]
 		private VScrol VScrol { get; set; } = new VScrol();
@@ -130,6 +131,7 @@ namespace Hypowered
 		public HListBox()
 		{
 			m_HType = HType.ListBox;
+			ScriptCode.Setup(HScriptType.SelectedIndexChanged,HScriptType.DoubleClick);
 			TextAlign = StringAlignment.Near;
 			base.Size = new Size(200, 150);
 			VScrol.Size = new Size(20, this.Height-20);
@@ -197,10 +199,10 @@ namespace Hypowered
 			if ((idx >= m_Items.Count) || (idx < 0)) return;
 			if (idx==m_SelectedIndex)
 			{
-				sb.Color = m_TargetColor;
+				sb.Color = m_TargetLineColor;
 			}else if (m_Items[idx].Selected==true)
 			{
-				sb.Color = m_SelectedColor;
+				sb.Color = m_SelectedLineColor;
 			}
 			else
 			{
@@ -226,7 +228,7 @@ namespace Hypowered
 				g.FillRectangle(sb, this.ClientRectangle);
 
 				if (m_Items.Count > 0) {
-					g.SetClip(new Rectangle(3, 3, this.Width - 6- VScrol.Width, this.Height - 6));
+					g.SetClip(new Rectangle(3, 3, this.Width - 6- VScrol.Width-3, this.Height - 6));
 					int st = m_DispY / m_ListHeight;
 					for (int i = st;i< m_Items.Count;i++)
 					{
@@ -240,11 +242,11 @@ namespace Hypowered
 					g.SetClip(this.ClientRectangle);
 				}
 
-				Rectangle rr = new Rectangle(2,2,this.Width-4-VScrol.Width-3,this.Height-4);
+				Rectangle rr = new Rectangle(3,3,this.Width-6-VScrol.Width-3,this.Height-6);
 				p.Color = ForeColor;
 				g.DrawRectangle(p,rr);
 
-				DrawIsEdit(g, p);
+				DrawCtrlRect(g, p);
 
 			}
 
@@ -272,33 +274,10 @@ namespace Hypowered
 		// ****************************************************************************
 		protected override void OnMouseDown(MouseEventArgs e)
 		{
-			if (IsAltKey)
-			{
-				SetIsEdit(true);
-				this.Invalidate();
-				if (HForm != null)
-				{
-					HForm.TargetIndex = this.Index;
-					HForm.Invalidate();
-				}
-				return;
-			}
+			
 			if (m_IsEdit == true)
 			{
-				if ((e.Button & MouseButtons.Left) == MouseButtons.Left)
-				{
-
-
-					m_MD = true;
-					m_MDLoc = this.Location;
-					m_MDSize = this.Size;
-					m_MDP = this.PointToScreen(new Point(e.X, e.Y));
-					m_MDResize = ((e.X > this.Width - 10) && (e.Y > this.Height - 10));
-
-
-					return;
-				}
-
+				base.OnMouseDown(e);
 			}
 			else
 			{
@@ -322,9 +301,16 @@ namespace Hypowered
 		// ****************************************************************************
 		protected override void OnMouseWheel(MouseEventArgs e)
 		{
-			int idx = e.Delta / 120;
+			if(m_IsEdit == false) 
+			{
+				int idx = e.Delta / 120;
 
-			DispY -= idx * m_ListHeight * 2;
+				DispY -= idx * m_ListHeight * 2;
+			}
+			else
+			{
+				base.OnMouseWheel(e);
+			}
 		}
 		// ****************************************************************************
 		public override JsonObject? ToJson()
@@ -333,8 +319,8 @@ namespace Hypowered
 
 			if(m_IsSaveItems) jf.SetValue("Items", ToArray());
 			jf.SetValue("ListHeight", ListHeight);
-			jf.SetValue("SelectedColor", SelectedColor);
-			jf.SetValue("TargetColor", TargetColor);
+			jf.SetValue("SelectedLineColor", SelectedLineColor);
+			jf.SetValue("TargetLineColor", TargetLineColor);
 
 			return jf.Obj;
 		}
@@ -351,9 +337,9 @@ namespace Hypowered
 			v = jf.ValueAuto("ListHeight", typeof(Int32).Name);
 			if (v != null) ListHeight = (Int32)v;
 			v = jf.ValueAuto("SelectedColor", typeof(Color).Name);
-			if (v != null) SelectedColor = (Color)v;
-			v = jf.ValueAuto("TargetColor", typeof(Color).Name);
-			if (v != null) TargetColor = (Color)v;
+			if (v != null) TargetLineColor = (Color)v;
+			v = jf.ValueAuto("TargetLineColor", typeof(Color).Name);
+			if (v != null) TargetLineColor = (Color)v;
 
 			ChkSize();
 		}

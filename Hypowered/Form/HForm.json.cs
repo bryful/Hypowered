@@ -18,9 +18,9 @@ namespace Hypowered
 		{
 			JsonFile? jf = new JsonFile(base.ToJson());
 			jf.SetValue(nameof(MainMenuVisible), (Boolean)MainMenuVisible);//System.Boolean
-			jf.SetValue(nameof(IsShowEdit), (Boolean)IsShowEdit);//System.Boolean
-			jf.SetValue(nameof(CanEdit), (Boolean)CanEdit);//System.Boolean
-			jf.SetValue(nameof(CanEdit), (Boolean)CanPropertyGrid);//System.Boolean
+			jf.SetValue(nameof(CanPropertyGrid), (Boolean)CanPropertyGrid);//System.Boolean
+			jf.SetValue(nameof(SelectedColor), (Color)SelectedColor);//System.Boolean
+			jf.SetValue(nameof(TargetColor), (Color)TargetColor);//System.Boolean
 
 			if (this.Controls.Count > 1)
 			{
@@ -93,10 +93,10 @@ namespace Hypowered
 			}
 			v = jf.ValueAuto("MainMenuVisible", typeof(Boolean).Name);
 			if (v != null) MainMenuVisible = (Boolean)v;
-			v = jf.ValueAuto("IsShowEdit", typeof(Boolean).Name);
-			if (v != null) IsShowEdit = (Boolean)v;
-			v = jf.ValueAuto("CanEdit", typeof(Boolean).Name);
-			if (v != null) CanEdit = (Boolean)v;
+			v = jf.ValueAuto("SelectedColor", typeof(Color).Name);
+			if (v != null) SelectedColor = (Color)v;
+			v = jf.ValueAuto("TargetColor", typeof(Color).Name);
+			if (v != null) TargetColor = (Color)v;
 		}
 		// ****************************************************
 		public virtual string ToJsonCode()
