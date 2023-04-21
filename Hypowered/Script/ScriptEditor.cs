@@ -13,9 +13,94 @@ namespace Hypowered
 {
 	public partial class ScriptEditor : BaseForm
 	{
-		//private HpdScriptCode? m_ScriptCode = null;
 		public MainForm? MainForm = null;
 		private HForm? m_TargetForm = null;
+		public void SetMainForm(MainForm mf)
+		{
+			this.MainForm = mf;
+			MakeFormComb();
+			if (this.MainForm != null)
+			{
+				SetTargetForms(m_TargetForm);
+				this.MainForm.FormChanged += (sender, e) =>
+				{
+					MakeFormComb();
+				};
+				this.MainForm.TargetFormChanged += (sender, e) =>
+				{
+					SetTargetForm();
+				};
+			}
+		}
+		private void MakeFormComb()
+		{
+			if (this.MainForm != null)
+			{
+				cmbTargetForm.Items.Clear();
+				if (MainForm.HForms.Count > 0)
+				{
+					cmbTargetForm.Items.AddRange(MainForm.HFormsNames());
+				}
+			}
+		}
+		private void MakeControlComb()
+		{
+			if (this.m_TargetForm != null)
+			{
+				cmbTargetForm.Items.Clear();
+				if (cmbTargetForm.Items.Count > 0)
+				{
+					cmbTargetForm.Items.AddRange(MainForm.HFormsNames());
+				}
+			}
+		}
+		private void SetTargetForms(HForm? hf )
+		{
+			m_TargetForm = hf;
+			if (m_TargetForm != null)
+			{
+
+			}
+		}
+		private void SetTargetForm()
+		{
+			if (this.MainForm != null)
+			{
+				if (m_TargetForm != null)
+				{
+					if (m_TargetForm == MainForm.TargetForm) return;
+				}
+				m_TargetForm = MainForm.TargetForm;
+				if (m_TargetForm != null)
+				{
+					if (MainForm.HForms.Count > 0)
+					{
+						int v = -1;
+						if (MainForm.TargetForm != null)
+						{
+							v = MainForm.TargetForm.Index;
+						}
+						if ((v >= 0) && (v < cmbTargetForm.Items.Count))
+						{
+							if (cmbTargetForm.SelectedIndex != v)
+							{
+								cmbTargetForm.SelectedIndex = v;
+							}
+						}
+					}
+					m_TargetForm.FormNameChanged += (sender, e) =>
+					{
+						cmbTargetForm.Items[e.Index] = e.Name;
+					};
+					m_TargetForm.TargetControlChanged += (sender, e) =>
+					{
+
+					};
+				}
+			}
+		}
+
+		private HControl? m_TargetControl = null;
 		public bool SetEdit(bool b)
 		{/*
 			if (m_Target == null) return false;
@@ -48,29 +133,6 @@ namespace Hypowered
 			}
 			*/
 			return true;
-		}
-		public void SetMainForm(MainForm mf)
-		{/*
-			this.MainForm = mf;
-			GetControlList();
-			if (this.MainForm!=null)
-			{
-				this.MainForm.ItemChanged += (sender, e) =>
-				{
-					GetControlList();
-				};
-				this.MainForm.Items.TargetControlChanged += (sender, e) =>
-				{
-					if (cmbTarget.SelectedIndex >= 2)
-					{
-						if (e.Index >= 0)
-						{
-							cmbTarget.SelectedIndex = e.Index + 2;
-						}
-					}
-				};
-
-			}*/
 		}
 		public void GetControlList()
 		{
@@ -132,6 +194,7 @@ namespace Hypowered
 		{
 			ChkSize();
 			base.OnResize(e);
+			Refresh();
 		}
 	}
 }

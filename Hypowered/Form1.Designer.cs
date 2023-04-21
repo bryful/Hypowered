@@ -35,9 +35,9 @@
 			AutoScaleDimensions = new SizeF(7F, 15F);
 			AutoScaleMode = AutoScaleMode.Font;
 			ClientSize = new Size(800, 450);
-			SelectedArray = (new bool[] { false });
 			MainMenuVisible = true;
 			Name = "Form1";
+			SelectedArray = (new bool[] { false });
 			Text = "Form1";
 			ResumeLayout(false);
 		}

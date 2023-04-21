@@ -8,20 +8,36 @@ namespace Hypowered
 {
 	public  class FormListBox : EditListBox
 	{
-		public MainForm? MainForm = null;
+		public ControlListBox? ControlListBox { get; set; } = null;
+		public PropertyGrid? PropertyGrid { get; set; } = null;
+
+		private MainForm? m_MainForm = null;
+		public MainForm? MainForm
+		{
+			get { return m_MainForm; }
+			set { SetMainForm(value); }
+		}
 		// ********************************************************
 		public void SetMainForm(MainForm? hf)
 		{
-			MainForm = hf;
-
+			m_MainForm = hf;
+			Scan();
 			if (MainForm != null)
 			{
 				MainForm.FormChanged -= (seder, e) => { Scan(); };
 				MainForm.FormChanged += (seder, e) => { Scan(); };
 				MainForm.TargetFormChanged -= (sender, e) => { SetTargetForm(MainForm.TargetForm); };
 				MainForm.TargetFormChanged += (sender, e) => { SetTargetForm(MainForm.TargetForm); }; 
+
 			}
-			Scan();
+
+			if(ControlListBox != null)
+			{
+				if (MainForm != null)
+				{
+					ControlListBox.SetHForm(MainForm.TargetForm);
+				}
+			}
 
 		}
 		// ********************************************************
@@ -50,11 +66,34 @@ namespace Hypowered
 					list.Add(hf.Name);
 				}
 				this.Items.AddRange(list.ToArray());
-				if(MainForm.TargetForm != null)
+				if (MainForm.TargetControl == null) MainForm.TargetFormIndex = 0;
+				SetTargetForm(MainForm.TargetForm);
+			}
+		}
+		// ********************************************************
+		protected override void OnSelectedIndexChanged(EventArgs e)
+		{
+			if(MainForm != null)
+			{
+				if(ControlListBox != null)
 				{
-					this.SelectedIndex = MainForm.TargetFormIndex;
+					ControlListBox.SetHForm(MainForm.TargetForm);
+				}
+				if(PropertyGrid != null)
+				{
+					PropertyGrid.SelectedObject = MainForm.TargetForm;
 				}
 			}
+			else
+			{
+				base.OnSelectedIndexChanged(e);
+			}
+		}
+		// ********************************************************
+		public FormListBox()
+		{
+			this.BorderStyle = BorderStyle.FixedSingle;
+			this.ScrollAlwaysVisible = true;
 		}
 	}
 }

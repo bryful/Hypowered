@@ -133,26 +133,6 @@ namespace Hypowered.Properties {
         /// <summary>
         ///   型 System.Drawing.Bitmap のローカライズされたリソースを検索します。
         /// </summary>
-        internal static System.Drawing.Bitmap Action7 {
-            get {
-                object obj = ResourceManager.GetObject("Action7", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   型 System.Drawing.Bitmap のローカライズされたリソースを検索します。
-        /// </summary>
-        internal static System.Drawing.Bitmap Action9 {
-            get {
-                object obj = ResourceManager.GetObject("Action9", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   型 System.Drawing.Bitmap のローカライズされたリソースを検索します。
-        /// </summary>
         internal static System.Drawing.Bitmap Aligin0 {
             get {
                 object obj = ResourceManager.GetObject("Aligin0", resourceCulture);
@@ -376,6 +356,26 @@ namespace Hypowered.Properties {
         internal static System.Drawing.Bitmap CUp {
             get {
                 object obj = ResourceManager.GetObject("CUp", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   型 System.Drawing.Bitmap のローカライズされたリソースを検索します。
+        /// </summary>
+        internal static System.Drawing.Bitmap EditMode0 {
+            get {
+                object obj = ResourceManager.GetObject("EditMode0", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   型 System.Drawing.Bitmap のローカライズされたリソースを検索します。
+        /// </summary>
+        internal static System.Drawing.Bitmap EditMode1 {
+            get {
+                object obj = ResourceManager.GetObject("EditMode1", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }

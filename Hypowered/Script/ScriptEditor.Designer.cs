@@ -31,7 +31,8 @@
 			System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(ScriptEditor));
 			roslynEdit1 = new RoslynEdit();
 			toolStrip1 = new ToolStrip();
-			cmbTarget = new ToolStripComboBox();
+			cmbTargetForm = new ToolStripComboBox();
+			cmbTargetControl = new ToolStripComboBox();
 			btnEditStart = new ToolStripButton();
 			lbName = new ToolStripLabel();
 			cmbScriptType = new ToolStripComboBox();
@@ -56,27 +57,35 @@
 			// 
 			toolStrip1.Anchor = AnchorStyles.None;
 			toolStrip1.AutoSize = false;
+			toolStrip1.BackColor = SystemColors.Control;
 			toolStrip1.Dock = DockStyle.None;
-			toolStrip1.Items.AddRange(new ToolStripItem[] { cmbTarget, btnEditStart, lbName, cmbScriptType, btnEditEnd, toolStripSeparator1, btnFont, toolStripSeparator2, btnV8Execute });
+			toolStrip1.Items.AddRange(new ToolStripItem[] { cmbTargetForm, cmbTargetControl, btnEditStart, lbName, cmbScriptType, btnEditEnd, toolStripSeparator1, btnFont, toolStripSeparator2, btnV8Execute });
 			toolStrip1.Location = new Point(9, 24);
 			toolStrip1.Name = "toolStrip1";
 			toolStrip1.Size = new Size(749, 25);
 			toolStrip1.TabIndex = 2;
 			toolStrip1.Text = "toolStrip1";
 			// 
-			// cmbTarget
+			// cmbTargetForm
 			// 
-			cmbTarget.DropDownStyle = ComboBoxStyle.DropDownList;
-			cmbTarget.FlatStyle = FlatStyle.Flat;
-			cmbTarget.MaxDropDownItems = 20;
-			cmbTarget.Name = "cmbTarget";
-			cmbTarget.Size = new Size(121, 25);
+			cmbTargetForm.MaxDropDownItems = 100;
+			cmbTargetForm.Name = "cmbTargetForm";
+			cmbTargetForm.Size = new Size(121, 25);
+			// 
+			// cmbTargetControl
+			// 
+			cmbTargetControl.DropDownStyle = ComboBoxStyle.DropDownList;
+			cmbTargetControl.FlatStyle = FlatStyle.Flat;
+			cmbTargetControl.MaxDropDownItems = 20;
+			cmbTargetControl.Name = "cmbTargetControl";
+			cmbTargetControl.Size = new Size(121, 25);
 			// 
 			// btnEditStart
 			// 
 			btnEditStart.AutoSize = false;
 			btnEditStart.BackColor = SystemColors.ControlLight;
 			btnEditStart.DisplayStyle = ToolStripItemDisplayStyle.Text;
+			btnEditStart.ForeColor = SystemColors.WindowText;
 			btnEditStart.Image = (Image)resources.GetObject("btnEditStart.Image");
 			btnEditStart.ImageTransparentColor = Color.Magenta;
 			btnEditStart.Name = "btnEditStart";
@@ -86,6 +95,7 @@
 			// lbName
 			// 
 			lbName.BackColor = SystemColors.ControlLight;
+			lbName.ForeColor = SystemColors.WindowText;
 			lbName.ImageAlign = ContentAlignment.MiddleRight;
 			lbName.Name = "lbName";
 			lbName.Size = new Size(44, 22);
@@ -103,6 +113,7 @@
 			btnEditEnd.BackColor = SystemColors.ControlLight;
 			btnEditEnd.DisplayStyle = ToolStripItemDisplayStyle.Text;
 			btnEditEnd.Enabled = false;
+			btnEditEnd.ForeColor = SystemColors.WindowText;
 			btnEditEnd.Image = (Image)resources.GetObject("btnEditEnd.Image");
 			btnEditEnd.ImageTransparentColor = Color.Magenta;
 			btnEditEnd.Name = "btnEditEnd";
@@ -117,6 +128,7 @@
 			// btnFont
 			// 
 			btnFont.DisplayStyle = ToolStripItemDisplayStyle.Text;
+			btnFont.ForeColor = SystemColors.WindowText;
 			btnFont.Image = (Image)resources.GetObject("btnFont.Image");
 			btnFont.ImageTransparentColor = Color.Magenta;
 			btnFont.Name = "btnFont";
@@ -135,6 +147,7 @@
 			btnV8Execute.AutoSize = false;
 			btnV8Execute.BackColor = SystemColors.ControlLight;
 			btnV8Execute.DisplayStyle = ToolStripItemDisplayStyle.Text;
+			btnV8Execute.ForeColor = SystemColors.WindowText;
 			btnV8Execute.Image = (Image)resources.GetObject("btnV8Execute.Image");
 			btnV8Execute.ImageTransparentColor = Color.Magenta;
 			btnV8Execute.Margin = new Padding(5, 1, 5, 2);
@@ -175,6 +188,7 @@
 		private ToolStripSeparator toolStripSeparator1;
 		private ToolStripButton btnV8Execute;
 		private ToolStripSeparator toolStripSeparator2;
-		private ToolStripComboBox cmbTarget;
+		private ToolStripComboBox cmbTargetControl;
+		private ToolStripComboBox cmbTargetForm;
 	}
 }

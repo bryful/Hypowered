@@ -1,6 +1,6 @@
 ﻿namespace Hypowered
 {
-	partial class FormActionPanel
+	partial class FormPanel
 	{
 		/// <summary>
 		/// 必要なデザイナー変数です。

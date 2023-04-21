@@ -57,7 +57,6 @@ namespace Hypowered
 		// ********************************************************************
 		public ItemsLib ItemsLib = new ItemsLib();
 		public ConsoleForm? ConsoleForm = null;
-		public ScriptEditor? ScriptForm = null;
 		// ********************************************************************
 		#region Event
 		// ********************************************************************
@@ -93,7 +92,8 @@ namespace Hypowered
 				m_EditControl = value;
 				if (m_EditControl != null)
 				{
-					m_EditControl.SetMainForm(this);
+					m_EditControl.MainForm = this;
+					m_EditControl.PropertyGrid = this.propertyGrid1;
 				}
 			}
 		}
@@ -181,6 +181,18 @@ namespace Hypowered
 		#endregion
 		// ********************************************************************
 		public List<HForm> HForms = new List<HForm>();
+		public string[] HFormsNames()
+		{
+			List<string> names = new List<string>();
+			if (HForms.Count > 0)
+			{
+				foreach (HForm hf in HForms)
+				{
+					names.Add(hf.Name);
+				}
+			}
+			return names.ToArray();
+		}
 		public void RescanForms()
 		{
 			if (HForms.Count > 0)
@@ -390,7 +402,7 @@ namespace Hypowered
 				true);
 			this.UpdateStyles();
 			EditControl = editControl1;
-
+			editControl1.PropertyGrid = propertyGrid1;
 
 			this.FormClosed += (sender, e) => { LastSettings(); };
 			StartSettings();
@@ -400,8 +412,8 @@ namespace Hypowered
 			closeFormMenu.Click += (sender, e) => { CloseForm(); };
 			deleteControlMenu.Click += (sender, e) => { DeleteControl(); };
 			quitMenu.Click += (sender, e) => { Application.Exit(); };
-			consoleMenu.Click += (sender, e) => { ShowConsole(); };
-			scriptEditorMenu.Click += (sender, e) => { ShowScript(); };
+			//consoleMenu.Click += (sender, e) => { ShowConsole(); };
+			//scriptEditorMenu.Click += (sender, e) => { ShowScript(); };
 			Command(Environment.GetCommandLineArgs().Skip(1).ToArray(), PIPECALL.StartupExec);
 			//PUtil.ToJsonCodeToClipboard(typeof(HTextBox));
 			//PUtil.PropListToClipboard(typeof(EditTextBox),"Edit");
@@ -414,8 +426,17 @@ namespace Hypowered
 			pf.Load();
 			Rectangle? rect = pf.GetBounds();
 			object? obj = null;
-			obj = pf.JsonFile.ValueInt("SplitterDistance");
-			if (obj != null) splitContainer1.SplitterDistance = (int)obj;
+			obj = pf.JsonFile.ValueInt("Main_SplitterDistance");
+			if (obj != null) splitMain.SplitterDistance = (int)obj;
+
+			obj = pf.JsonFile.ValueInt("Left_SplitterDistance");
+			if (obj != null) splitLeft.SplitterDistance = (int)obj;
+			obj = pf.JsonFile.ValueInt("MainDistance");
+			if (obj != null) editControl1.MainDistance = (int)obj;
+			obj = pf.JsonFile.ValueInt("MenuDistance");
+			if (obj != null) editControl1.MenuDistance = (int)obj;
+
+
 			obj = pf.JsonFile.ValueInt("AddFormCount");
 			if (obj != null) m_AddFormCount = (int)obj;
 			if (m_AddFormCount > 100) m_AddFormCount = 0;
@@ -425,7 +446,10 @@ namespace Hypowered
 		{
 			PrefFile pf = new PrefFile(this, Application.ExecutablePath);
 			pf.SetBounds();
-			pf.JsonFile.SetValue("SplitterDistance", splitContainer1.SplitterDistance);
+			pf.JsonFile.SetValue("Main_SplitterDistance", splitMain.SplitterDistance);
+			pf.JsonFile.SetValue("Left_SplitterDistance", splitLeft.SplitterDistance);
+			pf.JsonFile.SetValue("MainDistance", editControl1.MainDistance);
+			pf.JsonFile.SetValue("MenuDistance", editControl1.MenuDistance);
 			pf.JsonFile.SetValue("AddFormCount", m_AddFormCount);
 			pf.Save();
 		}
@@ -457,10 +481,10 @@ namespace Hypowered
 				menuStrip1.Size = new Size(this.Width, menuStrip1.Height);
 				y += menuStrip1.Bottom + 2;
 			}
-			if (splitContainer1 != null)
+			if (splitMain != null)
 			{
-				splitContainer1.Location = new Point(0, y);
-				splitContainer1.Size = new Size(this.Width, this.Height - y - 20);
+				splitMain.Location = new Point(0, y);
+				splitMain.Size = new Size(this.Width, this.Height - y - 20);
 			}
 		}
 		// ************************************************************
@@ -603,6 +627,18 @@ namespace Hypowered
 			}
 		}
 		// ************************************************************
+		public void WriteLine(object? obj)
+		{
+			ShowConsole();
+			ConsoleForm.WriteLine(obj);
+		}
+		// ************************************************************
+		public void Write(object? obj)
+		{
+			ShowConsole();
+			ConsoleForm.Write(obj);
+		}
+		// ************************************************************
 		public void ShowConsole()
 		{
 			if (ConsoleForm == null)
@@ -618,21 +654,6 @@ namespace Hypowered
 			}
 			ConsoleForm.Activate();
 		}
-		// ************************************************************
-		public void ShowScript()
-		{
-			if (ScriptForm == null)
-			{
-				ScriptForm = new ScriptEditor();
-				ScriptForm.SetMainForm(this);
-				ScriptForm.Show(this);
-			}
-
-			if (ScriptForm.Visible == false)
-			{
-				ScriptForm.Visible = true;
-			}
-			ScriptForm.Activate();
-		}
+	
 	}
 }

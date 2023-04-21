@@ -18,21 +18,11 @@ namespace Hypowered
 		Down,
 		Top,
 		Bottom,
-		Edit,
-		Script,
-		reserve,
 		Delete
 	}
 	public partial class ControlActionPanel : Control
 	{
-		public class ControlActionClickEventArgs : EventArgs
-		{
-			public ControlAction Mode;
-			public ControlActionClickEventArgs(ControlAction v)
-			{
-				Mode = v;
-			}
-		}
+		
 		public delegate void ControlActionClickHandler(object sender, ControlActionClickEventArgs e);
 		public event ControlActionClickHandler? ControlActionClick;
 		protected virtual void OnControlActionClick(ControlActionClickEventArgs e)
@@ -42,14 +32,14 @@ namespace Hypowered
 				ControlActionClick(this, e);
 			}
 		}
-		protected Bitmap[] Action = new Bitmap[10];
+		protected Bitmap[] Action = new Bitmap[7];
 		protected ControlAction m_ActionMode = ControlAction.None;
 		public ControlActionPanel()
 		{
 			this.Location = new Point(0, 0);
-			this.Size = new Size(180, 20);
-			this.MinimumSize = new Size(180, 20);
-			this.MaximumSize = new Size(180, 20);
+			this.Size = new Size(120, 20);
+			this.MinimumSize = new Size(120, 20);
+			this.MaximumSize = new Size(120, 20);
 			Action[0] = Properties.Resources.Action0;
 			Action[1] = Properties.Resources.Action1;
 			Action[2] = Properties.Resources.Action2;
@@ -57,9 +47,6 @@ namespace Hypowered
 			Action[4] = Properties.Resources.Action4;
 			Action[5] = Properties.Resources.Action5;
 			Action[6] = Properties.Resources.Action6;
-			Action[7] = Properties.Resources.Action7;
-			Action[8] = Properties.Resources.Action0;
-			Action[9] = Properties.Resources.Action9;
 			InitializeComponent();
 			base.BackColor = Color.FromArgb(64, 64, 64);
 			base.ForeColor = Color.FromArgb(230, 230, 230);
@@ -77,16 +64,9 @@ namespace Hypowered
 		{
 			int ret = -1;
 			int x = e.X / 20;
-			if ((x >= 0) && (x <= 8))
+			if ((x >= 0) && (x <= 5))
 			{
-				if (x == 7)
-				{
-					x = -1;
-				}
-				else
-				{
-					ret = x+1;
-				}
+				ret = x+1;
 			}
 			return ret;
 		}
@@ -126,6 +106,14 @@ namespace Hypowered
 			{
 				base.OnMouseUp(e);
 			}
+		}
+	}
+	public class ControlActionClickEventArgs : EventArgs
+	{
+		public ControlAction Mode;
+		public ControlActionClickEventArgs(ControlAction v)
+		{
+			Mode = v;
 		}
 	}
 }
