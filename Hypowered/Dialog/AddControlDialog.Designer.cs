@@ -40,11 +40,14 @@
 			// 
 			// hTypeCombo1
 			// 
+			hTypeCombo1.BackColor = Color.FromArgb(64, 64, 64);
 			hTypeCombo1.DropDownStyle = ComboBoxStyle.DropDownList;
+			hTypeCombo1.FlatStyle = FlatStyle.Flat;
 			hTypeCombo1.Font = new Font("Yu Gothic UI", 12F, FontStyle.Regular, GraphicsUnit.Point);
+			hTypeCombo1.ForeColor = Color.FromArgb(230, 230, 230);
 			hTypeCombo1.FormattingEnabled = true;
 			hTypeCombo1.HType = HType.Button;
-			hTypeCombo1.Items.AddRange(new object[] { "Button", "Label", "TextBox" });
+			hTypeCombo1.Items.AddRange(new object[] { "Button", "Label", "TextBox", "PictureBox", "IconButton", "ListBox" });
 			hTypeCombo1.Location = new Point(75, 39);
 			hTypeCombo1.Name = "hTypeCombo1";
 			hTypeCombo1.Size = new Size(192, 29);
@@ -72,7 +75,10 @@
 			// 
 			// textBox1
 			// 
+			textBox1.BackColor = Color.FromArgb(64, 64, 64);
+			textBox1.BorderStyle = BorderStyle.FixedSingle;
 			textBox1.Font = new Font("Yu Gothic UI", 12F, FontStyle.Regular, GraphicsUnit.Point);
+			textBox1.ForeColor = Color.FromArgb(230, 230, 230);
 			textBox1.Location = new Point(75, 74);
 			textBox1.Name = "textBox1";
 			textBox1.Size = new Size(192, 29);
@@ -104,7 +110,10 @@
 			// 
 			// textBox2
 			// 
+			textBox2.BackColor = Color.FromArgb(64, 64, 64);
+			textBox2.BorderStyle = BorderStyle.FixedSingle;
 			textBox2.Font = new Font("Yu Gothic UI", 12F, FontStyle.Regular, GraphicsUnit.Point);
+			textBox2.ForeColor = Color.FromArgb(230, 230, 230);
 			textBox2.Location = new Point(75, 109);
 			textBox2.Name = "textBox2";
 			textBox2.Size = new Size(192, 29);

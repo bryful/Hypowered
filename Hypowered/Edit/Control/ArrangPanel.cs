@@ -10,43 +10,43 @@ using System.Windows.Forms;
 
 namespace Hypowered
 {
-	public enum ControlAction
+	public enum ArrangMode
 	{
 		None,
-		Add,
-		Up,
-		Down,
-		Top,
-		Bottom,
-		Delete
+		HorLeft,
+		HorCenter,
+		HorRight,
+		VurTop,
+		VurCenter,
+		VurBottom,
 	}
-	public partial class ControlActionPanel : Control
+	public partial class ArrangPanel : Control
 	{
 		
-		public delegate void ControlActionClickHandler(object sender, ControlActionClickEventArgs e);
-		public event ControlActionClickHandler? ControlActionClick;
-		protected virtual void OnControlActionClick(ControlActionClickEventArgs e)
+		public delegate void ArrangClickHandler(object sender, ArrangClickEventArgs e);
+		public event ArrangClickHandler? ArrangClick;
+		protected virtual void OnArrangClick(ArrangClickEventArgs e)
 		{
-			if (ControlActionClick != null)
+			if (ArrangClick != null)
 			{
-				ControlActionClick(this, e);
+				ArrangClick(this, e);
 			}
 		}
-		protected Bitmap[] Action = new Bitmap[7];
-		protected ControlAction m_ActionMode = ControlAction.None;
-		public ControlActionPanel()
+		protected Bitmap[] Arrang = new Bitmap[7];
+		protected ArrangMode m_ArrangMode = ArrangMode.None; 
+		public ArrangPanel()
 		{
 			this.Location = new Point(0, 0);
 			this.Size = new Size(120, 20);
 			this.MinimumSize = new Size(120, 20);
 			this.MaximumSize = new Size(120, 20);
-			Action[0] = Properties.Resources.Action0;
-			Action[1] = Properties.Resources.Action1;
-			Action[2] = Properties.Resources.Action2;
-			Action[3] = Properties.Resources.Action3;
-			Action[4] = Properties.Resources.Action4;
-			Action[5] = Properties.Resources.Action5;
-			Action[6] = Properties.Resources.Action6;
+			Arrang[0] = Properties.Resources.Arrang0;
+			Arrang[1] = Properties.Resources.Arrang1;
+			Arrang[2] = Properties.Resources.Arrang2;
+			Arrang[3] = Properties.Resources.Arrang3;
+			Arrang[4] = Properties.Resources.Arrang4;
+			Arrang[5] = Properties.Resources.Arrang5;
+			Arrang[6] = Properties.Resources.Arrang6;
 			InitializeComponent();
 			base.BackColor = Color.FromArgb(64, 64, 64);
 			base.ForeColor = Color.FromArgb(230, 230, 230);
@@ -77,7 +77,7 @@ namespace Hypowered
 				Graphics g = pe.Graphics;
 				sb.Color = Color.Transparent;
 				g.FillRectangle(sb, this.ClientRectangle);
-				g.DrawImage(Action[(int)m_ActionMode], 0, 0);
+				g.DrawImage(Arrang[(int)m_ArrangMode], 0, 0);
 			}
 		}
 		protected override void OnMouseDown(MouseEventArgs e)
@@ -87,7 +87,7 @@ namespace Hypowered
 				int pos = GetPos(e);
 				if (pos >= 0)
 				{
-					m_ActionMode = (ControlAction)pos;
+					m_ArrangMode = (ArrangMode)pos;
 					this.Invalidate();
 				}
 			}
@@ -95,23 +95,21 @@ namespace Hypowered
 		}
 		protected override void OnMouseUp(MouseEventArgs e)
 		{
-			if (m_ActionMode != ControlAction.None)
+			if (m_ArrangMode != ArrangMode.None)
 			{
-				ControlAction mode = m_ActionMode;
-				m_ActionMode = ControlAction.None;
+				ArrangMode am = m_ArrangMode;
+				m_ArrangMode = ArrangMode.None;
 				this.Invalidate();
-				OnControlActionClick(new ControlActionClickEventArgs(mode));
+				OnArrangClick(new ArrangClickEventArgs(am));
 			}
-			else
-			{
-				base.OnMouseUp(e);
-			}
+			base.OnMouseUp(e);
 		}
 	}
-	public class ControlActionClickEventArgs : EventArgs
+	// *************************************
+	public class ArrangClickEventArgs : EventArgs
 	{
-		public ControlAction Mode;
-		public ControlActionClickEventArgs(ControlAction v)
+		public ArrangMode Mode;
+		public ArrangClickEventArgs(ArrangMode v)
 		{
 			Mode = v;
 		}

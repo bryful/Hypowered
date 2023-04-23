@@ -13,6 +13,7 @@ using System.IO;
 using Svg;
 using ImageMagick;
 using System.Runtime.InteropServices;
+using System.Drawing.Text;
 namespace Hypowered
 {
 	public class HPictureBox : HControl
@@ -110,6 +111,12 @@ namespace Hypowered
 			using (Pen p = new Pen(base.ForeColor))
 			{
 				Graphics g = pe.Graphics;
+				if (m_IsAnti)
+				{
+					g.TextRenderingHint = TextRenderingHint.AntiAliasGridFit;
+					g.SmoothingMode = System.Drawing.Drawing2D.SmoothingMode.AntiAlias;
+				}
+
 				// 塗り
 				sb.Color = Color.Transparent;
 				g.FillRectangle(sb, this.ClientRectangle);

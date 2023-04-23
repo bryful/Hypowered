@@ -168,7 +168,6 @@
 		private TextBox tbName;
 		private Label label1;
 		private Label label2;
-		private ComboBox comboBox1;
 		private Button btnCancel;
 		private Button btnOK;
 		private Button btnDir;

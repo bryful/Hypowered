@@ -21,14 +21,7 @@ namespace Hypowered
 
 	public partial class ArrowPanel : Control
 	{
-		public class ArrowChangedEventArgs : EventArgs
-		{
-			public ArrowDown Arrow;
-			public ArrowChangedEventArgs(ArrowDown v)
-			{
-				Arrow = v;
-			}
-		}
+
 		public delegate void ArrowChangedHandler(object sender, ArrowChangedEventArgs e);
 		public event ArrowChangedHandler? ArrowChanged;
 		protected virtual void OnArrowChanged(ArrowChangedEventArgs e)
@@ -121,6 +114,15 @@ namespace Hypowered
 				this.Invalidate();
 			}
 			base.OnMouseUp(e);
+		}
+	}
+	// *****************************************
+	public class ArrowChangedEventArgs : EventArgs
+	{
+		public ArrowDown Arrow;
+		public ArrowChangedEventArgs(ArrowDown v)
+		{
+			Arrow = v;
 		}
 	}
 }

@@ -38,6 +38,7 @@
 			ClientSize = new Size(573, 300);
 			FormBorderStyle = FormBorderStyle.None;
 			Name = "BaseForm";
+			StartPosition = FormStartPosition.Manual;
 			Text = "BaseForm";
 			ResumeLayout(false);
 		}

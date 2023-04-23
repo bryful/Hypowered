@@ -16,10 +16,10 @@ namespace Hypowered
 		public HForm? HForm
 		{
 			get { return m_HForm; }
-			set 
+			set
 			{
-				m_HForm=value;
-				if(m_HForm != null)
+				m_HForm = value;
+				if (m_HForm != null)
 				{
 					textBox1.Text = m_HForm.ControlNewName(hTypeCombo1.HType);
 				}
@@ -51,7 +51,7 @@ namespace Hypowered
 			InitializeComponent();
 			hTypeCombo1.SelectedIndexChanged += (sender, e) =>
 			{
-				if(m_HForm != null)
+				if (m_HForm != null)
 				{
 					textBox1.Text = m_HForm.ControlNewName(hTypeCombo1.HType);
 				}

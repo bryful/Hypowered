@@ -56,9 +56,11 @@ namespace Hypowered
 			get { return m_Index; }
 			set 
 			{
-				if (m_Index !=value)
+				int v = value;
+				if (v >= m_Count) v = m_Count - 1;
+				if (m_Index !=v)
 				{
-					m_Index = value;
+					m_Index = v;
 					OnIndexChanged(new IndexChangedEventArgs(m_Index));
 				}
 				this.Invalidate();

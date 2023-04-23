@@ -9,7 +9,7 @@ using System.Text.Json.Nodes;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using ImageMagick;
-
+using System.Drawing.Text;
 namespace Hypowered
 {
 	public class HTextBox : HControl
@@ -126,6 +126,12 @@ namespace Hypowered
 			using (Pen p = new Pen(base.ForeColor))
 			{
 				Graphics g = pe.Graphics;
+				if (m_IsAnti)
+				{
+					g.TextRenderingHint = TextRenderingHint.AntiAliasGridFit;
+					g.SmoothingMode = System.Drawing.Drawing2D.SmoothingMode.AntiAlias;
+				}
+
 				// 塗り
 				sb.Color = Color.Transparent;
 				g.FillRectangle(sb, this.ClientRectangle);
@@ -214,7 +220,7 @@ namespace Hypowered
 		{
 			base.FromJson(jo);
 			JsonFile jf = new JsonFile(jo);
-			object? v = null;
+			//object? v = null;
 		}
 	}
 }

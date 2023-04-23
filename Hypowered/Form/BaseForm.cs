@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
+using System.Diagnostics;
 using System.Drawing;
 using System.Linq;
 using System.Text;
@@ -21,6 +22,16 @@ namespace Hypowered
 	}
 	public partial class BaseForm : Form
 	{
+		public delegate void OrderMeinFormHandler(object sender, EventArgs e);
+		public event OrderMeinFormHandler? OrderMeinForm;
+		protected virtual void OnOrderMeinForm(EventArgs e)
+		{
+			if (OrderMeinForm != null)
+			{
+				OrderMeinForm(this, e);
+			}
+		}
+
 		#region Props
 		[Category("Hypowered"), Browsable(true)]
 		public new System.String Text
@@ -48,7 +59,7 @@ namespace Hypowered
 		public bool IsShowTopMost
 		{
 			get { return m_IsShowTopMost; }
-			set { m_IsShowTopMost = value;this.Invalidate(); }
+			set { m_IsShowTopMost = value; this.Invalidate(); }
 		}
 		[Category("Hypowered_Draw")]
 		public new System.Int32 DeviceDpi
@@ -144,7 +155,7 @@ namespace Hypowered
 			}
 		}
 		protected Color m_BarBackColor = Color.FromArgb(80, 80, 80);
-		[Category("Hypowered_Color"),Browsable(true)]
+		[Category("Hypowered_Color"), Browsable(true)]
 		public Color BarBackColor
 		{
 			get { return m_BarBackColor; }
@@ -184,8 +195,19 @@ namespace Hypowered
 		protected void CalcCloseRect()
 		{
 			int w = m_BarHeight - 8;
-			m_CloseRect = new Rectangle(this.Width - w -10, 4, w, w);
+			m_CloseRect = new Rectangle(this.Width - w - 10, 4, w, w);
 
+		}
+		protected bool m_IsAnti = false;
+		[Category("Hyepowered_Draw"), Browsable(true)]
+		public bool IsAnti
+		{
+			get { return m_IsAnti; }
+			set
+			{
+				m_IsAnti = value;
+				this.Invalidate();
+			}
 		}
 		// ************************************************************
 		public BaseForm()
@@ -204,9 +226,9 @@ namespace Hypowered
 				ControlStyles.ResizeRedraw,
 				true);
 			this.UpdateStyles();
-			base.StartPosition = FormStartPosition.CenterScreen;
+			base.StartPosition = FormStartPosition.Manual;
 
-
+			Debug.WriteLine("BaseForm const");
 			//HUtils.PropListToClipboard(typeof(BaseForm),"BaseForm");
 		}
 		// ************************************************************
@@ -224,9 +246,14 @@ namespace Hypowered
 			using (Pen p = new Pen(ForeColor))
 			{
 				Graphics g = e.Graphics;
+				if (m_IsAnti)
+				{
+					g.SmoothingMode = System.Drawing.Drawing2D.SmoothingMode.AntiAlias;
+				}
+
 				g.FillRectangle(sb, this.ClientRectangle);
 				// TopBar
-				Rectangle rct = new Rectangle(0,0,this.Width,m_BarHeight);
+				Rectangle rct = new Rectangle(0, 0, this.Width, m_BarHeight);
 				sb.Color = m_BarBackColor;
 				g.FillRectangle(sb, rct);
 				// TopBar TopMost
@@ -244,8 +271,8 @@ namespace Hypowered
 					}
 				}
 				// TopBar Title
-				rct = new Rectangle(m_TopMostRect.Right+2,0,
-					this.Width-m_TopMostRect.Right,m_BarHeight);
+				rct = new Rectangle(m_TopMostRect.Right + 2, 0,
+					this.Width - m_TopMostRect.Right, m_BarHeight);
 				sb.Color = ForeColor;
 				g.DrawString(this.Text, this.Font, sb, rct, SFormat);
 				// TopBar Close
@@ -255,9 +282,9 @@ namespace Hypowered
 				g.DrawLine(p, m_CloseRect.Left, m_CloseRect.Bottom, m_CloseRect.Right, m_CloseRect.Top);
 
 				// 外枠
-				rct = new Rectangle(0,0,this.Width-1,this.Height-1);
+				rct = new Rectangle(0, 0, this.Width - 1, this.Height - 1);
 				p.Color = m_BarBackColor;
-				g.DrawRectangle (p, rct);
+				g.DrawRectangle(p, rct);
 
 			}
 
@@ -265,7 +292,7 @@ namespace Hypowered
 		}
 		// ************************************************************
 		private bool m_MD = false;
-		private Point m_MDPoint = new Point(0,0);
+		private Point m_MDPoint = new Point(0, 0);
 		private Point m_MDLocation = new Point(0, 0);
 		private bool m_MDResize = false;
 		private Size m_MDSize = new Size(0, 0);
@@ -280,10 +307,11 @@ namespace Hypowered
 		{
 			if ((e.Button & MouseButtons.Left) == MouseButtons.Left)
 			{
-				if ((InRect(e.X, e.Y, m_TopMostRect))&&(m_IsShowTopMost))
+				if ((InRect(e.X, e.Y, m_TopMostRect)) && (m_IsShowTopMost))
 				{
 					TopMost = !TopMost;
-				} else if (InRect(e.X, e.Y, m_CloseRect))
+				}
+				else if (InRect(e.X, e.Y, m_CloseRect))
 				{
 					switch (m_CloseAction)
 					{
@@ -303,10 +331,17 @@ namespace Hypowered
 				}
 				else if (e.Y < m_BarHeight)
 				{
+					if (Control.ModifierKeys == (Keys.Control|Keys.Shift))
+					{
+						OnOrderMeinForm(new EventArgs());
+						return;
+					}
+
 					m_MD = true;
 					m_MDPoint = new Point(e.X, e.Y);
 					m_MDLocation = new Point(this.Location.X, this.Location.Y);
-				} else if ((m_CanResize == true) 
+				}
+				else if ((m_CanResize == true)
 					&& (e.X > this.Width - 20)
 					&& (e.Y > this.Height - 20)
 					)
@@ -316,7 +351,8 @@ namespace Hypowered
 					m_MDSize = this.Size;
 				}
 			}
-			else{
+			else
+			{
 				base.OnMouseDown(e);
 			}
 		}
@@ -327,8 +363,9 @@ namespace Hypowered
 			{
 				int dx = e.X - m_MDPoint.X;
 				int dy = e.Y - m_MDPoint.Y;
-				this. Location =new Point(this.Location.X + dx, this.Location.Y + dy);
-			}else if(m_MDResize)
+				this.Location = new Point(this.Location.X + dx, this.Location.Y + dy);
+			}
+			else if (m_MDResize)
 			{
 				int dx = e.X - m_MDPoint.X;
 				int dy = e.Y - m_MDPoint.Y;
@@ -342,10 +379,10 @@ namespace Hypowered
 		// ************************************************************
 		protected override void OnMouseUp(MouseEventArgs e)
 		{
-			if ((m_MD)||(m_MDResize))
+			if ((m_MD) || (m_MDResize))
 			{
-				m_MD=false;
-				m_MDResize=false;
+				m_MD = false;
+				m_MDResize = false;
 			}
 			else
 			{

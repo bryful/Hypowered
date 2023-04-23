@@ -8,9 +8,28 @@ namespace Hypowered
 {
 	public  class FormListBox : EditListBox
 	{
-		public ControlListBox? ControlListBox { get; set; } = null;
-		public PropertyGrid? PropertyGrid { get; set; } = null;
+		// ******************************************************
+		public delegate void SelectObjectsChangedHandler(object sender, SelectObjectsChangedArgs e);
+		public event SelectObjectsChangedHandler? SelectObjectsChanged;
+		protected virtual void OnSelectObjectChanged(SelectObjectsChangedArgs e)
+		{
+			if (SelectObjectsChanged != null)
+			{
+				SelectObjectsChanged(this, e);
+			}
+		}
+		// ******************************************************
+		public delegate void TargetFormChangedHandler(object sender, TargetFormChangedArgs e);
+		public event TargetFormChangedHandler? TargetFormChanged;
+		protected virtual void OnTargetFormChanged(TargetFormChangedArgs e)
+		{
+			if (TargetFormChanged != null)
+			{
+				TargetFormChanged(this, e);
+			}
+		}
 
+		// ******************************************************
 		private MainForm? m_MainForm = null;
 		public MainForm? MainForm
 		{
@@ -31,28 +50,38 @@ namespace Hypowered
 
 			}
 
-			if(ControlListBox != null)
-			{
-				if (MainForm != null)
-				{
-					ControlListBox.SetHForm(MainForm.TargetForm);
-				}
-			}
-
 		}
+		private HForm? m_TargetForm = null;
+		public HForm? TargetForm
+		{
+			get { return m_TargetForm; }
+		}
+
 		// ********************************************************
 		public void SetTargetForm(HForm? hForm)
 		{
 			int v = -1;
-			if(hForm != null) 
+			m_TargetForm = hForm;
+			if (m_TargetForm != null) 
 			{
-				v = hForm.Index;
+				m_TargetForm.FormNameChanged -= HForm_FormNameChanged;
+				m_TargetForm.FormNameChanged += HForm_FormNameChanged;
+				v = m_TargetForm.Index;
 			}
-			if(this.SelectedIndex !=v)
+			if (this.SelectedIndex != v)
 			{
 				this.SelectedIndex = v;
 			}
 		}
+
+		private void HForm_FormNameChanged(object sender, FormChangedEventArgs e)
+		{
+			if ((e.Index>=0)&&(e.Index<this.Items.Count))
+			{
+				this.Items[e.Index] = e.Name;
+			}
+		}
+
 		// ********************************************************
 		public void Scan()
 		{
@@ -75,14 +104,18 @@ namespace Hypowered
 		{
 			if(MainForm != null)
 			{
-				if(ControlListBox != null)
+				int idx = this.SelectedIndex;
+				if((idx>=0)&&(idx< MainForm.HForms.Count))
 				{
-					ControlListBox.SetHForm(MainForm.TargetForm);
+					m_TargetForm = MainForm.HForms[idx];
 				}
-				if(PropertyGrid != null)
+				else
 				{
-					PropertyGrid.SelectedObject = MainForm.TargetForm;
+					this.SelectedIndex = -1;
+					m_TargetForm = null;
 				}
+				OnSelectObjectChanged(new SelectObjectsChangedArgs(new object?[] { m_TargetForm }));
+				OnTargetFormChanged(new TargetFormChangedArgs(m_TargetForm));
 			}
 			else
 			{

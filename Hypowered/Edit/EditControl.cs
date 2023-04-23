@@ -15,50 +15,105 @@ namespace Hypowered
 {
 	public partial class EditControl : Control
 	{
+		// TODO: ボタンが効かない
 
+		public object?[]? SelectObjects = null;
+		// ****************************************
+		public delegate void SelectObjectsChangedHandler(object sender, SelectObjectsChangedArgs e);
+		public event SelectObjectsChangedHandler? SelectObjectsChanged;
+		protected virtual void OnSelectObjectsChanged(SelectObjectsChangedArgs e)
+		{
+			SelectObjects = e.objs;
+			if (SelectObjectsChanged != null)
+			{
+				SelectObjectsChanged(this, e);
+			}
+		}
+		// ****************************************
 		public FormPanel FormPanel { get; set; } = new FormPanel();
 		public ControlPanel ControlPanel { get; set; } = new ControlPanel();
-		public MainMenuTreeView MainMenuTreeView { get; set; } = new MainMenuTreeView();
-		public SplitContainer MenuPanel { get; set; } = new SplitContainer();
-		public SplitContainer MainPanel { get; set; } = new SplitContainer();
+		public MenuPanel MenuPanel { get; set; } = new MenuPanel();
+		public SplitContainer MenuSplit { get; set; } = new SplitContainer();
+		public SplitContainer MainSplit { get; set; } = new SplitContainer();
 		public int MainDistance
 		{
-			get { return MainPanel.SplitterDistance; }
-			set { MainPanel.SplitterDistance = value; }
+			get { return MainSplit.SplitterDistance; }
+			set 
+			{ 
+				MainSplit.SplitterDistance = value;
+			}
 		}
 		public int MenuDistance
 		{
-			get { return MenuPanel.SplitterDistance; }
+			get { return MenuSplit.SplitterDistance; }
 			set
 			{
 				try
 				{
-					MenuPanel.SplitterDistance = value;
+					MenuSplit.SplitterDistance = value;
 
 				}
 				catch { }
 			}
 		}
-
+		private int m_IsScript = 1;
+		public bool IsScript
+		{
+			get
+			{
+				int ret = 0;
+				if (FormPanel.MainForm!=null)
+				{
+					if (FormPanel.MainForm.IsScript)
+					{
+						ret = 1;
+					}
+				}
+				m_IsScript = ret;
+				if (ret==1)
+				{
+					return true;
+				}
+				else
+				{
+					return false;
+				}
+			}
+			set
+			{
+				if (FormPanel.MainForm != null)
+				{
+					if (FormPanel.MainForm.IsScript)
+					{
+						m_IsScript = 1;
+					}
+					else
+					{
+						m_IsScript = 0;
+					}
+					this.Invalidate();
+				}
+			}
+		}
 		public MainForm? MainForm
 		{
 			get { return this.FormPanel.MainForm; }
 			set
 			{
 				FormPanel.MainForm = value;
-				MainMenuTreeView.MainForm = value;
+				if (FormPanel.MainForm != null)
+				{
+					IsScript = FormPanel.IsScript;
+				}
+				ControlPanel.MainForm = value;
+				MenuPanel.MainForm = value;
 			}
 		}
-		public HForm? HForm
+		[Category("Hypowered_Color"),Browsable(false)]
+		public SizeMoveMode SizeMoveMode
 		{
-			get { return ControlPanel.HForm; }
-			set
-			{
-				ControlPanel.HForm = value;
-				MainMenuTreeView.HForm = value;
-			}
+			get { return ControlPanel.SizeMoveMode; }
 		}
-
 		[Category("Hypowered_Color")]
 		public new Color BackColor
 		{
@@ -68,7 +123,7 @@ namespace Hypowered
 				base.BackColor = value;
 				FormPanel.BackColor = value;
 				ControlPanel.BackColor = value;
-				MainMenuTreeView.BackColor = value;
+				MenuPanel.BackColor = value;
 			}
 		}
 		[Category("Hypowered_Color")]
@@ -80,53 +135,83 @@ namespace Hypowered
 				base.ForeColor = value;
 				FormPanel.ForeColor = value;
 				ControlPanel.ForeColor = value;
-				MainMenuTreeView.ForeColor = value;
-			}
-		}
-		public PropertyGrid? PropertyGrid
-		{
-			get { return FormPanel.PropertyGrid; }
-			set
-			{
-				FormPanel.PropertyGrid = value;
-				ControlPanel.PropertyGrid = value;
-				MainMenuTreeView.PropertyGrid = value;
+				MenuPanel.ForeColor = value;
 			}
 		}
 		public EditControl()
 		{
 
 			InitializeComponent();
-			FormPanel.ControlPanel = this.ControlPanel;
-
+			MainSplit.MinimumSize= new Size(150, 110);
+			
 			ForeColor = Color.FromArgb(220, 220, 220);
 			BackColor = Color.FromArgb(64, 64, 64);
+			FormPanel.ScriptModeChanged += (sender, e) =>
+			{
+				if (MainForm != null)
+				{
+					MainForm.IsScript = e.IsScript;
+				}
+			};
 
 			FormPanel.Dock = DockStyle.Fill;
 			ControlPanel.Dock = DockStyle.Fill;
-			MainMenuTreeView.Dock = DockStyle.Fill;
-
-			MainPanel.Panel1.Controls.Add(FormPanel);
-			MainPanel.Panel2.Controls.Add(this.ControlPanel);
-			MainPanel.Orientation = Orientation.Horizontal;
-			MainPanel.SplitterDistance = 160;
-
-			MainPanel.Dock = DockStyle.Fill;
-			MenuPanel.Panel1.Controls.Add(MainPanel);
-			MenuPanel.Panel2.Controls.Add(MainMenuTreeView);
 			MenuPanel.Dock = DockStyle.Fill;
-			MenuPanel.Orientation = Orientation.Horizontal;
-			MenuPanel.SplitterDistance = 660;
-			this.Controls.Add(MenuPanel);
 
-			MainPanel.SplitterMoved += (sender, e) =>
-			{ 
-				Debug.WriteLine($"MainPanel:{MainPanel.SplitterDistance} MenuPanel:{MenuPanel.SplitterDistance}");
-			};
-			MenuPanel.SplitterMoved += (sender, e) =>
+			MainSplit.Panel1.Controls.Add(FormPanel);
+			MainSplit.Panel2.Controls.Add(this.ControlPanel);
+			MainSplit.Orientation = Orientation.Horizontal;
+			
+			MainSplit.Dock = DockStyle.Fill;
+			MenuSplit.Panel1.Controls.Add(MainSplit);
+			MenuSplit.Panel2.Controls.Add(MenuPanel);
+			MenuSplit.Dock = DockStyle.Fill;
+			MenuSplit.Orientation = Orientation.Horizontal;
+			this.Controls.Add(MenuSplit);
+
+			this.Size = new Size(170, 400);
+			MenuDistance = 350;
+			MainDistance = 100;
+			FormPanel.SelectObjectsChanged += (sender, e) => { OnSelectObjectsChanged(e); };
+			ControlPanel.SelectObjectsChanged += (sender, e) => { OnSelectObjectsChanged(e); };
+			MenuPanel.SelectObjectsChanged += (sender, e) => { OnSelectObjectsChanged(e); };
+
+			ControlPanel.ArrowChanged += (sender, e) => { ControlArrowAction(e); };
+			MenuPanel.MenuActionClick += (sender, e) => { PushMenuAction(e); };
+		}
+		public void PushMenuAction(MenuActionClickArgs e)
+		{
+			switch(e.Mode)
 			{
-				Debug.WriteLine($"MainPanel:{MainPanel.SplitterDistance} MenuPanel:{MenuPanel.SplitterDistance}");
-			};
+				case MenuAction.AddRoot:
+					MainForm.ShowAddRootMenuDialog();
+					break;
+			}
+		}
+		public void ControlArrowAction(ArrowChangedEventArgs e)
+		{
+			if ((MainForm == null) || (MainForm.TargetForm==null)) return;
+			switch(SizeMoveMode)
+			{
+				case SizeMoveMode.Move:
+					MainForm.TargetForm.ControlMove(e.Arrow, ControlPanel.MoveScaleValue);
+						break;
+				case SizeMoveMode.ResizeLeftTop:
+					MainForm.TargetForm.ControlResizeLeftTop(e.Arrow, ControlPanel.MoveScaleValue);
+					break;
+				case SizeMoveMode.ResizeRightBottom:
+					MainForm.TargetForm.ControlResizeRightBottom(e.Arrow, ControlPanel.MoveScaleValue);
+					break;
+			}
+		}	
+	}
+	
+	public class SelectObjectsChangedArgs : EventArgs
+	{
+		public object?[]? objs;
+		public SelectObjectsChangedArgs(object?[]? idx)
+		{
+			objs = idx;
 		}
 	}
 }

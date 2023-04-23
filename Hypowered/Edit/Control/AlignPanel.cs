@@ -10,50 +10,33 @@ using System.Windows.Forms;
 
 namespace Hypowered
 {
-	public enum ArrangMode
+	public partial class AlignPanel : Control
 	{
-		None,
-		HorLeft,
-		HorCenter,
-		HorRight,
-		VurTop,
-		VurCenter,
-		VurBottom,
-	}
-	public partial class ArrangPanel : Control
-	{
-		public class ArrangClickEventArgs : EventArgs
+	
+		public delegate void AlignClickHandler(object sender, AlignClickEventArgs e);
+		public event AlignClickHandler? AlignClick;
+		protected virtual void OnAlignClick(AlignClickEventArgs e)
 		{
-			public ArrangMode Mode;
-			public ArrangClickEventArgs(ArrangMode v)
+			if (AlignClick != null)
 			{
-				Mode = v;
+				AlignClick(this, e);
 			}
 		}
-		public delegate void ArrangClickHandler(object sender, ArrangClickEventArgs e);
-		public event ArrangClickHandler? ArrangClick;
-		protected virtual void OnArrangClick(ArrangClickEventArgs e)
-		{
-			if (ArrangClick != null)
-			{
-				ArrangClick(this, e);
-			}
-		}
-		protected Bitmap[] Arrang = new Bitmap[7];
-		protected ArrangMode m_ArrangMode = ArrangMode.None; 
-		public ArrangPanel()
+		protected Bitmap[] Align = new Bitmap[7];
+		protected AlignMode m_AlignMode = AlignMode.None;
+		public AlignPanel()
 		{
 			this.Location = new Point(0, 0);
 			this.Size = new Size(120, 20);
 			this.MinimumSize = new Size(120, 20);
 			this.MaximumSize = new Size(120, 20);
-			Arrang[0] = Properties.Resources.Arrang0;
-			Arrang[1] = Properties.Resources.Arrang1;
-			Arrang[2] = Properties.Resources.Arrang2;
-			Arrang[3] = Properties.Resources.Arrang3;
-			Arrang[4] = Properties.Resources.Arrang4;
-			Arrang[5] = Properties.Resources.Arrang5;
-			Arrang[6] = Properties.Resources.Arrang6;
+			Align[0] = Properties.Resources.Aligin0;
+			Align[1] = Properties.Resources.Aligin1;
+			Align[2] = Properties.Resources.Aligin2;
+			Align[3] = Properties.Resources.Aligin3;
+			Align[4] = Properties.Resources.Aligin4;
+			Align[5] = Properties.Resources.Aligin5;
+			Align[6] = Properties.Resources.Aligin6;
 			InitializeComponent();
 			base.BackColor = Color.FromArgb(64, 64, 64);
 			base.ForeColor = Color.FromArgb(230, 230, 230);
@@ -71,7 +54,7 @@ namespace Hypowered
 		{
 			int ret = -1;
 			int x = e.X / 20;
-			if ((x >= 0) && (x <= 5))
+			if((x>=0)&&(x<=5))
 			{
 				ret = x+1;
 			}
@@ -84,7 +67,7 @@ namespace Hypowered
 				Graphics g = pe.Graphics;
 				sb.Color = Color.Transparent;
 				g.FillRectangle(sb, this.ClientRectangle);
-				g.DrawImage(Arrang[(int)m_ArrangMode], 0, 0);
+				g.DrawImage(Align[(int)m_AlignMode], 0, 0);
 			}
 		}
 		protected override void OnMouseDown(MouseEventArgs e)
@@ -92,9 +75,9 @@ namespace Hypowered
 			if ((e.Button & MouseButtons.Left) == MouseButtons.Left)
 			{
 				int pos = GetPos(e);
-				if (pos >= 0)
+				if(pos>=0)
 				{
-					m_ArrangMode = (ArrangMode)pos;
+					m_AlignMode = (AlignMode)pos;
 					this.Invalidate();
 				}
 			}
@@ -102,14 +85,33 @@ namespace Hypowered
 		}
 		protected override void OnMouseUp(MouseEventArgs e)
 		{
-			if (m_ArrangMode != ArrangMode.None)
+			if (m_AlignMode != AlignMode.None)
 			{
-				ArrangMode am = m_ArrangMode;
-				m_ArrangMode = ArrangMode.None;
+				AlignMode am = m_AlignMode;
+				m_AlignMode = AlignMode.None;
 				this.Invalidate();
-				OnArrangClick(new ArrangClickEventArgs(am));
+				OnAlignClick(new AlignClickEventArgs(am));
 			}
 			base.OnMouseUp(e);
+		}
+	}
+	// **************************
+	public enum AlignMode
+	{
+		None,
+		VurTop,
+		VurCenter,
+		VurBottom,
+		HorLeft,
+		HorCenter,
+		HorRight
+	}
+	public class AlignClickEventArgs : EventArgs
+	{
+		public AlignMode Mode;
+		public AlignClickEventArgs(AlignMode v)
+		{
+			Mode = v;
 		}
 	}
 }

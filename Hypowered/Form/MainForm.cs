@@ -5,6 +5,38 @@ namespace Hypowered
 {
 	public partial class MainForm : BaseForm
 	{
+		// ********************************************************************
+		#region Event
+		// ********************************************************************
+		public delegate void TargetFormChangedHandler(object sender, TargetFormChangedArgs e);
+		public event TargetFormChangedHandler? TargetFormChanged;
+		protected virtual void OnTargetFormChanged(TargetFormChangedArgs e)
+		{
+			if (TargetFormChanged != null)
+			{
+				TargetFormChanged(this, e);
+			}
+		}
+		public delegate void TargetControlChangedHandler(object sender, TargetControlChangedArgs e);
+		public event TargetControlChangedHandler? TargetControlChanged;
+		protected virtual void OnTargetControlChanged(TargetControlChangedArgs e)
+		{
+			if (TargetControlChanged != null)
+			{
+				TargetControlChanged(this, e);
+			}
+		}
+		public delegate void FormChangedHandler(object sender, EventArgs e);
+		public event FormChangedHandler? FormChanged;
+		protected virtual void OnFormChanged(EventArgs e)
+		{
+			if (FormChanged != null)
+			{
+				FormChanged(this, e);
+			}
+		}
+		#endregion
+		// ********************************************************************
 		static public readonly string HOME_ENV = "HypoweredHome";
 		static public readonly string HOME_NAME = "Home";
 		static public readonly string DefEXT = ".hypf";
@@ -54,53 +86,32 @@ namespace Hypowered
 			}
 			return path;
 		}
+		public string HomeFilePath
+		{
+			get
+			{
+				return Path.Combine(m_HomeFolder, HOME_NAME + DefEXT);
+			}
+		}
 		// ********************************************************************
 		public ItemsLib ItemsLib = new ItemsLib();
 		public ConsoleForm? ConsoleForm = null;
-		// ********************************************************************
-		#region Event
-		// ********************************************************************
-		public delegate void TargetFormChangedHandler(object sender, EventArgs e);
-		public event TargetFormChangedHandler? TargetFormChanged;
-		protected virtual void OnTargetFormChanged(EventArgs e)
-		{
-			if (TargetFormChanged != null)
-			{
-				TargetFormChanged(this, e);
-			}
-		}
-		public delegate void FormChangedHandler(object sender, EventArgs e);
-		public event FormChangedHandler? FormChanged;
-		protected virtual void OnFormChanged(EventArgs e)
-		{
-			if (FormChanged != null)
-			{
-				FormChanged(this, e);
-			}
-		}
-		#endregion
+
 		// ********************************************************************
 		#region Prop
-		// ********************************************************************
-		private EditControl? m_EditControl = null;
-		[Category("Hypowered_Ctrl")]
-		public EditControl? EditControl
-		{
-			get { return m_EditControl; }
-			set
-			{
-				m_EditControl = value;
-				if (m_EditControl != null)
-				{
-					m_EditControl.MainForm = this;
-					m_EditControl.PropertyGrid = this.propertyGrid1;
-				}
-			}
-		}
+
 
 		// ********************************************************************
 		private HForm? m_TargetForm = null;
-		public HForm? TargetForm { get { return m_TargetForm; } }
+		public HForm? TargetForm
+		{
+			get { return m_TargetForm; }
+			set
+			{
+				SetTargetForm(value);
+			}
+		}
+
 		public int TargetFormIndex
 		{
 			get
@@ -127,6 +138,11 @@ namespace Hypowered
 			if (m_TargetForm != null)
 			{
 				m_TargetControl = m_TargetForm.TargetControl;
+				m_TargetForm.TargetControlChanged -= (sender, e) => { OnTargetControlChanged(e); };
+				m_TargetForm.TargetControlChanged += (sender, e) => { OnTargetControlChanged(e); };
+				m_TargetForm.IsEditChanged += (sender, e) => { IsEditoPropertyGrid(); };
+
+
 				this.Text = $"Hypowered [{m_TargetForm.Name}]";
 				m_TargetForm.Activate();
 			}
@@ -135,7 +151,7 @@ namespace Hypowered
 				m_TargetControl = null;
 				this.Text = $"Hypowered MainForm";
 			}
-			if (b) OnTargetFormChanged(new EventArgs());
+			if (b) OnTargetFormChanged(new TargetFormChangedArgs(m_TargetForm));
 		}
 		public void SetTargetForm(int idx)
 		{
@@ -155,6 +171,56 @@ namespace Hypowered
 
 		private HControl? m_TargetControl = null;
 		public HControl? TargetControl { get { return m_TargetControl; } }
+		// *************************************************************
+		public ScriptEditor? editor = null;
+		protected bool m_IsScript = false;
+		protected int m_ScriptWidth = 400;
+		// *************************************************************
+		[Category("_Hypowered"), Browsable(true)]
+		public int ScriptEditorWidth
+		{
+			get { return m_ScriptWidth; }
+			set
+			{
+				m_ScriptWidth = value;
+				if (m_ScriptWidth < 200) m_ScriptWidth = 200;
+			}
+		}
+		// *************************************************************
+		[Category("_Hypowered"), Browsable(true)]
+		public bool IsScript
+		{
+			get { return m_IsScript; }
+			set
+			{
+				m_IsScript = value;
+				if (m_IsScript)
+				{
+					if (editor == null)
+					{
+						editor = new ScriptEditor();
+						editor.Location = new Point(splitLeft.Right + 2, splitLeft.Top);
+						this.Controls.Add(editor);
+					}
+					this.Width = splitLeft.Width + 2 + m_ScriptWidth;
+				}
+				else
+				{
+					this.Width = splitLeft.Width;
+				}
+				ControlLayout();
+			}
+		}
+		public bool ScriptMode
+		{
+			get { return base.Visible; }
+			set
+			{
+				base.Visible = value;
+			}
+		}
+
+
 		#endregion
 		// ********************************************************************
 		#region Server
@@ -203,187 +269,35 @@ namespace Hypowered
 				}
 			}
 		}
-		// ********************************************************************
-		public void OpenForm()
-		{
-			using (OpenFileDialog dlg = new OpenFileDialog())
-			{
-				dlg.Title = "Open Form";
-				dlg.Filter = "*.hypf|*.hypf|*.*|*.*";
-				dlg.InitialDirectory = m_HomeFolder;
-				if (dlg.ShowDialog() == DialogResult.OK)
-				{
-					if (File.Exists(dlg.FileName))
-					{
-						OpenForm(dlg.FileName);
-					}
-				}
-			}
-		}
-		// ********************************************************************
-		public void RenameForm()
-		{
-			if (TargetForm == null) return;
-			using (RenameFormDialog dlg = new RenameFormDialog())
-			{
-				dlg.TopMost = this.TopMost;
-				dlg.FormName = TargetForm.ItemsLib.Name;
-				dlg.SetHForm(TargetForm);
-				if (dlg.ShowDialog() == DialogResult.OK)
-				{
-					TargetForm.ItemsLib.Rename(dlg.FormName);
-					base.Name = TargetForm.ItemsLib.Name;
-					OnFormChanged(new EventArgs());
-				}
-			}
-		}
-		// ********************************************************************
-		public HForm? IndexOfHForm(string p)
-		{
-			HForm? ret = null;
-			if (HForms.Count > 0)
-			{
-				foreach (HForm hf in HForms)
-				{
-					if (hf.ItemsLib.FileName == p)
-					{
-						ret = hf;
-						break;
-					}
-				}
-			}
-			return ret;
-		}
-		// ********************************************************************
-		public bool OpenForm(string p)
-		{
-			bool ret = false;
-			if (File.Exists(p))
-			{
-				HForm? hf0 = IndexOfHForm(p);
-				if (hf0 != null)
-				{
-					SetTargetForm(hf0);
-				}
-				else
-				{
-					HForm hf = CreateForm(p);
-					hf.ImportFromHypf();
-					SetTargetForm(hf);
-					hf.StartSettings();
 
-				}
-				OnFormChanged(new EventArgs());
-				ret = true;
-			}
-
-			return ret;
-		}
 		// ********************************************************************
-		private void OutputDefHypf(string p)
+		public new bool Visible
 		{
-			File.WriteAllBytes(p, Properties.Resources.hypfdef);
-		}
-		private int m_AddFormCount = 0;
-		// ********************************************************************
-		public void NewForm()
-		{
-			using (CreateFormDialog dlg = new CreateFormDialog())
+			get { return base.Visible; }
+			set
 			{
-				dlg.TopMost = this.TopMost;
-				dlg.FullFormName = $"{m_HomeFolder}\\Form{m_AddFormCount}{DefEXT}";
-				if (dlg.ShowDialog() == DialogResult.OK)
-				{
-					m_AddFormCount++;
-					OutputDefHypf(dlg.FullFormName);
-					HForm hf = CreateForm(dlg.FullFormName, dlg.FormSize);
-					SetTargetForm(hf);
-					OnFormChanged(new EventArgs());
-				}
-			}
-
-		}
-		// ********************************************************************
-		public HForm CreateForm(string path, Size? sz = null)
-		{
-			HForm form = new HForm();
-			form.SetMainForm(this);
-			form.Index = HForms.Count;
-			if (sz != null) form.Size = (Size)sz;
-			form.ItemsLib.Setup(path);
-			form.Name = form.ItemsLib.Name;
-			form.Text = form.Name;
-			form.FormClosed += (sender, e) =>
-			{
-				if (sender is HForm)
-				{
-					HForm hf = ((HForm)sender);
-					int idx = hf.Index;
-					bool b = (m_TargetForm == hf);
-					if ((idx >= 0) && (idx < HForms.Count))
-					{
-						HForms.RemoveAt(idx);
-					}
-					RescanForms();
-					if (b) SetTargetForm(null);
-					if ((HForms.Count <= 0) && (this.Visible == false))
-					{
-						Application.Exit();
-					}
-					OnFormChanged(new EventArgs());
-				}
-			};
-			form.Activated += (sender, e) =>
-			{
-				if (sender is HForm)
-				{
-					HForm mf = ((HForm)sender);
-					SetTargetForm(mf);
-				}
-			};
-			form.FormNameChanged += (sender, e) =>
-			{
-				HForm mf = ((HForm)sender);
-			};
-			form.Show(this);
-			HForms.Add(form);
-			RescanForms();
-			return form;
-		}
-		// ********************************************************************
-		public void CloseForm()
-		{
-			if (m_TargetForm != null)
-			{
-				m_TargetForm.Close();
-				RescanForms();
-				OnFormChanged(new EventArgs());
+				base.Visible = false;
+				base.Opacity = 0;
 			}
 		}
-		// ********************************************************************
-		public void AddControl()
+		public void SetVisible(bool b)
 		{
-			if (m_TargetForm == null) return;
-			m_TargetForm.AddControl();
-		}
-		// ********************************************************************
-		public bool DeleteControl()
-		{
-			bool ret = false;
-			if (m_TargetForm != null)
+			base.Visible = b;
+			if (b == false)
 			{
-				if (m_TargetForm.TargetControl != null)
-				{
-					ret = m_TargetForm.RemoveControl();
-				}
+				base.Opacity = 0;
 			}
-			return ret;
+			else
+			{
+				base.Opacity = 100;
+			}
 		}
 		// ********************************************************************
 		public MainForm()
 		{
+			SetVisible(false);
 			GetHomeFolder();
-
+			this.SuspendLayout();
 			// ItemsLib‚Ì“Ç‚Ýž‚Ý
 			ItemsLib.Setup(Path.ChangeExtension(Application.ExecutablePath, DefEXT));
 			//ItemsLib.Aarchive();
@@ -401,8 +315,10 @@ namespace Hypowered
 				ControlStyles.ResizeRedraw,
 				true);
 			this.UpdateStyles();
-			EditControl = editControl1;
-			editControl1.PropertyGrid = propertyGrid1;
+			editControl1.SelectObjectsChanged += (sender, e) =>
+			{
+				ToPropertyGrid(e.objs);
+			};
 
 			this.FormClosed += (sender, e) => { LastSettings(); };
 			StartSettings();
@@ -412,12 +328,21 @@ namespace Hypowered
 			closeFormMenu.Click += (sender, e) => { CloseForm(); };
 			deleteControlMenu.Click += (sender, e) => { DeleteControl(); };
 			quitMenu.Click += (sender, e) => { Application.Exit(); };
-			//consoleMenu.Click += (sender, e) => { ShowConsole(); };
-			//scriptEditorMenu.Click += (sender, e) => { ShowScript(); };
 			Command(Environment.GetCommandLineArgs().Skip(1).ToArray(), PIPECALL.StartupExec);
-			//PUtil.ToJsonCodeToClipboard(typeof(HTextBox));
-			//PUtil.PropListToClipboard(typeof(EditTextBox),"Edit");
+			this.ResumeLayout();
+			SetVisible(false);
+			if (this.HForms.Count == 0)
+			{
+				if (OpenForm(HomeFilePath) == false)
+				{
+					this.SetVisible(true);
+				}
+			}
 			ItemsLib.Beep();
+			editControl1.MainForm = this;
+			ControlLayout();
+			//PUtil.ToJsonCodeToClipboard(typeof(HMainMenu));
+			//PUtil.PropListToClipboard(typeof(EditTextBox),"Edit");
 		}
 		// **********************************************************
 		private void StartSettings()
@@ -426,8 +351,6 @@ namespace Hypowered
 			pf.Load();
 			Rectangle? rect = pf.GetBounds();
 			object? obj = null;
-			obj = pf.JsonFile.ValueInt("Main_SplitterDistance");
-			if (obj != null) splitMain.SplitterDistance = (int)obj;
 
 			obj = pf.JsonFile.ValueInt("Left_SplitterDistance");
 			if (obj != null) splitLeft.SplitterDistance = (int)obj;
@@ -445,13 +368,37 @@ namespace Hypowered
 		private void LastSettings()
 		{
 			PrefFile pf = new PrefFile(this, Application.ExecutablePath);
+			if (IsScript) IsScript = false;
 			pf.SetBounds();
-			pf.JsonFile.SetValue("Main_SplitterDistance", splitMain.SplitterDistance);
 			pf.JsonFile.SetValue("Left_SplitterDistance", splitLeft.SplitterDistance);
 			pf.JsonFile.SetValue("MainDistance", editControl1.MainDistance);
 			pf.JsonFile.SetValue("MenuDistance", editControl1.MenuDistance);
 			pf.JsonFile.SetValue("AddFormCount", m_AddFormCount);
 			pf.Save();
+		}
+
+		public void IsEditoPropertyGrid()
+		{
+			if (TargetForm != null)
+				propertyGrid1.Enabled = TargetForm.IsEdit;
+
+		}
+		public void ToPropertyGrid(object?[]? objs)
+		{
+			IsEditoPropertyGrid();
+			if ((objs == null) || (objs.Length <= 0))
+			{
+				propertyGrid1.SelectedObject = null;
+			}
+			else if (objs.Length == 1)
+			{
+				propertyGrid1.SelectedObject = objs[0];
+			}
+			else
+			{
+				propertyGrid1.SelectedObjects = objs;
+			}
+
 		}
 		// **********************************************************
 		/// <summary>
@@ -472,6 +419,7 @@ namespace Hypowered
 			}
 			//textBox1.Text = ret;
 		}
+		// ************************************************************
 		public void ControlLayout()
 		{
 			int y = 0;
@@ -481,10 +429,25 @@ namespace Hypowered
 				menuStrip1.Size = new Size(this.Width, menuStrip1.Height);
 				y += menuStrip1.Bottom + 2;
 			}
-			if (splitMain != null)
+			if (splitLeft != null)
 			{
-				splitMain.Location = new Point(0, y);
-				splitMain.Size = new Size(this.Width, this.Height - y - 20);
+				splitLeft.Location = new Point(0, y);
+				int h = this.Height - y - 20;
+				if (m_IsScript)
+				{
+					splitLeft.Size = new Size(splitLeft.Width, h);
+					int w = this.Width - splitLeft.Width - 2;
+					editor.Location = new Point(splitLeft.Right + 2, y);
+					if ((editor.Width != w) || (editor.Height != h))
+					{
+						editor.Size = new Size(w, h);
+						m_ScriptWidth = editor.Width;
+					}
+				}
+				else
+				{
+					splitLeft.Size = new Size(this.Width, h);
+				}
 			}
 		}
 		// ************************************************************
@@ -589,71 +552,6 @@ namespace Hypowered
 				if (HForms.Count <= 0) { Application.Exit(); }
 			}
 		}
-
-		// **********************************************************
-		public string ShowPictItemDialog(HForm hf, string pn = "")
-		{
-			string ret = "";
-			if (m_TargetForm == null) return ret;
-
-			using (PictItemDialog dlg = new PictItemDialog())
-			{
-
-				dlg.SetMainForm(this);
-				dlg.SetMainItemsLib(this.ItemsLib);
-				dlg.SetFormItemsLib(m_TargetForm.ItemsLib);
-				if (pn != "") dlg.PictName = pn;
-				dlg.TopMost = m_TargetForm.TopMost;
-				if (dlg.ShowDialog(hf) == DialogResult.OK)
-				{
-					ret = dlg.PictName;
-				}
-			}
-			return ret;
-		}
-		// ************************************************************
-		public void Alert(HForm hf, object? obj, string cap = "")
-		{
-			if (m_TargetForm == null) return;
-
-			using (AlertForm dlg = new AlertForm())
-			{
-				if (cap != "") dlg.Title = cap;
-				dlg.Text = HUtils.ToStr(obj);
-				dlg.TopMost = hf.TopMost;
-				if (dlg.ShowDialog(hf) == DialogResult.OK)
-				{
-				}
-			}
-		}
-		// ************************************************************
-		public void WriteLine(object? obj)
-		{
-			ShowConsole();
-			ConsoleForm.WriteLine(obj);
-		}
-		// ************************************************************
-		public void Write(object? obj)
-		{
-			ShowConsole();
-			ConsoleForm.Write(obj);
-		}
-		// ************************************************************
-		public void ShowConsole()
-		{
-			if (ConsoleForm == null)
-			{
-				ConsoleForm = new ConsoleForm();
-				ConsoleForm.SetMainForm(this);
-				ConsoleForm.Show(this);
-			}
-
-			if (ConsoleForm.Visible == false)
-			{
-				ConsoleForm.Visible = true;
-			}
-			ConsoleForm.Activate();
-		}
-	
 	}
+
 }

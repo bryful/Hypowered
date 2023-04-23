@@ -463,6 +463,66 @@ namespace Hypowered.Properties {
         /// <summary>
         ///   型 System.Drawing.Bitmap のローカライズされたリソースを検索します。
         /// </summary>
+        internal static System.Drawing.Bitmap MenuAction0 {
+            get {
+                object obj = ResourceManager.GetObject("MenuAction0", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   型 System.Drawing.Bitmap のローカライズされたリソースを検索します。
+        /// </summary>
+        internal static System.Drawing.Bitmap MenuAction1 {
+            get {
+                object obj = ResourceManager.GetObject("MenuAction1", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   型 System.Drawing.Bitmap のローカライズされたリソースを検索します。
+        /// </summary>
+        internal static System.Drawing.Bitmap MenuAction2 {
+            get {
+                object obj = ResourceManager.GetObject("MenuAction2", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   型 System.Drawing.Bitmap のローカライズされたリソースを検索します。
+        /// </summary>
+        internal static System.Drawing.Bitmap MenuAction3 {
+            get {
+                object obj = ResourceManager.GetObject("MenuAction3", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   型 System.Drawing.Bitmap のローカライズされたリソースを検索します。
+        /// </summary>
+        internal static System.Drawing.Bitmap MenuAction4 {
+            get {
+                object obj = ResourceManager.GetObject("MenuAction4", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   型 System.Drawing.Bitmap のローカライズされたリソースを検索します。
+        /// </summary>
+        internal static System.Drawing.Bitmap MenuAction5 {
+            get {
+                object obj = ResourceManager.GetObject("MenuAction5", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   型 System.Drawing.Bitmap のローカライズされたリソースを検索します。
+        /// </summary>
         internal static System.Drawing.Bitmap MS_Mode0 {
             get {
                 object obj = ResourceManager.GetObject("MS_Mode0", resourceCulture);
@@ -486,6 +546,26 @@ namespace Hypowered.Properties {
         internal static System.Drawing.Bitmap MS_Mode2 {
             get {
                 object obj = ResourceManager.GetObject("MS_Mode2", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   型 System.Drawing.Bitmap のローカライズされたリソースを検索します。
+        /// </summary>
+        internal static System.Drawing.Bitmap ScriptMode0 {
+            get {
+                object obj = ResourceManager.GetObject("ScriptMode0", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   型 System.Drawing.Bitmap のローカライズされたリソースを検索します。
+        /// </summary>
+        internal static System.Drawing.Bitmap ScriptMode1 {
+            get {
+                object obj = ResourceManager.GetObject("ScriptMode1", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }

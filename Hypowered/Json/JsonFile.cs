@@ -425,12 +425,7 @@ namespace Hypowered
 		{
 			if (Obj == null) return;
 
-			/*
-			if(s!="")
-			{
-				s = s.Replace('\\','/');
-			}
-			*/
+			if(s == null) s="";
 			if (Obj.ContainsKey(key))
 			{
 				Obj[key] = (string)s;
@@ -737,19 +732,23 @@ namespace Hypowered
 		public string? ValueStr(string key)
 		{
 			string? ret = null;
-			if (Obj != null)
+			try
 			{
-				if (Obj.ContainsKey(key))
+				if (Obj != null)
 				{
-					ret = Obj[key].GetValue<string?>();
+					if (Obj.ContainsKey(key))
+					{
+						if (Obj[key] != null)
+						{
+							ret = Obj[key].GetValue<string?>();
+						}
+					}
 				}
 			}
-			/*
-			if((ret!=null)&&(ret!=""))
+			catch
 			{
-				ret = ret.Replace('/', '\\');
+				ret = null;
 			}
-			*/
 			return ret;
 		}
 		public string[]? ValueStrArray(string key)

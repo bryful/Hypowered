@@ -53,17 +53,8 @@
 			editControlMenu = new ToolStripMenuItem();
 			scriptControlMenu = new ToolStripMenuItem();
 			editControl1 = new EditControl();
-			roslynEdit1 = new RoslynEdit();
-			splitMain = new SplitContainer();
 			splitLeft = new SplitContainer();
-			togglePanel1 = new TogglePanel();
-			comboBox1 = new ComboBox();
-			button2 = new Button();
 			menuStrip1.SuspendLayout();
-			((System.ComponentModel.ISupportInitialize)splitMain).BeginInit();
-			splitMain.Panel1.SuspendLayout();
-			splitMain.Panel2.SuspendLayout();
-			splitMain.SuspendLayout();
 			((System.ComponentModel.ISupportInitialize)splitLeft).BeginInit();
 			splitLeft.Panel1.SuspendLayout();
 			splitLeft.Panel2.SuspendLayout();
@@ -84,7 +75,7 @@
 			propertyGrid1.Name = "propertyGrid1";
 			propertyGrid1.SelectedItemWithFocusBackColor = SystemColors.ActiveBorder;
 			propertyGrid1.SelectedObject = this;
-			propertyGrid1.Size = new Size(278, 516);
+			propertyGrid1.Size = new Size(274, 553);
 			propertyGrid1.TabIndex = 1;
 			propertyGrid1.ViewBackColor = Color.FromArgb(32, 32, 32);
 			propertyGrid1.ViewBorderColor = Color.FromArgb(150, 150, 150);
@@ -97,7 +88,7 @@
 			menuStrip1.Items.AddRange(new ToolStripItem[] { formMenu, controlMenu });
 			menuStrip1.Location = new Point(8, 20);
 			menuStrip1.Name = "menuStrip1";
-			menuStrip1.Size = new Size(1168, 24);
+			menuStrip1.Size = new Size(862, 24);
 			menuStrip1.TabIndex = 4;
 			menuStrip1.Text = "menuStrip1";
 			// 
@@ -235,48 +226,19 @@
 			editControl1.BackColor = Color.FromArgb(64, 64, 64);
 			editControl1.Dock = DockStyle.Fill;
 			editControl1.ForeColor = Color.FromArgb(230, 230, 231);
-			editControl1.HForm = null;
+			editControl1.IsScript = false;
 			editControl1.Location = new Point(0, 0);
-			editControl1.MainDistance = 216;
+			editControl1.MainDistance = 469;
 			editControl1.MainForm = null;
-			editControl1.MenuDistance = 366;
+			editControl1.MenuDistance = 512;
 			editControl1.Name = "editControl1";
-			editControl1.PropertyGrid = propertyGrid1;
-			editControl1.Size = new Size(160, 516);
+			editControl1.Size = new Size(157, 553);
 			editControl1.TabIndex = 6;
 			editControl1.Text = "editControl1";
 			// 
-			// roslynEdit1
-			// 
-			roslynEdit1.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
-			roslynEdit1.Location = new Point(3, 33);
-			roslynEdit1.Name = "roslynEdit1";
-			roslynEdit1.Size = new Size(411, 483);
-			roslynEdit1.TabIndex = 8;
-			// 
-			// splitMain
-			// 
-			splitMain.Location = new Point(12, 47);
-			splitMain.Name = "splitMain";
-			// 
-			// splitMain.Panel1
-			// 
-			splitMain.Panel1.Controls.Add(splitLeft);
-			// 
-			// splitMain.Panel2
-			// 
-			splitMain.Panel2.Controls.Add(togglePanel1);
-			splitMain.Panel2.Controls.Add(comboBox1);
-			splitMain.Panel2.Controls.Add(button2);
-			splitMain.Panel2.Controls.Add(roslynEdit1);
-			splitMain.Size = new Size(863, 516);
-			splitMain.SplitterDistance = 442;
-			splitMain.TabIndex = 7;
-			// 
 			// splitLeft
 			// 
-			splitLeft.Dock = DockStyle.Fill;
-			splitLeft.Location = new Point(0, 0);
+			splitLeft.Location = new Point(12, 47);
 			splitLeft.Name = "splitLeft";
 			// 
 			// splitLeft.Panel1
@@ -286,65 +248,24 @@
 			// splitLeft.Panel2
 			// 
 			splitLeft.Panel2.Controls.Add(propertyGrid1);
-			splitLeft.Size = new Size(442, 516);
-			splitLeft.SplitterDistance = 160;
+			splitLeft.Size = new Size(435, 553);
+			splitLeft.SplitterDistance = 157;
 			splitLeft.TabIndex = 0;
-			// 
-			// togglePanel1
-			// 
-			togglePanel1.BackColor = Color.FromArgb(64, 64, 64);
-			togglePanel1.BtnWidth = 50;
-			togglePanel1.Count = 2;
-			togglePanel1.ForeColor = Color.FromArgb(230, 230, 230);
-			togglePanel1.Index = 1;
-			togglePanel1.Location = new Point(3, 8);
-			togglePanel1.MaximumSize = new Size(100, 20);
-			togglePanel1.MinimumSize = new Size(100, 20);
-			togglePanel1.Name = "togglePanel1";
-			togglePanel1.Size = new Size(100, 20);
-			togglePanel1.TabIndex = 13;
-			togglePanel1.Text = "togglePanel1";
-			togglePanel1.Texts = (new string[] { "Start", "End", "page3", "page4", "page5", "page6", "page7", "page8", "page9", "page10" });
-			// 
-			// comboBox1
-			// 
-			comboBox1.FormattingEnabled = true;
-			comboBox1.Location = new Point(109, 5);
-			comboBox1.Name = "comboBox1";
-			comboBox1.Size = new Size(99, 23);
-			comboBox1.TabIndex = 12;
-			// 
-			// button2
-			// 
-			button2.Anchor = AnchorStyles.Top | AnchorStyles.Right;
-			button2.FlatStyle = FlatStyle.Flat;
-			button2.Location = new Point(322, 4);
-			button2.Name = "button2";
-			button2.Size = new Size(92, 23);
-			button2.TabIndex = 10;
-			button2.Text = "Execute";
-			button2.UseVisualStyleBackColor = true;
 			// 
 			// MainForm
 			// 
 			AllowDrop = true;
-			AutoScaleDimensions = new SizeF(7F, 15F);
-			AutoScaleMode = AutoScaleMode.Font;
+			AutoScaleMode = AutoScaleMode.None;
 			BackColor = Color.FromArgb(64, 64, 64);
-			ClientSize = new Size(887, 575);
+			ClientSize = new Size(455, 601);
 			CloseAction = CloseAction.Hide;
-			Controls.Add(splitMain);
+			Controls.Add(splitLeft);
 			Controls.Add(menuStrip1);
 			MainMenuStrip = menuStrip1;
 			Name = "MainForm";
-			StartPosition = FormStartPosition.Manual;
 			Text = "Hypowered Main";
 			menuStrip1.ResumeLayout(false);
 			menuStrip1.PerformLayout();
-			splitMain.Panel1.ResumeLayout(false);
-			splitMain.Panel2.ResumeLayout(false);
-			((System.ComponentModel.ISupportInitialize)splitMain).EndInit();
-			splitMain.ResumeLayout(false);
 			splitLeft.Panel1.ResumeLayout(false);
 			splitLeft.Panel2.ResumeLayout(false);
 			((System.ComponentModel.ISupportInitialize)splitLeft).EndInit();
@@ -379,11 +300,6 @@
 		private ToolStripMenuItem deleteControlMenu;
 		private ToolStripSeparator toolStripMenuItem4;
 		private ToolStripSeparator toolStripMenuItem5;
-		private RoslynEdit roslynEdit1;
-		private SplitContainer splitMain;
 		private SplitContainer splitLeft;
-		private ComboBox comboBox1;
-		private Button button2;
-		private TogglePanel togglePanel1;
 	}
 }

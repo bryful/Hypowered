@@ -30,6 +30,7 @@ namespace Hypowered
 			jf.SetValue(nameof(MaximumSize), (Size)MaximumSize);//System.Drawing.Size
 			jf.SetValue(nameof(MinimumSize), (Size)MinimumSize);//System.Drawing.Size
 
+			jf.SetValue(nameof(IsAnti), (Boolean)IsAnti);//System.Boolean
 			jf.SetValue(nameof(AllowDrop), (Boolean)AllowDrop);//System.Boolean
 			jf.SetValue(nameof(Anchor), (int)Anchor);//System.Windows.Forms.AnchorStyles
 			jf.SetValue(nameof(BackColor), (Color)BackColor);//System.Drawing.Color
@@ -84,7 +85,8 @@ namespace Hypowered
 			if (v != null) MinimumSize = (Size)v;
 			v = jf.ValueAuto("Size", typeof(Size).Name);
 			if (v != null) Size = (Size)v;
-
+			v = jf.ValueAuto("IsAnti", typeof(Boolean).Name);
+			if (v != null) IsAnti = (bool)v;
 
 			v = jf.ValueAuto("AllowDrop", typeof(Boolean).Name);
 			if (v != null) AllowDrop = (Boolean)v;

@@ -12,18 +12,70 @@ namespace Hypowered
 {
 	public partial class ControlPanel : Control
 	{
-
-		public delegate void ControlActionClickHandler(object sender, ControlActionClickEventArgs e);
-		public event ControlActionClickHandler? ControlActionClick;
-		protected virtual void OnControlActionClick(ControlActionClickEventArgs e)
+		#region Event
+		// ******************************************************
+		public delegate void SelectObjectsChangedHandler(object sender, SelectObjectsChangedArgs e);
+		public event SelectObjectsChangedHandler? SelectObjectsChanged;
+		protected virtual void OnSelectObjectChanged(SelectObjectsChangedArgs e)
 		{
-			if (ControlActionClick != null)
+			if (SelectObjectsChanged != null)
 			{
-				ControlActionClick(this, e);
+				SelectObjectsChanged(this, e);
 			}
 		}
+		public delegate void ArrowChangedHandler(object sender, ArrowChangedEventArgs e);
+		public event ArrowChangedHandler? ArrowChanged;
+		protected virtual void OnArrowChanged(ArrowChangedEventArgs e)
+		{
+			if (ArrowChanged != null)
+			{
+				ArrowChanged(this, e);
+			}
+		}
+		public delegate void AlignClickHandler(object sender, AlignClickEventArgs e);
+		public event AlignClickHandler? AlignClick;
+		protected virtual void OnAlignClick(AlignClickEventArgs e)
+		{
+			if (AlignClick != null)
+			{
+				AlignClick(this, e);
+			}
+		}
+		public delegate void ArrangClickHandler(object sender, ArrangClickEventArgs e);
+		public event ArrangClickHandler? ArrangClick;
+		protected virtual void OnArrangClick(ArrangClickEventArgs e)
+		{
+			if (ArrangClick != null)
+			{
+				ArrangClick(this, e);
+			}
+		}
+		#endregion
 		// *********************************************************************************************
-
+		public SizeMoveMode SizeMoveMode
+		{
+			get { return SizeMoveModePanel.SizeMoveMode; }
+		}
+		public int MoveScaleValue
+		{
+			get { return (int)MoveScale.Value; }
+			set { MoveScale.Value = (decimal)value;}
+		}
+		public int[] SelectedIndices
+		{
+			get 
+			{
+				List<int> ret = new List<int>();
+				if (CtrlListBox.Items.Count>0)
+				{
+					foreach(var idx in CtrlListBox.SelectedIndices)
+					{
+						ret.Add((int)idx);
+					}
+				}
+				return ret.ToArray();	
+			}
+		}
 		// *********************************************************************************************
 		public new Color BackColor
 		{
@@ -45,37 +97,40 @@ namespace Hypowered
 				MoveScale.ForeColor = value;
 			}
 		}
-		public ControlActionPanel ControlActionPanel { get; set; } = new ControlActionPanel();
+		private ControlActionPanel ControlActionPanel { get; set; } = new ControlActionPanel();
+		private SizeMoveModePanel SizeMoveModePanel { get; set; } = new SizeMoveModePanel();
+		private ArrowPanel ArrowPanel { get; set; } = new ArrowPanel();
+		private AlignPanel AlignPanel { get; set; } = new AlignPanel();
+		private ArrangPanel ArrangPanel { get; set; } = new ArrangPanel();
+		private NumericUpDown MoveScale { get; set; } = new NumericUpDown();
 
-		public SizeMoveModePanel SizeMoveModePanel { get; set; } = new SizeMoveModePanel();
-		public ArrowPanel ArrowPanel { get; set; } = new ArrowPanel();
-		public AlignPanel AlignPanel { get; set; } = new AlignPanel();
-		public ArrangPanel ArrangPanel { get; set; } = new ArrangPanel();
-		public NumericUpDown MoveScale { get; set; } = new NumericUpDown();
-
-		public PropertyGrid? PropertyGrid
+		public MainForm? MainForm
 		{
-			get { return CtrlListBox.PropertyGrid; }
-			set { CtrlListBox.PropertyGrid = value; }
-		}
-		public MainForm? MainForm { set; get; } = null;
-		public HForm? HForm 
-		{
-			get { return CtrlListBox.HForm; }
-			set { CtrlListBox.SetHForm(value); }
-		}
-		public ControlListBox CtrlListBox { get; set; } = new ControlListBox();
+			get { return CtrlListBox.MainForm; }
+			set
+			{
+				CtrlListBox.MainForm = value;
+			}
+		}	
+		private ControlListBox CtrlListBox { get; set; } = new ControlListBox();
 
+		// *********************************************************************************************
 		public ControlPanel()
 		{
 			InitializeComponent();
 			CtrlListBox.BackColor = BackColor;
 			CtrlListBox.ForeColor = ForeColor;
 			CtrlListBox.BorderStyle = BorderStyle.FixedSingle;
+			CtrlListBox.SelectObjectsChanged += (sender, e) => { OnSelectObjectChanged(e); };
+
+			ArrowPanel.ArrowChanged += (sender, e) => { OnArrowChanged(e); };
+			AlignPanel.AlignClick += (sender, e) => { OnAlignClick(e); };
+			ArrangPanel.ArrangClick += (sender, e) => { OnArrangClick(e); };
+
 			MoveScale.BackColor = BackColor;
 			MoveScale.ForeColor = ForeColor;
 			MoveScale.Minimum = 1;
-			MoveScale.Maximum= 200;
+			MoveScale.Maximum= 500;
 			MoveScale.Value = 2;
 
 			ChkSize();
@@ -87,8 +142,18 @@ namespace Hypowered
 			this.Controls.Add(MoveScale);
 			this.Controls.Add(CtrlListBox);
 
-			ControlActionPanel.ControlActionClick += (sender, e)=>{ OnControlActionClick(e); };
+			ControlActionPanel.ControlActionClick += (sender, e)=>
+			{
+				if((MainForm != null)&&(MainForm.TargetForm!=null))
+				{
+					if (MainForm.TargetForm.IsEdit)
+					{
+						ControlActionExec(e.Mode);
+					}
+				}
+			};
 		}
+		// *********************************************************************************************
 		protected override void InitLayout()
 		{
 			CtrlListBox.BackColor = BackColor;
@@ -123,7 +188,7 @@ namespace Hypowered
 			ChkSize();
 			base.OnResize(e);
 		}
-		private void Exec(ControlAction ca)
+		private void ControlActionExec(ControlAction ca)
 		{
 				if ((MainForm != null) && (MainForm.TargetForm != null))
 				{

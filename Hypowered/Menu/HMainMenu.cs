@@ -5,6 +5,7 @@ using System.Data;
 using System.Drawing;
 using System.Linq;
 using System.Text;
+using System.Text.Json.Nodes;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
@@ -12,10 +13,31 @@ namespace Hypowered
 {
 	public class HMainMenu : MenuStrip
 	{
-		[Category("Hypowered_Menu")]
-		public HRootMenu[] RootMenus { get;  } = new HRootMenu[6];
 
-
+		public delegate void MainManuChangedHandler(object sender, EventArgs e);
+		public event MainManuChangedHandler? MainManuChanged;
+		protected virtual void OnMainManuChanged(EventArgs e)
+		{
+			if (MainManuChanged != null)
+			{
+				MainManuChanged(this, e);
+			}
+		}
+		public HForm? HForm = null;
+		public void SetHForm(HForm hf)
+		{
+			this.HForm = hf;
+			for (int i = 0; i < Items.Count; i++)
+			{
+				if (Items[i] is HMenuItem)
+				{
+					((HMenuItem)Items[i]).SetHForm(hf);
+				}
+			}
+		}
+		public HMenuItem FormMenu { get; }= new HMenuItem();
+		public HMenuItem MainFormMenu { get; } = new HMenuItem();
+		public HMenuItem CloseMenu { get; } = new HMenuItem();
 		public HMainMenu()
 		{
 			this.Name = "MainManu";
@@ -24,24 +46,81 @@ namespace Hypowered
 			this.Dock = DockStyle.None;
 			this.Anchor = AnchorStyles.None;
 			this.DoubleBuffered = true;
-			InitRootMenu();
-		}
-		private void InitRootMenu()
-		{
-			for(int i = 0;i<RootMenus.Length;i++)
-			{
-				RootMenus[i] = new HRootMenu();
-				RootMenus[i].Name = $"Menu{i}";
-				RootMenus[i].Text = $"Menu{i}";
-				RootMenus[i].Visible = false;
-				this.Items.Add(RootMenus[i]);
-			}
-			RootMenus[0].Visible = true;
-			RootMenus[0].Text = "Form";
-			RootMenus[0].SubMenu[9].Visible = true;
-			RootMenus[0].SubMenu[9].Text = "Quit";
+
+			InitMenu();
 
 		}
+		private void InitMenu()
+		{
+			this.Items.Clear();
+			FormMenu.Name = "formMenu";
+			FormMenu.Text = "Form";
+			MainFormMenu.Name = "mainMenuMenu";
+			MainFormMenu.Text = "Show MainMenu";
+			CloseMenu.Name = "closeMenu";
+			CloseMenu.Text = "close Form";
+			FormMenu.DropDownItems.Clear();
+			FormMenu.DropDownItems.Add(MainFormMenu);
+			FormMenu.DropDownItems.Add(CloseMenu);
+			this.Items.Add(FormMenu);
+		}
+		// *************************************************
+		public void ChkMenu(bool IsSub=true)
+		{
+			if(this.Items.Count>0)
+			{
+				for(int i=0; i<this.Items.Count;i++)
+				{
+					if (this.Items[i] is not HMenuItem) continue;
+					HMenuItem mi = (HMenuItem)this.Items[i];
+					mi.Index = i;
+					mi.IsRoot = true;
+					if(IsSub) mi.ChkMenu();
+				}
+			}
+		}
+		// *************************************************
+		public int IndexOfMenuName(string nm)
+		{
+			return this.Items.IndexOfKey(nm);
+		}
+		// *************************************************
+		public HMenuItem AddRootMenu(string nm,string tx)
+		{
+			HMenuItem mi = new HMenuItem();
+			mi.Name = nm;
+			mi.Text = tx;
+			this.Items.Add(mi);
+			ChkMenu(false);
+			OnMainManuChanged(new EventArgs());
+			return mi;
+		}
+		// *************************************************
+		public void MenuUp(HMenuItem mi)
+		{
+			int idx = this.Items.IndexOf(mi);
+			if (idx>=1)
+			{
+				ToolStripItem m = this.Items[idx];
+				this.Items.RemoveAt(idx);
+				this.Items.Insert(idx-1, m);
+				ChkMenu(false);
+				OnMainManuChanged(new EventArgs());
+			}
+		}
+		public void MenuDown(HMenuItem mi)
+		{
+			int idx = this.Items.IndexOf(mi);
+			if ((idx >=0)&&(idx < this.Items.Count-1))
+			{
+				ToolStripItem m = this.Items[idx];
+				this.Items.RemoveAt(idx);
+				this.Items.Insert(idx + 1, m);
+				ChkMenu(false);
+				OnMainManuChanged(new EventArgs());
+			}
+		}
+		// *************************************************
 		#region Prop
 		[Category("Hypowered"), Browsable(false)]
 		public new System.String Name
@@ -645,5 +724,80 @@ namespace Hypowered
 			get { return base.Container; }
 		}
 		#endregion
+		// *************************************************
+		public virtual JsonObject? ToJson()
+		{
+			JsonFile? jf = new JsonFile();
+			jf.SetValue(nameof(Name), (String)Name);//System.String
+			jf.SetValue(nameof(GripStyle), (int)GripStyle);//System.Windows.Forms.ToolStripGripStyle
+			jf.SetValue(nameof(ShowItemToolTips), (Boolean)ShowItemToolTips);//System.Boolean
+			jf.SetValue(nameof(TextDirection), (Int32)TextDirection);//System.Windows.Forms.ToolStripTextDirection
+			jf.SetValue(nameof(Enabled), (Boolean)Enabled);//System.Boolean
+			jf.SetValue(nameof(Text), (String)Text);//System.String
+			jf.SetValue(nameof(Visible), (Boolean)Visible);//System.Boolean
+
+			JsonArray? array = new JsonArray();
+			if(this.Items.Count>0)
+			{
+				foreach(var item in this.Items)
+				{
+					if(item is HMenuItem)
+					{
+						array.Add(((HMenuItem)item).ToJson());
+					}
+				}
+			}
+			jf.SetValue(nameof(Items), array);
+
+			return jf.Obj;
+		}
+		// *************************************************
+		public virtual void FromJson(JsonObject jo)
+		{
+			JsonFile jf = new JsonFile(jo);
+			object? v = null;
+
+			v = jf.ValueAuto("Name", typeof(String).Name);
+			if (v != null) Name = (String)v;
+			v = jf.ValueAuto("GripStyle", typeof(Int32).Name);
+			if (v != null) GripStyle = (ToolStripGripStyle)v;
+			v = jf.ValueAuto("ShowItemToolTips", typeof(Boolean).Name);
+			if (v != null) ShowItemToolTips = (Boolean)v;
+			v = jf.ValueAuto("TextDirection", typeof(Int32).Name);
+			if (v != null) TextDirection = (ToolStripTextDirection)v;
+			v = jf.ValueAuto("Enabled", typeof(Boolean).Name);
+			if (v != null) Enabled = (Boolean)v;
+			v = jf.ValueAuto("Text", typeof(String).Name);
+			if (v != null) Text = (String)v;
+			v = jf.ValueAuto("Top", typeof(Int32).Name);
+			if (v != null) Top = (Int32)v;
+			v = jf.ValueAuto("Visible", typeof(Boolean).Name);
+			if (v != null) Visible = (Boolean)v;
+
+			JsonArray? arr = jf.ValueArray("Items");
+			if (arr != null)
+			{
+				this.Items.Clear();
+				List<HMenuItem> list = new List<HMenuItem>();
+				if (arr.Count > 0)
+				{
+					foreach (var s in arr)
+					{
+						JsonObject? jj = (JsonObject?)s;
+						if (jj != null)
+						{
+							HMenuItem mi = new HMenuItem();
+							mi.IsRoot = true;
+							mi.FromJson(jj);
+							list.Add(mi);
+						}
+					}
+				}
+				this.Items.AddRange(list.ToArray());
+				
+			}
+			
+		}
+		// *************************************************
 	}
 }

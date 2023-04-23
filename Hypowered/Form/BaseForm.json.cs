@@ -17,6 +17,7 @@ namespace Hypowered
 			jf.SetValue(nameof(Text), (String)Text);//System.String
 			jf.SetValue(nameof(CloseAction), (int)CloseAction);//Hypowered.CloseAction
 			jf.SetValue(nameof(Font), (Font)Font);//System.Drawing.Font
+			jf.SetValue(nameof(IsAnti), (bool)IsAnti);//System.Drawing.Font
 			jf.SetValue(nameof(StartPosition), (int)StartPosition);//System.Windows.Forms.FormStartPosition
 			jf.SetValue(nameof(Size), (Size)Size);//System.Drawing.Size
 			jf.SetValue(nameof(CanResize), (Boolean)CanResize);//System.Boolean
@@ -83,6 +84,9 @@ namespace Hypowered
 			if (v != null) CloseAction = (CloseAction)v;
 			v = jf.ValueAuto("Font", typeof(Font).Name);
 			if (v != null) Font = (Font)v;
+			v = jf.ValueAuto("IsAnti", typeof(Boolean).Name);
+			if (v != null) IsAnti = (Boolean)v;
+
 			v = jf.ValueAuto("StartPosition", typeof(int).Name);
 			if (v != null) StartPosition = (FormStartPosition)v;
 			v = jf.ValueAuto("CanResize", typeof(Boolean).Name);

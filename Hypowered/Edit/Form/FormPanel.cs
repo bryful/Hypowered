@@ -22,6 +22,17 @@ namespace Hypowered
 	}
 	public partial class FormPanel : Control
 	{
+		// ******************************************************
+		public delegate void SelectObjectsChangedHandler(object sender, SelectObjectsChangedArgs e);
+		public event SelectObjectsChangedHandler? SelectObjectsChanged;
+		protected virtual void OnSelectObjectChanged(SelectObjectsChangedArgs e)
+		{
+			if (SelectObjectsChanged != null)
+			{
+				SelectObjectsChanged(this, e);
+			}
+		}
+		// ******************************************************
 		public class FormActionClickEventArgs : EventArgs
 		{
 			public FormAction Mode;
@@ -30,6 +41,7 @@ namespace Hypowered
 				Mode = v;
 			}
 		}
+		// ******************************************************
 		public delegate void ControlActionClickHandler(object sender, FormActionClickEventArgs e);
 		public event ControlActionClickHandler? FormActionClick;
 		protected virtual void OnFormActionClick(FormActionClickEventArgs e)
@@ -39,8 +51,21 @@ namespace Hypowered
 				FormActionClick(this, e);
 			}
 		}
+		// ******************************************************
+
+		public delegate void ScriptModeChangedHandler(object sender, ScriptModeChangedEventArgs e);
+		public event ScriptModeChangedHandler? ScriptModeChanged;
+		protected virtual void OnScriptMode(ScriptModeChangedEventArgs e)
+		{
+			if (ScriptModeChanged != null)
+			{
+				ScriptModeChanged(this, e);
+			}
+		}
+		// ******************************************************
 		protected Bitmap[] FormActionIcon = new Bitmap[7];
 		protected Bitmap[] EditModeIcon = new Bitmap[2];
+		protected Bitmap[] ScriptModeIcon = new Bitmap[2];
 		protected FormAction m_ActionMode = FormAction.None;
 		protected int m_IsEdit = 0;
 		public bool IsEdit
@@ -77,12 +102,33 @@ namespace Hypowered
 					{
 						m_IsEdit = 0;
 					}
-					MainForm.TargetForm.IsEdit = value;
+					if(MainForm.TargetForm.IsEdit != value)
+					{
+						MainForm.TargetForm.IsEdit = value;
+					}
 				}
 				else
 				{
 					m_IsEdit = 0;
 				}
+				this.Invalidate();
+			}
+		}
+		protected int m_IsScript = 0;
+		public bool IsScript
+		{
+			get { return (m_IsScript == 1); }
+			set
+			{
+				if (value)
+				{
+					m_IsScript = 1;
+				}
+				else
+				{
+					m_IsScript = 0;
+				}
+				this.Invalidate();
 			}
 		}
 		public FormListBox FormListBox = new FormListBox();
@@ -91,42 +137,27 @@ namespace Hypowered
 			get { return FormListBox.MainForm; }
 			set
 			{
-				FormListBox.SetMainForm(value);
-			}
-		}
-		public ControlListBox? ControlListBox
-		{
-			get { return FormListBox.ControlListBox; }
-			set
-			{
-				FormListBox.ControlListBox =value;
-			}
-		}
-		public PropertyGrid? PropertyGrid
-		{
-			get { return FormListBox.PropertyGrid; }
-			set
-			{
-				FormListBox.PropertyGrid = value;
-			}
-		}
-		private ControlPanel? m_ControlPanel = null;
-		public ControlPanel? ControlPanel
-		{
-			get { return m_ControlPanel; }
-			set
-			{
-				m_ControlPanel = value;
-				if(m_ControlPanel != null)
+				FormListBox.MainForm = value;
+				if(FormListBox.MainForm != null)
 				{
-					FormListBox.ControlListBox = m_ControlPanel.CtrlListBox;
-				}
-				else
-				{
-					FormListBox.ControlListBox = null;
+					FormListBox.MainForm.TargetFormChanged -= Value_TargetFormChanged;
+					FormListBox.MainForm.TargetFormChanged += Value_TargetFormChanged;
 				}
 			}
 		}
+
+		private void Value_TargetFormChanged(object sender, EventArgs e)
+		{
+			if((MainForm != null)&&(MainForm.TargetForm != null))
+			{
+				IsEdit = MainForm.TargetForm.IsEdit;
+			}
+			else
+			{
+				IsEdit = false;
+			}
+		}
+		
 		public FormPanel()
 		{
 			base.BackColor = Color.FromArgb(64, 64, 64);
@@ -142,9 +173,14 @@ namespace Hypowered
 			FormActionIcon[3] = Properties.Resources.FAction3;
 			FormActionIcon[4] = Properties.Resources.FAction4;
 			FormActionIcon[5] = Properties.Resources.FAction5;
+			FormActionIcon[6] = Properties.Resources.FAction6;
 
 			EditModeIcon[0] = Properties.Resources.EditMode0;
 			EditModeIcon[1] = Properties.Resources.EditMode1;
+
+			ScriptModeIcon[0] = Properties.Resources.ScriptMode0;
+			ScriptModeIcon[1] = Properties.Resources.ScriptMode1;
+
 
 			BackColor = Color.FromArgb(64, 64, 64);
 			ForeColor = Color.FromArgb(230, 230, 230);
@@ -161,7 +197,16 @@ namespace Hypowered
 			FormListBox.Location = new Point(0, 42);
 			FormListBox.BackColor = BackColor;
 			FormListBox.ForeColor = ForeColor;
+			FormListBox.SelectObjectsChanged += (sender, e) => { OnSelectObjectChanged(e); };
 			FormListBox.BorderStyle = BorderStyle.FixedSingle;
+			FormListBox.TargetFormChanged += (sender, e) =>
+			{
+				if (MainForm != null)
+				{
+					MainForm.TargetForm = e.HForm;
+					if (MainForm.TargetForm != null) MainForm.TargetForm.Activate();
+				}
+			};
 			this.Size = new Size(this.Width, this.Height - 22);
 			this.Controls.Add( FormListBox );
 
@@ -184,6 +229,7 @@ namespace Hypowered
 				sb.Color = Color.Transparent;
 				g.FillRectangle(sb, this.ClientRectangle);
 				g.DrawImage(EditModeIcon[(int)m_IsEdit], 0, 20);
+				g.DrawImage(ScriptModeIcon[(int)m_IsScript], 100, 20);
 				g.DrawImage(FormActionIcon[(int)m_ActionMode], 0, 0);
 			}
 		}
@@ -198,7 +244,15 @@ namespace Hypowered
 					this.Invalidate();
 				}else if((e.Y>=20) &&(e.Y < 40))
 				{
-					IsEdit = ! IsEdit;
+					if(e.X<100)
+					{
+						IsEdit = !IsEdit;
+					}
+					else
+					{
+						m_IsScript = (m_IsScript + 1) % 2;
+						OnScriptMode(new ScriptModeChangedEventArgs((m_IsScript == 1)));
+					}
 					this.Invalidate();
 				}
 			}

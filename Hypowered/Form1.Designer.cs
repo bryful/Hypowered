@@ -28,20 +28,34 @@
 		/// </summary>
 		private void InitializeComponent()
 		{
+			menuPanel1 = new MenuPanel();
 			SuspendLayout();
+			// 
+			// menuPanel1
+			// 
+			menuPanel1.HForm = null;
+			menuPanel1.Location = new Point(131, 112);
+			menuPanel1.MainForm = null;
+			menuPanel1.Name = "menuPanel1";
+			menuPanel1.Size = new Size(170, 188);
+			menuPanel1.TabIndex = 1;
+			menuPanel1.Text = "menuPanel1";
 			// 
 			// Form1
 			// 
 			AutoScaleDimensions = new SizeF(7F, 15F);
 			AutoScaleMode = AutoScaleMode.Font;
-			ClientSize = new Size(800, 450);
+			ClientSize = new Size(656, 472);
+			Controls.Add(menuPanel1);
 			MainMenuVisible = true;
 			Name = "Form1";
-			SelectedArray = (new bool[] { false });
+			SelectedArray = (new bool[] { false, false });
 			Text = "Form1";
 			ResumeLayout(false);
 		}
 
 		#endregion
+
+		private MenuPanel menuPanel1;
 	}
 }

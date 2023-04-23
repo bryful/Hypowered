@@ -8,14 +8,50 @@ namespace Hypowered
 {
 	public class ControlListBox : EditListBox
 	{
+		public delegate void SelectObjectsChangedHandler(object sender, SelectObjectsChangedArgs e);
+		public event SelectObjectsChangedHandler? SelectObjectsChanged;
+		protected virtual void OnSelectObjectsChanged(SelectObjectsChangedArgs e)
+		{
+			if (SelectObjectsChanged != null)
+			{
+				SelectObjectsChanged(this, e);
+			}
+		}
+		public delegate void TargetControlChangedHandler(object sender, TargetControlChangedArgs e);
+		public event TargetControlChangedHandler? TargetControlChanged;
+		protected virtual void OnTargetControlChanged(TargetControlChangedArgs e)
+		{
+			if (TargetControlChanged != null)
+			{
+				TargetControlChanged(this, e);
+			}
+		}       
 		// ********************************************************
+		private MainForm? m_MainForm = null;
+		public MainForm? MainForm
+		{
+			get { return m_MainForm; }
+			set { SetMainForm(value); }
+		}
+		public void SetMainForm(MainForm? hf)
+		{
+			m_MainForm = hf;
+
+			if (m_MainForm != null)
+			{
+				m_MainForm.TargetFormChanged -= (sender, e) => { SetHForm(e.HForm); };
+				m_MainForm.TargetFormChanged += (sender, e) => { SetHForm(e.HForm); };
+				SetHForm(m_MainForm.TargetForm);
+			}
+
+		}
+
 		private HForm? m_HForm = null;
-		public HForm? HForm
+		private HForm? HForm
 		{
 			get { return m_HForm; }
 			set { SetHForm(value); }
 		}
-		public PropertyGrid? PropertyGrid { get; set; } = null;
 		// ********************************************************
 		public void SetHForm(HForm? hf)
 		{
@@ -43,6 +79,9 @@ namespace Hypowered
 				if ((e.CtrlIndex >= 0) && (e.CtrlIndex < this.Items.Count))
 				{
 					this.Items[e.CtrlIndex] = e.Name;
+					OnSelectObjectsChanged(
+						new SelectObjectsChangedArgs(
+							new object[] { m_HForm.Controls[e.CtrlIndex] }));
 				}
 			}
 		}
@@ -85,6 +124,15 @@ namespace Hypowered
 		protected override void OnSelectedIndexChanged(EventArgs e)
 		{
 			if (m_HForm == null) return;
+
+			int idx = this.SelectedIndex;
+			if ((idx >= 1) && (idx < m_HForm.Controls.Count))
+			{
+				OnTargetControlChanged(new TargetControlChangedArgs(
+					(HControl)m_HForm.Controls[idx]));
+			}
+
+
 			int[] sels = this.SelectedIndexArray;
 
 			if (sels.Length >= 1)
@@ -99,10 +147,8 @@ namespace Hypowered
 				}
 				if (list.Count > 0)
 				{
-					if (PropertyGrid != null)
-					{
-						PropertyGrid.SelectedObjects = list.ToArray();
-					}
+					OnSelectObjectsChanged(
+						new SelectObjectsChangedArgs(list.ToArray()));
 				}
 			}
 			if (sels.Length == 0)

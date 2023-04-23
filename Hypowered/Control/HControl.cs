@@ -7,70 +7,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-
+using System.Drawing.Text;
 namespace Hypowered
 {
-	public enum HType
-	{
-		None,
-		Button,
-		Label,
-		TextBox,
-		PictureBox,
-		IconButton,
-		ListBox
-	}
-	public class CHType
-	{
-		private string [] m_Names = new string[0];
-		public string[] Names { get { return m_Names; } }
-		public HType Value { get; set; } = HType.None;
-		public string ValueStr
-		{ 
-			get { return GetName(Value); } 
-			set { Value = SetName(value); }
-		}	
-		public string GetName(HType idx)
-		{
-			return m_Names[(int)idx];
-		}
-		public HType SetName(string s)
-		{
-			int ret = -1;
-			for(int i=0; i< m_Names.Length;i++)
-			{
-				if (m_Names[i] == s)
-				{
-					ret = i;
-					break;
-				}
-			}
-			Value = (HType)ret;
-			return Value;
-		}
-		public CHType()
-		{
-			m_Names = Enum.GetNames(typeof(HType));
-		}
-		public CHType(HType v)
-		{
-			m_Names = Enum.GetNames(typeof(HType));
-			Value = v;
-		}
-
-		public string[] NamesNone { get { return m_Names.Skip(1).ToArray(); } }
-		int ValueNone
-		{
-			get { return (int)Value - 1; }
-			set
-			{
-				int v = value + 1;
-				if (v <= 0) v = 0;
-				if(v >= m_Names.Length ) { v = 0; }
-				Value = (HType)v;
-			}
-		}
-	}
 	public partial class HControl : Control
 	{
 		#region Event
@@ -131,7 +70,17 @@ namespace Hypowered
 		{
 			m_HForm = hf;
 		}
-
+		protected bool m_IsAnti=false;
+		[Category("Hyepowered_Draw"),Browsable (true)]
+		public bool IsAnti
+		{
+			get { return m_IsAnti; } 
+			set
+			{
+				m_IsAnti = value;
+				this.Invalidate();
+			}
+		}
 		public HScriptCode ScriptCode { get; set; } = new HScriptCode();
 
 		protected bool m_IsShowForcus = true;
@@ -252,7 +201,7 @@ namespace Hypowered
 		/// <summary>
 		/// Location Sizeの最小単位
 		/// </summary>
-		[Category("Hypowered_Size"), Browsable(true)]
+		[Category("Hypowered_Size"), Browsable(false)]
 		public  int GridSize
 		{
 			get { return m_GridSize; }
@@ -412,6 +361,11 @@ namespace Hypowered
 			using (Pen p = new Pen(base.ForeColor))
 			{
 				Graphics g = pe.Graphics;
+				if (m_IsAnti)
+				{
+					g.SmoothingMode = System.Drawing.Drawing2D.SmoothingMode.AntiAlias;
+					g.TextRenderingHint = TextRenderingHint.AntiAliasGridFit;
+				}
 				// 塗り
 				sb.Color = Color.Transparent;
 				g.FillRectangle(sb, this.ClientRectangle);
@@ -707,4 +661,66 @@ namespace Hypowered
 			this.Invalidate();
 		}
 	}
+	public enum HType
+	{
+		None,
+		Button,
+		Label,
+		TextBox,
+		PictureBox,
+		IconButton,
+		ListBox
+	}
+	public class CHType
+	{
+		private string[] m_Names = new string[0];
+		public string[] Names { get { return m_Names; } }
+		public HType Value { get; set; } = HType.None;
+		public string ValueStr
+		{
+			get { return GetName(Value); }
+			set { Value = SetName(value); }
+		}
+		public string GetName(HType idx)
+		{
+			return m_Names[(int)idx];
+		}
+		public HType SetName(string s)
+		{
+			int ret = -1;
+			for (int i = 0; i < m_Names.Length; i++)
+			{
+				if (m_Names[i] == s)
+				{
+					ret = i;
+					break;
+				}
+			}
+			Value = (HType)ret;
+			return Value;
+		}
+		public CHType()
+		{
+			m_Names = Enum.GetNames(typeof(HType));
+		}
+		public CHType(HType v)
+		{
+			m_Names = Enum.GetNames(typeof(HType));
+			Value = v;
+		}
+
+		public string[] NamesNone { get { return m_Names.Skip(1).ToArray(); } }
+		int ValueNone
+		{
+			get { return (int)Value - 1; }
+			set
+			{
+				int v = value + 1;
+				if (v <= 0) v = 0;
+				if (v >= m_Names.Length) { v = 0; }
+				Value = (HType)v;
+			}
+		}
+	}
+
 }

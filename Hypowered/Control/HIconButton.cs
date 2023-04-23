@@ -7,7 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Text.Json.Nodes;
 using System.Threading.Tasks;
-
+using System.Drawing.Text;
 namespace Hypowered
 {
 	public class HIconButton :HControl
@@ -175,6 +175,12 @@ namespace Hypowered
 			using (Pen p = new Pen(base.ForeColor))
 			{
 				Graphics g = pe.Graphics;
+				if (m_IsAnti)
+				{
+					g.SmoothingMode = System.Drawing.Drawing2D.SmoothingMode.AntiAlias;
+					g.TextRenderingHint = TextRenderingHint.AntiAliasGridFit;
+				}
+
 				// 塗り
 				sb.Color = Color.Transparent;
 				g.FillRectangle(sb, this.ClientRectangle);

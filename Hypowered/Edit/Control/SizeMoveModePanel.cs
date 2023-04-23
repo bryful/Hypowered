@@ -17,14 +17,7 @@ namespace Hypowered
 		ResizeRightBottom
 	}
 
-	public class ModeChangedEventArgs : EventArgs
-	{
-		public SizeMoveMode Mode;
-		public ModeChangedEventArgs(SizeMoveMode v)
-		{
-			Mode = v;
-		}
-	}
+
 	public partial class SizeMoveModePanel : Control
 	{
 		public delegate void ModeChangedHandler(object sender, ModeChangedEventArgs e);
@@ -129,6 +122,14 @@ namespace Hypowered
 				}
 			}
 			base.OnMouseDown(e);
+		}
+	}
+	public class ModeChangedEventArgs : EventArgs
+	{
+		public SizeMoveMode Mode;
+		public ModeChangedEventArgs(SizeMoveMode v)
+		{
+			Mode = v;
 		}
 	}
 }

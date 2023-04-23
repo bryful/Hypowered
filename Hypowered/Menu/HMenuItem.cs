@@ -5,21 +5,72 @@ using System.Data;
 using System.Drawing;
 using System.Linq;
 using System.Text;
+using System.Text.Json.Nodes;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace Hypowered
 {
+	public enum MenuExec
+	{
+		None=0,
+		ShowMainForm,
+		Close
+	}
 	public class HMenuItem : ToolStripMenuItem
 	{
+		public delegate void MenuNameChangedHandler(object sender, MenuNameChangedEventArgs e);
+		public event MenuNameChangedHandler? MenuNameChanged;
+		protected virtual void OnMenuNameChanged(MenuNameChangedEventArgs e)
+		{
+			if (MenuNameChanged != null)
+			{
+				MenuNameChanged(this, e);
+			}
+		}
+
+		[Category("Hypowered"),Browsable(false)]
+		public bool IsRoot { get; set; } = false;
+		public int Index = 0;
 		public HForm? HForm = null;
 		public void SetHForm(HForm? hf)
 		{
-			HForm = hf;
+			this.HForm = hf;
+			if (this.DropDownItems.Count > 0)
+			{
+				for (int i = 0; i < this.DropDownItems.Count; i++)
+				{
+					if (this.DropDownItems[i] is HMenuItem)
+					{
+						((HMenuItem)this.DropDownItems[i]).SetHForm(hf);
+					}
+				}
+			}
+		}
+		// ********************************************************************
+		public void ChkMenu()
+		{
+			if (this.DropDownItems.Count > 0)
+			{
+				for (int i = 0; i < this.DropDownItems.Count; i++)
+				{
+					if (this.DropDownItems[i] is not HMenuItem) continue;
+					HMenuItem mi = (HMenuItem)this.DropDownItems[i];
+					mi.Index = i;
+					mi.IsRoot = false;
+					mi.ChkMenu();
+				}
+			}
+
+		}
+		// *************************************************
+		public int IndexOfMenuName(string nm)
+		{
+			return this.DropDownItems.IndexOfKey(nm);
 		}
 		// ********************************************************************
 		#region Porp
-		[Category("Hypowered"), Browsable(true)]
+		[Category("_Hypowered"), Browsable(true)]
 		public new System.Boolean Enabled
 		{
 			get { return base.Enabled; }
@@ -49,19 +100,19 @@ namespace Hypowered
 			get { return base.Overflow; }
 			set { base.Overflow = value; }
 		}
-		[Category("Hypowered"), Browsable(true)]
+		[Category("Hypowered_key"), Browsable(true)]
 		public new System.Windows.Forms.Keys ShortcutKeys
 		{
 			get { return base.ShortcutKeys; }
 			set { base.ShortcutKeys = value; }
 		}
-		[Category("Hypowered"), Browsable(true)]
+		[Category("Hypowered_key"), Browsable(true)]
 		public new System.String ShortcutKeyDisplayString
 		{
 			get { return base.ShortcutKeyDisplayString; }
 			set { base.ShortcutKeyDisplayString = value; }
 		}
-		[Category("Hypowered"), Browsable(true)]
+		[Category("Hypowered_key"), Browsable(true)]
 		public new System.Boolean ShowShortcutKeys
 		{
 			get { return base.ShowShortcutKeys; }
@@ -157,7 +208,7 @@ namespace Hypowered
 			get { return base.AutoToolTip; }
 			set { base.AutoToolTip = value; }
 		}
-		[Category("Hypowered"), Browsable(false)]
+		[Category("Hypowered"), Browsable(true)]
 		public new System.Boolean Available
 		{
 			get { return base.Available; }
@@ -311,7 +362,12 @@ namespace Hypowered
 		public new System.String Name
 		{
 			get { return base.Name; }
-			set { base.Name = value; }
+			set 
+			{
+				bool b = (base.Name != value);
+				base.Name = value;
+				if (b) OnMenuNameChanged(new MenuNameChangedEventArgs(Name,this));
+			}
 		}
 		[Category("Hypowered"), Browsable(false)]
 		public new System.Windows.Forms.ToolStrip Owner
@@ -394,22 +450,16 @@ namespace Hypowered
 			get { return base.ToolTipText; }
 			set { base.ToolTipText = value; }
 		}
-		[Category("Hypowered"), Browsable(false)]
+		[Category("Hypowered"), Browsable(true)]
 		public new System.Boolean Visible
 		{
-			get { return base.Visible; }
-			set { base.Visible = value; this.Invalidate(); }
-		}
-		private bool m_IsVisible = false;
-		[Category("Hypowered"), Browsable(true)]
-		public System.Boolean IsVisible
-		{
-			get { return m_IsVisible; }
+			get 
+			{ return base.Visible; }
 			set 
 			{
-				m_IsVisible = value;
-				base.Visible = m_IsVisible; 
-				this.Invalidate(); 
+				base.Available = value;
+				base.Visible = value;
+				this.Invalidate();
 			}
 		}
 		[Category("Hypowered"), Browsable(false)]
@@ -431,24 +481,146 @@ namespace Hypowered
 		}
 		#endregion
 		// ********************************************************************
-		public HScriptCode ScriptCode = new HScriptCode();
-		public FuncType? FuncType =null;
+		public ScriptItem ScriptItem = new ScriptItem();
+		public FuncType? FuncType = null;
+		public MenuExec MenuExec { get; set; } = MenuExec.None;
 		public HMenuItem()
 		{
-
-			ScriptCode.Setup(HScriptType.Click);
 			this.Click += (sender, e) =>
 			{
+				if (IsRoot) return;
 				if (HForm == null) return;
-				if (ScriptCode.Codes[0].Code!="")
+				if(MenuExec == MenuExec.Close)
 				{
-					HForm.Script.ExecuteCode(ref ScriptCode.Codes[0]);
-				}else if (FuncType!=null)
+					if (HForm != null)
+					{
+						HForm.ThisClose();
+						return;
+					}
+				}else if (MenuExec == MenuExec.ShowMainForm)
+				{
+					if (HForm != null)
+					{
+						HForm.ShowMainMenu();
+						return;
+					}
+				}
+				if (ScriptItem.Code != "")
+				{
+					if (HForm != null)  HForm.Script.ExecuteCode(ref ScriptItem);
+				}
+				else if (FuncType != null)
 				{
 					FuncType();
 				}
 			};
-			m_IsVisible = base.Visible;
+		}
+		// ********************************************************************
+
+		// ********************************************************************
+		public virtual JsonObject? ToJson()
+		{
+			JsonFile? jf = new JsonFile();
+			jf.SetValue(nameof(Name), (String)Name);//System.String
+			jf.SetValue(nameof(Text), (String)Text);//System.String
+			jf.SetValue(nameof(Checked), (Boolean)Checked);//System.Boolean
+			jf.SetValue(nameof(CheckState), (int)CheckState);//System.Boolean
+			jf.SetValue(nameof(ShortcutKeys), (int)ShortcutKeys);//System.Windows.Forms.Keys
+			if(ShortcutKeyDisplayString!=null)
+				jf.SetValue(nameof(ShortcutKeyDisplayString), (String)ShortcutKeyDisplayString);//System.String
+			jf.SetValue(nameof(ShowShortcutKeys), (Boolean)ShowShortcutKeys);//System.Boolean
+			jf.SetValue(nameof(TextAlign), (int)TextAlign);//System.Drawing.ContentAlignment
+			jf.SetValue(nameof(TextDirection), (int)TextDirection);//System.Windows.Forms.ToolStripTextDirection
+			if (ToolTipText != null)
+				jf.SetValue(nameof(ToolTipText), (String)ToolTipText);//System.String
+			jf.SetValue(nameof(ScriptItem), (string)(ScriptItem.Code));//System.Boolean
+			jf.SetValue(nameof(MenuExec), (int)(MenuExec));//System.Boolean
+
+			if (this.DropDownItems.Count > 0)
+			{
+				JsonArray arr = new JsonArray();
+				if (DropDownItems.Count > 0)
+				{
+					foreach (ToolStripMenuItem item in DropDownItems)
+					{
+						if(item is HMenuItem)
+						{
+							arr.Add(((HMenuItem)item).ToJson());
+
+						}
+					}
+				}
+				jf.SetValue("DropDownItems", arr);
+			}
+			return jf.Obj;
+		}
+		public virtual void FromJson(JsonObject jo)
+		{
+			JsonFile jf = new JsonFile(jo);
+			object? v = null;
+			v = jf.ValueAuto("Name", typeof(String).Name);
+			if (v != null) Name = (String)v;
+			v = jf.ValueAuto("Text", typeof(String).Name);
+			if (v != null) Text = (String)v;
+			v = jf.ValueAuto("Checked", typeof(Boolean).Name);
+			if (v != null) Checked = (Boolean)v;
+			v = jf.ValueAuto("CheckState", typeof(Int32).Name);
+			if (v != null) CheckState = (CheckState)v;
+			v = jf.ValueAuto("ShortcutKeys", typeof(Int32).Name);
+			if (v != null) ShortcutKeys = (Keys)v;
+			v = jf.ValueAuto("ShortcutKeyDisplayString", typeof(String).Name);
+			if (v != null) ShortcutKeyDisplayString = (String)v;
+			v = jf.ValueAuto("ShowShortcutKeys", typeof(Boolean).Name);
+			if (v != null) ShowShortcutKeys = (Boolean)v;
+			v = jf.ValueAuto("DisplayStyle", typeof(Int32).Name);
+			if (v != null) DisplayStyle = (ToolStripItemDisplayStyle)v;
+			v = jf.ValueAuto("TextAlign", typeof(Int32).Name);
+			if (v != null) TextAlign = (ContentAlignment)v;
+			v = jf.ValueAuto("TextDirection", typeof(Int32).Name);
+			if (v != null) TextDirection = (ToolStripTextDirection)v;
+			v = jf.ValueAuto("ToolTipText", typeof(String).Name);
+			if (v != null) ToolTipText = (String)v;
+			v = jf.ValueAuto("ScriptItem", typeof(String).Name);
+			if (v != null)
+			{
+				ScriptItem.Script = null;
+				ScriptItem.Code = (String)v;
+			}
+			v = jf.ValueAuto("MenuExec", typeof(Int32).Name);
+			if (v != null) MenuExec = (MenuExec)v;
+			JsonArray? arr = jf.ValueArray("DropDownItems");
+			if (arr != null)
+			{
+				this.DropDownItems.Clear();
+				List<HMenuItem> list = new List<HMenuItem>();
+				if (arr.Count > 0)
+				{
+					foreach (var s in arr)
+					{
+						JsonObject? jj = (JsonObject?)s;
+						if (jj != null)
+						{
+							HMenuItem mi = new HMenuItem();
+							mi.IsRoot = false;
+							mi.Available = true;
+							mi.Visible = true;
+							mi.FromJson(jj);
+							list.Add(mi);
+						}
+					}
+				}
+				this.DropDownItems.AddRange(list.ToArray());
+			}
+		}
+	}
+	public class MenuNameChangedEventArgs : EventArgs
+	{
+		public string Name;
+		public HMenuItem Menu;
+		public MenuNameChangedEventArgs(string n, HMenuItem m)
+		{
+			Name = n;
+			Menu = m;
 		}
 	}
 }

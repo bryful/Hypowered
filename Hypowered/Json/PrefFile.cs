@@ -74,8 +74,6 @@ namespace Hypowered
 					&& (p.Y >= scr.Top) && (p.Y < scr.Bottom)
 					)
 				{
-					m_form.StartPosition = FormStartPosition.Manual;
-					m_form.WindowState = FormWindowState.Normal;
 					m_form.Location = p;
 				}
 				else
