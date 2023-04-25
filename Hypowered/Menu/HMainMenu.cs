@@ -14,13 +14,13 @@ namespace Hypowered
 	public class HMainMenu : MenuStrip
 	{
 
-		public delegate void MainManuChangedHandler(object sender, EventArgs e);
-		public event MainManuChangedHandler? MainManuChanged;
-		protected virtual void OnMainManuChanged(EventArgs e)
+		public delegate void MenuChangedHandler(object sender, MenuChangedEventArgs e);
+		public event MenuChangedHandler? MenuChanged;
+		protected virtual void OnMenuChanged(MenuChangedEventArgs e)
 		{
-			if (MainManuChanged != null)
+			if (MenuChanged != null)
 			{
-				MainManuChanged(this, e);
+				MenuChanged(this, e);
 			}
 		}
 		public HForm? HForm = null;
@@ -90,9 +90,22 @@ namespace Hypowered
 			HMenuItem mi = new HMenuItem();
 			mi.Name = nm;
 			mi.Text = tx;
+			mi.IsRoot=true;
 			this.Items.Add(mi);
 			ChkMenu(false);
-			OnMainManuChanged(new EventArgs());
+			OnMenuChanged(new MenuChangedEventArgs(mi));
+			return mi;
+		}
+		// *************************************************
+		public HMenuItem AddSubMenu(HMenuItem menu,string nm, string tx)
+		{
+			HMenuItem mi = new HMenuItem();
+			mi.Name = nm;
+			mi.Text = tx;
+			mi.IsRoot = false;
+			menu.DropDownItems.Add(mi);
+			menu.ChkMenu();
+			OnMenuChanged(new MenuChangedEventArgs(mi));
 			return mi;
 		}
 		// *************************************************
@@ -105,7 +118,7 @@ namespace Hypowered
 				this.Items.RemoveAt(idx);
 				this.Items.Insert(idx-1, m);
 				ChkMenu(false);
-				OnMainManuChanged(new EventArgs());
+				OnMenuChanged(new MenuChangedEventArgs((HMenuItem)m));
 			}
 		}
 		public void MenuDown(HMenuItem mi)
@@ -117,7 +130,7 @@ namespace Hypowered
 				this.Items.RemoveAt(idx);
 				this.Items.Insert(idx + 1, m);
 				ChkMenu(false);
-				OnMainManuChanged(new EventArgs());
+				OnMenuChanged(new MenuChangedEventArgs((HMenuItem)m));
 			}
 		}
 		// *************************************************
@@ -789,6 +802,7 @@ namespace Hypowered
 							HMenuItem mi = new HMenuItem();
 							mi.IsRoot = true;
 							mi.FromJson(jj);
+							mi.MenuChanged += (sender, e) => { OnMenuChanged(e); };
 							list.Add(mi);
 						}
 					}

@@ -110,7 +110,7 @@ namespace Hypowered
 					typeof(Microsoft.CSharp.RuntimeBinder.CSharpArgumentInfo).Assembly,  // Microsoft.CSharp
 					typeof(System.Dynamic.ExpandoObject).Assembly,
 					typeof(System.Data.DataTable).Assembly,
-					//Assembly.GetExecutingAssembly(),
+					Assembly.GetExecutingAssembly(),
 				};
 				return ret;
 			}
@@ -123,7 +123,7 @@ namespace Hypowered
 				{
 					typeof(System.Object).Assembly,
 					typeof(System.Windows.Forms.MessageBox).Assembly,
-					//Assembly.GetExecutingAssembly(),
+					Assembly.GetExecutingAssembly(),
 				};
 				return ret;
 			}

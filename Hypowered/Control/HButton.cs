@@ -44,7 +44,7 @@ namespace Hypowered
 
 		public HButton()
 		{
-			m_HType = HType.Button;
+			m_HCType = HCType.Button;
 			ScriptCode.Setup(HScriptType.Click);
 			TextAlign = StringAlignment.Center;
 		}

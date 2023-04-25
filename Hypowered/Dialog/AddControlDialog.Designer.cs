@@ -46,7 +46,7 @@
 			hTypeCombo1.Font = new Font("Yu Gothic UI", 12F, FontStyle.Regular, GraphicsUnit.Point);
 			hTypeCombo1.ForeColor = Color.FromArgb(230, 230, 230);
 			hTypeCombo1.FormattingEnabled = true;
-			hTypeCombo1.HType = HType.Button;
+			hTypeCombo1.HType = HCType.Button;
 			hTypeCombo1.Items.AddRange(new object[] { "Button", "Label", "TextBox", "PictureBox", "IconButton", "ListBox" });
 			hTypeCombo1.Location = new Point(75, 39);
 			hTypeCombo1.Name = "hTypeCombo1";
@@ -144,6 +144,7 @@
 			Controls.Add(label1);
 			Controls.Add(hTypeCombo1);
 			Name = "AddControlDialog";
+			StartPosition = FormStartPosition.CenterParent;
 			Text = "AddControlDialog";
 			ResumeLayout(false);
 			PerformLayout();

@@ -228,9 +228,9 @@
 			editControl1.ForeColor = Color.FromArgb(230, 230, 231);
 			editControl1.IsScript = false;
 			editControl1.Location = new Point(0, 0);
-			editControl1.MainDistance = 469;
+			editControl1.MainDistance = 105;
 			editControl1.MainForm = null;
-			editControl1.MenuDistance = 512;
+			editControl1.MenuDistance = 450;
 			editControl1.Name = "editControl1";
 			editControl1.Size = new Size(157, 553);
 			editControl1.TabIndex = 6;

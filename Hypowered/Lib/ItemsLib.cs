@@ -15,6 +15,7 @@ using System.Runtime.InteropServices;
 using System.Drawing.Imaging;
 using System.ComponentModel;
 using System.Reflection.Metadata.Ecma335;
+using System.IO.Compression;
 
 namespace Hypowered
 {
@@ -81,12 +82,27 @@ namespace Hypowered
 				DirectoryInfo dir = new DirectoryInfo(libName);
 				if(dir.Exists == true)
 				{
-					m_FileName = dir.FullName;
-					m_IsZip = false;
+					if(Control.ModifierKeys == Keys.Shift) 
+					{
+						Aarchive();
+					}
+					else
+					{
+						m_FileName = dir.FullName;
+						m_IsZip = false;
+					}
 				}
 				else
 				{
-					return false;
+					try
+					{
+						File.WriteAllBytes(libName, Properties.Resources.Hypowered_hypf);
+						Setup(libName);
+					}
+					catch
+					{
+						return false;
+					}
 				}
 
 			}

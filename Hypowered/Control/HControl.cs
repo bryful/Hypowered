@@ -136,14 +136,14 @@ namespace Hypowered
 			}
 			this.Invalidate();
 		}
-		protected HType m_HType = HType.None;
+		protected HCType m_HCType = HCType.None;
 		/// <summary>
 		/// このコントロールの種類
 		/// </summary>
 		[Category("_Hypowered")]
-		public HType HType
+		public HCType HCType
 		{
-			get { return m_HType; }
+			get { return m_HCType; }
 		}
 		[Category("_Hypowered")]
 		public int Index { get; set; } = -1;
@@ -661,7 +661,7 @@ namespace Hypowered
 			this.Invalidate();
 		}
 	}
-	public enum HType
+	public enum HCType
 	{
 		None,
 		Button,
@@ -671,21 +671,28 @@ namespace Hypowered
 		IconButton,
 		ListBox
 	}
-	public class CHType
+	public enum HFType
+	{
+		None,
+		HForm,
+		HControl,
+		HMenuItem
+	}
+	public class CHCType
 	{
 		private string[] m_Names = new string[0];
 		public string[] Names { get { return m_Names; } }
-		public HType Value { get; set; } = HType.None;
+		public HCType Value { get; set; } = HCType.None;
 		public string ValueStr
 		{
 			get { return GetName(Value); }
 			set { Value = SetName(value); }
 		}
-		public string GetName(HType idx)
+		public string GetName(HCType idx)
 		{
 			return m_Names[(int)idx];
 		}
-		public HType SetName(string s)
+		public HCType SetName(string s)
 		{
 			int ret = -1;
 			for (int i = 0; i < m_Names.Length; i++)
@@ -696,16 +703,16 @@ namespace Hypowered
 					break;
 				}
 			}
-			Value = (HType)ret;
+			Value = (HCType)ret;
 			return Value;
 		}
-		public CHType()
+		public CHCType()
 		{
-			m_Names = Enum.GetNames(typeof(HType));
+			m_Names = Enum.GetNames(typeof(HCType));
 		}
-		public CHType(HType v)
+		public CHCType(HCType v)
 		{
-			m_Names = Enum.GetNames(typeof(HType));
+			m_Names = Enum.GetNames(typeof(HCType));
 			Value = v;
 		}
 
@@ -718,7 +725,7 @@ namespace Hypowered
 				int v = value + 1;
 				if (v <= 0) v = 0;
 				if (v >= m_Names.Length) { v = 0; }
-				Value = (HType)v;
+				Value = (HCType)v;
 			}
 		}
 	}

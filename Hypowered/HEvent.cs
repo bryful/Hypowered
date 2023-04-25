@@ -64,4 +64,13 @@ namespace Hypowered
 		}
 	}
 	// *********************************************************
+	public class MenuChangedEventArgs : EventArgs
+	{
+		public HMenuItem? Menu;
+		public MenuChangedEventArgs(HMenuItem? v)
+		{
+			Menu = v;
+		}
+	}
+	// *********************************************************
 }

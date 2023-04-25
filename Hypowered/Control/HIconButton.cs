@@ -148,7 +148,7 @@ namespace Hypowered
 		// *********************************************************
 		public HIconButton()
 		{
-			m_HType = HType.IconButton;
+			m_HCType = HCType.IconButton;
 			ScriptCode.Setup(HScriptType.Click);
 			TextAlign = StringAlignment.Center;
 			ChkSize();

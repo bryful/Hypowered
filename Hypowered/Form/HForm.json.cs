@@ -33,21 +33,21 @@ namespace Hypowered
 					if (this.Controls[i] is HControl)
 					{
 						HControl hc = (HControl)this.Controls[i];
-						switch (hc.HType)
+						switch (hc.HCType)
 						{
-							case HType.Button:
+							case HCType.Button:
 								ja.Add(((HButton)hc).ToJson());
 								break;
-							case HType.Label:
+							case HCType.Label:
 								ja.Add(((HLabel)hc).ToJson());
 								break;
-							case HType.TextBox:
+							case HCType.TextBox:
 								ja.Add(((HTextBox)hc).ToJson());
 								break;
-							case HType.PictureBox:
+							case HCType.PictureBox:
 								ja.Add(((HPictureBox)hc).ToJson());
 								break;
-							case HType.IconButton:
+							case HCType.IconButton:
 								ja.Add(((HIconButton)hc).ToJson());
 								break;
 							default:
@@ -81,15 +81,15 @@ namespace Hypowered
 			JsonArray? ja = jf.ValueArray("Controls");
 			if ((ja != null)&&(ja.Count>0))
 			{
-				CHType cht = new CHType();
+				CHCType cht = new CHCType();
 				foreach(var j in ja)
 				{
 					JsonObject? obj = (JsonObject?)j;
 					if (obj != null)
 					{
-						if (obj.ContainsKey("HType"))
+						if (obj.ContainsKey("HCType"))
 						{
-							string? mt = obj["HType"].GetValue<string?>();
+							string? mt = obj["HCType"].GetValue<string?>();
 							if (mt != null)
 							{
 								cht.ValueStr = mt;

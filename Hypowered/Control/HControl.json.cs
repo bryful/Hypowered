@@ -18,9 +18,9 @@ namespace Hypowered
 		{
 			JsonFile? jf = new JsonFile();
 
-			CHType ht = new CHType(m_HType);
+			CHCType ht = new CHCType(m_HCType);
 
-			jf.SetValue(nameof(HType), (string)ht.ValueStr);//System.String
+			jf.SetValue(nameof(HCType), (string)ht.ValueStr);//System.String
 			jf.SetValue(nameof(Text), (String)Text);//System.String
 			jf.SetValue(nameof(Name), (String)Name);//System.String
 			jf.SetValue(nameof(Location), (Point)Location);//System.Drawing.Point
@@ -64,11 +64,15 @@ namespace Hypowered
 			JsonFile jf = new JsonFile(jo);
 			object? v = null;
 
-			v = jf.ValueAuto("HType", typeof(String).Name);
-			if (v != null)
+			if (HCType != HCType.None)
 			{
-				CHType ht = new CHType();
-				ht.ValueStr = (string)ht.ValueStr;
+				v = jf.ValueAuto("HCType", typeof(String).Name);
+				if (v != null)
+				{
+					CHCType ht = new CHCType();
+					ht.ValueStr = (string)v;
+					m_HCType = ht.Value;
+				}
 			}
 
 			v = jf.ValueAuto("Name", typeof(String).Name);

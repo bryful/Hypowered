@@ -25,7 +25,7 @@ namespace Hypowered
 				}
 			}
 		}
-		public HType HType
+		public HCType HType
 		{
 			get { return hTypeCombo1.HType; }
 			set { hTypeCombo1.HType = value; }

@@ -398,6 +398,17 @@ namespace Hypowered
 			{
 				propertyGrid1.SelectedObjects = objs;
 			}
+			if(editor!=null)
+			{
+				if ((objs == null) || (objs.Length <= 0))
+				{
+					editor.Target = null;
+				}
+				else if (objs.Length > 0)
+				{
+					editor.Target = objs[0];
+				}
+			}
 
 		}
 		// **********************************************************

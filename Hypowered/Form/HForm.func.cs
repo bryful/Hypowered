@@ -15,9 +15,9 @@ namespace Hypowered
 			return this.Controls.IndexOfKey(key);
 		}
 		// ************************************************************
-		public string ControlNewName(HType ht)
+		public string ControlNewName(HCType ht)
 		{
-			string? nm = Enum.GetName(typeof(HType), ht);
+			string? nm = Enum.GetName(typeof(HCType), ht);
 			if (nm == null) nm = "ctrl";
 			int idx = 1;
 			string s = $"{nm}{idx}";
@@ -30,37 +30,37 @@ namespace Hypowered
 		}
 		private Point pDef = new Point(100, 100);
 		// ************************************************************
-		public HControl CreateControl(HType ht)
+		public HControl CreateControl(HCType ht)
 		{
 			HControl hc;
 			switch (ht)
 			{
 
-				case HType.Label:
+				case HCType.Label:
 					hc = new HLabel();
 					hc.Location = pDef;
 					hc.Size = new Size(75, 25);
 					break;
-				case HType.TextBox:
+				case HCType.TextBox:
 					hc = new HTextBox();
 					hc.Location = pDef;
 					hc.Size = new Size(75, 25);
 					break;
-				case HType.PictureBox:
+				case HCType.PictureBox:
 					hc = new HPictureBox();
 					hc.Location = pDef;
 					hc.Size = new Size(200, 200);
 					break;
-				case HType.IconButton:
+				case HCType.IconButton:
 					hc = new HIconButton();
 					hc.Location = pDef;
 					break;
-				case HType.ListBox:
+				case HCType.ListBox:
 					hc = new HListBox();
 					hc.Location = pDef;
 					hc.Size = new Size(250, 200);
 					break;
-				case HType.Button:
+				case HCType.Button:
 				default:
 					hc = new HButton();
 					hc.Location = pDef;
@@ -80,7 +80,7 @@ namespace Hypowered
 
 			return hc;
 		}
-		public void AddControl(HType ht, string nm, string tx)
+		public void AddControl(HCType ht, string nm, string tx)
 		{
 			HControl hControl = CreateControl(ht);
 			hControl.Name = nm;
@@ -97,7 +97,7 @@ namespace Hypowered
 			OnControlChanged(new EventArgs());
 			SaveToHypf();
 		}
-		private HType m_HTypeDef = HType.Button;
+		private HCType m_HTypeDef = HCType.Button;
 		public void AddControl()
 		{
 			using (AddControlDialog dlg = new AddControlDialog())
@@ -343,7 +343,14 @@ namespace Hypowered
 		{
 			if (m_TargetControl != null)
 			{
-				return RemoveControl(m_TargetControl);
+				bool ret = RemoveControl(m_TargetControl);
+				if (ret)
+				{
+					m_TargetControl = null;
+					OnTargetControlChanged(new TargetControlChangedArgs(null));
+					this.Invalidate(); 
+				}
+				return ret;
 			}
 			else
 			{

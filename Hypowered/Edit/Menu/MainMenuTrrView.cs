@@ -55,8 +55,8 @@ namespace Hypowered
 				if(m_MainMenu !=null)
 				{
 					ScanMainMenu();
-					m_MainMenu.MainManuChanged -= (sender, e) => { ScanMainMenu(); };
-					m_MainMenu.MainManuChanged += (sender, e) => { ScanMainMenu(); };
+					m_MainMenu.MenuChanged -= (sender, e) => { ScanMainMenu(); };
+					m_MainMenu.MenuChanged += (sender, e) => { ScanMainMenu(); };
 				}
 			}
 			else
@@ -65,7 +65,7 @@ namespace Hypowered
 
 			}
 		}
-		public TreeNode ScanMenu(HMenuItem mi, TreeNodeCollection tnc)
+		public TreeNode ScanMainMenuSub(HMenuItem mi, TreeNodeCollection tnc)
 		{
 			TreeNode tn = new TreeNode(mi.Name);
 			tn.Tag = mi;
@@ -76,7 +76,7 @@ namespace Hypowered
 				{
 					if(rmenu is HMenuItem)
 					{
-						ScanMenu((HMenuItem)rmenu, tn.Nodes);
+						ScanMainMenuSub((HMenuItem)rmenu, tn.Nodes);
 					}
 				}
 			}
@@ -92,7 +92,7 @@ namespace Hypowered
 				{
 					if(rmenu is HMenuItem)
 					{
-						ScanMenu((HMenuItem)rmenu, this.Nodes);
+						ScanMainMenuSub((HMenuItem)rmenu, this.Nodes);
 					}
 				}
 			}
@@ -100,7 +100,7 @@ namespace Hypowered
 		public MainMenuTreeView()
 		{
 		}
-		private HMenuItem? GetMenu(HMenuItem mi, List<int> list)
+		public HMenuItem? GetMenu(HMenuItem mi, List<int> list)
 		{
 			if ((MainMenu == null) || (list.Count <= 0) )return null;
 			if ((list[0] >= 0) && (list[0] < mi.DropDownItems.Count))
@@ -117,7 +117,7 @@ namespace Hypowered
 			}
 			return null;
 		}
-		private HMenuItem? GetMenu(List<int> list)
+		public HMenuItem? GetMenu(List<int> list)
 		{
 			if((MainMenu==null)||(list.Count<=0) )return null;
 			if ((list[0]>=0)&&(list[0]<MainMenu.Items.Count))
@@ -136,20 +136,71 @@ namespace Hypowered
 
 		}
 		private TreeNode? m_SelectedNode = null;
-		protected override void OnAfterSelect(TreeViewEventArgs e)
+		public int SelectedRootIndex
 		{
-			if ((e==null)||(e.Node == null)) return;
+			get
+			{
+				return GetSelectedRootRootIndex();
+			}
+		}
+
+		public TreeNode? GetNode(TreeNode tn,List<int> list)
+		{
+			TreeNode? ret = null;
+			if (list.Count <= 0) return ret;
+			int idx = list[0];
+			if ((idx > 0) && (idx < tn.Nodes.Count))
+			{
+				ret = tn.Nodes[idx];
+				if ((ret != null) && (list.Count > 1))
+				{
+					ret = GetNode(ret, list.Skip(1).ToList<int>());
+				}
+			}
+			return ret;
+		}
+		public TreeNode? GetNode(List<int> list)
+		{
+			TreeNode? ret = null;
+			if(list.Count<=0)return ret;
+			int idx = list[0];
+			if((idx>0)&&(idx<this.Nodes.Count))
+			{
+				ret = this.Nodes[idx];
+				if((ret!=null)&&(list.Count>1))
+				{
+					ret = GetNode(ret,list.Skip(1).ToList<int>());
+				}
+			}
+			return ret;
+		}
+		public List<int>  NodeList( TreeNode tn)
+		{
 			List<int> list = new List<int>();
-			TreeNode? tn = e.Node;
-			m_SelectedNode = tn;
 			list.Add(tn.Index);
 			tn = tn.Parent;
-			while(tn != null)
+			while (tn != null)
 			{
 				list.Add(tn.Index);
 				tn = tn.Parent;
 			}
 			list.Reverse();
+			return list;
+		}
+		public int GetSelectedRootRootIndex()
+		{
+			int ret = -1;
+			if (this.SelectedNode!=null)
+			{
+				List<int> list = NodeList(this.SelectedNode);
+				if(list.Count>0) ret = list[0];
+			}
+			return ret;
+		}
+		protected override void OnAfterSelect(TreeViewEventArgs e)
+		{
+			if ((e==null)||(e.Node == null)) return;
+			List<int> list = NodeList(e.Node);
 			HMenuItem? m = GetMenu(list);
 			TargetMenu = m;
 			if(TargetMenu!=null)
@@ -161,12 +212,12 @@ namespace Hypowered
 		}
 		private void ExecMenuNameChange(MenuNameChangedEventArgs args)
 		{
-			if((TargetMenu!=null)&&(m_SelectedNode!=null))
+			if((TargetMenu!=null)&&(SelectedNode!=null))
 			{
-				if(m_SelectedNode.Name != args.Name)
+				if(SelectedNode.Name != args.Name)
 				{
-					m_SelectedNode.Name = args.Name;
-					m_SelectedNode.Text = args.Name;
+					SelectedNode.Name = args.Name;
+					SelectedNode.Text = args.Name;
 				}
 			}
 		}

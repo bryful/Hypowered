@@ -19,6 +19,15 @@ namespace Hypowered
 	}
 	public class HMenuItem : ToolStripMenuItem
 	{
+		public delegate void MenuChangedHandler(object sender, MenuChangedEventArgs e);
+		public event MenuChangedHandler? MenuChanged;
+		protected virtual void OnMenuChanged(MenuChangedEventArgs e)
+		{
+			if (MenuChanged != null)
+			{
+				MenuChanged(this, e);
+			}
+		}
 		public delegate void MenuNameChangedHandler(object sender, MenuNameChangedEventArgs e);
 		public event MenuNameChangedHandler? MenuNameChanged;
 		protected virtual void OnMenuNameChanged(MenuNameChangedEventArgs e)
@@ -62,6 +71,55 @@ namespace Hypowered
 				}
 			}
 
+		}
+		// *************************************************
+		private HMenuItem? ParentMenu()
+		{
+			HMenuItem? ret = null;
+			if (this.Parent == null) return ret;
+			ret = this.OwnerItem as HMenuItem;
+			return ret; 
+		}
+		// *************************************************
+		private int[] getIndexArray()
+		{
+			List<int> idxs = new List<int>();
+			idxs.Add(this.Index);
+			HMenuItem? p = ParentMenu();
+		
+			if ( p != null)
+			{
+				while ((p != null) && (p.IsRoot == false))
+				{
+					idxs.Add(p.Index);
+					p = ParentMenu();
+				}
+				idxs.Reverse();
+			}
+			return idxs.ToArray();
+		}
+		public HMenuItem? GetHMenuItem(int[] idxs)
+		{
+			HMenuItem? ret = null;
+			if(idxs.Length<=0) return ret;
+			HMenuItem? p = this;
+			if (p != null)
+			{
+				for (int i = 0; i < idxs.Length; i++)
+				{
+					int idx = idxs[i];
+					if ((idx >= 0) && (idx < p.DropDownItems.Count))
+					{
+						if (p.DropDownItems[idx] is HMenuItem) break;
+						p = (HMenuItem)p.DropDownItems[idx];
+					}
+					else
+					{
+						break;
+					}
+				}
+			}
+			return ret;
 		}
 		// *************************************************
 		public int IndexOfMenuName(string nm)
@@ -516,7 +574,30 @@ namespace Hypowered
 			};
 		}
 		// ********************************************************************
-
+		public void MenuUp(HMenuItem mi)
+		{
+			int idx = this.DropDownItems.IndexOf(mi);
+			if (idx >= 1)
+			{
+				ToolStripItem m = this.DropDownItems[idx];
+				this.DropDownItems.RemoveAt(idx);
+				this.DropDownItems.Insert(idx - 1, m);
+				ChkMenu();
+				OnMenuChanged(new MenuChangedEventArgs((HMenuItem)m));
+			}
+		}
+		public void MenuDown(HMenuItem mi)
+		{
+			int idx = this.DropDownItems.IndexOf(mi);
+			if ((idx >= 0) && (idx < this.DropDownItems.Count - 1))
+			{
+				ToolStripItem m = this.DropDownItems[idx];
+				this.DropDownItems.RemoveAt(idx);
+				this.DropDownItems.Insert(idx + 1, m);
+				ChkMenu();
+				OnMenuChanged(new MenuChangedEventArgs((HMenuItem)m));
+			}
+		}
 		// ********************************************************************
 		public virtual JsonObject? ToJson()
 		{
@@ -604,6 +685,7 @@ namespace Hypowered
 							mi.IsRoot = false;
 							mi.Available = true;
 							mi.Visible = true;
+							mi.MenuChanged += (sender, e) => { OnMenuChanged(e); };
 							mi.FromJson(jj);
 							list.Add(mi);
 						}

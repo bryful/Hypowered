@@ -130,7 +130,7 @@ namespace Hypowered
 		// ***********************************************
 		public HListBox()
 		{
-			m_HType = HType.ListBox;
+			m_HCType = HCType.ListBox;
 			ScriptCode.Setup(HScriptType.SelectedIndexChanged,HScriptType.DoubleClick);
 			TextAlign = StringAlignment.Near;
 			base.Size = new Size(200, 150);

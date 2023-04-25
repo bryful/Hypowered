@@ -40,9 +40,36 @@ namespace Hypowered
 		private string[] m_HScriptTypeNames = new string[0];
 		public string[] HScriptTypeNames { get { return m_HScriptTypeNames; } }
 
-		private ScriptItem[] m_Codes = new ScriptItem[0];
-		public ScriptItem[] Codes { get { return m_Codes; } }
+		private ScriptItem[] m_ScriptItems = new ScriptItem[0];
+		public ScriptItem[] ScriptItems { get { return m_ScriptItems; } }
 		public int Length { get { return HScriptTypeNames.Length; } }
+
+		public string [] Codes 
+		{ 
+			get { return GetCodes(); } 
+			set { SetCodes(value); }
+		}
+		public string[] GetCodes()
+		{
+			int cnt = m_ScriptItems.Length;
+			string[] ret = new string[cnt];
+			if(cnt > 0)
+			{
+				for(int i=0; i<cnt;i++) ret[i] = m_ScriptItems[i].Code;
+			}
+			return ret;
+		}
+		public void SetCodes(string[] sa)
+		{
+			int cnt = m_ScriptItems.Length;
+			if (sa.Length != cnt) return;
+
+			for (int i = 0; i < cnt; i++)
+			{
+				m_ScriptItems[i].Code = sa[i];
+			}
+		}
+
 		private int IndexOf(HScriptType st)
 		{
 			int ret = -1;
@@ -65,7 +92,7 @@ namespace Hypowered
 			int idx = IndexOf(st);
 			if(idx>=0)
 			{
-				ret = m_Codes[idx];
+				ret = m_ScriptItems[idx];
 			}
 			return ret;
 		}
@@ -86,19 +113,19 @@ namespace Hypowered
 					}
 				}
 			}
-			m_Codes = Array.Empty<ScriptItem>();
+			m_ScriptItems = Array.Empty<ScriptItem>();
 			m_HScriptTypes = Array.Empty<HScriptType>();
 			m_HScriptTypeNames = Array.Empty<string>();
 			if (lst.Count > 0)
 			{
-				m_Codes = new ScriptItem[lst.Count];
+				m_ScriptItems = new ScriptItem[lst.Count];
 				m_HScriptTypes = new HScriptType[lst.Count];
 				m_HScriptTypeNames = new string[lst.Count];
 				string[] ns = Enum.GetNames(typeof(HScriptType));
 				int idx = 0;
 				foreach (HScriptType t in lst)
 				{
-					m_Codes[idx] = new ScriptItem();
+					m_ScriptItems[idx] = new ScriptItem();
 					m_HScriptTypes[idx] = t;
 					m_HScriptTypeNames[idx] = ns[(int)t];
 					idx++;

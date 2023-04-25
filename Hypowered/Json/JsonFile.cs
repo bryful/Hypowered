@@ -297,7 +297,7 @@ namespace Hypowered
 				}
 			}
 		}
-		public void SetValue(string key, HType value)
+		public void SetValue(string key, HCType value)
 		{
 			if (Obj != null)
 			{
@@ -861,14 +861,14 @@ namespace Hypowered
 			}
 			return ret;
 		}
-		public HType? ValueHtype(string key)
+		public HCType? ValueHtype(string key)
 		{
-			HType? ret = null;
+			HCType? ret = null;
 			if (Obj != null)
 			{
 				if (Obj.ContainsKey(key))
 				{
-					ret = (HType?)Obj[key].GetValue<int?>();
+					ret = (HCType?)Obj[key].GetValue<int?>();
 				}
 			}
 			return ret;

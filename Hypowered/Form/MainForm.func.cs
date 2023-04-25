@@ -219,6 +219,20 @@ namespace Hypowered
 			}
 		}
 		// ************************************************************
+		public bool YesNoDialog(string cap)
+		{
+			bool ret = false;
+			ret = Hypowered.YesNoDialog.Exec(cap);
+			/*
+			using (YesNoDialog dlg = new YesNoDialog())
+			{
+				dlg.Caption = cap;
+				ret = (dlg.ShowDialog() == DialogResult.OK);
+			}
+			*/
+			return ret;
+		}
+		// ************************************************************
 		public void WriteLine(object? obj)
 		{
 			ShowConsole();
@@ -248,17 +262,43 @@ namespace Hypowered
 		}
 		public void ShowAddRootMenuDialog()
 		{
+			ShowAddMenuDialog(false);
+		}
+		public void ShowAddSubMenuDialog()
+		{
+			ShowAddMenuDialog(true);
+		}
+		public void ShowAddMenuDialog(bool IsSub =false)
+		{
 			if (TargetForm == null) return;
 			using (AddMenuDialog dlg = new AddMenuDialog())
 			{
 				dlg.SetMainForm(this);
-				dlg.AtSubMenu = false;
+				dlg.AtSubMenu = true;
+				dlg.RooMenuIndex = editControl1.SelectedRootIndex;
 				dlg.TopMost = this.TopMost;
 				if (dlg.ShowDialog() == DialogResult.OK)
 				{
-					TargetForm.MainMenu.AddRootMenu(dlg.MenuName, dlg.MenuText);
+					if(dlg.AtSubMenu)
+					{
+						int idx = dlg.RooMenuIndex;
+						if((idx>=0)&&(TargetForm!=null)&&(idx<TargetForm.MainMenu.Items.Count))
+						{
+							HMenuItem mi = (HMenuItem)TargetForm.MainMenu.Items[idx];
+							TargetForm.MainMenu.AddSubMenu(mi,dlg.MenuName, dlg.MenuText);
+						}
+					}
+					else
+					{
+						TargetForm.MainMenu.AddRootMenu(dlg.MenuName, dlg.MenuText);
+					}
 				}
 			}
 		}
+		public void MenuUp()
+		{
+
+		}
+
 	}
 }

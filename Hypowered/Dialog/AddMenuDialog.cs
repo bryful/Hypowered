@@ -34,6 +34,22 @@ namespace Hypowered
 				cmbSubMenu.Visible = cbAtSubmenu.Checked;
 			}
 		}
+		public int RooMenuIndex
+		{
+			get { return cmbSubMenu.SelectedIndex; }
+			set { cmbSubMenu.SelectedIndex = value; }
+		}
+		private HMenuItem? TargetRootMenu()
+		{
+			HMenuItem? ret = null;
+			if ((MainForm==null)||(MainForm.TargetForm==null)) return ret;
+			int idx = cmbSubMenu.SelectedIndex;
+			if ((idx>=0)&&(idx<MainForm.TargetForm.MainMenu.Items.Count))
+			{
+				ret = (HMenuItem)MainForm.TargetForm.MainMenu.Items[idx];
+			}
+			return ret;
+		}
 		public void SetMainForm(MainForm? mf)
 		{
 			MainForm = mf;
@@ -74,7 +90,11 @@ namespace Hypowered
 			}
 			else
 			{
-				return;
+				HMenuItem? m = TargetRootMenu();
+				if (m == null) return;
+				int idx =m.IndexOfMenuName(tbName.Text);
+				if (idx >= 0) return;
+
 			}
 			this.DialogResult = DialogResult.OK;
 		}

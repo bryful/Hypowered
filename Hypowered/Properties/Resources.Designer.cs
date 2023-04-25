@@ -461,6 +461,16 @@ namespace Hypowered.Properties {
         }
         
         /// <summary>
+        ///   型 System.Byte[] のローカライズされたリソースを検索します。
+        /// </summary>
+        internal static byte[] Hypowered_hypf {
+            get {
+                object obj = ResourceManager.GetObject("Hypowered_hypf", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
         ///   型 System.Drawing.Bitmap のローカライズされたリソースを検索します。
         /// </summary>
         internal static System.Drawing.Bitmap MenuAction0 {

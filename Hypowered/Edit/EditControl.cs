@@ -40,6 +40,7 @@ namespace Hypowered
 			get { return MainSplit.SplitterDistance; }
 			set 
 			{ 
+				if(MainSplit !=null)
 				MainSplit.SplitterDistance = value;
 			}
 		}
@@ -108,6 +109,10 @@ namespace Hypowered
 				ControlPanel.MainForm = value;
 				MenuPanel.MainForm = value;
 			}
+		}
+		public int SelectedRootIndex
+		{
+			get { return MenuPanel.SelectedRootIndex; }
 		}
 		[Category("Hypowered_Color"),Browsable(false)]
 		public SizeMoveMode SizeMoveMode
@@ -179,12 +184,21 @@ namespace Hypowered
 			ControlPanel.ArrowChanged += (sender, e) => { ControlArrowAction(e); };
 			MenuPanel.MenuActionClick += (sender, e) => { PushMenuAction(e); };
 		}
+		protected override void InitLayout()
+		{
+			if (MainDistance < 100) MainDistance = 100;
+			base.InitLayout();
+		}
 		public void PushMenuAction(MenuActionClickArgs e)
 		{
+			if(MainForm==null) return;
 			switch(e.Mode)
 			{
 				case MenuAction.AddRoot:
 					MainForm.ShowAddRootMenuDialog();
+					break;
+				case MenuAction.AddSub:
+					MainForm.ShowAddSubMenuDialog();
 					break;
 			}
 		}
@@ -203,7 +217,7 @@ namespace Hypowered
 					MainForm.TargetForm.ControlResizeRightBottom(e.Arrow, ControlPanel.MoveScaleValue);
 					break;
 			}
-		}	
+		}
 	}
 	
 	public class SelectObjectsChangedArgs : EventArgs

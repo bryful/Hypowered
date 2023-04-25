@@ -12,6 +12,7 @@ namespace Hypowered
 {
 	public partial class MenuPanel : Control
 	{
+		#region Event
 		// ***************************************************************************
 		public delegate void SelectObjectsChangedHandler(object sender, SelectObjectsChangedArgs e);
 		public event SelectObjectsChangedHandler? SelectObjectsChanged;
@@ -32,6 +33,7 @@ namespace Hypowered
 				MenuActionClick(this, e);
 			}
 		}
+		#endregion
 		public MainForm? MainForm
 		{
 			get { return MenuTreeView.MainForm; }
@@ -69,6 +71,10 @@ namespace Hypowered
 		public HMainMenu? MainMenu { get { return MenuTreeView.MainMenu; } }
 		private Bitmap[] MenuActionIcon = new Bitmap[6];
 		private int m_MenuAction = 0;
+		public int SelectedRootIndex
+		{
+			get { return MenuTreeView.SelectedRootIndex; }
+		}
 		// ***************************************************************************
 		public MainMenuTreeView MenuTreeView { get; set; } = new MainMenuTreeView();
 		public MenuPanel()
@@ -153,7 +159,13 @@ namespace Hypowered
 				m_MenuAction = 0;
 				m_MD=false;
 				this.Invalidate();
-				OnMenuActionClick(new MenuActionClickArgs(ma));
+				if ((MainForm != null) && (MainForm.TargetForm != null))
+				{
+					if (MainForm.TargetForm.IsEdit)
+					{
+						OnMenuActionClick(new MenuActionClickArgs(ma));
+					}
+				}
 			}
 			base.OnMouseUp(e);
 		}

@@ -237,7 +237,14 @@ namespace Hypowered
 							}
 							break;
 						case ControlAction.Delete:
-							MainForm.TargetForm.RemoveControl();
+						if (MainForm.TargetForm.TargetControl != null)
+						{
+							string s = MainForm.TargetForm.TargetControl.Name;
+							if (MainForm.YesNoDialog($"del: {s}") ==true)
+							{
+								MainForm.TargetForm.RemoveControl();
+							}
+						}
 							break;
 					}
 				}

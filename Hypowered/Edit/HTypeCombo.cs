@@ -12,14 +12,14 @@ namespace Hypowered
 {
 	public class HTypeCombo : ComboBox
 	{
-		public CHType CHType = new CHType();
-		public HType HType
+		public CHCType CHType = new CHCType();
+		public HCType HType
 		{
 			get 
 			{
 				InitList();
 				if (this.SelectedIndex < 0) this.SelectedIndex = 0;
-				return (HType)(this.SelectedIndex + 1);
+				return (HCType)(this.SelectedIndex + 1);
 			} 
 			set
 			{

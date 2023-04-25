@@ -84,7 +84,7 @@ namespace Hypowered
 		}
 		public HPictureBox()
 		{
-			m_HType = HType.PictureBox;
+			m_HCType = HCType.PictureBox;
 			ScriptCode.Setup(HScriptType.ValueChanged);
 			this.AllowDrop = true;
 			ChkGridSize();

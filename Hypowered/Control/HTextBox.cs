@@ -82,7 +82,7 @@ namespace Hypowered
 		#endregion
 		public HTextBox()
 		{
-			m_HType = HType.TextBox;
+			m_HCType = HCType.TextBox;
 			ScriptCode.Setup(HScriptType.ValueChanged);
 			TextBox.Visible = false;
 			TextBox.BackColor = base.BackColor;

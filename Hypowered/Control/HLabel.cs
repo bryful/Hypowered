@@ -57,7 +57,7 @@ namespace Hypowered
 		#endregion
 		public HLabel()
 		{
-			m_HType = HType.Label;
+			m_HCType = HCType.Label;
 			TextAlign = StringAlignment.Near;
 			StringFormat.Alignment = StringAlignment.Center;
 			StringFormat.LineAlignment = StringAlignment.Center;

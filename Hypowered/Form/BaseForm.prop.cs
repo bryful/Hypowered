@@ -189,19 +189,19 @@ namespace Hypowered
 		{
 			get { return base.RightToLeftLayout; }
 		}
-		[Category("Hypowered"), Browsable(false)]
+		[Category("Hypowered"), Browsable(true)]
 		public new bool ShowInTaskbar
 		{
 			get { return base.ShowInTaskbar; }
 			set { base.ShowInTaskbar = value; }
 		}
-		[Category("Hypowered"), Browsable(false)]
+		[Category("Hypowered"), Browsable(true)]
 		public new bool ShowIcon
 		{
 			get { return base.ShowIcon; }
 			set { base.ShowIcon = value; }
 		}
-		[Category("Hypowered"), Browsable(false)]
+		[Category("Hypowered"), Browsable(true)]
 		public new System.Drawing.Size Size
 		{
 			get { return base.Size; }
