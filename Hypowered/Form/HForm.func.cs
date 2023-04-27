@@ -71,6 +71,7 @@ namespace Hypowered
 			hc.SelectedChanged += (sender, e) => { OnSelectedChanged(new SelectedChangedEventArgs(SelectedArray)); };
 			hc.ControlNameChanged += (semder, e) =>
 			{
+				Script.InitControls();
 				OnControlNameChanged(new ControlChangedEventArgs(
 					e.Name,
 					Index,
@@ -84,7 +85,7 @@ namespace Hypowered
 		{
 			HControl hControl = CreateControl(ht);
 			hControl.Name = nm;
-			if (tx != "") tx = nm;
+			if (tx == "") tx = nm;
 			hControl.Text = tx;
 			hControl.SetIsEdit(this.IsEdit);
 			this.Controls.Add(hControl);
@@ -95,6 +96,8 @@ namespace Hypowered
 			pDef.Y += 10;
 			if (pDef.Y > 250) pDef.Y = 100;
 			OnControlChanged(new EventArgs());
+			Script.InitControls();
+
 			SaveToHypf();
 		}
 		private HCType m_HTypeDef = HCType.Button;
@@ -331,7 +334,9 @@ namespace Hypowered
 			{
 				this.Controls.Remove(c);
 				ChkControl();
+				Script.InitControls();
 				OnControlChanged(new EventArgs());
+
 				return true;
 			}
 			catch

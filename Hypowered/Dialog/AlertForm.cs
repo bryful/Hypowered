@@ -16,7 +16,12 @@ namespace Hypowered
 		public new string Text
 		{
 			get { return textBox1.Text; }
-			set { textBox1.AppendText(value); }
+			set 
+			{ 
+				textBox1.Text = value;
+				textBox1.SelectionLength = 0;
+				textBox1.SelectionStart = 0;
+			}
 		}
 		public string Title
 		{
@@ -27,6 +32,7 @@ namespace Hypowered
 		public AlertForm()
 		{
 			InitializeComponent();
+			base.Text = "Alert";
 		}
 	}
 }

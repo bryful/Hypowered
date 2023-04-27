@@ -219,17 +219,10 @@ namespace Hypowered
 			}
 		}
 		// ************************************************************
-		public bool YesNoDialog(string cap)
+		public bool YesNoDialog(string cap,string tl="")
 		{
 			bool ret = false;
-			ret = Hypowered.YesNoDialog.Exec(cap);
-			/*
-			using (YesNoDialog dlg = new YesNoDialog())
-			{
-				dlg.Caption = cap;
-				ret = (dlg.ShowDialog() == DialogResult.OK);
-			}
-			*/
+			ret = Hypowered.YesNoDialog.Exec(cap,tl);
 			return ret;
 		}
 		// ************************************************************
@@ -243,6 +236,12 @@ namespace Hypowered
 		{
 			ShowConsole();
 			ConsoleForm.Write(obj);
+		}
+		// ************************************************************
+		public void Cls()
+		{
+			ShowConsole();
+			ConsoleForm.Clear();
 		}
 		// ************************************************************
 		public void ShowConsole()
@@ -293,6 +292,20 @@ namespace Hypowered
 						TargetForm.MainMenu.AddRootMenu(dlg.MenuName, dlg.MenuText);
 					}
 				}
+			}
+		}
+		public void ExecScript(string s)
+		{
+			if(TargetForm!=null)
+			{
+				TargetForm.ExecScript(s);
+			}
+		}
+		public void ExecScript(ScriptItem si)
+		{
+			if (TargetForm != null)
+			{
+				TargetForm.ExecScript(si);
 			}
 		}
 		public void MenuUp()

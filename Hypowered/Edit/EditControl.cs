@@ -176,7 +176,7 @@ namespace Hypowered
 
 			this.Size = new Size(170, 400);
 			MenuDistance = 350;
-			MainDistance = 100;
+			MainDistance = 90;
 			FormPanel.SelectObjectsChanged += (sender, e) => { OnSelectObjectsChanged(e); };
 			ControlPanel.SelectObjectsChanged += (sender, e) => { OnSelectObjectsChanged(e); };
 			MenuPanel.SelectObjectsChanged += (sender, e) => { OnSelectObjectsChanged(e); };
@@ -186,7 +186,7 @@ namespace Hypowered
 		}
 		protected override void InitLayout()
 		{
-			if (MainDistance < 100) MainDistance = 100;
+			if (MainDistance < 90) MainDistance = 90;
 			base.InitLayout();
 		}
 		public void PushMenuAction(MenuActionClickArgs e)
@@ -217,6 +217,14 @@ namespace Hypowered
 					MainForm.TargetForm.ControlResizeRightBottom(e.Arrow, ControlPanel.MoveScaleValue);
 					break;
 			}
+		}
+		protected override void OnResize(EventArgs e)
+		{
+			if (MainDistance<90)
+			{
+				MainDistance = 90;
+			}
+			base.OnResize(e);
 		}
 	}
 	

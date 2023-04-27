@@ -80,6 +80,14 @@ namespace Hypowered
 		#region Props
 		public HScript Script { get; set; } = new HScript();
 		public HScriptCode ScriptCode { get; set; } = new HScriptCode();
+		public void ExecScript(string s)
+		{
+			Script.ExecuteCode(s);
+		}
+		public void ExecScript(ScriptItem si)
+		{
+			Script.ExecuteCode(si);
+		}
 		// ******************
 		private bool m_CanPropertyGrid = true;
 		[Category("Hypowered"), Browsable(false)]
@@ -299,6 +307,7 @@ namespace Hypowered
 					if (ItemsLib.Rename(value))
 					{
 						base.Name = value;
+						Script.InitControls();
 						OnFormNameChange(new FormChangedEventArgs(base.Name, this.Index));
 					}
 				}

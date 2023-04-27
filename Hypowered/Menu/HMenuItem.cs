@@ -565,7 +565,7 @@ namespace Hypowered
 				}
 				if (ScriptItem.Code != "")
 				{
-					if (HForm != null)  HForm.Script.ExecuteCode(ref ScriptItem);
+					if (HForm != null)  HForm.Script.ExecuteCode(ScriptItem);
 				}
 				else if (FuncType != null)
 				{

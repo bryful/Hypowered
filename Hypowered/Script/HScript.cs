@@ -138,7 +138,7 @@ namespace Hypowered
 				}
 			}
 		}
-		public void ExecuteCode(ref ScriptItem si)
+		public void ExecuteCode(ScriptItem si)
 		{
 			if (engine == null) return;
 			try

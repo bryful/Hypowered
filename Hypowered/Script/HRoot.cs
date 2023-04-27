@@ -21,6 +21,7 @@ namespace Hypowered
 			mainForm = mf;
 			thisForm = hf;
 		}
+		[ScriptUsage(ScriptAccess.None)]
 		public void SetHForm(HForm? hf)
 		{
 			thisForm = hf;
@@ -62,35 +63,49 @@ namespace Hypowered
 		{
 			get { return m_Result; }
 		}
-		public void Alert(object? o)
+		public void alert(object? o)
 		{
-			if ((mainForm != null)&&(thisForm!=null))
+			if (thisForm == null) return;
+
+			using (AlertForm dlg = new AlertForm())
 			{
-				mainForm.Alert(thisForm, o);
+				dlg.Text = HUtils.ToStr(o);
+				dlg.TopMost = thisForm.TopMost;
+				if (dlg.ShowDialog(thisForm) == DialogResult.OK)
+				{
+				}
 			}
 		}
 		public void exit()
 		{
 			Application.Exit();
 		}
-		/*
-		public void WriteLine(object? o)
+		public void writeLine(object? o)
 		{
-			Main.ConsoleWriteLine(o);
+			if(mainForm!= null) 
+				mainForm.WriteLine(o);
 		}
-		public void Write(object? o)
+		public void write(object? o)
 		{
-			Main.ConsoleWrite(o);
+			if (mainForm != null)
+				mainForm.Write(o);
 		}
 		public void cls()
 		{
-			Main.ConsoleClear();
+			if (mainForm != null)
+				mainForm.Cls();
 		}
-		public int YesNoDialog(string comment, string title)
+		public bool yesNoDialog(string comment, string title)
 		{
-			return Main.YesNoDialog(comment,title);
+			if (mainForm != null)
+			{
+				return mainForm.YesNoDialog(comment, title);
+			}
+			else
+			{
+				return false;
+			}
 		}
-		*/
 	}
 }
 

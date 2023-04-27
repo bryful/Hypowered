@@ -25,11 +25,12 @@ namespace Hypowered
 			StartPosition = FormStartPosition.CenterParent;
 		}
 
-		static public bool Exec(string cap)
+		static public bool Exec(string cap,string tl="")
 		{
 			bool ret = false;
 			using (YesNoDialog dlg = new YesNoDialog())
 			{
+				if (tl != "") dlg.Text = tl;
 				dlg.Caption = cap;
 				ret = (dlg.ShowDialog() == DialogResult.OK);
 			}

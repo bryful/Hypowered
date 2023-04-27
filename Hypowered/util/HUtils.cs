@@ -95,6 +95,10 @@ namespace Hypowered
 			{
 				ret = "null";
 			}
+			else if(obj is string)
+			{
+				ret = (string)obj;
+			}
 			else if (obj is ScriptObject)
 			{
 				ret = ScriptObjectStr((ScriptObject?)obj);

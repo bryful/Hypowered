@@ -175,6 +175,15 @@ namespace Hypowered
 		public ScriptEditor? editor = null;
 		protected bool m_IsScript = false;
 		protected int m_ScriptWidth = 400;
+		public int ScriptWidth
+		{
+			get { return m_ScriptWidth; }
+			set 
+			{ 
+				m_ScriptWidth = value;
+				if (m_ScriptWidth < 200) m_ScriptWidth = 200;
+			}
+		}
 		// *************************************************************
 		[Category("_Hypowered"), Browsable(true)]
 		public int ScriptEditorWidth
@@ -199,6 +208,7 @@ namespace Hypowered
 					if (editor == null)
 					{
 						editor = new ScriptEditor();
+						editor.MainForm = this;
 						editor.Location = new Point(splitLeft.Right + 2, splitLeft.Top);
 						this.Controls.Add(editor);
 					}
@@ -211,6 +221,7 @@ namespace Hypowered
 				ControlLayout();
 			}
 		}
+		/*
 		public bool ScriptMode
 		{
 			get { return base.Visible; }
@@ -219,6 +230,7 @@ namespace Hypowered
 				base.Visible = value;
 			}
 		}
+		*/
 
 
 		#endregion
@@ -315,6 +327,8 @@ namespace Hypowered
 				ControlStyles.ResizeRedraw,
 				true);
 			this.UpdateStyles();
+			
+
 			editControl1.SelectObjectsChanged += (sender, e) =>
 			{
 				ToPropertyGrid(e.objs);
@@ -358,7 +372,8 @@ namespace Hypowered
 			if (obj != null) editControl1.MainDistance = (int)obj;
 			obj = pf.JsonFile.ValueInt("MenuDistance");
 			if (obj != null) editControl1.MenuDistance = (int)obj;
-
+			obj = pf.JsonFile.ValueInt("ScriptWidth");
+			if (obj != null) m_ScriptWidth = (int)obj;
 
 			obj = pf.JsonFile.ValueInt("AddFormCount");
 			if (obj != null) m_AddFormCount = (int)obj;
@@ -374,6 +389,7 @@ namespace Hypowered
 			pf.JsonFile.SetValue("MainDistance", editControl1.MainDistance);
 			pf.JsonFile.SetValue("MenuDistance", editControl1.MenuDistance);
 			pf.JsonFile.SetValue("AddFormCount", m_AddFormCount);
+			pf.JsonFile.SetValue("ScriptWidth", m_ScriptWidth);
 			pf.Save();
 		}
 

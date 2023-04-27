@@ -12,6 +12,7 @@ namespace Hypowered
 {
 	public partial class ScriptEditor : Control
 	{
+		public MainForm? MainForm= null;
 		public object? m_Target = null;
 		public object? Target
 		{
@@ -22,15 +23,23 @@ namespace Hypowered
 		private HCType m_HCType = HCType.None;
 
 		public RoslynEdit RoslynEdit { get; } =    new RoslynEdit();
-		public Button btnEditStart { get; } = new Button();
-		public Button btnEditSave { get; } = new Button();
-		public Button btnEditCancel { get; } = new Button();
+		public CheckBox cbGlobal { get; } = new CheckBox();
 		public Button btnExecute { get; } = new Button();
+		public Button btnEditSave { get; } = new Button();
+		public Button btnFont { get; } = new Button();
 		public ComboBox cmbEvent { get; } = new ComboBox();
+
+		public Font EditorFont
+		{
+			get { return RoslynEdit.Font; }
+			set { RoslynEdit.Font = value; }
+		}
+
+		// ***************************************************************
 		private string[] m_Codes = new string[0];
 
 		// ***************************************************************
-		private void SetComb(HScriptCode sc)
+		private void SetCombCodes(HScriptCode sc)
 		{
 			cmbEvent.Items.Clear();
 			m_Codes = new string[0];
@@ -42,7 +51,7 @@ namespace Hypowered
 			}
 		}
 		// ***************************************************************
-		private void SetComb(HMenuItem mi)
+		private void SetCombCodes(HMenuItem mi)
 		{
 			cmbEvent.Items.Clear();
 			m_Codes = new string[1];
@@ -53,26 +62,26 @@ namespace Hypowered
 		// ***************************************************************
 		public void SetTarget(object? tar)
 		{
-			if(m_EditMode==true) return;
+			if(m_ScriptMode==true) return;
+			if (GlobalMode) return;
 			m_Target = tar;
 			if (m_Target is HControl)
 			{
 				m_HFType = HFType.HControl;
 				m_HCType = ((HControl)m_Target).HCType;
-				SetComb(((HControl)m_Target).ScriptCode);
-
+				SetCombCodes(((HControl)m_Target).ScriptCode);
 			}
 			else if (m_Target is HForm)
 			{
 				m_HFType = HFType.HForm;
 				m_HCType = HCType.None;
-				SetComb(((HForm)m_Target).ScriptCode);
+				SetCombCodes(((HForm)m_Target).ScriptCode);
 			}
 			else if (m_Target is HMenuItem)
 			{
 				m_HFType = HFType.HMenuItem;
 				m_HCType = HCType.None;
-				SetComb(((HMenuItem)m_Target));
+				SetCombCodes(((HMenuItem)m_Target));
 			}
 			else
 			{
@@ -80,57 +89,58 @@ namespace Hypowered
 				m_HCType = HCType.None;
 				m_Target = null;
 			}
-			btnEditStart.Enabled = (m_HFType!=HFType.None);
-			cmbEvent.Enabled = btnEditStart.Enabled;
-			btnEditSave.Enabled = false;
-			btnEditCancel.Enabled = false;
+			btnEditSave.Enabled = (m_Target !=null);
 		}
 		// ***************************************************************
-		private bool m_EditMode = false;
-		public bool EditMode
+		private bool m_ScriptMode = false;
+		public bool ScriptMode
 		{
 			get
 			{ 
-				if(m_Target==null) m_EditMode = false;
+				if(m_Target==null) m_ScriptMode = false;
 
-				return m_EditMode; 
+				return m_ScriptMode; 
 			}
 			set 
 			{
 				if (m_Target != null)
 				{
-					m_EditMode = value;
-					btnEditStart.Enabled = !m_EditMode;
-					btnEditSave.Enabled = m_EditMode;
-					btnEditCancel.Enabled = m_EditMode;
-					cmbEvent.Enabled = true;
+					m_ScriptMode = value;
+					btnEditSave.Enabled = m_ScriptMode;
+					cmbEvent.Enabled = m_ScriptMode;
+
 				}
 				else
 				{
-					m_EditMode = false;
-					btnEditStart.Enabled = false;
+					m_ScriptMode = false;
 					btnEditSave.Enabled = false;
-					btnEditCancel.Enabled = false;
 					cmbEvent.Enabled = false;
 				}
 			}
 		}
-
+		public bool GlobalMode
+		{
+			get { return cbGlobal.Checked; }
+			set
+			{
+				cbGlobal.Checked = value;
+				btnEditSave.Visible = !cbGlobal.Checked;
+				cmbEvent.Visible = !cbGlobal.Checked;
+			}
+		}
 		public ScriptEditor()
 		{
 			InitializeComponent();
-			btnEditSave.Enabled = false;
-			btnEditStart.Name = "btnEditStart";
-			btnEditStart.Text = "Start";
-			btnEditStart.FlatStyle = FlatStyle.Flat;
+			cbGlobal.Name = "cbGlobal";
+			cbGlobal.Text = "Global";
 
 			btnEditSave.Name = "btnEditSave";
 			btnEditSave.Text = "Save";
 			btnEditSave.FlatStyle = FlatStyle.Flat;
 
-			btnEditCancel.Name = "btnEditCancel";
-			btnEditCancel.Text = "Cancel";
-			btnEditCancel.FlatStyle = FlatStyle.Flat;
+			btnFont.Name = "btnFont";
+			btnFont.Text = "Font";
+			btnFont.FlatStyle = FlatStyle.Flat;
 
 
 			btnExecute.Name = "btnExecute";
@@ -139,33 +149,56 @@ namespace Hypowered
 			cmbEvent.DropDownStyle = ComboBoxStyle.DropDownList;
 
 			ChkLayout();
-			this.Controls.Add(btnEditStart);
+			this.Controls.Add(cbGlobal);
+			this.Controls.Add(btnFont);
 			this.Controls.Add(cmbEvent);
 			this.Controls.Add(btnEditSave);
-			this.Controls.Add(btnEditCancel);
 			this.Controls.Add(btnExecute);
 			this.Controls.Add(RoslynEdit);
 			Target = null;
+
+			cbGlobal.CheckedChanged += (sender, e) =>
+			{
+				GlobalMode = cbGlobal.Checked;
+			};
+			btnExecute.Click += (sender, e) =>
+			{
+				ExecuteScript();
+			};
+			btnFont.Click += (sender, e) =>
+			{
+				ShowFontDialog();
+			};
+
+		}
+		private void ExecuteScript()
+		{
+			if (RoslynEdit.Text == "") return;
+			if(MainForm !=null)
+			{
+				MainForm.ExecScript(RoslynEdit.Text);
+			}
 		}
 		private void ChkLayout()
 		{
 			int x = 0;
-			btnEditStart.Size = new Size(50, 23);
-			btnEditStart.Location = new Point(x,0);
-			x += btnEditStart.Width + 2;
+			cbGlobal.Size = new Size(60, 23);
+			cbGlobal.Location = new Point(x, 0);
+			x += cbGlobal.Width + 2;
+
+			btnFont.Size = new Size(50, 23);
+			btnFont.Location = new Point(x, 0);
+			x += btnFont.Width + 6;
+
 
 			cmbEvent.Size = new Size(100, 23);
 			cmbEvent.Location = new Point(x, 0);
 			x += cmbEvent.Width + 2;
 
-
 			btnEditSave.Size = new Size(50, 23);
 			btnEditSave.Location = new Point(x, 0);
 			x += btnEditSave.Width + 6;
 
-			btnEditCancel.Size = new Size(70, 23);
-			btnEditCancel.Location = new Point(x, 0);
-			x += btnEditCancel.Width + 6;
 
 
 			btnExecute.Size = new Size(70, 23);
@@ -178,6 +211,17 @@ namespace Hypowered
 		{
 			ChkLayout();
 			base.OnResize(e);
+		}
+		private void ShowFontDialog()
+		{
+			using(FontDialog dlg = new FontDialog())
+			{
+				dlg.Font = EditorFont;
+				if(dlg.ShowDialog() == DialogResult.OK)
+				{
+					EditorFont = dlg.Font;
+				}
+			}
 		}
 	}
 	
