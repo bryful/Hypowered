@@ -139,5 +139,11 @@ namespace Hypowered
 		public string Code { get; set; } = "";
 		public V8Script? Script { get; set; } = null;
 
+		public void SetCode(string s)
+		{
+			Code = s;
+			Script = null;
+		}
+
 	}
 }

@@ -207,10 +207,17 @@ namespace Hypowered
 				{
 					if (editor == null)
 					{
-						editor = new ScriptEditor();
-						editor.MainForm = this;
-						editor.Location = new Point(splitLeft.Right + 2, splitLeft.Top);
-						this.Controls.Add(editor);
+						using (WaitDialog dlg = new WaitDialog())
+						{
+							dlg.Location = System.Windows.Forms.Cursor.Position;
+							dlg.Show(this);
+							dlg.Refresh();
+							editor = new ScriptEditor();
+							editor.MainForm = this;
+							editor.Location = new Point(splitLeft.Right + 2, splitLeft.Top);
+							this.Controls.Add(editor);
+							dlg.Close();
+						}
 					}
 					this.Width = splitLeft.Width + 2 + m_ScriptWidth;
 				}

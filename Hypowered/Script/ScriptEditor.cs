@@ -12,6 +12,7 @@ namespace Hypowered
 {
 	public partial class ScriptEditor : Control
 	{
+		private int m_SelectedIndexBak = -1;
 		public MainForm? MainForm= null;
 		public object? m_Target = null;
 		public object? Target
@@ -36,17 +37,18 @@ namespace Hypowered
 		}
 
 		// ***************************************************************
-		private string[] m_Codes = new string[0];
+		//private string[] m_Codes = new string[0];
 
 		// ***************************************************************
 		private void SetCombCodes(HScriptCode sc)
 		{
 			cmbEvent.Items.Clear();
-			m_Codes = new string[0];
+			//m_Codes = new string[0];
 			cmbEvent.Items.AddRange(sc.HScriptTypeNames);
 			if(cmbEvent.Items.Count > 0 )
 			{
-				m_Codes = sc.Codes;
+				//m_Codes = sc.Codes;
+				m_SelectedIndexBak = -1;
 				cmbEvent.SelectedIndex = 0;
 			}
 		}
@@ -54,22 +56,55 @@ namespace Hypowered
 		private void SetCombCodes(HMenuItem mi)
 		{
 			cmbEvent.Items.Clear();
-			m_Codes = new string[1];
+			//m_Codes = new string[1];
 			cmbEvent.Items.Add("Menu");
-			m_Codes[0] = mi.ScriptItem.Code;
+			//m_Codes[0] = mi.ScriptItem.Code;
 			cmbEvent.SelectedIndex = 0;
+			m_SelectedIndexBak = 0;
+			RoslynEdit.Text = mi.ScriptItem.Code;
+		}
+		// ***************************************************************
+		private void BackScript()
+		{
+			if (m_ScriptMode == true) return; 
+			if (m_Target == null) return;
+			int idx = cmbEvent.SelectedIndex;
+			if (idx < 0) return;
+			if (m_Target is HControl)
+			{
+				HControl hc = (HControl)m_Target;
+				if ((idx >= 0) && (idx < hc.ScriptCode.Length))
+				{
+					hc.ScriptCode.ScriptItems[idx].SetCode(RoslynEdit.Text);
+				}
+			}
+			else if (m_Target is HForm)
+			{
+				HForm hf = (HForm)m_Target;
+				if ((idx >= 0) && (idx < hf.ScriptCode.Length))
+				{
+					hf.ScriptCode.ScriptItems[idx].SetCode(RoslynEdit.Text);
+				}
+			}
+			else if (m_Target is HMenuItem)
+			{
+				HMenuItem mi = (HMenuItem)m_Target;
+				mi.ScriptItem.SetCode(RoslynEdit.Text);
+			}
 		}
 		// ***************************************************************
 		public void SetTarget(object? tar)
 		{
 			if(m_ScriptMode==true) return;
 			if (GlobalMode) return;
+			BackScript();
 			m_Target = tar;
 			if (m_Target is HControl)
 			{
+				HControl hc = (HControl)m_Target;
 				m_HFType = HFType.HControl;
-				m_HCType = ((HControl)m_Target).HCType;
-				SetCombCodes(((HControl)m_Target).ScriptCode);
+				m_HCType = hc.HCType;
+				SetCombCodes(hc.ScriptCode);
 			}
 			else if (m_Target is HForm)
 			{
@@ -88,6 +123,7 @@ namespace Hypowered
 				m_HFType = HFType.None;
 				m_HCType = HCType.None;
 				m_Target = null;
+				RoslynEdit.Text = "";
 			}
 			btnEditSave.Enabled = (m_Target !=null);
 		}
@@ -108,6 +144,10 @@ namespace Hypowered
 					m_ScriptMode = value;
 					btnEditSave.Enabled = m_ScriptMode;
 					cmbEvent.Enabled = m_ScriptMode;
+					if(m_ScriptMode==false)
+					{
+						BackScript();
+					}
 
 				}
 				else
@@ -169,7 +209,41 @@ namespace Hypowered
 			{
 				ShowFontDialog();
 			};
+			cmbEvent.SelectedIndexChanged += (sender, e) =>
+			{
+				int idx = cmbEvent.SelectedIndex;
+				if (m_Target == null) return;
+				if (m_Target is HMenuItem)
+				{
 
+					HMenuItem mi = ((HMenuItem)m_Target);
+					mi.ScriptItem.SetCode(RoslynEdit.Text);
+				}else if (m_Target is HForm) 
+				{
+					HForm hf = ((HForm)m_Target);
+					if((m_SelectedIndexBak>=0) &&(m_SelectedIndexBak < hf.ScriptCode.Length))
+					{
+						hf.ScriptCode.ScriptItems[m_SelectedIndexBak].SetCode(RoslynEdit.Text);
+					}
+					if((idx>=0)&&(idx< hf.ScriptCode.Length))
+					{
+						RoslynEdit.Text = hf.ScriptCode.ScriptItems[idx].Code;
+					}
+				}
+				else if (m_Target is HControl)
+				{
+					HControl hc = ((HControl)m_Target);
+					if ((m_SelectedIndexBak >= 0) && (m_SelectedIndexBak < hc.ScriptCode.Length))
+					{
+						hc.ScriptCode.ScriptItems[m_SelectedIndexBak].SetCode(RoslynEdit.Text);
+					}
+					if ((idx >= 0) && (idx < hc.ScriptCode.Length))
+					{
+						RoslynEdit.Text = hc.ScriptCode.ScriptItems[idx].Code;
+					}
+				}
+				m_SelectedIndexBak = cmbEvent.SelectedIndex;
+			};
 		}
 		private void ExecuteScript()
 		{

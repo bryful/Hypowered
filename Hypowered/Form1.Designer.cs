@@ -34,6 +34,7 @@
 			// 
 			// scriptEditor1
 			// 
+			scriptEditor1.EditorFont = new Font("Yu Gothic UI", 9F, FontStyle.Regular, GraphicsUnit.Point);
 			scriptEditor1.GlobalMode = false;
 			scriptEditor1.Location = new Point(12, 65);
 			scriptEditor1.Name = "scriptEditor1";
@@ -51,7 +52,7 @@
 			editControl1.Location = new Point(597, 111);
 			editControl1.MainDistance = 90;
 			editControl1.MainForm = null;
-			editControl1.MenuDistance = 280;
+			editControl1.MenuDistance = 224;
 			editControl1.Name = "editControl1";
 			editControl1.Size = new Size(197, 320);
 			editControl1.TabIndex = 2;
