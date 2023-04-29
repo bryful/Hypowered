@@ -6,6 +6,42 @@ using System.Threading.Tasks;
 
 namespace Hypowered
 {
+	public class SelectObjectsChangedArgs : EventArgs
+	{
+		public object?[]? objs;
+		public SelectObjectsChangedArgs(object?[]? idx)
+		{
+			objs = idx;
+		}
+	}
+	public class ControlNameChangedEventArgs : EventArgs
+	{
+		public string Name;
+		public int Index;
+		public ControlNameChangedEventArgs(string n, int index)
+		{
+			Name = n;
+			Index = index;
+		}
+	}
+	public class SelectedChangedEventArgs : EventArgs
+	{
+		public bool Selected;
+		public int Index;
+		public SelectedChangedEventArgs(bool n, int index)
+		{
+			Selected = n;
+			Index = index;
+		}
+	}
+	public class SelectedArrayChangedEventArgs : EventArgs
+	{
+		public bool[] Selecteds = new bool[0];
+		public SelectedArrayChangedEventArgs(bool[] n)
+		{
+			Selecteds = n;
+		}
+	}
 	public class TargetFormChangedArgs : EventArgs
 	{
 		public HForm? HForm = null;
@@ -46,15 +82,9 @@ namespace Hypowered
 		}
 	}
 
-	public class SelectedChangedEventArgs : EventArgs
-	{
-		public bool[] Selecteds = new bool[0];
-		public SelectedChangedEventArgs(bool[] n)
-		{
-			Selecteds = n;
-		}
-	}
+
 	// *********************************************************
+	
 	public class ScriptModeChangedEventArgs : EventArgs
 	{
 		public bool IsScript;
@@ -63,6 +93,7 @@ namespace Hypowered
 			IsScript = v;
 		}
 	}
+	
 	// *********************************************************
 	public class MenuChangedEventArgs : EventArgs
 	{

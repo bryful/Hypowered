@@ -28,53 +28,49 @@
 		/// </summary>
 		private void InitializeComponent()
 		{
-			scriptEditor1 = new ScriptEditor();
-			editControl1 = new EditControl();
+			HScriptCode hScriptCode1 = new HScriptCode();
+			hRadioButton1 = new HRadioButton();
 			SuspendLayout();
 			// 
-			// scriptEditor1
+			// hRadioButton1
 			// 
-			scriptEditor1.EditorFont = new Font("Yu Gothic UI", 9F, FontStyle.Regular, GraphicsUnit.Point);
-			scriptEditor1.GlobalMode = false;
-			scriptEditor1.Location = new Point(12, 65);
-			scriptEditor1.Name = "scriptEditor1";
-			scriptEditor1.ScriptMode = false;
-			scriptEditor1.Size = new Size(524, 515);
-			scriptEditor1.TabIndex = 1;
-			scriptEditor1.Target = null;
-			scriptEditor1.Text = "scriptEditor1";
-			// 
-			// editControl1
-			// 
-			editControl1.BackColor = Color.FromArgb(64, 64, 64);
-			editControl1.ForeColor = Color.FromArgb(220, 220, 220);
-			editControl1.IsScript = false;
-			editControl1.Location = new Point(597, 111);
-			editControl1.MainDistance = 90;
-			editControl1.MainForm = null;
-			editControl1.MenuDistance = 224;
-			editControl1.Name = "editControl1";
-			editControl1.Size = new Size(197, 320);
-			editControl1.TabIndex = 2;
-			editControl1.Text = "editControl1";
+			hRadioButton1.BackColor = Color.FromArgb(64, 64, 64);
+			hRadioButton1.CenterX = 281D;
+			hRadioButton1.CenterY = 261D;
+			hRadioButton1.ColCount = 2;
+			hRadioButton1.ForcusColor = Color.Blue;
+			hRadioButton1.ForeColor = Color.FromArgb(230, 230, 230);
+			hRadioButton1.GridSize = 2;
+			hRadioButton1.Index = 1;
+			hRadioButton1.IsAnti = false;
+			hRadioButton1.IsShowForcus = true;
+			hRadioButton1.Location = new Point(144, 240);
+			hRadioButton1.Name = "hRadioButton1";
+			hRadioButton1.RowCount = 2;
+			hRadioButton1.ScriptCode = hScriptCode1;
+			hRadioButton1.Selected = false;
+			hRadioButton1.SelectedColor = Color.FromArgb(150, 100, 100);
+			hRadioButton1.Size = new Size(274, 42);
+			hRadioButton1.TabIndex = 1;
+			hRadioButton1.Text = "hRadioButton1";
+			hRadioButton1.TextAlign = StringAlignment.Center;
+			hRadioButton1.TextLineAlign = StringAlignment.Center;
 			// 
 			// Form1
 			// 
 			AutoScaleDimensions = new SizeF(7F, 15F);
 			AutoScaleMode = AutoScaleMode.Font;
 			ClientSize = new Size(908, 609);
-			Controls.Add(editControl1);
-			Controls.Add(scriptEditor1);
+			Controls.Add(hRadioButton1);
 			MainMenuVisible = true;
 			Name = "Form1";
-			SelectedArray = (new bool[] { false, false, false });
+			SelectedArray = (new bool[] { false, false });
 			Text = "Form1";
 			ResumeLayout(false);
 		}
 
 		#endregion
 
-		private ScriptEditor scriptEditor1;
-		private EditControl editControl1;
+		private HRadioButton hRadioButton1;
 	}
 }

@@ -20,6 +20,11 @@ namespace Hypowered
 		{
 			mainForm = mf;
 			thisForm = hf;
+			if(mainForm!=null)
+			{
+				mainForm.TargetFormChanged -= (sender, e) => { SetHForm(e.HForm); };
+				mainForm.TargetFormChanged += (sender, e) => { SetHForm(e.HForm); };
+			}
 		}
 		[ScriptUsage(ScriptAccess.None)]
 		public void SetHForm(HForm? hf)
@@ -29,7 +34,7 @@ namespace Hypowered
 		public HRoot()
 		{
 		}
-		public HControl? Item(int idx )
+		public HControl? controls(int idx )
 		{
 			
 			HControl? ret = null;
@@ -45,7 +50,7 @@ namespace Hypowered
 			}
 			return ret;
 		}
-		public int numItems 
+		public int numControls 
 		{ 
 			get 
 			{
@@ -58,11 +63,11 @@ namespace Hypowered
 			} 
 		}
 		private Object? m_Result = null;
-		[Category("Hypowered")]
-		public Object? Result
+		public Object? result
 		{
 			get { return m_Result; }
 		}
+		public void SetResult(object? o) { m_Result = o; }
 		public void alert(object? o)
 		{
 			if (thisForm == null) return;

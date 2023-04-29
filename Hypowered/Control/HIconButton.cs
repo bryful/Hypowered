@@ -246,6 +246,10 @@ namespace Hypowered
 			{
 				m_MDPush = false;
 				this.Invalidate();
+				if (HForm != null)
+				{
+					HForm.Script.ExecuteCode(ScriptCode.Items(HScriptType.Click));
+				}
 			}
 		}
 		protected override void OnMouseDoubleClick(MouseEventArgs e)

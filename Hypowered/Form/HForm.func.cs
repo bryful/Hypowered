@@ -60,6 +60,11 @@ namespace Hypowered
 					hc.Location = pDef;
 					hc.Size = new Size(250, 200);
 					break;
+				case HCType.RadioButton:
+					hc = new HRadioButton();
+					hc.Location = pDef;
+					hc.Size = new Size(250, 200);
+					break;
 				case HCType.Button:
 				default:
 					hc = new HButton();
@@ -68,7 +73,7 @@ namespace Hypowered
 					break;
 			}
 			hc.SetHForm(this);
-			hc.SelectedChanged += (sender, e) => { OnSelectedChanged(new SelectedChangedEventArgs(SelectedArray)); };
+			hc.SelectedArrayChanged += (sender, e) => { OnSelectedArrayChanged(new SelectedArrayChangedEventArgs(SelectedArray)); };
 			hc.ControlNameChanged += (semder, e) =>
 			{
 				Script.InitControls();

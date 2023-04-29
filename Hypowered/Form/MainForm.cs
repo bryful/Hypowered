@@ -228,16 +228,6 @@ namespace Hypowered
 				ControlLayout();
 			}
 		}
-		/*
-		public bool ScriptMode
-		{
-			get { return base.Visible; }
-			set
-			{
-				base.Visible = value;
-			}
-		}
-		*/
 
 
 		#endregion

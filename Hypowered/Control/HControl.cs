@@ -8,21 +8,13 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Drawing.Text;
+using System.Diagnostics;
+
 namespace Hypowered
 {
 	public partial class HControl : Control
 	{
 		#region Event
-		public class SelectedChangedEventArgs : EventArgs
-		{
-			public bool Selected;
-			public int Index;
-			public SelectedChangedEventArgs(bool n, int index)
-			{
-				Selected = n;
-				Index = index;
-			}
-		}
 		public delegate void SelectedChangeHandler(object sender, SelectedChangedEventArgs e);
 		public event SelectedChangeHandler? SelectedChanged;
 		protected virtual void OnSelectedChanged(SelectedChangedEventArgs e)
@@ -32,17 +24,18 @@ namespace Hypowered
 				SelectedChanged(this, e);
 			}
 		}
-
-		public class ControlNameChangedEventArgs : EventArgs
+		
+		public delegate void SelectedArrayChangeHandler(object sender, SelectedArrayChangedEventArgs e);
+		public event SelectedArrayChangeHandler? SelectedArrayChanged;
+		protected virtual void OnSelectedArrayChanged(SelectedArrayChangedEventArgs e)
 		{
-			public string Name;
-			public int Index;
-			public ControlNameChangedEventArgs(string n, int index)
+			if (SelectedArrayChanged != null)
 			{
-				Name = n;
-				Index = index;
+				SelectedArrayChanged(this, e);
 			}
 		}
+
+
 		public delegate void ControlNameChangedHandler(object sender, ControlNameChangedEventArgs e);
 		public event ControlNameChangedHandler? ControlNameChanged;
 		protected virtual void OnControlNameChanged(ControlNameChangedEventArgs e)
@@ -82,7 +75,7 @@ namespace Hypowered
 			}
 		}
 		public HScriptCode ScriptCode { get; set; } = new HScriptCode();
-
+		public string[] Codes { get { return ScriptCode.Codes; } }
 		protected bool m_IsShowForcus = true;
 		/// <summary>
 		/// フォーカスの枠描画をするかしないかのフラグ
@@ -424,6 +417,7 @@ namespace Hypowered
 					m_MDSize = this.Size;
 					m_MDP = this.PointToScreen(new Point(e.X, e.Y));
 					m_MDResize = ((e.X > this.Width - 10) && (e.Y > this.Height - 10));
+					Debug.WriteLine(this.Location.ToString());
 					return;
 				}
 			}
@@ -669,7 +663,8 @@ namespace Hypowered
 		TextBox,
 		PictureBox,
 		IconButton,
-		ListBox
+		ListBox,
+		RadioButton
 	}
 	public enum HFType
 	{

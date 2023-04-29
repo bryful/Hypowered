@@ -40,11 +40,21 @@ namespace Hypowered
 		// ****************
 		public delegate void SelectedChangeHandler(object sender, SelectedChangedEventArgs e);
 		public event SelectedChangeHandler? SelectedChanged;
-		protected virtual void OnSelectedChanged(SelectedChangedEventArgs e)
+		protected virtual void OnSelectedArrayChanged(SelectedChangedEventArgs e)
 		{
 			if (SelectedChanged != null)
 			{
 				SelectedChanged(this, e);
+			}
+		}
+		// ****************
+		public delegate void SelectedArrayChangeHandler(object sender, SelectedArrayChangedEventArgs e);
+		public event SelectedArrayChangeHandler? SelectedArrayChanged;
+		protected virtual void OnSelectedArrayChanged(SelectedArrayChangedEventArgs e)
+		{
+			if (SelectedArrayChanged != null)
+			{
+				SelectedArrayChanged(this, e);
 			}
 		}
 		// ****************
@@ -79,6 +89,7 @@ namespace Hypowered
 		#endregion
 		#region Props
 		public HScript Script { get; set; } = new HScript();
+		public void SetResult(object? o) { Script.Root.SetResult(o); }
 		public HScriptCode ScriptCode { get; set; } = new HScriptCode();
 		public void ExecScript(string s)
 		{
@@ -159,6 +170,7 @@ namespace Hypowered
 		{
 			m_MainForm = mf;
 			Script.SetMainForm(mf, this);
+
 		}
 		// ******************
 		protected bool m_IsEdit = false;
@@ -414,7 +426,7 @@ namespace Hypowered
 			this.StartPosition = FormStartPosition.CenterScreen;
 			this.SuspendLayout();
 			this.Opacity = 0;
-			Script.SetMainForm(null, this);
+			Script.SetMainForm(MainForm, this);
 			ScriptCode.Setup(HScriptType.FormLoad, HScriptType.FormClosed);
 			InitializeComponent();
 			this.StartPosition = FormStartPosition.Manual;
@@ -452,7 +464,9 @@ namespace Hypowered
 		}
 		public void ShowMainMenu()
 		{
-			if (MainForm != null) { MainForm.SetVisible(true); }
+			if (MainForm != null) {
+				MainForm.SetVisible(true); 
+			}
 		}
 		// **********************************************************
 		public void StartSettings()
@@ -506,7 +520,7 @@ namespace Hypowered
 						{
 							SetSelectedAll(true);
 						}
-						OnSelectedChanged(new SelectedChangedEventArgs(SelectedArray));
+						OnSelectedArrayChanged(new SelectedArrayChangedEventArgs(SelectedArray));
 						this.Invalidate();
 					}
 				}

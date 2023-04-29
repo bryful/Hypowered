@@ -138,16 +138,16 @@ namespace Hypowered
 				}
 			}
 		}
-		public void ExecuteCode(ScriptItem si)
+		public void ExecuteCode(ScriptItem? si)
 		{
-			if (engine == null) return;
+			if ((engine == null)||(si==null)) return;
 			try
 			{
 				if(si.Script==null)
 				{
 					si.Script =  engine.Compile(si.Code);
 				}
-				engine.Execute(si.Script);
+				engine.Execute(si.Code);
 			}
 			catch (Exception e)
 			{

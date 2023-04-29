@@ -22,7 +22,7 @@ namespace Hypowered
 			jf.SetValue(nameof(SelectedColor), (Color)SelectedColor);//System.Boolean
 			jf.SetValue(nameof(TargetColor), (Color)TargetColor);//System.Boolean
 			jf.SetValue(nameof(GridSize), (Int32)GridSize);
-
+			jf.SetValue(nameof(ScriptCode), ScriptCode.ToJson());
 			jf.SetValue(nameof(MainMenu), MainMenu.ToJson());
 
 			if (this.Controls.Count > 1)
@@ -75,8 +75,12 @@ namespace Hypowered
 
 			v = jf.ValueObject("MainMenu");
 			if (v != null) MainMenu.FromJson( (JsonObject)v);
-			
 			MainMenu.SetHForm(this);
+
+			v = jf.ValueArray("ScriptCode");
+			if (v != null) ScriptCode.FromJson((JsonArray)v);
+
+
 
 			JsonArray? ja = jf.ValueArray("Controls");
 			if ((ja != null)&&(ja.Count>0))

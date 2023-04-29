@@ -13,6 +13,7 @@ namespace Hypowered
 	public partial class ScriptEditor : Control
 	{
 		private int m_SelectedIndexBak = -1;
+		private object? m_TargetBak = null;
 		public MainForm? MainForm= null;
 		public object? m_Target = null;
 		public object? Target
@@ -24,11 +25,11 @@ namespace Hypowered
 		private HCType m_HCType = HCType.None;
 
 		public RoslynEdit RoslynEdit { get; } =    new RoslynEdit();
-		public CheckBox cbGlobal { get; } = new CheckBox();
+		public CheckBox cbSaved { get; } = new CheckBox();
 		public Button btnExecute { get; } = new Button();
-		public Button btnEditSave { get; } = new Button();
 		public Button btnFont { get; } = new Button();
 		public ComboBox cmbEvent { get; } = new ComboBox();
+		public TextBox tbName { get; } = new TextBox();
 
 		public Font EditorFont
 		{
@@ -43,22 +44,19 @@ namespace Hypowered
 		private void SetCombCodes(HScriptCode sc)
 		{
 			cmbEvent.Items.Clear();
-			//m_Codes = new string[0];
 			cmbEvent.Items.AddRange(sc.HScriptTypeNames);
 			if(cmbEvent.Items.Count > 0 )
 			{
-				//m_Codes = sc.Codes;
 				m_SelectedIndexBak = -1;
 				cmbEvent.SelectedIndex = 0;
+				RoslynEdit.Text = sc.ScriptItems[0].Code;
 			}
 		}
 		// ***************************************************************
 		private void SetCombCodes(HMenuItem mi)
 		{
 			cmbEvent.Items.Clear();
-			//m_Codes = new string[1];
 			cmbEvent.Items.Add("Menu");
-			//m_Codes[0] = mi.ScriptItem.Code;
 			cmbEvent.SelectedIndex = 0;
 			m_SelectedIndexBak = 0;
 			RoslynEdit.Text = mi.ScriptItem.Code;
@@ -66,8 +64,8 @@ namespace Hypowered
 		// ***************************************************************
 		private void BackScript()
 		{
-			if (m_ScriptMode == true) return; 
 			if (m_Target == null) return;
+			if (SavedMode==false) return;
 			int idx = cmbEvent.SelectedIndex;
 			if (idx < 0) return;
 			if (m_Target is HControl)
@@ -95,9 +93,7 @@ namespace Hypowered
 		// ***************************************************************
 		public void SetTarget(object? tar)
 		{
-			if(m_ScriptMode==true) return;
-			if (GlobalMode) return;
-			BackScript();
+			if(SavedMode) BackScript();
 			m_Target = tar;
 			if (m_Target is HControl)
 			{
@@ -105,78 +101,58 @@ namespace Hypowered
 				m_HFType = HFType.HControl;
 				m_HCType = hc.HCType;
 				SetCombCodes(hc.ScriptCode);
+				tbName.Text = hc.Name;
 			}
 			else if (m_Target is HForm)
 			{
+				HForm hf = (HForm)m_Target;
 				m_HFType = HFType.HForm;
 				m_HCType = HCType.None;
-				SetCombCodes(((HForm)m_Target).ScriptCode);
+				SetCombCodes(hf.ScriptCode);
+				tbName.Text = hf.Name;
 			}
 			else if (m_Target is HMenuItem)
 			{
+				HMenuItem mi = (HMenuItem)m_Target;
 				m_HFType = HFType.HMenuItem;
 				m_HCType = HCType.None;
-				SetCombCodes(((HMenuItem)m_Target));
+				SetCombCodes(mi);
+				tbName.Text = mi.Name;
 			}
 			else
 			{
 				m_HFType = HFType.None;
 				m_HCType = HCType.None;
 				m_Target = null;
+				cmbEvent.Items.Clear();
 				RoslynEdit.Text = "";
+				tbName.Text = "";
 			}
-			btnEditSave.Enabled = (m_Target !=null);
 		}
 		// ***************************************************************
-		private bool m_ScriptMode = false;
-		public bool ScriptMode
+		public bool SavedMode
 		{
-			get
-			{ 
-				if(m_Target==null) m_ScriptMode = false;
-
-				return m_ScriptMode; 
-			}
-			set 
-			{
-				if (m_Target != null)
-				{
-					m_ScriptMode = value;
-					btnEditSave.Enabled = m_ScriptMode;
-					cmbEvent.Enabled = m_ScriptMode;
-					if(m_ScriptMode==false)
-					{
-						BackScript();
-					}
-
-				}
-				else
-				{
-					m_ScriptMode = false;
-					btnEditSave.Enabled = false;
-					cmbEvent.Enabled = false;
-				}
-			}
-		}
-		public bool GlobalMode
-		{
-			get { return cbGlobal.Checked; }
+			get { return cbSaved.Checked; }
 			set
 			{
-				cbGlobal.Checked = value;
-				btnEditSave.Visible = !cbGlobal.Checked;
-				cmbEvent.Visible = !cbGlobal.Checked;
+				if (cbSaved.Checked != value)
+				{
+					cbSaved.Checked = value;
+
+				}
 			}
 		}
 		public ScriptEditor()
 		{
 			InitializeComponent();
-			cbGlobal.Name = "cbGlobal";
-			cbGlobal.Text = "Global";
 
-			btnEditSave.Name = "btnEditSave";
-			btnEditSave.Text = "Save";
-			btnEditSave.FlatStyle = FlatStyle.Flat;
+			tbName.Name = "tbName";
+			tbName.Text = "";
+			tbName.ReadOnly = true;
+
+			cbSaved.Name = "cbSaved";
+			cbSaved.Text = "Saved";
+
 
 			btnFont.Name = "btnFont";
 			btnFont.Text = "Font";
@@ -189,17 +165,18 @@ namespace Hypowered
 			cmbEvent.DropDownStyle = ComboBoxStyle.DropDownList;
 
 			ChkLayout();
-			this.Controls.Add(cbGlobal);
+			this.Controls.Add(tbName);
+			this.Controls.Add(cbSaved);
 			this.Controls.Add(btnFont);
 			this.Controls.Add(cmbEvent);
-			this.Controls.Add(btnEditSave);
 			this.Controls.Add(btnExecute);
 			this.Controls.Add(RoslynEdit);
 			Target = null;
+			SavedMode = false;
 
-			cbGlobal.CheckedChanged += (sender, e) =>
+			cbSaved.CheckedChanged += (sender, e) =>
 			{
-				GlobalMode = cbGlobal.Checked;
+				SavedMode = cbSaved.Checked;
 			};
 			btnExecute.Click += (sender, e) =>
 			{
@@ -213,15 +190,15 @@ namespace Hypowered
 			{
 				int idx = cmbEvent.SelectedIndex;
 				if (m_Target == null) return;
-				if (m_Target is HMenuItem)
+				if ((SavedMode) && (m_Target is HMenuItem))
 				{
+					//HMenuItem mi = ((HMenuItem)m_Target);
+					//mi.ScriptItem.SetCode(RoslynEdit.Text);
 
-					HMenuItem mi = ((HMenuItem)m_Target);
-					mi.ScriptItem.SetCode(RoslynEdit.Text);
 				}else if (m_Target is HForm) 
 				{
 					HForm hf = ((HForm)m_Target);
-					if((m_SelectedIndexBak>=0) &&(m_SelectedIndexBak < hf.ScriptCode.Length))
+					if((SavedMode)&&(m_SelectedIndexBak>=0) &&(m_SelectedIndexBak < hf.ScriptCode.Length))
 					{
 						hf.ScriptCode.ScriptItems[m_SelectedIndexBak].SetCode(RoslynEdit.Text);
 					}
@@ -233,7 +210,7 @@ namespace Hypowered
 				else if (m_Target is HControl)
 				{
 					HControl hc = ((HControl)m_Target);
-					if ((m_SelectedIndexBak >= 0) && (m_SelectedIndexBak < hc.ScriptCode.Length))
+					if ((SavedMode) && (m_SelectedIndexBak >= 0) && (m_SelectedIndexBak < hc.ScriptCode.Length))
 					{
 						hc.ScriptCode.ScriptItems[m_SelectedIndexBak].SetCode(RoslynEdit.Text);
 					}
@@ -256,22 +233,22 @@ namespace Hypowered
 		private void ChkLayout()
 		{
 			int x = 0;
-			cbGlobal.Size = new Size(60, 23);
-			cbGlobal.Location = new Point(x, 0);
-			x += cbGlobal.Width + 2;
-
-			btnFont.Size = new Size(50, 23);
-			btnFont.Location = new Point(x, 0);
-			x += btnFont.Width + 6;
-
+			tbName.Size = new Size(100, 23);
+			tbName.Location = new Point(x, 0);
+			x += tbName.Width + 2;
 
 			cmbEvent.Size = new Size(100, 23);
 			cmbEvent.Location = new Point(x, 0);
 			x += cmbEvent.Width + 2;
 
-			btnEditSave.Size = new Size(50, 23);
-			btnEditSave.Location = new Point(x, 0);
-			x += btnEditSave.Width + 6;
+			cbSaved.Size = new Size(60, 23);
+			cbSaved.Location = new Point(x, 0);
+			x += cbSaved.Width + 2;
+
+			btnFont.Size = new Size(50, 23);
+			btnFont.Location = new Point(x, 0);
+			x += btnFont.Width + 6;
+
 
 
 

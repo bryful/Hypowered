@@ -152,6 +152,8 @@ namespace Hypowered
 		public void Add(string s, bool IsSel=false)
 		{
 			m_Items.Add(new HListBoxItem(s,IsSel));
+			ChkSize();
+			this.Invalidate();
 		}
 		// ***********************************************
 		public void AddRange(string [] sa, bool IsSel = false)
@@ -166,6 +168,8 @@ namespace Hypowered
 					}
 				}
 			}
+			ChkSize();
+			this.Invalidate();
 		}
 		// ***********************************************
 		public void RemoveAt(int idx)
@@ -290,6 +294,7 @@ namespace Hypowered
 				int idx = (e.Y + m_DispY-2) / m_ListHeight;
 				if((idx>=0)&&(idx<m_Items.Count))
 				{
+					bool b = (m_SelectedIndex != idx);
 					m_SelectedIndex = idx;
 					if ((Control.ModifierKeys & Keys.Control) != Keys.Control)
 					{
@@ -299,9 +304,18 @@ namespace Hypowered
 						}
 					}
 					m_Items[idx].Selected = true;
+					this.Invalidate();
+
+					if(b)
+					{
+						if (HForm != null)
+						{
+							HForm.SetResult(m_SelectedIndex);
+							HForm.Script.ExecuteCode(ScriptCode.Items(HScriptType.SelectedIndexChanged));
+						}
+					}
 
 				}
-				this.Invalidate();
 			}
 		}
 		// ****************************************************************************
@@ -316,6 +330,21 @@ namespace Hypowered
 			else
 			{
 				base.OnMouseWheel(e);
+			}
+		}
+		protected override void OnDoubleClick(EventArgs e)
+		{
+			if (m_IsEdit == true)
+			{
+				base.OnDoubleClick(e);
+			}
+			else
+			{
+				if (HForm != null)
+				{
+					HForm.SetResult(m_SelectedIndex);
+					HForm.Script.ExecuteCode(ScriptCode.Items(HScriptType.DoubleClick));
+				}
 			}
 		}
 		// ****************************************************************************

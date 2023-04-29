@@ -52,7 +52,7 @@ namespace Hypowered
 			}
 		}
 		// ******************************************************
-
+		
 		public delegate void ScriptModeChangedHandler(object sender, ScriptModeChangedEventArgs e);
 		public event ScriptModeChangedHandler? ScriptModeChanged;
 		protected virtual void OnScriptMode(ScriptModeChangedEventArgs e)
@@ -62,6 +62,7 @@ namespace Hypowered
 				ScriptModeChanged(this, e);
 			}
 		}
+		
 		// ******************************************************
 		protected Bitmap[] FormActionIcon = new Bitmap[7];
 		protected Bitmap[] EditModeIcon = new Bitmap[2];

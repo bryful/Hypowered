@@ -16,5 +16,10 @@ namespace Hypowered
 		{
 			InitializeComponent();
 		}
+
+		private void hRadioButtonItem1_Click(object sender, EventArgs e)
+		{
+
+		}
 	}
 }

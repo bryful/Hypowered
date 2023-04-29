@@ -228,12 +228,5 @@ namespace Hypowered
 		}
 	}
 	
-	public class SelectObjectsChangedArgs : EventArgs
-	{
-		public object?[]? objs;
-		public SelectObjectsChangedArgs(object?[]? idx)
-		{
-			objs = idx;
-		}
-	}
+
 }

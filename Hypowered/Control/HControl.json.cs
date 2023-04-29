@@ -57,6 +57,8 @@ namespace Hypowered
 			jf.SetValue(nameof(TabStop), (Boolean)TabStop);//System.Boolean
 			jf.SetValue(nameof(UseWaitCursor), (Boolean)UseWaitCursor);//System.Boolean
 			jf.SetValue(nameof(ImeMode), (int)ImeMode);//System.Windows.Forms.ImeMode
+
+			jf.SetValue("ScriptCode", ScriptCode.ToJson());
 			return jf.Obj;
 		}
 		public virtual void FromJson(JsonObject jo)
@@ -138,6 +140,11 @@ namespace Hypowered
 			if (v != null) UseWaitCursor = (Boolean)v;
 			v = jf.ValueAuto("ImeMode", typeof(int).Name);
 			if (v != null) ImeMode = (ImeMode)v;
+			v = jf.ValueArray("ScriptCode");
+			if (v is JsonArray)
+			{
+				ScriptCode.FromJson((JsonArray?)v);
+			}
 		}
 	}
 }

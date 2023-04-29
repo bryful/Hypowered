@@ -548,7 +548,15 @@ namespace Hypowered
 			{
 				if (IsRoot) return;
 				if (HForm == null) return;
-				if(MenuExec == MenuExec.Close)
+				if (ScriptItem.Code != "")
+				{
+					if (HForm != null) HForm.Script.ExecuteCode(ScriptItem);
+				}
+				else if (FuncType != null)
+				{
+					FuncType();
+				}
+				else if (MenuExec == MenuExec.Close)
 				{
 					if (HForm != null)
 					{
@@ -563,14 +571,7 @@ namespace Hypowered
 						return;
 					}
 				}
-				if (ScriptItem.Code != "")
-				{
-					if (HForm != null)  HForm.Script.ExecuteCode(ScriptItem);
-				}
-				else if (FuncType != null)
-				{
-					FuncType();
-				}
+				
 			};
 		}
 		// ********************************************************************

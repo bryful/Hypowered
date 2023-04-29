@@ -61,8 +61,8 @@ namespace Hypowered
 			{
 				m_HForm.ControlChanged -= (seder, e) => { Scan(); };
 				m_HForm.ControlChanged += (seder, e) => { Scan(); };
-				m_HForm.SelectedChanged -= (seder, e) => { SetSelectArray(e.Selecteds); };
-				m_HForm.SelectedChanged += (seder, e) => { SetSelectArray(e.Selecteds); };
+				m_HForm.SelectedArrayChanged -= (seder, e) => { SetSelectArray(e.Selecteds); };
+				m_HForm.SelectedArrayChanged += (seder, e) => { SetSelectArray(e.Selecteds); };
 				m_HForm.ControlNameChanged -= HForm_ControlNameChanged;
 				m_HForm.ControlNameChanged += HForm_ControlNameChanged;
 			}
