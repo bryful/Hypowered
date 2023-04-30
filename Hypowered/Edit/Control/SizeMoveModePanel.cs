@@ -20,9 +20,9 @@ namespace Hypowered
 
 	public partial class SizeMoveModePanel : Control
 	{
-		public delegate void ModeChangedHandler(object sender, ModeChangedEventArgs e);
+		public delegate void ModeChangedHandler(object sender, SModeChangedEventArgs e);
 		public event ModeChangedHandler? ModeChanged;
-		protected virtual void OnModeChanged(ModeChangedEventArgs e)
+		protected virtual void OnModeChanged(SModeChangedEventArgs e)
 		{
 			if (ModeChanged != null)
 			{
@@ -39,7 +39,7 @@ namespace Hypowered
 				bool b = (m_SizeMoveMode != value);
 				m_SizeMoveMode = value;
 				this.Invalidate(); 
-				if(b) OnModeChanged(new ModeChangedEventArgs(m_SizeMoveMode));
+				if(b) OnModeChanged(new SModeChangedEventArgs(m_SizeMoveMode));
 			}
 		}
 
@@ -115,7 +115,7 @@ namespace Hypowered
 					{
 						m_SizeMoveMode = (SizeMoveMode)md;
 						this.Invalidate();
-						OnModeChanged(new ModeChangedEventArgs(m_SizeMoveMode));
+						OnModeChanged(new SModeChangedEventArgs(m_SizeMoveMode));
 						return;
 					}
 
@@ -124,10 +124,10 @@ namespace Hypowered
 			base.OnMouseDown(e);
 		}
 	}
-	public class ModeChangedEventArgs : EventArgs
+	public class SModeChangedEventArgs : EventArgs
 	{
 		public SizeMoveMode Mode;
-		public ModeChangedEventArgs(SizeMoveMode v)
+		public SModeChangedEventArgs(SizeMoveMode v)
 		{
 			Mode = v;
 		}

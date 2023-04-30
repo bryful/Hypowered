@@ -274,7 +274,8 @@ namespace Hypowered
 			{
 				dlg.SetMainForm(this);
 				dlg.AtSubMenu = true;
-				dlg.RooMenuIndex = editControl1.SelectedRootIndex;
+				// ToDO : MM
+				//dlg.RooMenuIndex = editControl1.SelectedRootIndex;
 				dlg.TopMost = this.TopMost;
 				if (dlg.ShowDialog() == DialogResult.OK)
 				{

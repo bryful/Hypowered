@@ -52,8 +52,8 @@
 			toolStripMenuItem3 = new ToolStripSeparator();
 			editControlMenu = new ToolStripMenuItem();
 			scriptControlMenu = new ToolStripMenuItem();
-			editControl1 = new EditControl();
 			splitLeft = new SplitContainer();
+			editHypowerd1 = new EditHypowerd();
 			menuStrip1.SuspendLayout();
 			((System.ComponentModel.ISupportInitialize)splitLeft).BeginInit();
 			splitLeft.Panel1.SuspendLayout();
@@ -75,7 +75,7 @@
 			propertyGrid1.Name = "propertyGrid1";
 			propertyGrid1.SelectedItemWithFocusBackColor = SystemColors.ActiveBorder;
 			propertyGrid1.SelectedObject = this;
-			propertyGrid1.Size = new Size(274, 553);
+			propertyGrid1.Size = new Size(300, 553);
 			propertyGrid1.TabIndex = 1;
 			propertyGrid1.ViewBackColor = Color.FromArgb(32, 32, 32);
 			propertyGrid1.ViewBorderColor = Color.FromArgb(150, 150, 150);
@@ -221,21 +221,6 @@
 			scriptControlMenu.Size = new Size(152, 22);
 			scriptControlMenu.Text = "ScriptControl";
 			// 
-			// editControl1
-			// 
-			editControl1.BackColor = Color.FromArgb(64, 64, 64);
-			editControl1.Dock = DockStyle.Fill;
-			editControl1.ForeColor = Color.FromArgb(230, 230, 231);
-			editControl1.IsScript = false;
-			editControl1.Location = new Point(0, 0);
-			editControl1.MainDistance = 105;
-			editControl1.MainForm = null;
-			editControl1.MenuDistance = 450;
-			editControl1.Name = "editControl1";
-			editControl1.Size = new Size(157, 553);
-			editControl1.TabIndex = 6;
-			editControl1.Text = "editControl1";
-			// 
 			// splitLeft
 			// 
 			splitLeft.Location = new Point(12, 47);
@@ -243,21 +228,33 @@
 			// 
 			// splitLeft.Panel1
 			// 
-			splitLeft.Panel1.Controls.Add(editControl1);
+			splitLeft.Panel1.Controls.Add(editHypowerd1);
 			// 
 			// splitLeft.Panel2
 			// 
 			splitLeft.Panel2.Controls.Add(propertyGrid1);
-			splitLeft.Size = new Size(435, 553);
-			splitLeft.SplitterDistance = 157;
+			splitLeft.Size = new Size(475, 553);
+			splitLeft.SplitterDistance = 171;
 			splitLeft.TabIndex = 0;
+			// 
+			// editHypowerd1
+			// 
+			editHypowerd1.BackColor = Color.FromArgb(64, 64, 64);
+			editHypowerd1.Dock = DockStyle.Fill;
+			editHypowerd1.ForeColor = Color.FromArgb(230, 230, 230);
+			editHypowerd1.Location = new Point(0, 0);
+			editHypowerd1.MainForm = null;
+			editHypowerd1.Name = "editHypowerd1";
+			editHypowerd1.Size = new Size(171, 553);
+			editHypowerd1.TabIndex = 2;
+			editHypowerd1.Text = "editHypowerd1";
 			// 
 			// MainForm
 			// 
 			AllowDrop = true;
 			AutoScaleMode = AutoScaleMode.None;
 			BackColor = Color.FromArgb(64, 64, 64);
-			ClientSize = new Size(455, 601);
+			ClientSize = new Size(491, 601);
 			CloseAction = CloseAction.Hide;
 			Controls.Add(splitLeft);
 			Controls.Add(menuStrip1);
@@ -281,7 +278,6 @@
 		private ToolStripMenuItem controlMenu;
 		private ToolStripMenuItem newFormMenu;
 		private ToolStripMenuItem quitMenu;
-		private EditControl editControl1;
 		private ToolStripMenuItem openFormMenu;
 		private ToolStripMenuItem renameFormMenu;
 		private ToolStripMenuItem dupulicateFormToolStripMenuItem;
@@ -301,5 +297,6 @@
 		private ToolStripSeparator toolStripMenuItem4;
 		private ToolStripSeparator toolStripMenuItem5;
 		private SplitContainer splitLeft;
+		private EditHypowerd editHypowerd1;
 	}
 }

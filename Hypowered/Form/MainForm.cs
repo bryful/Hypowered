@@ -178,8 +178,8 @@ namespace Hypowered
 		public int ScriptWidth
 		{
 			get { return m_ScriptWidth; }
-			set 
-			{ 
+			set
+			{
 				m_ScriptWidth = value;
 				if (m_ScriptWidth < 200) m_ScriptWidth = 200;
 			}
@@ -277,6 +277,7 @@ namespace Hypowered
 					HForms[i].Index = i;
 				}
 			}
+			//hTreeView1.MainForm = this;
 		}
 
 		// ********************************************************************
@@ -324,12 +325,14 @@ namespace Hypowered
 				ControlStyles.ResizeRedraw,
 				true);
 			this.UpdateStyles();
-			
 
+			// ToDO ;mm
+			/*
 			editControl1.SelectObjectsChanged += (sender, e) =>
 			{
 				ToPropertyGrid(e.objs);
 			};
+			*/
 
 			this.FormClosed += (sender, e) => { LastSettings(); };
 			StartSettings();
@@ -350,7 +353,8 @@ namespace Hypowered
 				}
 			}
 			ItemsLib.Beep();
-			editControl1.MainForm = this;
+			//editControl1.MainForm = this;
+			editHypowerd1.MainForm = this;
 			ControlLayout();
 			//PUtil.ToJsonCodeToClipboard(typeof(HMainMenu));
 			//PUtil.PropListToClipboard(typeof(EditTextBox),"Edit");
@@ -365,10 +369,12 @@ namespace Hypowered
 
 			obj = pf.JsonFile.ValueInt("Left_SplitterDistance");
 			if (obj != null) splitLeft.SplitterDistance = (int)obj;
+			/*
 			obj = pf.JsonFile.ValueInt("MainDistance");
 			if (obj != null) editControl1.MainDistance = (int)obj;
 			obj = pf.JsonFile.ValueInt("MenuDistance");
 			if (obj != null) editControl1.MenuDistance = (int)obj;
+			*/
 			obj = pf.JsonFile.ValueInt("ScriptWidth");
 			if (obj != null) m_ScriptWidth = (int)obj;
 
@@ -383,8 +389,8 @@ namespace Hypowered
 			if (IsScript) IsScript = false;
 			pf.SetBounds();
 			pf.JsonFile.SetValue("Left_SplitterDistance", splitLeft.SplitterDistance);
-			pf.JsonFile.SetValue("MainDistance", editControl1.MainDistance);
-			pf.JsonFile.SetValue("MenuDistance", editControl1.MenuDistance);
+			//pf.JsonFile.SetValue("MainDistance", editControl1.MainDistance);
+			//pf.JsonFile.SetValue("MenuDistance", editControl1.MenuDistance);
 			pf.JsonFile.SetValue("AddFormCount", m_AddFormCount);
 			pf.JsonFile.SetValue("ScriptWidth", m_ScriptWidth);
 			pf.Save();
@@ -411,7 +417,7 @@ namespace Hypowered
 			{
 				propertyGrid1.SelectedObjects = objs;
 			}
-			if(editor!=null)
+			if (editor != null)
 			{
 				if ((objs == null) || (objs.Length <= 0))
 				{

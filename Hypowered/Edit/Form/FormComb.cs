@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Hypowered
 {
-	public class FormComb :ToolStripComboBox
+	public class FormComb :ComboBox
 	{
 		private MainForm? m_MainForm = null;
 		public MainForm? MainForm

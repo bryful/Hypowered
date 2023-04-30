@@ -95,7 +95,7 @@ namespace Hypowered
 		{
 			get { return m_IsEdit; }
 		}
-		public void SetIsEdit(bool b) 
+		public virtual void SetIsEdit(bool b) 
 		{
 			m_IsEdit = b; 
 			if(m_IsEdit == false)
