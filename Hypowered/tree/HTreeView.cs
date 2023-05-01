@@ -12,37 +12,133 @@ namespace Hypowered
 {
 	public class HTreeView : TreeView
 	{
-		private HForm? m_Form=null;
+		bool _EventFlag = false;
+		public object?[]? SelectObjects = null;
+		// ****************************************
+		public delegate void SelectObjectsChangedHandler(object sender, SelectObjectsChangedArgs e);
+		public event SelectObjectsChangedHandler? SelectObjectsChanged;
+		protected virtual void OnSelectObjectsChanged(SelectObjectsChangedArgs e)
+		{
+			if (_EventFlag) return;
+			if (SelectObjectsChanged != null)
+			{
+				SelectObjectsChanged(this, e);
+			}
+		}
+		// ****************************************
+		public delegate void TargetChangedHandler(object sender, TargetControlChangedArgs e);
+		public event TargetChangedHandler? TargetControlChanged;
+		protected virtual void OnTargetControlChanged(TargetControlChangedArgs e)
+		{
+			if (_EventFlag) return;
+			if (TargetControlChanged != null)
+			{
+				TargetControlChanged(this, e);
+			}
+		}
+		// ****************************************************************
+		private HForm? m_Form = null;
 		public HForm? Form
 		{
 			get { return m_Form; }
 			set
 			{
-				m_Form=value;
+				m_Form = value;
 				ChkForm();
 			}
 		}
+		public HControl? TargetControl
+		{
+			get
+			{
+				HControl? ret = null;
+				if((this.SelectedNode != null)&&(this.SelectedNode is HTreeNode))
+				{
+					HTreeNode tn = (HTreeNode)this.SelectedNode;
+					ret = tn.Control;
+				}
+				return ret;	
+			}
+			set
+			{
+				if (this.SelectedNode != null)
+				{
+					HTreeNode tn = (HTreeNode)this.SelectedNode;
+					if (tn.Control == value)
+					{
+						return;
+					}
+				}
+				if(value != null)
+				{
 
+					if(m_FormNode!=null)
+						this.SelectedNode = m_FormNode.Nodes[value.Index];
+				}
+				else
+				{
+					this.SelectedNode = null;
+				}
+			}
+		}
+		private HTreeNode? m_FormNode = null;
 		public HTreeView()
 		{
 			base.CheckBoxes = true;
 			base.BackColor = Color.FromArgb(64, 64, 64);
 			base.ForeColor = Color.FromArgb(230, 230, 230);
 		}
+
+
+		private void RescanControl()
+		{
+			if (m_FormNode != null)
+			{
+				m_FormNode.RescanControls();
+				this.CollapseAll();
+			}
+
+		}
+		private void RescanMainMenu()
+		{
+			if (m_FormNode != null)
+			{
+				m_FormNode.RescanMainMenu();
+				this.CollapseAll();
+			}
+
+		}
 		private void ChkForm()
 		{
-			if(m_Form!=null)
+			if (m_Form != null)
 			{
 				AddForm(m_Form);
+			}
+		}
+
+		private void AddForm(HForm hf)
+		{
+			this.Nodes.Clear();
+			m_FormNode = null;
+			m_Form = hf;
+			if (m_Form!=null)
+			{
+				HTreeNode tn = new HTreeNode();
+				tn.SetObject(hf);
+				tn.AddMainMenu(hf.MainMenu);
+				tn.AddControls(hf);
+				this.Nodes.Add(tn);
+
 				m_Form.TargetControlChanged -= M_Form_TargetControlChanged;
 				m_Form.TargetControlChanged += M_Form_TargetControlChanged;
 				m_Form.ControlChanged -= M_Form_ControlChanged;
 				m_Form.ControlChanged += M_Form_ControlChanged;
 				m_Form.ControlNameChanged -= M_Form_ControlNameChanged;
 				m_Form.ControlNameChanged += M_Form_ControlNameChanged;
+				m_FormNode = tn;
+				this.CollapseAll();
 			}
 		}
-
 		private void M_Form_ControlNameChanged(object sender, ControlChangedEventArgs e)
 		{
 			this.Nodes[e.CtrlIndex].Text = e.Name;
@@ -50,24 +146,14 @@ namespace Hypowered
 
 		private void M_Form_ControlChanged(object sender, EventArgs e)
 		{
-			ChkForm();
+			RescanControl();
 		}
 
 		private void M_Form_TargetControlChanged(object sender, TargetControlChangedArgs e)
 		{
-			if (e.HControl != null)
-			{
-				this.SelectedNode = this.Nodes[e.HControl.Index];
-			}
+			TargetControl = e.HControl;
 		}
-
-		private void AddForm(HForm hf)
-		{
-			this.Nodes.Clear();
-			m_Form = hf;
-			AddMainMenu(hf);
-			AddControls(hf);
-		}
+		/*
 		public void AddMainMenu(HForm hf)
 		{
 			HTreeNode tn = new HTreeNode();
@@ -87,6 +173,8 @@ namespace Hypowered
 			}
 			this.Nodes.Add(tn);
 		}
+		*/
+	/*
 		public void AddControls(HForm hf)
 		{
 			if (hf.Controls.Count > 0)
@@ -102,37 +190,157 @@ namespace Hypowered
 				}
 
 			}
+		}*/
+		// ***********************************************************************
+		private object?[]? GetChecked()
+		{
+			List<object?> list = new List<object?>();
+			if(this.Nodes.Count > 0)
+			{
+				foreach (var node in this.Nodes)
+				{
+					if (node is HTreeNode)
+					{
+						HTreeNode tn = (HTreeNode)node;
+						if (tn.Checked==true)
+						{
+							list.Add(tn.TObject);
+						}
+						list.AddRange(GetChecked(tn));
+					}
+				}
+			}
+			if((this.SelectedNode!=null))
+			{
+				bool b =false;
+				HTreeNode nt = (HTreeNode)this.SelectedNode;
+				if (list.Count > 0)
+				{
+					foreach (var node in list)
+					{
+						if (node == nt.TObject) b = true;
+					}
+				}
+				if(b==false) list.Add(nt.TObject);
+			}
+			return list.ToArray();
 		}
+		private List<object?> GetChecked(HTreeNode tn)
+		{
+			List<object?> list = new List<object?>();
+			if (tn.Nodes.Count > 0)
+			{
+				foreach (var node in tn.Nodes)
+				{
+					if (node is HTreeNode)
+					{
+						HTreeNode tn2 = (HTreeNode)node;
+						if (tn2.Checked == true)
+						{
+							list.Add(tn2.TObject);
+						}
+						list.AddRange(GetChecked(tn2));
+					}
+				}
+			}
+			return list;
+		}
+		// ***********************************************************************
+		private void SetChecked(bool b)
+		{
+			if (this.Nodes.Count > 0)
+			{
+				foreach (TreeNode node in this.Nodes)
+				{
+					node.Checked = b;
+					SetChecked(node, b);
+				}
+			}
+		}
+		private void SetChecked(TreeNode tn,bool b)
+		{
+			if (tn.Nodes.Count > 0)
+			{
+				foreach (TreeNode node in tn.Nodes)
+				{
+					node.Checked = b;
+					SetChecked(node, b);
+				}
+			}
+		}
+		// ***********************************************************************
 		protected override void OnAfterCheck(TreeViewEventArgs e)
 		{
+			if (_EventFlag) return;
 			if (e.Node is HTreeNode)
 			{
+				_EventFlag = true;
 				HTreeNode tn = (HTreeNode)e.Node;
-				if((tn.NodeType!= NodeType.Control)) 
+				if ((Control.ModifierKeys & Keys.Shift) == Keys.Shift)
 				{
-					if (tn.Checked == true)
+					this.SelectedNode = e.Node;
+					SelectObjects = GetChecked();
+					if ((tn.NodeType == NodeType.Control) && (tn.Control != null))
 					{
-						tn.Checked = false;
-						return;
+						tn.Control.Selected = e.Node.Checked;
 					}
 				}
+				else
+				{
+					SetChecked(false);
+					this.SelectedNode = e.Node;
+					SelectObjects = new object?[] { tn.TObject };
+					m_Form.SetSelectedAll(false);
+					if ((tn.NodeType == NodeType.Control) && (tn.Control != null))
+					{
+						tn.Control.Selected = tn.Checked;
+					}
+				}
+				_EventFlag = false;
+				if (tn.Control != null)
+				{
+					OnTargetControlChanged(new TargetControlChangedArgs(tn.Control));
+				}
+				OnSelectObjectsChanged(new SelectObjectsChangedArgs(SelectObjects));
 			}
-			base.OnAfterCheck(e);
 		}
+		// ***********************************************************************
 		protected override void OnAfterSelect(TreeViewEventArgs e)
 		{
-			if (e.Node is HTreeNode)
+			if (_EventFlag) return;
+			if(e.Node is HTreeNode)
 			{
+				_EventFlag = true;
 				HTreeNode tn = (HTreeNode)e.Node;
-				if ((tn.NodeType != NodeType.Control))
+				if ( (Control.ModifierKeys& Keys.Shift)==Keys.Shift)
 				{
-					if (tn.Checked == true)
+					tn.Checked = ! tn.Checked;
+					SelectObjects = GetChecked();
+					if ((tn.NodeType == NodeType.Control)&&(tn.Control!=null))
 					{
-						tn.Checked = false;
+						tn.Control.Selected = tn.Checked;
+					}
+
+				}
+				else
+				{
+					SetChecked(false);
+					tn.Checked = true;
+					SelectObjects = new object?[] { tn.TObject };
+					m_Form.SetSelectedAll(false);
+					if ((tn.NodeType == NodeType.Control) && (tn.Control != null))
+					{
+						tn.Control.Selected = tn.Checked;
 					}
 				}
+
+				_EventFlag = false;
+				if (tn.Control!=null)
+				{
+					OnTargetControlChanged(new TargetControlChangedArgs(tn.Control));
+				}
+				OnSelectObjectsChanged(new SelectObjectsChangedArgs(SelectObjects));
 			}
-			base.OnAfterSelect(e);
 		}
 	}
 }

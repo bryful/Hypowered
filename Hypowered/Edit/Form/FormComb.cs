@@ -23,13 +23,41 @@ namespace Hypowered
 					{
 						if (m_MainForm.TargetForm != null)
 						{
-							if (this.SelectedIndex != m_MainForm.TargetForm.Index)
+							if ((this.SelectedIndex != m_MainForm.TargetForm.Index)
+							&&(m_MainForm.TargetForm.Index<this.Items.Count))
 							{
 								this.SelectedIndex = m_MainForm.TargetForm.Index;
 							}
 
 						}
 					};
+				}
+			}
+		}
+		public HForm? TargetForm
+		{
+			get
+			{
+				HForm? ret = null;
+				if((m_MainForm!=null)&&(this.SelectedIndex>=0))
+				{
+					ret = m_MainForm.HForms[this.SelectedIndex];
+				}
+				return ret;
+			}
+			set
+			{
+				if (m_MainForm == null) return;
+				if(value==null)
+				{
+					this.SelectedIndex = -1;
+				}
+				else
+				{
+					if(value.Index!= this.SelectedIndex)
+					{
+						this.SelectedIndex = value.Index;
+					}
 				}
 			}
 		}
@@ -60,6 +88,17 @@ namespace Hypowered
 				}
 
 			}
+		}
+		protected override void OnSelectedIndexChanged(EventArgs e)
+		{
+			if(m_MainForm != null)
+			{
+				if(m_MainForm.TargetFormIndex != this.SelectedIndex)
+				{
+					m_MainForm.TargetFormIndex = this.SelectedIndex;
+				}
+			}
+			//base.OnSelectedIndexChanged(e);
 		}
 	}
 }

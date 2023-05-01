@@ -142,7 +142,6 @@ namespace Hypowered
 				m_TargetForm.TargetControlChanged += (sender, e) => { OnTargetControlChanged(e); };
 				m_TargetForm.IsEditChanged += (sender, e) => { IsEditoPropertyGrid(); };
 
-
 				this.Text = $"Hypowered [{m_TargetForm.Name}]";
 				m_TargetForm.Activate();
 			}
@@ -170,7 +169,22 @@ namespace Hypowered
 		}
 
 		private HControl? m_TargetControl = null;
-		public HControl? TargetControl { get { return m_TargetControl; } }
+		public HControl? TargetControl 
+		{ 
+			get { return m_TargetControl; } 
+			set
+			{
+				if(m_TargetForm!=null)
+				{
+					m_TargetForm.TargetControl = value;
+					m_TargetControl = m_TargetForm.TargetControl;
+				}
+				else
+				{
+					m_TargetControl = null;
+				}
+			}
+		}
 		// *************************************************************
 		public ScriptEditor? editor = null;
 		protected bool m_IsScript = false;
@@ -326,14 +340,17 @@ namespace Hypowered
 				true);
 			this.UpdateStyles();
 
-			// ToDO ;mm
-			/*
-			editControl1.SelectObjectsChanged += (sender, e) =>
+			editHypowerd1.SelectObjectsChanged += (sender, e) =>
 			{
 				ToPropertyGrid(e.objs);
 			};
-			*/
-
+			editHypowerd1.TargetControlChanged += (sender, e) =>
+			{
+				if (TargetForm != null)
+				{
+					TargetForm.TargetControl = e.HControl;
+				}
+			};
 			this.FormClosed += (sender, e) => { LastSettings(); };
 			StartSettings();
 			ControlLayout();

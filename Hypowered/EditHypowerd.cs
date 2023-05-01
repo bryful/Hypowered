@@ -8,7 +8,31 @@ namespace Hypowered
 {
 	public class EditHypowerd : Control
 	{
+		#region Event
+		// ****************************************
+		public delegate void SelectObjectsChangedHandler(object sender, SelectObjectsChangedArgs e);
+		public event SelectObjectsChangedHandler? SelectObjectsChanged;
+		protected virtual void OnSelectObjectsChanged(SelectObjectsChangedArgs e)
+		{
+			if (SelectObjectsChanged != null)
+			{
+				SelectObjectsChanged(this, e);
+			}
+		}
+		// ****************************************
+		public delegate void TargetontrolChangedHandler(object sender, TargetControlChangedArgs e);
+		public event TargetontrolChangedHandler? TargetControlChanged;
+		protected virtual void OnTargetControlChanged(TargetControlChangedArgs e)
+		{
+			if (TargetControlChanged != null)
+			{
+				TargetControlChanged(this, e);
+			}
+		}
+		#endregion
+		// ****************************************
 		private MainForm? m_MainForm = null;
+
 		public MainForm? MainForm
 		{
 			get { return m_MainForm; }
@@ -19,22 +43,80 @@ namespace Hypowered
 		}
 		public void SetMainForm(MainForm? mf)
 		{
+			bool b = (m_MainForm != mf);
 			m_MainForm = mf;
 			m_FormComb.MainForm = mf;
-			if(m_MainForm != null)
+			if (m_MainForm != null)
 			{
-				m_HTreeView.Form = m_MainForm.TargetForm;
+				
 				m_MainForm.TargetFormChanged += (sender, e) =>
 				{
-					m_HTreeView.Form = e.HForm;
+					SetForm(e.HForm);
 				};
-				m_FormComb.MainForm = m_MainForm;
+				m_HTreeView.TargetControlChanged += (sender, e) =>
+				{
+					OnTargetControlChanged(e);
+				};
+				m_HTreeView.SelectObjectsChanged += (sender, e) =>
+				{
+					OnSelectObjectsChanged(e);
+				};
+				SetForm(m_MainForm.TargetForm);
+			}
+			else
+			{
+				SetForm(null);
+			}
+		}
+		private HForm? m_TargerForm = null;
+		public HForm? TargerForm
+		{
+			get { return m_TargerForm; }
+			set
+			{
+				SetForm(value);
+			}
+		}
+		public void SetForm(HForm? hf)
+		{
+			bool b = (m_TargerForm != hf);
+			m_TargerForm = hf;
+			m_HTreeView.Form = hf;
+
+			if (m_TargerForm != null)
+			{
+				m_EditMode.ModeChanged -= (sender, e) => { m_TargerForm.IsEdit = e.Mode; };
+				m_EditMode.ModeChanged += (sender, e) => { m_TargerForm.IsEdit = e.Mode; };
+
+			}
+		}
+		// ***********************************************************
+		public new Color BackColor
+		{
+			get { return base.BackColor; }
+			set 
+			{
+				base.BackColor = value; 
+				foreach(Control c in this.Controls)
+				{
+					c.BackColor = value;
+				}
 			}
 
-			
-
 		}
-
+		// ***********************************************************
+		public new Color ForeColor
+		{
+			get { return base.ForeColor; }
+			set
+			{
+				base.ForeColor = value;
+				foreach (Control c in this.Controls)
+				{
+					c.ForeColor = value;
+				}
+			}
+		}
 		private FormActionPanel m_FormActionPanel = new FormActionPanel();
 		private ModePanel m_EditMode = new ModePanel();
 		private ModePanel m_ScriptMode = new ModePanel();
@@ -56,6 +138,7 @@ namespace Hypowered
 			base.BackColor = Color.FromArgb(64, 64, 64);
 			base.ForeColor = Color.FromArgb(230, 230, 230);
 
+			#region loc
 			int x = 0; int y = 0;
 			m_FormActionPanel.Location = new Point(x,y);
 			y += m_FormActionPanel.Bottom+2;
@@ -119,7 +202,7 @@ namespace Hypowered
 			y += m_MenuActionPanel.Height + 2;
 			m_HTreeView.Location = new Point(x, y);
 			m_HTreeView.Size = new Size(this.Width, this.Height - y);
-
+			#endregion
 			this.DoubleBuffered = true;
 			this.SetStyle(
 				ControlStyles.DoubleBuffer |
@@ -145,6 +228,7 @@ namespace Hypowered
 			this.Controls.Add(m_MenuActionPanel);
 			this.Controls.Add(m_HTreeView);
 		}
+		// ****************************************************************
 		protected override void OnPaint(PaintEventArgs e)
 		{
 			using (Pen p = new Pen(ForeColor))
@@ -166,6 +250,7 @@ namespace Hypowered
 
 			}
 		}
+		// ****************************************************************
 		protected override void OnResize(EventArgs e)
 		{
 			m_EditMode.Size = new Size((this.Width - m_EditMode.Left - 4) / 2, 20);
@@ -179,5 +264,6 @@ namespace Hypowered
 
 			base.OnResize(e);
 		}
+		// ****************************************************************
 	}
 }

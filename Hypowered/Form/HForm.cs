@@ -200,7 +200,25 @@ namespace Hypowered
 		}
 		// ******************
 		private HControl? m_TargetControl = null;
-		public HControl? TargetControl { get { return m_TargetControl; } }
+		public HControl? TargetControl 
+		{
+			get { return m_TargetControl; }
+			set
+			{
+				if(value!= m_TargetControl)
+				{
+					if(value != null)
+					{
+						m_TargetIndex = value.Index;
+					}
+					else
+					{
+						m_TargetIndex = -1;
+					}
+					OnTargetControlChanged(new TargetControlChangedArgs(value));
+				}
+			}
+		}
 		private int m_TargetIndex = -1;
 		[Category("_Hypowered"), Browsable(true)]
 		public int TargetIndex

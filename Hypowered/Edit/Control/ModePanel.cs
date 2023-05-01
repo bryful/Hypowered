@@ -13,7 +13,7 @@ namespace Hypowered
 	public partial class ModePanel : Control
 	{
 		public delegate void ModeChangedHandler(object sender, ModeChangedEventArgs e);
-		protected event ModeChangedHandler? ModeChanged = null;
+		public event ModeChangedHandler? ModeChanged = null;
 		protected virtual void OnModeChanged(ModeChangedEventArgs e)
 		{
 			if (ModeChanged != null)
