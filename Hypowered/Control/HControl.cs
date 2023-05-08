@@ -127,6 +127,7 @@ namespace Hypowered
 				if (IsEvent)
 					OnSelectedChanged(new SelectedChangedEventArgs(m_Selected, Index));
 			}
+			if (HForm != null) HForm.Invalidate();
 			this.Invalidate();
 		}
 		protected HCType m_HCType = HCType.None;

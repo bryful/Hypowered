@@ -6,6 +6,46 @@ using System.Threading.Tasks;
 
 namespace Hypowered
 {
+	public enum ListMoveMode
+	{
+		None,
+		Up,
+		Down,
+		Top,
+		Bottom
+		
+	}
+
+	public class ControlMovedArgs : EventArgs
+	{
+		public HControl? Control;
+		public ListMoveMode Mode;
+
+		public ControlMovedArgs(HControl? ctrl, ListMoveMode mode)
+		{
+			Control = ctrl;
+			Mode = mode;
+		}
+	}
+	public class ControlDeletedArgs : EventArgs
+	{
+		public HControl? Control;
+
+		public ControlDeletedArgs(int idx, HControl? ctrl)
+		{
+			Control = ctrl;
+		}
+	}
+	public class MenuMovedArgs : EventArgs
+	{
+		public HMenuItem? Menu;
+		public ListMoveMode Mode;
+		public MenuMovedArgs(HMenuItem? m, ListMoveMode mode)
+		{
+			Menu = m;
+			Mode = mode;
+		}
+	}
 	public class SelectObjectsChangedArgs : EventArgs
 	{
 		public object?[]? objs;

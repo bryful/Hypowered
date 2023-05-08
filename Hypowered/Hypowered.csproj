@@ -17,6 +17,27 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Edit\Control\ControlPanel.cs" />
+    <Compile Remove="Edit\Control\ControlPanel.Designer.cs" />
+    <Compile Remove="Edit\EditControl.cs" />
+    <Compile Remove="Edit\EditControl.Designer.cs" />
+    <Compile Remove="Edit\Form\FormPanel.cs" />
+    <Compile Remove="Edit\Form\FormPanel.Designer.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="_pool\FormPanel.cs" />
+    <None Include="_pool\FormPanel.Designer.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="_pool\ControlPanel.cs" />
+    <None Include="_pool\ControlPanel.Designer.cs" />
+    <None Include="_pool\EditControl.cs" />
+    <None Include="_pool\EditControl.Designer.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="Magick.NET-Q8-x64" Version="13.0.1" />
     <PackageReference Include="Magick.NET.Core" Version="13.0.1" />
     <PackageReference Include="Magick.NET.SystemDrawing" Version="7.0.1" />

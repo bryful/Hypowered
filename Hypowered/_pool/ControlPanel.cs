@@ -204,7 +204,7 @@ namespace Hypowered
 							CtrlListBox.PushSelection();
 							if (CtrlListBox.SelectBak.Length > 0)
 							{
-								MainForm.TargetForm.ControlUp(CtrlListBox.SelectBak);
+								MainForm.TargetForm.ControlListUp();
 								CtrlListBox.SelectBakUp();
 								CtrlListBox.PopSelection();
 							}
@@ -213,7 +213,7 @@ namespace Hypowered
 							CtrlListBox.PushSelection();
 							if (CtrlListBox.SelectBak.Length > 0)
 							{
-								MainForm.TargetForm.ControlDown(CtrlListBox.SelectBak);
+								MainForm.TargetForm.ControlListDown();
 								CtrlListBox.SelectBakDown();
 								CtrlListBox.PopSelection();
 							}
@@ -222,7 +222,7 @@ namespace Hypowered
 							CtrlListBox.PushSelection();
 							if (CtrlListBox.SelectBak.Length > 0)
 							{
-								MainForm.TargetForm.ControlTop(CtrlListBox.SelectBak);
+								MainForm.TargetForm.ControlListTop();
 								CtrlListBox.SelectBakTop();
 								CtrlListBox.PopSelection();
 							}
@@ -231,7 +231,7 @@ namespace Hypowered
 							CtrlListBox.PushSelection();
 							if (CtrlListBox.SelectBak.Length > 0)
 							{
-								MainForm.TargetForm.ControlBottom(CtrlListBox.SelectBak);
+								MainForm.TargetForm.ControlListBottom();
 								CtrlListBox.SelectBakBottom();
 								CtrlListBox.PopSelection();
 							}

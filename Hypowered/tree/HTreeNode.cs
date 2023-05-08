@@ -100,6 +100,7 @@ namespace Hypowered
 				}
 			}
 			this.Nodes.Add(tn);
+			this.ExpandAll();
 		}
 		private void AddMenuItem(HTreeNode tn, HMenuItem item)
 		{
@@ -139,6 +140,7 @@ namespace Hypowered
 			{
 				RemoveControls();
 				AddControls(m_Form);
+				this.Collapse();
 			}
 		}
 		private void RemoveControls()
@@ -196,6 +198,7 @@ namespace Hypowered
 						AddMenuItem(this, (HMenuItem)i);
 					}
 				}
+				this.ExpandAll();
 			}
 		}
 		public void RescanMainMenu()
@@ -211,8 +214,10 @@ namespace Hypowered
 						AddMenuItem(this, (HMenuItem)i);
 					}
 				}
+				this.ExpandAll();
 			}
 		}
+
 	}
 	public enum NodeType
 	{

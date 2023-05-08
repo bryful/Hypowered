@@ -95,7 +95,7 @@ namespace Hypowered
 			if (m_FormNode != null)
 			{
 				m_FormNode.RescanControls();
-				this.CollapseAll();
+				this.ExpandAll();
 			}
 
 		}
@@ -104,7 +104,7 @@ namespace Hypowered
 			if (m_FormNode != null)
 			{
 				m_FormNode.RescanMainMenu();
-				this.CollapseAll();
+				this.ExpandAll();
 			}
 
 		}
@@ -135,13 +135,71 @@ namespace Hypowered
 				m_Form.ControlChanged += M_Form_ControlChanged;
 				m_Form.ControlNameChanged -= M_Form_ControlNameChanged;
 				m_Form.ControlNameChanged += M_Form_ControlNameChanged;
+				m_Form.ControlMoved -= M_Form_ControlMoved;
+				m_Form.ControlMoved += M_Form_ControlMoved;
 				m_FormNode = tn;
-				this.CollapseAll();
+				this.ExpandAll();
 			}
 		}
+
+		private void M_Form_ControlMoved(object sender, ControlMovedArgs e)
+		{
+			if ((e.Control==null)||(e.Control.HForm == null)) return;
+			int fidx = e.Control.HForm.Index;
+			if(fidx<0) return;
+			HTreeNode ft = (HTreeNode)this.Nodes[fidx];
+
+			int idxs = -1;
+			for(int i=0; i< ft.Nodes.Count;i++)
+			{
+				if (ft.Nodes[i] is HTreeNode)
+				{
+					if (((HTreeNode)ft.Nodes[i]).Control == e.Control)
+					{
+						idxs = i;
+						break;
+					}
+				}
+			}
+			if (idxs < 0) return;
+
+			HTreeNode stn = (HTreeNode)ft.Nodes[idxs];
+			if ((stn.Control == e.Control)&&(stn.Parent != null))
+			{
+				HTreeNode pp = (HTreeNode)stn.Parent;
+				int idx = stn.Index;
+				pp.Nodes.RemoveAt(idx);
+				switch (e.Mode)
+				{
+					case ListMoveMode.Up:
+						pp.Nodes.Insert(idx-1, stn);
+						break;
+					case ListMoveMode.Down:
+						pp.Nodes.Insert(idx+1, stn);
+						break;
+					case ListMoveMode.Top:
+						pp.Nodes.Insert(1, stn);
+						break;
+					case ListMoveMode.Bottom:
+						pp.Nodes.Add(stn);
+						break;
+				}
+				bool[] sels = e.Control.HForm.SelectedArray;
+				int ti = e.Control.HForm.TargetIndex;
+				for (int i = 0;  i < ft.Nodes.Count;i++)
+				{
+					ft.Nodes[i].Checked = (sels[i] || (i == ti));
+				}
+				//if(ti>=0)this.SelectedNode = ft.Nodes[ti];
+			}
+		}
+
 		private void M_Form_ControlNameChanged(object sender, ControlChangedEventArgs e)
 		{
-			this.Nodes[e.CtrlIndex].Text = e.Name;
+			if (e.CtrlIndex >= 0)
+			{
+				this.Nodes[e.CtrlIndex].Text = e.Name;
+			}
 		}
 
 		private void M_Form_ControlChanged(object sender, EventArgs e)

@@ -10,7 +10,7 @@ using System.Windows.Forms;
 
 namespace Hypowered
 {
-	/*
+	
 	public enum FormAction
 	{
 		None,
@@ -21,10 +21,14 @@ namespace Hypowered
 		Close
 
 	}
-	*/
+	
 	public partial class FormActionPanel : Control
 	{
-	
+		public MainForm? MainForm = null;
+		public void SetMainForm(MainForm? mf)
+		{
+			MainForm = mf;
+		}
 		// ******************************************************
 		public class FormActionClickEventArgs : EventArgs
 		{
@@ -114,11 +118,36 @@ namespace Hypowered
 				FormAction mode = m_ActionMode;
 				m_ActionMode = FormAction.None;
 				this.Invalidate();
+				Exec(mode);
 				OnFormActionClick(new FormActionClickEventArgs(mode));
 			}
 			else
 			{
 				base.OnMouseUp(e);
+			}
+		}
+		public void Exec(FormAction ac)
+		{
+			if (MainForm != null)
+			{
+				switch (ac)
+				{
+					case FormAction.New:
+						MainForm.NewForm();
+						break;
+					case FormAction.Open:
+						MainForm.OpenForm();
+						break;
+					case FormAction.Rename:
+						MainForm.RenameForm();
+						break;
+					case FormAction.Dup:
+						break;
+					case FormAction.Close:
+						MainForm.CloseForm();
+						break;
+
+				}
 			}
 		}
 	}

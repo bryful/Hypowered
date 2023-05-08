@@ -181,66 +181,207 @@ namespace Hypowered
 			}
 			return list.ToArray();
 		}
+		public HControl[] ControlSetected()
+		{
+			List<HControl> list = new List<HControl>();
+			if (this.Controls.Count > 0)
+			{
+				foreach (Control c in this.Controls)
+				{
+					if (c is HControl)
+					{
+						HControl h = (HControl)c;
+						if ((h.Selected)||(h.Index == m_TargetIndex))
+						{
+							list.Add(h);
+						}
+					}
+				}
+			}
+			return list.ToArray();
+		}
+		public bool ControlListMove(ListMoveMode mode)
+		{
+			bool ret = false;
+			if ((TargetIndex <0)||(TargetControl ==null)) return ret;
+			switch (mode)
+			{
+				case ListMoveMode.Up:
+					if(TargetIndex > 0)
+					{
+						this.Controls.SetChildIndex(
+												TargetControl,
+												TargetIndex-1
+												);
+						TargetIndex--;
+						ChkControl();
+						OnControlMoved(new Hypowered.ControlMovedArgs(TargetControl, ListMoveMode.Up));
+						ret = true;
+					}
+					break;
+				case ListMoveMode.Down:
+					if (TargetIndex < this.Controls.Count-1)
+					{
+						this.Controls.SetChildIndex(
+												TargetControl,
+												TargetIndex +1
+												);
+						TargetIndex++;
+						ChkControl();
+						OnControlMoved(new Hypowered.ControlMovedArgs(TargetControl, ListMoveMode.Down));
+						ret = true;
+					}
+					break;
+				case ListMoveMode.Top:
+					if (TargetIndex >0)
+					{
+						this.Controls.SetChildIndex(
+												TargetControl,
+												0
+												);
+						TargetIndex = 0;
+						OnControlMoved(new Hypowered.ControlMovedArgs(TargetControl, ListMoveMode.Top));
+						ret = true;
+					}
+					break;
+				case ListMoveMode.Bottom:
+					if (TargetIndex < this.Controls.Count-1)
+					{
+						this.Controls.SetChildIndex(
+												TargetControl,
+												this.Controls.Count -1
+												);
+						TargetIndex = this.Controls.Count - 1;
+						ChkControl();
+						OnControlMoved(new Hypowered.ControlMovedArgs(TargetControl, ListMoveMode.Bottom));
+						ret = true;
+					}
+					break;
+				/*
+				case ListMoveMode.Delete:
 
-		public void ControlUp(int[] sels)
+					if(TargetIndex<this.Controls.Count)
+					{
+						this.Controls.RemoveAt( TargetIndex );
+						if (TargetIndex >= this.Controls.Count) TargetIndex = this.Controls.Count - 1;
+						ChkControl();
+						OnControlMoved(new Hypowered.ControlMovedArgs(this.Index, TargetControl, ListMoveMode.Delete));
+						ret = true;
+					}
+
+					break;
+				*/
+			}
+			return ret;
+		}
+		public void ControlListUp()
 		{
+			ControlListMove(ListMoveMode.Up);
+			/*
+			HControl[] sels = ControlSetected();
 			if (sels.Length <= 0) return;
-			if (sels[0] == 1) return;
-			int idx = sels[0] - 1;
+			int idx = sels[0].Index-1;
 			for (int i = 0; i < sels.Length; i++)
 			{
-				this.Controls.SetChildIndex(
-					this.Controls[sels[i]],
-					idx
-					);
+				if (idx > 0)
+				{
+					if (sels[i].Index == m_TargetIndex) m_TargetIndex = idx;
+					this.Controls.SetChildIndex(
+						sels[i],
+						idx
+						);
+				}
 				idx++;
 			}
+			m_TargetIndex -= 1;
+			ChkControl();
 			OnControlChanged(EventArgs.Empty);
+			*/
 		}
-		public void ControlTop(int[] sels)
+		public void ControlListTop()
 		{
+			ControlListMove(ListMoveMode.Top);
+			/*
+			HControl[] sels = ControlSetected();
 			if (sels.Length <= 0) return;
-			if (sels[0] == 1) return;
-			int idx = 1;
+			int idx = sels[0].Index-1;
 			for (int i = 0; i < sels.Length; i++)
 			{
-				this.Controls.SetChildIndex(
-					this.Controls[sels[i]],
-					idx
-					);
+				if (idx > 0)
+				{
+					if (sels[i].Index == m_TargetIndex) m_TargetIndex = idx; 
+					this.Controls.SetChildIndex(
+						sels[i],
+						idx
+						);
+				}
 				idx++;
 			}
+			ChkControl();
 			OnControlChanged(EventArgs.Empty);
+			*/
 		}
-		public void ControlDown(int[] sels)
+		public void ControlListDown()
 		{
+			ControlListMove(ListMoveMode.Down);
+			/*
+			HControl[] sels = ControlSetected();
 			if (sels.Length <= 0) return;
-			if (sels[sels.Length - 1] == this.Controls.Count - 1) return;
-			int idx = sels[sels.Length - 1] + 1;
-			for (int i = sels.Length - 1; i >= 0; i--)
+			int idx = sels[sels.Length-1].Index + 1;
+			for (int i = sels.Length-1; i >=0 ; i--)
 			{
-				this.Controls.SetChildIndex(
-					this.Controls[sels[i]],
-					idx
-					);
+				if (idx<this.Controls.Count)
+				{
+					if (sels[i].Index == m_TargetIndex) m_TargetIndex = idx;
+					this.Controls.SetChildIndex(
+						sels[i],
+						idx
+						);
+				}
 				idx--;
 			}
+			ChkControl();
 			OnControlChanged(EventArgs.Empty);
+			*/
 		}
-		public void ControlBottom(int[] sels)
+		public void ControlListBottom()
 		{
+			ControlListMove(ListMoveMode.Bottom);
+			/*
+			HControl[] sels = ControlSetected();
 			if (sels.Length <= 0) return;
-			if (sels[sels.Length - 1] == this.Controls.Count - 1) return;
-			int idx = this.Controls.Count - 1;
+			int idx = sels[sels.Length-1].Index + 1;
 			for (int i = sels.Length - 1; i >= 0; i--)
 			{
-				this.Controls.SetChildIndex(
-					this.Controls[sels[i]],
-					idx
-					);
+				if (idx < this.Controls.Count)
+				{
+					if (sels[i].Index == m_TargetIndex) m_TargetIndex = idx;
+					this.Controls.SetChildIndex(
+						sels[i],
+						idx
+						);
+				}
 				idx--;
 			}
+			ChkControl();
 			OnControlChanged(EventArgs.Empty);
+			*/
+		}
+		public void ControlListDelete()
+		{
+			/*
+			HControl[] sels = ControlSetected();
+			if (sels.Length <= 0) return;
+			bool ret = Hypowered.YesNoDialog.Exec($"Delete : {sels[0].Name}", "Delete");
+			if (ret == false) return;
+			for (int i = sels.Length - 1; i >= 0; i--)
+			{
+				this.RemoveControl(sels[i]);
+			}
+			m_TargetIndex = -1;
+			ChkControl();
+			OnControlChanged(EventArgs.Empty);
+			*/
 		}
 		// *******************************************************************
 		private HControl[] SelectedControls()

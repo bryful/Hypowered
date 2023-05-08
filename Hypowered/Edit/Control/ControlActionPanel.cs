@@ -23,7 +23,11 @@ namespace Hypowered
 	// *******************************************************
 	public partial class ControlActionPanel : Control
 	{
-		
+		public HForm? HForm = null;
+		public void SetHForm(HForm? hf)
+		{
+			HForm = hf;
+		}
 		public delegate void ControlActionClickHandler(object sender, ControlActionClickEventArgs e);
 		public event ControlActionClickHandler? ControlActionClick;
 		protected virtual void OnControlActionClick(ControlActionClickEventArgs e)
@@ -101,11 +105,36 @@ namespace Hypowered
 				ControlAction mode = m_ActionMode;
 				m_ActionMode = ControlAction.None;
 				this.Invalidate();
+				Exec(mode);
 				OnControlActionClick(new ControlActionClickEventArgs(mode));
 			}
 			else
 			{
 				base.OnMouseUp(e);
+			}
+		}
+		private void Exec(ControlAction mode)
+		{
+			switch(mode)
+			{
+				case ControlAction.Add:
+					if (HForm != null) HForm.AddControl();
+					break;
+				case ControlAction.Up:
+					if (HForm != null) HForm.ControlListUp();
+					break;
+				case ControlAction.Down:
+					if (HForm != null) HForm.ControlListDown();
+					break;
+				case ControlAction.Top:
+					if (HForm != null) HForm.ControlListTop();
+					break;
+				case ControlAction.Bottom:
+					if (HForm != null) HForm.ControlListBottom();
+					break;
+				case ControlAction.Delete:
+					if (HForm != null) HForm.ControlListDelete();
+					break;
 			}
 		}
 	}
@@ -118,4 +147,6 @@ namespace Hypowered
 			Mode = v;
 		}
 	}
+	
+
 }

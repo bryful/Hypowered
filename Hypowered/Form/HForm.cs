@@ -68,6 +68,16 @@ namespace Hypowered
 			}
 		}
 		// ****************
+		public delegate void ControlMovedHandler(object sender, ControlMovedArgs e);
+		public event ControlMovedHandler? ControlMoved;
+		protected virtual void OnControlMoved(ControlMovedArgs e)
+		{
+			if (ControlMoved != null)
+			{
+				ControlMoved(this, e);
+			}
+		}
+		// ****************
 		public delegate void TargetControlChangedHandler(object sender, TargetControlChangedArgs e);
 		public event TargetControlChangedHandler? TargetControlChanged;
 		protected virtual void OnTargetControlChanged(TargetControlChangedArgs e)
@@ -202,7 +212,20 @@ namespace Hypowered
 		private HControl? m_TargetControl = null;
 		public HControl? TargetControl 
 		{
-			get { return m_TargetControl; }
+			get 
+			{
+				if((m_TargetControl == null)&&(m_TargetIndex>=1))
+				{
+					if((m_TargetIndex>=1)&&(m_TargetIndex < this.Controls.Count))
+					{
+						if (this.Controls[m_TargetIndex] is HControl)
+						{
+							m_TargetControl = (HControl)this.Controls[m_TargetIndex];
+						}
+					}
+				}
+				return m_TargetControl; 
+			}
 			set
 			{
 				if(value!= m_TargetControl)
@@ -210,6 +233,7 @@ namespace Hypowered
 					if(value != null)
 					{
 						m_TargetIndex = value.Index;
+						m_TargetControl = value;
 					}
 					else
 					{
@@ -386,6 +410,7 @@ namespace Hypowered
 					((HControl)this.Controls[i]).Selected = b;
 				}
 			}
+			this.Invalidate();
 		}
 		public bool IsSelectedTrue
 		{

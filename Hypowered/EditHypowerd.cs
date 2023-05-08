@@ -46,22 +46,18 @@ namespace Hypowered
 			bool b = (m_MainForm != mf);
 			m_MainForm = mf;
 			m_FormComb.MainForm = mf;
+			m_FormActionPanel.MainForm = mf;
 			if (m_MainForm != null)
 			{
-				
-				m_MainForm.TargetFormChanged += (sender, e) =>
-				{
-					SetForm(e.HForm);
-				};
-				m_HTreeView.TargetControlChanged += (sender, e) =>
-				{
-					OnTargetControlChanged(e);
-				};
-				m_HTreeView.SelectObjectsChanged += (sender, e) =>
-				{
-					OnSelectObjectsChanged(e);
-				};
 				SetForm(m_MainForm.TargetForm);
+				m_MainForm.TargetFormChanged -= (sender, e) => { SetForm(e.HForm); };
+				m_MainForm.TargetFormChanged += (sender, e) =>{SetForm(e.HForm);};
+				m_HTreeView.TargetControlChanged -= (sender, e) => { OnTargetControlChanged(e); };
+				m_HTreeView.TargetControlChanged += (sender, e) =>{OnTargetControlChanged(e);};
+				m_HTreeView.SelectObjectsChanged -= (sender, e) => { OnSelectObjectsChanged(e); };
+				m_HTreeView.SelectObjectsChanged += (sender, e) =>{OnSelectObjectsChanged(e);};
+				m_ScriptMode.ModeChanged -= (sender, e) => { if (MainForm != null) MainForm.IsScript = e.Mode; };
+				m_ScriptMode.ModeChanged += (sender, e) => {if (MainForm != null) MainForm.IsScript = e.Mode; };
 			}
 			else
 			{
@@ -88,6 +84,7 @@ namespace Hypowered
 				m_EditMode.ModeChanged -= (sender, e) => { m_TargerForm.IsEdit = e.Mode; };
 				m_EditMode.ModeChanged += (sender, e) => { m_TargerForm.IsEdit = e.Mode; };
 
+				m_ControlActionPanel.SetHForm(hf);
 			}
 		}
 		// ***********************************************************

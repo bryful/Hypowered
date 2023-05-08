@@ -10,6 +10,7 @@ using System.Windows.Forms;
 
 namespace Hypowered
 {
+	/*
 	public enum FormAction
 	{
 		None,
@@ -20,6 +21,7 @@ namespace Hypowered
 		Close
 
 	}
+	*/
 	public partial class FormPanel : Control
 	{
 		// ******************************************************
